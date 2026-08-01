@@ -1,0 +1,11 @@
+# ShapAct -- runtime dependencies (verified 2026-08-01)
+# Python 3.11; CPU only. The audit is exact (5-player game), so no GPU is needed.
+numpy>=2.0,<2.5
+scipy>=1.11
+pandas>=2.0
+scikit-learn>=1.4
+implicit>=0.7
+matplotlib>=3.7
+pyyaml>=6.0
+pytest>=8.0
+statsmodels>=0.14

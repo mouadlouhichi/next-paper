@@ -1,0 +1,11 @@
+# OS junk
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Raw datasets and derived caches (regenerable; intentionally NOT pushed)
+paper-ideas/ShapAct/code/data/
+paper-ideas/ShapAct/code/results/cache/

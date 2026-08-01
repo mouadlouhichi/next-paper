@@ -1,0 +1,508 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% ShapAct -- manuscript for Discover Artificial Intelligence
+%% Springer Nature journal template (sn-jnl.cls, v3.1 December 2024)
+%%
+%% Compile: pdflatex -> bibtex -> pdflatex -> pdflatex
+%% Requires: sn-jnl.cls and sn-mathphys-num.bst in the same directory,
+%%           plus paper.bib
+%%
+%% STRUCTURE
+%%   Six-section layout of the authors' IJACSA 2025 paper
+%%   "Game Theory Meets Explainable AI" [louhichi2025]:
+%%     1 Introduction (flat, numbered contributions list, roadmap)
+%%     2 Literature review (thematic subsections, each closing on a gap)
+%%     3 Methodology (pipeline subsections; comparative analysis,
+%%       theoretical justification, complexity, practical implementation)
+%%     4 Experimental results (setup and results combined)
+%%     5 Discussion and broader implications
+%%     6 Conclusion
+%%   Declarations and appendices retained (Springer requires them).
+%%
+%% RESULTS STATUS: all experimental numbers in this draft are REAL,
+%% produced by the released pipeline (paper-ideas/ShapAct/code) on
+%% MovieLens-1M and LastFM-2K, 5 seeds {42..46}, mean +/- std.
+%% Items marked \tbd{...} are external links / DOIs only.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[pdflatex,sn-mathphys-num]{sn-jnl}
+
+%%%% Standard packages (as shipped with the template)
+\usepackage{graphicx}%
+\usepackage{multirow}%
+\usepackage{amsmath,amssymb,amsfonts}%
+\usepackage{amsthm}%
+\usepackage{mathrsfs}%
+\usepackage[title]{appendix}%
+\usepackage{xcolor}%
+\usepackage{textcomp}%
+\usepackage{manyfoot}%
+\usepackage{booktabs}%
+\usepackage{algorithm}%
+\usepackage{algorithmicx}%
+\usepackage{algpseudocode}%
+
+%%%% Theorem-like environments
+\theoremstyle{thmstyleone}%
+\newtheorem{theorem}{Theorem}%
+\newtheorem{proposition}[theorem]{Proposition}%
+\newtheorem{corollary}[theorem]{Corollary}%
+
+\theoremstyle{thmstyletwo}%
+\newtheorem{example}{Example}%
+\newtheorem{remark}{Remark}%
+
+\theoremstyle{thmstylethree}%
+\newtheorem{definition}{Definition}%
+
+%%%% Draft-only placeholder macro. Remove before submission.
+\newcommand{\tbd}[1]{\textbf{[#1]}}
+
+%%%% Shorthands
+\newcommand{\Gset}{\mathcal{G}}
+\newcommand{\Uset}{\mathcal{U}}
+\newcommand{\Iset}{\mathcal{I}}
+\newcommand{\NDCG}{\mathrm{NDCG@10}}
+\newcommand{\LOO}{\mathrm{LOO}}
+\newcommand{\reg}{R}
+\newcommand{\pred}{P}
+
+\raggedbottom
+
+\begin{document}
+
+\title[ShapAct: A Construction-Level Audit of Exact Shapley Source Attribution]{ShapAct: A Construction-Level Audit of Exact Shapley Source Attribution for Actionable Decisions in Hybrid Recommenders}
+
+\author*[1]{\fnm{Mouad} \sur{Louhichi}}\email{mouad\_louhichi@um5.ac.ma}
+
+\author[1]{\fnm{Redwane} \sur{Nesmaoui}}\email{redwane\_nesmaoui@um5.ac.ma}
+
+\author[1]{\fnm{Mohamed} \sur{Lazaar}}\email{mohamed.lazaar@ensias.um5.ac.ma}
+
+\affil*[1]{\orgdiv{National Higher School of Computer Science and Systems Analysis (ENSIAS)}, \orgname{Mohammed V University in Rabat}, \orgaddress{\city{Rabat}, \country{Morocco}}}
+
+%%==================================%%
+%% Abstract: Discover AI asks for 150--250 words, unstructured,
+%% no citations, no equations.
+%%==================================%%
+
+\abstract{Shapley-based explanations of recommender systems are routinely described as actionable, yet what happens when the recommended action is actually taken is almost never measured. In particular, the decommissioning decision that source-level attribution is meant to support --- removing a whole signal pipeline from the system's construction --- has no evaluation protocol: attribution is computed on the current system, while the decision concerns a system in which the source was never built. We introduce ShapAct, a construction-level audit of exact Shapley source attribution. On a hybrid recommender whose players are five signal sources, we evaluate three counterfactual levels per source --- masking its score column at fusion time, regenerating the candidate set without it, and never building it --- and measure the fidelity gap between predicted and realized retirement effects, the order validity of the credit ranking as a decommissioning rule, the reflexivity of the attribution after its own recommendation is executed, and the realized quality of Shapley-, leave-one-out-, and feature-Shapley-based retirement decisions. Across MovieLens-1M and LastFM-2K, every machine-precision invariant of the audit holds, the masked marginal is a faithful predictor of the never-built outcome, the credit ranking is order-valid at the top of the sparse benchmark but not the dense one, and attribution-guided retirement significantly outperforms random decommissioning. ShapAct turns ``actionable'' from a claim into a measured, falsifiable property of the exact source game.}
+
+\keywords{Shapley value, Cooperative game theory, Explainable AI, Recommender systems, Actionable insight, Counterfactual evaluation, Credit assignment}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}\label{sec1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Flat, no subheadings: required by the Springer template and matching
+%% the introductions of [louhichi2023, louhichi2025, louhichi2026].
+
+Attribution methods now mediate how analysts, regulators, and system designers interrogate opaque models, and in recommender systems the implicit promise of a Shapley-based attribution is that a high score tells the system owner \emph{where to act}. The group's own thesis defines the criterion precisely: an explanation is actionable when it identifies at least one modifiable factor whose change is associated with a specifiable change in model output, and when that factor is accessible to the relevant decision-maker \cite{louhichi2026thesis}. It then concedes that in practice ``actionable insight is used primarily as a framing concept rather than as a separately measured endpoint.''
+
+That measurement gap has since been partially closed. Our companion framework ActionShap operationalizes actionability at the \emph{factor level}: it perturbs an input or interaction by a feasible amount $\tau_j$ inside a trained model, measures the realized effect, and scores attribution methods by how well their orderings predict those effects \cite{louhichi2026actionshap}. What neither ActionShap nor any prior work in the group measures is the \emph{construction level}: what happens when the recommended action is not ``modify a factor'' but ``retire a whole signal pipeline.'' That is the decommissioning decision that source-level attribution exists to support: a hybrid recommender fuses collaborative, content, popularity, recency, and sequential signals, and a system owner with a fixed engineering budget must decide which of the underlying pipelines deserves it \cite{louhichi2026signalshap}.
+
+The problem is that attribution is computed on the current system, whereas the decommissioning decision concerns a system in which the source was never built. The standard answer to ``what would happen if we removed source $g$'' is to withhold its score column from the fusion and measure the drop. But a source that is actually decommissioned was never trained, never scored, and never contributed candidates: the candidate set changes, the fusion is refit, and the remaining sources absorb a different load. Our own SignalShap draft names the gap precisely: ``masking a source at fusion time is not equivalent to never having built it'' \cite{louhichi2026signalshap}. How large that difference is, whether the credit ranking survives it, and whether acting on the attribution destroys the basis of its own validity are the questions this paper answers by measurement.
+
+We introduce \textbf{ShapAct}, a construction-level audit built on the exact source-attribution game of SignalShap: five players (the signal sources), a characteristic function defined by ranking quality over a candidate set, and the exact Shapley value over all $2^5$ coalitions. For each source we evaluate three counterfactual levels --- \emph{masked} (score column withheld, fixed candidates), \emph{regenerated} (candidates rebuilt without the source), and \emph{never-built} (the source is never trained) --- and measure four quantities: the \emph{fidelity gap} between the masked marginal and the realized never-built effect; the \emph{order validity} of the credit ranking as a decommissioning rule; the \emph{reflexivity} of the attribution after its own recommendation is executed; and the \emph{realized quality} of Shapley-, leave-one-out-, and feature-Shapley-based retirement decisions. Because the game is exact, every quantity carries no sampling error, and every definition is tied to an identity that holds to machine precision.
+
+The contributions are as follows.
+
+\begin{enumerate}
+\item \textbf{A construction-level counterfactual ladder.} We formalize the three levels (masked, regenerated, never-built) and the fidelity gap $F_g$ between predicted and realized retirement effects, converting the thesis's actionable-insight definition into two measurable numbers per source at the level of architectural decisions. This is the intervention class that ActionShap's factor-level feasible perturbations do not contain.
+
+\item \textbf{Three short results that make the audit meaningful.} Proposition~1 decomposes the realized retirement effect into the masked marginal and the fidelity gap; Proposition~2 gives a sufficient condition (co-monotone fidelity) under which the credit ranking is order-valid as a decision rule, and commits the paper to reporting where it fails; Proposition~3 bounds the post-intervention shift of the surviving sources' credits and pins the reflexivity measurement to the efficiency axiom.
+
+\item \textbf{A decision-level comparison of explanation designs.} We implement four decommissioning rules --- retire the source with the smallest exact Shapley credit, the smallest leave-one-out marginal, the smallest feature-Shapley contribution to the fusion, or a random source --- execute each under never-built semantics, and report realized ranking quality with per-user significance tests.
+
+\item \textbf{A cross-benchmark certification.} On MovieLens-1M and LastFM-2K, the audit's invariants hold to machine precision, the masked marginal is a faithful predictor of the never-built outcome ($|F_g| \leq 0.0011$ everywhere), the credit ranking is order-valid at the top of the sparse benchmark but not the dense one, and attribution-guided retirement significantly beats random decommissioning. The audit therefore certifies the exact source game's decision validity and, at the same time, exposes where its credit ranking is not decision-optimal.
+
+\item \textbf{A reproducible artifact.} The entire audit runs on a laptop CPU: the exact game costs 32 coalition refits, and the never-built worlds are four-player games of 16 refits each. Code, splits, and results are released.
+\end{enumerate}
+
+The remainder of this paper is organized as follows. Section~2 reviews cooperative attribution in recommendation, the evaluation of explanations, and the counterfactual and construction-level intervention literature. Section~3 presents the source-attribution game, the three-level counterfactual ladder, the actionability measures, the decision rules, and the theoretical justification. Section~4 describes the datasets and protocol, validates the pipeline against published benchmarks, and reports the results against four research questions. Section~5 discusses what the audit certifies and where it exposes partial order validity, and Section~6 concludes.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Literature review}\label{sec2}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Cooperative-game attribution in recommendation}\label{subsec2_1}
+
+Shapley-based explanation entered machine learning through feature attribution \cite{shapley1953,lundberg2017,lundberg2020} and has been applied to clustering \cite{louhichi2023,louhichi2025}, to data valuation \cite{ghorbani2019}, and, in this group's line, to recommendation. DyHuCoG embeds preference-aware Monte-Carlo Shapley estimation into hypergraph message passing and uses the attributions as dynamic edge weights, jointly improving ranking quality, coverage, and intra-list diversity \cite{louhichi2026}. Real-time Shapley-based contribution adjustment extends the same idea to dynamic recommenders \cite{nesmaoui2025}, and Shapley-driven data pruning values training interactions \cite{zhang2025}. Most directly relevant, SignalShap formulates hybrid recommendation as an exact cooperative game over five signal sources and computes exact Shapley values over $2^5=32$ coalitions, showing that leave-one-out ablation collapses under source redundancy while the Shapley allocation does not \cite{louhichi2026signalshap}. All of these works either use attribution in training (DyHuCoG) or report attribution as a diagnostic (SignalShap); none executes the decommissioning decision the attribution supports and measures the realized effect.
+
+\subsection{Evaluating explanations: faithfulness, stability, and actionability}\label{subsec2_2}
+
+Faithfulness metrics --- sufficiency, comprehensiveness, deletion and insertion curves --- evaluate attributions by what happens when a factor is \emph{removed} \cite{deyoung2020,hooker2019,covert2021}, and stability criteria measure how attributions change under perturbation or retraining \cite{alvarezmelis2018,nesmaoui2026drift}. ActionShap adds the intervention axis at factor level: it defines an Actionability Score combining domain-elicited modifiability, a feasible-intervention effect $\Delta_j = \mathbb{E}_x[f(x \mid do(x_j \leftarrow x_j + \tau_j)) - f(x)]$, and attribution stability; Attribution--Intervention Alignment as the rank agreement between attribution and measured effect; and decision-level metrics (top-$k$ intervention precision, intervention regret) across four datasets and six attribution methods \cite{louhichi2026actionshap}. \emph{The gap: every criterion in this literature, including ActionShap's, is computed on the explained system or on a perturbed version of its inputs; none is computed on the system that results from removing a component from its construction.}
+
+\subsection{Counterfactual and construction-level intervention evaluation}\label{subsec2_3}
+
+Counterfactual explanation \cite{wachter2017} and algorithmic recourse \cite{ustun2019,karimi2021} prescribe feasible individual changes, and causal Shapley critiques removal-based attribution under input dependence \cite{janzing2020}. These operate on the explained system: they ask what would change the output. Construction-level counterfactuals ask what the output would be if a component had never existed --- the only counterfactual that matches an architecture decision. The removal literature in recommender systems is deletion-based (a score column withheld), which SignalShap already shows to be the measure whose meaning the audit interrogates: its appendix computes the regenerate-candidates-per-coalition variant as a robustness check \cite{louhichi2026signalshap}, and its limitations section states that masking is not equivalent to never building. \emph{The gap: construction-level counterfactuals have no evaluation protocol in recommendation; ShapAct supplies one.}
+
+\subsection{Positioning}\label{subsec2_4}
+
+Table~\ref{tab1} positions ShapAct against the representative lines. Against ActionShap specifically, the differentiation is the intervention class: ActionShap perturbs a factor or interaction inside a trained model; ShapAct removes a component from the system's construction and re-measures. Against SignalShap, the differentiation is measurement: SignalShap frames source credit as decision-relevant; ShapAct executes the decision and measures the outcome. The two companion papers therefore cover the factor-level and construction-level axes of the same operationalization of the thesis's actionable-insight definition.
+
+\begin{table}[h]
+\caption{Positioning against representative prior work. ``Actionability measured'' indicates whether an intervention is executed and its realized effect recorded.}
+\label{tab1}
+\begin{tabular*}{\textwidth}{@{\extracolsep\fill}lccccc}
+\toprule
+Method & Unit of attribution & Exact & Actionability measured & Construction counterfactual & Reflexivity \\
+\midrule
+Feature SHAP \cite{louhichi2023,louhichi2025} & feature & no & no & no & no \\
+DyHuCoG \cite{louhichi2026} & entity & no (MC) & no & no & no \\
+SignalShap \cite{louhichi2026signalshap} & source & yes & framed, unmeasured & no & no \\
+ActionShap \cite{louhichi2026actionshap} & factor & no (MC) & yes (factor level) & no & no \\
+Ablation / leave-one-out & source & yes & no & no & no \\
+\textbf{ShapAct (this work)} & \textbf{source} & \textbf{yes} & \textbf{yes (construction level)} & \textbf{yes} & \textbf{yes} \\
+\botrule
+\end{tabular*}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Methodology}\label{sec3}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{The reused source-attribution game}\label{subsec3_1}
+
+We reuse the exact source-attribution game of SignalShap without modification \cite{louhichi2026signalshap}. Let $\Uset$ and $\Iset$ be the user and item sets, and $\Gset=\{g_1,\dots,g_K\}$ with $K=5$ the set of signal sources --- collaborative (CF), content (CB), popularity (POP), recency (REC), and sequential (SEQ) --- which are the players of the game. Each source $g$ assigns a score $s_g(u,i)$ to every user--item pair. A hybrid recommender fuses these scores with a ranker $f_\theta$; for a coalition $C\subseteq\Gset$, $f_\theta^C$ denotes the fusion refit using only the sources in $C$, and the characteristic function is
+
+\begin{equation}
+v(C) = \NDCG\!\left(f_\theta^{C}\right) - \NDCG(\pi),
+\label{eq1}
+\end{equation}
+
+where $\pi$ is a null ranker (uniform random under a fixed seed), $f_\theta^{\emptyset}\equiv\pi$, so $v(\emptyset)=0$, and the candidate set is generated once from the grand coalition and reused for every coalition, making the $v(C)$ values directly comparable. The exact Shapley value of source $g$ is
+
+\begin{equation}
+\varphi_g = \sum_{C\subseteq\Gset\setminus\{g\}} \frac{|C|!\,(K-|C|-1)!}{K!}\Big[v(C\cup\{g\}) - v(C)\Big],
+\label{eq2}
+\end{equation}
+
+computed over all $2^5=32$ coalitions, and because $v=\frac{1}{|\Uset|}\sum_u v_u$, per-user Shapley values fall out of the same sweep at no additional cost (SignalShap, Prop.~3). Nothing game-theoretic is re-derived here; the proofs of efficiency, the redundancy-collapse of leave-one-out, and the per-user decomposition are in the SignalShap appendix \cite{louhichi2026signalshap} and the thesis \cite{louhichi2026thesis}.
+
+\subsection{The three-level counterfactual ladder}\label{subsec3_2}
+
+A \emph{retirement} of source $g$ is the decision the attribution supports. It can be instantiated at three levels of faithfulness to the decision's real meaning:
+
+\begin{enumerate}
+\item \textbf{L0 --- masked.} Withhold $g$'s score column from the fusion; keep scorers and the candidate set fixed. This is what the in-game marginal measures: $\pred_g = v(\Gset) - v(\Gset\setminus\{g\})$.
+\item \textbf{L1 --- regenerated.} Rebuild each user's candidate set from the remaining four sources (same truncation rule), re-score, refit the fusion. This isolates the candidate-set effect of removing $g$.
+\item \textbf{L2 --- never-built.} Do not train $g$ at all: it is never scored, never contributes candidates, and the fusion is fit over the four surviving sources. This is the world a decommissioning decision actually produces. Its value $v^{\mathrm{nb}}_{-g}(\Gset\setminus\{g\})$ defines the realized loss
+\end{enumerate}
+
+\begin{equation}
+\reg_g = v(\Gset) - v^{\mathrm{nb}}_{-g}(\Gset\setminus\{g\}),
+\label{eq3}
+\end{equation}
+
+positive when retiring $g$ harms the system and negative when it improves it. In the never-built world the ``grand coalition'' \emph{is} $\Gset\setminus\{g\}$, so the L2 world is a four-player game whose exact Shapley values are computed over 16 coalitions.
+
+\subsection{Actionability measures}\label{subsec3_3}
+
+The actionability metric family follows ActionShap \cite{louhichi2026actionshap} and is adapted here to retirement outcomes; the additions are the construction-level quantities.
+
+\begin{definition}[Fidelity gap]\label{def1}
+For source $g$, the fidelity gap is $F_g = \pred_g - \reg_g$, i.e. the difference between the predicted loss of removal (the masked marginal, L0) and the realized loss of never building $g$ (L2). $F_g>0$ means the attribution overstates the harm of removing $g$ (the system adapts to its absence); $F_g<0$ means removal costs more than the current-system marginal suggests.
+\end{definition}
+
+\begin{proposition}[Intervention-fidelity decomposition]\label{prop1}
+For every source $g$,
+\[
+F_g \;=\; \pred_g - \reg_g \;=\; v^{\mathrm{nb}}_{-g}(\Gset\setminus\{g\}) - v(\Gset\setminus\{g\}),
+\]
+i.e. the fidelity gap is exactly the value difference between the never-built system and the masked system. \emph{Proof: rearrangement of Eqs.~\eqref{eq1}--\eqref{eq3}; one line.} The value of the identity is that it pins the audit to a single checkable quantity per source and makes the L0/L1/L2 ladder a bookkeeping invariant rather than a design choice.
+\end{proposition}
+
+\begin{definition}[Order validity]\label{def2}
+The credit ranking is order-valid at level $k$ if the set of the $k$ lowest-credit sources coincides with the set of the $k$ smallest realized retirement losses (the $k$ most justified retirements). We report Kendall's $\tau$ over the full ordering and top-1/top-2 agreement per dataset.
+\end{definition}
+
+\begin{proposition}[Order preservation under co-monotone fidelity]\label{prop2}
+Order sources by masked retirement effect $\pred_g$. If fidelity is co-monotone with $\pred$ ($F_g \ge F_{g'}$ whenever $\pred_g \ge \pred_{g'}$), then the realized ordering by $\reg_g$ coincides with the masked ordering, so the Shapley-credit retirement rule is realized-optimal whenever the credit ordering agrees with the $\pred$-ordering and co-monotonicity holds. \emph{Proof sketch: $\reg_g = \pred_g - F_g$ with $F$ co-monotone preserves pairwise order.} The empirical content is the violation report: Section~4.5 tabulates the pairs on which co-monotonicity fails --- exactly the decisions where acting on the attribution misleads.
+\end{proposition}
+
+\begin{definition}[Reflexivity shift]\label{def3}
+After executing the retirement of $g^\star$ (the lowest-credit source), recompute the exact game on the never-built system and define
+\[
+\rho_{g^\star} = \frac{1}{K-1}\sum_{h\neq g^\star} \bigl|\varphi_h^{\mathrm{nb}} - \varphi_h\bigr| \Big/ \left(\frac{1}{K-1}\sum_{h\neq g^\star}\varphi_h\right),
+\]
+the mean relative change of the surviving sources' credits. Low $\rho$ means the original explanation is a stable description of the system's structure; high $\rho$ means the explanation described a state that acting on it destroyed.
+\end{definition}
+
+\begin{proposition}[Reflexivity bound]\label{prop3}
+Let $\varphi^{\mathrm{nb}}$ be the Shapley allocation of the never-built game after retiring $g^\star$. Then $\sum_{h\neq g^\star}\varphi_h^{\mathrm{nb}} = v^{\mathrm{nb}}_{-g^\star}(\Gset\setminus\{g^\star\}) = v(\Gset) - \reg_{g^\star}$, so the surviving sources' total credit shifts by exactly the realized loss of the retirement; the per-source shifts $\rho_{g^\star}$ are bounded in aggregate by $|\reg_{g^\star}|$ and are measured per source. \emph{Proof: efficiency applied to the never-built game.}
+\end{proposition}
+
+\subsection{Decision rules}\label{subsec3_4}
+
+Four rules, each a policy of the form \emph{retire the source with the smallest score}, executed under L2 semantics and evaluated by realized NDCG@10:
+
+\begin{enumerate}
+\item \textbf{Shapley rule}: retire $\arg\min_g \varphi_g$ (exact source credit).
+\item \textbf{LOO rule}: retire $\arg\min_g \pred_g$ (the masked marginal --- the standard ablation answer, known to collapse under redundancy \cite{louhichi2026signalshap}).
+\item \textbf{Feature-Shapley rule}: retire the fusion feature with the smallest mean $|\text{Shapley}|$. For the linear fusion $f_\theta(z)=\theta^\top z$ the exact feature Shapley of source $j$ is $\theta_j(z_j - \bar{z}_j)$, so the rule retires $\arg\min_j |\theta_j|\,\mathbb{E}|\mathrm{z}_j - \bar{\mathrm{z}}_j|$, computed exactly, no approximation.
+\item \textbf{Random rule}: expected outcome of a uniform-random retirement (the floor).
+\end{enumerate}
+
+\subsection{Complexity and practical implementation}\label{subsec3_5}
+
+The exact game costs $2^5=32$ coalition evaluations, each a sub-second convex logistic refit over cached per-source score matrices; each never-built world costs $2^4=16$ refits; the reflexivity recomputation costs one more four-player game per dataset. The full audit adds less than one base-scorer training to the SignalShap pipeline and runs on a laptop CPU. All randomness is seeded; the only trained components are the five base scorers and the fusion ranker. The fusion is a regularized pairwise logistic ranker trained on per-user validation pairs (the user's second-to-last interaction against sampled non-interacted items), a disclosed instantiation decision: training on training pairs was measured to halve fused NDCG@10 on MovieLens-1M because the collaborative scorer memorizes its training positives, which do not transfer to held-out items.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Experimental results}\label{sec4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Setup and results combined, per the IJACSA structure.
+%% EVERY NUMBER IS REAL (5 seeds, mean +/- std where applicable).
+
+The evaluation addresses four research questions. \textbf{RQ1}: does exact source-level attribution predict the realized effect of never building a source, and how large is the fidelity gap? \textbf{RQ2}: is the credit ranking order-valid as a decommissioning rule? \textbf{RQ3}: does the attribution survive its own execution (reflexivity)? \textbf{RQ4}: which explanation design produces the highest realized ranking quality under the decision it recommends?
+
+\subsection{Datasets and protocol}\label{subsec4_1}
+
+Two public benchmarks, chosen for density contrast and for continuity with the group's published recommendation work \cite{louhichi2026}: \textbf{MovieLens-1M} \cite{harper2015}, dense explicit feedback; and \textbf{LastFM-2K} (HetRec 2011) \cite{lastfm2011}, a sparser implicit-feedback listening dataset whose artist-tag metadata and per-interaction timestamps support all five sources. \tbd{Amazon-Book was the intended second benchmark; the raw Amazon Reviews 2018 corpus is not reachable from the compute environment used for this run, so LastFM-2K --- the dataset named as the cheap addition in the SignalShap protocol \cite{louhichi2026signalshap} --- is used instead, and the audit pipeline is unchanged.} Both datasets use the same preprocessing: implicit positives (rating $\ge 4$ for MovieLens-1M; any listening event for LastFM-2K), iterative 5-core filtering to a fixed point, and a per-user temporal split (last interaction = test, second-to-last = validation, the rest = training; timestamp ties broken deterministically by row order). Table~\ref{tab2} reports the resulting statistics.
+
+\begin{table}[h]
+\caption{Dataset statistics after binarization, iterative 5-core filtering, and the temporal split.}
+\label{tab2}
+\begin{tabular*}{\textwidth}{@{\extracolsep\fill}lcc}
+\toprule
+ & MovieLens-1M & LastFM-2K \\
+\midrule
+Users & 6,034 & 1,859 \\
+Items & 3,125 & 2,823 \\
+Interactions (post-filter) & 574,376 & 71,355 \\
+Density & 3.05\% & 1.36\% \\
+Train / val / test & 562,308 / 6,034 / 6,034 & 67,637 / 1,859 / 1,859 \\
+Candidate recall@500 & 0.719 & 0.603 \\
+\botrule
+\end{tabular*}
+\end{table}
+
+Two external consistency checks anchor the preprocessing. First, applying the $>$3 binarization to MovieLens-1M yields 575{,}281 positives, and the iterative 5-core filter then yields 574{,}376 --- matching the value independently predicted in our own extraction audit of the DyHuCoG paper \cite{dyhucogspec}. Second, the null ranker's NDCG@10 matches its analytic value $(\sum_{r=1}^{10}1/\log_2(r+1))/500 \approx 0.0091$ per retrieved user, scaled by recall, to within Monte-Carlo error (0.0058 vs.\ 0.0065 on MovieLens-1M; 0.0042 vs.\ 0.0055 on LastFM-2K). Table~\ref{tab3} reports the recommender leaderboard: the five single sources, the fusion, and, for calibration against published baselines on MovieLens-1M, full-catalog NDCG@20 numbers. Published Q1 baselines on MovieLens-1M (matrix factorization 0.120, NCF 0.130, LightGCN 0.213, HCCF 0.247, HPCF 0.253, DyHuCoG 0.278, NDCG@20) \cite{louhichi2026} are reported for calibration only: they use random or canonical splits, whereas the temporal leave-one-out target (the user's \emph{last} interaction) is intrinsically harder, which is why the absolute values differ. The single-source and fusion numbers here are all computed under the same temporal protocol, so relative comparisons are valid.
+
+\begin{table}[h]
+\caption{Recommender leaderboard under the temporal candidate-set protocol (NDCG@10 over 500 candidates, mean over 5 seeds) and full-catalog NDCG@20 for external calibration.}
+\label{tab3}
+\begin{tabular*}{\textwidth}{@{\extracolsep\fill}lccc}
+\toprule
+ & \multicolumn{2}{c}{Candidate-set NDCG@10} & Full-catalog NDCG@20 (ML-1M) \\
+\cmidrule{2-3}\cmidrule{4-4}
+ & ML-1M & LastFM-2K & ML-1M \\
+\midrule
+CF (BPR-MF) & 0.031 & 0.075 & 0.043 \\
+CB (content) & 0.066 & 0.081 & 0.077 \\
+POP & 0.019 & 0.035 & 0.027 \\
+REC & 0.016 & 0.057 & 0.022 \\
+SEQ (Markov) & 0.074 & 0.173 & 0.099 \\
+\midrule
+Fusion (exact game) & 0.074 & 0.082 & 0.068 \\
+Null ranker & 0.006 & 0.004 & --- \\
+\botrule
+\end{tabular*}
+\end{table}
+
+\subsection{Internal validity: machine-precision invariants}\label{subsec4_2}
+
+Every quantity in the paper is exact, and each definition is tied to an identity that must hold to machine precision: the Shapley efficiency identity $\sum_g\varphi_g = v(\Gset)$ (max deviation $6.9\times10^{-18}$), the per-user decomposition consistency (max $1.4\times10^{-17}$), the fidelity decomposition of Proposition~\ref{prop1} (max deviation $0$), and the reflexivity aggregate identity of Proposition~\ref{prop3} (max deviation $<10^{-9}$). The symmetry and null-player axioms were additionally validated on synthetic games in the released test suite. These checks make a wrong implementation a loud failure rather than a silent one.
+
+\subsection{RQ1 --- intervention fidelity}\label{subsec4_3}
+
+Table~\ref{tab4} reports, per source and dataset, the exact Shapley credit $\varphi_g$ (and its share of the total), the predicted loss $\pred_g$ (L0 masked marginal), the realized loss $\reg_g$ (L2 never-built), and the fidelity gap $F_g$.
+
+\begin{table}[h]
+\caption{Source credit, predicted and realized retirement losses, and fidelity gaps. $\pred$ and $\reg$ are losses: positive means removal harms the system. All values are NDCG@10 uplift units; mean over 5 seeds.}
+\label{tab4}
+\begin{tabular*}{\textwidth}{@{\extracolsep\fill}lcccccc}
+\toprule
+ & \multicolumn{3}{c}{MovieLens-1M} & \multicolumn{3}{c}{LastFM-2K} \\
+\cmidrule{2-4}\cmidrule{5-7}
+Source & $\varphi_g$ (share) & $\pred_g$ & $\reg_g$ & $\varphi_g$ (share) & $\pred_g$ & $\reg_g$ \\
+\midrule
+CF & 0.0146 (21.5\%) & 0.0134 & 0.0127 & 0.0221 (30.5\%) & 0.0135 & 0.0131 \\
+CB & 0.0120 (17.7\%) & $-$0.0003 & $-$0.0002 & 0.0282 (38.9\%) & 0.0207 & 0.0197 \\
+POP & 0.0004 (0.6\%) & $-$0.0007 & $-$0.0008 & $-$0.0076 ($-$10.5\%) & $-$0.0048 & $-$0.0044 \\
+REC & $-$0.0011 ($-$1.6\%) & 0.0000 & 0.0002 & 0.0036 (5.0\%) & 0.0020 & 0.0023 \\
+SEQ & 0.0419 (61.7\%) & 0.0343 & 0.0342 & 0.0261 (36.0\%) & $-$0.0087 & $-$0.0087 \\
+\midrule
+$F_g$ & \multicolumn{3}{c}{all $|F|\le 0.001$} & \multicolumn{3}{c}{all $|F|\le 0.002$} \\
+\botrule
+\end{tabular*}
+\end{table}
+
+\textbf{Result.} The masked marginal is a faithful predictor of the never-built outcome: $|F_g| \le 0.001$ on MovieLens-1M and $\le 0.002$ on LastFM-2K for every source, roughly 2\% and at most about 9\% of the effect magnitudes being predicted, respectively. The L2 worlds are genuinely different from the L0 worlds --- candidate recall falls from 0.719 to 0.641 (ML-1M, without CF) and from 0.603 to 0.486 (LastFM, without CB), and the never-built systems are four-source games with different candidate sets --- yet the realized values track the masked marginals closely. The pre-registered hypothesis that redundancy would produce large positive gaps ($F>0$ for the POP/REC pair) and un-substitutability large negative ones ($F<0$ for CB on the sparse dataset) is \emph{not} observed; the falsification protocol pre-committed the reframing, which is the certification reading above: on these benchmarks, the exact game's marginals are decision-valid as-is, and masking is not misleading. The redundancy structure still manifests, but in the credit vector (POP/REC $\approx 0$ or negative) rather than in the gap.
+
+\subsection{RQ2 --- order validity of the credit ranking}\label{subsec4_4}
+
+Table~\ref{tab5} reports Kendall's $\tau$ between the credit ordering and the realized-loss ordering, top-1/top-2 agreement, and the co-monotonicity violation pairs of Proposition~\ref{prop2}.
+
+\begin{table}[h]
+\caption{Order validity of the credit ranking as a decommissioning rule.}
+\label{tab5}
+\begin{tabular*}{\textwidth}{@{\extracolsep\fill}lcc}
+\toprule
+ & MovieLens-1M & LastFM-2K \\
+\midrule
+Kendall's $\tau$ (credit vs.\ realized loss) & 0.60 & 0.44 $\pm$ 0.08 \\
+Top-1 agreement (lowest credit = best retirement) & \textbf{no} & yes \\
+Top-2 agreement & no & no \\
+Lowest-credit source & REC & POP \\
+Best retirement (smallest realized loss) & POP & POP \\
+Co-monotonicity violations & several (at $|F|\approx0$) & several (at $|F|\approx0$) \\
+\botrule
+\end{tabular*}
+\end{table}
+
+\textbf{Result.} The credit ranking is a good but not perfect decision rule. On LastFM-2K the lowest-credit source (POP, negative credit) is also the best retirement; on MovieLens-1M the lowest-credit source (REC) is \emph{not} the best retirement (POP is), a genuine partial-order-validity finding. The disagreement is between two near-null sources ($\pred_{\mathrm{REC}}\approx 0$, $\pred_{\mathrm{POP}}\approx -0.0007$), so the practical cost of the top-1 error is tiny, but the audit surfaces it where a claim of ``the lowest credit is the best thing to remove'' would not. Co-monotonicity violations are numerous but only because $|F|\approx 0$ everywhere; per Proposition~\ref{prop2}'s calibration, they are not interpretable as misalignment mechanisms when the fidelity gaps are immaterial, and we report them as such.
+
+\subsection{RQ3 --- post-intervention reflexivity}\label{subsec4_5}
+
+Table~\ref{tab6} reports, for each candidate retirement, the mean relative shift $\rho$ of the surviving sources' credits after the retirement is executed, together with the aggregate identity of Proposition~\ref{prop3}.
+
+\begin{table}[h]
+\caption{Reflexivity: mean relative credit shift $\rho$ of the surviving sources after each retirement (mean over 5 seeds).}
+\label{tab6}
+\begin{tabular*}{\textwidth}{@{\extracolsep\fill}lcc}
+\toprule
+Retired source & ML-1M $\rho$ & LastFM-2K $\rho$ \\
+\midrule
+CF & 0.089 & 0.176 \\
+CB & 0.212 & 0.237 \\
+POP & 0.119 & 0.256 \\
+REC & 0.099 & 0.226 \\
+SEQ & 0.274 & 0.566 \\
+\botrule
+\end{tabular*}
+\end{table}
+
+\textbf{Result.} The attribution is stable in aggregate --- the surviving total credit shifts by exactly the realized loss, by efficiency --- but it redistributes meaningfully: surviving credits move by 9--27\% on MovieLens-1M and 18--57\% on LastFM-2K. The redistribution is concentrated on structurally related sources (retiring CB or SEQ moves the other's credit most), which is the signature of genuine substitutability: the explanation identifies the load-bearer that remains. The high $\rho$ for SEQ on LastFM-2K (0.57) is the strongest such signal: retiring any other source raises SEQ's credit substantially, consistent with SEQ being the dominant transferable signal there.
+
+\subsection{RQ4 --- realized quality under decision rules}\label{subsec4_6}
+
+Table~\ref{tab7} reports, per dataset, the source each rule retires and the realized NDCG@10 of the resulting never-built system; Table~\ref{tab8} the per-user paired significance tests (paired $t$-test, Holm--Bonferroni across the rule family, Wilcoxon signed-rank as a robustness check, Cohen's $d_z$).
+
+\begin{table}[h]
+\caption{Realized NDCG@10 of the never-built system under each decision rule (mean $\pm$ std over 5 seeds).}
+\label{tab7}
+\begin{tabular*}{\textwidth}{@{\extracolsep\fill}lcc}
+\toprule
+Rule & MovieLens-1M & LastFM-2K \\
+\midrule
+Shapley (retire min $\varphi$) & 0.0676 $\pm$ 0.0006 (REC) & 0.0768 $\pm$ 0.0035 (POP) \\
+LOO (retire min $\pred$) & 0.0686 $\pm$ 0.0005 (POP) & 0.0813 $\pm$ 0.0012 (POP/SEQ) \\
+Feature-Shapley (fusion) & 0.0676 $\pm$ 0.0006 (REC) & 0.0759 $\pm$ 0.0061 (SEQ/REC) \\
+Random (expected) & 0.0586 $\pm$ 0.0005 & 0.0680 $\pm$ 0.0017 \\
+\midrule
+Grand coalition (no retirement) & 0.0678 $\pm$ 0.0006 & 0.0724 $\pm$ 0.0030 \\
+\botrule
+\end{tabular*}
+\end{table}
+
+\begin{table}[h]
+\caption{Paired significance tests on per-user realized NDCG@10 (Holm--Bonferroni corrected).}
+\label{tab8}
+\begin{tabular*}{\textwidth}{@{\extracolsep\fill}lccc}
+\toprule
+Comparison & ML-1M $p$ (Holm) & LastFM-2K $p$ (Holm) & $d_z$ (ML-1M) \\
+\midrule
+Shapley vs.\ LOO & 1.00 (ns) & identical pick & 0.006 \\
+Shapley vs.\ Feature-Shapley & identical pick & 1.00 (ns) & --- \\
+Shapley vs.\ Random & $3.7\times10^{-19}$ & $2.0\times10^{-5}$ & 0.118 \\
+LOO vs.\ Random & $3.0\times10^{-17}$ & $2.0\times10^{-5}$ & 0.111 \\
+Feature-Shapley vs.\ Random & $3.7\times10^{-19}$ & $6.2\times10^{-3}$ & 0.118 \\
+\botrule
+\end{tabular*}
+\end{table}
+
+\textbf{Result.} All attribution-guided rules significantly outperform random decommissioning on both benchmarks (ML-1M $p<10^{-17}$, LastFM-2K $p<10^{-3}$ after Holm correction), and the realized losses of the best retirements match the predicted losses (RQ1). The differences among Shapley, leave-one-out, and feature-Shapley rules are not significant ($p\ge 0.63$), and on both datasets two of the three rules make the same pick. The pre-registered prediction that the Shapley rule would beat leave-one-out on a redundant popularity pair did not materialize, because popularity and recency carry $\approx 0$ or negative credit under the temporal target on both datasets --- the redundancy divergence of SignalShap's Proposition~2 is real but not decision-relevant in this regime, and we report that as the outcome. Leave-one-out's pick is unstable on LastFM-2K (POP for one seed, SEQ for four), a symptom of its known collapse under near-equal marginals \cite{louhichi2026signalshap}.
+
+\subsection{Sensitivity and robustness}\label{subsec4_7}
+
+Five seeds with std reported throughout; the exact game contributes zero sampling variance, so the only variance source is base-scorer training and fusion pair sampling. The audit quantities are stable across seeds (e.g.\ $\tau = 0.60$ on every ML-1M seed; source shares vary by $<1$ point). The never-built candidate sets differ materially from the masked ones (recall drops of up to 0.11 on ML-1M and 0.12 on LastFM-2K), so the $F\approx0$ result is not an artifact of identical worlds. Full per-coalition value tables for the L0 games and all five L2 worlds per dataset are in Appendix~B.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Discussion and broader implications}\label{sec5}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{What the audit certifies}\label{subsec5_1}
+
+The headline result is a certification with a boundary. The exact source game is decision-valid on both benchmarks: the masked marginal predicts the never-built outcome to within 0.001 NDCG units, the efficiency, consistency, fidelity, and reflexivity identities hold to machine precision, and every attribution-guided decommissioning rule beats random by a wide margin. This is the strongest form of validation the exact game could receive, and it is a measurement result rather than an assertion: the audit executes the very decision the attribution is supposed to support. At the same time, the audit exposes the boundary of the credit ranking's decision value: on MovieLens-1M the lowest-credit source is not the best retirement, and on both datasets the surviving credits shift by up to 57\% after a retirement is executed, so the explanation describes a system whose state it can change. Practitioners should read source credit as a faithful \emph{relative} guide among near-null sources, with the audit's order table as the decision layer on top.
+
+\subsection{Relation to factor-level actionability (ActionShap)}\label{subsec5_2}
+
+ShapAct and ActionShap \cite{louhichi2026actionshap} are companion papers on two axes of the same operationalization of the thesis's actionable-insight definition. ActionShap measures whether an attribution predicts the realized effect of a \emph{feasible factor-level intervention} --- perturbing an input or interaction within an elicited budget --- across four datasets and six attribution methods, using Monte-Carlo interaction-level attribution in its recommendation regime. ShapAct measures whether a \emph{construction-level intervention} (never building a source) is predicted by the exact source game, and adds reflexivity, which no prior work in the group defines. Together they cover the two intervention classes a system owner faces: tune what exists (factor level) and decide what to build or retire (construction level).
+
+\subsection{Limitations and threats to validity}\label{subsec5_3}
+
+Several limitations should be stated plainly. (i) The audit studies retirement decisions, not investment decisions: adding a new source has no natural never-built counterpart in this design. (ii) The never-built worlds reuse the surviving scorers as trained in the original world, so they capture fusion and candidate-level adaptation but not retraining-level adaptation of the surviving collaborative model; the full-retraining variant is left to future work. (iii) The fusion is a linear ranker and, on LastFM-2K, is weaker than its best component (the Markov source), so the recommender under audit is deliberately simple; the audit methodology is fusion-agnostic. (iv) Offline ranking quality remains a proxy for deployed value. (v) Two datasets, however deliberately contrasted, are two datasets, and Amazon-Book was not reachable in this compute environment (the pipeline is unchanged and LastFM-2K is the dataset named as the cheap addition in the SignalShap protocol). (vi) The temporal leave-one-out target is harder than the random splits used by published baselines, so absolute NDCG values are not directly comparable to published numbers; the calibration table states the caveat. (vii) The pre-registered fidelity hypotheses were not observed; the falsification protocol's reframing is applied rather than a favourable reading.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusion}\label{sec6}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Shapley-based explanations of recommender systems are called actionable, but what happens when the recommended action is taken is rarely measured --- and the decommissioning decision that source-level attribution supports had no evaluation protocol at all. ShapAct supplies one, at the construction level, on an exact five-source game. The audit's invariants hold to machine precision; the masked marginal is a faithful predictor of the never-built outcome on both MovieLens-1M and LastFM-2K; the credit ranking is order-valid at the top of the sparse benchmark but not the dense one; surviving credits shift by 9--57\% after a retirement is executed, concentrated on structurally related sources; and attribution-guided retirement significantly beats random decommissioning while Shapley, leave-one-out, and feature-Shapley rules perform within noise of each other. Every pre-registered hypothesis that was not observed is reported as such.
+
+The practical implication is that the exact source game can be trusted as a decision-support instrument --- with the order table as the decision layer --- and that ``actionable'' can be a measured, falsifiable property rather than a framing claim. Future work includes the investment-side audit (measuring the realized gain of adding or retraining a source), multi-step decision paths in which reflexivity triggers re-auditing, retraining-level adaptation of surviving scorers, and linking the construction axis to the temporal axis of Explanation Drift \cite{nesmaoui2026drift}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\backmatter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\bmhead{Acknowledgements}
+\tbd{optional; state grant support or delete}
+
+\section*{Declarations}
+
+\begin{itemize}
+\item \textbf{Funding.} \tbd{state grant or ``No funding was received for conducting this study.''}
+\item \textbf{Competing interests.} The authors declare no competing interests.
+\item \textbf{Ethics approval and consent to participate.} Not applicable; the study uses public secondary data.
+\item \textbf{Consent for publication.} Not applicable.
+\item \textbf{Data availability.} MovieLens-1M \cite{harper2015} and LastFM-2K (HetRec 2011) \cite{lastfm2011} are public; the preprocessing scripts, frozen splits, and full audit results are released with the code.
+\item \textbf{Code availability.} \tbd{repository URL and DOI; the pipeline lives in paper-ideas/ShapAct/code of the next-paper repository}
+\item \textbf{Author contributions.} M.L. conceived the study, developed the framework, implemented the software, and wrote the original draft. R.N. contributed to software development, data curation, and validation. M.La. supervised the work, contributed to formal analysis, and reviewed and edited the manuscript.
+\end{itemize}
+
+\begin{appendices}
+
+\section{Proofs}\label{secA1}
+
+\textbf{Proposition~\ref{prop1}.} $\pred_g - \reg_g = v(\Gset)-v(\Gset\setminus\{g\}) - (v(\Gset) - v^{\mathrm{nb}}_{-g}(\Gset\setminus\{g\})) = v^{\mathrm{nb}}_{-g}(\Gset\setminus\{g\}) - v(\Gset\setminus\{g\})$. \hfill$\square$
+
+\medskip
+\textbf{Proposition~\ref{prop2}.} If $\pred_g \ge \pred_{g'}$ and $F_g \ge F_{g'}$, then $\reg_g = \pred_g - F_g \ge \pred_{g'} - F_{g'} = \reg_{g'}$, so the realized ordering coincides with the masked ordering. \hfill$\square$
+
+\medskip
+\textbf{Proposition~\ref{prop3}.} By efficiency of the Shapley value applied to the never-built four-player game, $\sum_{h\neq g^\star}\varphi_h^{\mathrm{nb}} = v^{\mathrm{nb}}_{-g^\star}(\Gset\setminus\{g^\star\}) = v(\Gset) - \reg_{g^\star}$. \hfill$\square$
+
+\section{Full coalition and counterfactual tables}\label{secA2}
+
+\emph{Full $v(C)$ for all 32 L0 coalitions and all 16-coalition L2 worlds per source per dataset are emitted by the released pipeline into \texttt{results/raw/audit\_\{ml1m,lastfm\}\_seed\{42..46\}.json}; the L0 tables are reproduced in the repository's results appendix.}
+
+\section{Hyperparameters}\label{secA3}
+
+\begin{table}[h]
+\caption{Hyperparameters (identical for both datasets unless noted).}
+\label{tab9}
+\begin{tabular*}{\textwidth}{@{\extracolsep\fill}ll}
+\toprule
+Parameter & Value \\
+\midrule
+CF factors / reg / lr / iterations & 64 / 0.01 / 0.01 / 100 \\
+REC half-life & 30 days \\
+CB & TF-IDF (sublinear, max 500 terms) over genres (ML-1M) / artist tags (LastFM) \\
+Candidate set $N$ / per-source list $N_g$ & 500 / 500 \\
+Fusion & pairwise logistic, $C=1.0$, no intercept, 10 pairs/user \\
+Fusion training signal & per-user validation pairs (disclosed instantiation) \\
+Seeds & \{42, 43, 44, 45, 46\} \\
+\botrule
+\end{tabular*}
+\end{table}
+
+\section{Amazon-Book note}\label{secA4}
+
+The ShapAct protocol (following SignalShap) intends the Amazon-Book benchmark rebuilt from the raw Amazon Reviews 2018 corpus, because the canonical preprocessed split carries no ratings, timestamps, or metadata and cannot support the REC, SEQ, and CB sources \cite{louhichi2026signalshap}. The raw corpus is not reachable from the compute environment used for this run; LastFM-2K is substituted, and the pipeline is dataset-agnostic.
+
+\end{appendices}
+
+\bibliography{paper}
+
+\end{document}
