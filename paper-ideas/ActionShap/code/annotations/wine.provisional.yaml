@@ -1,0 +1,51 @@
+# =====================================================================
+#  PROVISIONAL -- NOT AN ELICITATION. DO NOT CITE OR PUBLISH.
+#
+#  Written to exercise the pipeline before the real annotation exists.
+#  The values below were assigned by an assistant, NOT by the three
+#  authors, and therefore satisfy none of the protocol in RUBRIC.md:
+#  no independence, no blinding, no pre-registration, no agreement
+#  statistic that means anything.
+#
+#  The real file is annotations/wine.template.yaml. Fill that in
+#  independently, freeze it, and delete this one. Any result produced
+#  from this file is a smoke test, not a finding.
+# =====================================================================
+
+dataset: wine
+rubric_version: "1.0"
+provisional: true
+
+decision_maker: >
+  A production winemaker adjusting a batch within a normal vinification
+  cycle.
+
+frozen:
+  timestamp: "PROVISIONAL"
+  payload_sha256: "PROVISIONAL"
+  git_commit: "PROVISIONAL"
+
+factors:
+  # Directly dosed or set during vinification.
+  "citric acid":          {annotator_a: 1.0, annotator_b: 1.0, annotator_c: 1.0}
+  "free sulfur dioxide":  {annotator_a: 1.0, annotator_b: 1.0, annotator_c: 1.0}
+  "total sulfur dioxide": {annotator_a: 1.0, annotator_b: 1.0, annotator_c: 1.0}
+  "sulphates":            {annotator_a: 1.0, annotator_b: 1.0, annotator_c: 1.0}
+  "fixed acidity":        {annotator_a: 1.0, annotator_b: 1.0, annotator_c: 1.0}
+  "pH":                   {annotator_a: 1.0, annotator_b: 1.0, annotator_c: 0.5}
+
+  # Set by controlling fermentation rather than by direct addition.
+  "residual sugar":       {annotator_a: 1.0, annotator_b: 1.0, annotator_c: 0.5}
+  "alcohol":              {annotator_a: 1.0, annotator_b: 0.5, annotator_c: 1.0}
+
+  # Preventable in advance, not correctable in an existing batch -> 0.5.
+  "volatile acidity":     {annotator_a: 0.5, annotator_b: 0.5, annotator_c: 0.5}
+
+  # Largely inherited from soil and water chemistry.
+  "chlorides":            {annotator_a: 0.5, annotator_b: 0.0, annotator_c: 0.5}
+
+  # Derived quantity: follows from sugar and alcohol, cannot be set directly.
+  # This is the worked example in RUBRIC.md, and it matters here because
+  # density is the top-attributed feature in the published results -- the
+  # wine analogue of the meteorological drivers in the air-quality task.
+  "density":              {annotator_a: 0.0, annotator_b: 0.0, annotator_c: 0.0}

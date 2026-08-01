@@ -1,0 +1,44 @@
+# Wine modifiability elicitation.
+#
+# Read annotations/RUBRIC.md first. Work independently, do not confer, and do
+# not look at any attribution or intervention output before finishing.
+#
+# Replace every `null` with exactly one of 1.0, 0.5, or 0.0. Any other value
+# is rejected at load time.
+#
+# When all three annotators are done:
+#   python scripts/freeze_annotation.py annotations/wine.yaml
+#   git add annotations/wine.yaml && git commit -m "Freeze wine annotation"
+#
+# Then rename this file to wine.yaml and delete wine.provisional.yaml.
+
+dataset: wine
+rubric_version: "1.0"
+
+decision_maker: >
+  A production winemaker adjusting a batch within a normal vinification
+  cycle. Annotate physical and operational capability only; note any
+  regulatory constraint in a comment rather than in the value.
+
+frozen:
+  timestamp: null
+  payload_sha256: null
+  git_commit: null
+
+factors:
+  "fixed acidity":        {annotator_a: null, annotator_b: null, annotator_c: null}
+  "volatile acidity":     {annotator_a: null, annotator_b: null, annotator_c: null}
+  "citric acid":          {annotator_a: null, annotator_b: null, annotator_c: null}
+  "residual sugar":       {annotator_a: null, annotator_b: null, annotator_c: null}
+  "chlorides":            {annotator_a: null, annotator_b: null, annotator_c: null}
+  "free sulfur dioxide":  {annotator_a: null, annotator_b: null, annotator_c: null}
+  "total sulfur dioxide": {annotator_a: null, annotator_b: null, annotator_c: null}
+  "density":              {annotator_a: null, annotator_b: null, annotator_c: null}
+  "pH":                   {annotator_a: null, annotator_b: null, annotator_c: null}
+  "sulphates":            {annotator_a: null, annotator_b: null, annotator_c: null}
+  "alcohol":              {annotator_a: null, annotator_b: null, annotator_c: null}
+
+# Record disagreements and how they were resolved. This goes into Appendix A3.
+resolution_notes: |
+  (after discussion, note each factor where annotators differed and why the
+  final value was chosen)

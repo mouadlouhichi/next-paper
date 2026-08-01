@@ -1,0 +1,41 @@
+# ActionShap -- pinned dependencies
+#
+# Python 3.12. Verified working on macOS 26 / Apple Silicon, 2026-07-30.
+#
+# Two platform notes, both learned the hard way:
+#
+#   * numpy must be >= 2.4. The 1.26.x macOS arm64 wheels segfault inside
+#     np.linalg.inv on this OS version, which takes down anything importing
+#     scipy.stats. Upper bound is numba's, not ours.
+#   * lightgbm needs OpenMP present:  brew install libomp
+
+numpy>=2.4,<2.5
+scipy>=1.18
+pandas==2.2.2
+
+# Static regime: PCA, k-means, surrogate, attribution
+scikit-learn==1.5.1
+lightgbm==4.5.0
+shap>=0.52          # < 0.48 breaks against numpy 2 (np.dtype(np.floating))
+lime==0.2.0.1
+
+# Decomposition: GA2M fit and Lengerich purification.
+# interpret.utils.purify implements the functional-ANOVA purification the
+# identifiability argument in Section 3.7.3 depends on. Do not downgrade.
+interpret-core==0.6.3
+
+# Dynamic regime
+torch==2.3.1
+captum==0.7.0
+
+# Statistics
+statsmodels==0.14.2
+krippendorff==0.8.0
+
+# Reporting
+matplotlib==3.9.1
+tqdm==4.66.4
+pyyaml==6.0.1
+
+# Development
+pytest==8.3.2
