@@ -1,0 +1,715 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SignalShap -- manuscript draft for Discover Artificial Intelligence
+%% Springer Nature journal template (sn-jnl.cls, v3.1 December 2024)
+%%
+%% Compile: pdflatex -> bibtex -> pdflatex -> pdflatex
+%% Requires: sn-jnl.cls and sn-mathphys-num.bst in the same directory,
+%%           plus signalshap-bibliography.bib
+%%
+%% STRUCTURE
+%%   Six-section layout of the authors' IJACSA 2025 paper [louhichi2025]:
+%%     1 Introduction (flat, numbered contributions list, roadmap)
+%%     2 Literature review (thematic subsections, each closing on a gap)
+%%     3 Methodology (pipeline subsections; comparative analysis,
+%%       theoretical justification, complexity, and practical
+%%       implementation as the closing subsections)
+%%     4 Experimental results (setup and results combined)
+%%     5 Discussion and broader implications
+%%     6 Conclusion
+%%   Declarations and appendices are retained: declarations are mandatory
+%%   for Springer, and the proofs need somewhere to live.
+%%
+%% CONVENTIONS USED IN THIS DRAFT
+%%   \tbd{...}  marks a value or passage to be filled from experimental
+%%              output before submission. NO RESULT IN THIS DRAFT IS REAL.
+%%              Search "\tbd" for every open item; delete the macro
+%%              definition once none remain.
+%%   \figph{...} draws a placeholder box so the draft compiles with no
+%%              image files present. Replace with \includegraphics.
+%%
+%% CALIBRATION
+%%   Theory is deliberately light -- three short propositions and one
+%%   remark -- to match the level of [nesmaoui2026drift], which carries
+%%   no propositions at all. Do not add more.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[pdflatex,sn-mathphys-num]{sn-jnl}% Math and Physical Sciences Numbered Reference Style
+
+%%%% Standard packages (as shipped with the template)
+\usepackage{graphicx}%
+\usepackage{multirow}%
+\usepackage{amsmath,amssymb,amsfonts}%
+\usepackage{amsthm}%
+\usepackage{mathrsfs}%
+\usepackage[title]{appendix}%
+\usepackage{xcolor}%
+\usepackage{textcomp}%
+\usepackage{manyfoot}%
+\usepackage{booktabs}%
+\usepackage{algorithm}%
+\usepackage{algorithmicx}%
+\usepackage{algpseudocode}%
+
+%%%% Theorem-like environments
+\theoremstyle{thmstyleone}%
+\newtheorem{theorem}{Theorem}%
+\newtheorem{proposition}[theorem]{Proposition}%
+\newtheorem{corollary}[theorem]{Corollary}%
+
+\theoremstyle{thmstyletwo}%
+\newtheorem{example}{Example}%
+\newtheorem{remark}{Remark}%
+
+\theoremstyle{thmstylethree}%
+\newtheorem{definition}{Definition}%
+
+%%%% Draft-only macros. Remove both before submission.
+\newcommand{\tbd}[1]{\textbf{[#1]}}
+\newcommand{\figph}[1]{%
+  \fbox{\parbox[c][0.24\textheight][c]{0.93\textwidth}{\centering\itshape Figure placeholder: #1}}}
+
+%%%% Shorthands
+\newcommand{\NDCG}{\mathrm{NDCG@10}}
+\newcommand{\LOO}{\mathrm{LOO}}
+\newcommand{\Gset}{\mathcal{G}}
+\newcommand{\Uset}{\mathcal{U}}
+\newcommand{\Iset}{\mathcal{I}}
+
+\raggedbottom
+
+\begin{document}
+
+\title[Game Theory Meets Recommendation]{Game Theory Meets Recommendation: Exact Shapley Credit Assignment over Collaborative, Content, and Contextual Signals}
+
+\author*[1]{\fnm{Mouad} \sur{Louhichi}}\email{mouad\_louhichi@um5.ac.ma}
+
+\author[1]{\fnm{Redwane} \sur{Nesmaoui}}\email{redwane\_nesmaoui@um5.ac.ma}
+
+\author[1]{\fnm{Mohamed} \sur{Lazaar}}\email{mohamed.lazaar@ensias.um5.ac.ma}
+
+\affil*[1]{\orgdiv{National Higher School of Computer Science and Systems Analysis (ENSIAS)}, \orgname{Mohammed V University in Rabat}, \orgaddress{\city{Rabat}, \country{Morocco}}}
+
+%%==================================%%
+%% Abstract: Discover AI asks for 150--250 words, unstructured,
+%% no citations, no equations. Current length ~215 words.
+%%==================================%%
+
+\abstract{Hybrid recommender systems combine collaborative, content, popularity, temporal, and sequential signals into a single ranking, yet practitioners have no principled account of which source earns the resulting accuracy. The prevailing answer---remove one source and measure the drop---is misleading whenever sources are redundant, a condition that is the norm rather than the exception in recommendation, because two mutually substitutable sources each receive zero credit. We recast hybrid recommendation as a cooperative game in which the players are the signal sources and the characteristic function is ranking quality, and we compute the exact Shapley allocation. The player set is small by construction, so no sampling approximation is required, and because the base scorers are trained once while only a lightweight fusion layer is refitted per coalition, the full game costs seconds. We show that efficiency yields an exact additive decomposition of ranking-quality uplift, that leave-one-out collapses to zero under perfect redundancy where the Shapley value splits credit evenly, and that linearity makes per-user attribution available at no additional cost. Aggregating per-user attributions into behavioural segments shows that global source credit conceals opposing segment-level stories. Exploiting this, segment-adaptive fusion weights improve ranking quality over a globally tuned hybrid at no additional inference cost. Experiments span a dense and a sparse benchmark. \tbd{insert two headline numbers once experiments complete}}
+
+%% Discover AI requests 3--6 keywords.
+\keywords{Shapley value, Cooperative game theory, Explainable AI, Recommender systems, Credit assignment, User segmentation}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}\label{sec1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Flat, no subheadings: required by the Springer template and matching
+%% the introductions of [louhichi2023, louhichi2025, louhichi2026].
+%% Closes with a numbered contributions list and a roadmap paragraph.
+
+Deployed recommender systems are almost never a single model. They are hybrids that combine a collaborative signal learned from interaction co-occurrence, a content signal derived from item metadata, a popularity prior, a temporal or recency signal, and a sequential signal that conditions on what the user did last \cite{burke2002}. Each of these arrives through its own pipeline and each carries its own running cost. A content signal requires metadata ingestion, cleaning, and reconciliation across catalogue updates. A sequential model requires session logging and low-latency access to recent state. A collaborative model requires an interaction store and periodic retraining. A team maintaining five such pipelines operates under a fixed engineering budget and must decide which of them deserves that budget, yet has no defensible basis on which to decide, because the accuracy of the hybrid is reported as a single number that no one knows how to divide.
+
+This is a question about credit, and it is not the question that explainable recommendation has been answering. That literature has concentrated, with considerable success, on explaining \emph{why a particular item was shown to a particular user}: item-level justifications, knowledge-graph paths, counterfactual statements, and review-derived rationales, all aimed at the end user who receives the recommendation \cite{zhang2020}. The audience we address is different. It is the system owner, who does not ask why an item appeared but rather \emph{which part of my system is producing the value I am paying for}. That audience is essentially unserved, and the gap is easy to state: existing explanation targets are items and features, whereas the object the system owner reasons about is the signal source.
+
+The obvious way to answer the question is ablation. Remove one source, retrain or refit, and measure how far ranking quality falls. This is standard practice and it is wrong in a way that matters specifically in recommendation. Suppose the content signal and the collaborative signal happen to rank the same items highly for a given user. Deleting either one alone changes almost nothing, because the other continues to supply the same ordering, so ablation reports that \emph{neither source matters}. Deleting both is catastrophic. Leave-one-out therefore assigns near-zero credit to sources that are jointly load-bearing, and the sum of its verdicts bears no particular relation to the total quality it is trying to explain. Redundancy of exactly this kind is the norm in recommendation rather than the exception: popularity signals leak into collaborative embeddings \cite{abdollahpouri2019,cremonesi2010}, content and collaborative signals converge on the same catalogue neighbourhoods, and static and time-weighted popularity are two views of one underlying quantity. Proposition~\ref{prop2} makes this failure precise.
+
+Cooperative game theory supplies the correction, and supplies it with axioms rather than heuristics. The Shapley value \cite{shapley1953} allocates credit so that the allocation is efficient, symmetric, additive, and assigns nothing to a null player; efficiency in particular guarantees that the shares sum exactly to the quantity being explained, which is the property ablation lacks. The Shapley value has become the dominant formal instrument in explainable machine learning through SHAP and its descendants \cite{lundberg2017,lundberg2020,covert2021,li2024shapley}, and it underpins the present authors' prior work on explaining clustering \cite{louhichi2023,louhichi2025} and on cooperative allocation in recommendation \cite{louhichi2026,nesmaoui2025}.
+
+The standing objection to Shapley-based explanation is cost. Exact computation requires evaluating $2^{n}$ coalitions, which is why the literature has invested so heavily in sampling estimators \cite{castro2009,strumbelj2010} and why the authors' own prior work on temporal explanation stability adopted a Monte-Carlo approximation \cite{nesmaoui2026drift}. We observe that this objection is not a property of the Shapley value but of the choice to make \emph{features} the players. When the players are \emph{signal sources}, the player set is small by construction: a hybrid with five sources induces thirty-two coalitions. Combined with an architecture in which base scorers are trained once and only a lightweight fusion layer is refitted per coalition, the exact allocation becomes not merely tractable but cheap---cheaper, as Section~\ref{subsec3_10} shows, than training the recommender it explains. The contributions are as follows.
+
+\begin{enumerate}
+\item \textbf{A cooperative game over signal sources.} We formalize hybrid recommendation as a transferable-utility game whose players are signal sources rather than features or items, and whose characteristic function is ranking quality measured against a null ranker. Because the player set is small by construction, the Shapley allocation is computed exactly, with no Monte-Carlo estimation and no approximation error to bound.
+
+\item \textbf{Three short results that make the allocation usable.} Efficiency yields an exact additive decomposition of ranking-quality uplift into per-source shares (Proposition~\ref{prop1}). Under perfect redundancy, leave-one-out assigns zero to both members of a redundant pair while the Shapley value splits the credit evenly, which identifies formally the failure mode motivating this work (Proposition~\ref{prop2}). Linearity of the Shapley operator over a per-user-mean characteristic function makes per-user attribution available at no computational cost beyond the global game (Proposition~\ref{prop3}).
+
+\item \textbf{Segment-level source profiles.} Aggregating per-user attributions over behavioural segments shows that global source credit is an average over heterogeneous and sometimes opposing populations. We quantify the heterogeneity with a permutation test and identify the segments in which the global ordering inverts.
+
+\item \textbf{Segment-adaptive fusion.} We use the segment profiles to set per-segment fusion weights, converting an explanation into a measurable improvement in ranking quality at no additional inference cost, since segment assignment is a table lookup.
+
+\item \textbf{A reproducible artifact.} All five sources are standard published methods with public implementations, base scorers are trained once and cached, and the entire game runs on a laptop CPU. Code and configurations are released.
+\end{enumerate}
+
+The remainder of the paper is organized as follows. Section~\ref{sec2} reviews hybrid recommendation, explainable recommendation, Shapley-based attribution, cooperative games over model components, and heterogeneous explanation, closing with a positioning table. Section~\ref{sec3} presents the source-attribution game, the fusion architecture that makes it cheap, the per-user and per-segment decomposition, segment-adaptive fusion, the theoretical justification, and a complexity analysis. Section~\ref{sec4} reports the experimental protocol and results against four research questions. Section~\ref{sec5} discusses what the attributions imply for system design, and Section~\ref{sec6} concludes.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Literature review}\label{sec2}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Thematic subsections, each closing on an explicit gap sentence,
+%% following the pattern of [louhichi2025] and [nesmaoui2026drift].
+
+\subsection{Hybrid recommendation and score-level fusion}\label{subsec2_1}
+
+Burke's taxonomy of hybridization \cite{burke2002} distinguishes weighted, switching, cascade, feature-combination, and meta-level designs. Of these, the weighted or score-level pattern---in which each component produces a score and a fusion stage combines them---has become the dominant production architecture, in part because it decouples component development from combination logic and in part because it composes naturally with the two-stage retrieval-then-ranking pipelines used at scale \cite{covington2016}. The components themselves are well studied in isolation: matrix factorization and its implicit-feedback variants \cite{koren2009,rendle2009}, content-based similarity over item descriptors \cite{salton1988}, popularity baselines whose competitiveness on top-$N$ tasks is a recurring finding \cite{cremonesi2010}, and sequential models from Markov chains \cite{rendle2010} to self-attention \cite{kang2018}.
+
+Score-level fusion is also the pattern that makes source-level ablation well defined, since a source can be withheld from the combination without redesigning the architecture, and this is why we adopt it. \emph{The gap: this literature optimizes fusion weights extensively but never asks what each fused source contributes to the result.}
+
+\subsection{Explainability in recommender systems}\label{subsec2_2}
+
+Explainable recommendation is a mature field with its own survey literature \cite{zhang2020}. Its methods generate post-hoc item-level justifications, trace paths through knowledge graphs, produce counterfactual statements about what would have changed a recommendation, or surface review text as evidence. What unites them is the audience: all are addressed to the end user, and all take an individual recommendation as the unit of explanation.
+
+\emph{The gap: the system-owner audience, whose unit of explanation is the architectural component rather than the recommended item, is not addressed.}
+
+\subsection{Shapley values in machine learning and explainable AI}\label{subsec2_3}
+
+The Shapley value \cite{shapley1953} entered machine learning as a principled answer to feature attribution, formalized in the SHAP family \cite{lundberg2017} and extended to tractable model classes \cite{lundberg2020} and to a general removal-based framework \cite{covert2021} that also subsumes earlier surrogate-based explainers such as LIME \cite{ribeiro2016}. Recent surveys consolidate its axiomatic appeal and catalogue its practical limitations \cite{li2024shapley}. The dominant limitation is computational: exact evaluation is exponential in the number of players, which has motivated a substantial line of sampling estimators \cite{castro2009,strumbelj2010}.
+
+The authors' prior work sits on both sides of this trade-off. Feature-level Shapley attribution over clustering surrogates \cite{louhichi2023,louhichi2025} accepts the feature player set and the approximation it entails, while work on temporal explanation stability \cite{nesmaoui2026drift} adopts Monte-Carlo estimation explicitly because exact computation over features is infeasible.
+
+\emph{The gap: the computational objection is treated as intrinsic to the Shapley value, when it is a consequence of the choice of player set.}
+
+\subsection{Cooperative games over components, data, and features}\label{subsec2_4}
+
+A parallel line of work replaces features with other players. Data Shapley values individual training points \cite{ghorbani2019}. Structured player sets are handled by the Owen value when players form a priori unions \cite{owen1977} and by the Myerson value when cooperation is restricted by a graph \cite{myerson1977}; the authors have applied graph- and hypergraph-restricted allocation to preference modelling \cite{louhichi2026} and to real-time contribution adjustment in dynamic recommenders \cite{nesmaoui2025}.
+
+\emph{The gap: the signal source is a natural player set for hybrid systems, and it has not been instantiated.}
+
+\subsection{User segmentation and heterogeneous explanation}\label{subsec2_5}
+
+Clustering has long been used to model user populations, and it is well recognized that a global explanation is an average over a population that may not be homogeneous. The authors' clustering-plus-Shapley line \cite{louhichi2023,louhichi2025} establishes the precedent for treating segments as the explanatory unit rather than as a preprocessing step.
+
+Most directly related is the authors' work on explanation drift \cite{nesmaoui2026drift}, which defines temporal attribution divergence, an explanation stability score, and an explanation half-life to measure whether Shapley attributions remain consistent as a model is updated. The relationship to the present work is worth stating precisely, because the two are complementary rather than competing: that paper asks whether attributions are stable \emph{across time} for a fixed unit of attribution, whereas this paper asks whether they are stable \emph{across the population} at a fixed point in time. They are orthogonal axes on the same object.
+
+\emph{The gap: population heterogeneity in attribution has not been measured for architectural components, nor exploited to improve the system.}
+
+\subsection{Positioning}\label{subsec2_6}
+
+Table~\ref{tab1} places this work against representative alternatives along four axes: the unit to which credit is assigned, whether the allocation carries an axiomatic guarantee, whether it is exact or approximate, whether it is heterogeneity-aware, and whether it closes the loop from explanation back to system improvement.
+
+\begin{table}[t]
+\caption{Positioning against representative prior work. ``Loop'' indicates whether the attribution is fed back to improve the system.}\label{tab1}
+\begin{tabular}{@{}llllll@{}}
+\toprule
+Method family & Unit & Axiomatic & Exact & Heterogeneity & Loop \\
+\midrule
+Item-level explainable rec.\ \cite{zhang2020}   & item     & no  & n/a & no  & no  \\
+Feature SHAP \cite{lundberg2017,lundberg2020}   & feature  & yes & no  & no  & no  \\
+Data Shapley \cite{ghorbani2019}                & datum    & yes & no  & no  & partial \\
+Clustering + Shapley \cite{louhichi2023,louhichi2025} & feature & yes & no & partial & no \\
+Cooperative rec.\ \cite{louhichi2026,nesmaoui2025} & node/edge & yes & no & no & yes \\
+Explanation drift \cite{nesmaoui2026drift}      & feature  & yes & no  & no (temporal) & yes \\
+Ablation / leave-one-out                        & source   & no  & yes & no  & no  \\
+\textbf{SignalShap (this work)}                 & \textbf{source} & \textbf{yes} & \textbf{yes} & \textbf{yes} & \textbf{yes} \\
+\botrule
+\end{tabular}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Methodology}\label{sec3}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Notation and problem formulation}\label{subsec3_1}
+
+Let $\Uset$ and $\Iset$ denote the user and item sets. A hybrid recommender draws on a set of signal sources $\Gset=\{g_1,\dots,g_K\}$ with $K=5$; these are the players of our game. Source $g$ assigns a score $s_g(u,i)$ to each user--item pair. For a coalition $C\subseteq\Gset$, $f_\theta^{C}$ denotes the fusion model refitted using only the sources in $C$, and $v(C)$ the ranking quality it attains. We write $\varphi_g$ for the Shapley value of source $g$ and $\varphi_g(u)$ for its per-user counterpart, $\mathcal{S}_1,\dots,\mathcal{S}_M$ for user segments, and $\pi$ for a null ranker that orders each user's candidates uniformly at random under a fixed seed. Table~\ref{taba1} in Appendix~\ref{secA1} collects the notation.
+
+The problem is to allocate the ranking quality of the full hybrid among the five sources, in a way that (i) sums exactly to the quality being explained, (ii) does not collapse under redundancy between sources, and (iii) can be resolved at the level of user segments rather than only globally.
+
+\subsection{The five signal sources}\label{subsec3_2}
+
+Each source is a standard, independently published method. Nothing in this subsection is novel, and that is deliberate: the contribution is the game, not the players. Table~\ref{tab3} lists the instantiations together with the operational cost each imposes in production. That final column is not decoration---it is what makes the attribution decision-relevant, and Section~\ref{subsec5_1} returns to it.
+
+\begin{table}[t]
+\caption{The five signal sources, their instantiations, and the operational cost each imposes.}\label{tab3}
+\begin{tabular}{@{}llll@{}}
+\toprule
+$g$ & Source & Instantiation & Production cost \\
+\midrule
+CF  & Collaborative & BPR-MF, 64 factors \cite{rendle2009}    & interaction store, retraining \\
+CB  & Content       & TF--IDF cosine similarity \cite{salton1988} & metadata ingestion, cleaning \\
+POP & Popularity    & $\log(1+\text{interaction count})$      & negligible \\
+REC & Recency       & time-decayed interaction count          & event timestamps \\
+SEQ & Sequential    & first-order Markov transitions \cite{rendle2010} & session logging, low-latency state \\
+\botrule
+\end{tabular}
+\end{table}
+
+A demographic source was considered and deliberately excluded. Demographic attributes are available in one of our two benchmarks but not the other, so including such a source would force $K$ to differ across datasets and render the two attribution vectors non-comparable; a uniform player set across every experiment is worth more than an additional player. The credit-versus-exposure trade-off that a privacy-bearing source would raise is a substantive question, and we return to it as future work in Section~\ref{sec6}.
+
+\subsection{The score-level fusion recommender}\label{subsec3_3}
+
+Candidate generation retrieves, for each user, the union of the top-scoring items proposed by each source, truncated to $N=200$ and excluding items already in the user's training history. Each source then scores this candidate list. Scores are z-normalized \emph{per user and per source}---that is, across a single user's candidate list within a single source---so that sources reporting on different scales become commensurable. Fusion is a regularized pairwise logistic ranker over the $K$ normalized scores, trained with Bayesian personalized ranking sampling \cite{rendle2009}.
+
+Two implementation details are load-bearing and are therefore fixed here rather than left to the appendix. First, if a source returns an identical value for every item in a user's candidate list, its per-user standard deviation is zero and the normalization is undefined. This is not hypothetical: content similarity returns a constant column for a user whose candidates share no metadata with their history, which is routine for cold users on a sparse catalogue. We set the normalized column to zero in that case, which is the semantically correct answer because a constant column carries no ranking information for that user, and we prefer it to adding a small constant to the denominator, which would instead amplify floating-point noise into a spurious ranking signal. The rate at which this fallback fires is reported per source and per dataset.
+
+Second, and critically for cost: \textbf{base scorers are trained exactly once}. A coalition $C$ is realized by withholding the score columns outside $C$ and refitting only the fusion layer. Because the fusion objective is convex and separable in the weight of an withheld column, withholding and zeroing are equivalent for the retained sources; we withhold to keep the design matrix small.
+
+Masking a source at the fusion stage removes its contribution to the combination but not its influence on candidate generation. We pre-commit to fixing the candidate set from the grand coalition and reusing it for all $2^K$ coalitions, which keeps the retrieval ceiling identical across coalitions and makes the $v(C)$ values directly comparable. The alternative---regenerating candidates per coalition---is more faithful but changes the ceiling coalition by coalition and renders $v$ non-monotone; we report it as a robustness check in Appendix~\ref{secA4}.
+
+\subsection{The source-attribution game}\label{subsec3_4}
+
+\begin{definition}[Source-attribution game]\label{def1}
+The source-attribution game is the pair $(\Gset,v)$ with
+\begin{equation}\label{eq1}
+v(C) \;=\; \NDCG\!\left(f_\theta^{C}\right) \;-\; \NDCG(\pi),
+\end{equation}
+where $f_\theta^{\emptyset}\equiv\pi$, so that $v(\emptyset)=0$.
+\end{definition}
+
+Two choices in Definition~\ref{def1} deserve comment. Subtracting the null ranker converts the grand-coalition value into an \emph{uplift} over chance, which is the quantity a system owner actually cares about; we fix the seed of $\pi$ and report its attained quality so that the subtraction is auditable. Defining the empty coalition to \emph{be} the null ranker closes what would otherwise be a small formal gap, since a fusion over no sources is not defined and $v(\emptyset)=0$ would have to be imposed by fiat.
+
+\begin{definition}[Source Shapley value]\label{def2}
+The Shapley value of source $g$ is
+\begin{equation}\label{eq2}
+\varphi_g \;=\; \sum_{C\subseteq\Gset\setminus\{g\}}
+\frac{|C|!\,\bigl(K-|C|-1\bigr)!}{K!}\Bigl[v\bigl(C\cup\{g\}\bigr)-v(C)\Bigr].
+\end{equation}
+\end{definition}
+
+\begin{definition}[Normalized source share]\label{def3}
+The normalized share of source $g$ is $\bar\varphi_g=\varphi_g/\sum_{h\in\Gset}\varphi_h$, reported as a percentage.
+\end{definition}
+
+Normalized shares are interpretable as percentages only when every $\varphi_g\ge 0$. We report raw values alongside, and treat a negative Shapley value---a source that in expectation harms ranking---as a finding to be reported rather than a nuisance to be hidden.
+
+\subsection{Exact computation and why it is affordable}\label{subsec3_5}
+
+With $K=5$ there are $2^K=32$ coalitions, each requiring one refit of the fusion layer over precomputed score columns. The exactness is a consequence of the design decision to make sources the players, not a lucky property of these particular datasets: any system that fuses a handful of sources inherits it. Algorithms~\ref{alg1} and \ref{alg2} give the procedure.
+
+\begin{algorithm}[t]
+\caption{Score caching and coalition sweep}\label{alg1}
+\begin{algorithmic}[1]
+\Require Training interactions, item metadata, sources $\Gset$, candidate size $N$
+\Ensure Coalition values $\{v(C)\}_{C\subseteq\Gset}$
+\For{each source $g\in\Gset$}
+  \State Fit $g$ on training data \Comment{once only}
+\EndFor
+\State Build candidate set per user as the union of source top-lists, truncated to $N$
+\For{each source $g\in\Gset$}
+  \State Score all candidates and cache; z-normalize per user, zeroing constant columns
+\EndFor
+\For{each coalition $C\subseteq\Gset$}
+  \If{$C=\emptyset$} \State $v(C)\gets 0$
+  \Else
+    \State Refit fusion $f_\theta^{C}$ on the cached columns of $C$
+    \State $v(C)\gets \NDCG(f_\theta^{C})-\NDCG(\pi)$
+  \EndIf
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[t]
+\caption{Shapley aggregation and per-user decomposition}\label{alg2}
+\begin{algorithmic}[1]
+\Require Coalition values $\{v(C)\}$ and per-user values $\{v_u(C)\}$
+\Ensure Global shares $\{\varphi_g\}$ and per-user shares $\{\varphi_g(u)\}$
+\For{each source $g\in\Gset$}
+  \State $\varphi_g \gets \sum_{C\subseteq\Gset\setminus\{g\}} w(|C|)\,[\,v(C\cup\{g\})-v(C)\,]$
+  \For{each user $u\in\Uset$}
+    \State $\varphi_g(u) \gets \sum_{C\subseteq\Gset\setminus\{g\}} w(|C|)\,[\,v_u(C\cup\{g\})-v_u(C)\,]$
+  \EndFor
+\EndFor
+\State \textbf{assert} $\sum_g \varphi_g = v(\Gset)$ \Comment{efficiency; correctness audit}
+\State \textbf{assert} $|\Uset|^{-1}\sum_u \varphi_g(u) = \varphi_g$ for all $g$
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Per-user and per-segment decomposition}\label{subsec3_6}
+
+Let $v_u(C)$ be the quantity of Equation~\eqref{eq1} restricted to user $u$, so that $v(C)=|\Uset|^{-1}\sum_u v_u(C)$. Proposition~\ref{prop3} then yields per-user Shapley values from the same $32$ refits, with no additional coalition evaluations.
+
+These per-user values are exact with respect to the game as defined, but they are coarse as estimates, and the paper does not overstate them. Under the leave-one-out protocol of Section~\ref{subsec4_1} each user contributes a single held-out item, so $v_u(C)$ takes one of only about eleven values, and whether a user's item lands at rank ten or eleven flips it between $1/\log_2 11$ and zero. We therefore report segment aggregates as the primary result and treat individual-user attributions as an intermediate quantity: averaging over a segment is what restores stability.
+
+We construct segments in two ways. \emph{Behavioural} segments are formed from activity level and profile statistics. \emph{Attribution} segments are formed by clustering the per-user vectors $\varphi(u)$ directly. If the two disagree, then attribution is not reducible to observable behaviour, which is a substantive observation. Because that claim is exactly the kind that can arise from clustering noise, we validate it with the permutation test of Section~\ref{subsec4_5} and report cluster stability across seeds using the adjusted Rand index \cite{hubert1985}.
+
+\subsection{Segment-adaptive fusion}\label{subsec3_7}
+
+If source credit varies across segments, then a single global set of fusion weights is leaving value on the table. We fit weights per segment and shrink them toward the global solution,
+\begin{equation}\label{eq3}
+\theta_m \;=\; (1-\lambda)\,\theta_{\text{global}} \;+\; \lambda\,\theta_{\mathcal{S}(m)},
+\qquad \lambda\in[0,1],
+\end{equation}
+so that $\lambda=0$ recovers the globally tuned hybrid exactly and the comparison is nested. Inference cost is unchanged, because segment assignment is a table lookup.
+
+Segments are fitted on training users only, and the reported improvement is measured on held-out users assigned to segments by the frozen segmenter. We state this in the methodology rather than the appendix because it is the obvious place for such a comparison to become circular.
+
+\subsection{Comparison with alternative attributions}\label{subsec3_8}
+
+Table~\ref{tab5} in Section~\ref{subsec4_4} reports the empirical comparison; here we state what each alternative measures and where it fails. \emph{Leave-one-out} measures the marginal loss from removing a source from the grand coalition alone. It ignores every other coalition, violates efficiency, and collapses under redundancy (Proposition~\ref{prop2}). \emph{Forward selection} measures the marginal gain of adding a source to the empty coalition, and symmetrically over-credits redundant sources rather than under-crediting them. \emph{Permutation importance} shuffles a source's score column and is sensitive to the same redundancy pathology. \emph{Monte-Carlo Shapley} \cite{castro2009,strumbelj2010} targets the same estimand as our exact computation but introduces sampling variance for no benefit when $2^K$ evaluations are affordable. \emph{Feature-level SHAP applied to the fusion layer} answers a genuinely different question---how the fusion weights respond to normalized score values---and is reported for completeness rather than as a competitor.
+
+\subsection{Theoretical justification}\label{subsec3_9}
+
+\begin{proposition}[Exact additive decomposition]\label{prop1}
+$\sum_{g\in\Gset}\varphi_g = v(\Gset) = \NDCG(f^{\Gset}_\theta)-\NDCG(\pi)$.
+\end{proposition}
+
+This is immediate from the efficiency axiom, and its value is interpretive rather than mathematical: every point of ranking-quality uplift over chance is assigned to exactly one source, with no residual and no normalization step.
+
+\begin{proposition}[Redundancy collapse of leave-one-out]\label{prop2}
+Let $g_1,g_2\in\Gset$ be perfectly redundant, in the sense that
+$v(C\cup\{g_1\})=v(C\cup\{g_2\})=v(C\cup\{g_1,g_2\})$
+for every $C\subseteq\Gset\setminus\{g_1,g_2\}$. Then
+\begin{equation}\label{eq4}
+\LOO(g_1)=\LOO(g_2)=0,
+\qquad
+\varphi_{g_1}=\varphi_{g_2}=\tfrac{1}{2}\bigl[v(\Gset)-v(\Gset\setminus\{g_1,g_2\})\bigr].
+\end{equation}
+\end{proposition}
+
+Proposition~\ref{prop2} is the theoretical centre of the paper. It converts the informal argument of Section~\ref{sec1} into a statement: two sources that jointly carry a large share of the system's quality can both be assigned exactly zero by ablation, while the Shapley value divides their joint contribution evenly between them. Proofs are in Appendix~\ref{secA1}.
+
+\begin{proposition}[Free per-user decomposition]\label{prop3}
+If $v=|\Uset|^{-1}\sum_{u}v_u$, then $\varphi_g=|\Uset|^{-1}\sum_{u}\varphi_g(u)$.
+\end{proposition}
+
+This follows from linearity of the Shapley operator in the characteristic function, and it is what makes the segment analysis of Section~\ref{subsec4_5} a re-reading of the existing coalition sweep rather than a second experiment.
+
+\begin{remark}[Scale invariance]\label{rem1}
+Because each source's scores are z-normalized per user before fusion, replacing a source's raw scores by $as+b$ with $a>0$ leaves the normalized values pointwise unchanged and therefore leaves every $\varphi_g$ unchanged.
+\end{remark}
+
+Remark~\ref{rem1} answers the natural question of whether the shares are an artifact of the units in which each source happens to report---raw probabilities against log-odds against arbitrary similarity scales. We are careful not to claim more. Z-normalization is a location-scale operation: it cancels affine maps exactly, but it does not undo a nonlinear monotone reshaping, which changes the spacing and tail behaviour of a source's score distribution even when the within-source item order is preserved. Because fusion operates on normalized \emph{values} rather than ranks, such a reshaping can shift the fitted weights and hence the allocation. We therefore measure the nonlinear case empirically in Section~\ref{subsec4_7} instead of asserting invariance to it.
+
+\subsection{Complexity analysis}\label{subsec3_10}
+
+Let $B$ denote the cost of training one base scorer, $\Phi$ the cost of one fusion refit over cached columns, and $P=|\Uset|\cdot N$ the number of cached scores per source. The stages compose as in Table~\ref{tab9}.
+
+\begin{table}[t]
+\caption{Complexity of the source-attribution game. The one-time base-scorer term dominates.}\label{tab9}
+\begin{tabular}{@{}lll@{}}
+\toprule
+Stage & Cost & Note \\
+\midrule
+Base scorers            & $O(KB)$        & paid once, not per coalition \\
+Score caching           & $O(KP)$ memory & the enabling design choice \\
+Coalition sweep         & $O(2^{K}\Phi)$ & $32\Phi$; $\Phi$ is a small convex fit \\
+Shapley aggregation     & $O(K2^{K})$    & arithmetic only \\
+Per-user decomposition  & no extra sweep & free by Proposition~\ref{prop3} \\
+\botrule
+\end{tabular}
+\end{table}
+
+Total cost is $O(KB+2^{K}\Phi)$ and is dominated by the one-time $KB$ term, so \textbf{the attribution is cheaper than training the recommender it explains}. The contrast with feature-level attribution is instructive. Applying exact Shapley over features would cost $O(2^{|F|})$, which is precisely why the authors' prior work on explanation drift adopts Monte-Carlo estimation with $M$ sampled permutations at $O(|\mathcal{B}|M|F|)$ per batch \cite{nesmaoui2026drift}. Moving the players from features to sources removes the constraint rather than approximating around it, and with it removes the sampling variance that such estimators must bound. Measured wall-clock is reported in Section~\ref{subsec4_2}.
+
+\subsection{Practical implementation}\label{subsec3_11}
+
+\tbd{fill library versions, seeds, and hardware from the final run}. Hyperparameters are listed in Table~\ref{tab10}. Three conventions established above are restated here because each is a place where the pipeline could silently drift: the zero-column fallback of Section~\ref{subsec3_3}, the choice of monotone transform in Section~\ref{subsec4_7}, and the identification $f_\theta^{\emptyset}\equiv\pi$. The full game is reproducible on a laptop CPU with no GPU requirement.
+
+\begin{table}[t]
+\caption{Hyperparameter configuration.}\label{tab10}
+\begin{tabular}{@{}ll@{}}
+\toprule
+Parameter & Value \\
+\midrule
+Candidate set size $N$              & 200 \\
+CF latent factors                   & 64 \\
+CF regularization / learning rate   & 0.01 / 0.01 \\
+REC half-life $\tau$                & 30 days \\
+Fusion regularization $C$           & 1.0 \\
+Pairs sampled per user              & 10 \\
+Number of segments $M$              & \tbd{selected} \\
+Shrinkage $\lambda$                 & swept over $[0,1]$ \\
+Random seeds                        & 5 \\
+\botrule
+\end{tabular}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Experimental results}\label{sec4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Setup and results combined, per the IJACSA structure.
+%% EVERY NUMBER IN THIS SECTION IS A PLACEHOLDER.
+
+The evaluation addresses four research questions. \textbf{RQ1}: can hybrid recommendation be posed as a cooperative game over signal sources whose Shapley allocation exactly decomposes ranking-quality uplift? \textbf{RQ2}: does source attribution differ from what leave-one-out reports, and is the difference explained by redundancy? \textbf{RQ3}: is source attribution homogeneous across the user population? \textbf{RQ4}: can attribution be converted back into an improvement?
+
+\subsection{Datasets and preprocessing}\label{subsec4_1}
+
+We use two public benchmarks, MovieLens-1M \cite{harper2015} and the Books category of the Amazon Reviews corpus \cite{ni2019}. These are the same two benchmarks as our prior work on cooperative recommendation \cite{louhichi2026}, which allows the source-level attribution reported here to be read against architecture-level results already published on the same data. They were originally chosen for \emph{contrast rather than coverage}: they differ in interaction density by roughly two orders of magnitude, which is precisely the axis along which source attribution is expected to move. Both carry all five sources, so $K=5$ uniformly and the two attribution vectors are directly comparable.
+
+Interactions are binarized at a rating threshold of four, 5-core filtering is applied iteratively to a fixed point, and each user's final interaction is held out for testing with the penultimate one held out for validation. Ties in the day-resolution Amazon timestamps are broken deterministically by original record order.
+
+One preprocessing decision requires explicit disclosure, because it departs from the split most readers will assume. The Amazon-Book split in common circulation---the one distributed with the graph-collaborative-filtering literature and used in our own prior work \cite{louhichi2026}---consists of anonymized user--item index pairs under a fixed random partition, carrying no ratings, no timestamps, and no item metadata. Three of our five sources cannot be built from it: the recency source requires timestamps, the sequential source requires interaction order, and the content source requires item text. Neither can the temporal holdout protocol. We therefore rebuild the split from the raw Amazon Reviews 2018 Books corpus and its accompanying metadata file \cite{ni2019}, which retain all three. Because that corpus is far too large for the score-caching design of Section~\ref{subsec3_3} to remain laptop-feasible, we subsample to approximately \tbd{n} users under a fixed seed by \tbd{state the sampling scheme: uniform, snowball, or time-window} and re-apply the 5-core filter afterwards. The resulting statistics therefore do not reproduce, and are not intended to reproduce, the canonical counts. Table~\ref{tab2} reports what our pipeline actually produces.
+
+\begin{table}[t]
+\caption{Dataset statistics after subsampling and iterative 5-core filtering. Counts are from our own preprocessing and are not comparable to the canonical Amazon-Book split, for the reasons given in the text.}\label{tab2}
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+Dataset & Users & Items & Interactions & Density & Recall@$N$ \\
+\midrule
+MovieLens-1M   & \tbd{n} & \tbd{n} & \tbd{n} & \tbd{n} & \tbd{n} \\
+Amazon-Book    & \tbd{n} & \tbd{n} & \tbd{n} & \tbd{n} & \tbd{n} \\
+\botrule
+\end{tabular}
+\end{table}
+
+The final column of Table~\ref{tab2} deserves emphasis because it bounds everything that follows. A user whose held-out item is not retrieved into the candidate set scores zero for \emph{every} coalition, and no fusion weighting can recover them; the candidate recall is therefore an upper bound on every ranking-quality figure in this paper. We report it before any attribution result so that the reader can calibrate accordingly.
+
+\subsection{Protocol, metrics, and baselines}\label{subsec4_2}
+
+Ranking quality is measured by NDCG@10 \cite{jarvelin2002}, which defines the characteristic function, with Recall@20 and MRR reported alongside. The null ranker attains \tbd{value}, which is subtracted throughout per Definition~\ref{def1}.
+
+As recommender baselines we report each source in isolation, uniform-weight fusion, globally tuned fusion, and a strong single-model reference (\tbd{LightGCN \cite{he2020} or SASRec \cite{kang2018} --- select and justify}). The single-model reference is not optional: without it, a reviewer may reasonably object that allocating credit within a weak system is uninteresting. As attribution baselines we report leave-one-out, forward selection, permutation importance, and Monte-Carlo Shapley at matched budget.
+
+Wall-clock for the complete game is \tbd{value} per dataset on \tbd{hardware}, against \tbd{value} to train the five base scorers, confirming the analysis of Section~\ref{subsec3_10}. Figure~\ref{fig1} summarizes the pipeline from source scoring through to the coalition sweep.
+
+\begin{figure}[t]
+\centering
+\figph{architecture --- five sources feeding candidate generation, per-user normalization, fusion, and the coalition sweep that yields the attribution game}
+\caption{Architecture of the source-attribution framework.}\label{fig1}
+\end{figure}
+
+\subsection{RQ1 --- exact source attribution}\label{subsec4_3}
+
+Table~\ref{tab4} reports the Shapley value and normalized share of each source on both datasets, with the efficiency identity of Proposition~\ref{prop1} verified numerically; Figure~\ref{fig2} shows the same shares graphically. That final row is a correctness audit and costs nothing to include.
+
+\begin{table}[t]
+\caption{Source Shapley values and normalized shares. The efficiency row verifies Proposition~\ref{prop1} numerically.}\label{tab4}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+& \multicolumn{2}{c}{MovieLens-1M} & \multicolumn{2}{c}{Amazon-Book} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+Source & $\varphi_g$ & $\bar\varphi_g$ (\%) & $\varphi_g$ & $\bar\varphi_g$ (\%) \\
+\midrule
+CF   & \tbd{n} & \tbd{n} & \tbd{n} & \tbd{n} \\
+CB   & \tbd{n} & \tbd{n} & \tbd{n} & \tbd{n} \\
+POP  & \tbd{n} & \tbd{n} & \tbd{n} & \tbd{n} \\
+REC  & \tbd{n} & \tbd{n} & \tbd{n} & \tbd{n} \\
+SEQ  & \tbd{n} & \tbd{n} & \tbd{n} & \tbd{n} \\
+\midrule
+$\sum_g\varphi_g$ & \tbd{n} & 100.0 & \tbd{n} & 100.0 \\
+$v(\Gset)$        & \tbd{n} & --- & \tbd{n} & --- \\
+\botrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\figph{normalized source shares per dataset, grouped bars}
+\caption{Normalized source shares $\bar\varphi_g$ on both datasets.}\label{fig2}
+\end{figure}
+
+\tbd{Write the narrative once numbers exist. The pre-registered expectation is that the ordering inverts between the dense and sparse benchmarks, with the collaborative source dominant on MovieLens and content plus popularity jointly overtaking it on Amazon-Book. Report the actual outcome, including if it contradicts this.}
+
+\subsection{RQ2 --- Shapley versus leave-one-out under redundancy}\label{subsec4_4}
+
+Table~\ref{tab5} places the Shapley allocation beside the three ablation-style alternatives, with a redundancy diagnostic---the rank correlation between source score columns---in the final column. All entries are means over five seeds with standard deviations, since both the Shapley values and the leave-one-out values are computed from trained fusion layers and inherit that training noise.
+
+\begin{table}[t]
+\caption{Attribution methods compared, mean over five seeds. The redundancy column reports the maximum rank correlation between a source and any other source.}\label{tab5}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+Source & $\varphi_g$ & LOO & Forward sel. & Permutation & Max.\ redundancy \\
+\midrule
+CF   & \tbd{n} & \tbd{n} & \tbd{n} & \tbd{n} & \tbd{n} \\
+CB   & \tbd{n} & \tbd{n} & \tbd{n} & \tbd{n} & \tbd{n} \\
+POP  & \tbd{n} & \tbd{n} & \tbd{n} & \tbd{n} & \tbd{n} \\
+REC  & \tbd{n} & \tbd{n} & \tbd{n} & \tbd{n} & \tbd{n} \\
+SEQ  & \tbd{n} & \tbd{n} & \tbd{n} & \tbd{n} & \tbd{n} \\
+\midrule
+Sum  & \tbd{n} & \tbd{n} & \tbd{n} & \tbd{n} & --- \\
+$v(\Gset)$ & \multicolumn{5}{c}{\tbd{n}} \\
+\botrule
+\end{tabular}
+\end{table}
+
+The headline quantity here is the \emph{efficiency gap}: the Shapley shares sum to $v(\Gset)$ by construction, whereas the leave-one-out values have no reason to, and under redundancy they fall short. That shortfall is \tbd{value}, or \tbd{value}\% of the quality being explained, and it conveys the argument more directly than any per-source comparison. Figure~\ref{fig3} plots the two allocations against each other and annotates the sources on which they disagree most.
+
+\begin{figure}[t]
+\centering
+\figph{leave-one-out against Shapley value, one point per source per dataset, annotated where the two disagree most}
+\caption{Leave-one-out versus Shapley allocation.}\label{fig3}
+\end{figure}
+
+We are deliberately careful about what this demonstrates. Real data exhibits approximate rather than perfect redundancy, so the observation is \emph{not} an instance of Proposition~\ref{prop2}, and we do not present it as one. Proposition~\ref{prop2} establishes that the failure mode exists in the idealized case; Table~\ref{tab5} shows the two methods disagreeing on real data in the direction that proposition predicts, with the measured redundancy reported alongside so that the reader can judge how close the empirical situation is to the idealized one. \tbd{If the effect does not appear, report the redundancy levels regardless and say so plainly.}
+
+\subsection{RQ3 --- segment heterogeneity}\label{subsec4_5}
+
+Table~\ref{tab6} reports source shares within each behavioural segment, together with a permutation test for heterogeneity: segment labels are shuffled, the between-segment variance of the shares is recomputed, and the observed statistic is compared against the resulting null distribution. Figure~\ref{fig4} displays the profiles, and Figure~\ref{fig5} the correspondence between the two segmentations.
+
+\begin{table}[t]
+\caption{Source shares by behavioural segment, from the coldest to the heaviest quartile, with a permutation test for heterogeneity.}\label{tab6}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+Segment & CF & CB & POP & REC & SEQ \\
+\midrule
+Q1 (coldest) & \tbd{n} & \tbd{n} & \tbd{n} & \tbd{n} & \tbd{n} \\
+Q2           & \tbd{n} & \tbd{n} & \tbd{n} & \tbd{n} & \tbd{n} \\
+Q3           & \tbd{n} & \tbd{n} & \tbd{n} & \tbd{n} & \tbd{n} \\
+Q4 (heaviest)& \tbd{n} & \tbd{n} & \tbd{n} & \tbd{n} & \tbd{n} \\
+\midrule
+\multicolumn{6}{@{}l}{Permutation test on between-segment variance: $p=$ \tbd{n}} \\
+\multicolumn{6}{@{}l}{Attribution-vs-behavioural segment agreement (adjusted Rand): \tbd{n}} \\
+\botrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\figph{stacked source shares per behavioural segment}
+\caption{Source shares across behavioural segments.}\label{fig4}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\figph{correspondence between attribution segments and behavioural segments}
+\caption{Attribution segments against behavioural segments.}\label{fig5}
+\end{figure}
+
+\tbd{Write once numbers exist. The pre-registered expectation is that cold and light users derive most of their uplift from popularity and content while heavy users derive it from collaborative and sequential signals, so that the global ordering inverts within at least one segment. If the adjusted Rand index is low, the attribution-segment claim is to be dropped rather than defended.}
+
+\subsection{RQ4 --- segment-adaptive fusion}\label{subsec4_6}
+
+Table~\ref{tab7} compares uniform fusion, globally tuned fusion, and segment-adaptive fusion, with the shrinkage sweep of Equation~\eqref{eq3} shown in Figure~\ref{fig6}.
+
+\begin{table}[t]
+\caption{Recommendation quality for the three fusion variants, with per-segment gains for the adaptive variant.}\label{tab7}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Variant & NDCG@10 & Recall@20 & MRR \\
+\midrule
+Single best source        & \tbd{n} & \tbd{n} & \tbd{n} \\
+Uniform fusion            & \tbd{n} & \tbd{n} & \tbd{n} \\
+Global fusion             & \tbd{n} & \tbd{n} & \tbd{n} \\
+Strong single model       & \tbd{n} & \tbd{n} & \tbd{n} \\
+SignalShap-Fuse           & \tbd{n} & \tbd{n} & \tbd{n} \\
+\midrule
+\multicolumn{4}{@{}l}{Gain by segment (NDCG@10, relative)} \\
+\quad Q1 / Q2 / Q3 / Q4   & \multicolumn{3}{c}{\tbd{n} / \tbd{n} / \tbd{n} / \tbd{n}} \\
+\botrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\figph{shrinkage sweep --- NDCG@10 against lambda, overall and per segment}
+\caption{Effect of the shrinkage parameter $\lambda$ on ranking quality.}\label{fig6}
+\end{figure}
+
+The per-segment breakdown matters more than the aggregate. The mechanism predicts large gains where a segment's source profile departs most from the global average and approximate parity where it does not, so the \emph{shape} of the improvement is stronger evidence than its overall magnitude. \tbd{Report both, and do not oversell a modest aggregate.}
+
+\subsection{Sensitivity, stability, and ablations}\label{subsec4_7}
+
+We report the stability of $\varphi$ across five seeds, sensitivity to the candidate-set size $N$, the regenerate-candidates-per-coalition variant, sensitivity to the number of segments $M$, and NDCG@$k$ for $k\in\{5,10,20\}$ to confirm that the allocation is not an artifact of the rank cutoff. Because the Shapley computation is exact, the only source of variance in $\varphi$ is base-scorer training.
+
+Following the discussion of Remark~\ref{rem1}, we additionally apply a rank-preserving but shape-changing transform to each source's scores and re-run the entire game. We use percentile rank within each user's candidate list, applied uniformly to all five sources. This choice is deliberate: a bare logarithm is undefined for the collaborative source, whose raw scores are embedding inner products and therefore unbounded reals, and would fail silently on exactly the source expected to matter most. Percentile rank is domain-safe for every source and exactly rank-preserving. Figure~\ref{fig7} shows the coalition value surface from which all of these quantities are derived.
+
+\begin{figure}[t]
+\centering
+\figph{coalition value surface --- $v(C)$ across all 32 coalitions}
+\caption{Coalition value surface. The full table appears in Appendix~\ref{secA2}.}\label{fig7}
+\end{figure}
+
+\tbd{Report how far the shares move under the transform. Both outcomes are reportable: little movement is an empirical robustness result, and substantial movement is an honest characterization of a sensitivity.}
+
+\subsection{Statistical significance}\label{subsec4_8}
+
+Comparisons are paired over \emph{users}, which is the unit of analysis throughout. We report paired $t$-tests with Holm--Bonferroni correction across the method family \cite{holm1979}, Wilcoxon signed-rank tests as a non-parametric companion, and Cohen's $d_z$ as an effect size. Table~\ref{tab8} collects the results.
+
+\begin{table}[t]
+\caption{Significance tests for the fusion comparison, paired over users, with Holm--Bonferroni correction.}\label{tab8}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Comparison & $\Delta$NDCG@10 & $p$ (raw) & $p$ (Holm) & $d_z$ \\
+\midrule
+SignalShap-Fuse vs.\ global fusion   & \tbd{n} & \tbd{n} & \tbd{n} & \tbd{n} \\
+SignalShap-Fuse vs.\ uniform fusion  & \tbd{n} & \tbd{n} & \tbd{n} & \tbd{n} \\
+Global fusion vs.\ best single source& \tbd{n} & \tbd{n} & \tbd{n} & \tbd{n} \\
+Global fusion vs.\ strong single model& \tbd{n} & \tbd{n} & \tbd{n} & \tbd{n} \\
+\botrule
+\end{tabular}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Discussion and broader implications}\label{sec5}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{What the attributions mean for system design}\label{subsec5_1}
+
+The practical value of the allocation lies in reading it against the cost column of Table~\ref{tab3}. A source with a small share and a high maintenance cost is a decommissioning candidate, and this is the concrete decision the framework enables---one that ablation cannot support, because ablation may report zero for a source that is in fact load-bearing. The sequential source is the sharpest case: it is the most operationally demanding of the five, requiring session logging and low-latency state, so a finding that its share is small on one dataset and large on another is directly actionable engineering guidance rather than an academic observation. \tbd{Lead this subsection with whichever such pattern the results actually show.}
+
+\subsection{Cold start as an attribution phenomenon}\label{subsec5_2}
+
+The segment analysis suggests a reframing of cold start. It is conventionally described as a data problem: a new user has too little history for personalization to work. The segment-level allocation describes it instead as a \emph{shift in which source carries the load}, and measures that shift directly. On this reading, a system does not fail for cold users so much as fall back onto a different subset of its own machinery, and the design question becomes which fallback sources deserve investment rather than how to acquire more data.
+
+\subsection{Relation to feature-level explanation}\label{subsec5_3}
+
+Source attribution and feature attribution answer different questions and compose naturally. Once a source has been identified as load-bearing, feature-level attribution \emph{inside} that source is the natural next level of zoom, and this is precisely where the authors' prior clustering-plus-Shapley work \cite{louhichi2023,louhichi2025} fits as the complementary layer. Similarly, the temporal axis studied in \cite{nesmaoui2026drift} is orthogonal to the population axis studied here, and the two could in principle be combined into a source attribution tracked over a stream.
+
+\subsection{Limitations and threats to validity}\label{subsec5_4}
+
+Several limitations should be stated plainly. Score-level fusion is one hybridization pattern among several, and the method does not transfer unchanged to feature-combination or cascade designs, where the coalition structure is constrained rather than free. Masking a source at fusion time is not equivalent to never having built it, since the candidate set is generated once from the grand coalition; Appendix~\ref{secA4} quantifies the difference. Offline ranking quality is a proxy for deployed value, and the segment-adaptive gains in particular warrant online validation. Five sources is a design choice, and the exactness argument degrades for a system with thirty. The Amazon-Book split is rebuilt and subsampled rather than taken off the shelf, for the reasons set out in Section~\ref{subsec4_1}, so its absolute ranking figures are not comparable with published numbers on the canonical split; the subsample is also a source of variation that our seed protocol does not capture, since the sampling seed is held fixed throughout. The allocation is invariant to how each source scales its scores but not to nonlinear reshaping of them, as quantified in Section~\ref{subsec4_7}. Per-user attributions are exact with respect to the defined game but coarse as estimates, so segments rather than individuals are the reliable unit of explanation. Finally, two datasets, however deliberately contrasted, are two datasets.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusion}\label{sec6}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+We have recast hybrid recommendation as a cooperative game whose players are signal sources rather than features or items, and shown that this single change of player set converts Shapley attribution from an approximation problem into an exact and inexpensive computation. Efficiency yields an additive decomposition of ranking-quality uplift with no residual; leave-one-out, the standard alternative, provably collapses under the redundancy that is endemic to recommendation; and linearity delivers per-user attribution at no additional cost, which we aggregate into segment-level source profiles and then exploit to set segment-adaptive fusion weights that improve ranking quality at unchanged inference cost. \tbd{Insert the headline empirical findings.}
+
+Several directions follow. Replacing z-normalization with per-user percentile-rank normalization would upgrade Remark~\ref{rem1} from affine to full monotone invariance, at the cost of changing what the fusion layer conditions on. A demographic or otherwise privacy-bearing source would make the credit-versus-exposure trade-off the object of study rather than a complication to be avoided. Owen values \cite{owen1977} would apply when sources form a natural hierarchy, such as a collaborative family against a content family, and Myerson values \cite{myerson1977} when the coalition structure is genuinely restricted, as in cascade hybrids where a downstream stage cannot operate without an upstream one. Finally, online or interleaved evaluation would test whether the segment-adaptive gains observed offline survive deployment.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\backmatter
+
+\bmhead{Acknowledgements}
+\tbd{acknowledgements}
+
+\section*{Declarations}
+
+\begin{itemize}
+\item \textbf{Funding.} \tbd{statement}
+\item \textbf{Competing interests.} The authors declare no competing interests.
+\item \textbf{Ethics approval.} Not applicable; the study uses publicly available secondary data with no human participants.
+\item \textbf{Consent to participate / for publication.} Not applicable.
+\item \textbf{Data availability.} Both datasets are public: MovieLens-1M \cite{harper2015} and the Amazon Reviews 2018 corpus \cite{ni2019}. The preprocessing scripts that reproduce our Amazon-Book subsample and split, including the sampling seed, are released with the code.
+\item \textbf{Code availability.} \tbd{repository URL}
+\item \textbf{Author contributions.} \tbd{CRediT statement}
+\item \textbf{Use of AI tools.} \tbd{Declare any use of generative AI for language editing or code debugging, with the authors taking full responsibility for the final content, consistent with the declaration in \cite{nesmaoui2026drift}.}
+\end{itemize}
+
+\begin{appendices}
+
+\section{Proofs and notation}\label{secA1}
+
+\noindent\textbf{Proposition~\ref{prop1}.} The Shapley value satisfies efficiency, so $\sum_{g}\varphi_g=v(\Gset)-v(\emptyset)$. By Definition~\ref{def1}, $v(\emptyset)=0$. \hfill$\square$
+
+\medskip
+\noindent\textbf{Proposition~\ref{prop2}.} \tbd{Write out: leave-one-out is immediate from the hypothesis at $C=\Gset\setminus\{g_1,g_2\}$; the Shapley claim follows because $g_1$ and $g_2$ are symmetric players, so they receive equal shares, and every marginal contribution of the pair beyond $\Gset\setminus\{g_1,g_2\}$ is accounted for by their sum.} \hfill$\square$
+
+\medskip
+\noindent\textbf{Proposition~\ref{prop3}.} The Shapley operator is linear in the characteristic function: for $v=\sum_k \alpha_k v_k$, the value of player $g$ is $\sum_k \alpha_k \varphi_g[v_k]$. Applying this with $\alpha_u=|\Uset|^{-1}$ gives the claim. \hfill$\square$
+
+\medskip
+\noindent\textbf{Remark~\ref{rem1}.} Under $s\mapsto as+b$ with $a>0$, the per-user mean and standard deviation map as $\mu\mapsto a\mu+b$ and $\sigma\mapsto a\sigma$, so the normalized value $(as+b-a\mu-b)/(a\sigma)=(s-\mu)/\sigma$ is unchanged. Every downstream quantity is a function of the normalized values alone. \hfill$\square$
+
+\begin{table}[h]
+\caption{Notation.}\label{taba1}
+\begin{tabular}{@{}ll@{}}
+\toprule
+Symbol & Meaning \\
+\midrule
+$\Uset,\Iset$              & user and item sets \\
+$\Gset=\{g_1,\dots,g_K\}$  & signal sources, the players; $K=5$ \\
+$s_g(u,i)$                 & score assigned to $(u,i)$ by source $g$ \\
+$C\subseteq\Gset$          & a coalition of sources \\
+$f_\theta^{C}$             & fusion model refitted on the sources in $C$ \\
+$v(C)$, $v_u(C)$           & characteristic function, globally and for user $u$ \\
+$\varphi_g$, $\varphi_g(u)$& Shapley value of source $g$, globally and for user $u$ \\
+$\bar\varphi_g$            & normalized source share \\
+$\mathcal{S}_1,\dots,\mathcal{S}_M$ & user segments \\
+$\pi$                      & null ranker, uniform random under a fixed seed \\
+$N$                        & candidate-set size per user \\
+$\lambda$                  & shrinkage toward global fusion weights \\
+\botrule
+\end{tabular}
+\end{table}
+
+\section{Full coalition values}\label{secA2}
+
+\tbd{Table of $v(C)$ for all 32 coalitions, per dataset. This appendix is the transparency showpiece of the paper and is feasible only because the game is exact and small; include it in full rather than summarizing.}
+
+\section{Hyperparameter grids}\label{secA3}
+
+\tbd{Search grids and selected values for each source and for the fusion layer.}
+
+\section{Candidate regeneration robustness}\label{secA4}
+
+\tbd{Results under the regenerate-candidates-per-coalition variant, with the changed retrieval ceiling reported per coalition.}
+
+\section{Per-segment attribution in full}\label{secA5}
+
+\tbd{Complete per-segment tables for both datasets and both segmentations.}
+
+\end{appendices}
+
+\bibliography{signalshap-bibliography}
+
+\end{document}
