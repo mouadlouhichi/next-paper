@@ -13,8 +13,9 @@ def _open_lines(path: str) -> List[str]:
     Read a text file robustly across encodings. MovieLens-1M's `movies.dat`
     contains Latin-1/Windows-1252 accented characters (e.g. 0xe9 = 'é') in some
     movie titles, which crash a naive UTF-8 read. We try UTF-8 first, then
-    fall back to Latin-1 (which never fails and preserves the byte values), then
-    finally replace-undecodable as a last resort.
+    fall back to Latin-1 (which never fails and preserves the byte values).
+    As a final guarantee we decode raw bytes with errors='replace', which can
+    never raise UnicodeDecodeError for any input file.
     """
     for enc in ("utf-8", "latin-1"):
         try:
@@ -22,8 +23,10 @@ def _open_lines(path: str) -> List[str]:
                 return f.readlines()
         except UnicodeDecodeError:
             continue
-    with open(path, encoding="latin-1", errors="replace") as f:
-        return f.readlines()
+    # last-resort: read as bytes and decode leniently (never raises)
+    with open(path, "rb") as f:
+        data = f.read()
+    return data.decode("utf-8", errors="replace").splitlines(keepends=True)
 
 
 def load_ratings(path: str) -> List[Tuple[int, int, float, int]]:
