@@ -1,0 +1,8 @@
+
+# CAVI gate: raw ML-1M data (downloaded, ~20MB) — not committed
+paper-ideas/CAVI/gate/data/ml1m_ratings.dat
+paper-ideas/CAVI/gate/data/ml1m_items.dat
+
+# python caches
+__pycache__/
+*.pyc
