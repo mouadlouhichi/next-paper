@@ -88,10 +88,10 @@ The thesis's *central unmeasured claim* is "actionable insight" (its Definition 
 
 **Partial:** (a) attribution→improvement loops (exist but per-objective: diversity, fairness, routing); (b) uncertainty awareness (unconnected to attribution); (c) recourse in RS (not game-theoretic, not loop-closing).
 
-**Missing (the opportunity):** a *single unified, forward-looking, uncertainty-aware cooperative-game framework* that (i) defines a new allocation over **actionable levers** under a **discounted expected-future-utility** characteristic function, (ii) **generates** both recommendations and **budget-constrained minimal interventions** from one cooperative object, (iii) is **risk/uncertainty-adjusted**, (iv) **closes the loop** into model training so the recommender becomes *action-aware*, and (v) carries **new axioms** (not just new applications). No existing paper — thesis, drafts, or literature — occupies this intersection.
+**Missing (the opportunity):** a *single unified, forward-looking, uncertainty-aware cooperative-game framework* that (i) defines a new allocation over **actionable levers** under a **discounted expected-future-utility** characteristic function, (ii) **generates** both recommendations and **budget-constrained minimal interventions** from one cooperative object, (iii) is **risk/uncertainty-adjusted**, (iv) **closes the loop** into model training so the recommender becomes *action-aware*, and (v) carries a **new forward game with provable properties** (not just a new application of the same backward game). No existing paper — thesis, drafts, or literature — occupies this intersection.
 
 ## 2.3 Where the strongest publication opportunity is
-**Q1 journals (IEEE TKDE / ACM TOIS / Information Fusion / IEEE TNNLS)** reward *new theory* + *feasible, rigorous experiments* + *a clear decision-oriented contribution*. The forward-looking cooperative-action framework below is exactly that: new axioms, a new allocation, a rigorous optimisation layer, uncertainty coupling, and a closed training loop — while reusing the author's validated DyHuCoG backbone, datasets, and protocol.
+**Q1 journals (IEEE TKDE / ACM TOIS / Information Fusion / IEEE TNNLS)** reward *new theory* + *feasible, rigorous experiments* + *a clear decision-oriented contribution*. The forward-looking cooperative-action framework below is exactly that: a new forward game and allocation with provable properties, a rigorous optimisation layer, uncertainty coupling, and a closed training loop — while reusing the author's validated DyHuCoG backbone, datasets, and protocol.
 
 ---
 
@@ -131,7 +131,7 @@ The thesis's *central unmeasured claim* is "actionable insight" (its Definition 
    - **Uncertainty-aware methods** calibrate risk but do not attribute it to actions.
    **No single framework couples cooperative attribution, forward utility, feasibility/budget, uncertainty, recourse generation, and training-time loop-closure.**
 
-4. **No new theory — only new applications.** The existing drafts extend *where* Shapley is applied (sources, interactions, fairness, agents) but reuse the same allocation. A Q1 contribution should define a *new allocation* with *new axioms*, not merely apply Shapley to a new player set.
+4. **No new theory — only new applications.** The existing drafts extend *where* Shapley is applied (sources, interactions, fairness, agents) but reuse the same backward-looking allocation. A Q1 contribution should define a *new forward game* and an allocation with *provable properties*, not merely apply Shapley to a new player set over the same (backward) value function.
 
 ## 3.3 Core Research Question (one central question)
 
@@ -163,9 +163,9 @@ The thesis's *central unmeasured claim* is "actionable insight" (its Definition 
  └───────────────┬──────────────────────────────────────────────────────────┘
                  │ CAV vector + per-lever cost c_i
  ┌───────────────▼──────────────────────────────────────────────────────────┐
- │  (C) Actionable decision layer (minimal-action / recourse)                │
- │      min-cost coalition S* s.t. cost(S*) ≤ B and ΔE[v_t](S*) ≥ Δ*         │
- │      Greedy on φ^μ_i / c_i  (Shapley-guided, (1−1/e) approx if submodular)│
+│  (C) Actionable decision layer (minimal-action / recourse)                │
+│      min-cost coalition S* s.t. cost(S*) ≤ B and ΔE[v_t](S*) ≥ Δ*         │
+│      Greedy on CAV_i / c_i  (risk-adjusted, (1−1/e) approx if submodular) │
  └───────────────┬──────────────────────────────────────────────────────────┘
                  │ recommended list + recommended intervention plan (S*)
  ┌───────────────▼──────────────────────────────────────────────────────────┐
@@ -210,6 +210,16 @@ v_t(∅) = E[... | s_t, do(∅)]   (status-quo baseline),   normalised so v_t(�
 
 > **Why this is new.** The thesis and all drafts evaluate coalitions on *immediate, realised* utility. Here a coalition's worth is the *prospective* value it is expected to create. This is the mathematical embodiment of "actionable intelligence": the game is played over the *future*, not the past.
 
+**3.5.3-b Off-policy evaluation of the forward value (the threat the first draft ignored).** `v_t(S)` is an expectation over *counterfactual futures under `do(S)`* that were **never executed** by the logged policy. The interaction stream was generated by the platform's existing (unknown) recommendation/behaviour policy `π_0(a|s)`, not by the interventions CAV proposes. Estimating `v_t(S)` by naively rolling out `P_ψ` and measuring "realised lift" is therefore **off-policy, confounding-prone, and biased**: the logged data selectively shows what the old policy exposed, and any plan that merely exploits the model's own optimism will look better than it is. This is the same problem RL4Rec and bandit-recourse work address with importance sampling and doubly-robust estimators, and the proposal must carry that machinery explicitly:
+
+- **Propensity model.** Estimate (or, on synthetic data, know) the logging policy `π_0(a_t|s_t)` from the stream. If it is unavailable, learn `π̂_0` and report its calibration.
+- **IPS estimator.** `v̂_t^{IPS}(S) = (1/n) Σ_t [ r_t · 1{a_t consistent with do(S)} / π̂_0(a_t|s_t) ]` — unbiased when propensities are correct; apply weight capping/clipping for variance control.
+- **Doubly-robust (DR) estimator.** `v̂_t^{DR}(S) = (1/n) Σ_t [ w_t (r_t − r̂(s_t,a_t)) + r̂(s_t,a_t) ]` with `w_t = 1/π̂_0`, `r̂` the model-based outcome from `P_ψ`. **DR is unbiased if either the propensity model *or* the outcome model is correct** — this is the workhorse and the one to headline.
+- **Self-normalized IPS (SNIPS)** as a lower-variance alternative.
+- **Discrepancy diagnostics.** Report a **reweighting effective sample size** and the **predicted-vs-realised gap under IPS/DR** (not raw model roll-out) as the gate on the "does the plan work" claim.
+
+Consequence for §3.8: the headline "realised lift" result must be evaluated with IPS/DR-corrected estimates (or on held-out interleaved offline data with propensity control), and reported *alongside* the naive model-based number so the gap is visible and honest. A plan cannot be claimed to work because the model that predicted it confirms it.
+
 ### 3.5.4 Payoff allocation — Cooperative Action Value
 
 Let `v^σ²_t(S) = Var[ Σ_{τ=1}^{H} γ^{τ-1} R(u, Rec(x^S), s_{t+τ}) | s_t, do(S) ]` be the *variance game* (risk of a coalition of actions). Define the two component Shapley values **restricted to feasible coalitions** (Myerson restriction over `F`):
@@ -227,14 +237,43 @@ CAV_i(t) = φ^μ_i(t) − κ · φ^σ²_i(t)
 
 where `κ ≥ 0` is the risk-aversion coefficient. When `κ=0`, CAV reduces to the (forward) Shapley value; increasing `κ` makes the allocation risk-averse, so high-variance levers are penalised.
 
-**New axioms (the theory).** In addition to the classical four (efficiency, symmetry, null-player, additivity — each applied component-wise to `v_t` and `v^σ²_t`), CAV is defined to satisfy:
+**Reframed to remove the over-claim (this is the fix the review demanded).** The original draft asserted that `CAV = φ^μ − κ·φ^σ²` is the *unique* allocation satisfying "the classical four + A1 + A2 + A4" — with A1 stated as a *new axiom*. That claim does **not** follow from the machinery, and stating it that way made the theoretical spine fragile. The honest and correct construction is to make CAV the Shapley value of a single **mean–variance certainty-equivalent game**, from which A1–A4 become *provable properties* rather than axioms that are supposed to pin down uniqueness. Here is the corrected, rigorous version.
 
-- **A1 Actionability Monotonicity.** If lever `a` has weakly greater *feasible marginal reach* than `b` over every feasible coalition (its maximal achievable effect within its feasibility interval dominates), then `CAV_a ≥ CAV_b`. Credit tracks *achievable* change, not raw counterfactual effect.
-- **A2 Achievable Efficiency.** The allocation sums to the *reachable* future-utility uplift: `Σ_i CAV_i = v_t(A_reach) − v_t(∅)`, where `A_reach` is the maximal feasible coalition; levers with zero feasible reach are null players.
-- **A3 Intervention / Temporal Consistency.** Across the interaction stream, the CAV sequence satisfies an EMA recursion `CAV^{(T)} = (1−λ)CAV^{(T−1)} + λ·CAV(t_T)`, and its limit satisfies A1–A2 with respect to the empirical state distribution.
-- **A4 Risk Sensitivity.** A lever with non-negligible marginal variance contribution is penalised: `CAV_i` is decreasing in `φ^σ²_i` at rate `κ`. (This is a *certainty-equivalent* allocation in the mean–variance sense.)
+**Step 1 — the certainty-equivalent game.** For each feasible coalition `S`, define the risk-adjusted characteristic function
 
-**Theorem (CAV well-posedness / uniqueness, statement).** Under acyclic `F` and the EMA update, the allocation satisfying efficiency, symmetry, null-player, additivity, A1, A2 (with respect to the reachable game), and A4 is unique and equals `CAV_i = Shapley_F(v_t)_i − κ·Shapley_F(v^σ²_t)_i`. *(Existence: component Shapley values satisfy the classical axioms; risk-adjustment subtracts the variance Shapley. Uniqueness: classical Shapley uniqueness on the restricted game (Myerson 1977, extended to hypergraphs as in MHyperShap's Thm. 1) applied component-wise, with `κ` fixing the risk axis. Full proof in the paper's appendix.)*
+```
+u_t(S) = E[V_t(S)] − κ · Var[V_t(S)]   =  v_t(S) − κ·v^σ²_t(S),   u_t(∅) = 0
+```
+
+`u_t` is a well-defined TU game on the restricted coalition space. This is a *single* game (not two games bolted together), so classical cooperative-game uniqueness applies to it directly.
+
+**Step 2 — the allocation.** Define the Cooperative Action Value as the **Myerson-restricted Shapley value of `u_t`**:
+
+```
+CAV_i(t) = Shapley_F(u_t)_i
+```
+
+**Step 3 — why the linear form is a *theorem*, not an assumption.** Because the Shapley operator is **additive** in the characteristic function, and `u_t = v_t − κ·v^σ²_t` is a linear combination of two games,
+
+```
+Shapley_F(u_t) = Shapley_F(v_t) − κ·Shapley_F(v^σ²_t)   ⟹   CAV_i = φ^μ_i − κ·φ^σ²_i
+```
+
+The mean–variance structure and the risk coefficient `κ` live in the *value function*, not in the allocation rule. This is the crucial difference from the over-claimed draft: we never need to assert that some new axiom forces `−κ·φ^σ²`; additivity of Shapley plus the definition of `u_t` *deliver* it.
+
+**Theorem 1 (CAV well-posedness / uniqueness).** Let `F` be an acyclic feasibility structure over `A` and let `u_t` be the certainty-equivalent game (Step 1). The unique allocation on the restricted game `(A, F, u_t)` satisfying **Efficiency, Symmetry, Null-player, Additivity**, together with the Myerson restrictions **Component Efficiency** and **Fairness** (two-player-swap invariance) on `F`, is the Myerson-restricted Shapley value `CAV = Shapley_F(u_t)`. *Proof: this is the classical Myerson (1977) uniqueness result for graph-restricted games, extended to hypergraphs along van den Nouweland–Borm–Tijs (1992); component efficiency and fairness characterise the restricted value uniquely, and efficiency/symmetry/null-player/additivity pin the within-component Shapley split. This is standard, checkable theory — not a new axiom.* Under the EMA update the sequence `CAV^{(T)}` converges to `E[Shapley_F(u_t)]` (law of large numbers).
+
+**Corollary (form / decomposition).** By additivity of Shapley, `CAV_i = φ^μ_i − κ·φ^σ²_i`. *(Proof: one line, as in Step 3.)*
+
+**Proposition (A2 — Achievable Efficiency, now a *theorem*).** By Efficiency of the restricted Shapley value applied to `u_t`, `Σ_{i∈C} CAV_i = u_t(C)` for every connected component `C` of `F`. In particular, `Σ_i CAV_i = u_t(A_reach) − u_t(∅)`, and any lever with zero feasible reach is a null player receiving zero credit. *(This is Efficiency, not a new axiom.)*
+
+**Proposition (A4 — Risk Sensitivity, now a *theorem*).** For fixed `v_t`, `∂CAV_i/∂κ = −φ^σ²_i`. Hence increasing `κ` strictly decreases the credit of every lever with positive marginal variance contribution, and does so *exactly in proportion to* `φ^σ²_i`. Ordering changes driven by `κ` are therefore precisely the risk-adjustment one would expect from a certainty-equivalent allocation. *(Direct from the Corollary.)*
+
+**Proposition (A1 — Actionability Monotonicity, now a *theorem* with a stated condition).** Let levers `a, b` be feasible in exactly the same coalitions and satisfy the **marginal-dominance** condition `u_t(S∪{a}) − u_t(S) ≥ u_t(S∪{b}) − u_t(S)` for all feasible `S` excluding both, with comparable variance structure (equal `φ^σ²`). Then `CAV_a ≥ CAV_b`. *Proof: this is the strong-monotonicity property of the Shapley value (Young, 1985): if one player's marginal contributions weakly dominate another's in every coalition, the Shapley value preserves the ordering. It is a known theorem about Shapley, not a postulate we invent.* If the equal-variance condition is dropped, the statement must be weakened to a mean–variance dominance claim (`φ^μ_a − φ^μ_b ≥ κ(φ^σ²_a − φ^σ²_b)`) — the honest version, and the one the paper should state.
+
+**A3 (Intervention / Temporal Consistency)** is retained as a *dynamic property* (the EMA recursion and its convergence), not an axiom of the allocation.
+
+> **Why this survives review.** The revised spine is: (i) a new *game* (`u_t` = forward, mean–variance, feasibility-restricted), (ii) a standard-but-sound *allocation* (restricted Shapley) whose linear risk form is a corollary of additivity, and (iii) three *provable* properties (A1–A2–A4) that are theorems with stated conditions. The uniqueness claim is delegated to the classical, verifiable Myerson theorem instead of being asserted. If A1's dominance condition fails empirically, the paper degrades gracefully to the weakened mean–variance statement — the result is not lost, only its headline strength.
 
 ### 3.5.5 Actionable decision layer (minimal-action optimisation)
 
@@ -245,7 +284,7 @@ min_{S ⊆ A_feasible}  Σ_{i∈S} c_i
 s.t.  Σ_{i∈S} c_i ≤ B   and   E[v_t(Rec(x^S))] − E[v_t(Rec(x^∅))] ≥ Δ*
 ```
 
-**Algorithm (Shapley-guided greedy).** Sort levers by `φ^μ_i / c_i`; greedily add the best value-per-cost feasible lever until the budget is exhausted; if the uplift target is unmet, relax `Δ*` to the best achievable within budget. **Approximation guarantee.** If the forward value function is submodular and monotone over feasible coalitions (a condition we verify empirically on the surrogate dynamics model and state as a proposition), the greedy policy is a `(1−1/e)`-approximation to the optimal minimal-action set. This is the *minimal recourse* answer: the smallest-cost set of actions that flips the recommendation / reaches the target utility.
+**Algorithm (Shapley-guided greedy, risk-adjusted).** Sort levers by `CAV_i / c_i = (φ^μ_i − κ·φ^σ²_i) / c_i` (so the risk-adjusted value per unit cost); greedily add the best feasible lever until the budget is exhausted; if the uplift target is unmet, relax `Δ*` to the best achievable within budget. **Approximation guarantee (stated, not post-hoc).** Define the marginal-gain game `g_i(S) = u_t(S∪{i}) − u_t(S)`. **Proposition (Greedy guarantee).** If `g` is monotone and submodular over feasible coalitions, greedy value-per-cost selection is a `(1−1/e)`-approximation to the optimal minimal-action set under the budget. The submodularity is **checked a priori on the surrogate** (as a stated diagnostic, reported for the actual lever space — whether it holds or not), and the `(1−1/e)` claim is *conditional on that check*, never asserted unconditionally. If it fails, report the empirical greedy-vs-exhaustive gap on a small subset (n_u ≤ 12, B=2) as the honest bound instead. This is the *minimal recourse* answer: the smallest-cost set of actions that flips the recommendation / reaches the target utility.
 
 ### 3.5.6 Closed-loop training objective (learning objective)
 
@@ -260,6 +299,11 @@ min_{θ,ψ}  L = L_rank(θ) + λ_act · L_actcons(θ,ψ) + λ_div · L_div(θ)
 - **`L_actcons` (action-consistency, the loop-closer):** the change in the model's ranking induced by the CAV-prescribed intervention plan must match the change predicted by the forward game:
   `L_actcons = E_{(u,t)} ‖ (Rank_u(x^{S*}) − Rank_u(x⁰)) − Δ̂^{S*} ‖²`
   where `Δ̂^{S*}` is the game-predicted utility change. This makes the model *action-aware*: what the model says will happen after an action is coherent with what CAV predicted.
+- **Circularity control (the fix the review demanded).** As written, `L_actcons` trains `f_θ` toward a target `Δ̂^{S*}` that is produced by `P_ψ` *and* `P_ψ` is updated jointly — a moving target, and a route to "reward-hacking" one's own simulator (the model can shrink the loss by distorting the prediction, not by improving real actions). Three concrete controls, adopted by default:
+  1. **Stop-gradient on the target.** `Δ̂^{S*}` is treated as a *fixed teacher*: `L_actcons` is optimised with respect to `θ` only, and `ψ` is updated on a *separate, realised-feedback objective* (`L_dyn`, next-state prediction error) — never on `L_actcons`. This breaks the self-confirming loop at the source.
+  2. **Alternating / decoupled updates.** Update `P_ψ` (dynamics) and `f_θ` (recommender) in alternating phases, holding the other fixed; re-estimate `Δ̂` only between phases. This is the standard remedy for two-player moving-target objectives.
+  3. **Calibration monitor.** Track the **IPS/DR-corrected predicted-vs-realised gap** (see §3.5.3-b) throughout training; if the gap widens while `L_actcons` shrinks, that is evidence of reward-hacking the simulator and must halt / reweight the consistency term.
+  Present `L_actcons` as *action-aware regularisation*, not as the primary driver of `ψ`.
 - `L_div`, `L_ctx`: diversity and context alignment (reuse DyHuCoG).
 - **Uncertainty estimation:** `v^σ²_t` is estimated from an ensemble of `E` dynamics models (or MC dropout on `P_ψ`); the variance game's Shapley is computed on those draws; calibration is measured by expected calibration error (ECE) of future-utility quantiles.
 
@@ -278,7 +322,7 @@ min_{θ,ψ}  L = L_rank(θ) + λ_act · L_actcons(θ,ψ) + λ_div · L_div(θ)
 - **Efficiency/decomposition:** every point of future-utility uplift is attributed to exactly one lever — the "why" is *complete*.
 - **Additivity across users:** because `v_t` is a per-user-mean, `CAV_i` decomposes into per-user CAVs for free (mirrors SignalShap's Proposition 3), enabling segment-level action plans.
 - **Forward waterfall:** a CAV waterfall shows each lever's *expected future* contribution and its *risk* contribution — an explanation of the plan, not just the present.
-- **Actionability by construction:** A2 (achievable efficiency) guarantees that only feasible, reachable levers carry credit, and A1 ranks them by achievable reach — so the explanation *is* the action set.
+- **Actionability by construction:** the Achievable-Efficiency property guarantees that only feasible, reachable levers carry credit, and Actionability Monotonicity ranks them by achievable reach — so the explanation *is* the action set.
 
 ---
 
@@ -322,17 +366,18 @@ S*(u,t) = argmin_{S⊆F(A)} Σ_{i∈S} c_i
           s.t. Σ_{i∈S} c_i ≤ B(u,t),   E[v_t(x^S)] − E[v_t(x^∅)] ≥ Δ*
 ```
 
-**Shapley-guided greedy selection (surrogate):**
+**Shapley-guided greedy selection (surrogate, risk-adjusted):**
 
 ```
-Greedy:  i* = argmax_{i∈F(A)\S, feasible}  φ^μ_i / c_i ,  repeat until budget exhausted
+Greedy:  i* = argmax_{i∈F(A)\S, feasible}  (φ^μ_i − κ·φ^σ²_i) / c_i ,  repeat until budget exhausted
 ```
 
-**Learning objective:**
+**Learning objective (with circularity control — §3.5.6):**
 
 ```
-min_{θ,ψ} L = L_rank(θ) + λ_act·E_{(u,t)}‖ Rank_u(x^{S*}) − Rank_u(x⁰) − Δ̂^{S*} ‖²
-              + λ_div·L_div(θ) + λ_ctx·L_ctx(θ) + λ_reg·(‖θ‖²_F + ‖ψ‖²_F)
+min_{θ}   L_θ = L_rank(θ) + λ_act·E_{(u,t)}‖ Rank_u(x^{S*}) − Rank_u(x⁰) − sg(Δ̂^{S*}) ‖²
+                + λ_div·L_div(θ) + λ_ctx·L_ctx(θ) + λ_reg·‖θ‖²_F      (sg = stop-gradient)
+min_{ψ}   L_ψ = L_dyn(ψ)   (realised next-state prediction only — ψ never sees L_θ)
 ```
 
 **Uncertainty estimation:**
@@ -341,6 +386,19 @@ min_{θ,ψ} L = L_rank(θ) + λ_act·E_{(u,t)}‖ Rank_u(x^{S*}) − Rank_u(x⁰
 v^σ²_t(S) = (1/E) Σ_{e=1}^{E} ( g_e(x^S) − (1/E) Σ_e' g_e'(x^S) )² ,   g_e = discounted future util (ensemble e)
 ECE = Σ_bins |acc_b − conf_b|/N_bins   (calibration of future-utility quantiles)
 ```
+
+**Off-policy evaluation of the forward value (IPS / DR / SNIPS):**
+
+```
+w_t = 1 / π̂_0(a_t|s_t)                                          # inverse propensity weight (cap at W_max)
+v̂_t^{IPS}(S) = (1/n) Σ_t [ r_t · w_t · 1{a_t ∈ do(S)} ]
+v̂_t^{DR}(S)  = (1/n) Σ_t [ w_t (r_t − r̂(s_t,a_t)) + r̂(s_t,a_t) ] · 1{a_t ∈ do(S)}
+ESS = (Σ_t w_t)² / Σ_t w_t²                                     # effective sample size of reweighting
+gap(S) = | v̂_t^{DR}(S) − rollout(P_ψ, S) |                      # model-vs-OPE discrepancy (report, gate the plan)
+```
+
+- `π̂_0` is the estimated (or known, on synthetic data) logging policy; `r̂` is the model-based outcome from `P_ψ`.
+- **DR is doubly robust:** unbiased if the propensity model *or* the outcome model is correct. Report `ESS` and the discrepancy `gap(S)`; a plan is only claimed to "work" when its DR-corrected lift is positive and its naive-model number is within the discrepancy of it — never on the model roll-out alone.
 
 **Intervention mechanism (how an action is applied):** each lever `i` carries a declared feasible target set `T_i` and cost `c_i`; `do(S)` sets `x_i ∈ T_i` for `i∈S` at the input/profile level of a *history-conditioned* recommender (so `Rec(x^S)` is recomputed at inference without retraining, per the ActionShap masking-sensitivity gate).
 
@@ -375,10 +433,11 @@ Output: ranked list Rec_u, Cooperative Action Values {CAV_i}, intervention plan 
 18 Δ̂ ← E[v_t(x^{S*})] − E[v_t(x^∅)]
 19 if Δ̂ < Δ*: relax Δ* to Δ̂ (report shortfall)             # (1−1/e) approx if submodular
 20
-21 # --- Closed-loop training ---
-22 update θ,ψ on minibatch with L = L_rank + λ_act·L_actcons + λ_div·L_div + λ_ctx·L_ctx + λ_reg·L_reg
-23
-24 return Rec_u = top-K of f_θ(x^{S*}), {CAV_i}, S*
+21 # --- Closed-loop training (decoupled, stop-gradient on the CAV target) ---
+22 update θ on minibatch with L_θ = L_rank + λ_act·L_actcons(sg(Δ̂)) + λ_div·L_div + λ_ctx·L_ctx + λ_reg·L_reg
+23 update ψ on realised next-state prediction L_dyn only   # ψ never trained on L_actcons (no reward-hacking)
+24
+25 return Rec_u = top-K of f_θ(x^{S*}), {CAV_i}, S*
 ```
 
 ---
@@ -417,13 +476,13 @@ Output: ranked list Rec_u, Cooperative Action Values {CAV_i}, intervention plan 
 
 **Explainability evaluation:** CAV waterfall sanity; **faithfulness** (deletion/comprehensiveness on the forward utility); **AIA** (attribution predicts intervention effect); minimal-recourse set-cover validity; qualitative case studies; optional small user study of comprehension/trust (clearly scoped, not load-bearing).
 
-**Actionable-recommendation evaluation:** the paper's headline — does following the CAV plan improve realised future utility and change the recommendation as predicted? Measure realised lift vs. baselines' plans under the *same* simulator/dynamics model *and* on held-out interaction streams.
+**Actionable-recommendation evaluation:** the paper's headline — does following the CAV plan improve realised future utility and change the recommendation as predicted? Measure realised lift vs. baselines' plans on held-out interaction streams, evaluated with the **IPS/DR-corrected estimators of §3.5.3-b/§3.6** (with `ESS` and model-vs-OPE discrepancy reported), *not* by naive model roll-out. Report the naive-model number alongside so the optimism of the model-based estimate is visible. A negative DR-corrected result is reportable and should not be papered over with the optimistic roll-out.
 
 ---
 
 ## 3.9 Expected Contributions
 
-**Theoretical.** (1) The **forward cooperative game over actionable levers** — the first recommender cooperative game whose characteristic function is expected discounted *future* utility. (2) **Cooperative Action Values (CAV)**, a new risk-adjusted, feasibility-restricted, forward-looking allocation with new axioms (Actionability Monotonicity, Achievable Efficiency, Intervention/Temporal Consistency, Risk Sensitivity) and a uniqueness theorem. (3) A **minimal-action coalition-optimisation** formulation with a `(1−1/e)` approximation guarantee under submodularity. (4) A **closed-loop, action-consistency learning objective** making the recommender action-aware.
+**Theoretical.** (1) The **forward cooperative game over actionable levers** — the first recommender cooperative game whose characteristic function is expected discounted *future* utility, with an explicit off-policy (IPS/DR) evaluation of that value. (2) **Cooperative Action Values (CAV)** — the Myerson-restricted Shapley value of the forward mean–variance certainty-equivalent game, whose linear risk form is a corollary of additivity and whose key properties (Achievable Efficiency, Risk Sensitivity, Actionability Monotonicity) are proven theorems with stated conditions, not asserted axioms. (3) A **minimal-action coalition-optimisation** formulation with a `(1−1/e)` approximation guarantee under a *stated and empirically verified* submodularity condition. (4) A **closed-loop, action-consistency learning objective** with explicit circularity control (stop-gradient, decoupled updates, calibration monitor) making the recommender action-aware without reward-hacking its own simulator.
 
 **Algorithmic.** A modular, reproducible pipeline (action-game → CAV allocation → minimal-action planner → action-aware DyHuCoG backbone → closed-loop trainer), with uncertainty estimation via ensembles.
 
@@ -436,18 +495,21 @@ Output: ranked list Rec_u, Cooperative Action Values {CAV_i}, intervention plan 
 | Criterion | Assessment |
 |---|---|
 | **Originality** | High — no prior work defines a *forward-looking, uncertainty-adjusted, feasibility-restricted Shapley allocation over action spaces* that simultaneously explains, generates minimal recourse, and closes the training loop. Distinct from the author's five drafts and from the literature (backward Shapley, feature-level recourse, RL, uncertainty-only). |
-| **Novelty** | High — new axioms + new allocation (CAV) + new optimisation (minimal-action coalition) + new learning objective (action-consistency). Not an incremental re-application. |
+| **Novelty** | High — new *forward game* + new allocation (CAV) with provable properties + new optimisation (minimal-action coalition) + new learning objective (action-consistency). Not an incremental re-application. |
 | **Mathematical depth** | Strong — uniqueness theorem, submodular greedy guarantee, MC concentration, EMA convergence; sufficient for TKDE / TOIS / Information Fusion / TNNLS. |
 | **Engineering contribution** | Medium-high — builds directly on the validated DyHuCoG backbone, ActionShap intervention harness, and SignalShap data pipeline; feasible on one RTX 4090; reuse of 4 datasets and the thesis's statistical protocol keeps compute bounded. |
 | **Feasibility** | High — all components are re-usable from the author's own code; the only new build is the dynamics model (a standard sequential model) and the forward-value roll-out, both cheap. |
 | **Fit with thesis** | Direct — it is the thesis's *unmeasured* central claim ("actionable insight," Definition 1.1) operationalised and made generative; a natural capstone successor to DyHuCoG (in-training Shapley → forward Shapley). |
 
-**Novelty score: 9 / 10.**
+**Novelty score: 8 / 10 (revised down from 9 after the review).**
 - +3 for the *forward-looking* value function (truly new; nothing in the author's line or the literature evaluates coalitions on expected future utility).
-- +2 for the new CAV allocation + axioms + uniqueness theorem (new theory, not new application).
+- +1 (was +2) for the CAV allocation. The corrected construction (§3.5.4) is a **new game** (`u_t` = forward, mean–variance, feasibility-restricted) allocated by *standard* restricted Shapley — sound and rigorous, but the "new axiom + uniqueness" claim was an over-claim and the honest version delegates uniqueness to the classical Myerson theorem. That downgrades the theoretical-novelty component.
 - +2 for the minimal-action, budget-constrained recourse generation fused with cooperative attribution (unique).
 - +2 for loop-closure into training via an action-consistency objective.
-- −1 because it reuses the Shapley operator as the substrate (unavoidable — the request is explicitly a *unified Shapley-based* formulation) and reuses DyHuCoG-style architecture and datasets.
+- −1 reuses the Shapley operator as the substrate (unavoidable) and reuses DyHuCoG-style architecture and datasets.
+- −1 net for the two de-risking gaps that are now first-class work items: the off-policy-evaluation machinery (§3.5.3-b) and the circularity control (§3.5.6) were absent from the first draft and must be demonstrated, not asserted.
+
+**Venue-risk reality check (point #4 of the review).** SignalShap targets *Discover AI* (Springer, open access); prior work sits in IJACSA/IJIES/Procedia. A leap straight to IEEE TKDE / TOIS / Information Fusion / TNNLS is a real jump in reviewer expectations on exactly the two weak points above — theoretical rigor (now shored up by the Myerson-based construction) and experimental/OPE rigor (now explicit). The venue should follow the *demonstrated* result, not be pre-assumed: the theory-first sequencing below decides it.
 
 **Why publishable:** it delivers a *new cooperative-game formulation* (not a re-application), contributes *new theory* (axioms + uniqueness + approximation guarantees), is *actionability-first* (generates interventions, not just explanations), is *mathematically rigorous* (convergence, submodularity, calibration), is *experimentally feasible* on the author's existing stack, and lands in the high-citation intersection of game theory + trustworthy/actionable recommendation + uncertainty + recourse — a profile that maps cleanly onto **IEEE TKDE, ACM TOIS, Information Fusion**, or **IEEE TNNLS**.
 
@@ -474,12 +536,39 @@ Output: ranked list Rec_u, Cooperative Action Values {CAV_i}, intervention plan 
 
 ## 3.12 Risks & Mitigations (for the proposer)
 
-- **"This is just Shapley with a new value function."** — Countered by the new axioms + uniqueness theorem + minimal-action optimisation + action-consistency loop; the paper's theoretical core is the CAV allocation and its guarantees, not the operator itself.
+- **"This is just Shapley with a new value function."** — Countered by the *new forward game* (mean–variance certainty-equivalent over actionable levers), the CAV allocation with provable properties (A1/A2/A4), the minimal-action optimisation, and the action-consistency loop. The paper's theoretical core is the CAV construction and its guarantees — and crucially, the "new value function" *is* the point, because the value function (forward, risk-adjusted, feasibility-restricted) is where all the novelty lives.
 - **"Actionability is subjective / costs are arbitrary."** — Mitigate exactly as ActionShap planned: pre-registered, pre-attribution-frozen lever/cost tables (Appendix C style), sensitivity sweeps over c and B, and external domain annotation where feasible.
-- **"Forward utility requires a simulator."** — Use a learned dynamics model validated for calibration (ECE) and report robustness to its accuracy; also evaluate the plan's *realised* lift on held-out interaction streams.
+- **"Forward utility requires a simulator."** — Use a learned dynamics model validated for calibration (ECE), report robustness to its accuracy, *and* evaluate the plan's realised lift on held-out interaction streams with the **IPS/DR-corrected estimators of §3.5.3-b** — never on the naive model roll-out alone.
+- **"The plan is off-policy; your realised lift is optimistic."** — Addressed head-on in §3.5.3-b / §3.6: propensity estimation, IPS/DR/SNIPS estimators, `ESS`, and the model-vs-OPE discrepancy `gap(S)` as an explicit gate on the headline claim. A plan is only "shown to work" when its DR-corrected lift is positive.
+- **"Your closed loop is circular."** — Mitigated in §3.5.6: stop-gradient on the CAV target, alternating/decoupled `ψ`/`θ` updates, and a calibration monitor that flags reward-hacking against the simulator.
+- **"This is 2–3 papers, not one."** — Accepted; see §3.13 (two-paper strategy).
 - **"Overlap with MHyperShap's Myerson restriction."** — MHyperShap restricts *agent* coalitions; CAVI restricts *action* coalitions and adds forward value + risk + minimal recourse. State this contrast explicitly.
 - **"Overlap with ActionShap."** — ActionShap is explicitly *evaluative* (does attribution predict intervention effect?); CAVI is *generative and theoretical* (a new allocation that produces the plan). Cite and use ActionShap's AIA metric as a cross-check.
 
 ---
 
-*Prepared from: `phd-thesis/MOUAD_LOUHICHI_Thesis.pdf`, `previous-papers/*`, and `paper-ideas/{ActionShap,SignalShap,FairShap,MHyperShap}/*`. Recommended next step: run the CAVI gate (a mini experiment computing forward vs. backward CAV ordering divergence on MovieLens-1M) before full implementation, mirroring the masking-sensitivity gate the ActionShap spec already mandates.*
+## 3.13 Publication & Sequencing Strategy — Split, don't bundle (point #3 of the review)
+
+The review is right: bundling the forward game, the new allocation, minimal-action recourse, a learned dynamics model, OPE, and a closed-loop objective into one mega-paper multiplies the chance a reviewer sinks the whole thing on the weakest link (most likely OPE or the submodularity assumption). Recommended structure — **two papers, sequenced theory-first**, with the gate as the go/no-go between them.
+
+**Paper A — "Cooperative Action Values: A Forward Cooperative-Game Theory of Actionable Recommendation"** (theory-led)
+- **Scope:** the forward certainty-equivalent game `u_t` (§3.5.3–3.5.4), the CAV allocation, and the *provable* properties (Theorem 1 = Myerson-based uniqueness; Corollary = linear risk form; Propositions A2, A4, A1 with stated conditions). Plus **A3 temporal consistency**.
+- **Experiments (lean):** synthetic games with known ground-truth CAVs (verify the allocation recovers them, validate A2/A4); **one** real dataset (MovieLens-1M) for the *CAVI gate* — does the forward CAV ordering actually diverge from backward Shapley, and is the divergence explained by feasibility / interaction / variance (mirroring SignalShap's redundancy insight)? No closed-loop training, no full baseline suite.
+- **Deliverable / venue:** this is the paper that earns the theorem. If the gate shows divergence and the properties hold, it is TKDE/TOIS-grade and *should* be submitted there; if it does not, the framing must be re-scoped before anything is built.
+
+**Paper B — "From Cooperative Attribution to Action: Budget-Constrained Minimal-Action Recourse and Action-Aware Training"** (systems-led)
+- **Scope:** the minimal-action planner (§3.5.5), the closed-loop action-consistency objective with circularity control (§3.5.6), OPE-corrected evaluation (§3.5.3-b/§3.6), and the full experimental suite (§3.8: 2–3 datasets, recommenders + recourse + cooperative baselines, ablations, robustness, scalability).
+- **Builds on:** Paper A's CAV as the substrate; reuses DyHuCoG backbone, ActionShap intervention harness, SignalShap data pipeline.
+- **Deliverable / venue:** a strong applied-journal / top-conference paper (TOIS, TKDE, or RecSys/WWW as a fallback), carrying the engineering + human-relevant contribution.
+
+**Why this de-risks everything:**
+1. **The theorem is isolated.** The single highest-risk, highest-consequence item is verified on paper (cheap, no GPU) and in Paper A before any systems build. If it doesn't hold, only Paper A's framing is lost — Paper B still stands.
+2. **OPE and circularity are exercised in Paper B**, where they belong, with full baselines to contextualise them — not hidden in a footnote of a mega-paper.
+3. **Two publications instead of one high-variance one.** Each paper has a crisp, defensible novelty claim.
+4. **Venue follows evidence.** Paper A decides whether the target is TKDE/TOIS (theory holds + gate diverges) or a strong applied venue (if not); Paper B's venue is decided by its system results. This answers point #4 of the review directly.
+
+**Non-negotiable gate (before any implementation), mirroring the ActionShap masking-sensitivity gate:** on MovieLens-1M, compute (a) backward-Shapley orderings over the same lever space, and (b) forward CAV orderings under a *simple* learned dynamics model, and test whether the two orderings diverge significantly (and whether the divergence is attributable to feasibility/interaction/variance). If the gate fails, do **not** build Paper B — re-scope to Paper A's theory alone or abandon the forward direction. This gate is a half-day experiment and decides the programme.
+
+---
+
+*Prepared from: `phd-thesis/MOUAD_LOUHICHI_Thesis.pdf`, `previous-papers/*`, and `paper-ideas/{ActionShap,SignalShap,FairShap,MHyperShap}/*`. Revised after external review: (1) the uniqueness theorem was reframed from an over-claimed "new axioms" assertion to the Myerson-based construction with provable A1/A2/A4 properties; (2) off-policy evaluation (IPS/DR/SNIPS + `ESS` + discrepancy gate) was added as a first-class component; (3) the closed-loop circularity was addressed with stop-gradient, decoupled updates, and a calibration monitor; (4) the work is restructured into a two-paper, theory-first programme with a non-negotiable CAVI gate. Recommended next step: **run the CAVI gate** — the half-day forward-vs-backward divergence experiment on MovieLens-1M — before any further build.*
