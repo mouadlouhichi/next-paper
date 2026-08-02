@@ -1,18 +1,13 @@
-"""ActionShap: intervention-grounded evaluation of cooperative attribution.
+"""ActionShap: intervention-grounded evaluation of recommendation explanations.
 
-Reference implementation for the manuscript of the same name. The public
-surface mirrors the manuscript's definitions so that code and paper can be
-read against each other:
+The package contains two layers during the migration from the old proposal:
 
-    Definition 1  modifiability          -> `modifiability`
-    Definition 2  intervention effect    -> `intervention`
-    Definition 3  stability              -> `metrics.stability`
-    Definition 4  Actionability Score    -> `metrics.actionability_score`
-    Definition 5  alignment (AIA)        -> `metrics.alignment`
-    Definition 6  top-k precision        -> `metrics.topk_intervention_precision`
-    Definition 7  intervention regret    -> `metrics.intervention_regret`
-    Definition 8  A-Shapley reranking    -> `rerank.rerank`
-    Corollary 1   mechanism decomposition-> `decomposition`
+* ``recommendation`` and ``models.profile`` implement the revised
+  recommendation-only specification: history-conditioned profiles, fixed
+  candidate utilities, Monte Carlo Shapley values, and joint-action selection.
+* The older feature-attribution, clustering, and modifiability modules remain
+  available as legacy code until the recommendation pipeline is complete; they
+  are not part of the revised paper's primary experiment.
 """
 
 from __future__ import annotations
@@ -30,6 +25,16 @@ from .metrics import (
 from .intervention import InterventionBudget, intervention_effects
 from .modifiability import ModifiabilityTable, load_modifiability
 from .rerank import eta_sweep, rerank
+from .models.profile import ProfileAggregationModel, fit_item_embeddings
+from .recommendation import (
+    UserGame,
+    exhaustive_oracle,
+    joint_attribution_score,
+    mc_shapley,
+    ndcg_at_k,
+    profile_utility,
+    select_joint_action,
+)
 
 __all__ = [
     "__version__",
@@ -45,4 +50,13 @@ __all__ = [
     "load_modifiability",
     "rerank",
     "eta_sweep",
+    "ProfileAggregationModel",
+    "fit_item_embeddings",
+    "UserGame",
+    "ndcg_at_k",
+    "profile_utility",
+    "mc_shapley",
+    "joint_attribution_score",
+    "select_joint_action",
+    "exhaustive_oracle",
 ]
