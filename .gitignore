@@ -1,8 +1,17 @@
-
-# CAVI gate: raw ML-1M data (downloaded, ~20MB) — not committed
-paper-ideas/CAVI/gate/data/ml1m_ratings.dat
-paper-ideas/CAVI/gate/data/ml1m_items.dat
-
-# python caches
+.venv/*
+*/**/.venv/
+.venv/
 __pycache__/
-*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+results/raw/*.json
+**/results/raw/*.json
+**/results/paper_assets/
+*/**/data/ml-1m*
+.DS_Store
+**/.DS_Store
+paper-ideas/ActionShap/code/.DS_Store
+paper-ideas/ActionShap/code/.ipynb_checkpoints
+paper-ideas/ActionShap/code/actionshap/.ipynb_checkpoints
+paper-ideas/ActionShap/code/actionshap/.DS_Store
+paper-ideas/ActionShap/code/actionshap/**/__pycache__//
