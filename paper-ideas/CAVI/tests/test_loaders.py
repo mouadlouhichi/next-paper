@@ -144,3 +144,20 @@ def test_load_items_colon_separator():
         assert items[2] == "Adventure"
     finally:
         os.remove(path)
+
+
+def test_load_items_multiple_delimiters():
+    """Loader is delimiter-agnostic (colon, tab, comma, semicolon)."""
+    import tempfile
+    from cavi.data import load_items
+    for sep in ["::", "\t", ",", ";"]:
+        raw = ("1" + sep + "Toy Story (1995)" + sep + "Animation|Comedy\n"
+               "2" + sep + "Jumanji (1995)" + sep + "Adventure\n").encode()
+        with tempfile.NamedTemporaryFile(delete=False) as f:
+            f.write(raw); path = f.name
+        try:
+            d = load_items(path)
+            assert len(d) == 2, f"sep {sep!r} -> {len(d)}"
+            assert d[1] == "Animation|Comedy"
+        finally:
+            os.remove(path)

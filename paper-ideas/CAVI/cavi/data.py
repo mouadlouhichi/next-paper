@@ -29,55 +29,75 @@ def _open_lines(path: str) -> List[str]:
     return data.decode("utf-8", errors="replace").splitlines(keepends=True)
 
 
+# Candidate column separators for MovieLens-style files, most-specific first.
+_SEPARATORS = ("::", "\t", ";", ",", "|", r"\s+")
+
+
+def _sniff_separator(lines: List[str], n_fields: int) -> Optional[str]:
+    """
+    Determine which separator yields `n_fields` columns for the most non-empty
+    lines. Falls back to None (treated as whitespace) if nothing matches.
+    """
+    import re
+    nonempty = [l for l in lines if l.strip()]
+    if not nonempty:
+        return None
+    best_sep = None
+    best_score = -1
+    for sep in _SEPARATORS:
+        if sep == r"\s+":
+            score = sum(1 for l in nonempty if len(re.split(r"\s+", l.strip())) == n_fields)
+        else:
+            score = sum(1 for l in nonempty if len(l.strip().split(sep)) == n_fields)
+        if score > best_score:
+            best_score = score
+            best_sep = sep
+    return best_sep if best_score > 0 else (r"\s+" if best_sep is None else best_sep)
+
+
+def _split(line: str, sep: Optional[str]) -> List[str]:
+    import re
+    s = line.strip()
+    if sep is None or sep == r"\s+":
+        return re.split(r"\s+", s)
+    return s.split(sep)
+
+
 def load_ratings(path: str) -> List[Tuple[int, int, float, int]]:
     """
-    Return list of (user, item, rating, timestamp). Auto-detects the column
-    separator: MovieLens-1M is distributed BOTH as tab-separated (.dat from
-    some mirrors) and as '::'-separated (the official grouplens ml-1m/ratings.dat).
+    Return list of (user, item, rating, timestamp). Delimiter-agnostic:
+    MovieLens-1M is distributed as '::'-separated (official grouplens) OR
+    tab-separated (some mirrors); this sniffs whichever parses 4 columns.
     """
+    lines = _open_lines(path)
+    sep = _sniff_separator(lines, 4)
     rows = []
-    sep = None
-    for line in _open_lines(path):
-        s = line.strip()
-        if not s:
-            continue
-        if sep is None:
-            # sniff the separator from the first non-empty line
-            if "\t" in s:
-                sep = "\t"
-            elif "::" in s:
-                sep = "::"
-            else:
-                sep = "::"  # fall back (rare)
-        parts = s.split(sep)
+    for line in lines:
+        parts = _split(line, sep)
         if len(parts) == 4:
-            u, i, r, t = parts
-            rows.append((int(u), int(i), float(r), int(t)))
+            try:
+                rows.append((int(parts[0]), int(parts[1]), float(parts[2]), int(parts[3])))
+            except ValueError:
+                continue
     return rows
 
 
 def load_items(path: str) -> Dict[int, str]:
     """
-    Return dict item_id -> genres (pipe-separated). Auto-detects the separator:
-    MovieLens items come as 'id::title::genres' (official) or 'id\ttitle\tgenres'
-    (some mirrors). The genre field is always the LAST token.
+    Return dict item_id -> genres (pipe-separated). Delimiter-agnostic: items
+    come as 'id::title::genres' (official), 'id\ttitle\tgenres' (mirrors), or
+    other delimiters. The genre field is always the LAST token (>=3 columns).
     """
+    lines = _open_lines(path)
+    sep = _sniff_separator(lines, 3)
     d = {}
-    sep = None
-    for line in _open_lines(path):
-        s = line.strip()
-        if not s:
-            continue
-        if sep is None:
-            if "\t" in s:
-                sep = "\t"
-            elif "::" in s:
-                sep = "::"
-            else:
-                sep = "\t"
-        parts = s.split(sep)
+    for line in lines:
+        parts = _split(line, sep)
         if len(parts) >= 3:
-            d[int(parts[0])] = parts[-1]
+            try:
+                d[int(parts[0])] = parts[-1]
+            except ValueError:
+                continue
     return d
 
 
