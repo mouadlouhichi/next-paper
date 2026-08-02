@@ -115,3 +115,32 @@ def test_load_ratings_handles_latin1():
         assert rows == [(1, 1193, 5.0, 978300760), (2, 500, 4.0, 978300761)]
     finally:
         os.remove(path)
+
+
+def test_load_ratings_colon_separator():
+    """MovieLens official files use '::' separator; must parse."""
+    import tempfile
+    from cavi.data import load_ratings
+    raw = b"1::1193::5::978300760\n1::661::3::978302109\n"
+    with tempfile.NamedTemporaryFile(delete=False) as f:
+        f.write(raw); path = f.name
+    try:
+        rows = load_ratings(path)
+        assert rows == [(1, 1193, 5.0, 978300760), (1, 661, 3.0, 978302109)]
+    finally:
+        os.remove(path)
+
+
+def test_load_items_colon_separator():
+    """MovieLens items official format: id::title::genres."""
+    import tempfile
+    from cavi.data import load_items
+    raw = b"1::Toy Story (1995)::Animation|Children's|Comedy\n2::Jumanji (1995)::Adventure\n"
+    with tempfile.NamedTemporaryFile(delete=False) as f:
+        f.write(raw); path = f.name
+    try:
+        items = load_items(path)
+        assert items[1] == "Animation|Children's|Comedy"
+        assert items[2] == "Adventure"
+    finally:
+        os.remove(path)

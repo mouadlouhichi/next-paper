@@ -30,10 +30,26 @@ def _open_lines(path: str) -> List[str]:
 
 
 def load_ratings(path: str) -> List[Tuple[int, int, float, int]]:
-    """Return list of (user, item, rating, timestamp)."""
+    """
+    Return list of (user, item, rating, timestamp). Auto-detects the column
+    separator: MovieLens-1M is distributed BOTH as tab-separated (.dat from
+    some mirrors) and as '::'-separated (the official grouplens ml-1m/ratings.dat).
+    """
     rows = []
+    sep = None
     for line in _open_lines(path):
-        parts = line.strip().split("\t")
+        s = line.strip()
+        if not s:
+            continue
+        if sep is None:
+            # sniff the separator from the first non-empty line
+            if "\t" in s:
+                sep = "\t"
+            elif "::" in s:
+                sep = "::"
+            else:
+                sep = "::"  # fall back (rare)
+        parts = s.split(sep)
         if len(parts) == 4:
             u, i, r, t = parts
             rows.append((int(u), int(i), float(r), int(t)))
@@ -41,12 +57,27 @@ def load_ratings(path: str) -> List[Tuple[int, int, float, int]]:
 
 
 def load_items(path: str) -> Dict[int, str]:
-    """Return dict item_id -> genres (pipe-separated)."""
+    """
+    Return dict item_id -> genres (pipe-separated). Auto-detects the separator:
+    MovieLens items come as 'id::title::genres' (official) or 'id\ttitle\tgenres'
+    (some mirrors). The genre field is always the LAST token.
+    """
     d = {}
+    sep = None
     for line in _open_lines(path):
-        parts = line.strip().split("\t")
+        s = line.strip()
+        if not s:
+            continue
+        if sep is None:
+            if "\t" in s:
+                sep = "\t"
+            elif "::" in s:
+                sep = "::"
+            else:
+                sep = "\t"
+        parts = s.split(sep)
         if len(parts) >= 3:
-            d[int(parts[0])] = parts[2]
+            d[int(parts[0])] = parts[-1]
     return d
 
 
