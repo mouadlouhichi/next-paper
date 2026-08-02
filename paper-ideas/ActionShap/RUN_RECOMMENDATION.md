@@ -102,7 +102,7 @@ Confirm that:
 
 ## 5. Run the primary experiment
 
-The primary scientific comparison is joint intervention budget `B=2`. `B=1` is only a diagnostic because leave-one-out is algebraically identical to the single-player masking effect.
+The primary scientific comparison is joint intervention budget `B=2` with feasible downweighting `rho=0.5`. Deletion `rho=0` is retained only as the faithfulness diagnostic; `B=1` leave-one-out is an oracle for that deletion condition and is not the main comparison.
 
 ```bash
 python scripts/run_recommendation.py \
