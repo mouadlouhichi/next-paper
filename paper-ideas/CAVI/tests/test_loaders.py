@@ -82,3 +82,36 @@ def test_movability_from_popularity():
     # mov[i] True = anchor/immovable
     assert mov == [True, False, True]
     assert item_popularity(tr)[1] == 10
+
+
+def test_load_items_handles_latin1_titles():
+    """MovieLens movies.dat contains Latin-1 accented chars (0xe9='e'acute);
+    the loader must not crash with UnicodeDecodeError."""
+    import tempfile
+    from cavi.data import load_items
+    raw = b"1\tToy Story (1995)\tAnimation|Children's|Comedy\n" \
+          b"500\tJos\xe9 & Co (2000)\tComedy\n"   # 0xe9 = e-acute (latin-1)
+    with tempfile.NamedTemporaryFile(delete=False) as f:
+        f.write(raw)
+        path = f.name
+    try:
+        items = load_items(path)
+        assert items[1] == "Animation|Children's|Comedy"
+        assert "Comedy" in items[500]
+    finally:
+        os.remove(path)
+
+
+def test_load_ratings_handles_latin1():
+    import tempfile
+    from cavi.data import load_ratings
+    raw = b"1\t1193\t5\t978300760\n" \
+          b"2\t500\t4\t978300761\n"   # ASCII numeric, but should still parse
+    with tempfile.NamedTemporaryFile(delete=False) as f:
+        f.write(raw)
+        path = f.name
+    try:
+        rows = load_ratings(path)
+        assert rows == [(1, 1193, 5.0, 978300760), (2, 500, 4.0, 978300761)]
+    finally:
+        os.remove(path)

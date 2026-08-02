@@ -8,26 +8,42 @@ from typing import Dict, List, Tuple
 import numpy as np
 
 
+def _open_lines(path: str) -> List[str]:
+    """
+    Read a text file robustly across encodings. MovieLens-1M's `movies.dat`
+    contains Latin-1/Windows-1252 accented characters (e.g. 0xe9 = 'é') in some
+    movie titles, which crash a naive UTF-8 read. We try UTF-8 first, then
+    fall back to Latin-1 (which never fails and preserves the byte values), then
+    finally replace-undecodable as a last resort.
+    """
+    for enc in ("utf-8", "latin-1"):
+        try:
+            with open(path, encoding=enc) as f:
+                return f.readlines()
+        except UnicodeDecodeError:
+            continue
+    with open(path, encoding="latin-1", errors="replace") as f:
+        return f.readlines()
+
+
 def load_ratings(path: str) -> List[Tuple[int, int, float, int]]:
     """Return list of (user, item, rating, timestamp)."""
     rows = []
-    with open(path) as f:
-        for line in f:
-            parts = line.strip().split("\t")
-            if len(parts) == 4:
-                u, i, r, t = parts
-                rows.append((int(u), int(i), float(r), int(t)))
+    for line in _open_lines(path):
+        parts = line.strip().split("\t")
+        if len(parts) == 4:
+            u, i, r, t = parts
+            rows.append((int(u), int(i), float(r), int(t)))
     return rows
 
 
 def load_items(path: str) -> Dict[int, str]:
     """Return dict item_id -> genres (pipe-separated)."""
     d = {}
-    with open(path) as f:
-        for line in f:
-            parts = line.strip().split("\t")
-            if len(parts) >= 3:
-                d[int(parts[0])] = parts[2]
+    for line in _open_lines(path):
+        parts = line.strip().split("\t")
+        if len(parts) >= 3:
+            d[int(parts[0])] = parts[2]
     return d
 
 
@@ -96,13 +112,12 @@ def load_lightgcn_split(data_dir: str, prefix: str
     """
     def _read(name):
         out: Dict[int, List[int]] = {}
-        with open(os.path.join(data_dir, name)) as f:
-            for line in f:
-                toks = line.strip().split()
-                if not toks:
-                    continue
-                u = int(toks[0])
-                out[u] = [int(x) for x in toks[1:]]
+        for line in _open_lines(os.path.join(data_dir, name)):
+            toks = line.strip().split()
+            if not toks:
+                continue
+            u = int(toks[0])
+            out[u] = [int(x) for x in toks[1:]]
         return out
     # standard names: train.txt / test.txt inside the dataset directory
     return _read("train.txt"), _read("test.txt")
@@ -116,8 +131,7 @@ def load_remap_lists(data_dir: str, prefix: str
     """
     def _read(name, has_header=True):
         out: Dict[int, str] = {}
-        with open(os.path.join(data_dir, name)) as f:
-            lines = f.readlines()
+        lines = _open_lines(os.path.join(data_dir, name))
         start = 1 if (has_header and lines and not lines[0].strip()[0].isdigit()) else 0
         for line in lines[start:]:
             toks = line.strip().split()
