@@ -101,3 +101,47 @@ class ProfileAggregationModel:
     ) -> np.ndarray:
         """Score candidates after bounded interaction downweighting."""
         return self.score(history_items, candidate_items, weights)
+
+
+def fit_item_embeddings(
+    histories: dict[int, np.ndarray],
+    n_items: int,
+    dimension: int = 64,
+    epochs: int = 10,
+    learning_rate: float = 0.03,
+    regularization: float = 1e-4,
+    seed: int = 0,
+) -> ProfileAggregationModel:
+    """Fit item embeddings with a small BPR-style item-pair objective.
+
+    User vectors are temporary averages of their training-history item vectors;
+    only the item matrix is retained. This makes the final recommender exactly
+    history-conditioned at inference time, as required by the masking gate.
+    """
+    if n_items < 1 or dimension < 1 or epochs < 1:
+        raise ValueError("n_items, dimension, and epochs must be positive")
+    rng = np.random.default_rng(seed)
+    q = rng.normal(0.0, 0.05, size=(n_items, dimension))
+    users = [
+        (u, np.unique(items))
+        for u, items in sorted(histories.items())
+        if 2 <= len(np.unique(items)) < n_items
+    ]
+    if not users:
+        raise ValueError("at least one user with two distinct training items is required")
+    for _ in range(epochs):
+        rng.shuffle(users)
+        for _, items in users:
+            pos = int(rng.choice(items))
+            neg = int(rng.integers(0, n_items))
+            while neg in items:
+                neg = int(rng.integers(0, n_items))
+            profile = q[items].mean(axis=0)
+            diff = q[pos] - q[neg]
+            margin = float(profile @ diff)
+            sigmoid = 1.0 / (1.0 + np.exp(np.clip(margin, -35.0, 35.0)))
+            grad_profile = sigmoid * diff
+            q[pos] += learning_rate * (sigmoid * profile - regularization * q[pos])
+            q[neg] += learning_rate * (-sigmoid * profile - regularization * q[neg])
+            q[items] += learning_rate * (grad_profile / len(items) - regularization * q[items])
+    return ProfileAggregationModel(q)

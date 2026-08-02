@@ -540,20 +540,18 @@ ActionShap/code/
 │   ├── movielens.yaml
 │   └── sparse_dataset.yaml
 ├── actionshap/
-│   ├── data.py                 # temporal split and user histories
-│   ├── candidates.py           # fixed candidate sets and recall
+│   ├── recommendation_data.py   # MovieLens loader and temporal split
+│   ├── candidates.py            # fixed candidate sets and recall
 │   ├── models/
-│   │   ├── base.py              # must expose score(u, items, history)
-│   │   ├── profile.py           # primary frozen recommender (history-conditioned)
+│   │   ├── profile.py           # primary history-conditioned recommender
 │   │   ├── sequential.py        # optional robustness model
 │   │   └── static.py            # BPR-MF: quality reference ONLY, never attributed
-│   ├── players.py               # interaction-player construction
-│   ├── coalition.py             # profile masking/downweighting
-│   ├── utility.py               # NDCG/Recall utility functions
-│   ├── attribution.py           # MC Shapley and baselines
-│   ├── intervention.py          # declared feasible interventions
-│   ├── actionability.py         # AIA, regret, top-k precision
+│   ├── recommendation.py        # UserGame, utility, MC Shapley, joint actions
+│   ├── baselines.py             # LOO, LIME, permutation, random
+│   ├── evaluation.py            # intervention effects, AIA, nulls, oracles
 │   ├── convergence.py           # M sweep and rank stability
+│   ├── intervention.py          # legacy tabular intervention code
+│   ├── metrics.py               # legacy/general metrics
 │   ├── stats.py
 │   └── reporting.py
 ├── scripts/

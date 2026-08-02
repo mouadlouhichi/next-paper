@@ -25,7 +25,7 @@ from .metrics import (
 from .intervention import InterventionBudget, intervention_effects
 from .modifiability import ModifiabilityTable, load_modifiability
 from .rerank import eta_sweep, rerank
-from .models.profile import ProfileAggregationModel
+from .models.profile import ProfileAggregationModel, fit_item_embeddings
 from .recommendation import (
     UserGame,
     exhaustive_oracle,
@@ -51,6 +51,7 @@ __all__ = [
     "rerank",
     "eta_sweep",
     "ProfileAggregationModel",
+    "fit_item_embeddings",
     "UserGame",
     "ndcg_at_k",
     "profile_utility",
