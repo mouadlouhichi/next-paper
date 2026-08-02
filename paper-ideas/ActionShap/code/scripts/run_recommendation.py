@@ -45,6 +45,7 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--max-users", type=int, default=0, help="0 means all eligible users")
     p.add_argument("--oracle-users", type=int, default=100, help="users receiving exhaustive B=2 oracle")
     p.add_argument("--k", type=int, default=10)
+    p.add_argument("--action-rho", type=float, default=0.5, help="primary feasible downweighting strength; rho=0 is deletion only")
     p.add_argument("--null-draws", type=int, default=1000)
     return p.parse_args()
 
@@ -70,6 +71,8 @@ def main() -> None:
         raise RuntimeError("no test targets were retrieved; increase --candidate-k or inspect the model")
 
     method_aia: dict[str, list[float]] = {}
+    method_faithfulness: dict[str, list[float]] = {}
+    method_gap: dict[str, list[float]] = {}
     method_null: dict[str, list[float]] = {}
     method_regret: dict[str, list[float]] = {}
     method_joint_effect: dict[str, list[float]] = {}
@@ -84,7 +87,8 @@ def main() -> None:
             tie_break=np.arange(candidates[u].size, dtype=int),
         )
         utility = lambda coalition, g=game: profile_utility(model, g, coalition, args.k)
-        effects = single_player_effects(model, game, k=args.k, rho=0.0)
+        deletion_effects = single_player_effects(model, game, k=args.k, rho=0.0)
+        action_effects = single_player_effects(model, game, k=args.k, rho=args.action_rho)
         shap, efficiency_error = monte_carlo_attribution(
             utility, game.players.size, args.permutations, args.seed + u
         )
@@ -93,23 +97,29 @@ def main() -> None:
             "loo_oracle": permutation_importance(utility, game.players.size),
             "lime": lime_attribution(utility, game.players.size, seed=args.seed + u),
         }
-        per_user = {"user": int(u), "n_players": int(game.players.size), "aia": {}, "joint": {}}
+        per_user = {"user": int(u), "n_players": int(game.players.size), "aia": {}, "faithfulness_alignment": {}, "joint": {}}
         oracle = None
         if user_position < args.oracle_users and game.players.size >= 2:
-            oracle = exhaustive_best_joint(model, game, budget=2, rho_grid=(0.0,), k=args.k)
+            oracle = exhaustive_best_joint(model, game, budget=2, rho_grid=(args.action_rho,), k=args.k)
             oracle_effects.append(float(oracle[2]))
 
         for name, attribution in attrs.items():
-            alignment = aia(attribution, effects)
-            null = within_user_aia_null(attribution, effects, args.null_draws, args.seed + 100000 + u)
+            alignment = aia(attribution, action_effects)
+            faithfulness_alignment = aia(attribution, deletion_effects)
+            null = within_user_aia_null(attribution, action_effects, args.null_draws, args.seed + 100000 + u)
             method_aia.setdefault(name, []).append(alignment)
+            method_faithfulness.setdefault(name, []).append(faithfulness_alignment)
+            method_gap.setdefault(name, []).append(alignment - faithfulness_alignment)
             method_null.setdefault(name, []).append(float(np.mean(null)) if null.size else float("nan"))
             action = select_joint_action(attribution, budget=min(2, game.players.size))
-            achieved = joint_effect(model, game, action, rho=0.0, k=args.k)
+            achieved = joint_effect(model, game, action, rho=args.action_rho, k=args.k)
             method_joint_effect.setdefault(name, []).append(float(achieved))
             if oracle is not None:
                 method_regret.setdefault(name, []).append(float(oracle[2] - achieved))
             per_user["aia"][name] = None if not np.isfinite(alignment) else float(alignment)
+            per_user["faithfulness_alignment"][name] = None if not np.isfinite(faithfulness_alignment) else float(faithfulness_alignment)
+            per_user["actionability_gap"] = per_user.get("actionability_gap", {})
+            per_user["actionability_gap"][name] = None if not np.isfinite(alignment - faithfulness_alignment) else float(alignment - faithfulness_alignment)
             per_user["joint"][name] = {
                 "players": list(action),
                 "effect": float(achieved),
@@ -137,9 +147,12 @@ def main() -> None:
             "items": data.n_items,
             "evaluated_users": len(users),
             "candidate_recall": candidate_recall,
+            "primary_action_rho": args.action_rho,
         },
         "metrics": {
             "aia": summary(method_aia),
+            "faithfulness_alignment": summary(method_faithfulness),
+            "actionability_gap": summary(method_gap),
             "aia_null_mean": summary(method_null),
             "joint_effect_b2": summary(method_joint_effect),
             "joint_regret_b2_on_oracle_subset": summary(method_regret),

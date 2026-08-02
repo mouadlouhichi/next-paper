@@ -1,6 +1,6 @@
 # ActionShap Recommendation-Only Specification
 
-**Status:** design specification, revision 2
+**Status:** design specification, revision 3
 **Scope:** replacement specification for the current cross-domain ActionShap proposal
 
 > **Revision 2 changelog.** Seven corrections applied to the original draft, all before implementation:
@@ -13,6 +13,7 @@
 > 7. **§11.1 — RQ2 was circular at \(B=1\).** Under single-player masking the measured intervention effect *is* leave-one-out with the sign flipped, so the ablation baseline scores a perfect AIA by algebra. Leave-one-out is redemoted to an oracle and the method comparison is moved to joint interventions at \(B\ge 2\).
 >
 > A runnable gate notebook covering items 1, 3, 4, 5 and 7 lives at `ActionShap/notebooks/00_gate_masking_sensitivity.ipynb`.
+> 8. **Narrative correction — ActionShap evaluates actionability rather than proving Shapley superiority.** Method comparisons are secondary; AIA, intervention precision, regret, and faithfulness–actionability divergence are the primary results. The canonical executable is `ActionShap/code/ActionShap_All.ipynb`.
 **Target:** recommendation-only research paper and reproducible implementation
 **Primary venue:** Discover Artificial Intelligence, or a recommender-systems/XAI venue of comparable scope
 
@@ -49,13 +50,15 @@ SignalShap explains **where system value comes from**. ActionShap evaluates **wh
 
 - **From Attribution to Intervention: Evaluating Actionable Explanations for Recommender Systems**
 - **Do Recommendation Explanations Predict What Happens When We Act?**
-- **Monte Carlo ActionShap: Feasibility-Constrained Attribution Evaluation for Recommendation**
+- **Evaluating Recommendation Explanations by Feasible Intervention Outcomes**
 
 ---
 
 ## 3. Revised scientific contribution
 
 ActionShap is an evaluation framework, not primarily a new recommender architecture. Given a trained recommender, an explanation method, and a declared intervention policy, ActionShap measures whether highly attributed recommendation factors predict the outcome of feasible interventions.
+
+**Primary claim discipline.** ActionShap makes no a priori claim that Monte Carlo Shapley, LIME, or any other explainer is superior. The framework is the contribution; the explainers are interchangeable inputs to the evaluation protocol. Any method ranking is an empirical result and must be reported with paired uncertainty and a within-user null.
 
 The contribution consists of four parts:
 
@@ -75,25 +78,20 @@ Do attribution rankings agree with the ranking of feasible intervention effects?
 
 **Primary metric:** Spearman correlation between absolute attribution and absolute intervention effect.
 
-### RQ2 — Method comparison
-Do cooperative-game attributions align better with feasible **joint** interventions than LIME, attention, gradient, and permutation baselines?
+### RQ2 — Faithfulness versus actionability
+Do deletion-based faithfulness metrics agree with feasible-intervention metrics, and under what conditions do their rankings diverge?
 
-**Evaluated at budget \(B\ge 2\).** At \(B=1\) the comparison is circular: the measured effect of masking a single player is leave-one-out by definition, so the ablation baseline attains perfect alignment as an identity. See §11.1.
+**Hypothesis:** the rankings will diverge when deletion is infeasible, non-local, or outside the declared intervention budget. This is the central scientific hypothesis; it does not assume that any particular attribution method is best.
 
-**Hypothesis:** Monte Carlo Shapley will have higher AIA and lower intervention regret than non-cooperative baselines *on joint interventions*, because ablation assumes additivity across players and interacting history items violate it. This is an empirical hypothesis and must not be stated as a result before experiments.
+### RQ3 — Decision quality
+Do explanation rankings lead to different intervention choices, and which methods minimize intervention regret under the same feasible action budget?
 
-### RQ3 — Faithfulness versus actionability
-Do standard deletion/faithfulness metrics rank explanation methods in the same order as intervention-grounded metrics?
+This is an open comparison. Monte Carlo Shapley, LIME, permutation importance, and any attention/gradient method are evaluated as explanation methods; no superiority result is assumed.
 
-**Hypothesis:** the rankings will diverge when deletion is infeasible, non-local, or outside the candidate intervention budget.
+### RQ4 — Generality and stability
+Are the actionability conclusions stable across random seeds, user histories, model variants, intervention budgets, and Monte Carlo sample counts?
 
-### RQ4 — Stability and convergence
-How many Monte Carlo permutations are required for stable intervention decisions?
-
-Report both attribution convergence and top-k intervention convergence. The latter is more important for practical use.
-
-### RQ5 — Decision quality
-Does selecting an intervention using ActionShap produce lower regret than selecting an intervention using competing attribution methods?
+Monte Carlo convergence is a reproducibility analysis, not the paper's scientific contribution.
 
 ---
 
@@ -234,7 +232,7 @@ For interventions intended to remove harmful evidence, also report the signed ef
 
 ## 8. Feasible interventions
 
-The primary intervention is **bounded interaction downweighting**.
+The primary intervention is **bounded interaction downweighting**, deliberately separated from deletion-based faithfulness.
 
 For player \(p\), define:
 
@@ -244,7 +242,9 @@ For player \(p\), define:
 \qquad \rho\in\{0,0.25,0.5\}.
 \]
 
-This represents suppressing or discounting the influence of a historical interaction. The model is not retrained after each intervention; the intervention is applied at the declared input/profile level. If the selected recommender cannot support this operation faithfully, use interaction masking as the primary intervention and document the difference.
+Use \(\rho=0\) only for the deletion/faithfulness diagnostic. The primary feasible-action analysis uses \(\rho=0.5\) (with \(\rho=0.25\) as a sensitivity condition), so actionability is not algebraically identical to leave-one-out deletion. This separation is essential: if feasible action and faithfulness use the same deletion intervention, the paper cannot measure a faithfulness–actionability gap.
+
+The intervention represents suppressing or discounting the influence of a historical interaction. The model is not retrained after each intervention; the intervention is applied at the declared input/profile level. If the selected recommender cannot support this operation faithfully, use interaction masking as the primary intervention and document the difference.
 
 Each intervention must specify:
 
@@ -403,7 +403,7 @@ For budgets \(B\ge 2\), individual attributions must be converted into a score f
 for methods whose output is an unsigned importance ranking. For signed methods, also report the prespecified signed variant \(\sum_{p\in A}\widehat{\phi}_{u,p}^{g}\) when the intervention direction is fixed. The primary action is
 
 \[
-\widehat{A}_{u,g}=rg\max_{A\in\mathcal{A}_{u,B}}\widehat{\Phi}_{u,g}(A),
+\widehat{A}_{u,g}=\operatorname{argmax}_{A\in\mathcal{A}_{u,B}}\widehat{\Phi}_{u,g}(A),
 \]
 
 where \(\mathcal{A}_{u,B}\) is the feasible action space, including the allowed \(
@@ -413,7 +413,7 @@ This set-level rule is required because a per-player AIA alone does not evaluate
 
 #### The single-player intervention makes leave-one-out the ground truth. Do not run RQ2 at \(B=1\).
 
-Work the algebra before designing the comparison. The primary intervention at \(\rho=0\) is masking one player, so the measured effect is
+Work the algebra before designing the comparison. The deletion/faithfulness diagnostic at \(\rho=0\) is masking one player, so the measured effect is
 
 \[
 \Delta_u(p)=v_u(P_u\setminus\{p\})-v_u(P_u),
@@ -430,7 +430,7 @@ for every user, by construction and not by merit. Top-1 intervention precision a
 Two consequences for the design:
 
 1. **Report leave-one-out at \(B=1\) as the oracle, not as a competitor.** It *is* the ground-truth ranking under a single-player masking intervention. Label it as such in the table, and use it as the upper bound against which the other methods, Shapley included, are measured. A method approaching oracle performance without evaluating \(n_u\) counterfactuals is the interesting claim; beating the oracle is impossible.
-2. **Site the real comparison at \(B\ge 2\).** Leave-one-out assumes the joint effect of masking several players is the sum of their individual effects. That assumption fails exactly when players interact — two history items supporting the same recommendation are mutually redundant, so removing either alone does little and removing both is decisive. This is the same redundancy failure the group's source-attribution work formalizes, transplanted from sources to interactions, and it is where a coalition-aware estimator should genuinely separate from ablation. Make the \(B=2\) and \(B=3\) joint-intervention comparison the headline of RQ2, and report \(B=1\) as the sanity check that everything is wired correctly.
+2. **Site the real comparison at \(B\ge 2\).** Leave-one-out assumes the joint effect of masking several players is the sum of their individual effects. That assumption fails exactly when players interact — two history items supporting the same recommendation are mutually redundant, so removing either alone does little and removing both is decisive. This is the same redundancy failure the group's source-attribution work formalizes, transplanted from sources to interactions, and it is where differences between explanation methods can be measured without assuming which method should win. Make the \(B=2\) and \(B=3\) joint-intervention comparison the headline of RQ2, and report \(B=1\) as the sanity check that everything is wired correctly.
 
 If the \(B\ge 2\) comparison shows no separation, that is a reportable negative result about this player set — but the paper must not fall back on the \(B=1\) numbers to manufacture one.
 
@@ -729,4 +729,4 @@ The revised ActionShap paper uses:
 - intervention-grounded metrics;
 - and convergence/stability diagnostics.
 
-This is the version that should be ranked first: it has a clearer novelty claim than SignalShap while remaining substantially more feasible than the original cross-domain ActionShap proposal.
+This is the version that should be ranked first: it measures recommendation actionability directly, treats explanation methods as exchangeable inputs, and keeps Monte Carlo Shapley as an estimator rather than the claimed scientific endpoint.
