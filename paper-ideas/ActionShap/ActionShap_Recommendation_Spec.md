@@ -3,12 +3,12 @@
 **Status:** design specification, revision 2
 **Scope:** replacement specification for the current cross-domain ActionShap proposal
 
-> **Revision 2 changelog.** Six corrections applied to the original draft, all before implementation:
+> **Revision 2 changelog.** Seven corrections applied to the original draft, all before implementation:
 > 1. **§7.1 — the recommended models were incompatible with the player definition.** BPR-MF and LightGCN hold static user embeddings, so profile masking cannot move their scores and the whole game would have degenerated silently. Replaced with history-conditioned model families and a mandatory gate (§7.1.1).
 > 2. **§7.4 — the empty coalition was undefined** for a profile-aggregation model. Pinned to a zero profile vector with a fixed, seeded tie-break.
 > 3. **§9 — the efficiency diagnostic is vacuous** under prefix-walk permutation sampling, where efficiency holds exactly by telescoping. Corrected, with the two valid resolutions stated.
 > 4. **§11.1 — AIA had no null distribution.** Added a required within-user permutation null, motivated by the random-attribution result of 0.518 in the earlier experiments.
-> 5. **§11.4 — \(a^*\) was undefined for budgets above one.** Pinned \(B=1\) exhaustive as primary, greedy as the defined fallback, with a validation of the greedy gap.
+> 5. **§11.4 — \(a^*\) was undefined for budgets above one.** Pinned \(B=1\) as the diagnostic oracle, \(B=2\) as the primary joint-action comparison, and greedy as the defined fallback above \(B=2\), with a validation of the greedy gap.
 > 6. **§7.2 / §14 — the tie-break rule was promised but not stated, and the repo path was wrong.** Both fixed.
 > 7. **§11.1 — RQ2 was circular at \(B=1\).** Under single-player masking the measured intervention effect *is* leave-one-out with the sign flipped, so the ablation baseline scores a perfect AIA by algebra. Leave-one-out is redemoted to an oracle and the method comparison is moved to joint interventions at \(B\ge 2\).
 >
@@ -272,7 +272,13 @@ If all retained interaction players are technically mutable, the feasibility ter
 
 ### Intervention budget
 
-Declare a per-user budget \(B\), such as one or three interventions. The selected action is the feasible action with the highest predicted benefit under that budget. The same budget must be used for every explanation method.
+Use two budgets with different roles:
+
+- **B=1:** diagnostic sanity check only. Leave-one-out is the exact oracle for single-player masking and must not be used as the headline method comparison.
+- **B=2:** primary scientific comparison. This is the smallest budget at which interaction and redundancy can distinguish coalition-aware attribution from leave-one-out.
+- **B=3:** optional robustness analysis, using the greedy oracle defined in §11.4.
+
+The selected action is the feasible joint action with the highest predicted benefit under the declared budget. The same budget, intervention strengths, and action-selection rule must be used for every explanation method.
 
 ---
 
@@ -385,6 +391,26 @@ For every method, construct the null by **shuffling \(|\Delta_u(p)|\) across the
 
 Shuffle within user, never across users: player-set cardinality \(n_u\) varies, and Spearman's null distribution depends on it, so a pooled shuffle would mix nulls of different widths and produce a biased reference.
 
+#### Joint-action attribution rule
+
+For budgets \(B\ge 2\), individual attributions must be converted into a score for a joint intervention set before an action is selected. Define the predicted value of a candidate action \(A\subseteq P_u\) as
+
+\[
+\widehat{\Phi}_{u,g}(A)=\sum_{p\in A}|\widehat{\phi}_{u,p}^{g}|,
+\qquad |A|\le B,
+\]
+
+for methods whose output is an unsigned importance ranking. For signed methods, also report the prespecified signed variant \(\sum_{p\in A}\widehat{\phi}_{u,p}^{g}\) when the intervention direction is fixed. The primary action is
+
+\[
+\widehat{A}_{u,g}=rg\max_{A\in\mathcal{A}_{u,B}}\widehat{\Phi}_{u,g}(A),
+\]
+
+where \(\mathcal{A}_{u,B}\) is the feasible action space, including the allowed \(
+ho\) values. The action score and tie-break must be fixed before test evaluation. For the primary \(B=2\) experiment, enumerate candidate pairs on the retained history; for \(B=3\), use the greedy procedure in §11.4 unless the restricted exhaustive validation is being run.
+
+This set-level rule is required because a per-player AIA alone does not evaluate whether a method chooses a good *joint* intervention.
+
 #### The single-player intervention makes leave-one-out the ground truth. Do not run RQ2 at \(B=1\).
 
 Work the algebra before designing the comparison. The primary intervention at \(\rho=0\) is masking one player, so the measured effect is
@@ -436,7 +462,7 @@ Normalize only when the denominator is nonzero, and report the fraction of users
 | \(B=1\) | one player, one \(\rho\) | \(50\times 3=150\) | exhaustive, trivially affordable |
 | \(B=3\) | three players, each with a \(\rho\) | \(\binom{50}{3}\times 3^3 \approx 5.3\times 10^5\) | exhaustive is infeasible per user |
 
-**Adopt \(B=1\) with exhaustive \(a^*\) as the primary experiment.** It makes the oracle exact, keeps regret unambiguous, and is the setting in which the metric means what the reader will assume it means.
+**Use \(B=1\) only as the exhaustive diagnostic oracle.** It makes the single-player reference exact, but it cannot support the main method comparison because leave-one-out is identical to the measured intervention effect. Use \(B=2\) as the primary experiment; enumerate the feasible joint actions when the retained history is capped at 50 and use the same action space for every method. For \(B=3\), use greedy forward selection and report its gap against exhaustive search on a restricted subset.
 
 For \(B>1\), \(a^*\) is defined by **greedy forward selection**: pick the best single action, fix it, re-measure all remaining actions against that modified profile, pick the next, repeat \(B\) times. State in the paper that this is a greedy oracle rather than a true optimum, so reported regret is a **lower bound** on regret against the exact optimum. Validate the approximation once, on a restricted setting small enough for exhaustive search (for example \(n_u\le 12\), \(B=2\)), and report the mean gap between greedy and exhaustive \(a^*\). Every method's selected action \(a_g\) must be scored under the same budget and the same greedy protocol, so the comparison stays paired.
 
@@ -663,10 +689,10 @@ The project is ready for paper writing only when all conditions below are met:
 3. The full coalition and empty coalition are validated, with the empty-coalition tie-break fixed and reported.
 4. MC Shapley convergence is documented against the §9 criterion, **not** against efficiency error.
 5. At least three attribution baselines run on the same users and factors.
-6. Intervention semantics and budgets are frozen before final test evaluation, with \(a^*\) computed exhaustively at \(B=1\).
+6. Intervention semantics and budgets are frozen before final test evaluation, with \(B=1\) treated as a diagnostic oracle and \(B=2\) used for the primary joint-action comparison.
 7. AIA, top-k precision, regret, and stability are implemented with tests.
 8. Efficiency error is reported, with an explicit statement of whether the estimator makes it exact by construction.
-9. At least one negative control and one synthetic validation game pass, and the AIA permutation null of §11.1 centres near zero.
+9. At least one negative control and one synthetic validation game pass, the AIA permutation null of §11.1 centres near zero, and the joint-action aggregation rule is tested on synthetic interactions.
 10. Results are reported with paired confidence intervals and corrected statistical tests.
 11. No conclusion depends only on the composite Actionability Score.
 12. The final manuscript distinguishes recommendation-factor attribution from source-level SignalShap attribution.
