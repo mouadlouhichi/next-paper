@@ -45,12 +45,14 @@ Do not edit the file. The loader:
 
 ## 3. Run the masking-sensitivity gate first
 
-Open the gate notebook from the repository root:
+Open the single all-in-one notebook from the repository root:
 
 ```bash
 cd /path/to/next-paper
-jupyter notebook paper-ideas/ActionShap/code/00_gate_masking_sensitivity.ipynb
+jupyter notebook paper-ideas/ActionShap/code/ActionShap_All.ipynb
 ```
+
+Use **Run All**. The notebook runs the masking gate first, then the recommendation experiments, then generates all paper assets.
 
 Run all cells. The blocking checks are:
 
