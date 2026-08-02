@@ -1,0 +1,35 @@
+{
+  "A_additive": {
+    "max_recovery_error": 8.881784197001252e-16,
+    "additivity_ok": true
+  },
+  "B_complementary": {
+    "cav": [
+      2.5,
+      2.5,
+      2.0
+    ],
+    "additivity_ok": true,
+    "synergy": true
+  },
+  "C_redundant": {
+    "cav": [
+      1.5,
+      1.5
+    ]
+  },
+  "D_myerson": {
+    "phi": [
+      2.000000000000001,
+      2.000000000000001,
+      1.0000000000000004,
+      1.0000000000000004
+    ],
+    "component_efficiency_ok": "True"
+  },
+  "E_risk": {
+    "drop0": 3.9000000000000004,
+    "drop1": 0.1,
+    "risk_penalizes_highvar": true
+  }
+}
