@@ -1,0 +1,33 @@
+{
+  "config": {
+    "data": "/home/user/next-paper/paper-ideas/CAVI/scripts/../gate/data",
+    "users": 25,
+    "nmax": 8,
+    "perm": 80,
+    "seed": 7
+  },
+  "summary": {
+    "H1-fullfut": {
+      "rho_bf": 0.472803286505882,
+      "rho_mean_var": 0.14727232725826536,
+      "rho_risk_reorder": 0.956310797895437,
+      "frac_reordered": 0.0
+    },
+    "H3-fullfut": {
+      "rho_bf": 0.3305539292151328,
+      "rho_mean_var": 0.36991166985014917,
+      "rho_risk_reorder": 0.9910714285714286,
+      "frac_reordered": 0.0
+    },
+    "H3-nextonly": {
+      "rho_bf": 0.11931000085827222,
+      "rho_mean_var": 0.36991166985014917,
+      "rho_risk_reorder": 0.9910714285714286,
+      "frac_reordered": 0.0
+    }
+  },
+  "signal": {
+    "mean_range": 0.11404452904698778,
+    "frac_signal": 0.4117647058823529
+  }
+}

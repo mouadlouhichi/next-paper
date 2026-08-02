@@ -107,20 +107,27 @@ proper logged data with the plan actually deployed, which is Paper B's task.
 
 ## Honest findings / open items
 
-1. **Divergence magnitude is configuration-sensitive.** The original gate
-   (≈0.09 Spearman between backward and forward orderings) used a different
-   forward/backward operationalization than the full experiment (≈0.74). The
-   **existence** of divergence is robust; its **magnitude** depends on exactly
-   how "forward" is defined. Paper A must pin the value-function operationalization
-   before making quantitative ordering claims — this is a real, reportable nuance,
-   not hidden.
-2. **Variance channel.** In the gate, risk-adjustment did not reorder levers
-   (singleton proxy); the full variance-game Shapley should be used to conclude
-   whether variance drives ordering.
-3. **Single recommender family, one dataset.** BPR item factors + mean-pooling is
+1. **Divergence magnitude is configuration-sensitive — now resolved by the Paper-A study.** The original gate (≈0.09) vs full experiment (≈0.74) differed because of operationalization *and* a near-degenerate forward value under the weak recommender. `run_paperA_divergence.py` uses a stronger BPR recommender and matches all settings while sweeping only the operationalization, and measures the **full variance-game Shapley** (not the singleton proxy). Results (ML-1M, seed 7, 17 users):
+
+   ```
+   forward value signal: mean coalition-range = 0.114, frac users with signal>1e-3 = 0.412
+   config           rho(B,F)   rho(mean,var)   rho(risk-reorder)  frac-reorder
+   H1-fullfut          0.473          0.147              0.956         0.000
+   H3-fullfut          0.331          0.370              0.991         0.000
+   H3-nextonly         0.119          0.370              0.991         0.000
+   ```
+
+   **Key takeaways (honest, Paper-A-shaping):**
+   - **Forward divergence is real but moderate, not dramatic.** ρ(B,F) ∈ [0.12, 0.47] across operationalizations — the forward ordering is *related to but not identical with* the backward ordering. The earlier "≈0.09" and "≈0.74" extremes were artifacts (degenerate value + unmatched settings). This tempers the novelty claim: the forward game is a *meaningful correction*, not a radical departure.
+   - **Variance carries independent information.** ρ(mean,var) is low (0.15–0.37), so the variance game is *not* redundant with the mean game — the risk channel is real.
+   - **But risk-adjustment does not reorder at κ=0.5** (ρ(risk-reorder)≈0.96–0.99, frac-reorder≈0). The variance Shapley differs in *value* but not in *ordering* at this κ. A larger κ or a genuinely risk-relevant lever space is needed before claiming risk changes which actions to take. This is a *negative result* the Paper-A paper should report.
+   - **Degeneracy caveat:** only 41% of users have measurable forward signal. On the other 59%, the forward value is ≈0 and the ordering is noise. Divergence claims must be reported *signal-filtered* (restricted to users with genuine forward signal), or they will be dominated by degenerate users.
+
+2. **Single recommender family, one dataset.** BPR item factors + mean-pooling is
    a realistic but simple backbone; re-check on the actual Paper-A backbone and a
-   second (rebuilt Amazon-Book) dataset.
-4. **OPE needs real logs.** The offline OPE demonstration is a scaffold; the
+   second (rebuilt Amazon-Book) dataset. Amazon/grouplens hosts are TLS-blocked in
+   this sandbox, so a second dataset is not reachable here.
+3. **OPE needs real logs.** The offline OPE demonstration is a scaffold; the
    doubly-robust DR estimator is validated, but a deployable OPE result needs
    logged interaction data with known/estimated propensities.
 
