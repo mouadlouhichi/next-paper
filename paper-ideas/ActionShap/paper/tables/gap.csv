@@ -1,0 +1,4 @@
+metric,method,method_label,mean,ci95_low,ci95_high,n_seeds
+Actionability gap,shapley_mc,Monte Carlo Shapley,0.05134447482342218,0.03941107758537527,0.06327787206146908,5
+Actionability gap,loo_oracle,LOO oracle,-0.07099670577100925,-0.08021040213642082,-0.06178300940559768,5
+Actionability gap,lime,LIME,-0.06617111948938574,-0.07948390842048825,-0.052858330558283234,5
