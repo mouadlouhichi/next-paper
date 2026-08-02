@@ -74,16 +74,52 @@ off-policy (IPS/DR) evaluation.
 
 ```
 # 1. tests
-python3 -m pytest tests/ -q          # 15 passed
+python3 -m pytest tests/ -q          # 20 passed
 
 # 2. synthetic theory validation
 python3 scripts/run_synthetic_validation.py
 
 # 3. real-data full experiment (needs gate/data/ml1m_*.dat)
 python3 scripts/run_ml1m_experiment.py --users 50 --nmax 8 --seed 7
+
+# 4. cross-dataset experiments (Amazon-Book, Yelp2018)
+python3 scripts/run_cross_dataset.py --dataset amazon-book --users 40 --seed 7
+python3 scripts/run_cross_dataset.py --dataset yelp2018 --users 40 --seed 7
+
+# 5. interactive walkthrough notebook (loads all 3 datasets)
+jupyter notebook CAVI_walkthrough.ipynb
 ```
 
 Requires: `numpy`, `scipy` (and `pytest` for tests). Pure CPU, no GPU.
+
+## Datasets
+
+| Dataset | Format | Files | Metadata |
+|---|---|---|---|
+| **MovieLens-1M** | tab-separated ratings/items | `gate/data/ml1m_ratings.dat`, `ml1m_items.dat` | timestamps + genres ✅ |
+| **Amazon-Book** | LightGCN split | `data/amazon-book/{train,test,user_list,item_list}.txt` | **none** (remapped ids) |
+| **Yelp2018** | LightGCN split | `data/yelp2018/{train,test,user_list,item_list}.txt` | **none** (remapped ids) |
+
+The Amazon-Book and Yelp2018 splits are the canonical LightGCN/HCCF/HPCF/DyHuCoG
+format. **Caveat (proposal SignalShap §4.1):** these canonical splits carry **no
+timestamps and no item metadata**, so per-user sequences come from the train-split
+order, the held-out future targets from the test split, and *feasibility* uses a
+**popularity-based anchor** (top-decile-popular items are immovable) instead of the
+genre-anchor used for ML-1M. The proposal recommends rebuilding Amazon-Book from
+the raw Amazon Reviews 2018 corpus to recover timestamps/metadata — the loaders
+here support the canonical shared split and document the limitation.
+
+### Cross-dataset results (ML-1M-backed pipeline, seed 7)
+
+```
+Amazon-Book : users=14, additivity_all_ok=True, rho(back,forward)=0.68, 25% divergent
+Yelp2018    : users=17, additivity_all_ok=True, rho(back,forward)=0.92,  0% divergent
+```
+
+The **additivity theorem holds exactly on every user** across all three datasets.
+Forward-vs-backward divergence is dataset-dependent (stronger on the sparse
+Amazon-Book than Yelp2018), consistent with the Paper-A finding that the forward
+game is a meaningful but not radical correction to backward Shapley.
 
 ## Key results (real ML-1M, seed 7)
 

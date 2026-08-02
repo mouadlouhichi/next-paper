@@ -6,3 +6,5 @@ paper-ideas/CAVI/gate/data/ml1m_items.dat
 # python caches
 __pycache__/
 *.pyc
+paper-ideas/CAVI/data/amazon-book/
+paper-ideas/CAVI/data/yelp2018/
