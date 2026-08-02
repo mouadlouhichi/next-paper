@@ -1,91 +1,91 @@
 seed,method,method_label,mean,median,n,source_file,metric
-42,shapley_mc,Monte Carlo Shapley,0.25354568331121136,0.2916806580773619,71,movielens_actionshap_seed42.json,aia
-42,loo_oracle,LOO oracle,0.6224436251107544,0.6124940790686464,71,movielens_actionshap_seed42.json,aia
-42,lime,LIME,0.2676854246910145,0.27890767127104427,71,movielens_actionshap_seed42.json,aia
-43,shapley_mc,Monte Carlo Shapley,0.23656005672711672,0.25143032356103956,83,movielens_actionshap_seed43.json,aia
-43,loo_oracle,LOO oracle,0.6276583875034543,0.6419407387663694,83,movielens_actionshap_seed43.json,aia
-43,lime,LIME,0.24563938538216148,0.2504897164340598,83,movielens_actionshap_seed43.json,aia
-44,shapley_mc,Monte Carlo Shapley,0.26538165561979615,0.2638569226901887,76,movielens_actionshap_seed44.json,aia
-44,loo_oracle,LOO oracle,0.6533290891650023,0.6462469317942666,76,movielens_actionshap_seed44.json,aia
-44,lime,LIME,0.25931979527146354,0.284244893451985,76,movielens_actionshap_seed44.json,aia
-45,shapley_mc,Monte Carlo Shapley,0.19035345385058527,0.19508226486189553,52,movielens_actionshap_seed45.json,aia
-45,loo_oracle,LOO oracle,0.6492747407189946,0.6800666257251518,52,movielens_actionshap_seed45.json,aia
-45,lime,LIME,0.23882444317608736,0.2557568487262852,52,movielens_actionshap_seed45.json,aia
-46,shapley_mc,Monte Carlo Shapley,0.19862407994251033,0.22566941078831443,51,movielens_actionshap_seed46.json,aia
-46,loo_oracle,LOO oracle,0.6907122390482676,0.7144345083117604,51,movielens_actionshap_seed46.json,aia
-46,lime,LIME,0.24233004458894328,0.27386127875258304,51,movielens_actionshap_seed46.json,aia
-42,shapley_mc,Monte Carlo Shapley,0.29997483543586306,0.34052039964676745,113,movielens_actionshap_seed42.json,faithfulness_alignment
-42,loo_oracle,LOO oracle,1.0,1.0,113,movielens_actionshap_seed42.json,faithfulness_alignment
-42,lime,LIME,0.3184160447740008,0.3230484977461562,113,movielens_actionshap_seed42.json,faithfulness_alignment
-43,shapley_mc,Monte Carlo Shapley,0.29871657964907994,0.316227766016838,139,movielens_actionshap_seed43.json,faithfulness_alignment
-43,loo_oracle,LOO oracle,1.0,1.0,140,movielens_actionshap_seed43.json,faithfulness_alignment
-43,lime,LIME,0.3098688734336346,0.3334639479284134,140,movielens_actionshap_seed43.json,faithfulness_alignment
-44,shapley_mc,Monte Carlo Shapley,0.23061933201723847,0.25427915300249215,114,movielens_actionshap_seed44.json,faithfulness_alignment
-44,loo_oracle,LOO oracle,1.0,1.0,114,movielens_actionshap_seed44.json,faithfulness_alignment
-44,lime,LIME,0.24678239599438803,0.2823104596948591,114,movielens_actionshap_seed44.json,faithfulness_alignment
-45,shapley_mc,Monte Carlo Shapley,0.2477398063580701,0.2504363015010636,90,movielens_actionshap_seed45.json,faithfulness_alignment
-45,loo_oracle,LOO oracle,1.0,1.0,90,movielens_actionshap_seed45.json,faithfulness_alignment
-45,lime,LIME,0.28134483016601586,0.29372689077444697,90,movielens_actionshap_seed45.json,faithfulness_alignment
-46,shapley_mc,Monte Carlo Shapley,0.197703120446389,0.24590433672850098,77,movielens_actionshap_seed46.json,faithfulness_alignment
-46,loo_oracle,LOO oracle,1.0,1.0,78,movielens_actionshap_seed46.json,faithfulness_alignment
-46,lime,LIME,0.1922138594908079,0.25393634511628466,78,movielens_actionshap_seed46.json,faithfulness_alignment
-42,shapley_mc,Monte Carlo Shapley,-0.04602449080458329,-0.03843392709667709,71,movielens_actionshap_seed42.json,actionability_gap
-42,loo_oracle,LOO oracle,-0.37755637488924554,-0.3875059209313535,71,movielens_actionshap_seed42.json,actionability_gap
-42,lime,LIME,-0.052868182715945476,-0.017729966395690508,71,movielens_actionshap_seed42.json,actionability_gap
-43,shapley_mc,Monte Carlo Shapley,-0.040675125412499284,0.0,83,movielens_actionshap_seed43.json,actionability_gap
-43,loo_oracle,LOO oracle,-0.3723416124965457,-0.35805926123363063,83,movielens_actionshap_seed43.json,actionability_gap
-43,lime,LIME,-0.050347029878389626,0.0,83,movielens_actionshap_seed43.json,actionability_gap
-44,shapley_mc,Monte Carlo Shapley,0.02701719975999693,0.0,76,movielens_actionshap_seed44.json,actionability_gap
-44,loo_oracle,LOO oracle,-0.3466709108349976,-0.3537530682057333,76,movielens_actionshap_seed44.json,actionability_gap
-44,lime,LIME,0.02750395222757313,0.0030850597875280716,76,movielens_actionshap_seed44.json,actionability_gap
-45,shapley_mc,Monte Carlo Shapley,-0.062353518795560045,-0.010746798375128208,52,movielens_actionshap_seed45.json,actionability_gap
-45,loo_oracle,LOO oracle,-0.35072525928100534,-0.3199333742748483,52,movielens_actionshap_seed45.json,actionability_gap
-45,lime,LIME,-0.05401247382110519,-0.00817053030543849,52,movielens_actionshap_seed45.json,actionability_gap
-46,shapley_mc,Monte Carlo Shapley,0.025806300302632607,0.0,51,movielens_actionshap_seed46.json,actionability_gap
-46,loo_oracle,LOO oracle,-0.30928776095173244,-0.28556549168823964,51,movielens_actionshap_seed46.json,actionability_gap
-46,lime,LIME,0.047773254359625435,0.06143827145526773,51,movielens_actionshap_seed46.json,actionability_gap
-42,shapley_mc,Monte Carlo Shapley,-0.0007866850868449823,0.00033541019662496985,71,movielens_actionshap_seed42.json,aia_null_mean
-42,loo_oracle,LOO oracle,-0.0003414153717513041,0.0001427248064295945,71,movielens_actionshap_seed42.json,aia_null_mean
-42,lime,LIME,-0.0013066119458314013,-0.0005163977794943216,71,movielens_actionshap_seed42.json,aia_null_mean
-43,shapley_mc,Monte Carlo Shapley,0.0004933013057494319,0.0006130730673081195,83,movielens_actionshap_seed43.json,aia_null_mean
-43,loo_oracle,LOO oracle,0.0006653578918364063,0.0007973661509306118,83,movielens_actionshap_seed43.json,aia_null_mean
-43,lime,LIME,-0.0007053108026641833,0.0010036911703204133,83,movielens_actionshap_seed43.json,aia_null_mean
-44,shapley_mc,Monte Carlo Shapley,0.0008339648015511418,0.0011466205042399923,76,movielens_actionshap_seed44.json,aia_null_mean
-44,loo_oracle,LOO oracle,0.00012319444317452957,-0.0005030017095082488,76,movielens_actionshap_seed44.json,aia_null_mean
-44,lime,LIME,0.001288441695107485,0.0009020774551222954,76,movielens_actionshap_seed44.json,aia_null_mean
-45,shapley_mc,Monte Carlo Shapley,0.00018140928639305857,0.0016504937471283356,52,movielens_actionshap_seed45.json,aia_null_mean
-45,loo_oracle,LOO oracle,0.00019427413939826122,0.0006334673777253355,52,movielens_actionshap_seed45.json,aia_null_mean
-45,lime,LIME,2.8088478788817985e-06,3.0228529281776772e-05,52,movielens_actionshap_seed45.json,aia_null_mean
-46,shapley_mc,Monte Carlo Shapley,-0.0005309750288322413,-0.0014378497864107951,51,movielens_actionshap_seed46.json,aia_null_mean
-46,loo_oracle,LOO oracle,-0.0020831836717948803,-0.002929224665821504,51,movielens_actionshap_seed46.json,aia_null_mean
-46,lime,LIME,4.3394061250688764e-05,-0.0010633763354378496,51,movielens_actionshap_seed46.json,aia_null_mean
-42,shapley_mc,Monte Carlo Shapley,-0.0007793560147263354,0.0,1987,movielens_actionshap_seed42.json,joint_effect_b2
-42,loo_oracle,LOO oracle,-3.688132927181226e-05,0.0,1987,movielens_actionshap_seed42.json,joint_effect_b2
-42,lime,LIME,-0.00021349533617353415,0.0,1987,movielens_actionshap_seed42.json,joint_effect_b2
-43,shapley_mc,Monte Carlo Shapley,-0.001779963903040565,0.0,1870,movielens_actionshap_seed43.json,joint_effect_b2
-43,loo_oracle,LOO oracle,-0.0002853794864635878,0.0,1870,movielens_actionshap_seed43.json,joint_effect_b2
-43,lime,LIME,-0.0005791930719396675,0.0,1870,movielens_actionshap_seed43.json,joint_effect_b2
-44,shapley_mc,Monte Carlo Shapley,0.00013515998578747992,0.0,2003,movielens_actionshap_seed44.json,joint_effect_b2
-44,loo_oracle,LOO oracle,0.0007346469984015866,0.0,2003,movielens_actionshap_seed44.json,joint_effect_b2
-44,lime,LIME,0.001048106297846127,0.0,2003,movielens_actionshap_seed44.json,joint_effect_b2
-45,shapley_mc,Monte Carlo Shapley,0.0004206438739386531,0.0,1959,movielens_actionshap_seed45.json,joint_effect_b2
-45,loo_oracle,LOO oracle,3.1519499430368014e-05,0.0,1959,movielens_actionshap_seed45.json,joint_effect_b2
-45,lime,LIME,0.0003971069720252685,0.0,1959,movielens_actionshap_seed45.json,joint_effect_b2
-46,shapley_mc,Monte Carlo Shapley,-0.0006516496773916789,0.0,2048,movielens_actionshap_seed46.json,joint_effect_b2
-46,loo_oracle,LOO oracle,-1.779758601827238e-05,0.0,2048,movielens_actionshap_seed46.json,joint_effect_b2
-46,lime,LIME,-0.0003597881034871638,0.0,2048,movielens_actionshap_seed46.json,joint_effect_b2
-42,shapley_mc,Monte Carlo Shapley,0.0024614143485912183,0.0,100,movielens_actionshap_seed42.json,joint_regret_b2
-42,loo_oracle,LOO oracle,0.0024614143485912183,0.0,100,movielens_actionshap_seed42.json,joint_regret_b2
-42,lime,LIME,0.0015086269864126806,0.0,100,movielens_actionshap_seed42.json,joint_regret_b2
-43,shapley_mc,Monte Carlo Shapley,0.0020362326665380407,0.0,100,movielens_actionshap_seed43.json,joint_regret_b2
-43,loo_oracle,LOO oracle,0.0003064562012651945,0.0,100,movielens_actionshap_seed43.json,joint_regret_b2
-43,lime,LIME,0.002155884359998974,0.0,100,movielens_actionshap_seed43.json,joint_regret_b2
-44,shapley_mc,Monte Carlo Shapley,0.0001786845654760455,0.0,100,movielens_actionshap_seed44.json,joint_regret_b2
-44,loo_oracle,LOO oracle,0.0012964656240941185,0.0,100,movielens_actionshap_seed44.json,joint_regret_b2
-44,lime,LIME,0.0003730873489643644,0.0,100,movielens_actionshap_seed44.json,joint_regret_b2
-45,shapley_mc,Monte Carlo Shapley,0.0,0.0,100,movielens_actionshap_seed45.json,joint_regret_b2
-45,loo_oracle,LOO oracle,0.0003064562012651945,0.0,100,movielens_actionshap_seed45.json,joint_regret_b2
-45,lime,LIME,0.0,0.0,100,movielens_actionshap_seed45.json,joint_regret_b2
-46,shapley_mc,Monte Carlo Shapley,0.0,0.0,100,movielens_actionshap_seed46.json,joint_regret_b2
-46,loo_oracle,LOO oracle,0.00026400050467840884,0.0,100,movielens_actionshap_seed46.json,joint_regret_b2
-46,lime,LIME,0.0,0.0,100,movielens_actionshap_seed46.json,joint_regret_b2
+42,shapley_mc,Monte Carlo Shapley,0.4715216635789391,0.4894736842105263,50,movielens_actionshap_seed42.json,aia
+42,loo_oracle,LOO oracle,0.9392149326421771,0.9496240601503758,50,movielens_actionshap_seed42.json,aia
+42,lime,LIME,0.7649680422776397,0.7924812030075188,50,movielens_actionshap_seed42.json,aia
+43,shapley_mc,Monte Carlo Shapley,0.5093752217854385,0.49637204900362797,50,movielens_actionshap_seed43.json,aia
+43,loo_oracle,LOO oracle,0.9129828442970858,0.9527972027972029,50,movielens_actionshap_seed43.json,aia
+43,lime,LIME,0.8079306142773633,0.8172932330827067,50,movielens_actionshap_seed43.json,aia
+44,shapley_mc,Monte Carlo Shapley,0.5227839240223141,0.5086282138913718,50,movielens_actionshap_seed44.json,aia
+44,loo_oracle,LOO oracle,0.93609214779029,0.955639097744361,50,movielens_actionshap_seed44.json,aia
+44,lime,LIME,0.8045069084682087,0.8270676691729323,50,movielens_actionshap_seed44.json,aia
+45,shapley_mc,Monte Carlo Shapley,0.4846621067271222,0.5223881381776119,50,movielens_actionshap_seed45.json,aia
+45,loo_oracle,LOO oracle,0.9244929209077816,0.9593984962406013,50,movielens_actionshap_seed45.json,aia
+45,lime,LIME,0.815715780091941,0.8428571428571427,50,movielens_actionshap_seed45.json,aia
+46,shapley_mc,Monte Carlo Shapley,0.5244625689068413,0.5234022556390977,50,movielens_actionshap_seed46.json,aia
+46,loo_oracle,LOO oracle,0.9322336255076192,0.9451127819548872,50,movielens_actionshap_seed46.json,aia
+46,lime,LIME,0.8029519613513421,0.8196172248803828,50,movielens_actionshap_seed46.json,aia
+42,shapley_mc,Monte Carlo Shapley,0.43407431423066084,0.4804511278195488,50,movielens_actionshap_seed42.json,faithfulness_alignment
+42,loo_oracle,LOO oracle,1.0,1.0,50,movielens_actionshap_seed42.json,faithfulness_alignment
+42,lime,LIME,0.8450599797519301,0.87593984962406,50,movielens_actionshap_seed42.json,faithfulness_alignment
+43,shapley_mc,Monte Carlo Shapley,0.46030134519763005,0.45814904909332155,50,movielens_actionshap_seed43.json,faithfulness_alignment
+43,loo_oracle,LOO oracle,1.0,1.0,50,movielens_actionshap_seed43.json,faithfulness_alignment
+43,lime,LIME,0.8517999399980823,0.8819548872180449,50,movielens_actionshap_seed43.json,faithfulness_alignment
+44,shapley_mc,Monte Carlo Shapley,0.45012686539466723,0.4633971291866029,50,movielens_actionshap_seed44.json,faithfulness_alignment
+44,loo_oracle,LOO oracle,1.0,1.0,50,movielens_actionshap_seed44.json,faithfulness_alignment
+44,lime,LIME,0.8813788203540526,0.8969924812030075,50,movielens_actionshap_seed44.json,faithfulness_alignment
+45,shapley_mc,Monte Carlo Shapley,0.4420399445755483,0.5142857142857142,50,movielens_actionshap_seed45.json,faithfulness_alignment
+45,loo_oracle,LOO oracle,1.0,1.0,50,movielens_actionshap_seed45.json,faithfulness_alignment
+45,lime,LIME,0.8731661259277358,0.8999999999999999,50,movielens_actionshap_seed45.json,faithfulness_alignment
+46,shapley_mc,Monte Carlo Shapley,0.46954064150503777,0.49624060150375937,50,movielens_actionshap_seed46.json,faithfulness_alignment
+46,loo_oracle,LOO oracle,1.0,1.0,50,movielens_actionshap_seed46.json,faithfulness_alignment
+46,lime,LIME,0.8755240378816229,0.894168988905831,50,movielens_actionshap_seed46.json,faithfulness_alignment
+42,shapley_mc,Monte Carlo Shapley,0.037447349348278154,0.03157894736842101,50,movielens_actionshap_seed42.json,actionability_gap
+42,loo_oracle,LOO oracle,-0.060785067357822846,-0.05037593984962413,50,movielens_actionshap_seed42.json,actionability_gap
+42,lime,LIME,-0.08009193747429039,-0.07368421052631585,50,movielens_actionshap_seed42.json,actionability_gap
+43,shapley_mc,Monte Carlo Shapley,0.04907387658780846,0.027819548872180383,50,movielens_actionshap_seed43.json,actionability_gap
+43,loo_oracle,LOO oracle,-0.08701715570291427,-0.04720279720279713,50,movielens_actionshap_seed43.json,actionability_gap
+43,lime,LIME,-0.04386932572071891,-0.05639097744360905,50,movielens_actionshap_seed43.json,actionability_gap
+44,shapley_mc,Monte Carlo Shapley,0.07265705862764685,0.043609022556390986,50,movielens_actionshap_seed44.json,actionability_gap
+44,loo_oracle,LOO oracle,-0.06390785220970985,-0.0443609022556391,50,movielens_actionshap_seed44.json,actionability_gap
+44,lime,LIME,-0.0768719118858438,-0.0714285714285714,50,movielens_actionshap_seed44.json,actionability_gap
+45,shapley_mc,Monte Carlo Shapley,0.042622162151573904,0.02902360797097636,50,movielens_actionshap_seed45.json,actionability_gap
+45,loo_oracle,LOO oracle,-0.07550707909221849,-0.04060150375939875,50,movielens_actionshap_seed45.json,actionability_gap
+45,lime,LIME,-0.05745034583579473,-0.0661654135338346,50,movielens_actionshap_seed45.json,actionability_gap
+46,shapley_mc,Monte Carlo Shapley,0.05492192740180355,0.033082706766917325,50,movielens_actionshap_seed46.json,actionability_gap
+46,loo_oracle,LOO oracle,-0.06776637449238074,-0.05488721804511282,50,movielens_actionshap_seed46.json,actionability_gap
+46,lime,LIME,-0.07257207653028086,-0.06264524948735484,50,movielens_actionshap_seed46.json,actionability_gap
+42,shapley_mc,Monte Carlo Shapley,-0.00038822538194519625,9.116541353383471e-05,50,movielens_actionshap_seed42.json,aia_null_mean
+42,loo_oracle,LOO oracle,0.0006489679628936594,4.336808689942018e-19,50,movielens_actionshap_seed42.json,aia_null_mean
+42,lime,LIME,0.0007973296698141896,-8.571428571428296e-05,50,movielens_actionshap_seed42.json,aia_null_mean
+43,shapley_mc,Monte Carlo Shapley,0.001269200795076956,0.0019113076809671233,50,movielens_actionshap_seed43.json,aia_null_mean
+43,loo_oracle,LOO oracle,-5.0840457787826575e-05,0.0019161995898837997,50,movielens_actionshap_seed43.json,aia_null_mean
+43,lime,LIME,0.0008587735525568344,0.0017105263157894753,50,movielens_actionshap_seed43.json,aia_null_mean
+44,shapley_mc,Monte Carlo Shapley,0.0004196580813407441,-0.0009699248120300755,50,movielens_actionshap_seed44.json,aia_null_mean
+44,loo_oracle,LOO oracle,-0.000507099448539077,-6.165413533834574e-05,50,movielens_actionshap_seed44.json,aia_null_mean
+44,lime,LIME,-0.0003222358044432351,0.0020360902255639095,50,movielens_actionshap_seed44.json,aia_null_mean
+45,shapley_mc,Monte Carlo Shapley,-7.784313725490206e-05,-0.00087218045112782,50,movielens_actionshap_seed45.json,aia_null_mean
+45,loo_oracle,LOO oracle,-0.000466326744462967,-0.0006142857142857152,50,movielens_actionshap_seed45.json,aia_null_mean
+45,lime,LIME,-0.00045769290358764036,-0.00031804511278195303,50,movielens_actionshap_seed45.json,aia_null_mean
+46,shapley_mc,Monte Carlo Shapley,0.0009179512685456958,0.0015144478844169242,50,movielens_actionshap_seed46.json,aia_null_mean
+46,loo_oracle,LOO oracle,0.0013736525780720826,0.0017142857142857146,50,movielens_actionshap_seed46.json,aia_null_mean
+46,lime,LIME,0.0016718658967451539,0.0022954887218045125,50,movielens_actionshap_seed46.json,aia_null_mean
+42,shapley_mc,Monte Carlo Shapley,0.00010934577903761289,0.0001495688084211244,50,movielens_actionshap_seed42.json,joint_effect_b2
+42,loo_oracle,LOO oracle,-0.0002628847847995397,-0.00012685354879021782,50,movielens_actionshap_seed42.json,joint_effect_b2
+42,lime,LIME,-0.0003044306277126441,-0.00042547595870906507,50,movielens_actionshap_seed42.json,joint_effect_b2
+43,shapley_mc,Monte Carlo Shapley,0.0001453516529825205,0.00012794423007975175,50,movielens_actionshap_seed43.json,joint_effect_b2
+43,loo_oracle,LOO oracle,-0.0002618150853788459,-0.00021951877605766446,50,movielens_actionshap_seed43.json,joint_effect_b2
+43,lime,LIME,-0.00035328241591203844,-0.00041472207042342335,50,movielens_actionshap_seed43.json,joint_effect_b2
+44,shapley_mc,Monte Carlo Shapley,9.158535434577452e-05,8.132423121001708e-05,50,movielens_actionshap_seed44.json,joint_effect_b2
+44,loo_oracle,LOO oracle,-0.00034551159268668695,-0.00044035403564937625,50,movielens_actionshap_seed44.json,joint_effect_b2
+44,lime,LIME,-0.000445398743011739,-0.0005140061568054133,50,movielens_actionshap_seed44.json,joint_effect_b2
+45,shapley_mc,Monte Carlo Shapley,8.999547180979172e-05,4.318857967389178e-05,50,movielens_actionshap_seed45.json,joint_effect_b2
+45,loo_oracle,LOO oracle,-0.0002451149932434304,-8.851022299233291e-05,50,movielens_actionshap_seed45.json,joint_effect_b2
+45,lime,LIME,-0.0003563603329560594,-0.0004473862690629882,50,movielens_actionshap_seed45.json,joint_effect_b2
+46,shapley_mc,Monte Carlo Shapley,0.00010645059891695951,-6.159463745186722e-06,50,movielens_actionshap_seed46.json,joint_effect_b2
+46,loo_oracle,LOO oracle,-0.0002517100031389885,-0.00014614980917176945,50,movielens_actionshap_seed46.json,joint_effect_b2
+46,lime,LIME,-0.0003444374882548218,-0.0004399826393118311,50,movielens_actionshap_seed46.json,joint_effect_b2
+42,shapley_mc,Monte Carlo Shapley,0.0003849350619108849,0.00047583476854867746,5,movielens_actionshap_seed42.json,joint_regret_b2
+42,loo_oracle,LOO oracle,0.0005831891858884775,0.0005347891293103757,5,movielens_actionshap_seed42.json,joint_regret_b2
+42,lime,LIME,0.0006784469084944566,0.000568294916304557,5,movielens_actionshap_seed42.json,joint_regret_b2
+43,shapley_mc,Monte Carlo Shapley,0.00014260995147310495,9.621909085183455e-05,5,movielens_actionshap_seed43.json,joint_regret_b2
+43,loo_oracle,LOO oracle,0.0007523762152331082,0.0007398845808018195,5,movielens_actionshap_seed43.json,joint_regret_b2
+43,lime,LIME,0.0008342854954452083,0.0007848712397382496,5,movielens_actionshap_seed43.json,joint_regret_b2
+44,shapley_mc,Monte Carlo Shapley,6.760542633432731e-05,5.8676286647629805e-05,5,movielens_actionshap_seed44.json,joint_regret_b2
+44,loo_oracle,LOO oracle,0.0007374444133008473,0.0009152762003429293,5,movielens_actionshap_seed44.json,joint_regret_b2
+44,lime,LIME,0.0008483683630943984,0.0009177754436406893,5,movielens_actionshap_seed44.json,joint_regret_b2
+45,shapley_mc,Monte Carlo Shapley,0.0004230675054062272,0.0003813698909412855,5,movielens_actionshap_seed45.json,joint_regret_b2
+45,loo_oracle,LOO oracle,0.0010040204557406397,0.0010547593487806317,5,movielens_actionshap_seed45.json,joint_regret_b2
+45,lime,LIME,0.0010010233912924216,0.0010547593487806317,5,movielens_actionshap_seed45.json,joint_regret_b2
+46,shapley_mc,Monte Carlo Shapley,0.0004523575905149513,0.0006548536726247445,5,movielens_actionshap_seed46.json,joint_regret_b2
+46,loo_oracle,LOO oracle,0.0005380451362827831,0.0005419668149302947,5,movielens_actionshap_seed46.json,joint_regret_b2
+46,lime,LIME,0.0009665427536943216,0.001134865532746443,5,movielens_actionshap_seed46.json,joint_regret_b2
