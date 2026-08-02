@@ -94,9 +94,18 @@ class DynamicsModel:
         p = self.rec.profile(profile_items)
         logits = self.rec.Q @ p / self.temp
         prof_set = set(profile_items)
+        # mask already-consumed items to avoid immediate repeats
         logits[list(prof_set)] = -1e9
-        logits = logits - logits.max()
-        pr = np.exp(logits)
+        # robust softmax: guard against NaN/overflow and degenerate all-masked cases
+        logits = np.nan_to_num(logits, nan=-1e9, posinf=0.0, neginf=-1e9)
+        m = logits.max()
+        if not np.isfinite(m):
+            m = 0.0
+        pr = np.exp(np.clip(logits - m, -80.0, 0.0))
+        s = pr.sum()
+        if not np.isfinite(s) or s <= 0:
+            pr = np.ones(len(logits))
+            pr[list(prof_set)] = 0.0
         pr = pr / pr.sum()
         return int(rng.choice(len(self.rec.Q), p=pr))
 
