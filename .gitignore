@@ -8,6 +8,9 @@ results/raw/*.json
 **/results/raw/*.json
 **/results/paper_assets/
 */**/data/ml-1m*
+*/**/data/amazon-book*
+
+*/**/data/yelp2018*
 .DS_Store
 **/.DS_Store
 paper-ideas/ActionShap/code/.DS_Store
@@ -15,3 +18,14 @@ paper-ideas/ActionShap/code/.ipynb_checkpoints
 paper-ideas/ActionShap/code/actionshap/.ipynb_checkpoints
 paper-ideas/ActionShap/code/actionshap/.DS_Store
 paper-ideas/ActionShap/code/actionshap/**/__pycache__//
+paper-ideas/CAV/code/.DS_Store
+paper-ideas/CAV/code/.ipynb_checkpoints
+paper-ideas/CAV/code/cav/.ipynb_checkpoints
+paper-ideas/CAV/code/cav/.DS_Store
+paper-ideas/CAV/code/cav/**/__pycache__//
+paper-ideas/CAV/data/*
+paper-ideas/TCAV/code/.DS_Store
+paper-ideas/TCAV/code/.ipynb_checkpoints
+paper-ideas/TCAV/code/tcav/.ipynb_checkpoints
+paper-ideas/TCAV/code/tcav/.DS_Store
+paper-ideas/TCAV/code/tcav/**/__pycache__//
