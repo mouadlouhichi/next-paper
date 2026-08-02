@@ -49,7 +49,7 @@ Open the gate notebook from the repository root:
 
 ```bash
 cd /path/to/next-paper
-jupyter notebook paper-ideas/ActionShap/notebooks/00_gate_masking_sensitivity.ipynb
+jupyter notebook paper-ideas/ActionShap/code/00_gate_masking_sensitivity.ipynb
 ```
 
 Run all cells. The blocking checks are:
