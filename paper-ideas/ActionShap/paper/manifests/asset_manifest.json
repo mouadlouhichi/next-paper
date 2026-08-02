@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-08-02T19:40:44.513080+00:00",
+  "generated_at_utc": "2026-08-02T21:05:54.973726+00:00",
   "python": "3.12.13 (main, Mar  3 2026, 12:39:30) [Clang 21.0.0 (clang-2100.0.123.102)]",
   "platform": "macOS-26.5.1-arm64-arm-64bit",
   "source_files": [
@@ -49,7 +49,9 @@
     "fig04_joint_effect_b2.pdf",
     "fig04_joint_effect_b2.png",
     "fig05_joint_regret_b2.pdf",
-    "fig05_joint_regret_b2.png"
+    "fig05_joint_regret_b2.png",
+    "fig06_mc_convergence.pdf",
+    "fig06_mc_convergence.png"
   ],
   "tables": [
     "actionability_gap.tex",
@@ -59,6 +61,8 @@
     "effect.csv",
     "faithfulness.csv",
     "faithfulness.tex",
+    "full_catalogue_robustness.csv",
+    "full_catalogue_robustness.tex",
     "gap.csv",
     "joint_effect.tex",
     "joint_regret.tex",
