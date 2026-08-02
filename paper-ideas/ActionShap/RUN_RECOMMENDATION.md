@@ -52,7 +52,7 @@ cd /path/to/next-paper
 jupyter notebook paper-ideas/ActionShap/code/ActionShap_All.ipynb
 ```
 
-Use **Run All**. The notebook runs the masking gate first, then the recommendation experiments, then generates all paper assets.
+Use **Run All**. The notebook runs the masking gate first, then the recommendation experiments, then generates all paper assets under `paper/figures/`, `paper/tables/`, `paper/data/`, and `paper/manifests/`.
 
 Run all cells. The blocking checks are:
 
