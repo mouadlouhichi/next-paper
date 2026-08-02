@@ -1,0 +1,204 @@
+{
+  "config": {
+    "dataset": "amazon-book",
+    "data_root": "/home/user/next-paper/paper-ideas/CAVI/scripts/../data",
+    "users": 40,
+    "nmax": 8,
+    "train_users": 1200,
+    "budget": 3.0,
+    "seed": 7
+  },
+  "report": {
+    "dataset": "amazon-book",
+    "n_users": 14,
+    "mean_rho_back_fwd": 0.680402072350142,
+    "frac_rho_lt_0.6": 0.25,
+    "additivity_all_ok": true,
+    "mean_plan_size": 2.0,
+    "mean_naive_lift": 1.1390630912796347
+  },
+  "per_user": [
+    {
+      "user": 26577,
+      "n_levers": 2,
+      "rho_bf": NaN,
+      "additivity_ok": true,
+      "additivity_diff": 0.0,
+      "plan": [
+        0,
+        1
+      ],
+      "plan_cost": 2.1,
+      "naive_lift": 0.0
+    },
+    {
+      "user": 33838,
+      "n_levers": 4,
+      "rho_bf": 0.7745966692414834,
+      "additivity_ok": true,
+      "additivity_diff": 4.440892098500626e-16,
+      "plan": [
+        0,
+        1
+      ],
+      "plan_cost": 2.1,
+      "naive_lift": 2.4670390626922973
+    },
+    {
+      "user": 51907,
+      "n_levers": 3,
+      "rho_bf": NaN,
+      "additivity_ok": true,
+      "additivity_diff": 0.0,
+      "plan": [
+        0,
+        1
+      ],
+      "plan_cost": 2.1,
+      "naive_lift": 0.0
+    },
+    {
+      "user": 6313,
+      "n_levers": 2,
+      "rho_bf": NaN,
+      "additivity_ok": true,
+      "additivity_diff": 0.0,
+      "plan": [
+        0,
+        1
+      ],
+      "plan_cost": 2.1,
+      "naive_lift": -0.004422468782385508
+    },
+    {
+      "user": 20615,
+      "n_levers": 5,
+      "rho_bf": NaN,
+      "additivity_ok": true,
+      "additivity_diff": 1.1102230246251565e-16,
+      "plan": [
+        1,
+        4
+      ],
+      "plan_cost": 2.5,
+      "naive_lift": 1.0749056166203261
+    },
+    {
+      "user": 38330,
+      "n_levers": 6,
+      "rho_bf": NaN,
+      "additivity_ok": true,
+      "additivity_diff": 6.245004513516506e-17,
+      "plan": [
+        0,
+        1
+      ],
+      "plan_cost": 2.1,
+      "naive_lift": 0.06706999677581094
+    },
+    {
+      "user": 13708,
+      "n_levers": 4,
+      "rho_bf": 0.39999999999999997,
+      "additivity_ok": true,
+      "additivity_diff": 2.220446049250313e-16,
+      "plan": [
+        2,
+        1
+      ],
+      "plan_cost": 2.3,
+      "naive_lift": 1.7830453222168479
+    },
+    {
+      "user": 3634,
+      "n_levers": 6,
+      "rho_bf": 0.6377481392176932,
+      "additivity_ok": true,
+      "additivity_diff": 5.551115123125783e-16,
+      "plan": [
+        1,
+        5
+      ],
+      "plan_cost": 2.6,
+      "naive_lift": 1.407692660258299
+    },
+    {
+      "user": 28748,
+      "n_levers": 2,
+      "rho_bf": NaN,
+      "additivity_ok": true,
+      "additivity_diff": 2.220446049250313e-16,
+      "plan": [
+        0,
+        1
+      ],
+      "plan_cost": 2.1,
+      "naive_lift": 1.2462730805723052
+    },
+    {
+      "user": 23892,
+      "n_levers": 3,
+      "rho_bf": 0.8660254037844387,
+      "additivity_ok": true,
+      "additivity_diff": 5.551115123125783e-17,
+      "plan": [
+        0,
+        2
+      ],
+      "plan_cost": 2.2,
+      "naive_lift": 2.1384899865322398
+    },
+    {
+      "user": 36876,
+      "n_levers": 3,
+      "rho_bf": 0.8660254037844387,
+      "additivity_ok": true,
+      "additivity_diff": 1.1102230246251565e-16,
+      "plan": [
+        2,
+        1
+      ],
+      "plan_cost": 2.3,
+      "naive_lift": 1.803492649653693
+    },
+    {
+      "user": 33747,
+      "n_levers": 3,
+      "rho_bf": 0.8660254037844387,
+      "additivity_ok": true,
+      "additivity_diff": 1.1102230246251565e-16,
+      "plan": [
+        0,
+        1
+      ],
+      "plan_cost": 2.1,
+      "naive_lift": 0.9908372371793188
+    },
+    {
+      "user": 27842,
+      "n_levers": 4,
+      "rho_bf": 0.2581988897471611,
+      "additivity_ok": true,
+      "additivity_diff": 2.220446049250313e-16,
+      "plan": [
+        2,
+        1
+      ],
+      "plan_cost": 2.3,
+      "naive_lift": 1.6575870960721744
+    },
+    {
+      "user": 1280,
+      "n_levers": 4,
+      "rho_bf": 0.7745966692414834,
+      "additivity_ok": true,
+      "additivity_diff": 2.220446049250313e-16,
+      "plan": [
+        1,
+        2
+      ],
+      "plan_cost": 2.3,
+      "naive_lift": 1.3148730381239586
+    }
+  ]
+}

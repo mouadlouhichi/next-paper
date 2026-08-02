@@ -1,0 +1,243 @@
+{
+  "config": {
+    "dataset": "yelp2018",
+    "data_root": "/home/user/next-paper/paper-ideas/CAVI/scripts/../data",
+    "users": 40,
+    "nmax": 8,
+    "train_users": 1200,
+    "budget": 3.0,
+    "seed": 7
+  },
+  "report": {
+    "dataset": "yelp2018",
+    "n_users": 17,
+    "mean_rho_back_fwd": 0.9196152422706632,
+    "frac_rho_lt_0.6": 0.0,
+    "additivity_all_ok": true,
+    "mean_plan_size": 2.0,
+    "mean_naive_lift": 0.44590367768213135
+  },
+  "per_user": [
+    {
+      "user": 30132,
+      "n_levers": 2,
+      "rho_bf": 0.9999999999999999,
+      "additivity_ok": true,
+      "additivity_diff": 0.0,
+      "plan": [
+        1,
+        0
+      ],
+      "plan_cost": 2.1,
+      "naive_lift": 1.7282945386926918
+    },
+    {
+      "user": 23514,
+      "n_levers": 3,
+      "rho_bf": 0.8660254037844387,
+      "additivity_ok": true,
+      "additivity_diff": 1.1102230246251565e-16,
+      "plan": [
+        1,
+        2
+      ],
+      "plan_cost": 2.3,
+      "naive_lift": 1.625607351170323
+    },
+    {
+      "user": 22040,
+      "n_levers": 4,
+      "rho_bf": NaN,
+      "additivity_ok": true,
+      "additivity_diff": 0.0,
+      "plan": [
+        0,
+        1
+      ],
+      "plan_cost": 2.1,
+      "naive_lift": 0.0
+    },
+    {
+      "user": 3294,
+      "n_levers": 2,
+      "rho_bf": NaN,
+      "additivity_ok": true,
+      "additivity_diff": 0.0,
+      "plan": [
+        1,
+        0
+      ],
+      "plan_cost": 2.1,
+      "naive_lift": 0.320426813769448
+    },
+    {
+      "user": 11078,
+      "n_levers": 3,
+      "rho_bf": NaN,
+      "additivity_ok": true,
+      "additivity_diff": 0.0,
+      "plan": [
+        0,
+        1
+      ],
+      "plan_cost": 2.1,
+      "naive_lift": 0.0
+    },
+    {
+      "user": 21541,
+      "n_levers": 2,
+      "rho_bf": NaN,
+      "additivity_ok": true,
+      "additivity_diff": 0.0,
+      "plan": [
+        1,
+        0
+      ],
+      "plan_cost": 2.1,
+      "naive_lift": -0.010583096071655265
+    },
+    {
+      "user": 5430,
+      "n_levers": 4,
+      "rho_bf": NaN,
+      "additivity_ok": true,
+      "additivity_diff": 1.734723475976807e-18,
+      "plan": [
+        0,
+        3
+      ],
+      "plan_cost": 2.3,
+      "naive_lift": 0.04848670083806192
+    },
+    {
+      "user": 28925,
+      "n_levers": 3,
+      "rho_bf": 0.8660254037844387,
+      "additivity_ok": true,
+      "additivity_diff": 1.1102230246251565e-16,
+      "plan": [
+        1,
+        0
+      ],
+      "plan_cost": 2.1,
+      "naive_lift": 1.5889888143897215
+    },
+    {
+      "user": 19462,
+      "n_levers": 3,
+      "rho_bf": 0.8660254037844387,
+      "additivity_ok": true,
+      "additivity_diff": 1.1102230246251565e-16,
+      "plan": [
+        2,
+        0
+      ],
+      "plan_cost": 2.2,
+      "naive_lift": 1.176365478362827
+    },
+    {
+      "user": 4178,
+      "n_levers": 4,
+      "rho_bf": NaN,
+      "additivity_ok": true,
+      "additivity_diff": 0.0,
+      "plan": [
+        0,
+        1
+      ],
+      "plan_cost": 2.1,
+      "naive_lift": 0.0
+    },
+    {
+      "user": 21029,
+      "n_levers": 2,
+      "rho_bf": NaN,
+      "additivity_ok": true,
+      "additivity_diff": 0.0,
+      "plan": [
+        0,
+        1
+      ],
+      "plan_cost": 2.1,
+      "naive_lift": 0.0
+    },
+    {
+      "user": 4112,
+      "n_levers": 2,
+      "rho_bf": NaN,
+      "additivity_ok": true,
+      "additivity_diff": 0.0,
+      "plan": [
+        1,
+        0
+      ],
+      "plan_cost": 2.1,
+      "naive_lift": 0.18177981174718377
+    },
+    {
+      "user": 29337,
+      "n_levers": 3,
+      "rho_bf": NaN,
+      "additivity_ok": true,
+      "additivity_diff": 1.3877787807814457e-17,
+      "plan": [
+        2,
+        0
+      ],
+      "plan_cost": 2.2,
+      "naive_lift": 0.054480245593695034
+    },
+    {
+      "user": 6028,
+      "n_levers": 2,
+      "rho_bf": NaN,
+      "additivity_ok": true,
+      "additivity_diff": 0.0,
+      "plan": [
+        0,
+        1
+      ],
+      "plan_cost": 2.1,
+      "naive_lift": 0.0
+    },
+    {
+      "user": 18012,
+      "n_levers": 2,
+      "rho_bf": NaN,
+      "additivity_ok": true,
+      "additivity_diff": 0.0,
+      "plan": [
+        1,
+        0
+      ],
+      "plan_cost": 2.1,
+      "naive_lift": 0.055629157123874486
+    },
+    {
+      "user": 18182,
+      "n_levers": 2,
+      "rho_bf": NaN,
+      "additivity_ok": true,
+      "additivity_diff": 0.0,
+      "plan": [
+        0,
+        1
+      ],
+      "plan_cost": 2.1,
+      "naive_lift": 0.45193028776711164
+    },
+    {
+      "user": 11341,
+      "n_levers": 2,
+      "rho_bf": 0.9999999999999999,
+      "additivity_ok": true,
+      "additivity_diff": 5.551115123125783e-17,
+      "plan": [
+        0,
+        1
+      ],
+      "plan_cost": 2.1,
+      "naive_lift": 0.3589564172129507
+    }
+  ]
+}
