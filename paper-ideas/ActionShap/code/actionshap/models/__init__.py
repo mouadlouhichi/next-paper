@@ -1,7 +1,9 @@
-"""Task models that ActionShap evaluates attributions over."""
+"""Models supported by ActionShap.
 
-from __future__ import annotations
+``static`` is the legacy clustering model. ``profile`` is the recommendation
+model used by the revised recommendation-only specification.
+"""
 
-from .static import ClusterQuality, StaticPipeline, sweep_k
+from .profile import ProfileAggregationModel
 
-__all__ = ["StaticPipeline", "ClusterQuality", "sweep_k"]
+__all__ = ["ProfileAggregationModel"]
