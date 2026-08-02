@@ -57,7 +57,7 @@ For a coalition $S\subseteq P_u$, let
 \begin{equation}
  v_u(S)=\operatorname{NDCG@K}(f_u^S,y_u),
 \end{equation}
-where the candidate set is fixed from the full model and $y_u$ is the temporal test target. The empty coalition is a zero profile with a deterministic tie-break.
+where the evaluation set is fixed once per user, contains the held-out target and a declared sample of unseen negatives, and $y_u$ is the temporal test target. This is sampled-ranking evaluation rather than retrieval; target coverage is one by construction. The empty coalition is a zero profile with a deterministic tie-break.
 
 \subsection{Deletion and feasible intervention}
 Deletion is used as a faithfulness diagnostic:
@@ -82,7 +82,7 @@ where $\Delta^{\mathrm{act}}$ is measured under the feasible intervention, not d
 
 \section{Experimental Protocol}
 \subsection{Data and model}
-The primary benchmark is MovieLens-1M \citep{harper2016}. Interactions are temporally split with a deterministic timestamp/index tie-break. The primary model is a history-conditioned profile aggregation recommender with frozen item embeddings trained from the training split. Candidate sets are retrieved once and reused for all coalitions.
+The primary benchmark is MovieLens-1M \citep{harper2016}. Interactions are temporally split with a deterministic timestamp/index tie-break. The primary model is a history-conditioned profile aggregation recommender with frozen item embeddings trained from the training split. Each user receives a fixed sampled evaluation set containing the held-out target and declared unseen negatives; the same set is reused for all coalitions. A full-catalogue subset is reserved for robustness.
 
 \subsection{Validity and leakage controls}
 We validate masking sensitivity, empty/full coalition consistency, user-locality, deterministic splits, synthetic additive-game correctness, identical-player symmetry, and AIA-null calibration. Validation and test interactions never enter the training profile or attribution player set.

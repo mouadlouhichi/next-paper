@@ -16,7 +16,7 @@ ActionShap does **not** assume that Shapley, LIME, attention, or any other metho
 
 ## Abstract — working draft
 
-Recommendation explanations are commonly evaluated with deletion-based faithfulness measures, although recommendation systems are used through feasible changes to user profiles, item exposure, or interaction influence. A factor can therefore be faithful under deletion while being infeasible or ineffective under an operational intervention. We introduce **ActionShap**, an intervention-grounded protocol for evaluating actionable explanations in recommendation. For each user, ActionShap defines a player set of retained historical interactions, a frozen candidate set, a declared intervention policy, and a ranking-quality utility. It measures whether an explanation ranking predicts the realized effect of feasible interventions using Attribution–Intervention Alignment, top-k intervention precision, intervention regret, intervention success, and attribution stability. The protocol supports arbitrary attribution methods; Monte Carlo Shapley is included as a cooperative attribution baseline because the user-specific player set is too large for exact enumeration. We evaluate ActionShap on temporally split recommendation data using fixed candidate sets and leakage-safe intervention budgets. The primary analysis compares faithfulness-based rankings with intervention-grounded rankings and tests whether explanation methods select useful joint interventions at budget two. We report method differences with paired uncertainty and within-user permutation nulls rather than assuming Shapley superiority. The result is an auditable evaluation instrument for asking whether a recommendation explanation predicts what happens when a system operator or user performs a feasible change.
+Recommendation explanations are commonly evaluated with deletion-based faithfulness measures, although recommendation systems are used through feasible changes to user profiles, item exposure, or interaction influence. A factor can therefore be faithful under deletion while being infeasible or ineffective under an operational intervention. We introduce **ActionShap**, an intervention-grounded protocol for evaluating actionable explanations in recommendation. For each user, ActionShap defines a player set of retained historical interactions, a fixed sampled evaluation set, a declared intervention policy, and a ranking-quality utility. It measures whether an explanation ranking predicts the realized effect of feasible interventions using Attribution–Intervention Alignment, top-k intervention precision, intervention regret, intervention success, and attribution stability. The protocol supports arbitrary attribution methods; Monte Carlo Shapley is included as a cooperative attribution baseline because the user-specific player set is too large for exact enumeration. We evaluate ActionShap on temporally split recommendation data using fixed sampled evaluation sets, leakage-safe intervention budgets, and a full-catalogue robustness subset. The primary analysis compares faithfulness-based rankings with intervention-grounded rankings and tests whether explanation methods select useful joint interventions at budget two. We report method differences with paired uncertainty and within-user permutation nulls rather than assuming Shapley superiority. The result is an auditable evaluation instrument for asking whether a recommendation explanation predicts what happens when a system operator or user performs a feasible change.
 
 **Keywords:** explainable recommendation; actionability; intervention; faithfulness; Shapley value; LIME; counterfactual evaluation; recommender systems
 
@@ -87,7 +87,7 @@ No method is declared best in advance. All methods use the same users, player fa
 
 ### Table 1 — Protocol and data audit
 
-Dataset counts, temporal split, candidate size, candidate recall, history cap, model, intervention strengths, budget, and number of users.
+Dataset counts, temporal split, candidate size, target coverage and evaluation-set size, history cap, model, intervention strengths, budget, and number of users.
 
 ### Table 2 — Faithfulness versus actionability
 
@@ -157,7 +157,7 @@ Before submission, the paper must satisfy all of the following:
 - confidence intervals on all headline comparisons;
 - negative controls and synthetic correctness tests;
 - ablations for history cap, candidate size, intervention strength, and budget;
-- limitations covering model scope, offline utility, profile intervention semantics, candidate recall, and generalization;
+- limitations covering model scope, offline utility, profile intervention semantics, target coverage and evaluation-set size, and generalization;
 - no causal language unless causal assumptions are explicitly defended;
 - generated assets linked to the exact input result files through a manifest.
 

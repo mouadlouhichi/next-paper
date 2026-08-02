@@ -5,6 +5,7 @@ from __future__ import annotations
 import numpy as np
 import pytest
 
+from actionshap.candidates import fixed_evaluation_sets
 from actionshap.models.profile import ProfileAggregationModel
 from actionshap.recommendation import (
     UserGame,
@@ -13,6 +14,7 @@ from actionshap.recommendation import (
     ndcg_at_k,
     profile_utility,
     select_joint_action,
+    target_margin_utility,
 )
 
 
@@ -67,3 +69,25 @@ def test_joint_selection_and_aggregation():
 def test_joint_selection_rejects_invalid_budget():
     with pytest.raises(ValueError):
         select_joint_action(np.ones(2), budget=3)
+
+
+def test_fixed_evaluation_sets_always_include_target():
+    histories = {0: np.array([0, 1]), 1: np.array([2, 3])}
+    tests = {0: 4, 1: 5}
+    sets, coverage = fixed_evaluation_sets(histories, tests, n_items=10, size=5, seed=4)
+    assert coverage == 1.0
+    assert all(tests[u] in sets[u] for u in tests)
+    assert all(len(sets[u]) == 5 for u in tests)
+
+
+def test_target_margin_is_continuous_and_finite():
+    model = ProfileAggregationModel(np.eye(5))
+    game = UserGame(
+        players=np.array([0, 1]),
+        candidate_items=np.array([0, 1, 2, 3, 4]),
+        target_item=0,
+        tie_break=np.arange(5),
+    )
+    value = target_margin_utility(model, game, frozenset({0}))
+    assert np.isfinite(value)
+    assert 0.0 < value < 1.0

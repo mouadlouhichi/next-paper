@@ -194,16 +194,14 @@ Tie handling must be deterministic and reported. **Specify the rule concretely r
 
 ### 7.3 Fixed candidate set
 
-Generate a candidate set \(C_u\) once from the frozen full model and reuse it for:
+Build a fixed **sampled evaluation set** \(E_u\) once per user by including the held-out target and sampling a declared number of unseen negatives uniformly from the training-excluded catalogue. This is not retrieval and must not be described as candidate recall. Reuse the same \(E_u\) for:
 
 - the original recommendation;
 - every coalition evaluation;
 - every intervention evaluation;
 - every attribution method.
 
-This prevents candidate-retrieval changes from being mistaken for attribution or intervention effects.
-
-Report candidate recall before reporting ActionShap results. If the held-out item is absent from \(C_u\), that user cannot contribute to a ranking-improvement claim and must be handled consistently across all methods.
+Target coverage is therefore exactly one by construction. Report the evaluation-set size, negative-sampling seed, and the fact that the primary results are sampled-ranking results. As a robustness check, evaluate a smaller user subset against the full unseen catalogue.
 
 ### 7.4 Utility function
 
@@ -476,7 +474,7 @@ Measure rank correlation of attributions across:
 
 ### 11.6 Standard recommendation metrics
 
-Report NDCG@K, Recall@K, MRR, and candidate recall. These evaluate recommendation quality; they are not automatically explanation-quality metrics.
+Report NDCG@K, Recall@K, MRR, target coverage (=1 by construction), and evaluation-set size. These evaluate recommendation quality; they are not automatically explanation-quality metrics.
 
 ---
 
@@ -702,7 +700,7 @@ The project is ready for paper writing only when all conditions below are met:
 0. **Run the masking-sensitivity spike** (`notebooks/00_gate_masking_sensitivity.ipynb`). Train a throwaway static model and a throwaway history-conditioned model on whatever data is at hand, and confirm the first is insensitive to masking and the second is not. Half a day, and it decides the model family for the whole paper.
 1. Rewrite the data loader and freeze the temporal split.
 2. Train and validate the baseline recommender, **history-conditioned per §7.1**.
-3. Build fixed candidate sets and report candidate recall.
+3. Build fixed sampled evaluation sets and record target coverage and negative-sampling seed.
 4. Implement profile masking for the empty, singleton, and full coalitions.
 5. Implement exact Shapley on tiny synthetic games for validation only.
 6. Implement Monte Carlo Shapley for real user histories.

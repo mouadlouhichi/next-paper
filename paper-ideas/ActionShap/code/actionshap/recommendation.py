@@ -76,6 +76,24 @@ def profile_utility(
     return ndcg_at_k(scores, game.candidate_items, game.target_item, k, game.tie_break)
 
 
+
+def target_margin_utility(
+    model,
+    game: UserGame,
+    coalition: frozenset[int],
+    k: int = 10,
+    competitor_count: int = 10,
+) -> float:
+    """Continuous target-vs-competitors utility on the fixed evaluation set."""
+    ids = game.players
+    mask = np.fromiter((i in coalition for i in range(ids.size)), dtype=bool, count=ids.size)
+    scores = model.score_masked(ids, game.candidate_items, mask)
+    target_index = int(np.flatnonzero(game.candidate_items == game.target_item)[0])
+    competitors = np.delete(scores, target_index)
+    top = np.sort(competitors)[-min(competitor_count, competitors.size):]
+    margin = float(scores[target_index] - top.mean())
+    return float(1.0 / (1.0 + np.exp(-np.clip(margin, -40.0, 40.0))))
+
 def mc_shapley(
     utility: Utility,
     n_players: int,

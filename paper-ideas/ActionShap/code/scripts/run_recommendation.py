@@ -19,7 +19,7 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from actionshap.baselines import lime_attribution, monte_carlo_attribution, permutation_importance
-from actionshap.candidates import fixed_candidates
+from actionshap.candidates import fixed_evaluation_sets
 from actionshap.evaluation import (
     aia,
     exhaustive_best_joint,
@@ -28,7 +28,7 @@ from actionshap.evaluation import (
     within_user_aia_null,
 )
 from actionshap.models.profile import fit_item_embeddings
-from actionshap.recommendation import UserGame, profile_utility, select_joint_action
+from actionshap.recommendation import UserGame, select_joint_action, target_margin_utility
 from actionshap.recommendation_data import load_movielens_1m, truncate_histories
 
 
@@ -36,8 +36,8 @@ def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser()
     p.add_argument("--ratings", required=True, help="path to MovieLens ratings.dat")
     p.add_argument("--output", default="results/raw/movielens_actionshap.json")
-    p.add_argument("--n-max", type=int, default=50)
-    p.add_argument("--candidate-k", type=int, default=200)
+    p.add_argument("--n-max", type=int, default=20)
+    p.add_argument("--candidate-k", type=int, default=200, help="fixed sampled evaluation-set size; target is always included")
     p.add_argument("--embedding-dim", type=int, default=64)
     p.add_argument("--epochs", type=int, default=10)
     p.add_argument("--permutations", type=int, default=250)
@@ -61,14 +61,14 @@ def main() -> None:
         epochs=args.epochs,
         seed=args.seed,
     )
-    candidates, candidate_recall = fixed_candidates(
-        model, histories, data.test, data.n_items, k=args.candidate_k
+    candidates, candidate_recall = fixed_evaluation_sets(
+        histories, data.test, data.n_items, size=args.candidate_k, seed=args.seed
     )
-    users = [u for u in sorted(data.test) if data.test[u] in set(candidates[u].tolist())]
+    users = sorted(data.test)
     if args.max_users:
         users = users[:args.max_users]
     if not users:
-        raise RuntimeError("no test targets were retrieved; increase --candidate-k or inspect the model")
+        raise RuntimeError("no eligible test users were found")
 
     method_aia: dict[str, list[float]] = {}
     method_faithfulness: dict[str, list[float]] = {}
@@ -86,9 +86,9 @@ def main() -> None:
             target_item=data.test[u],
             tie_break=np.arange(candidates[u].size, dtype=int),
         )
-        utility = lambda coalition, g=game: profile_utility(model, g, coalition, args.k)
-        deletion_effects = single_player_effects(model, game, k=args.k, rho=0.0)
-        action_effects = single_player_effects(model, game, k=args.k, rho=args.action_rho)
+        utility = lambda coalition, g=game: target_margin_utility(model, g, coalition, args.k)
+        deletion_effects = single_player_effects(model, game, k=args.k, rho=0.0, utility="target_margin")
+        action_effects = single_player_effects(model, game, k=args.k, rho=args.action_rho, utility="target_margin")
         shap, efficiency_error = monte_carlo_attribution(
             utility, game.players.size, args.permutations, args.seed + u
         )
@@ -100,7 +100,7 @@ def main() -> None:
         per_user = {"user": int(u), "n_players": int(game.players.size), "aia": {}, "faithfulness_alignment": {}, "joint": {}}
         oracle = None
         if user_position < args.oracle_users and game.players.size >= 2:
-            oracle = exhaustive_best_joint(model, game, budget=2, rho_grid=(args.action_rho,), k=args.k)
+            oracle = exhaustive_best_joint(model, game, budget=2, rho_grid=(args.action_rho,), k=args.k, utility="target_margin")
             oracle_effects.append(float(oracle[2]))
 
         for name, attribution in attrs.items():
@@ -112,7 +112,7 @@ def main() -> None:
             method_gap.setdefault(name, []).append(alignment - faithfulness_alignment)
             method_null.setdefault(name, []).append(float(np.mean(null)) if null.size else float("nan"))
             action = select_joint_action(attribution, budget=min(2, game.players.size))
-            achieved = joint_effect(model, game, action, rho=args.action_rho, k=args.k)
+            achieved = joint_effect(model, game, action, rho=args.action_rho, k=args.k, utility="target_margin")
             method_joint_effect.setdefault(name, []).append(float(achieved))
             if oracle is not None:
                 method_regret.setdefault(name, []).append(float(oracle[2] - achieved))
@@ -146,8 +146,11 @@ def main() -> None:
             "users_after_filter": len(data.test),
             "items": data.n_items,
             "evaluated_users": len(users),
-            "candidate_recall": candidate_recall,
+            "candidate_recall": None,
+            "target_coverage": candidate_recall,
+            "evaluation_size": args.candidate_k,
             "primary_action_rho": args.action_rho,
+            "evaluation_mode": "fixed_sampled_negatives_with_target_included",
         },
         "metrics": {
             "aia": summary(method_aia),
