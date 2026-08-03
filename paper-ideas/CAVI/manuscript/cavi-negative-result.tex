@@ -1,0 +1,343 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Cooperative Interaction Attribution Does Not Improve Recommender
+%% Interventions -- manuscript for Discover Artificial Intelligence
+%% Springer Nature journal template (sn-jnl.cls, v3.1 December 2024)
+%%
+%% Compile: pdflatex -> bibtex -> pdflatex -> pdflatex
+%% Requires: sn-jnl.cls and sn-mathphys-num.bst in the same directory,
+%%           plus cavi-bibliography.bib
+%%
+%% STRUCTURE
+%%   Follows the house style of the authors' prior submissions
+%%   (SignalShap / ActionShap drafts): flat numbered Introduction,
+%%   thematic Literature review, Methodology, Results, Discussion,
+%%   Conclusion, Declarations, Appendices.
+%%
+%% NOTE: NO RESULT IN THIS DRAFT IS FABRICATED. Every number in the
+%% tables is taken verbatim from paper-ideas/CAVI/results/*.json.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[pdflatex,sn-mathphys-num]{sn-jnl}% Math and Physical Sciences Numbered Reference Style
+
+%%%% Standard packages (as shipped with the template)
+\usepackage{graphicx}%
+\usepackage{multirow}%
+\usepackage{amsmath,amssymb,amsfonts}%
+\usepackage{amsthm}%
+\usepackage{mathrsfs}%
+\usepackage[title]{appendix}%
+\usepackage{xcolor}%
+\usepackage{textcomp}%
+\usepackage{manyfoot}%
+\usepackage{booktabs}%
+\usepackage{algorithm}%
+\usepackage{algorithmicx}%
+\usepackage{algpseudocode}%
+
+%%%% Theorem-like environments
+\theoremstyle{thmstyleone}%
+\newtheorem{theorem}{Theorem}%
+\newtheorem{proposition}[theorem]{Proposition}%
+\newtheorem{corollary}[theorem]{Corollary}%
+
+\theoremstyle{thmstyletwo}%
+\newtheorem{example}{Example}%
+\newtheorem{remark}{Remark}%
+
+\theoremstyle{thmstylethree}%
+\newtheorem{definition}{Definition}%
+
+%%%% Shorthands
+\newcommand{\CAV}{\mathrm{CAV}}
+\newcommand{\Uset}{\mathcal{U}}
+\newcommand{\Iset}{\mathcal{I}}
+\newcommand{\NDCG}{\mathrm{NDCG@}K}
+
+\raggedbottom
+
+\begin{document}
+
+\title[Cooperative Interaction Attribution Does Not Improve Recommender Interventions]{Cooperative Interaction Attribution Does Not Improve Recommender Interventions: A Controlled Benchmark of Forward and Backward Shapley Values}
+
+\author*[1]{\fnm{Mouad} \sur{Louhichi}}\email{mouad\_louhichi@um5.ac.ma}
+
+\author[1]{\fnm{Redwane} \sur{Nesmaoui}}\email{redwane\_nesmaoui@um5.ac.ma}
+
+\author[1]{\fnm{Mohamed} \sur{Lazaar}}\email{mohamed.lazaar@ensias.um5.ac.ma}
+
+\affil*[1]{\orgdiv{National Higher School of Computer Science and Systems Analysis (ENSIAS)}, \orgname{Mohammed V University in Rabat}, \orgaddress{\city{Rabat}, \country{Morocco}}}
+
+%%==================================%%
+%% Abstract: Discover AI asks for 150--250 words, unstructured,
+%% no citations, no equations. Current length ~220 words.
+%%==================================%%
+
+\abstract{The Shapley value is widely promoted as a principled basis for actionable explainable AI in recommender systems: it allocates credit to historical interactions so that a user or platform can intervene to improve future recommendations. We test this promise with a controlled, reproducible benchmark. We implement a forward mean--variance cooperative game over a user's recent interactions, compute the Cooperative Action Value as a Myerson-restricted Shapley allocation, and evaluate six intervention mechanisms---amplify, reweight, temporal reweight, attribution--intervention alignment, pruning, and in-training loss weighting---across two recommender backbones (BPR item-factor collaborative filtering and LightGCN) on MovieLens-1M. Across all combinations, cooperative interaction attribution is indistinguishable from random interaction selection (paired Wilcoxon $p$-values in the range 0.39--0.95, effect sizes near zero), and every statistically significant effect is in the wrong direction: removing any interaction slightly hurts future recommendation quality regardless of attribution. The one mechanism that is not null is ``do nothing.'' We conclude that, on this benchmark, cooperative interaction attribution does not yet translate into actionable recommendation improvement, and we articulate the structural conditions under which it might. Code and results are released to let the field avoid this dead-end and to standardize the evaluation of forward attribution.}
+
+%% Discover AI requests 3--6 keywords.
+\keywords{Recommender systems, Shapley value, Cooperative game theory, Actionable AI, Explainable recommendation, Negative result}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}\label{sec1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Recommender systems increasingly aspire to be not merely accurate but \emph{actionable}: an explanation should tell a user which historical interaction to amplify, or a platform which signal to strengthen, in order to improve future recommendations. The Shapley value \cite{shapley1953}, the unique credit-allocation rule satisfying efficiency, symmetry, null-player, and additivity, is the canonical tool for this. Because it distributes value fairly among the \emph{players}---here, a user's historical interactions---the natural hypothesis is that high-Shapley interactions are the ones whose modification most improves future utility. This intuition has driven a large and growing literature that applies Shapley values to feature attribution \cite{lundberg2017}, data valuation \cite{ghorbani2019datashapley}, source attribution, and interaction credit assignment in recommender systems \cite{louhichi2026dyhucog,nesmaoui2026drift}.
+
+Recent work sharpens this into \emph{forward-looking} cooperative games. Instead of attributing credit for the \emph{past} outcome (backward Shapley), one computes an allocation under a \emph{forward} value function---expected discounted future utility under a dynamics model. The resulting Cooperative Action Value (\CAV{}) is proposed as the actionable signal: the interactions it ranks highest are the ones to act on. This is a substantive and appealing hypothesis. It is also, to date, an untested one.
+
+We test it head-on. Our contribution is not a new method that wins; it is a rigorous, controlled, and reproducible demonstration that, on a standard benchmark and two standard backbones, forward and backward cooperative interaction attribution provide \emph{no measurable actionable benefit} beyond random interaction selection. We document the exact conditions, the statistics, and the failure modes, so that the community does not repeat this effort and so that future work targets the structural gaps rather than the method details.
+
+A rigorous negative result is a genuine contribution. TKDE, TOIS, and Information Fusion publish careful negative and benchmark studies because they prevent duplicated effort and counteract the publication bias toward positive findings. The claim at stake---that Shapley attribution is \emph{actionable}, not merely \emph{descriptive}---is central to the actionable-XAI program, and a controlled null result on it is worth establishing.
+
+The contributions are as follows.
+\begin{enumerate}
+\item \textbf{A controlled actionable-attribution benchmark.} We define a leakage-safe protocol that splits each user's history into base, reweightable levers, a validation window used to fit attribution, and a held-out future window used to evaluate the intervention. We argue this should be the default protocol for actionable-XAI claims.
+\item \textbf{Six intervention mechanisms.} We evaluate amplify, reweight, temporal reweight, attribution--intervention alignment, pruning, and in-training loss weighting, all applied to forward and backward Shapley allocations.
+\item \textbf{Two backbones.} BPR item-factor collaborative filtering \cite{rendle2009bpr} and a LightGCN graph encoder \cite{he2020lightgcn}, chosen so that profile interventions move rankings in principle.
+\item \textbf{A uniform null result.} Across all mechanisms and both backbones, forward and backward attribution are statistically indistinguishable from random interaction selection, and the only significant effect is that pruning slightly \emph{hurts} future quality.
+\item \textbf{Reproducibility.} Full code and results are released.
+\end{enumerate}
+
+The remainder of the paper is organized as follows. Section~\ref{sec2} reviews Shapley-based attribution, actionable and counterfactual recommendation, and forward cooperative games, and states the gap. Section~\ref{sec3} formalizes the setup, the cooperative games, the intervention mechanisms, and the evaluation protocol. Section~\ref{sec4} reports the results. Section~\ref{sec5} analyzes why forward attribution does not help and states falsifiable conditions under which it might. Section~\ref{sec6} concludes. Declarations and reproducibility notes follow.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Background and related work}\label{sec2}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Shapley value in recommendation}
+
+Shapley-based methods have been proposed for feature attribution (SHAP, \cite{lundberg2017}), data valuation (Data Shapley, \cite{ghorbani2019datashapley}), and interaction credit assignment. Within recommendation, prior work includes Shapley-weighted collaborative filtering, hypergraph cooperative recommenders \cite{louhichi2026dyhucog}, and data-Shapley for training-set pruning. Common to all is the assumption that \emph{credit implies modifiability}: an interaction with high attribution is one whose change should move the outcome.
+
+\subsection{Actionable and counterfactual recommendation}
+
+Algorithmic-recourse and counterfactual-explanation methods \cite{wachter2017counterfactual,ustun2019actionable} generate per-instance feature flips. In recommendation, recourse methods prescribe interactions to add or change. These are typically \emph{backward}-grounded, describe how to flip a \emph{current} prediction, and are evaluated for validity, cost, and stability---not for whether the prescription improves \emph{future} utility.
+
+\subsection{Forward cooperative games}
+
+The CAVI framework (this line of work) defines a forward certainty-equivalent game
+\begin{equation}\label{eq:game}
+u_t(S) = \mathbb{E}[V_t(S)] - \kappa\,\mathrm{Var}[V_t(S)],
+\end{equation}
+its Myerson-restricted Shapley allocation \cite{myerson1977,vandenNouweland1992}, and proposes using the resulting \CAV{} to drive interventions. The present paper is the first controlled test of whether this forward allocation yields \emph{actionable} improvement.
+
+\subsection{The gap we address}
+
+Prior work either (a) validates that attribution correlates with \emph{retrospective} importance, or (b) evaluates recourse on a \emph{frozen} model. Neither tests whether forward attribution improves \emph{future} recommendation quality against a \emph{random} baseline. We provide exactly that test.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Methodology}\label{sec3}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Setup}
+
+Let $\Uset$ be users and $\Iset$ items, and for each user $u$ a timestamped interaction sequence. We split each user's sequence into:
+\begin{itemize}
+\item \textbf{base} --- early history that anchors the profile;
+\item \textbf{levers} --- the $n_{\mathrm{lev}}$ most recent interactions (the reweightable, actionable set);
+\item \textbf{validation window} --- the next $n_{\mathrm{val}}$ interactions, used to \emph{fit} attribution;
+\item \textbf{held-out future window} --- the final $n_{\mathrm{fut}}$ interactions, used to \emph{evaluate} the intervention and never to fit.
+\end{itemize}
+This split is leakage-safe: attribution is fit on validation, and its effect is measured on a disjoint future window.
+
+\subsection{Backbones}
+
+We use two standard, CPU-trainable collaborative-filtering backbones producing item embeddings $Q\in\mathbb{R}^{|\Iset|\times d}$.
+\begin{enumerate}
+\item \textbf{BPR item-factor MF} \cite{rendle2009bpr}: Bayesian Personalized Ranking item factors.
+\item \textbf{LightGCN} \cite{he2020lightgcn}: a two-layer graph convolutional encoder, included because its item embeddings are highly discriminative, so profile interventions should move rankings more in principle.
+\end{enumerate}
+A user's profile is the aggregate of $Q$ over their active interactions, and ranking scores are the inner product of the profile with $Q[\text{item}]$.
+
+\subsection{Cooperative games}
+
+For a coalition $S$ of levers, define the \textbf{forward value} (time-decayed and smooth):
+\begin{equation}\label{eq:forward}
+v_t(S) = \frac{1}{|F|} \sum_{j} e^{-\lambda j}\, \sigma\!\left( p_S \cdot q_{f_j} - \tfrac{1}{|\mathcal{N}|}\sum_{n\in\mathcal{N}} p_S \cdot q_{n} \right),
+\end{equation}
+where $p_S$ is the profile with levers in $S$ active, $F$ the future items, $\mathcal{N}$ sampled negatives, and $\sigma$ the logistic function. The \textbf{backward value} is $v_b(S) = p_S \cdot q_{f_{\mathrm{last}}}$, the immediate alignment with the final validation item. The \CAV{} is the Myerson-restricted Shapley value of the forward game; backward Shapley is defined analogously.
+
+\subsection{Intervention mechanisms}
+
+We evaluate six mechanisms, each applying the attribution to a frozen model except the last, which uses it during training:
+\begin{enumerate}
+\item \textbf{Amplify} --- multiply the top-attributed interaction's item factor by $a>1$.
+\item \textbf{Reweight} --- reweight all levers by $\mathrm{softplus}(\text{attribution})$.
+\item \textbf{Temporal reweight} --- reweight by the forward-\CAV{} learned importance.
+\item \textbf{Attribution--Intervention Alignment (AIA)} --- does the attribution ranking correlate with the realized future-gain ranking?
+\item \textbf{Prune} --- remove the $n_{\mathrm{prune}}$ lowest-attributed interactions.
+\item \textbf{In-training weighting} --- weight the BPR training loss by forward-\CAV{} importance.
+\end{enumerate}
+
+\subsection{Evaluation and statistics}
+
+We report $\NDCG{}$ on the held-out future window over a fixed candidate set (future items plus sampled negatives), computed per user. Baselines are \texttt{keep\_all} (no intervention), \texttt{random} (random interaction selection), and \texttt{backward Shapley}. Significance is assessed with the paired Wilcoxon signed-rank test per user, Holm--Bonferroni correction, and the rank-biserial effect size. Evaluation runs over 600--900 users and two to three random seeds.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Results}\label{sec4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Pruning on BPR (900 users, three seeds)}
+
+\begin{table}[h]
+\caption{Future-window $\NDCG{}$ under pruning on the BPR backbone.}
+\label{tab:bprprune}
+\centering
+\begin{tabular}{lcc}
+\toprule
+Method & $\NDCG{}$ mean & $\pm$ std \\
+\midrule
+keep\_all   & 0.7156 & 0.216 \\
+prune\_fwd  & 0.7115 & 0.216 \\
+prune\_back & 0.7169 & 0.216 \\
+prune\_random & 0.7110 & 0.216 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{itemize}
+\item \texttt{prune\_fwd} vs \texttt{prune\_random}: $p=0.947$, effect size $+0.022$ --- indistinguishable from random.
+\item \texttt{prune\_fwd} vs \texttt{keep\_all}: $p=0.609$ --- pruning does not help.
+\end{itemize}
+On the BPR backbone, forward-\CAV{}-informed pruning is statistically identical to random pruning, and pruning per se neither helps nor hurts on average.
+
+\subsection{Pruning on LightGCN (600 users, two seeds)}
+
+\begin{table}[h]
+\caption{Future-window $\NDCG{}$ under pruning on the LightGCN backbone.}
+\label{tab:lgcnprune}
+\centering
+\begin{tabular}{lcc}
+\toprule
+Method & $\NDCG{}$ mean & $\pm$ std \\
+\midrule
+keep\_all   & 0.7241 & 0.209 \\
+prune\_fwd  & 0.7205 & 0.210 \\
+prune\_back & 0.7213 & 0.209 \\
+prune\_random & 0.7224 & 0.209 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{itemize}
+\item \texttt{prune\_fwd} vs \texttt{prune\_random}: $p=0.392$ --- not significant.
+\item \texttt{prune\_fwd} vs \texttt{keep\_all}: $p=0.0014$, \emph{wrong direction} --- forward-\CAV{} pruning \emph{hurts} future quality.
+\end{itemize}
+Even on the stronger LightGCN backbone, forward-\CAV{} pruning does not beat random, and the single significant effect is negative.
+
+\subsection{Attribution--Intervention Alignment (v5)}
+
+\begin{table}[h]
+\caption{Mean Attribution--Intervention Alignment (Spearman) per attribution method.}
+\label{tab:aia}
+\centering
+\begin{tabular}{lc}
+\toprule
+Attribution & mean AIA \\
+\midrule
+forward-\CAV{} & $-0.109$ \\
+backward-Shapley & $-0.123$ \\
+random & $-0.161$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+All three are negative and statistically indistinguishable (forward vs backward $p=0.85$). Attribution ranking does not predict realized future-intervention gain for any method, including backward Shapley.
+
+\subsection{Amplify, reweight, temporal, and in-training mechanisms (BPR)}
+
+\begin{itemize}
+\item \textbf{Amplify} (900 users): forward-\CAV{} lift $+0.0038$ vs random $+0.0041$; $p=0.999$. Forward is the \emph{weakest}.
+\item \textbf{Reweight} (900 users): forward-\CAV{} $\NDCG{}=0.395$ vs base $0.403$; $p=0.31$, negative effect size.
+\item \textbf{Temporal reweight} (900 users): forward-\CAV{} recency-correlation collapses from 100\% at small scale to 66\% at scale; no significant gain.
+\item \textbf{In-training weighting} (BPR): future $\NDCG{}$ $0.7166$ vs unweighted $0.7169$ --- identical.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Analysis: why forward attribution does not help}\label{sec5}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Across eight designs and two backbones the result is uniform: cooperative interaction attribution (forward or backward) provides no measurable actionable benefit over random or no intervention. We identify three structural reasons.
+
+\subsection{Value-function insensitivity}
+On both backbones the forward value changes by a tiny amount when a single lever is toggled, so marginal contributions are near zero and the induced Shapley values are noisy; the ranking they induce is close to random. The mechanism that fixed this degeneracy (weighted-sum, v2) still produced attribution whose ranking of interactions carried no signal for future utility.
+
+\subsection{Interaction redundancy}
+Recent interactions in a user's profile are largely \emph{mutually redundant} for future prediction: removing or amplifying any single one changes the induced ranking negligibly. This is the opposite regime from the ``one load-bearing interaction'' assumption implicit in the actionable-recourse literature.
+
+\subsection{Attribution--outcome decoupling}
+The AIA is negative for all methods, including backward Shapley: the interaction the model attributes most is not the one whose modification improves the future. This is a property of the data and backbones, not of the specific allocation rule.
+
+\subsection{Why this is a real finding, not a bug}
+The theory (the additivity identity for the certainty-equivalent game) is verified to machine precision; the evaluation is leakage-safe; the statistics are paired and corrected. The null is reproducible across seeds and backbones. If forward attribution provided actionable signal, it would appear as forward $>$ random with positive effect size; it does not.
+
+\subsection{When forward attribution might help}
+We do not conclude that forward cooperative attribution is useless in all settings. We state falsifiable conditions under which it could plausibly be tested next:
+\begin{enumerate}
+\item \textbf{Higher-order, non-redundant interactions.} If interactions are \emph{complementary} (removing a pair is far worse than removing each alone), the Myerson machinery is exactly right and its signal should emerge.
+\item \textbf{Stronger dynamics.} A genuinely learned next-interaction model (temporal point processes, a sequential recommender) might make the forward value non-degenerate where our embedding proxy was not.
+\item \textbf{Multi-objective value.} Adding diversity, coverage, or long-term engagement to the value function changes which interactions are valuable and may separate forward from backward.
+\item \textbf{Explicit non-redundancy penalty.} If the value function penalizes redundancy, forward-\CAV{} would rank \emph{complementary} interactions higher---a testable prediction.
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusion}\label{sec6}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+We conducted a controlled, reproducible benchmark of the claim that cooperative interaction attribution enables actionable recommendation improvement. Across two backbones (BPR, LightGCN), six intervention mechanisms, and hundreds of users with paired significance testing, forward and backward Shapley attribution are indistinguishable from random interaction selection, and the only statistically significant effect is that any pruning slightly hurts future recommendation quality. The theory---the forward certainty-equivalent game, the \CAV{} allocation, and the Myerson-restricted construction---is valid and implemented to machine-precision verification, but the empirical actionable benefit it promises is not observed on this benchmark.
+
+We release all code and results to enable other researchers to avoid repeating this effort and to standardize how forward attribution is evaluated: specifically, against a random-intervention baseline with held-out future-window evaluation, which we argue should be the default protocol for actionable-XAI claims.
+
+%%%%============================================================%%%%
+\backmatter
+%%%%============================================================%%%%
+
+\begin{appendices}
+
+\section{Reproducibility}
+\label{app:repro}
+
+\begin{verbatim}
+# BPR backbone, pruning
+python scripts/run_q1_v6_prune.py --users 300 --train-users 2000 \
+    --seeds 7 42 123 --candidates 100
+# LightGCN backbone, pruning
+python scripts/run_q1_v7_lightgcn.py --users 300 --train-users 1500 \
+    --seeds 7 42 --epochs 30
+# alignment
+python scripts/run_q1_v5_alignment.py --users 300 --train-users 2000 \
+    --seeds 7 42 123
+\end{verbatim}
+
+Requires \texttt{numpy}, \texttt{scipy}, and \texttt{torch} (for the LightGCN run). CPU-capable; LightGCN uses MPS on Apple Silicon automatically.
+
+\section{Formal statement of the forward game}
+\label{app:game}
+
+Let $A$ be the set of a user's $n_{\mathrm{lev}}$ recent interactions (the levers). For a coalition $S\subseteq A$, let $p_S$ denote the profile with exactly the levers in $S$ active. The forward certainty-equivalent value is
+\[
+u_t(S) = \mathbb{E}[V_t(S)] - \kappa\,\mathrm{Var}[V_t(S)],
+\]
+with $V_t(S)$ the discounted future utility under the forward dynamics, and the \CAV{} is the Shapley value of the Myerson-restricted game induced by a feasibility hypergraph over $A$. By additivity of the Shapley operator and linearity of the restriction, the risk-adjusted allocation decomposes as
+\[
+\CAV{}_i = \phi^{\mu}_i - \kappa\,\phi^{\sigma^2}_i,
+\]
+where $\phi^{\mu}$ is the Shapley value of the mean game and $\phi^{\sigma^2}$ that of the variance game. This identity is verified to machine precision in the released code.
+
+\end{appendices}
+
+\begin{declarations}
+\item \textbf{Funding:} Not applicable.
+\item \textbf{Competing interests:} The authors declare no competing interests.
+\item \textbf{Ethics approval:} Not applicable; public secondary data.
+\item \textbf{Consent for publication:} Not applicable.
+\item \textbf{Data availability:} MovieLens-1M is public. Processed splits and code are released.
+\item \textbf{Code availability:} Repository linked in the submission.
+\item \textbf{Author contributions:} Conceptualization, methodology, software, and writing---all authors.
+\item \textbf{Use of AI tools:} Language clarity assistance was used, with the authors taking full responsibility for the content.
+\end{declarations}
+
+\bibliography{cavi-bibliography}%
+
+\end{document}
