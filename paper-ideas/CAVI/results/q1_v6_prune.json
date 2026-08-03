@@ -1,0 +1,49 @@
+{
+  "methods": {
+    "keep_all": {
+      "ndcg_mean": 0.7156168525047438,
+      "ndcg_std": 0.21618581339934909,
+      "n_users": 900
+    },
+    "prune_fwd": {
+      "ndcg_mean": 0.7115124633427443,
+      "ndcg_std": 0.21554915564553434,
+      "n_users": 900
+    },
+    "prune_back": {
+      "ndcg_mean": 0.71686867171118,
+      "ndcg_std": 0.21593761964021133,
+      "n_users": 900
+    },
+    "prune_random": {
+      "ndcg_mean": 0.7110156605697643,
+      "ndcg_std": 0.2163523006402651,
+      "n_users": 900
+    }
+  },
+  "significance": {
+    "prune_fwd_vs_random": {
+      "p": 0.9472221616203353,
+      "rank_biserial": 0.022321428571428572
+    },
+    "prune_fwd_vs_keep": {
+      "p": 0.6092780759648442,
+      "rank_biserial": 0.010752688172043012
+    },
+    "prune_back_vs_random": {
+      "p": 0.10840623362289202,
+      "rank_biserial": 0.07975460122699386
+    }
+  },
+  "config": {
+    "data": "/home/user/next-paper/paper-ideas/CAVI/scripts/../gate/data",
+    "users": 300,
+    "train_users": 2000,
+    "seeds": [
+      7,
+      42,
+      123
+    ],
+    "candidates": 100
+  }
+}
