@@ -109,8 +109,8 @@ Implementation requirements:
 - **NDCG edge cases (audit #10, fixed):** users with no test positives are excluded and reported; binary relevance; positive conversion occurs **before** the split. **IDCG rule (complete, P0/4.3):** with the single test positive always in the full-catalogue candidate set, IDCG@K = 1.0 for every evaluated user (the relevant item is guaranteed present). A user whose test positive is outside the eligible item set is excluded and reported **before** candidate membership is inspected (never silently dropped after seeing scores).
 - **ILD `sim(i,j)` (audit #11, fixed):** cosine similarity over a **fixed, interaction-only item-feature representation shared across all methods**; missing-metadata rule defined (feature-absent → 0 similarity); no learned method-dependent embeddings.
 - **Preference term `sim(u,i)` (4.4, fixed):** the user vector is the **normalized mean of the user's training-item vectors** (from the same fixed item representation); `sim(u,i)` = cosine between that user vector and item `i`'s vector; the representation is **fixed (not learned)**; the user vector uses **training interactions only**; cold/missing cases (no training items) are handled by a defined rule (similarity = 0 and the user flagged).
-- **Coverage denominator (audit #12, fixed):** the **eligible item catalogue after seen-item filtering**.
-- **Negative sampling (audit #14, fixed):** popularity (item-degree-weighted) distribution; N=4 negatives per positive; fixed hard-negative refresh schedule; validation/test excluded; a **separate random stream** from split/init/coalition.
+- **Coverage denominator (audit #12, fixed):** the **global eligible item catalogue** `I_eligible` after train-period filtering and 5-core preprocessing. Per-user seen-item filtering defines each user's candidate set, but catalogue coverage is `|∪_u R_u@K| / |I_eligible|` with one fixed denominator per dataset.
+- **Negative sampling (audit #14, fixed):** popularity (item-degree-weighted) distribution; N=4 negatives per positive; hard-negative refresh every 5 epochs after epoch 10; validation/test excluded; a **separate random stream** from split/init/coalition.
 - **Temporal ties (audit #13, fixed):** stable secondary key (original line index, released), not re-parse-dependent row order.
 - **Cross-dataset feature mismatch (audit #15, fixed):** use a **common interaction-only similarity** so MovieLens-1M and Amazon-Book are feature-matched; do not rely on genres/demographics that differ across datasets.
 
@@ -129,7 +129,7 @@ Implementation requirements:
 
 **Preregistered fallback rule (only rule, decided in advance):** if the HCCF port cannot be validated against an official dataset/protocol within tolerance, or fails determinism/licensing under the pinned environment, fall back to a **self-contained, independently implemented standard Hypergraph Neural Network (HGNN, Feng et al., AAAI 2019, DOI 10.1609/aaai.v33i01.33013558)** with fully documented equations. The fallback triggers **only** on the predeclared failure condition, is disclosed as a protocol deviation, and is never chosen after inspecting results.
 
-> This decouples the benchmark from the survey's §4.6 worked example (DyHuCoG as a literature case only) and keeps reproducibility claims defensible. Do **not** write "HNN/HGCN/HCCF-style" or "pick a small, defensible set" in the executable protocol — the backbone is a **ported, validated HCCF**, pinned.
+> This decouples the benchmark from the survey's §4.6 worked example (DyHuCoG as a literature case only) and keeps reproducibility claims defensible. Do **not** write "HNN/HGCN/HCCF-style" or "pick a small, defensible set" in the executable protocol. Until the port validation artifact exists, write: **HCCF is selected as the primary backbone; a port will be pinned and validated before preregistration**. After validation, replace this with the exact fork commit, license, lockfile/container hash, validation protocol, tolerance, and validation result.
 
 ## A.5 Attribution families to compare
 
@@ -141,11 +141,11 @@ Implementation requirements:
 | `attention` | learned interaction-level attention gate (matched parameter count) | non-game-theoretic control | — |
 | `heuristic-pop` | popularity/degree weighting | heuristic control | — |
 | `additive-pref` | additive preference-similarity prior without game aggregation | **matched non-game heuristic (required, review 2.5)** | same preference term, no Shapley averaging |
-| `shapley-mc` | preference-aware Monte-Carlo Shapley | **game-theoretic (primary)** | $v(S)=\alpha\mathrm{NDCG}+\beta\mathrm{Diversity}+\gamma\mathrm{Context}$; $v_{pref}(S)=v(S)+\lambda_{pref}\sum_{(u,i)\in S}\mathrm{sim}(u,i)$ |
+| `shapley-mc` | preference-aware Monte-Carlo Shapley | **game-theoretic (primary)** | per-user benchmark game $v_u(S_u)=\alpha\mathrm{NDCG@20}_u(S_u)+\beta\mathrm{Diversity}_u(S_u)$ with $\alpha+\beta=1$; $v_{pref,u}(S_u)=v_u(S_u)+\lambda_{pref}\sum_{(u,j)\in S_u}\mathrm{sim}(u,j)$ |
 | `shapley-ai` | **candidate estimator** (sampling/importance Shapley variant) — NOT yet fully defined (§A.6d); kept only if precisely specified before registration | exploratory estimator ablation | same as `shapley-mc` |
 | `myerson` (exploratory, optional) | communication-graph-restricted Shapley on the hypergraph projection | game-theoretic (structure-aware) | **Myerson value**: the Shapley value of the graph-restricted game `v^g(S) = Σ_{C∈𝒞(g[S])} v(C)`, with `g[S]` the subgraph induced by `S` and `𝒞(g[S])` its connected components; the projection (2-section / incidence / line graph) is a stated method parameter |
 
-Default coalition weights for the primary `shapley-mc` family (chosen here, not inherited from any prior codebase): $\alpha=0.60,\ \beta=0.25,\ \gamma=0.15,\ \lambda_{pref}=0.20$. These are **not** treated as fixed facts: an explicit weight-sensitivity analysis is a **required** robustness check (§A.6c), because the survey itself raises the value-function-arbitrariness critique and the benchmark must not inherit an unexamined weighting scheme across regimes.
+Default coalition weights for the primary `shapley-mc` family (chosen here, not inherited from any prior codebase): $\alpha=0.70,\ \beta=0.30,\ \lambda_{pref}=0.20$. There is **no context term** in the benchmark game; `Context` remains only a survey-taxonomy category. These defaults are **not** treated as fixed facts: the seven-tuple sensitivity grid in §A.6c is a **required** robustness check, because the survey itself raises the value-function-arbitrariness critique and the benchmark must not inherit an unexamined weighting scheme across regimes.
 
 > **Keep the method set small and coherent — primary vs. exploratory (review §3).** **Primary set (run on every cell):** `uniform` (no-attribution control), `additive-pref` (matched non-game heuristic), and `shapley-mc` (game-theoretic). `attention` and `heuristic-pop` are primary controls where stated. `shapley-ai` and `myerson` are **exploratory**: if included, every promised cell must be run (no partial factorial); otherwise drop them from headline claims. (The earlier broken "§C4 resolution" cross-reference is removed — the rule is stated here.)
 
@@ -153,7 +153,7 @@ Default coalition weights for the primary `shapley-mc` family (chosen here, not 
 
 Define the estimand precisely (no alternatives, no template):
 
-**Game type (fixed): per-user, frozen-model interaction-mask game.** For each user `u`, the **player set** `N_u` is the set of **training** interactions in `u`'s receptive field (the edges incident to `u` in the frozen graph). A **coalition** `S_u ⊆ N_u` is realized by a **mask operator** on the frozen model's graph at inference: mask the training edges `N_u ∖ S_u` in the **raw user–item incidence matrix**; **all other users' edges remain** in the global graph; the learned hypergraph structure and contrastive views are **recomputed from the masked incidence** for the evaluation pass (state this explicitly — see §5.7). The model is **not** retrained per coalition and no training signal uses the masked evaluation. `S_u` contains **training edges only** (never evaluation/test interactions).
+**Game type (fixed): per-user, frozen-model interaction-mask game.** For each user `u`, the **player set** `N_u` is the set of **training** interactions in `u`'s receptive field (the edges incident to `u` in the frozen graph). A **coalition** `S_u ⊆ N_u` is realized by a **mask operator** on the frozen model's graph at inference: mask the training edges `N_u ∖ S_u` in the **raw user–item incidence matrix**; **all other users' edges remain** in the global graph. The trained HCCF parameters are frozen. For each masked evaluation pass, recompute only the deterministic normalized incidence/propagation operators that are functions of the masked graph and needed to score candidates. Do **not** recompute stochastic contrastive views, dropout masks, or any training-only augmentation during value evaluation unless the final HCCF port proves those tensors enter inference scoring; if they do, the exact deterministic evaluation-time tensors must be specified in `PORT.md`. The model is **not** retrained per coalition and no training signal uses the masked evaluation. `S_u` contains **training edges only** (never evaluation/test interactions).
 
 **Per-user coalition value (well-typed local game — each user has its own `N_u` and `S_u`):**
 
@@ -162,11 +162,21 @@ v_u(S_u) = α·NDCG@20_u(S_u) + β·Diversity_u(S_u)          [Context term REMO
 v_pref,u(S_u) = v_u(S_u) + λ_pref·Σ_{(u,i)∈S_u} sim(u,i)
 ```
 
-**No context term (4.5, fixed):** the benchmark uses a **common interaction-only representation** with no context features, so `Context(S)` is **removed** and `γ` is **dropped**; the weights are **renormalized** so that `α + β = 1` (e.g., `α = 0.7, β = 0.3`), and the new tuple is preregistered. (If timestamps were ever used as context, the alignment score and its no-future-information property would be defined separately — they are not used here.)
+**No context term (4.5, fixed):** the benchmark uses a **common interaction-only representation** with no context features, so `Context(S)` is **removed** and `γ` is **dropped**. The primary tuple is fixed as `α = 0.70`, `β = 0.30`, `λ_pref = 0.20`; the sensitivity grid in §A.6c is fixed separately. (If timestamps were ever used as context, the alignment score and its no-future-information property would be defined separately — they are not used here.)
 
-**Global aggregation (well-typed):** because each user has a different `N_u` and `S_u`, there is no single global coalition `S`. Report the **per-user attributions** `φ_{u,p}` and define the **global attribution** as the average over users `φ_p = (1/|U|) Σ_u φ_{u,p}` (per-user games composed as a product game before averaging). Do not write `v(S)` for a single global interaction set.
+**Aggregation (well-typed):** because each user has a different `N_u` and `S_u`, there is no single global coalition `S`, and a user-specific interaction `p=(u,j)` does not generally exist in another user's game. The primary artifact is therefore the **per-user attribution** `φ_{u,p}`. Any aggregate analysis must be over explicitly defined attributes, e.g. item-level `Φ_i = mean{φ_{u,(u,i)} : (u,i) is a training interaction}`, popularity decile, interaction age, or player-count bin, with denominators reported. Do **not** average incompatible interaction identities as a global `φ_p`, and do not write `v(S)` for a single global interaction set.
 
-**Attribution-to-reranking rule (fixed, P0.4):** the Shapley weights enter the **ranking step only**: given the frozen model's scores, the per-user interaction weights `φ_{u,p}` reweight the contribution of each of user `u`'s training interactions to the final recommendation score via the fixed equation `score(u,i) = base_score(u,i) + λ_attr · Σ_{p∈N_u} φ_{u,p} · I[p→i]`, where `I[p→i]` indicates whether interaction `p` is (u,i) or contributes to item `i` (the exact rule is recorded in `rerank.py`/§A.7). This is a **post-hoc rerank**, not an in-training weight; it does not change the frozen backbone.
+**Attribution-to-reranking rule (fixed, P0.4; nonzero influence operator):** the Shapley-family weights enter the **ranking step only** through a leakage-safe item-kernel influence from a user's historical item to each unseen candidate. For a player `p=(u,j)∈N_u` and candidate unseen item `i`, define
+
+```
+κ(j,i) = cosine(x_j, x_i)
+a_u(i) = Σ_{p=(u,j)∈N_u} w_{u,p} · κ(j,i) / (Σ_{p∈N_u} |w_{u,p}| + ε)
+z_base,u(i) = zscore_{i∈C_u}(base_score(u,i))
+z_attr,u(i) = zscore_{i∈C_u}(a_u(i))     # if sd=0, z_attr=0
+score(u,i) = z_base,u(i) + λ_attr · z_attr,u(i)
+```
+
+where `x_i` is the **fixed interaction-only item representation** from §A.3a, `C_u` is the full eligible unseen-item candidate set for user `u`, `ε=1e-12`, and `λ_attr=0.10` in the primary protocol (reported sensitivity: `λ_attr∈{0.05,0.10,0.20}` as secondary if runtime permits). For `shapley-mc`, `w_{u,p}=φ_{u,p}`; for `uniform`, `additive-pref`, `attention`, and `heuristic-pop`, `w_{u,p}` is the family-specific interaction weight transformed through the **same** equation. Negative attributions are retained before normalization; they may decrease the score of candidates similar to negatively attributed historical items. The kernel uses training-derived item vectors only and never uses validation/test labels, review text, or method-dependent learned embeddings. This is a **post-hoc rerank**, not an in-training weight; it does not change the frozen backbone. A unit test in §A.8 must prove that the term changes at least some unseen-item scores on a synthetic graph.
 
 - **Moving-game semantics (5.5, fixed):** the reported attribution is computed on the **final frozen model snapshot** (post-hoc, at a fixed game snapshot). **No in-training refresh is part of the primary protocol.** In-training refresh is an **optional exploratory Study C**, clearly separated, with its own time-indexed definition and efficiency test for that snapshot; it is not the primary attribution and does not validate the primary efficiency test.
 - **Leakage controls (4.2 #13):** coalition values, tuning, and `sim` use training data or a clearly separated validation set; graph construction never sees held-out edges; no hyperparameters inherited from prior evaluation. `S_u` contains training interactions only.
@@ -176,7 +186,7 @@ v_pref,u(S_u) = v_u(S_u) + λ_pref·Σ_{(u,i)∈S_u} sim(u,i)
 - **Empty-coalition semantics (4.2 #5):** `v_u(∅)` is computed by the **same frozen model with all of user `u`'s training edges masked** (the empty mask), evaluated on the same full-catalogue set — **not** a null/popularity ranker. The baseline value and its rationale are reported.
 - Compute exact Shapley where the player set is tractably small (illustrative subgames, synthetic coalitions); use the **Monte-Carlo estimator** for the full interaction player set:
   `φ̂_j = (1/M) Σ_{m=1..M} [v(S_m ∪ {j}) − v(S_m)]`
-  with the sampling law made explicit (§A.6a) and `M` chosen by an empirical convergence criterion (§A.6a) rather than an unsupported "99%" claim.
+  with the sampling law fixed as random-permutation MC and `M=128` (§A.6a), with convergence diagnostics reported rather than an unsupported "99%" claim.
 - **Primary attribution: frozen snapshot (post-hoc), no in-training refresh.** The optional **exploratory Study C** may refresh Shapley values every `f` batches during training; if so, give exact equations, detach/gradient behaviour, cache scope, and define the reported value as a **time-indexed online attribution** on a fixed game snapshot per refresh (§A.6b). It is not the primary attribution and does not validate the primary efficiency test.
 - **Efficiency identity test:** `Σ_j φ_j(v) = v(N) − v(∅)` must hold for the exact, un-smoothed, unnormalized case to machine precision (§A.8). Note that Monte-Carlo estimates, smoothing, clipping, and normalization generally do **not** satisfy exact efficiency; report the residual and label exact vs. approximate values.
 
@@ -185,10 +195,8 @@ v_pref,u(S_u) = v_u(S_u) + λ_pref·Σ_{(u,i)∈S_u} sim(u,i)
 Averaging `[v(S_m∪{j}) − v(S_m)]` over arbitrary subsets `S_m` is not automatically a Shapley estimator. Specify the sampling law (5.3):
 **Exact vs. MC threshold (5.6, fixed):** for a user `u` with `|N_u| ≤ 8`, compute the Shapley values **exactly** by enumeration over all `2^{|N_u|}` coalitions. For `|N_u| > 8`, use the permutation-MC estimator. Report the distribution of `|N_u|` across users, the fraction of users in each regime, and verify that exact enumeration on small real subgames matches the MC estimate within tolerance. Because users differ in `|N_u|`, state that the reported attribution is the **per-user `φ_{u,p}`** and that comparing across users with different player counts is done only in the aggregate, with the player-count distribution reported.
 
-- **Preferred: random-permutation sampling.** Draw a uniform permutation of `N`; for each player `j`, take `S_m` as the set of players preceding `j` and record the marginal `[v(S_m∪{j}) − v(S_m)]`. **For uniformly sampled permutations, the estimator is the sample mean of these marginals over `M` permutations** — the `1/|N|!` factor belongs to the *exact* permutation expectation and is **not** multiplied into each ordinary Monte-Carlo sample mean. State explicitly whether a single permutation supplies predecessor sets for all players, and how many model evaluations that requires (per user or per coalition).
-- **Or:** size-weighted subset sampling with the correct Shapley weights `(|S|!(|N|−|S|−1)!/|N|!)`.
-- **Or:** an importance-sampling distribution with a defined proposal and correction factor.
-State the law, the weights, the variance estimator, and an **empirical convergence criterion** — do not assert a universal 99%-at-50 claim. **A high-`M` reference demonstrates numerical stability, not accuracy against the true Shapley value (5.4);** validate convergence against (a) exact analytic synthetic games, (b) exact enumeration on small real subgames, plus efficiency residuals, convergence curves, and common-random-number handling across methods.
+- **Selected MC law: random-permutation sampling.** Draw `M=128` independent uniform permutations of `N_u` for every MC-evaluated user. For each player `p`, take `S_m(p)` as the set of players preceding `p` in permutation `m` and record the marginal `[v_u(S_m(p)∪{p}) − v_u(S_m(p))]`. **For uniformly sampled permutations, the estimator is the sample mean of these marginals over `M` permutations** — the `1/|N|!` factor belongs to the *exact* permutation expectation and is **not** multiplied into each ordinary Monte-Carlo sample mean. One sampled permutation supplies predecessor sets for all players; the implementation caches coalition evaluations within a user/permutation and reports the realized number of forward evaluations per user.
+- **Variance and convergence diagnostics (fixed):** report the sample variance of marginal contributions per player, user-level MC standard errors, efficiency residuals, and convergence curves for `M∈{16,32,64,128}`. Before confirmatory runs, validate the estimator against (a) exact analytic synthetic games and (b) exact enumeration on all real subgames with `|N_u|≤8`; additionally compute a `M=512` reference on a fixed pilot subset of at most 500 users per dataset to document numerical stability. The primary estimator remains `M=128` regardless of pilot direction; the pilot may trigger a documented feasibility stop before preregistration, not an after-results tuning change.
 
 ## A.6b Refresh / smoothing / clipping / normalization (optional Study C only)
 
@@ -204,16 +212,16 @@ Because the survey (SRQ3) itself criticizes the arbitrariness of `v(S)` and the 
 
 ## A.7 Attribution-guided re-ranking (`rerank.py`) — an intervention study, not an explanation-evaluation
 
-This applies attribution-derived weights to re-weight propagation/ranking and measures **Recall@K and NDCG@K** (primary) plus coverage/ILD (secondary) vs. the non-attribution controls. **Scope note (review 1.7/2.5):** this is an *intervention/reranking* study — it tests whether the derived weights are useful ranking features, **not** whether the attribution is a faithful or sufficient *explanation*. It does not by itself answer SRQ3 ("what game theory buys") unless explanation-quality metrics are added (§A.7b) or the claim is explicitly narrowed to intervention. Keep it labeled as an intervention study.
+This applies attribution-derived weights to re-weight propagation/ranking and measures **Recall@K/HitRate@K and NDCG@K** (primary) plus coverage/ILD (secondary) vs. the non-attribution controls. **Scope note (review 1.7/2.5):** this is an *intervention/reranking* study — it tests whether the derived weights are useful ranking features, **not** whether the attribution is a faithful or sufficient *explanation*. It does not by itself answer SRQ3 ("what game theory buys") unless explanation-quality metrics are added (§A.7b) or the claim is explicitly narrowed to intervention. Keep it labeled as an intervention study.
 
 ## A.7a Primary metric definitions (used in all result tables)
 
-Report **Recall@K and NDCG@K for K ∈ {5, 10, 20}** as the paper's primary results. Define them explicitly (mirror the thesis Ch. 4.4 so the survey's protocol is auditable):
+Report **Recall@K/HitRate@K and NDCG@K for K ∈ {5, 10, 20}** as the paper's primary results. Define them explicitly (mirror the thesis Ch. 4.4 so the survey's protocol is auditable):
 
 - **NDCG@K** = `(1/|U|) Σ_u DCG_u@K / IDCG_u@K`, with `DCG_u@K = Σ_{k=1..K} rel_u,k / log2(k+1)` (binary relevance for implicit feedback; IDCG per user).
-- **Recall@K** = `(1/|U|) Σ_u |relevant_u ∩ R_u@K| / |relevant_u|`.
+- **Recall@K/HitRate@K** = `(1/|U|) Σ_u |relevant_u ∩ R_u@K| / |relevant_u|`. Under the temporal leave-one-out protocol there is one test positive per user, so Recall@K equals HitRate@K; tables label this as `Recall@K (HitRate@K)` for comparability.
 
-Also compute **Catalogue Coverage** = `|∪_u R_u@K| / |I|` and **Intra-List Diversity (ILD)** = `(2/K(K−1)) Σ_{1≤k<l≤K} [1 − sim(i_k,i_l)]` — these are secondary; they never replace Recall@K/NDCG@K as the headline.
+Also compute **Catalogue Coverage** = `|∪_u R_u@K| / |I_eligible|` and **Intra-List Diversity (ILD)** = `(2/K(K−1)) Σ_{1≤k<l≤K} [1 − sim(i_k,i_l)]` — these are secondary; they never replace Recall@K/NDCG@K as the headline.
 
 ## A.7b If explanation quality is claimed, add explanation metrics
 
@@ -223,13 +231,15 @@ If the paper claims the benchmark validates *explainability* (not just reranking
 
 Non-negotiable, in priority order:
 1. **Efficiency identity.** `Σ_j φ_j(v) = v(N) − v(∅)` to machine precision (exact, un-smoothed subgames). Catches most implementation errors.
-2. **Empty coalition.** `v(∅)` well-defined (e.g., 0 by the null-rank/projection convention) and non-degenerate.
+2. **Empty coalition.** `v_u(∅)` is computed by the same frozen model with all of user `u`'s training edges masked (the empty-mask convention in §A.6), is finite, and is non-degenerate.
 3. **Symmetry on synthetic data.** Two literally identical score columns/players receive equal Shapley values.
 4. **Dummy player.** A pure-noise interaction receives `φ ≈ 0`.
-5. **Null/projection calibration.** The empty-coalition ranking (e.g., uniform or popularity baseline) produces the expected NDCG.
+5. **Empty-mask calibration.** The empty-coalition ranking from the same frozen model with all of user `u`'s training edges masked produces the expected deterministic NDCG/HitRate under the full-catalogue candidate set.
 6. **Degenerate normalization / weighting.** Constant rows yield zero attribution, no NaN, no inf.
 7. **Split reproducibility.** Frozen splits reload identically across stages (config-hash check).
 8. **Backbone determinism.** Same seed → same embeddings/weights (to the extent the backbone allows).
+9. **Reranking nonzero intervention.** On a synthetic graph with at least one unseen candidate similar to a historical item, the kernel attribution term changes at least one unseen-item score relative to `z_base`; if `z_attr` has zero variance, the test must fail unless the synthetic fixture is degenerate by construction.
+10. **Mask locality.** Masking one user's edge changes only the intended raw incidence entries before deterministic propagation reconstruction; other users' raw edges remain unchanged.
 
 Tests 1, 3, and 4 are the ones that would catch a wrong paper rather than a crashed run.
 
@@ -257,9 +267,9 @@ This section resolves the pairing-unit ambiguity that invalidates a bare "paired
 - **Unit of analysis: per-user paired differences**, paired **within the same seed** (same split, candidate set, negative-sampling stream, and user). Users evaluated by one trained model share model-level randomness, so they are **not** independent model replicates; per-user n is large, so tiny p-values can arise for trivial effects.
 - **Seeds.** The 5 seeds quantify training variability; they are **not** the pairing unit. Report per-seed means and the distribution of per-user differences; treat per-seed pooling as secondary/descriptive.
 - **Primary contrast family (P0.5 — SELECTED, Option B, concrete):** the **confirmatory primary family is `shapley-mc` vs `uniform` on NDCG@20 and Recall@20 × 2 datasets on the HCCF primary backbone = 4 tests** in one Holm–Bonferroni family. **Every other cell is declared secondary/exploratory**: the LightGCN backbone, all other cutoffs (@5, @10), and the `additive-pref`/`attention`/`heuristic-pop` comparisons are secondary and are **not** jointly corrected (a separate, stated secondary family, or reported without correction and labelled exploratory). This is the **single selected plan** — no A/B/C menu remains. (The 8-test framing is the full design; the confirmatory family is deliberately narrowed to the 4 primary tests.)
-- **Inference procedure (fixed):** per-user paired differences are computed **within the same seed** (same split, candidate set, and user). Confirmatory inference uses a **seed-clustered bootstrap**: resample users within each seed, aggregate the seed-level estimates, and build a 95% cluster bootstrap CI; the 4 primary tests are corrected with Holm–Bonferroni. A mixed-effects/hierarchical model over users with seed as a random effect is the prespecified confirmatory model if the bootstrap is deemed insufficient; this is decided **before** registration, not after seeing results. Paired t-test and Wilcoxon are **sensitivity analyses only** (assumptions stated).
+- **Inference procedure (fixed):** per-user paired differences are computed **within the same seed** (same split, candidate set, and user). Confirmatory inference uses a **seed-clustered bootstrap**: resample users within each seed, aggregate the seed-level estimates, and build a 95% cluster bootstrap CI; the 4 primary tests are corrected with Holm–Bonferroni. A mixed-effects/hierarchical model over users with seed as a random effect is a **fixed secondary sensitivity analysis**, not a conditional replacement for the bootstrap primary analysis. Paired t-test and Wilcoxon are **sensitivity analyses only** (assumptions stated).
 - Report per-seed values, the cluster bootstrap CI, the exact unit/test/alternative/correction, and the number of comparisons in every significance caption.
-- **Seed-clustered inference (required, 5.8):** define a cluster/bootstrap that resamples users while preserving seed-level dependence — e.g., bootstrap users within each seed and aggregate seed estimates, or fit a mixed-effects/hierarchical model over users with seed as a random effect. Reporting per-seed means does not repair primary p-values that treat users as independent.
+- **Seed-clustered inference (required, 5.8):** use the fixed cluster bootstrap that resamples users within each seed and aggregates seed-level estimates while preserving seed-level dependence. The mixed-effects/hierarchical model is reported only as a secondary sensitivity analysis. Reporting per-seed means does not repair primary p-values that treat users as independent.
 - **Tests.** Paired differences over users; report effect size (Cohen's d_z) with 95% CI and a permutation/bootstrap interval that resamples users while preserving seed structure. Paired t-test and Wilcoxon signed-rank are **sensitivity analyses** (assumptions stated), not the sole basis.
 - Report per-seed values, and state the exact unit/test/alternative/correction and number of comparisons in every significance caption.
 
@@ -286,9 +296,9 @@ This section resolves the pairing-unit ambiguity that invalidates a bare "paired
 
 **Confidence on the Amazon-Book column is deliberately low** — the rebuilt, subsampled split has no published counterpart, so these are extrapolations from the density regime. The prediction worth holding is the **direction** of the contrast, not the levels.
 
-## B.1a Primary result tables — Recall@K and NDCG@K (filled only with realized results)
+## B.1a Primary result tables — Recall@K/HitRate@K and NDCG@K (filled only with realized results)
 
-The benchmark's primary deliverable is a result table reporting **Recall@K and NDCG@K (K ∈ {5,10,20})** for the **primary set** (`uniform`, `additive-pref`, `shapley-mc`) on both backbones and both datasets, **after** the experiments run; exploratory rows (`attention`, `heuristic-pop`, and any `shapley-ai`/`myerson` kept) are clearly labelled. These tables are **populated only with realized numbers**; no predicted point values are placed here. All hypotheses below are directional only ("we test whether X > Y"); no exact figures, no bolded winners, and no mean ± std placeholders are pre-filled, so there is no risk of a placeholder being mistaken for a result.
+The benchmark's main-text primary deliverable is a result table reporting **Recall@K/HitRate@K and NDCG@K (K ∈ {5,10,20})** for the **confirmatory primary set** (`uniform`, `additive-pref`, `shapley-mc`) on the **HCCF primary backbone** and both datasets, **after** the experiments run; LightGCN is a secondary/supplementary backbone; exploratory rows (`attention`, `heuristic-pop`, and any `shapley-ai`/`myerson` kept) are clearly labelled. These tables are **populated only with realized numbers**; no predicted point values are placed here. All hypotheses below are directional only ("we test whether X > Y"); no exact figures, no bolded winners, and no mean ± std placeholders are pre-filled, so there is no risk of a placeholder being mistaken for a result.
 
 - **Result table (main text, §7.2 of `Paper_Structure.md`):** one table per dataset for the **confirmatory families on the HCCF primary backbone**, with columns NDCG@5/10/20 and Recall@5/10/20; cells filled with realized mean ± std over seeds; significant differences flagged after the selected Holm correction (§A.10). Generated by `report.py` from raw outputs only.
 - **Prediction register (this Part B):** directional hypotheses + falsification contingencies, stored separately from the results and referenced by the external pre-registration (see §B.0).
@@ -306,7 +316,7 @@ The benchmark's primary deliverable is a result table reporting **Recall@K and N
 | `shapley-ai` vs `shapley-mc` | no directional claim; an estimator-ablation comparison | medium (estimator ablation) |
 | `myerson` vs `shapley-mc` | no directional claim; exploratory | low |
 
-**Primary contrast (predeclared):** `shapley-mc` versus the `uniform` no-attribution control on **NDCG@20 and Recall@20** for each dataset/backbone. All other cutoffs, metrics, families, and ablations are secondary/exploratory. This contrast set and its correction family are fixed before analysis (§A.10). Do not draft the Results section narrative around an assumed winner.
+**Primary contrast (predeclared):** `shapley-mc` versus the `uniform` no-attribution control on **NDCG@20 and Recall@20/HitRate@20** for each dataset on the **HCCF primary backbone**. All other cutoffs, metrics, families, and ablations are secondary/exploratory. This contrast set and its correction family are fixed before analysis (§A.10). Do not draft the Results section narrative around an assumed winner.
 
 ## B.3 BQ2 — coverage and diversity (directional hypotheses)
 

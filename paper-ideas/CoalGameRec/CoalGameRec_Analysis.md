@@ -5,7 +5,7 @@
 **Status:** Critical analysis / feasibility memo for a proposed *next paper* (a planning document, not a manuscript).
 **Revision history:**
 - **v1 (2026-08-03):** initial feasibility memo.
-- **v1.1 (2026-08-03):** benchmark deliverable sharpened to report **Recall@K and NDCG@K (K ∈ {5,10,20}) result tables**.
+- **v1.1 (2026-08-03):** benchmark deliverable sharpened to report **Recall@K/HitRate@K and NDCG@K (K ∈ {5,10,20}) result tables**.
 - **v1.2 (2026-08-03):** updated to reconcile with two pre-submission reviews (`review1.md`, `review2/review2.md`). **This memo's earlier "no GPU / no new experiments / no ethics approval / cheap" claims are SUPERSEDED:** the adopted design is a **systematic review + a separately-scoped empirical case study planned for external preregistration**, which is original empirical work requiring real compute and an institutional ethics determination for the human-generated data. The novelty claim is a **hypothesis pending the systematic search**, not an established fact. Publication-count claims were corrected (C12).
 
 ---
@@ -66,8 +66,7 @@ vehicle to make that thesis-level perspective citable on its own.
 
 ## 3. The literature gap — why it may be novel (hypothesis pending the systematic search)
 
-Grounding searches (Aug 2026) show a rich but *fragmented* landscape with **no dedicated survey at
-this exact intersection**:
+Preliminary grounding searches (Aug 2026) suggest a rich but *fragmented* landscape; the registered systematic search will test whether any prior review meets the prespecified scope at this exact intersection:
 
 - **General Shapley-value XAI surveys exist** and are mature, e.g. Zhao, Liu & Parilina, *The Shapley
   Value Contribution to Explainable AI: A Comprehensive Survey* (Dynamic Games & Applications, 2025);
@@ -183,7 +182,7 @@ Three viable framings, in order of fit:
 - **(A) Systematic review + taxonomy with a separately-scoped empirical case study — RECOMMENDED.**
   Deliverable: comprehensive review with a registered PRISMA protocol, taxonomy, comparison tables,
   critical synthesis, and roadmap, plus a separate case-study benchmark planned for external preregistration (realized
-  Recall@K/NDCG@K). This is what the title supports and what the field lacks.
+  Recall@K/HitRate@K and NDCG@K). This is what the title supports and what the field lacks.
 - (B) **Position + research agenda.** Lighter, faster, more opinionated. Viable if the author wants a
   quick, high-impact "call to action" piece, but leaves the field-map unclaimed and invites a
   competitor survey.
@@ -238,7 +237,7 @@ Abstract / Keywords
 6. Comparative and critical analysis (what game theory buys / does not buy; faithfulness vs.
    actionability; reproducibility; DyHuCoG audit caveat)
 7. Separately-scoped empirical case study (planned for external preregistration; realized
-   Recall@K/NDCG@K, BQ answers)
+   Recall@K/HitRate@K and NDCG@K, BQ answers)
 8. Open challenges and research agenda (argued from the literature)
 9. Limitations
 10. Conclusion
