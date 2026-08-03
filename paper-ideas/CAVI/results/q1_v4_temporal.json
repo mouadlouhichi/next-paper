@@ -1,0 +1,61 @@
+{
+  "methods": {
+    "uniform": {
+      "ndcg_mean": 0.49892875102817147,
+      "ndcg_std": 0.2666860176798301,
+      "n_users": 900
+    },
+    "backward": {
+      "ndcg_mean": 0.49717939799634536,
+      "ndcg_std": 0.2683151201306175,
+      "n_users": 900
+    },
+    "cavi_fwd": {
+      "ndcg_mean": 0.4923481797327908,
+      "ndcg_std": 0.26268745124963455,
+      "n_users": 900
+    },
+    "timedecay": {
+      "ndcg_mean": 0.4912228797937361,
+      "ndcg_std": 0.2656470790707919,
+      "n_users": 900
+    },
+    "random": {
+      "ndcg_mean": 0.10287257819508079,
+      "ndcg_std": 0.1331842367648587,
+      "n_users": 900
+    }
+  },
+  "significance_vs_uniform": {
+    "cavi_fwd": {
+      "wilcoxon_p_vs_uniform": 0.30951710999742754,
+      "rank_biserial_vs_uniform": -0.02402022756005057,
+      "holm_p": 0.9285513299922826
+    },
+    "backward": {
+      "wilcoxon_p_vs_uniform": 0.5955512121311777,
+      "rank_biserial_vs_uniform": -0.038605230386052306,
+      "holm_p": 0.5955512121311777
+    },
+    "timedecay": {
+      "wilcoxon_p_vs_uniform": 0.44598581398360637,
+      "rank_biserial_vs_uniform": -0.01376720901126408,
+      "holm_p": 0.8919716279672127
+    }
+  },
+  "mechanism": {
+    "mean_recency_corr": 0.07095038650191482,
+    "frac_positive_recency_corr": 0.6633333333333333
+  },
+  "config": {
+    "data": "/home/user/next-paper/paper-ideas/CAVI/scripts/../gate/data",
+    "users": 300,
+    "train_users": 2000,
+    "seeds": [
+      7,
+      42,
+      123
+    ],
+    "candidates": 100
+  }
+}

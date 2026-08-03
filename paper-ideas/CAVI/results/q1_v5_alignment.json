@@ -1,0 +1,29 @@
+{
+  "methods": {
+    "forward_CAV": {
+      "mean_aia": -0.10859854468714703,
+      "n_users": 18
+    },
+    "backward_Shapley": {
+      "mean_aia": -0.1230113749095084,
+      "n_users": 18
+    },
+    "random": {
+      "mean_aia": -0.16117782576924433,
+      "n_users": 18
+    }
+  },
+  "significance": {
+    "fwd_vs_back": 0.846923828125,
+    "fwd_vs_random": 0.44229888916015625,
+    "back_vs_random": 0.522613525390625
+  },
+  "config": {
+    "data": "/home/user/next-paper/paper-ideas/CAVI/scripts/../gate/data",
+    "users": 20,
+    "train_users": 400,
+    "seeds": [
+      7
+    ]
+  }
+}
