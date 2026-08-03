@@ -10,7 +10,7 @@
 
 > **Why this paper, and why it fits Discover AI as a Review (private planning note — do NOT carry the portfolio language into the manuscript).** It targets a real gap: we hypothesize there is no dedicated survey at the intersection of *coalitional (cooperative) game theory × explainable AI × graph/hypergraph recommender systems*. General Shapley-XAI surveys are feature/classifier-centric; GNN-explainer work targets node/edge classification; game-theoretic recommender methods are scattered singles. The journal's **Review article type** accepts a comprehensive survey. The "uniquely placed author / citation home / planned method papers (ActionShap, FairShap, SignalShap, MHyperShap)" rationale is **private strategy only** — per review 1.4, keep it out of the manuscript and cover letter to avoid self-citation/self-promotion optics. The novelty claim ("first survey") is a **hypothesis pending the systematic search** (review 1.6/2.2), not an established fact.
 
-> **Backbone dependency note (read before starting; review 1.3, authors' decision).** **The benchmark does NOT use DyHuCoG code.** DyHuCoG appears in this paper only as a **literature worked example in the taxonomy (§4.6)**, where it is coded as one case among several and described accurately (an internal audit found extraction gaps; treat this as an author-side implementation caveat, not a published field fact). The benchmark uses an **independently documented hypergraph GNN** (HNN/HGCN/HCCF-style) with a public implementation, so the §4.6 worked example is decoupled from the benchmark backbone. See `Implementation_Spec.md` §A.4.
+> **Backbone dependency note (read before starting; review 1.3, authors' decision).** **The benchmark does NOT use DyHuCoG code.** DyHuCoG appears in this paper only as a **literature worked example in the taxonomy (§4.6)**, where it is coded as one case among several and described accurately (an internal audit found extraction gaps; treat this as an author-side implementation caveat, not a published field fact). The benchmark uses a **pinned independent backbone — HCCF (Hypergraph Contrastive Collaborative Filtering, Xia et al., SIGIR 2022)**, with a preregistered fallback rule; it does **not** rely on any DyHuCoG internals. The §4.6 worked example (DyHuCoG as a literature case) is decoupled from the benchmark backbone. See `Implementation_Spec.md` §A.4.
 
 ---
 
@@ -25,7 +25,7 @@
 
 ## One-paragraph thesis (the spine)
 
-Graph- and hypergraph-based recommender systems are increasingly accurate but opaque, and a growing body of work has turned to **coalitional (cooperative) game theory** — above all the Shapley value and its structure-aware and interaction-aware relatives — to make them explainable. Yet this work is scattered across disjoint papers that define *players*, *coalition value functions*, *solution concepts*, and *roles of attribution* inconsistently, and no synthesis exists. This paper provides a **systematic survey and taxonomy** of coalitional-game attribution for explainable graph-based recommendation, organized along five axes — player set, characteristic value function, solution concept, role of attribution, and graph structure — expressed in one shared vocabulary. (The "first survey" claim is a **hypothesis to be confirmed by the registered search**, review 1.6/2.2.) It critically assesses what the game-theoretic lens genuinely adds over heuristic and attention-based reweighting, where it degenerates into relabeled reweighting, and how attribution is (and is not) validated. A **separately-scoped, pre-registered empirical case study** instantiates the *interaction-player / ranking-utility* slice of the taxonomy on standard datasets; it is a supporting study, not the basis for the survey's field-wide claims. The result is both a map of the field and a research agenda argued from the literature's own gaps.
+Graph- and hypergraph-based recommender systems are increasingly accurate but opaque, and a growing body of work has turned to **coalitional (cooperative) game theory** — above all the Shapley value and its structure-aware and interaction-aware relatives — to make them explainable. Yet this work is scattered across disjoint papers that define *players*, *coalition value functions*, *solution concepts*, and *roles of attribution* inconsistently, and no synthesis exists. This paper provides a **systematic survey and taxonomy** of coalitional-game attribution for explainable graph-based recommendation, organized along five axes — player set, characteristic value function, solution concept, role of attribution, and graph structure — expressed in one shared vocabulary. (The "first survey" claim is a **hypothesis to be confirmed by the registered search**, review 1.6/2.2.) It critically assesses what the game-theoretic lens genuinely adds over heuristic and attention-based reweighting, where it degenerates into relabeled reweighting, and how attribution is (and is not) validated. A **separately-scoped empirical case study (planned for external preregistration)** instantiates the *interaction-player / ranking-utility* slice of the taxonomy on standard datasets; it is a supporting study, not the basis for the survey's field-wide claims. The result is both a map of the field and a research agenda argued from the literature's own gaps.
 
 ## Research questions of *this paper* (and their link to the thesis)
 
@@ -36,7 +36,7 @@ Graph- and hypergraph-based recommender systems are increasingly accurate but op
 | **SRQ3** | What does the game-theoretic lens genuinely add over heuristic/attention/reweighting — and where is it relabeled reweighting? | Directly tests the thesis's central claim (Ch.8.2) |
 | **SRQ4** | How is attribution validated (faithfulness, stability, actionability, reproducibility)? Which evaluation gaps recur? | Converts the thesis's acknowledged validation gaps (Ch.8.3/9.4) into a field-wide assessment |
 | **SRQ5** | What are the highest-leverage open problems (approximation, online/streaming, human-centred evaluation, fairness audits, structure-aware solution concepts, agentic systems)? | Argued from the literature's own gaps (Ch.8.4); the author's planned work appears only as one direction among several (review 1.4) |
-| **BQ1–BQ4** (case study) | In one interaction-player case study, does attribution-guided reweighting change held-out NDCG@K / Recall@K (BQ1), coverage/ILD (BQ2), estimator error/runtime/variability (BQ3), and cross-dataset results (BQ4) vs. matched controls? | A separate, pre-registered study; it does not validate the whole taxonomy and does not decide SRQ3 (review 2.5) |
+| **BQ1–BQ4** (case study) | In one interaction-player case study, does attribution-guided reweighting change held-out NDCG@K / Recall@K (BQ1), coverage/ILD (BQ2), estimator error/runtime/variability (BQ3), and cross-dataset results (BQ4) vs. matched controls? | A separate study planned for external preregistration; it does not validate the whole taxonomy and does not decide SRQ3 (review 2.5) |
 
 ---
 
@@ -61,7 +61,7 @@ Abstract / Keywords
 3. Survey methodology (systematic review protocol)
    3.1 Sources, search string, and time window
    3.2 Screening, inclusion/exclusion, and data extraction
-   3.3 PRISMA-style flow and quality assessment
+   3.3 PRISMA 2020 flow and quality assessment
 4. A taxonomy of coalitional games for explainable graph-based recommendation
    4.1 Axis 1 — Player set
    4.2 Axis 2 — Characteristic value function v(S)
@@ -78,7 +78,7 @@ Abstract / Keywords
    6.1 Cross-method comparison (comparison tables by axis)
    6.2 What game theory buys / does not buy (critical synthesis; SRQ3)
    6.3 Validation and reproducibility: recurring evaluation gaps (SRQ4)
-7. Empirical case study (separately-scoped, pre-registered benchmark)
+7. Separately-scoped empirical case study (planned for external preregistration)
    7.1 Design (backbones, attribution families, protocol, datasets)
    7.2 Results — Recall@K and NDCG@K (K ∈ {5,10,20}) realized tables (BQ1) +
        coverage/ILD/cost (BQ2–BQ4)
@@ -95,7 +95,7 @@ Notation list
 
 # ABSTRACT (draft, must be < 250 words — re-verify final count at submission)
 
-Graph- and hypergraph-based recommender systems are increasingly accurate yet opaque, and a growing literature uses coalitional (cooperative) game theory — above all the Shapley value and its structure-aware, interaction-aware, and communication-graph variants — to attribute recommendation outcomes to players such as features, interactions, items, users, contexts, signal sources, and providers. This work is scattered across papers that define players, coalition value functions, solution concepts, and the role of attribution inconsistently, and no synthesis currently organizes it. We present a systematic review and taxonomy of coalitional-game attribution for explainable graph-based recommendation, organizing the field along five axes — player set, value function, solution concept, role of attribution, and graph structure — and expressing surveyed methods in a shared vocabulary. We critically assess what the game-theoretic lens adds over heuristic and attention-based reweighting, where it degenerates into relabeled reweighting, and how attribution is (and is not) validated, including faithfulness, stability, actionability, and reproducibility. To illustrate the framework we report a separately-scoped, pre-registered empirical case study instantiating the interaction-player / ranking-utility slice of the taxonomy on MovieLens-1M and Amazon-Book, reporting Recall@K and NDCG@K (K = 5, 10, 20). We close with an agenda of open problems — scalable low-variance approximation, online attribution, human-centred actionability evaluation, fairness audits, structure-aware solution concepts, and agentic systems.
+Graph- and hypergraph-based recommender systems are increasingly accurate yet opaque, and a growing literature uses coalitional (cooperative) game theory — above all the Shapley value and its structure-aware, interaction-aware, and communication-graph variants — to attribute recommendation outcomes to players such as features, interactions, items, users, contexts, signal sources, and providers. This work is scattered across papers that define players, coalition value functions, solution concepts, and the role of attribution inconsistently, and no synthesis currently organizes it. We present a systematic review and taxonomy of coalitional-game attribution for explainable graph-based recommendation, organizing the field along five axes — player set, value function, solution concept, role of attribution, and graph structure — and expressing surveyed methods in a shared vocabulary. We critically assess what the game-theoretic lens adds over heuristic and attention-based reweighting, where it degenerates into relabeled reweighting, and how attribution is (and is not) validated, including faithfulness, stability, actionability, and reproducibility. To illustrate the framework we report a separately-scoped empirical case study (planned for external preregistration) instantiating the interaction-player / ranking-utility slice of the taxonomy on MovieLens-1M and Amazon-Book, reporting Recall@K and NDCG@K (K = 5, 10, 20). We close with an agenda of open problems — scalable low-variance approximation, online attribution, human-centred actionability evaluation, fairness audits, structure-aware solution concepts, and agentic systems.
 
 **Keywords:** coalitional game theory; cooperative game theory; Shapley value; Myerson value; explainable AI; graph neural networks; hypergraph recommendation; recommender systems; feature attribution; survey
 
@@ -114,7 +114,7 @@ Contributions (numbered, bold lead-ins):
 1. **A systematic survey** with a documented, reproducible protocol (search string, sources, screening, PRISMA flow).
 2. **A five-axis taxonomy** of coalitional-game attribution for explainable graph-based recommendation, unifying the field in one vocabulary.
 3. **A critical synthesis** (SRQ3, SRQ4): what game theory buys, where it degenerates into reweighting, and how validation falls short.
-4. **A separately-scoped, pre-registered empirical case study** instantiating the interaction-player / ranking-utility slice of the taxonomy, reporting **Recall@K and NDCG@K (K ∈ {5,10,20}) as the primary realized result tables** (BQ1–BQ4) with matched controls. It is a supporting study, not the basis for the survey's field-wide claims (review 2.5).
+4. **A separately-scoped empirical case study (planned for external preregistration)** instantiating the interaction-player / ranking-utility slice of the taxonomy, reporting **Recall@K and NDCG@K (K ∈ {5,10,20}) as the primary realized result tables** (BQ1–BQ4) with matched controls. It is a supporting study, not the basis for the survey's field-wide claims (review 2.5).
 5. **A research agenda** (SRQ5) argued from the literature's own gaps, with concrete directions (the author's planned work appears as one direction among several, review 1.4).
 
 ## 1.4 Relationship to prior surveys (positioning table)
@@ -216,16 +216,16 @@ GNN explainers for node/edge/classification (EdgeSHAPer, GraphSVX, GraphGI, GSta
 Critical synthesis. Possible genuine value (argued, not assumed): principled credit under redundancy, interaction handling, in-training optimization, exposure allocation. **Do not present axiomatic fairness, faithful explanation, or actionability as automatic consequences of Shapley values** — state that axioms govern allocation conditional on a chosen game and do not select the player representation, missingness/baseline distribution, coalition semantics, or quantity of interest (review 2.6.2). Degenerations: when "game-theoretic" is relabeled reweighting; the value-function-arbitrariness critique; computational intractability and the approximation problem. Cite the "Beyond Shapley Values" critique (Weber/Harsanyi sets) and answer it.
 
 ## 6.3 Validation and reproducibility (SRQ4)
-Recurring gaps: faithfulness vs. actionability (the thesis's unmeasured-claim problem, generalized); stability across seeds/time; whether attribution is evaluated on held-out protocol; code/data release. **Include the DyHuCoG reproducibility caveat here** as an honest, field-level observation about evaluation standards.
+Recurring gaps: faithfulness vs. actionability (the thesis's unmeasured-claim problem, generalized); stability across seeds/time; whether attribution is evaluated on held-out protocol; code/data release. **On the DyHuCoG reproducibility caveat (6.6):** report it precisely as "An audit of one reviewed method identified reporting gaps; this illustrates a reproducibility risk but does not estimate its prevalence." It is an **author-side case**, not a field-level statistical observation, unless the audit is archived and independently verifiable.
 
 ---
 
 # 7. EMPIRICAL CASE STUDY
 
-A **separately-scoped, pre-registered empirical case study** (secondary to the review). Design from `Implementation_Spec.md`. Do **not** turn this into a method bake-off, and do **not** present it as empirical validation of the whole taxonomy (review 2.5).
+A **separately-scoped empirical case study (planned for external preregistration)** (secondary to the review). Design from `Implementation_Spec.md`. Do **not** turn this into a method bake-off, and do **not** present it as empirical validation of the whole taxonomy (review 2.5).
 
 ## 7.1 Design
-Backbones (**independently documented hypergraph GNN — no DyHuCoG code — + LightGCN**), attribution families (`uniform` no-attribution control, `attention`, `heuristic-pop`, `additive-pref` matched additive-similarity heuristic, `shapley-mc` primary; `shapley-ai`/`myerson` exploratory — every promised cell must be run or dropped from headline claims, review C4), protocol (5 seeds, temporal leave-one-out, BPR, Adam), datasets (MovieLens-1M, Amazon-Book), **primary metrics Recall@K and NDCG@K (K ∈ {5,10,20})**, secondary coverage/ILD, statistics (per-user analysis unit, predeclared contrast family, Holm–Bonferroni; review 1.8/2.6). Reference `Implementation_Spec.md` §A.3–§A.10 and §B.1a. All families share a **matched objective and tuning budget** (review 2.5).
+Backbones (**pinned HCCF hypergraph backbone — no DyHuCoG code — + LightGCN**), attribution families (**primary set**: `uniform` no-attribution control, `additive-pref` matched additive-similarity heuristic, `shapley-mc` game-theoretic; `attention`/`heuristic-pop` primary controls; `shapley-ai`/`myerson` exploratory — every promised cell must be run or dropped from headline claims, review C4), protocol (5 seeds, temporal leave-one-out, BPR, Adam), datasets (MovieLens-1M, Amazon-Book), **primary metrics Recall@K and NDCG@K (K ∈ {5,10,20})**, secondary coverage/ILD, statistics (per-user analysis unit paired within seed, seed-clustered/bootstrap inference, and a **predeclared contrast family** — 8 metric-by-condition tests or a prespecified narrower family, review P0.4; see `Implementation_Spec.md` §A.10). Reference `Implementation_Spec.md` §A.3–§A.10 and §B.1a. All families share a **matched objective and tuning budget** (review 2.5).
 
 ## 7.2 Results
 The primary realized results are the **Recall@K and NDCG@K (K ∈ {5,10,20}) tables** for every attribution family actually run, on both backbones and both datasets, reported as mean ± std over seeds with significance flagged after correction (§A.10). **These tables are filled only with realized numbers; no predicted values appear as results** (review 1.1/2.1). Present as Tables 5–7 / Figures 3–5 and report the measured ordering neutrally — **do not assume or instruct that `shapley-mc` ranks 1st**; report whichever ordering occurs (review 2.1):
@@ -335,10 +335,10 @@ Standalone table (matching the IJACSA/thesis convention). Include and disambigua
 ## What can be reused from existing work
 - `stats.py` (paired tests, Holm–Bonferroni, Cohen's d_z) and clustering/quality diagnostics from `ActionShap/code/`.
 - Thesis Ch.2/Ch.3 review material — as **source material only**, rewritten in survey voice, not copied.
-- **No DyHuCoG code.** The benchmark backbone is an independently documented hypergraph GNN (HNN/HGCN/HCCF-style) with a public implementation (`Implementation_Spec.md` §A.4).
+- **No DyHuCoG code.** The benchmark backbone is the pinned HCCF hypergraph GNN (official public implementation, pinned commit; preregistered HGNN fallback rule — `Implementation_Spec.md` §A.4).
 
 ## Estimated effort
-Roughly 8–14 weeks: ~4–5 weeks for the systematic review (protocol, search, screening, extraction, taxonomy coding), ~3–5 weeks for the pre-registered case-study benchmark (incl. Amazon preprocessing and the hypergraph-backbone decision), ~1–2 weeks for integration/figures/tables, ~1–2 weeks for the submission package (incl. ethics determination, formatting, cover letter). The benchmark is not "cheap" — budget it as a real empirical study (review 1/4.1).
+Roughly 8–14 weeks: ~4–5 weeks for the systematic review (protocol, search, screening, extraction, taxonomy coding), ~3–5 weeks for the case-study benchmark (planned for external preregistration) (incl. Amazon preprocessing and the hypergraph-backbone decision), ~1–2 weeks for integration/figures/tables, ~1–2 weeks for the submission package (incl. ethics determination, formatting, cover letter). The benchmark is not "cheap" — budget it as a real empirical study (review 1/4.1).
 
 ## Decisions taken
 | Decision | Choice | Consequence |
@@ -347,7 +347,7 @@ Roughly 8–14 weeks: ~4–5 weeks for the systematic review (protocol, search, 
 | Benchmark role | Secondary, small | Grounds the taxonomy; kept out of scope for a method bake-off |
 | Datasets | MovieLens-1M + Amazon-Book | Standard public benchmarks for a dense/sparse contrast (independent of any prior codebase) |
 | Amazon-Book provenance | Rebuilt from raw corpus | Needed for temporal protocol; disclosed in §4.1 |
-| DyHuCoG code in benchmark | **Not used** | Benchmark uses an independently documented hypergraph GNN; DyHuCoG appears only as a taxonomy worked example (§4.6) |
+| DyHuCoG code in benchmark | **Not used** | Benchmark uses the pinned HCCF backbone (independent); DyHuCoG appears only as a taxonomy worked example (§4.6) |
 
 ## Remaining open questions
 - Whether to include the exploratory `myerson` / `shapley-ai` families. **If included, every promised cell must be run (no partial factorial — review C4);** otherwise drop them from headline claims. Do **not** default to "MovieLens-1M only," which creates a partial factorial.

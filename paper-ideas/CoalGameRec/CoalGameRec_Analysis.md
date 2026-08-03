@@ -260,7 +260,7 @@ Target length ~10,000–12,000 words, 7–9 figures, 5–7 tables in main text (
    transparent paper-count/flow figure.
 5. **De-scope the "graph" to recommendation-specific** structures (user–item, KG, hypergraph,
    temporal) and keep GNN node/edge explainers as a clearly-labeled *adjacent* category.
-6. **Position DyHuCoG candidly and use no DyHuCoG code** in the benchmark (independently documented hypergraph GNN); treat the audit as an author-side risk (review 1.3).
+6. **Position DyHuCoG candidly and use no DyHuCoG code** in the benchmark — pin the independent HCCF hypergraph backbone (with a preregistered HGNN fallback); treat the audit as an author-side risk (review 1.3).
 7. **Confirm the venue** (Discover AI Review type) and justify the hybrid Review+benchmark format in
    the cover letter; expect possible reclassification (review 1.2/2.1).
 8. **Protect research integrity (blocking):** external pre-registration, realized-only result tables,

@@ -18,7 +18,7 @@
 The paper has **two deliverables**:
 
 1. **Survey deliverable (primary).** A systematic, reproducible review of coalitional-game attribution for explainable graph-based recommendation, organized by a novel taxonomy, with comparison tables and a critical synthesis. This is the novel, citable contribution. **Framed for the `Review` article type of Discover Artificial Intelligence.**
-2. **Case-study benchmark deliverable (secondary, separately-scoped).** A small, reproducible, **pre-registered** empirical study that instantiates the *interaction-player / ranking-utility* slice of the taxonomy on standard datasets and compares game-theoretic reweighting to matched non-game-theoretic controls. It is a **separate empirical study**, not the basis for the survey's field-wide claims; a null result does not invalidate the review.
+2. **Case-study benchmark deliverable (secondary, separately-scoped).** A small, reproducible empirical study that instantiates the *interaction-player / ranking-utility* slice of the taxonomy on standard datasets and compares game-theoretic reweighting to matched non-game-theoretic controls. **Planned for external preregistration** (not yet registered — see §4/§B.0); it is a **separate empirical study**, not the basis for the survey's field-wide claims; a null result does not invalidate the review.
 
 ---
 
@@ -65,7 +65,7 @@ The paper has **two deliverables**:
 ## 2. Research questions (SRQs)
 
 - **SRQ1 (taxonomy).** What distinct instantiations of coalitional games exist for explainable graph-based recommendation, along the axes of *player set · characteristic value function · solution concept · role of attribution · graph structure*?
-- **SRQ2 (comparison/synthesis).** How do surveyed methods compare when expressed in one shared vocabulary, and what patterns emerge across the coded corpus? (State the synthesis method — descriptive, vote/count, or meta-regression — rather than implying "what correlates with gains" without a quantitative synthesis; review 2.5.5/4.1.)
+- **SRQ2 (comparison/synthesis).** How do surveyed methods compare when expressed in one shared vocabulary, and what patterns emerge across the coded corpus? **Synthesis method selected (P0.6/6.4): descriptive + structured vote/count** (report distributions and direction of results across the corpus, with heterogeneity and publication bias explicitly noted). A quantitative effect-size/meta-regression is **not** feasible for this heterogeneous corpus and is not claimed; SRQ2 is narrowed accordingly.
 - **SRQ3 (value analysis).** What does the game-theoretic lens genuinely add over heuristic/attention/reweighting — and where is it relabeled reweighting?
 - **SRQ4 (validity).** How is attribution validated (faithfulness, stability, actionability, reproducibility)? Which evaluation gaps recur?
 - **SRQ5 (roadmap).** What are the highest-leverage open problems (approximation, online/streaming, human-centred evaluation, fairness audits, structure-aware solution concepts, agentic systems)?
@@ -75,7 +75,7 @@ The paper has **two deliverables**:
 - **BQ2.** What is the effect on coverage and intra-list diversity under the same protocol?
 - **BQ3.** What are estimator error, runtime, memory, and seed/data-sample variability?
 - **BQ4.** How do results compare across a dense (MovieLens-1M) and a sparse (Amazon-Book) setting (a descriptive cross-dataset comparison, not a causal density claim)?
-The benchmark does **not** by itself answer the field-wide SRQ3; it tests one pre-registered slice (review 2.5).
+The benchmark does **not** by itself answer the field-wide SRQ3; it tests one slice planned for preregistration (review 2.5, P0.6).
 
 ---
 
@@ -164,15 +164,14 @@ Each surveyed method is mapped into the tuple `(Axis1, Axis2, Axis3, Axis4, Axis
 
 ## 6. Unified notation (reuse thesis language)
 
-Adopt the thesis's game notation (Ch. 2.8) so all methods are comparable:
+Adopt a consistent notation (disambiguation per review 2.6.3/7.1) so all methods are comparable. **Use `p` for a generic player; reserve `i` for item (in `(u,i)`), `u` for user, `m` for the MC sample index, `M` for the MC sample count, `K`/`k` for cutoff/rank, `g` for the communication graph, and `f` for the model function (refresh frequency written as `freq`). Do not overload `i` as both player and item, or `M` as both player count and sample count.**
 
-- Players `N`, player `i`; TU game `v: 2^N → ℝ`, coalition `S ⊆ N`.
-- **Shapley value:** `φ_i(v) = Σ_{S⊆N∖{i}} (|S|!(|N|−|S|−1)!/|N|!) [v(S∪{i}) − v(S)]`.
-- **Monte-Carlo estimator:** `φ̂_i = (1/M) Σ_{m=1..M} [v(S_m ∪ {i}) − v(S_m)]`.
+- Players `N`, generic player `p`; TU game `v: 2^N → ℝ`, coalition `S ⊆ N`.
+- **Shapley value:** `φ_p(v) = Σ_{S⊆N∖{p}} (|S|!(|N|−|S|−1)!/|N|!) [v(S∪{p}) − v(S)]`.
+- **Monte-Carlo estimator:** `φ̂_p = (1/M) Σ_{m=1..M} [v(S_m ∪ {p}) − v(S_m)]`, with the sampling law in `Implementation_Spec.md` §A.6a.
 - **Myerson value:** the Shapley value of the **graph-restricted game** `v^g(S) = Σ_{C∈𝒞(g[S])} v(C)`, where `g[S]` is the subgraph induced by `S` and `𝒞(g[S])` its connected components. Do not describe it loosely as "Shapley restricted to connected coalitions."
-- **Harsanyi dividends vs. interaction indices:** these are distinct. Harsanyi dividends `λ_S` (the unique numbers with `v(S)=Σ_{T⊆S} λ_T`) are not the same as pairwise Shapley interaction indices. Give one precise definition per concept with a citation, or remove formulas not used. Weber set and Harsanyi set are also distinct allocation sets — do not conflate them.
-- **Multi-objective value (for hypergraph recommendation, from DyHuCoG):**
-  `v(S) = α·NDCG(S) + β·Diversity(S) + γ·Context(S)`; `v_pref(S) = v(S) + λ_pref·Σ_{(u,i)∈S} sim(u,i)`.
+- **Harsanyi dividends vs. interaction indices:** these are distinct. Harsanyi dividends `δ_S` (the unique numbers with `v(S)=Σ_{T⊆S} δ_T`; use `δ`, **not** `λ`, to avoid collision with `λ_pref`) are not the same as pairwise Shapley interaction indices. Give one precise definition per concept with a citation, or remove formulas not used. Weber set and Harsanyi set are distinct allocation sets — do not conflate them.
+- **Multi-objective value:** `v(S) = α·NDCG(S) + β·Diversity(S) + γ·Context(S)`; `v_pref(S) = v(S) + λ_pref·Σ_{(u,i)∈S} sim(u,i)`, with each term and the normalization defined in `Implementation_Spec.md` §A.6.
 
 > Publication note: if text/equations are reused from the thesis or prior papers, **rewrite them** in survey voice to avoid self-plagiarism overlap; do not copy verbatim.
 
@@ -182,10 +181,15 @@ Adopt the thesis's game notation (Ch. 2.8) so all methods are comparable:
 
 Purpose: empirically instantiate the taxonomy and compare the main attribution families under one shared protocol. **Reuse the ActionShap codebase (`stats.py`, clustering/quality diagnostics) where sound; the benchmark does NOT use DyHuCoG code** — it uses an independently documented hypergraph GNN (see §7.1, §11 risk register, and `Implementation_Spec.md` §A.4).
 
-### 7.1 Recommender backbone(s)
-Pick a small, defensible set of graph/hypergraph backbones to host the attribution modules. **The benchmark does NOT use DyHuCoG code** (authors' decision, review 1.3):
-- **Hypergraph GNN backbone** — an **independently documented** hypergraph GNN with a public implementation (e.g., HNN/HGCN/HCCF-style), pinned before the benchmark — primary.
-- **LightGCN** (homogeneous GNN) — secondary, to show transfer across graph types.
+### 7.1 Recommender backbone(s) — pinned, with a preregistered fallback rule (P0.1)
+
+**The benchmark does NOT use DyHuCoG code** (authors' decision, review 1.3). Pin exactly one primary model **before** implementation (this is required for a preregistered benchmark; selecting after feasibility results creates researcher degrees of freedom):
+
+- **Primary backbone (chosen): HCCF (Hypergraph Contrastive Collaborative Filtering)** — Xia, Huang, Xu, Zhao, Yin & Huang, "Hypergraph Contrastive Collaborative Filtering," SIGIR 2022 (DOI to be recorded). The benchmark uses the **official public implementation pinned to a specific commit/tag** (record the repository, commit hash, and license), not the author's own code. **Hypergraph construction, propagation/normalization equations, input features, initialization, layers/dimensions, optimizer/regularization, and the exact attribution integration point are all fixed and recorded in the config** (not left as "HNN/HGCN/HCCF-style").
+- **Preregistered fallback rule:** if HCCF's official code cannot be run reproducibly under the exact pinned environment (determinism, licensing, or dependency failure), the fallback is a **self-contained, independently implemented standard Hypergraph Neural Network (HGNN, Feng et al. 2019)** with fully documented equations — but this fallback is triggered **only** by the predeclared rule, disclosed as a protocol deviation, and not chosen after inspecting results.
+- **LightGCN** (homogeneous GNN) — secondary, to show transfer across graph types (also pinned to an official commit).
+
+The exact pinned backbone, commit, hypergraph construction, and equations are recorded in `Implementation_Spec.md` §A.4 and frozen in the config before registration.
 
 ### 7.2 Attribution families to compare (players = interactions, value = ranking/diversity utility)
 | Label | Attribution | Nature |
@@ -198,19 +202,27 @@ Pick a small, defensible set of graph/hypergraph backbones to host the attributi
 | `shapley-ai` | precisely-defined sampling/importance Shapley variant (§A.6d) | exploratory estimator ablation |
 | `myerson` | Myerson value on a stated graph-restricted game (§A.6) | exploratory structure-aware |
 
-**Matched-objective requirement (review 2.5):** all families share the same backbone, loss, scalar objective, and tuning budget; the game-theoretic method must not receive a matched multi-objective value/preference term that the controls lack. A factorial ablation (with/without preference term, with/without diversity/context, fixed vs. refreshed attribution) and a matched additive-similarity baseline (`additive-pref`) are required, or the experiment cannot attribute a gain to the Shapley rule.
+**Matched-objective requirement (review 2.5 / §5.1):** all families share the **same backbone, training loss, validation-selection objective, number of tuning trials, and compute budget**. Because `shapley-mc` uses a multi-objective `v(S)` while `uniform`/`attention`/`heuristic-pop` controls do not naturally have the same value function, define explicitly what "same scalar objective" means — and report it — for each of: (a) the **training loss** (identical BPR), (b) the **reranking objective** (the fixed reweighting rule applied to every family), (c) the **validation-selection objective** (identical), (d) **model capacity** (attention matched in parameter count), and (e) **tuning budget** (identical number of trials). A factorial ablation (with/without preference term, with/without diversity/context, fixed vs. refreshed attribution) and the matched `additive-pref` control are required; otherwise a gain cannot be attributed to the Shapley rule rather than to the preference prior, the diversity term, the architecture, or tuning.
 
 > Keep the benchmark a **separately-scoped case study** — a small, fully-run method set. Do not call it both "illustrative" and "the headline" (review 1.7/2.2). `shapley-ai`/`myerson` are exploratory: run every promised cell or drop them from headline claims (C4).
 
-### 7.3 Protocol (shared — one split definition, review C3)
-- **Implicit feedback:** positive if rating ≥ 4 (state the exact threshold); min 5 interactions.
-- **Split (single, fixed):** **temporal leave-one-out per user** — last interaction = test, second-last = validation, rest = train; break timestamp ties deterministically (stable key, not row order that changes on re-parse). This is the definition used everywhere; the earlier "70/10/20" wording is removed. State the minimum training history and handling of users with too few positives, and clarify whether the 5-core filter uses train-period data only (avoid future leakage).
+### 7.3 Protocol — final frozen choices (P0.2)
+
+Make **final** choices here (not a menu of alternatives); write one deterministic preprocessing algorithm and one config table containing all values before registration:
+
+- **Implicit feedback:** positive if rating ≥ 4. **Filtering order (fixed):** convert ratings to positives (rating ≥ 4) first, then apply iterative 5-core to the positive interaction graph until a fixed point. (State this order explicitly; the reverse order changes users/items/density.)
+- **Leakage:** the 5-core eligibility filter is computed from the **training period only** (no future interactions used for eligibility); label the protocol accordingly.
+- **Split (single, fixed):** **temporal leave-one-out per user** — last interaction = test, second-last = validation, rest = train. **Timestamp ties (fixed):** use a **stable secondary key** (original line index preserved on disk), not re-parse-dependent row order. **Minimum training history (fixed):** ≥ 5 positive interactions after filtering (5-core enforces this); users below threshold are excluded and reported. **Users with no test/validation positives:** excluded and reported.
+- **Candidate evaluation (fixed):** full-catalogue scoring for top-K; the candidate pool for each user is the top-200 items by the model's score excluding train items; **held-out positives are excluded from negative sampling**; candidate pools are **fixed across methods**; ties broken deterministically.
+- **Negative sampling (fixed):** popularity-aware (item-degree-weighted) sampling, N=4 negatives per positive, a fixed number of hard-negative refreshes, separate random stream from split/init.
+- **ILD similarity (fixed):** item cosine similarity over a **fixed, interaction-only item-feature representation shared across all methods** (no learned method-dependent embeddings), with a defined missing-metadata rule.
+- **Coverage denominator (fixed):** the eligible item catalogue after seen-item filtering.
 - **Optimizer:** Adam; early stopping patience 20 on validation NDCG@20; BPR-style pairwise loss; popularity-aware negative sampling with periodic hard-negative refresh.
-- **Runs:** 5 seeds {42,43,44,45,46}; report mean ± std.
+- **Runs:** 5 seeds {42,43,44,45,46}; separate random streams for dataset sampling, split/tie-breaking, model init, negative sampling, and coalition/permutation sampling; report mean ± std.
 - **Reproducibility:** fixed seeds, recorded hyperparameters, released code.
 
-### 7.4 Metrics
-**Primary reported results — Recall@K and NDCG@K (K ∈ {5, 10, 20}).** The benchmark's headline deliverable is the result table reporting **NDCG@20 and Recall@20** for every attribution family on both backbones and both datasets (full cutoffs @5/@10/@20 included), per `Implementation_Spec.md` §B.1a.
+### 7.4 Metrics — primary vs. exploratory families (P1 consistency)
+**Primary reported results — Recall@K and NDCG@K (K ∈ {5, 10, 20}).** **Define primary families separately from exploratory families (review §3):** the **primary set** is `uniform` (control), `additive-pref` (matched non-game heuristic), and `shapley-mc` (game-theoretic), run on **every cell** (both backbones × both datasets × all cutoffs). `attention`, `heuristic-pop` are primary controls where stated; `shapley-ai` and `myerson` are **exploratory** — if included, every promised cell is run (no partial factorial), otherwise they are dropped from headline claims (C4). The headline result table reports the **primary set on every cell**; exploratory rows are clearly labelled. Per `Implementation_Spec.md` §B.1a.
 - Ranking: **NDCG@K** = `(1/|U|) Σ_u DCG_u@K / IDCG_u@K`, `DCG_u@K = Σ_{k=1..K} rel_u,k / log2(k+1)`; **Recall@K** = `(1/|U|) Σ_u |rel_u ∩ R_u@K| / |rel_u|`. Report realized mean ± std over seeds for every family actually run (fill results only after the experiment; per `Implementation_Spec.md` §B.1a).
 - Exposure (secondary): **catalogue coverage** (`Coverage = |∪_u R_u| / |I|`), head/tail coverage by popularity decile.
 - Diversity (secondary): **Intra-List Diversity (ILD)** (`ILD = 2/(K(K−1)) Σ_{1≤k<l≤K} [1 − sim(i_k,i_l)]`).
@@ -218,23 +230,28 @@ Pick a small, defensible set of graph/hypergraph backbones to host the attributi
 Coverage/ILD/cost never replace Recall@K/NDCG@K as the headline; they contextualize them.
 
 ### 7.5 Statistical analysis (see `Implementation_Spec.md` §A.10 for the full plan)
-- **Unit of analysis: per-user** (paired per-user differences on the shared split); the 5 seeds quantify training variability, not the pairing unit.
-- **Primary predeclared contrasts:** `shapley-mc` vs `uniform` on NDCG@20 and Recall@20, per dataset/backbone; these form the **Holm–Bonferroni family**; all else is secondary/exploratory.
+- **Unit of analysis: per-user paired differences** on the shared split, **paired within the same seed** (same split, candidate set, negative-sampling stream, and user). The 5 seeds quantify training variability; users evaluated by one trained model share model-level randomness, so per-user tests are **not** independent model replicates.
+- **Primary contrast family (P0.4 correction):** the full design is `shapley-mc` vs `uniform` on NDCG@20 and Recall@20 × 2 datasets × 2 backbones = **8 metric-by-condition tests**. Choose exactly one plan before registration and apply it consistently:
+  - **(A) 8 tests in one Holm–Bonferroni family** (all primary, corrected jointly), **or**
+  - **(B) 4 predeclared joint hypotheses** (e.g., per dataset on the primary backbone only, with the other backbone/metrics/cutoffs declared secondary/exploratory and not jointly corrected), **or**
+  - **(C) a hierarchical/clustered model** over users with seed as a cluster, prespecified.
+  Do **not** say "four contrasts" while the design yields eight tests.
+- **Seed-clustered inference:** define a cluster/bootstrap that resamples users while preserving seed-level dependence (bootstrap users within each seed and aggregate seed estimates, or fit a mixed-effects/hierarchical model). Reporting per-seed means does not repair primary p-values that treat users as independent.
 - Paired t-test and Wilcoxon signed-rank used as **sensitivity analyses** (assumptions stated); report Cohen's d_z with 95% CI and permutation/bootstrap intervals over users; report per-seed values.
-- State the number of comparisons in every significance caption; users are not strictly independent after shared training (state this caveat).
+- State the number of comparisons and the exact unit/test/alternative/correction in every significance caption.
 
-### 7.6 Hardware / software
-- Same environment as the thesis: PyTorch 2.x, Python 3.10+, RTX 4090 (or equivalent), CUDA. Record exact versions.
+### 7.6 Hardware / software — one pinned environment (C10, §5.5)
+- **Pin one exact environment** and use it in every file (spec.md, `Implementation_Spec.md`, and the config). Python 3.12.x with exact patch, PyTorch 2.x (exact version + CUDA/driver recorded), scipy/numpy/scikit-learn/pandas at exact versions, an exact lockfile/container, deterministic kernels where available, and numerical tolerances documented. This is a **new pinned environment for the independent backbone**, not "the same environment as the thesis"; do not imply thesis reproducibility. GPU: RTX 4090 (or equivalent); also runnable on CPU at reduced scale.
 
 ---
 
 ## 8. Datasets
 
-Primary benchmark (recommendation — dense + sparse pairing, mirroring the thesis):
+Primary benchmark (recommendation — dense + sparse pairing). **Wording (7.3):** MovieLens-1M is a **standard public dataset**; the Amazon-Book sample is **public source data processed under a custom protocol** (subsampled, re-5-cored, temporally split) — do **not** call the final Amazon sample "the standard Amazon-Book benchmark."
 | Dataset | Type | Why |
 |---|---|---|
 | **MovieLens-1M** | dense, explicit → implicit | primary, statistically clean |
-| **Amazon-Book** | sparse, long-tail implicit | sparsity robustness, coverage/diversity test |
+| **Amazon-Book** (custom sample of public source) | sparse, long-tail implicit | sparsity robustness, coverage/diversity test |
 
 Optional extension (if needed for breadth): **Yelp2018** (cross-dataset comparison).
 
@@ -247,14 +264,14 @@ Optional extension (if needed for breadth): **Yelp2018** (cross-dataset comparis
 ## 9. Deliverables and artifact requirements
 
 1. **Manuscript** (systematic review + secondary case study). Target ~10,000–12,000 words, 7–9 figures, 5–7 tables in main text (reconciled across `spec.md` and `Paper_Structure.md`; detailed factorial result tables and the prediction register go to supplementary material with distinct labels). Structure in §10.
-2. **PRISMA-style flow figure** and documented search/protocol (for reproducibility of the review).
+2. **PRISMA 2020 flow diagram + checklist** and documented search/protocol (with PRISMA-S search reporting only if those requirements are fully completed).
 3. **Comparison tables** mapping each reviewed method into the taxonomy tuple.
 4. **Code + configs + scripts** for the benchmark, with recorded seeds and results (`results/{raw,tables,figures}`), following the repo's `paper-ideas/<name>/code/` layout convention.
 5. **BibTeX bibliography** file with all reviewed works.
 
 ---
 
-## 10. Manuscript structure (suggested)
+## 10. Manuscript structure (suggested — single canonical ToC, review 4 §4/P0)
 
 ```
 Abstract / Keywords
@@ -267,21 +284,22 @@ Abstract / Keywords
        dynamic/temporal; top-N problem
    2.4 Explainability in recommendation: post-hoc / in-training / fairness / actionability;
        evaluation of explanations
-3. Survey methodology (sources, search string, screening, extraction, PRISMA flow)
+3. Systematic-review methodology (sources, search string, screening, extraction, PRISMA 2020 flow)
 4. A taxonomy of coalitional games for explainable graph-based recommendation (5 axes)
 5. Systematic review by category (organized by player set, with sub-cases)
-6. Comparative analysis (comparison tables)
-7. Empirical benchmark (design, results, BQ answers)
-8. Critical analysis (what game theory buys / does not buy; faithfulness vs. actionability;
-   reproducibility; DyHuCoG audit caveat) — placed **before** the benchmark, so the taxonomy and
-   critique are not contingent on benchmark results (review 4.3)
-9. Empirical case-study benchmark (design, results, BQ answers; framed as a separate study)
-10. Open challenges and research agenda (argued from the literature; author's planned work as ONE
-    direction among several — not the organizing structure; review 1.4)
-11. Limitations
-12. Conclusion
-Appendix A: notation/glossary · Appendix B: reviewed-works index
+6. Comparative and critical analysis (what game theory buys / does not buy; faithfulness vs.
+   actionability; reproducibility; DyHuCoG audit caveat)
+7. Separately-scoped empirical case study (design, realized Recall@K/NDCG@K results, BQ answers;
+   framed as a separate study — NOT a second benchmark section)
+8. Open challenges and research agenda (argued from the literature; author's planned work as ONE
+   direction among several — not the organizing structure; review 1.4)
+9. Limitations
+10. Conclusion
+Declarations
+Appendices / Online Resources
 ```
+
+This is the single canonical ToC, synchronized with `Paper_Structure.md`. There is **one** benchmark section (the separately-scoped case study, §7), and critical analysis (§6) precedes it. Do not reintroduce an "Empirical benchmark" and an "Empirical case-study benchmark" as two sections.
 
 ---
 
@@ -291,7 +309,7 @@ Appendix A: notation/glossary · Appendix B: reviewed-works index
 |---|---|
 | Scope creep → shallow bibliography | Lock §3 scope; taxonomy is the backbone; de-scope non-recommendation GNN explainers |
 | Reads as a thesis recap | Frame author's own work (DyHuCoG) as one case study among many; field-wide synthesis voice |
-| Reviewers demand a real protocol | §4 PRISMA-style flow, documented search, data-extraction form, counts |
+| Reviewers demand a real protocol | §4 PRISMA 2020 flow + checklist, documented search, data-extraction form, counts |
 | "You missed X" reviews | Transparent inclusion/exclusion; time window; broad search string; record all screened titles |
 | **DyHuCoG reproducibility flag** (repo's own SignalShap audit: 63 extraction gaps) | **Resolved by decision: no DyHuCoG code in the benchmark.** In the survey, describe DyHuCoG accurately and cite its caveat; the benchmark uses an independently documented hypergraph GNN (`Implementation_Spec.md` §A.4) |
 | Self-plagiarism / overlap with thesis | Rewrite preliminaries in survey voice; do not copy equations/paragraphs verbatim |
@@ -317,7 +335,7 @@ Appendix A: notation/glossary · Appendix B: reviewed-works index
 4. **Write the systematic review + comparison tables** (the core content).
 5. **Obtain the institutional ethics determination** for the human-generated data (MovieLens/Amazon) before data processing (§1.1).
 6. **Run the Amazon feasibility spike and a small synthetic Shapley test** (`Implementation_Spec.md` §B.7 milestone 0).
-7. **Freeze the benchmark estimand, splits, baselines, and statistical plan (§A.10); register predictions externally (§B.0).**
+7. **Freeze the benchmark estimand, splits, baselines, and statistical plan (§A.10); register predictions externally (§B.0) in a timestamped repository — do this before processing confirmatory data.**
 8. **Implement + run the benchmark** with a documented backbone and complete tests; write realized results only.
 9. **Write critical analysis + case-study results + agenda + limitations + conclusion + abstract (< 250 words).**
 10. **Compile bibliography, appendices, figures/tables; internal review (trajectory check: survey ≠ recap; survey does not depend on benchmark outcome).**
@@ -350,7 +368,7 @@ For the review to be defensible, **all** must hold:
 - [ ] **Author contributions** (CRediT) statement present.
 - [ ] **Competing interests** statement present.
 - [ ] **Data availability** + **Code availability** statements present (public datasets; code/Zenodo DOI).
-- [ ] **Ethics statement** present — "not applicable" (no human/animal subjects; justify no user studies).
+- [ ] **Ethics/human-data determination** present, accurately reporting the institutional committee decision or exemption, datasets/fields used, public/pseudonymous status, and identifier protection. No user study was conducted; consent requirements follow the institutional determination. (Do **not** assert "not applicable" merely because there is no user study.)
 - [ ] Manuscript formatted per current **Springer Nature Discover Series** template; figures/tables/references conform to journal style.
 - [ ] No verbatim reuse of thesis/prior-paper text/equations/figures (survey voice + disclosure in cover letter).
 - [ ] APC funded or waiver/institutional OA agreement confirmed.
@@ -359,4 +377,4 @@ For the review to be defensible, **all** must hold:
 
 ## 14. Definition of done
 
-This paper is "done" when: (1) the **systematic review** (PRISMA 2020 protocol, validated corpus, coded taxonomy, critical analysis) is complete and reproducible on its own, independent of the benchmark; (2) the **case-study benchmark** is a separately-specified, pre-registered study with realized Recall@K/NDCG@K results and matched controls; (3) the review + case-study manuscript is internally consistent and free of the cross-document contradictions flagged in review 2 §3; (4) the bibliography, appendices, and figures/tables are complete and reconciled; (5) the **Discover AI submission package** is assembled (Review article type with justified hybrid format, abstract < 250 words, cover letter, ethics determination, and all §1.1/§13.1 mandatory statements + formatting); and (6) the framing check passes — the survey reads as a field-wide synthesis that does **not** read as a thesis recap or a promotional vehicle for the author's planned papers.
+This paper is "done" when: (1) the **systematic review** (PRISMA 2020 protocol, validated corpus, coded taxonomy, critical analysis) is complete and reproducible on its own, independent of the benchmark; (2) the **case-study benchmark** is a separately-specified study with a fixed estimand, realized Recall@K/NDCG@K results, and matched controls, and (when the study is run) is externally pre-registered with an ethics determination in place; (3) the review + case-study manuscript is internally consistent and free of the cross-document contradictions flagged in review 2 §3; (4) the bibliography, appendices, and figures/tables are complete and reconciled; (5) the **Discover AI submission package** is assembled (Review article type with justified hybrid format, abstract < 250 words, cover letter, ethics determination, and all §1.1/§13.1 mandatory statements + formatting); and (6) the framing check passes — the survey reads as a field-wide synthesis that does **not** read as a thesis recap or a promotional vehicle for the author's planned papers.
