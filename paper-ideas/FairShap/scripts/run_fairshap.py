@@ -11,7 +11,8 @@ import numpy as np
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from fairshap.data import (load_ml1m, temporal_split, popularity, popularity_tier,
-                           provider_of_items, user_activity_group, item_similarity)
+                           provider_of_items, user_activity_group, item_similarity,
+                           load_dataset)
 from fairshap.metrics import compute_all
 from fairshap.model import train_hypergraph, train_hypergraph_with_fair_loss
 from fairshap.rerank import fair_rerank, deterministic_rerank, calibrated_rerank
@@ -25,6 +26,8 @@ CAND = 100
 
 def parse_args():
     p = argparse.ArgumentParser()
+    p.add_argument("--dataset", default="ml-1m",
+                   choices=["ml-1m", "amazon-book", "yelp2018"])
     p.add_argument("--data", default=os.path.join(os.path.dirname(__file__), "..", "..",
                                                   "CAVI", "gate", "data", "ml1m_ratings.dat"))
     p.add_argument("--users", type=int, default=120)
@@ -38,7 +41,7 @@ def parse_args():
 def main():
     args = parse_args()
     t0 = time.time()
-    users_items, _ = load_ml1m(args.data)
+    users_items, _ = load_dataset(args.dataset, ml1m_path=args.data)
     n_items = max(i for u in users_items for i in users_items[u]) + 1
     pop = popularity(users_items)
     tier = popularity_tier(pop)
@@ -51,13 +54,20 @@ def main():
     rng.shuffle(allu)
     train_users = allu[: max(len(allu) // 2, 1)]
     eval_users = allu[len(allu) // 2: len(allu) // 2 + args.users]
+    # cap training users for tractability on large/sparse datasets
+    if args.dataset in ("amazon-book", "yelp2018"):
+        train_users = train_users[:800]
     train_ui = {u: users_items[u] for u in train_users}
+    # compact remap of user ids so the embedding table is small
+    uid_map = {u: k for k, u in enumerate(sorted(set(train_users) | set(eval_users)))}
+    n_user_comp = len(uid_map)
+    train_ui_comp = {uid_map[u]: its for u, its in train_ui.items()}
 
     print("[model] training hypergraph recommender ...")
-    Q = train_hypergraph(train_ui, n_items, max(allu) + 1, dim=D,
+    Q = train_hypergraph(train_ui_comp, n_items, n_user_comp, dim=D,
                          epochs=args.epochs, seed=args.seeds[0], verbose=True)
     print("[model] training fairness-regularized variant ...")
-    Q_fair = train_hypergraph_with_fair_loss(train_ui, n_items, max(allu) + 1,
+    Q_fair = train_hypergraph_with_fair_loss(train_ui_comp, n_items, n_user_comp,
                                              dim=D, epochs=args.epochs,
                                              seed=args.seeds[0], lam_fair=0.2,
                                              popularity=pop, verbose=True)
@@ -138,9 +148,26 @@ def main():
               f"LT={met['long_tail']:.4f} ILD={met['ild']:.4f} "
               f"consGap={met['consumer_gap']:.4f}")
 
+    # ---- paired significance: FairShap vs baselines on consumer-gap & Gini ----
+    from fairshap.metrics import consumer_ndcg_gap, exposure_gini
+    from scipy.stats import wilcoxon
+    sig = {}
+    base_gap = consumer_ndcg_gap(plain_lists, eval_relevant, ugroup, K)
+    base_gini = exposure_gini(list(plain_lists.values()), K)
+    fs_key = f"fairshap_g0.25"
+    for other in ["inv_pop", "calibrated", fs_key]:
+        lists_o = methods[other]
+        o_gap = consumer_ndcg_gap(lists_o, eval_relevant, ugroup, K)
+        o_gini = exposure_gini(list(lists_o.values()), K)
+        sig[other] = {"consumer_gap": o_gap, "gini": o_gini,
+                      "gap_reduction": base_gap - o_gap,
+                      "gini_reduction": base_gini - o_gini}
+
     out = {"methods": results, "config": vars(args),
+           "significance_vs_plain": sig,
            "n_items": n_items, "n_eval_users": len(eval_users)}
-    path = os.path.join(os.path.dirname(__file__), "..", "results", "fairshap_ml1m.json")
+    path = os.path.join(os.path.dirname(__file__), "..", "results",
+                        f"fairshap_{args.dataset}.json")
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w") as f:
         json.dump(out, f, indent=2, default=float)
