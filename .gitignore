@@ -1,0 +1,17 @@
+.venv/*
+*/**/.venv/
+.venv/
+__pycache__/
+.pytest_cache/
+.ipynb_checkpoints/
+results/raw/*.json
+**/results/raw/*.json
+**/results/paper_assets/
+*/**/data/ml-1m*
+.DS_Store
+**/.DS_Store
+paper-ideas/ActionShap/code/.DS_Store
+paper-ideas/ActionShap/code/.ipynb_checkpoints
+paper-ideas/ActionShap/code/actionshap/.ipynb_checkpoints
+paper-ideas/ActionShap/code/actionshap/.DS_Store
+paper-ideas/ActionShap/code/actionshap/**/__pycache__//

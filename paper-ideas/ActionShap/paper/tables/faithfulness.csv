@@ -1,0 +1,4 @@
+metric,method,method_label,mean,ci95_low,ci95_high,n_seeds
+Deletion faithfulness,shapley_mc,Monte Carlo Shapley,0.7357246090132776,0.72837076812153,0.7430784499050253,5
+Deletion faithfulness,loo_oracle,LOO oracle,1.0,1.0,1.0,5
+Deletion faithfulness,lime,LIME,0.9344674128142237,0.9253961789556944,0.9435386466727531,5

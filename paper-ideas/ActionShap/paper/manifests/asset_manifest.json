@@ -1,0 +1,80 @@
+{
+  "generated_at_utc": "2026-08-02T21:05:54.973726+00:00",
+  "python": "3.12.13 (main, Mar  3 2026, 12:39:30) [Clang 21.0.0 (clang-2100.0.123.102)]",
+  "platform": "macOS-26.5.1-arm64-arm-64bit",
+  "source_files": [
+    "/Users/mlouhichi/Desktop/personal/phd/next-paper/paper-ideas/ActionShap/code/results/raw/movielens_actionshap_seed42.json",
+    "/Users/mlouhichi/Desktop/personal/phd/next-paper/paper-ideas/ActionShap/code/results/raw/movielens_actionshap_seed43.json",
+    "/Users/mlouhichi/Desktop/personal/phd/next-paper/paper-ideas/ActionShap/code/results/raw/movielens_actionshap_seed44.json",
+    "/Users/mlouhichi/Desktop/personal/phd/next-paper/paper-ideas/ActionShap/code/results/raw/movielens_actionshap_seed45.json",
+    "/Users/mlouhichi/Desktop/personal/phd/next-paper/paper-ideas/ActionShap/code/results/raw/movielens_actionshap_seed46.json"
+  ],
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "validation": {
+    "files": [
+      "/Users/mlouhichi/Desktop/personal/phd/next-paper/paper-ideas/ActionShap/code/results/raw/movielens_actionshap_seed42.json",
+      "/Users/mlouhichi/Desktop/personal/phd/next-paper/paper-ideas/ActionShap/code/results/raw/movielens_actionshap_seed43.json",
+      "/Users/mlouhichi/Desktop/personal/phd/next-paper/paper-ideas/ActionShap/code/results/raw/movielens_actionshap_seed44.json",
+      "/Users/mlouhichi/Desktop/personal/phd/next-paper/paper-ideas/ActionShap/code/results/raw/movielens_actionshap_seed45.json",
+      "/Users/mlouhichi/Desktop/personal/phd/next-paper/paper-ideas/ActionShap/code/results/raw/movielens_actionshap_seed46.json"
+    ],
+    "errors": [],
+    "warnings": [],
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "status": "PASS"
+  },
+  "figures": [
+    "fig01_target_coverage.pdf",
+    "fig01_target_coverage.png",
+    "fig02_aia_by_method.pdf",
+    "fig02_aia_by_method.png",
+    "fig02b_faithfulness_by_method.pdf",
+    "fig02b_faithfulness_by_method.png",
+    "fig02c_actionability_gap.pdf",
+    "fig02c_actionability_gap.png",
+    "fig03_aia_vs_null.pdf",
+    "fig03_aia_vs_null.png",
+    "fig04_joint_effect_b2.pdf",
+    "fig04_joint_effect_b2.png",
+    "fig05_joint_regret_b2.pdf",
+    "fig05_joint_regret_b2.png",
+    "fig06_mc_convergence.pdf",
+    "fig06_mc_convergence.png"
+  ],
+  "tables": [
+    "actionability_gap.tex",
+    "aia.csv",
+    "aia.tex",
+    "aia_null.tex",
+    "effect.csv",
+    "faithfulness.csv",
+    "faithfulness.tex",
+    "full_catalogue_robustness.csv",
+    "full_catalogue_robustness.tex",
+    "gap.csv",
+    "joint_effect.tex",
+    "joint_regret.tex",
+    "null.csv",
+    "protocol.csv",
+    "protocol.tex",
+    "regret.csv"
+  ],
+  "notes": [
+    "B=1 is a leave-one-out diagnostic oracle.",
+    "B=2 is the primary joint intervention comparison.",
+    "Prefix-walk efficiency is telescoping and not a convergence certificate.",
+    "AIA uses a within-user permutation null."
+  ]
+}

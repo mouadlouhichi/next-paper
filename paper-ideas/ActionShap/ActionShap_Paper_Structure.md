@@ -1,3 +1,5 @@
+> **LEGACY CROSS-DOMAIN DRAFT — NOT THE CANONICAL RECOMMENDATION-ONLY PAPER.** Use `ActionShap_Recommendation_Paper_Structure.md` and `ActionShap_Recommendation_Spec.md` instead. This file is retained for historical reference.
+
 # ActionShap — Full Paper Structure, TOC & Embedded Content
 
 **Target journal:** *Discover Artificial Intelligence* (Springer Nature, open access; Scopus Q1 in Information Systems, Q2 in Artificial Intelligence; CiteScore 6; median first decision ≈ 23 days; APC $1,690 / €1,390 / £1,190)
