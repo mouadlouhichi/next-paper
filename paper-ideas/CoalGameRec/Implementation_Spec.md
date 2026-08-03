@@ -69,7 +69,7 @@ GPU optional but recommended (RTX 4090 or equivalent, matching the thesis). The 
 
 ## A.3 Data layer (`data.py`)
 
-The two benchmarks are **MovieLens-1M and Amazon-Book**, matching the group's published DyHuCoG evaluation so the survey reads as a continuation of the same experimental line.
+The two benchmarks are **MovieLens-1M and Amazon-Book**, standard public datasets chosen for a dense/sparse contrast. They are processed with this paper's own protocol (§A.3); they are **not** a reproduction of any prior paper's evaluation.
 
 | | MovieLens-1M | Amazon-Book |
 |---|---|---|
@@ -106,7 +106,7 @@ Two backbones host the attribution modules, chosen to be small and defensible:
 
 ## A.5 Attribution families to compare
 
-**Players = interactions (u,i). Value = multi-objective ranking/diversity utility** (mirrors the DyHuCoG game and the thesis notation).
+**Players = interactions (u,i). Value = multi-objective ranking/diversity utility**, defined independently in this paper (§A.6); no prior codebase or game implementation is reused.
 
 | Label | Attribution | Nature | `v(S)` baseline |
 |---|---|---|---|
@@ -117,7 +117,7 @@ Two backbones host the attribution modules, chosen to be small and defensible:
 | `shapley-ai` | **precisely-defined** sampling/importance Shapley variant (§A.6d) | game-theoretic (estimator ablation) | same as `shapley-mc` |
 | `myerson` (exploratory, optional) | communication-graph-restricted Shapley on the hypergraph projection | game-theoretic (structure-aware) | **Myerson value**: the Shapley value of the graph-restricted game `v^g(S) = Σ_{C∈𝒞(g[S])} v(C)`, with `g[S]` the subgraph induced by `S` and `𝒞(g[S])` its connected components; the projection (2-section / incidence / line graph) is a stated method parameter |
 
-Default coalition weights (from DyHuCoG/thesis) for the primary `shapley-mc` family: $\alpha=0.60,\ \beta=0.25,\ \gamma=0.15,\ \lambda_{pref}=0.20$. These are **not** treated as fixed facts: an explicit weight-sensitivity analysis is a **required** robustness check (§A.6c), because the survey itself raises the value-function-arbitrariness critique and the benchmark must not inherit an unexamined weighting scheme across regimes.
+Default coalition weights for the primary `shapley-mc` family (chosen here, not inherited from any prior codebase): $\alpha=0.60,\ \beta=0.25,\ \gamma=0.15,\ \lambda_{pref}=0.20$. These are **not** treated as fixed facts: an explicit weight-sensitivity analysis is a **required** robustness check (§A.6c), because the survey itself raises the value-function-arbitrariness critique and the benchmark must not inherit an unexamined weighting scheme across regimes.
 
 > **Keep the method set small and coherent.** Default scope = `uniform` (no-attribution control), `attention`, `heuristic-pop`, `shapley-mc` on both datasets. `shapley-ai` and `myerson` are **exploratory**: if included, every promised cell must be run (no partial factorial); otherwise drop them from headline claims (see §C4 resolution).
 
@@ -250,7 +250,7 @@ The benchmark's primary deliverable is a result table reporting **Recall@K and N
 
 | Comparison | Hypothesis | Confidence |
 |---|---|---|
-| `shapley-mc` vs `uniform` (no-attribution control) | `shapley-mc` ≥ `uniform` on NDCG@20 and Recall@20 | **high** (motivated by the DyHuCoG premise; to be tested) |
+| `shapley-mc` vs `uniform` (no-attribution control) | `shapley-mc` ≥ `uniform` on NDCG@20 and Recall@20 | **medium-high** (motivated by the hypothesis that principled contribution weighting helps ranking; to be tested) |
 | `shapley-mc` vs `attention` | `shapley-mc` ≥ `attention` | medium |
 | `shapley-mc` vs `heuristic-pop` | `shapley-mc` ≥ `heuristic-pop` | medium |
 | `shapley-ai` vs `shapley-mc` | no directional claim; an estimator-ablation comparison | medium (estimator ablation) |

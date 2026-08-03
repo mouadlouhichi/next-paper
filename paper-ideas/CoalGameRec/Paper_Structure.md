@@ -345,7 +345,7 @@ Roughly 8–14 weeks: ~4–5 weeks for the systematic review (protocol, search, 
 |---|---|---|
 | Article type | **Review** at Discover AI | Journal accepts surveys; but justify the hybrid Review+benchmark format, and expect possible reclassification to `Research` (review 1.2/2.1) |
 | Benchmark role | Secondary, small | Grounds the taxonomy; kept out of scope for a method bake-off |
-| Datasets | MovieLens-1M + Amazon-Book | Continuity with DyHuCoG; density contrast |
+| Datasets | MovieLens-1M + Amazon-Book | Standard public benchmarks for a dense/sparse contrast (independent of any prior codebase) |
 | Amazon-Book provenance | Rebuilt from raw corpus | Needed for temporal protocol; disclosed in §4.1 |
 | DyHuCoG code in benchmark | **Not used** | Benchmark uses an independently documented hypergraph GNN; DyHuCoG appears only as a taxonomy worked example (§4.6) |
 

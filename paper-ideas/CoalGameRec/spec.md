@@ -192,7 +192,7 @@ Pick a small, defensible set of graph/hypergraph backbones to host the attributi
 | `attention` | learned interaction-level attention gate (matched parameter count) | non-game-theoretic control |
 | `heuristic-pop` | popularity/degree weighting | heuristic control |
 | `additive-pref` | additive preference-similarity prior without game aggregation | **matched non-game heuristic (required, review 2.5)** |
-| `shapley-mc` | preference-aware Monte-Carlo Shapley (same game *formulation* as the author's DyHuCoG paper, but an **independent implementation** — no DyHuCoG code) | **game-theoretic (primary)** |
+| `shapley-mc` | preference-aware Monte-Carlo Shapley (game formulation defined independently in this paper, §A.6; **independent implementation** — no DyHuCoG code) | **game-theoretic (primary)** |
 | `shapley-ai` | precisely-defined sampling/importance Shapley variant (§A.6d) | exploratory estimator ablation |
 | `myerson` | Myerson value on a stated graph-restricted game (§A.6) | exploratory structure-aware |
 
