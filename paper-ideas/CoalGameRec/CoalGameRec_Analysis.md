@@ -2,24 +2,28 @@
 
 **Prepared by:** Arena agent, grounded in `phd-thesis/` and `previous-papers/`
 **Date:** 2026-08-03
-**Status:** Critical analysis / feasibility memo for a proposed *next paper* (not a manuscript draft)
-**Update (2026-08-03):** the benchmark deliverable has been sharpened so the paper reports **concrete results** — the headline benchmark output is now explicit **Recall@K and NDCG@K (K ∈ {5,10,20}) result tables** for every attribution family on both backbones and both datasets (see `Implementation_Spec.md` §B.1a, `spec.md` §7.4, and `Paper_Structure.md` §7.2). The survey remains the primary contribution; the Recall/NDCG tables are the empirical grounding that answers SRQ3 ("what does game theory buy").
+**Status:** Critical analysis / feasibility memo for a proposed *next paper* (a planning document, not a manuscript).
+**Revision history:**
+- **v1 (2026-08-03):** initial feasibility memo.
+- **v1.1 (2026-08-03):** benchmark deliverable sharpened to report **Recall@K and NDCG@K (K ∈ {5,10,20}) result tables**.
+- **v1.2 (2026-08-03):** updated to reconcile with two pre-submission reviews (`review1.md`, `review2/review2.md`). **This memo's earlier "no GPU / no new experiments / no ethics approval / cheap" claims are SUPERSEDED:** the adopted design is a **systematic review + a separately-scoped, pre-registered empirical case study**, which is original empirical work requiring real compute and an institutional ethics determination for the human-generated data. The novelty claim is a **hypothesis pending the systematic search**, not an established fact. Publication-count claims were corrected (C12).
 
 ---
 
 ## 0. One-paragraph verdict
 
 This proposed title reads as a **survey / taxonomy / perspective paper**, not a method paper
-(there is no method acronym, unlike DyHuCoG, FairShap, ActionShap, etc.). That is a *strategically
-good* choice: it sits at a genuine, currently-unoccupied intersection — coalitional (cooperative)
-game theory × explainable AI × graph/hypergraph recommender systems — and the author is uniquely
-placed to write it authoritatively (PhD thesis on exactly this spine + 5 prior publications). The
-paper is **feasible, low-risk, and high-leverage**: it needs no GPU, no new experiments, and it
-creates the citation/framing home for the author's entire planned method portfolio
-(ActionShap, FairShap, MHyperShap, SignalShap). The main risks are (1) scope creep into shallowness,
-(2) reading as a recap of the author's own thesis rather than a field-wide synthesis, and
-(3) getting scooped if publication is delayed. The recommendation is to **publish the survey first,
-with a tight, deep taxonomy rather than a broad annotated bibliography.**
+(there is no method acronym, unlike DyHuCoG, FairShap, ActionShap, etc.). That is a *strategically*
+sound choice: it targets a plausible gap at the intersection — coalitional (cooperative) game theory ×
+explainable AI × graph/hypergraph recommender systems — one the author is well-placed to write
+(3 published papers + a PhD thesis on this spine; the thesis itself is a separate work, C12). The
+paper is **feasible and low-technical-risk for the review**, but the adopted **empirical case study is
+original work requiring real compute, external pre-registration, and an ethics determination** — it is
+not "cheap" or "no new experiments." The novelty claim ("no dedicated survey exists") is a **hypothesis
+to be confirmed by the registered systematic search**, not an established fact. Main risks: (1) scope
+creep into shallowness; (2) reading as a recap of the author's own thesis rather than a field-wide
+synthesis; (3) predicted-results-as-results integrity risk; (4) getting scooped. Recommendation: a
+**tight, deep systematic review** with the case study kept separate and secondary.
 
 ---
 
@@ -54,13 +58,13 @@ vehicle to make that thesis-level perspective citable on its own.
 | Planned: **SignalShap** (exact Shapley over hybrid signal sources) | Method | Survey's "players = architectural/signal sources" category |
 | Planned: **MHyperShap** (Myerson-restricted dynamic hypergraph games for multi-agent LLM credit) | Method | Survey's "structure-aware solution concepts (Myerson value / communication-graph games)" category |
 
-**Strategic takeaway:** the survey should be the *first* of the next papers (or run in parallel), not
-the last. Publishing it first gives every subsequent method paper a ready-made related-work home,
-establishes the author as a leading voice in this niche, and makes the whole programme look unified.
+**Publication count (C12 correction):** the author has **three published papers** (2023, 2025, 2026) plus a **PhD thesis** (2026) and **four planned method papers** (ActionShap, FairShap, SignalShap, MHyperShap). "Five prior publications" was inconsistent with the trajectory table and is corrected; cite each work precisely.
+
+**Strategic takeaway (private planning only — keep out of the manuscript, review 1.4):** publishing the survey before the method papers gives them a ready-made related-work home. In the manuscript, the gap and the agenda must be argued from the literature's own gaps, with the author's planned work as one direction among several — not as the organizing structure or a "citation home" rationale.
 
 ---
 
-## 3. The literature gap — why it is genuinely novel (and why now)
+## 3. The literature gap — why it may be novel (hypothesis pending the systematic search)
 
 Grounding searches (Aug 2026) show a rich but *fragmented* landscape with **no dedicated survey at
 this exact intersection**:
@@ -78,10 +82,13 @@ this exact intersection**:
   DyHuCoG; FairShap-class exposure-correction). These are **scattered single papers**, rarely
   cross-referenced, with inconsistent players/value functions and no unifying taxonomy.
 
-**So the gap is real:** there is no survey that (a) is scoped to *recommendation ranking* rather than
-general XAI or GNN classification, (b) treats the full family of *coalitional solution concepts* used
-in graph RS (Shapley + Myerson/communication-graph + Harsanyi interactions + Banzhaf + core/nucleolus),
-and (c) provides a comparative, critical synthesis. This is exactly the hole this title fills.
+**Gap claim (hypothesis, to be confirmed by the registered search — review 1.6/2.2):** we hypothesize
+there is no survey that (a) is scoped to *recommendation ranking* rather than general XAI or GNN
+classification, (b) treats the full family of *coalitional solution concepts* used in graph RS, and
+(c) provides a comparative, critical synthesis. **Near-neighbors the search must explicitly check**
+(review 2 §9): ShaRP (ranking Shapley), Shapley-value XAI surveys, Shapley data valuation for RS
+(e.g., Ghorbani & Zou line, Jia et al., VLDB 2024/25), TU-bandit creator-incentive games (AISTATS 2026),
+and "Beyond Shapley Values" (Weber/Harsanyi sets). Do not assume a paper is out of scope from its title.
 
 ---
 
@@ -105,9 +112,11 @@ should deliver:
      hypergraph · dynamic/temporal.
 2. **A unified notation** reusing the thesis's game formulation `(N, v)`, the Shapley formula, and
    Monte-Carlo estimation — so every reviewed method can be expressed in one vocabulary.
-3. **A systematic mapping** of methods into the taxonomy, including the author's DyHuCoG *and*
-   external work (EdgeSHAPer, GraphSVX, GraphGI, GStarX, Shapley community-CF, Shapley data-pruning
-   for RS, TU-bandit creator-incentive games, Myerson-value recommender variants, etc.).
+3. **A systematic mapping** of methods into the taxonomy with **core vs. adjacent evidence tiers**
+   (review 2.3), including the author's DyHuCoG *and* external work (EdgeSHAPer, GraphSVX, GraphGI,
+   GStarX, Shapley community-CF, Shapley data-pruning for RS, TU-bandit creator-incentive games,
+   Myerson-value recommender variants, etc.). Define coding rules for what counts as a substantive
+   game-theoretic contribution vs. "relabeled reweighting" (review 4.1).
 4. **A critical, comparative analysis** (not just annotation): what the game-theoretic lens genuinely
    buys — axiomatic fairness, principled credit under redundancy, interaction handling, in-training
    optimization, exposure/fairness, actionability — and what it costs — intractability and the
@@ -123,15 +132,12 @@ should deliver:
 ## 5. Feasibility and novelty assessment
 
 ### Strengths
-- **Defensible gap** (see §3). A well-scoped survey has a genuinely citable contribution.
-- **Uniquely positioned author:** 5 prior publications + a thesis on precisely this spine; can frame
-  the field authoritatively and honestly situate own work.
-- **Cheap to produce:** no GPU, no new datasets, no human subjects, no ethics approval — reuses the
-  thesis's literature review and notation. Fits the author's proven "structure mirrors DyHuCoG /
-  FairShap blueprint" house style.
-- **High citation potential + program-level leverage:** the survey becomes the shared reference that
-  all four planned method papers cite.
-- **Low novelty risk *if* framed as a survey** (novelty = the taxonomy/synthesis, not a new algorithm).
+- **Defensible gap** (see §3, subject to the search). A well-scoped survey has a citable contribution.
+- **Well-positioned author:** 3 published papers + a thesis on this spine; can frame the field and
+  honestly situate own work (avoid "uniquely placed"/"leading voice" advocacy in the manuscript, review 2 §4.1).
+- **Review is low-technical-risk** (no new theorem); but the **case study is original empirical work**
+  needing compute, pre-registration, and an ethics determination — not "cheap" (review 1/4.1).
+- **High leverage** if the agenda is argued from the literature; keep the "programme/portfolio" framing out of the manuscript (review 1.4).
 
 ### Weaknesses / risks
 1. **Scope creep → shallowness.** "Coalitional × explainable × graph-based × recommendation" is four
@@ -146,24 +152,29 @@ should deliver:
    (Shapley feature attribution in KG-based RS; GNN explainers for classification). Inclusion
    criteria must be explicit or reviewers will attack "missing papers."
 5. **Scoop risk.** The intersection is hot (2025–2026). Delay invites a competing survey.
-6. **DyHuCoG reproducibility flag.** The repo's own SignalShap audit notes 63 extraction gaps that
-   make faithful DyHuCoG reimplementation impossible. If the survey uses DyHuCoG as its flagship
-   case study, describe it accurately, do not over-claim, and be ready for scrutiny.
-7. **Venue fit.** Survey article types vary by journal; pick a venue that accepts structured reviews
-   (e.g., a Springer survey/review track, ACM CSUR-style, or the author's proven Discover AI).
+6. **DyHuCoG reproducibility flag.** An internal audit found 63 extraction gaps; if DyHuCoG is the
+   flagship case study, describe it candidly (pinned re-specification or decouple from the benchmark),
+   and treat the audit as an author-side implementation risk, not a published field fact (review 1.3/2).
+7. **Venue fit / Review vs. Research.** Discover AI's Review type fits a survey, but the hybrid
+   Review+benchmark format must be justified in the cover letter and Introduction; an editor may
+   reclassify to `Research` or request a split (review 1.2/2.1).
+8. **Predicted-results-as-results integrity risk (blocking, review 1.1/2.1).** Never let predicted
+   numbers or a pre-drafted "winner" reach the manuscript; fill result tables only with realized
+   numbers; use external pre-registration.
+9. **Ethics misclassification (blocking, review 2.7).** MovieLens/Amazon data are human-generated;
+   obtain and report an institutional determination rather than asserting "not applicable."
 
 ---
 
 ## 6. Relationship to the planned method papers — avoid cannibalization
 
 - The survey = **map of the state of the art**; the planned papers = **specific new methods**.
-  No substantive overlap *as long as* the survey reports no new results.
-- **Order matters:** publish (or at least draft) the survey **before** submitting the method papers
-  so they can cite it as "the survey situates our method." Flipping the order invites duplication
-  reviewers to ask "why is this not in your survey?"
-- Do **not** try to turn this title into a method paper under a new name (e.g., "we unify the thesis
-  into one framework") — that would collide with ActionShap/FairShap/MHyperShap/SignalShap and
-  weaken them. Keep the survey as pure synthesis.
+  The adopted design adds a **small empirical case study** that must be kept separate and secondary
+  (review 2.5); it is not a vehicle for the author's planned method papers.
+- **Order matters** as private strategy (draft the survey first so method papers can cite it), but the
+  manuscript must not frame the survey as a "citation home" for the author's own papers (review 1.4).
+- Do **not** turn this title into a method paper under a new name (e.g., "we unify the thesis into one
+  framework") — that would collide with the planned papers. Keep the survey as a field synthesis.
 
 ---
 
@@ -171,9 +182,10 @@ should deliver:
 
 Three viable framings, in order of fit:
 
-- **(A) Full systematic survey + taxonomy — RECOMMENDED.** Deliverable: comprehensive review with a
-  protocol, taxonomy, comparison tables, critical synthesis, and roadmap. This is what the title
-  supports and what the field lacks.
+- **(A) Systematic review + taxonomy with a separately-scoped empirical case study — RECOMMENDED.**
+  Deliverable: comprehensive review with a registered PRISMA protocol, taxonomy, comparison tables,
+  critical synthesis, and roadmap, plus a separate pre-registered case-study benchmark (realized
+  Recall@K/NDCG@K). This is what the title supports and what the field lacks.
 - (B) **Position + research agenda.** Lighter, faster, more opinionated. Viable if the author wants a
   quick, high-impact "call to action" piece, but leaves the field-map unclaimed and invites a
   competitor survey.
@@ -233,7 +245,7 @@ Abstract / Keywords
 Appendix A: notation/glossary · Appendix B: reviewed-works index
 ```
 
-Target length ~9,000–12,000 words, 6–8 figures, 4–6 comparison tables (per the author's house style).
+Target length ~10,000–12,000 words, 7–9 figures, 5–7 tables in main text (reconciled across files; detailed result tables + prediction register go to supplementary material with distinct labels, review C6/C18).
 
 ---
 
@@ -241,7 +253,8 @@ Target length ~9,000–12,000 words, 6–8 figures, 4–6 comparison tables (per
 
 1. **Commit to framing (A)** — full systematic survey + taxonomy. Write a 1-page scope + protocol
    before drafting.
-2. **Publish it first** in the next-paper sequence; cite it from all four planned method papers.
+2. **Publish/draft it before the method papers** (private strategy) so they can cite it; keep the
+   portfolio rationale out of the manuscript (review 1.4).
 3. **Borrow the thesis** notation (Ch. 2.8) and the Related-Work narrative (Ch. 3), then expand to
    field-wide coverage. Do **not** reuse thesis text verbatim (self-plagiarism / overlap concerns);
    rewrite in survey voice.
@@ -249,18 +262,25 @@ Target length ~9,000–12,000 words, 6–8 figures, 4–6 comparison tables (per
    transparent paper-count/flow figure.
 5. **De-scope the "graph" to recommendation-specific** structures (user–item, KG, hypergraph,
    temporal) and keep GNN node/edge explainers as a clearly-labeled *adjacent* category.
-6. **Position DyHuCoG accurately** and flag its reproducibility caveat; do not let an audit failure
-   of a flagship case undercut the survey's credibility.
-7. **Choose a survey-friendly venue**; confirm survey/article-type acceptance and typical length.
-8. **Move fast** to mitigate scoop risk — a focused first draft is feasible in ~3–4 weeks using the
-   thesis literature base.
+6. **Position DyHuCoG candidly** (pinned re-specification or decouple); treat the audit as an
+   author-side risk (review 1.3).
+7. **Confirm the venue** (Discover AI Review type) and justify the hybrid Review+benchmark format in
+   the cover letter; expect possible reclassification (review 1.2/2.1).
+8. **Protect research integrity (blocking):** external pre-registration, realized-only result tables,
+   neutral hypotheses, per-user analysis unit with a predeclared contrast family (review 1.1/2.1/2.6).
+9. **Obtain the ethics determination** for the human-generated data before processing (review 2.7).
+10. **Move fast** to mitigate scoop risk; the review draft is feasible on the thesis literature base, but
+    budget the case-study benchmark as real empirical work.
 
 ---
 
 ## 11. Bottom line
 
-Strong "yes" with one structural decision: do it as a **survey/taxonomy**, tightly scoped, and
-publish it **first** in the portfolio. It is the natural capstone-to-next-step of the thesis, fills a
-real gap, is cheap and low-risk to produce, and maximizes the impact of the four method papers that
-follow. The only serious failure modes are *shallowness from scope creep* and *scooping from delay* —
-both are controllable by scoping hard and shipping early.
+Strong "yes" with two structural decisions: (1) do it as a **systematic review + taxonomy**, tightly
+scoped, with the **empirical case study kept separate and secondary**; and (2) **protect research
+integrity** — external pre-registration, realized-only results, neutral hypotheses, and an ethics
+determination. The review is the natural capstone-to-next-step of the thesis and fills a plausible gap;
+the case study is real empirical work that must be budgeted and reported honestly. The serious failure
+modes are shallowness from scope creep, the predicted-results-as-results integrity risk, ethics
+misclassification, and scooping from delay — all controllable by scoping hard, registering early, and
+shipping promptly.
