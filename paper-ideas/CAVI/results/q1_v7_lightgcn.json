@@ -1,0 +1,39 @@
+{
+  "methods": {
+    "keep_all": {
+      "ndcg_mean": 0.7241361835462589,
+      "ndcg_std": 0.20876923355467547,
+      "n_users": 600
+    },
+    "prune_fwd": {
+      "ndcg_mean": 0.7205107709481943,
+      "ndcg_std": 0.20960454234551779,
+      "n_users": 600
+    },
+    "prune_back": {
+      "ndcg_mean": 0.7212917144637231,
+      "ndcg_std": 0.20879963911704344,
+      "n_users": 600
+    },
+    "prune_random": {
+      "ndcg_mean": 0.7224241706478794,
+      "ndcg_std": 0.20935363250706268,
+      "n_users": 600
+    }
+  },
+  "significance_p": {
+    "prune_fwd_vs_random": 0.39173924756834355,
+    "prune_fwd_vs_keep": 0.0013714505306815072,
+    "prune_back_vs_random": 0.6647037109325564
+  },
+  "config": {
+    "data": "/home/user/next-paper/paper-ideas/CAVI/scripts/../gate/data",
+    "users": 300,
+    "train_users": 1500,
+    "seeds": [
+      7,
+      42
+    ],
+    "epochs": 30
+  }
+}
