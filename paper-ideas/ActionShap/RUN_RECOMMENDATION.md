@@ -25,7 +25,27 @@ wheel, and record the resolved versions in the result manifest.
 python -m pip install -r requirements-recommendation.txt
 ```
 
-## 2. Data
+## 2. Run-all notebook
+
+Open `ActionShap_All.ipynb` from the repository root or this `code/` directory
+and choose **Run All**. Its configuration cell defaults to the complete final
+workflow: dependency installation, terms-confirmed downloads, data audit,
+85 scientific commands, asset generation, manuscript checks, and release
+packaging. Set the booleans in that cell only when intentionally reusing data or
+existing raw outputs.
+
+## 3. Data
+
+The canonical notebook performs both downloads and preparation automatically.
+From the command line, the equivalent one-command setup is:
+
+```bash
+python scripts/download_datasets.py --dataset all --accept-dataset-terms
+```
+
+Pass the acceptance flag only after reviewing the GroupLens and Amazon source
+terms and citation requirements. Existing valid files are reused; `--force`
+redownloads and rebuilds them.
 
 ### MovieLens-1M
 
@@ -55,7 +75,7 @@ latest `(timestamp, original_record_index)`, reapplies an iterative 5-core after
 thresholding, and writes a SHA-256 provenance sidecar. Do not edit the generated
 CSV. The final asset validator requires MovieLens and Amazon Digital Music.
 
-## 3. Smoke test
+## 4. Smoke test
 
 A smoke test is explicitly ineligible for paper claims. It may skip the
 200-user gate only to verify plumbing:
@@ -77,7 +97,7 @@ python scripts/run_recommendation.py \
 
 The output status must be `smoke_only`; the paper asset generator rejects it.
 
-## 4. Final suite
+## 5. Final suite
 
 Inspect `configs/final.yaml`, supply both data files, and run:
 
@@ -104,7 +124,7 @@ seeds are fixed independently of experiment randomness, so every seed sees the
 same users and candidates; full-catalogue and sensitivity cohorts are matched
 subsets of the primary 1,000-user cohort.
 
-## 5. Blocking real-data masking gate
+## 6. Blocking real-data masking gate
 
 Every paper-eligible run masks one interaction for at least 200 real users. It
 must satisfy:
@@ -118,7 +138,7 @@ history-length sensitivity may continue only so the failure is reported as a
 non-responsiveness boundary. `--skip-gate` marks the result `smoke_only` and is
 not a way around the primary requirement.
 
-## 6. Candidate semantics
+## 7. Candidate semantics
 
 The primary evaluation set contains the temporal target plus uniformly sampled
 negatives after excluding the user's **complete pre-test history**, including
@@ -128,7 +148,7 @@ not retrieval, and no candidate-recall claim is made.
 The robustness mode uses the full unseen catalogue plus the target. Seen
 training or validation items are never inserted as negatives.
 
-## 7. Utility and interventions
+## 8. Utility and interventions
 
 The primary attribution utility is continuous target margin, selected by the
 archived convergence preflight. NDCG@10 remains the operational action outcome:
@@ -148,7 +168,7 @@ The exact oracle evaluates this complete space for every primary user. A method
 abstains when it predicts no positive-benefit action. Leave-one-out is labelled
 an oracle only for the `B=1`, `rho=0` deletion identity.
 
-## 8. Statistical reporting
+## 9. Statistical reporting
 
 `make_paper_assets.py` averages repeated seeds within each distinct user before
 inference. It generates:
@@ -164,7 +184,7 @@ inference. It generates:
 
 Five seeds over 1,000 users are never described as 5,000 independent users.
 
-## 9. Final validation
+## 10. Final validation
 
 Inspect:
 
@@ -185,7 +205,7 @@ result placeholder. The validators block or flag:
 - a primary permutation count below the selected value;
 - smoke or legacy schemas.
 
-## 10. Raw-result provenance
+## 11. Raw-result provenance
 
 Raw JSON is intentionally excluded from ordinary Git history because complete
 per-user attribution records can be large. The final manifest records
@@ -193,7 +213,7 @@ repository-relative source paths, byte sizes, and SHA-256 hashes. Package raw
 files for the archival release and publish the archive DOI with the manuscript;
 do not commit machine-specific absolute paths.
 
-## 11. Common failures
+## 12. Common failures
 
 ### AIA is missing
 

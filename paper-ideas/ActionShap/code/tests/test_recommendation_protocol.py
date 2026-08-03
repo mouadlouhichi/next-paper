@@ -3,14 +3,16 @@
 from __future__ import annotations
 
 import gzip
+import hashlib
+import importlib.util
 import json
 import subprocess
 import sys
+import zipfile
 from pathlib import Path
 
 import numpy as np
 import pytest
-
 from actionshap.baselines import (
     greedy_counterfactual_attribution,
     leave_one_out,
@@ -51,6 +53,31 @@ def test_temporal_csv_split_uses_stable_original_row_tie_break(tmp_path):
     assert all(len(history) == 2 for history in first.train.values())
     # Complete candidate exclusion includes the validation event.
     assert all(len(first.seen_before_test(user)) == 3 for user in first.test)
+
+
+def test_dataset_downloader_extracts_and_hashes_movielens_atomically(tmp_path):
+    script = Path(__file__).resolve().parents[1] / "scripts" / "download_datasets.py"
+    spec = importlib.util.spec_from_file_location("actionshap_download_datasets", script)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    ratings = b"1::10::5::100\n2::11::4::101\n"
+    archive = tmp_path / "ml-1m.zip"
+    with zipfile.ZipFile(archive, "w") as bundle:
+        bundle.writestr("ml-1m/ratings.dat", ratings)
+    expected = hashlib.sha256(ratings).hexdigest()
+    code_root = tmp_path / "code"
+    provenance = module.prepare_movielens(
+        code_root, archive.as_uri(), expected, force=True
+    )
+    output = code_root / "data" / "ml-1m" / "ratings.dat"
+    assert output.read_bytes() == ratings
+    assert provenance["output_sha256"] == expected
+    assert json.loads(output.with_suffix(".provenance.json").read_text())[
+        "output_sha256"
+    ] == expected
+    assert not list(output.parent.glob("*.part"))
 
 
 def test_amazon_builder_writes_deterministic_provenance(tmp_path):

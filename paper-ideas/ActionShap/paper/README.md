@@ -6,6 +6,7 @@
 - `legacy_pilot/` preserves invalidated schema-v1 pilot assets for provenance;
   those numbers are not final-paper evidence.
 
-Run `code/scripts/run_final_suite.py` to create final assets. The generator
+Use `code/ActionShap_All.ipynb` for the complete download-to-release workflow,
+or run `code/scripts/run_final_suite.py` after preparing data. The generator
 requires two datasets, two history-conditioned models, five common seeds, the
 real-data masking gate, independent convergence, and distinct-user inference.
