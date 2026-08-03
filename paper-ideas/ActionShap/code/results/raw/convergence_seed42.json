@@ -1,0 +1,37 @@
+{
+  "config": {
+    "ratings": "/Users/mlouhichi/Desktop/temp/next-paper/paper-ideas/ActionShap/code/data/ml-1m/ratings.dat",
+    "output": "/Users/mlouhichi/Desktop/temp/next-paper/paper-ideas/ActionShap/code/results/raw/convergence_seed42.json",
+    "users": 100,
+    "evaluation_size": 200,
+    "n_max": 20,
+    "epochs": 10,
+    "seed": 42
+  },
+  "rows": [
+    {
+      "permutations": 25,
+      "mean_rank_correlation_to_reference": 0.944141496068431,
+      "std_rank_correlation_to_reference": 0.020081271873414807,
+      "mean_efficiency_error": 1.7438307742256853e-18
+    },
+    {
+      "permutations": 50,
+      "mean_rank_correlation_to_reference": 0.9656961863214184,
+      "std_rank_correlation_to_reference": 0.014560741352230606,
+      "mean_efficiency_error": 2.9269121848418676e-18
+    },
+    {
+      "permutations": 100,
+      "mean_rank_correlation_to_reference": 0.9780995724605631,
+      "std_rank_correlation_to_reference": 0.009334566463473722,
+      "mean_efficiency_error": 4.9060148304969076e-18
+    },
+    {
+      "permutations": 250,
+      "mean_rank_correlation_to_reference": 0.9897105197176405,
+      "std_rank_correlation_to_reference": 0.00503644764027032,
+      "mean_efficiency_error": 9.928039293449763e-18
+    }
+  ]
+}

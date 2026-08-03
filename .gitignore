@@ -4,9 +4,6 @@
 __pycache__/
 .pytest_cache/
 .ipynb_checkpoints/
-results/raw/*.json
-**/results/raw/*.json
-**/results/paper_assets/
 .DS_Store
 **/.DS_Store
 paper-ideas/ActionShap/code/.DS_Store

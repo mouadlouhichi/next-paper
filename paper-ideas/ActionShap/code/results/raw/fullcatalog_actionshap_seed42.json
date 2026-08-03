@@ -1,0 +1,5140 @@
+{
+  "config": {
+    "ratings": "/Users/mlouhichi/Desktop/temp/next-paper/paper-ideas/ActionShap/code/data/ml-1m/ratings.dat",
+    "output": "/Users/mlouhichi/Desktop/temp/next-paper/paper-ideas/ActionShap/code/results/raw/fullcatalog_actionshap_seed42.json",
+    "n_max": 20,
+    "candidate_k": 200,
+    "embedding_dim": 64,
+    "epochs": 10,
+    "permutations": 50,
+    "seed": 42,
+    "max_users": 100,
+    "oracle_users": 20,
+    "full_catalog_users": 100,
+    "k": 10,
+    "action_rho": 0.5,
+    "null_draws": 500
+  },
+  "dataset": {
+    "users_after_filter": 6035,
+    "items": 3533,
+    "evaluated_users": 100,
+    "candidate_recall": null,
+    "target_coverage": 1.0,
+    "evaluation_size": 200,
+    "primary_action_rho": 0.5,
+    "evaluation_mode": "full_catalogue",
+    "full_catalog_users": 100
+  },
+  "metrics": {
+    "aia": {
+      "shapley_mc": {
+        "mean": 0.7315044042644661,
+        "median": 0.7573455698068701,
+        "n": 100
+      },
+      "loo_oracle": {
+        "mean": 0.9909219823004652,
+        "median": 0.9984962406015038,
+        "n": 100
+      },
+      "lime": {
+        "mean": 0.9344135902796893,
+        "median": 0.969135508454394,
+        "n": 100
+      }
+    },
+    "faithfulness_alignment": {
+      "shapley_mc": {
+        "mean": 0.7216446819434436,
+        "median": 0.7614832535885167,
+        "n": 100
+      },
+      "loo_oracle": {
+        "mean": 1.0,
+        "median": 1.0,
+        "n": 100
+      },
+      "lime": {
+        "mean": 0.9425647453681507,
+        "median": 0.9687306501547988,
+        "n": 100
+      }
+    },
+    "actionability_gap": {
+      "shapley_mc": {
+        "mean": 0.009859722321022623,
+        "median": 0.0,
+        "n": 100
+      },
+      "loo_oracle": {
+        "mean": -0.009078017699534747,
+        "median": -0.0015037593984962294,
+        "n": 100
+      },
+      "lime": {
+        "mean": -0.008151155088461594,
+        "median": 0.0,
+        "n": 100
+      }
+    },
+    "aia_null_mean": {
+      "shapley_mc": {
+        "mean": -0.00010693030705105027,
+        "median": 0.00014586466165413613,
+        "n": 100
+      },
+      "loo_oracle": {
+        "mean": -0.0005035346160547402,
+        "median": -0.00137593984962406,
+        "n": 100
+      },
+      "lime": {
+        "mean": -5.142688426124956e-05,
+        "median": -0.0002556390977443608,
+        "n": 100
+      }
+    },
+    "joint_effect_b2": {
+      "shapley_mc": {
+        "mean": 0.004171576312232122,
+        "median": 0.004293512614012424,
+        "n": 100
+      },
+      "loo_oracle": {
+        "mean": 0.0036394693693562468,
+        "median": 0.003918844617274514,
+        "n": 100
+      },
+      "lime": {
+        "mean": 0.0034469334051854305,
+        "median": 0.00356895473892882,
+        "n": 100
+      }
+    },
+    "joint_regret_b2_on_oracle_subset": {
+      "shapley_mc": {
+        "mean": 0.00016758250479597113,
+        "median": 0.0,
+        "n": 20
+      },
+      "loo_oracle": {
+        "mean": 0.00040026273135080335,
+        "median": 0.0,
+        "n": 20
+      },
+      "lime": {
+        "mean": 0.0008029601681137893,
+        "median": 0.0,
+        "n": 20
+      }
+    },
+    "oracle_b2_effect": {
+      "mean": 0.005535332607308147,
+      "n": 20
+    }
+  },
+  "users": [
+    {
+      "user": 0,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.669172932330827,
+        "loo_oracle": 1.0,
+        "lime": 0.9624060150375938
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.669172932330827,
+        "loo_oracle": 1.0,
+        "lime": 0.9624060150375938
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            12,
+            2
+          ],
+          "effect": 0.0076465565630493,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        },
+        "loo_oracle": {
+          "players": [
+            2,
+            12
+          ],
+          "effect": 0.0076465565630493,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        },
+        "lime": {
+          "players": [
+            2,
+            12
+          ],
+          "effect": 0.0076465565630493,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": 0.0076465565630493,
+      "efficiency_error": 1.3877787807814457e-17
+    },
+    {
+      "user": 1,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.7849624060150376,
+        "loo_oracle": 1.0,
+        "lime": 0.9443609022556391
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.7849624060150376,
+        "loo_oracle": 1.0,
+        "lime": 0.9443609022556391
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            4,
+            6
+          ],
+          "effect": 0.005224237280613275,
+          "regret": 0.0008953112955104592,
+          "normalized_regret": 0.14630348696917556
+        },
+        "loo_oracle": {
+          "players": [
+            5,
+            6
+          ],
+          "effect": 0.0061195485761237345,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        },
+        "lime": {
+          "players": [
+            5,
+            6
+          ],
+          "effect": 0.0061195485761237345,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": 0.0061195485761237345,
+      "efficiency_error": 4.163336342344337e-17
+    },
+    {
+      "user": 2,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.8285714285714285,
+        "loo_oracle": 1.0,
+        "lime": 0.9894736842105262
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.8285714285714285,
+        "loo_oracle": 1.0,
+        "lime": 0.9894736842105262
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            2,
+            15
+          ],
+          "effect": 0.0038167303166567468,
+          "regret": 2.556818134880068e-06,
+          "normalized_regret": 0.0006694490474202365
+        },
+        "loo_oracle": {
+          "players": [
+            2,
+            18
+          ],
+          "effect": 0.003819287134791627,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        },
+        "lime": {
+          "players": [
+            2,
+            18
+          ],
+          "effect": 0.003819287134791627,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": 0.003819287134791627,
+      "efficiency_error": 6.938893903907228e-18
+    },
+    {
+      "user": 3,
+      "n_players": 16,
+      "aia": {
+        "shapley_mc": 0.8852941176470588,
+        "loo_oracle": 1.0,
+        "lime": 0.9705882352941176
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.8852941176470588,
+        "loo_oracle": 1.0,
+        "lime": 0.9705882352941176
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            6,
+            3
+          ],
+          "effect": 0.007409371754071137,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        },
+        "loo_oracle": {
+          "players": [
+            6,
+            3
+          ],
+          "effect": 0.007409371754071137,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        },
+        "lime": {
+          "players": [
+            6,
+            3
+          ],
+          "effect": 0.007409371754071137,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": 0.007409371754071137,
+      "efficiency_error": 1.3877787807814457e-17
+    },
+    {
+      "user": 4,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.6571428571428571,
+        "loo_oracle": 0.9924812030075187,
+        "lime": 0.7563909774436091
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.631578947368421,
+        "loo_oracle": 1.0,
+        "lime": 0.7969924812030074
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            16,
+            7
+          ],
+          "effect": 0.003541440542696228,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        },
+        "loo_oracle": {
+          "players": [
+            16,
+            7
+          ],
+          "effect": 0.003541440542696228,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        },
+        "lime": {
+          "players": [
+            16,
+            6
+          ],
+          "effect": 0.0015856831219953627,
+          "regret": 0.0019557574207008654,
+          "normalized_regret": 0.5522491191281237
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.025563909774436122,
+        "loo_oracle": -0.007518796992481258,
+        "lime": -0.040601503759398305
+      },
+      "oracle_effect": 0.003541440542696228,
+      "efficiency_error": 0.0
+    },
+    {
+      "user": 5,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.7954887218045112,
+        "loo_oracle": 1.0,
+        "lime": 0.9924812030075187
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.7954887218045112,
+        "loo_oracle": 1.0,
+        "lime": 0.9924812030075187
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            12,
+            15
+          ],
+          "effect": 0.0042986072634803585,
+          "regret": 7.431158862886145e-05,
+          "normalized_regret": 0.016993589665178586
+        },
+        "loo_oracle": {
+          "players": [
+            12,
+            13
+          ],
+          "effect": 0.00437291885210922,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        },
+        "lime": {
+          "players": [
+            12,
+            13
+          ],
+          "effect": 0.00437291885210922,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": 0.00437291885210922,
+      "efficiency_error": 6.938893903907228e-18
+    },
+    {
+      "user": 6,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.825563909774436,
+        "loo_oracle": 0.9969924812030074,
+        "lime": 0.9729323308270676
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.819548872180451,
+        "loo_oracle": 1.0,
+        "lime": 0.9729323308270676
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            9,
+            8
+          ],
+          "effect": 0.005619026744071609,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        },
+        "loo_oracle": {
+          "players": [
+            9,
+            8
+          ],
+          "effect": 0.005619026744071609,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        },
+        "lime": {
+          "players": [
+            9,
+            8
+          ],
+          "effect": 0.005619026744071609,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.006015037593985029,
+        "loo_oracle": -0.00300751879699257,
+        "lime": 0.0
+      },
+      "oracle_effect": 0.005619026744071609,
+      "efficiency_error": 2.0816681711721685e-17
+    },
+    {
+      "user": 7,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.4992481203007519,
+        "loo_oracle": 0.8947368421052632,
+        "lime": 0.8556390977443609
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.45112781954887216,
+        "loo_oracle": 1.0,
+        "lime": 0.78796992481203
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            16,
+            0
+          ],
+          "effect": -0.00030995784721765673,
+          "regret": 0.001045577132924913,
+          "normalized_regret": 1.4213563344771385
+        },
+        "loo_oracle": {
+          "players": [
+            16,
+            7
+          ],
+          "effect": -0.00020212287292314945,
+          "regret": 0.0009377421586304058,
+          "normalized_regret": 1.2747655962473226
+        },
+        "lime": {
+          "players": [
+            16,
+            18
+          ],
+          "effect": -0.0010406370898648487,
+          "regret": 0.001776256375572105,
+          "normalized_regret": 2.414640844346127
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.04812030075187973,
+        "loo_oracle": -0.10526315789473684,
+        "lime": 0.06766917293233088
+      },
+      "oracle_effect": 0.0007356192857072563,
+      "efficiency_error": 0.0
+    },
+    {
+      "user": 8,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.5909774436090225,
+        "loo_oracle": 0.993984962406015,
+        "lime": 0.9654135338345864
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.6,
+        "loo_oracle": 1.0,
+        "lime": 0.9473684210526315
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            12,
+            0
+          ],
+          "effect": 0.0038389055377946457,
+          "regret": 1.6120717016010477e-05,
+          "normalized_regret": 0.004181739875756183
+        },
+        "loo_oracle": {
+          "players": [
+            12,
+            10
+          ],
+          "effect": 0.0019136984028796933,
+          "regret": 0.001941327851930963,
+          "normalized_regret": 0.5035835615917822
+        },
+        "lime": {
+          "players": [
+            12,
+            10
+          ],
+          "effect": 0.0019136984028796933,
+          "regret": 0.001941327851930963,
+          "normalized_regret": 0.5035835615917822
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": -0.009022556390977488,
+        "loo_oracle": -0.006015037593985029,
+        "lime": 0.018045112781954864
+      },
+      "oracle_effect": 0.003855026254810656,
+      "efficiency_error": 6.938893903907228e-18
+    },
+    {
+      "user": 9,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.8661654135338346,
+        "loo_oracle": 0.9984962406015038,
+        "lime": 0.9774436090225563
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.849624060150376,
+        "loo_oracle": 1.0,
+        "lime": 0.9759398496240601
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            8,
+            19
+          ],
+          "effect": 0.005963636608720679,
+          "regret": 0.00014173935706190965,
+          "normalized_regret": 0.023215500213757262
+        },
+        "loo_oracle": {
+          "players": [
+            8,
+            2
+          ],
+          "effect": 0.006105375965782589,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        },
+        "lime": {
+          "players": [
+            8,
+            2
+          ],
+          "effect": 0.006105375965782589,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.016541353383458635,
+        "loo_oracle": -0.0015037593984962294,
+        "lime": 0.0015037593984962294
+      },
+      "oracle_effect": 0.006105375965782589,
+      "efficiency_error": 2.0816681711721685e-17
+    },
+    {
+      "user": 10,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.7533834586466165,
+        "loo_oracle": 1.0,
+        "lime": 0.9684210526315788
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.7533834586466165,
+        "loo_oracle": 1.0,
+        "lime": 0.9684210526315788
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            3,
+            1
+          ],
+          "effect": 0.004782438315495963,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        },
+        "loo_oracle": {
+          "players": [
+            3,
+            1
+          ],
+          "effect": 0.004782438315495963,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        },
+        "lime": {
+          "players": [
+            3,
+            1
+          ],
+          "effect": 0.004782438315495963,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": 0.004782438315495963,
+      "efficiency_error": 0.0
+    },
+    {
+      "user": 11,
+      "n_players": 12,
+      "aia": {
+        "shapley_mc": 0.6293706293706295,
+        "loo_oracle": 1.0,
+        "lime": 0.9370629370629372
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.6293706293706295,
+        "loo_oracle": 1.0,
+        "lime": 0.9370629370629372
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            10,
+            3
+          ],
+          "effect": 0.006933588012896175,
+          "regret": 0.0006065414982003303,
+          "normalized_regret": 0.08044178780049677
+        },
+        "loo_oracle": {
+          "players": [
+            10,
+            5
+          ],
+          "effect": 0.007540129511096505,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        },
+        "lime": {
+          "players": [
+            10,
+            0
+          ],
+          "effect": 0.0022558219929701417,
+          "regret": 0.005284307518126363,
+          "normalized_regret": 0.7008245030339115
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": 0.007540129511096505,
+      "efficiency_error": 6.938893903907228e-18
+    },
+    {
+      "user": 12,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.8796992481203006,
+        "loo_oracle": 0.9984962406015038,
+        "lime": 0.9864661654135337
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.8812030075187969,
+        "loo_oracle": 1.0,
+        "lime": 0.9849624060150375
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            10,
+            17
+          ],
+          "effect": 0.005326675909207101,
+          "regret": 2.4630420509208495e-05,
+          "normalized_regret": 0.004602693059791914
+        },
+        "loo_oracle": {
+          "players": [
+            10,
+            17
+          ],
+          "effect": 0.005326675909207101,
+          "regret": 2.4630420509208495e-05,
+          "normalized_regret": 0.004602693059791914
+        },
+        "lime": {
+          "players": [
+            10,
+            13
+          ],
+          "effect": 0.00535130632971631,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": -0.0015037593984962294,
+        "loo_oracle": -0.0015037593984962294,
+        "lime": 0.0015037593984962294
+      },
+      "oracle_effect": 0.00535130632971631,
+      "efficiency_error": 2.0816681711721685e-17
+    },
+    {
+      "user": 13,
+      "n_players": 11,
+      "aia": {
+        "shapley_mc": 0.7545454545454545,
+        "loo_oracle": 1.0,
+        "lime": 0.9818181818181818
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.7545454545454545,
+        "loo_oracle": 1.0,
+        "lime": 0.9818181818181818
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            6,
+            2
+          ],
+          "effect": 0.008850902284961992,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        },
+        "loo_oracle": {
+          "players": [
+            6,
+            2
+          ],
+          "effect": 0.008850902284961992,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        },
+        "lime": {
+          "players": [
+            6,
+            2
+          ],
+          "effect": 0.008850902284961992,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": 0.008850902284961992,
+      "efficiency_error": 0.0
+    },
+    {
+      "user": 14,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.8240601503759398,
+        "loo_oracle": 1.0,
+        "lime": 0.9864661654135337
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.8240601503759398,
+        "loo_oracle": 1.0,
+        "lime": 0.9864661654135337
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            2,
+            17
+          ],
+          "effect": 0.005805992804663429,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        },
+        "loo_oracle": {
+          "players": [
+            2,
+            17
+          ],
+          "effect": 0.005805992804663429,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        },
+        "lime": {
+          "players": [
+            2,
+            17
+          ],
+          "effect": 0.005805992804663429,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": 0.005805992804663429,
+      "efficiency_error": 1.3877787807814457e-17
+    },
+    {
+      "user": 15,
+      "n_players": 11,
+      "aia": {
+        "shapley_mc": 0.6000000000000001,
+        "loo_oracle": 1.0,
+        "lime": 0.9818181818181818
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.6000000000000001,
+        "loo_oracle": 1.0,
+        "lime": 0.9818181818181818
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            5,
+            3
+          ],
+          "effect": 0.0034920115884662928,
+          "regret": 0.0005448612679328502,
+          "normalized_regret": 0.1349711242290377
+        },
+        "loo_oracle": {
+          "players": [
+            7,
+            5
+          ],
+          "effect": -1.7837249286334345e-05,
+          "regret": 0.004054710105685477,
+          "normalized_regret": 1.004418580648048
+        },
+        "lime": {
+          "players": [
+            7,
+            5
+          ],
+          "effect": -1.7837249286334345e-05,
+          "regret": 0.004054710105685477,
+          "normalized_regret": 1.004418580648048
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": 0.004036872856399143,
+      "efficiency_error": 6.938893903907228e-18
+    },
+    {
+      "user": 16,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.7969924812030074,
+        "loo_oracle": 0.993984962406015,
+        "lime": 0.9067669172932331
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.7864661654135338,
+        "loo_oracle": 1.0,
+        "lime": 0.9203007518796992
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            4,
+            14
+          ],
+          "effect": 0.002733811763303562,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        },
+        "loo_oracle": {
+          "players": [
+            4,
+            14
+          ],
+          "effect": 0.002733811763303562,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        },
+        "lime": {
+          "players": [
+            4,
+            14
+          ],
+          "effect": 0.002733811763303562,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.010526315789473606,
+        "loo_oracle": -0.006015037593985029,
+        "lime": -0.013533834586466065
+      },
+      "oracle_effect": 0.002733811763303562,
+      "efficiency_error": 0.0
+    },
+    {
+      "user": 17,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.7022556390977444,
+        "loo_oracle": 0.9924812030075187,
+        "lime": 0.9248120300751879
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.7052631578947368,
+        "loo_oracle": 1.0,
+        "lime": 0.9248120300751879
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            12,
+            8
+          ],
+          "effect": 0.001733864020888265,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        },
+        "loo_oracle": {
+          "players": [
+            12,
+            11
+          ],
+          "effect": 0.0006870199306282521,
+          "regret": 0.001046844090260013,
+          "normalized_regret": 0.6037636614202001
+        },
+        "lime": {
+          "players": [
+            12,
+            11
+          ],
+          "effect": 0.0006870199306282521,
+          "regret": 0.001046844090260013,
+          "normalized_regret": 0.6037636614202001
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": -0.003007518796992459,
+        "loo_oracle": -0.007518796992481258,
+        "lime": 0.0
+      },
+      "oracle_effect": 0.001733864020888265,
+      "efficiency_error": 3.469446951953614e-18
+    },
+    {
+      "user": 18,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.7172932330827068,
+        "loo_oracle": 1.0,
+        "lime": 0.9849624060150375
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.7172932330827068,
+        "loo_oracle": 1.0,
+        "lime": 0.9849624060150375
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            12,
+            11
+          ],
+          "effect": 0.009035554860915784,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        },
+        "loo_oracle": {
+          "players": [
+            12,
+            11
+          ],
+          "effect": 0.009035554860915784,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        },
+        "lime": {
+          "players": [
+            12,
+            11
+          ],
+          "effect": 0.009035554860915784,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": 0.009035554860915784,
+      "efficiency_error": 6.938893903907228e-18
+    },
+    {
+      "user": 19,
+      "n_players": 17,
+      "aia": {
+        "shapley_mc": 0.7598039215686275,
+        "loo_oracle": 0.9975490196078433,
+        "lime": 0.9803921568627453
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.7696078431372549,
+        "loo_oracle": 1.0,
+        "lime": 0.982843137254902
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            12,
+            0
+          ],
+          "effect": 0.011611607725508621,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        },
+        "loo_oracle": {
+          "players": [
+            12,
+            0
+          ],
+          "effect": 0.011611607725508621,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        },
+        "lime": {
+          "players": [
+            12,
+            0
+          ],
+          "effect": 0.011611607725508621,
+          "regret": 0.0,
+          "normalized_regret": 0.0
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": -0.009803921568627416,
+        "loo_oracle": -0.002450980392156743,
+        "lime": -0.002450980392156743
+      },
+      "oracle_effect": 0.011611607725508621,
+      "efficiency_error": 5.551115123125783e-17
+    },
+    {
+      "user": 20,
+      "n_players": 4,
+      "aia": {
+        "shapley_mc": 0.7999999999999999,
+        "loo_oracle": 1.0,
+        "lime": 1.0
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.7999999999999999,
+        "loo_oracle": 1.0,
+        "lime": 1.0
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            1,
+            3
+          ],
+          "effect": 0.005909427845231741,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            1,
+            3
+          ],
+          "effect": 0.005909427845231741,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            1,
+            3
+          ],
+          "effect": 0.005909427845231741,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 2.0816681711721685e-17
+    },
+    {
+      "user": 21,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.8736842105263156,
+        "loo_oracle": 1.0,
+        "lime": 0.9714285714285714
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.8736842105263156,
+        "loo_oracle": 1.0,
+        "lime": 0.9714285714285714
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            12,
+            1
+          ],
+          "effect": 0.0041265143183147335,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            12,
+            10
+          ],
+          "effect": 0.0043771051212507794,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            12,
+            10
+          ],
+          "effect": 0.0043771051212507794,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 1.0408340855860843e-17
+    },
+    {
+      "user": 22,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.8721804511278194,
+        "loo_oracle": 1.0,
+        "lime": 0.9639097744360902
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.8721804511278194,
+        "loo_oracle": 1.0,
+        "lime": 0.9639097744360902
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            2,
+            5
+          ],
+          "effect": 0.005982051730398508,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            2,
+            5
+          ],
+          "effect": 0.005982051730398508,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            2,
+            5
+          ],
+          "effect": 0.005982051730398508,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 1.0408340855860843e-17
+    },
+    {
+      "user": 23,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.819548872180451,
+        "loo_oracle": 0.9954887218045112,
+        "lime": 0.9819548872180449
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.8150375939849623,
+        "loo_oracle": 1.0,
+        "lime": 0.9729323308270676
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            15,
+            5
+          ],
+          "effect": 0.005515501395293443,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            15,
+            5
+          ],
+          "effect": 0.005515501395293443,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            15,
+            5
+          ],
+          "effect": 0.005515501395293443,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.004511278195488688,
+        "loo_oracle": -0.004511278195488799,
+        "lime": 0.009022556390977265
+      },
+      "oracle_effect": null,
+      "efficiency_error": 0.0
+    },
+    {
+      "user": 24,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.8571428571428572,
+        "loo_oracle": 1.0,
+        "lime": 0.9714285714285714
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.8571428571428572,
+        "loo_oracle": 1.0,
+        "lime": 0.9714285714285714
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            14,
+            3
+          ],
+          "effect": 0.0035215422768058446,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            3,
+            14
+          ],
+          "effect": 0.0035215422768058446,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            3,
+            14
+          ],
+          "effect": 0.0035215422768058446,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 6.938893903907228e-18
+    },
+    {
+      "user": 25,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.43458646616541347,
+        "loo_oracle": 0.8661654135338346,
+        "lime": 0.4421052631578947
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.33684210526315783,
+        "loo_oracle": 1.0,
+        "lime": 0.5654135338345864
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            15,
+            12
+          ],
+          "effect": 0.00018876799403244604,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            8,
+            14
+          ],
+          "effect": -0.0005691854393140017,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            8,
+            6
+          ],
+          "effect": -0.0005322187239774068,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.09774436090225563,
+        "loo_oracle": -0.13383458646616542,
+        "lime": -0.12330827067669164
+      },
+      "oracle_effect": null,
+      "efficiency_error": 0.0
+    },
+    {
+      "user": 26,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.7187969924812029,
+        "loo_oracle": 1.0,
+        "lime": 0.9894736842105262
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.7187969924812029,
+        "loo_oracle": 1.0,
+        "lime": 0.9894736842105262
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            4,
+            15
+          ],
+          "effect": 0.005895780863838684,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            15,
+            4
+          ],
+          "effect": 0.005895780863838684,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            15,
+            4
+          ],
+          "effect": 0.005895780863838684,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 6.938893903907228e-18
+    },
+    {
+      "user": 27,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.7203007518796991,
+        "loo_oracle": 1.0,
+        "lime": 0.8586466165413533
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.7203007518796991,
+        "loo_oracle": 1.0,
+        "lime": 0.8586466165413533
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            14,
+            19
+          ],
+          "effect": 0.0112592377253809,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            14,
+            19
+          ],
+          "effect": 0.0112592377253809,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            14,
+            19
+          ],
+          "effect": 0.0112592377253809,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 2.0816681711721685e-17
+    },
+    {
+      "user": 28,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.7398496240601502,
+        "loo_oracle": 1.0,
+        "lime": 0.863157894736842
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.7398496240601502,
+        "loo_oracle": 1.0,
+        "lime": 0.863157894736842
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            8,
+            4
+          ],
+          "effect": 0.004299237211283891,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            8,
+            14
+          ],
+          "effect": 0.0022188275464499196,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            8,
+            14
+          ],
+          "effect": 0.0022188275464499196,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 3.469446951953614e-18
+    },
+    {
+      "user": 29,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.4872180451127819,
+        "loo_oracle": 0.993984962406015,
+        "lime": 0.9548872180451128
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.46917293233082696,
+        "loo_oracle": 1.0,
+        "lime": 0.9518796992481202
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            10,
+            7
+          ],
+          "effect": 0.008176322898862276,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            10,
+            19
+          ],
+          "effect": 0.0027183778753059884,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            10,
+            19
+          ],
+          "effect": 0.0027183778753059884,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.01804511278195492,
+        "loo_oracle": -0.006015037593985029,
+        "lime": 0.00300751879699257
+      },
+      "oracle_effect": null,
+      "efficiency_error": 2.7755575615628914e-17
+    },
+    {
+      "user": 30,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.7233082706766917,
+        "loo_oracle": 0.9353383458646616,
+        "lime": 0.8736842105263156
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.6270676691729322,
+        "loo_oracle": 1.0,
+        "lime": 0.9368421052631578
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            17,
+            5
+          ],
+          "effect": 0.0006189348465503453,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            19,
+            8
+          ],
+          "effect": -0.0007481814514782581,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            11,
+            19
+          ],
+          "effect": -0.0007469563703471072,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.09624060150375946,
+        "loo_oracle": -0.06466165413533842,
+        "lime": -0.06315789473684219
+      },
+      "oracle_effect": null,
+      "efficiency_error": 8.673617379884035e-19
+    },
+    {
+      "user": 31,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.8466165413533834,
+        "loo_oracle": 1.0,
+        "lime": 0.9819548872180449
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.8466165413533834,
+        "loo_oracle": 1.0,
+        "lime": 0.9819548872180449
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            6,
+            13
+          ],
+          "effect": 0.005208444644691446,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            6,
+            13
+          ],
+          "effect": 0.005208444644691446,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            6,
+            13
+          ],
+          "effect": 0.005208444644691446,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 6.938893903907228e-18
+    },
+    {
+      "user": 32,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.593984962406015,
+        "loo_oracle": 0.9909774436090225,
+        "lime": 0.7894736842105263
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.5428571428571428,
+        "loo_oracle": 1.0,
+        "lime": 0.8120300751879698
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            15,
+            0
+          ],
+          "effect": 0.0012868143676603716,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            15,
+            14
+          ],
+          "effect": 0.00016284817739375956,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            15,
+            14
+          ],
+          "effect": 0.00016284817739375956,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.05112781954887213,
+        "loo_oracle": -0.009022556390977488,
+        "lime": -0.02255639097744344
+      },
+      "oracle_effect": null,
+      "efficiency_error": 0.0
+    },
+    {
+      "user": 33,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.4796992481203006,
+        "loo_oracle": 0.9969924812030074,
+        "lime": 0.8526315789473683
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.4857142857142857,
+        "loo_oracle": 1.0,
+        "lime": 0.849624060150376
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            9,
+            2
+          ],
+          "effect": 0.0007987035893747274,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            15,
+            4
+          ],
+          "effect": -0.00035064503386333934,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            15,
+            7
+          ],
+          "effect": -0.0014002553327238099,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": -0.006015037593985084,
+        "loo_oracle": -0.00300751879699257,
+        "lime": 0.003007518796992348
+      },
+      "oracle_effect": null,
+      "efficiency_error": 1.734723475976807e-18
+    },
+    {
+      "user": 34,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.7548872180451127,
+        "loo_oracle": 0.9984962406015038,
+        "lime": 0.9413533834586465
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.7488721804511278,
+        "loo_oracle": 1.0,
+        "lime": 0.9443609022556391
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            12,
+            10
+          ],
+          "effect": 0.005485522768557072,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            12,
+            10
+          ],
+          "effect": 0.005485522768557072,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            12,
+            10
+          ],
+          "effect": 0.005485522768557072,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.006015037593984918,
+        "loo_oracle": -0.0015037593984962294,
+        "lime": -0.00300751879699257
+      },
+      "oracle_effect": null,
+      "efficiency_error": 1.0408340855860843e-17
+    },
+    {
+      "user": 35,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.6631578947368421,
+        "loo_oracle": 0.9984962406015038,
+        "lime": 0.8330827067669173
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.6706766917293233,
+        "loo_oracle": 1.0,
+        "lime": 0.8421052631578947
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            16,
+            15
+          ],
+          "effect": 0.0027491510212035997,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            16,
+            12
+          ],
+          "effect": 0.000980470588681781,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            16,
+            12
+          ],
+          "effect": 0.000980470588681781,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": -0.007518796992481258,
+        "loo_oracle": -0.0015037593984962294,
+        "lime": -0.009022556390977376
+      },
+      "oracle_effect": null,
+      "efficiency_error": 6.938893903907228e-18
+    },
+    {
+      "user": 36,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.5684210526315789,
+        "loo_oracle": 0.9984962406015038,
+        "lime": 0.9458646616541352
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.5533834586466165,
+        "loo_oracle": 1.0,
+        "lime": 0.9443609022556391
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            6,
+            0
+          ],
+          "effect": 0.00345505885376568,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            6,
+            0
+          ],
+          "effect": 0.00345505885376568,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            6,
+            14
+          ],
+          "effect": 0.001856421239532724,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.015037593984962405,
+        "loo_oracle": -0.0015037593984962294,
+        "lime": 0.0015037593984961184
+      },
+      "oracle_effect": null,
+      "efficiency_error": 3.469446951953614e-18
+    },
+    {
+      "user": 37,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.9172932330827066,
+        "loo_oracle": 1.0,
+        "lime": 0.9729323308270676
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.9172932330827066,
+        "loo_oracle": 1.0,
+        "lime": 0.9729323308270676
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            3,
+            16
+          ],
+          "effect": 0.0029748195942185807,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            3,
+            16
+          ],
+          "effect": 0.0029748195942185807,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            3,
+            16
+          ],
+          "effect": 0.0029748195942185807,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 5.204170427930421e-18
+    },
+    {
+      "user": 38,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.6496240601503759,
+        "loo_oracle": 0.9984962406015038,
+        "lime": 0.9879699248120299
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.6330827067669172,
+        "loo_oracle": 1.0,
+        "lime": 0.9909774436090225
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            16,
+            7
+          ],
+          "effect": 0.0029196119427497003,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            2,
+            7
+          ],
+          "effect": -1.7683553550362774e-05,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            2,
+            7
+          ],
+          "effect": -1.7683553550362774e-05,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.016541353383458635,
+        "loo_oracle": -0.0015037593984962294,
+        "lime": -0.00300751879699257
+      },
+      "oracle_effect": null,
+      "efficiency_error": 6.938893903907228e-18
+    },
+    {
+      "user": 39,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.7804511278195487,
+        "loo_oracle": 1.0,
+        "lime": 0.9639097744360902
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.7804511278195487,
+        "loo_oracle": 1.0,
+        "lime": 0.9639097744360902
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            15,
+            2
+          ],
+          "effect": 0.0042201460031501825,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            15,
+            2
+          ],
+          "effect": 0.0042201460031501825,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            15,
+            2
+          ],
+          "effect": 0.0042201460031501825,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 3.469446951953614e-18
+    },
+    {
+      "user": 40,
+      "n_players": 12,
+      "aia": {
+        "shapley_mc": 0.9580419580419581,
+        "loo_oracle": 1.0,
+        "lime": 0.9790209790209792
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.9580419580419581,
+        "loo_oracle": 1.0,
+        "lime": 0.9790209790209792
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            4,
+            6
+          ],
+          "effect": 0.010109727503229138,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            4,
+            6
+          ],
+          "effect": 0.010109727503229138,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            4,
+            6
+          ],
+          "effect": 0.010109727503229138,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 0.0
+    },
+    {
+      "user": 41,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.7864661654135338,
+        "loo_oracle": 1.0,
+        "lime": 0.9849624060150375
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.7864661654135338,
+        "loo_oracle": 1.0,
+        "lime": 0.9849624060150375
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            3,
+            2
+          ],
+          "effect": 0.009930207399650726,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            3,
+            2
+          ],
+          "effect": 0.009930207399650726,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            3,
+            2
+          ],
+          "effect": 0.009930207399650726,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 4.85722573273506e-17
+    },
+    {
+      "user": 42,
+      "n_players": 18,
+      "aia": {
+        "shapley_mc": 0.7853457172342622,
+        "loo_oracle": 1.0,
+        "lime": 0.9690402476780186
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.7853457172342622,
+        "loo_oracle": 1.0,
+        "lime": 0.9690402476780186
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            7,
+            14
+          ],
+          "effect": -0.006659050100587205,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            7,
+            14
+          ],
+          "effect": -0.006659050100587205,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            7,
+            14
+          ],
+          "effect": -0.006659050100587205,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 1.3877787807814457e-17
+    },
+    {
+      "user": 43,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.6676691729323309,
+        "loo_oracle": 0.9969924812030074,
+        "lime": 0.9503759398496241
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.6766917293233082,
+        "loo_oracle": 1.0,
+        "lime": 0.9533834586466164
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            1,
+            13
+          ],
+          "effect": 0.0014613855848311097,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            1,
+            2
+          ],
+          "effect": 0.0004002859515581658,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            1,
+            2
+          ],
+          "effect": 0.0004002859515581658,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": -0.009022556390977376,
+        "loo_oracle": -0.00300751879699257,
+        "lime": -0.003007518796992348
+      },
+      "oracle_effect": null,
+      "efficiency_error": 1.734723475976807e-18
+    },
+    {
+      "user": 44,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.8676691729323308,
+        "loo_oracle": 0.9954887218045112,
+        "lime": 0.932330827067669
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.8586466165413533,
+        "loo_oracle": 1.0,
+        "lime": 0.9473684210526315
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            13,
+            1
+          ],
+          "effect": 0.003527165947080191,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            13,
+            1
+          ],
+          "effect": 0.003527165947080191,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            13,
+            1
+          ],
+          "effect": 0.003527165947080191,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.009022556390977488,
+        "loo_oracle": -0.004511278195488799,
+        "lime": -0.015037593984962516
+      },
+      "oracle_effect": null,
+      "efficiency_error": 1.734723475976807e-18
+    },
+    {
+      "user": 45,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.18646616541353384,
+        "loo_oracle": 0.9218045112781955,
+        "lime": 0.512781954887218
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.13684210526315788,
+        "loo_oracle": 1.0,
+        "lime": 0.6195488721804511
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            4,
+            7
+          ],
+          "effect": 0.0003399297622443398,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            19,
+            5
+          ],
+          "effect": -0.0006070296850177459,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            5,
+            19
+          ],
+          "effect": -0.0006070296850177459,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.04962406015037596,
+        "loo_oracle": -0.07819548872180448,
+        "lime": -0.10676691729323307
+      },
+      "oracle_effect": null,
+      "efficiency_error": 0.0
+    },
+    {
+      "user": 46,
+      "n_players": 15,
+      "aia": {
+        "shapley_mc": 0.7857142857142856,
+        "loo_oracle": 1.0,
+        "lime": 0.9892857142857142
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.7857142857142856,
+        "loo_oracle": 1.0,
+        "lime": 0.9892857142857142
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            4,
+            2
+          ],
+          "effect": 0.005888831353814461,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            4,
+            2
+          ],
+          "effect": 0.005888831353814461,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            4,
+            2
+          ],
+          "effect": 0.005888831353814461,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 6.938893903907228e-18
+    },
+    {
+      "user": 47,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.8165413533834586,
+        "loo_oracle": 0.9984962406015038,
+        "lime": 0.9669172932330825
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.8150375939849623,
+        "loo_oracle": 1.0,
+        "lime": 0.9684210526315788
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            14,
+            2
+          ],
+          "effect": 0.004872712200130136,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            14,
+            12
+          ],
+          "effect": 0.004870858635522779,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            14,
+            12
+          ],
+          "effect": 0.004870858635522779,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0015037593984962294,
+        "loo_oracle": -0.0015037593984962294,
+        "lime": -0.0015037593984963404
+      },
+      "oracle_effect": null,
+      "efficiency_error": 2.0816681711721685e-17
+    },
+    {
+      "user": 48,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.9112781954887217,
+        "loo_oracle": 0.9969924812030074,
+        "lime": 0.9684210526315788
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.8992481203007519,
+        "loo_oracle": 1.0,
+        "lime": 0.9684210526315788
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            19,
+            13
+          ],
+          "effect": -0.0027849419239018847,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            19,
+            13
+          ],
+          "effect": -0.0027849419239018847,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            19,
+            13
+          ],
+          "effect": -0.0027849419239018847,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.012030075187969835,
+        "loo_oracle": -0.00300751879699257,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 3.469446951953614e-18
+    },
+    {
+      "user": 49,
+      "n_players": 11,
+      "aia": {
+        "shapley_mc": 0.5909090909090909,
+        "loo_oracle": 1.0,
+        "lime": 0.9363636363636365
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.5909090909090909,
+        "loo_oracle": 1.0,
+        "lime": 0.9363636363636365
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            3,
+            8
+          ],
+          "effect": 0.011291416171540836,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            3,
+            8
+          ],
+          "effect": 0.011291416171540836,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            3,
+            8
+          ],
+          "effect": 0.011291416171540836,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 2.7755575615628914e-17
+    },
+    {
+      "user": 50,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.7383458646616541,
+        "loo_oracle": 1.0,
+        "lime": 0.9804511278195487
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.7383458646616541,
+        "loo_oracle": 1.0,
+        "lime": 0.9804511278195487
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            9,
+            16
+          ],
+          "effect": 0.005146177941450447,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            9,
+            16
+          ],
+          "effect": 0.005146177941450447,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            9,
+            16
+          ],
+          "effect": 0.005146177941450447,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 1.3877787807814457e-17
+    },
+    {
+      "user": 51,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.6150375939849623,
+        "loo_oracle": 1.0,
+        "lime": 0.9233082706766916
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.6150375939849623,
+        "loo_oracle": 1.0,
+        "lime": 0.9233082706766916
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            19,
+            3
+          ],
+          "effect": 0.003596307033027435,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            19,
+            8
+          ],
+          "effect": 0.0022999872586042525,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            19,
+            8
+          ],
+          "effect": 0.0022999872586042525,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 6.938893903907228e-18
+    },
+    {
+      "user": 52,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.6045112781954887,
+        "loo_oracle": 0.9879699248120299,
+        "lime": 0.8766917293233082
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.5624060150375939,
+        "loo_oracle": 1.0,
+        "lime": 0.9052631578947368
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            1,
+            16
+          ],
+          "effect": 0.0006125642243026141,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            10,
+            1
+          ],
+          "effect": 1.9807018509621077e-05,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            10,
+            6
+          ],
+          "effect": -0.0005951667174861619,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.04210526315789476,
+        "loo_oracle": -0.012030075187970057,
+        "lime": -0.02857142857142858
+      },
+      "oracle_effect": null,
+      "efficiency_error": 8.673617379884035e-19
+    },
+    {
+      "user": 53,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.7969924812030074,
+        "loo_oracle": 0.9969924812030074,
+        "lime": 0.9684210526315788
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.7864661654135338,
+        "loo_oracle": 1.0,
+        "lime": 0.9759398496240601
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            18,
+            0
+          ],
+          "effect": 0.0020877637129226856,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            18,
+            4
+          ],
+          "effect": 0.0005094751258419294,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            18,
+            4
+          ],
+          "effect": 0.0005094751258419294,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.010526315789473606,
+        "loo_oracle": -0.00300751879699257,
+        "lime": -0.007518796992481258
+      },
+      "oracle_effect": null,
+      "efficiency_error": 0.0
+    },
+    {
+      "user": 54,
+      "n_players": 16,
+      "aia": {
+        "shapley_mc": 0.8617647058823529,
+        "loo_oracle": 1.0,
+        "lime": 0.9794117647058824
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.8617647058823529,
+        "loo_oracle": 1.0,
+        "lime": 0.9794117647058824
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            11,
+            6
+          ],
+          "effect": 0.004974128840698977,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            11,
+            6
+          ],
+          "effect": 0.004974128840698977,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            11,
+            6
+          ],
+          "effect": 0.004974128840698977,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 0.0
+    },
+    {
+      "user": 55,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.6616541353383457,
+        "loo_oracle": 0.9984962406015038,
+        "lime": 0.9699248120300751
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.6526315789473683,
+        "loo_oracle": 1.0,
+        "lime": 0.9669172932330825
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            5,
+            7
+          ],
+          "effect": 0.007003270517418669,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            7,
+            5
+          ],
+          "effect": 0.007003270517418669,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            7,
+            5
+          ],
+          "effect": 0.007003270517418669,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.009022556390977376,
+        "loo_oracle": -0.0015037593984962294,
+        "lime": 0.00300751879699257
+      },
+      "oracle_effect": null,
+      "efficiency_error": 1.3877787807814457e-17
+    },
+    {
+      "user": 56,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.7007518796992479,
+        "loo_oracle": 0.9984962406015038,
+        "lime": 0.9864661654135337
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.7097744360902255,
+        "loo_oracle": 1.0,
+        "lime": 0.9909774436090225
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            12,
+            15
+          ],
+          "effect": 0.0036107435307774494,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            15,
+            12
+          ],
+          "effect": 0.0036107435307774494,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            15,
+            12
+          ],
+          "effect": 0.0036107435307774494,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": -0.009022556390977599,
+        "loo_oracle": -0.0015037593984962294,
+        "lime": -0.004511278195488799
+      },
+      "oracle_effect": null,
+      "efficiency_error": 2.0816681711721685e-17
+    },
+    {
+      "user": 57,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.6902255639097743,
+        "loo_oracle": 0.9984962406015038,
+        "lime": 0.9413533834586465
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.6781954887218045,
+        "loo_oracle": 1.0,
+        "lime": 0.9503759398496241
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            1,
+            14
+          ],
+          "effect": 0.0014829603416546822,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            14,
+            1
+          ],
+          "effect": 0.0014829603416546822,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            14,
+            18
+          ],
+          "effect": 0.0002394498519727173,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.012030075187969835,
+        "loo_oracle": -0.0015037593984962294,
+        "lime": -0.009022556390977599
+      },
+      "oracle_effect": null,
+      "efficiency_error": 0.0
+    },
+    {
+      "user": 58,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.5654135338345864,
+        "loo_oracle": 1.0,
+        "lime": 0.956390977443609
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.5654135338345864,
+        "loo_oracle": 1.0,
+        "lime": 0.956390977443609
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            15,
+            13
+          ],
+          "effect": 0.0069619774905443355,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            15,
+            13
+          ],
+          "effect": 0.0069619774905443355,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            15,
+            13
+          ],
+          "effect": 0.0069619774905443355,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 6.938893903907228e-18
+    },
+    {
+      "user": 59,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.9172932330827066,
+        "loo_oracle": 1.0,
+        "lime": 0.9744360902255638
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.9172932330827066,
+        "loo_oracle": 1.0,
+        "lime": 0.9744360902255638
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            7,
+            11
+          ],
+          "effect": 0.004288417964544489,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            7,
+            11
+          ],
+          "effect": 0.004288417964544489,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            11,
+            7
+          ],
+          "effect": 0.004288417964544489,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 1.3877787807814457e-17
+    },
+    {
+      "user": 60,
+      "n_players": 7,
+      "aia": {
+        "shapley_mc": 0.8571428571428573,
+        "loo_oracle": 1.0,
+        "lime": 1.0
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.8571428571428573,
+        "loo_oracle": 1.0,
+        "lime": 1.0
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            1,
+            4
+          ],
+          "effect": 0.008591576596697681,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            1,
+            3
+          ],
+          "effect": 0.0009906293949721312,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            1,
+            3
+          ],
+          "effect": 0.0009906293949721312,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 4.163336342344337e-17
+    },
+    {
+      "user": 61,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.7443609022556391,
+        "loo_oracle": 0.9834586466165413,
+        "lime": 0.831578947368421
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.724812030075188,
+        "loo_oracle": 1.0,
+        "lime": 0.8526315789473683
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            4,
+            12
+          ],
+          "effect": 8.584301676489714e-05,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            12,
+            4
+          ],
+          "effect": 8.584301676489714e-05,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            12,
+            4
+          ],
+          "effect": 8.584301676489714e-05,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.019548872180451093,
+        "loo_oracle": -0.016541353383458746,
+        "lime": -0.021052631578947323
+      },
+      "oracle_effect": null,
+      "efficiency_error": 1.734723475976807e-18
+    },
+    {
+      "user": 62,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.6872180451127818,
+        "loo_oracle": 1.0,
+        "lime": 0.9729323308270676
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.6872180451127818,
+        "loo_oracle": 1.0,
+        "lime": 0.9729323308270676
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            4,
+            3
+          ],
+          "effect": 0.004018651785483995,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            4,
+            3
+          ],
+          "effect": 0.004018651785483995,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            4,
+            3
+          ],
+          "effect": 0.004018651785483995,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 6.938893903907228e-18
+    },
+    {
+      "user": 63,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.9248120300751879,
+        "loo_oracle": 0.9984962406015038,
+        "lime": 0.9864661654135337
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.9293233082706768,
+        "loo_oracle": 1.0,
+        "lime": 0.9849624060150375
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            7,
+            13
+          ],
+          "effect": -0.0059099732345011535,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            7,
+            2
+          ],
+          "effect": -0.0060661959785935915,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            7,
+            2
+          ],
+          "effect": -0.0060661959785935915,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": -0.00451127819548891,
+        "loo_oracle": -0.0015037593984962294,
+        "lime": 0.0015037593984962294
+      },
+      "oracle_effect": null,
+      "efficiency_error": 6.938893903907228e-18
+    },
+    {
+      "user": 64,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.8150375939849623,
+        "loo_oracle": 0.9984962406015038,
+        "lime": 0.9699248120300751
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.8120300751879698,
+        "loo_oracle": 1.0,
+        "lime": 0.9684210526315788
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            17,
+            19
+          ],
+          "effect": 0.005878291683919068,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            17,
+            19
+          ],
+          "effect": 0.005878291683919068,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            17,
+            19
+          ],
+          "effect": 0.005878291683919068,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.00300751879699257,
+        "loo_oracle": -0.0015037593984962294,
+        "lime": 0.0015037593984962294
+      },
+      "oracle_effect": null,
+      "efficiency_error": 6.938893903907228e-18
+    },
+    {
+      "user": 65,
+      "n_players": 14,
+      "aia": {
+        "shapley_mc": 0.6571428571428571,
+        "loo_oracle": 1.0,
+        "lime": 0.9780219780219781
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.6571428571428571,
+        "loo_oracle": 1.0,
+        "lime": 0.9780219780219781
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            3,
+            0
+          ],
+          "effect": 0.011629817048138813,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            3,
+            0
+          ],
+          "effect": 0.011629817048138813,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            3,
+            0
+          ],
+          "effect": 0.011629817048138813,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 1.3877787807814457e-17
+    },
+    {
+      "user": 66,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.8330827067669173,
+        "loo_oracle": 0.9984962406015038,
+        "lime": 0.9428571428571428
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.8345864661654135,
+        "loo_oracle": 1.0,
+        "lime": 0.9383458646616539
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            13,
+            10
+          ],
+          "effect": 0.0016425187629103277,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            13,
+            16
+          ],
+          "effect": 0.00012583102024854576,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            13,
+            16
+          ],
+          "effect": 0.00012583102024854576,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": -0.0015037593984962294,
+        "loo_oracle": -0.0015037593984962294,
+        "lime": 0.00451127819548891
+      },
+      "oracle_effect": null,
+      "efficiency_error": 0.0
+    },
+    {
+      "user": 67,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.8872180451127819,
+        "loo_oracle": 1.0,
+        "lime": 0.9684210526315788
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.8872180451127819,
+        "loo_oracle": 1.0,
+        "lime": 0.9684210526315788
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            2,
+            19
+          ],
+          "effect": 0.004330235265018356,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            2,
+            19
+          ],
+          "effect": 0.004330235265018356,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            2,
+            19
+          ],
+          "effect": 0.004330235265018356,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 6.938893903907228e-18
+    },
+    {
+      "user": 68,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.825563909774436,
+        "loo_oracle": 0.9864661654135337,
+        "lime": 0.8691729323308269
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.7909774436090224,
+        "loo_oracle": 1.0,
+        "lime": 0.8932330827067668
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            11,
+            10
+          ],
+          "effect": 0.0016634882276054808,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            11,
+            16
+          ],
+          "effect": 0.0005261958575365488,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            11,
+            16
+          ],
+          "effect": 0.0005261958575365488,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.03458646616541361,
+        "loo_oracle": -0.013533834586466287,
+        "lime": -0.024060150375939893
+      },
+      "oracle_effect": null,
+      "efficiency_error": 3.469446951953614e-18
+    },
+    {
+      "user": 69,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.7142857142857143,
+        "loo_oracle": 0.9984962406015038,
+        "lime": 0.9729323308270676
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.6977443609022556,
+        "loo_oracle": 1.0,
+        "lime": 0.9714285714285714
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            16,
+            14
+          ],
+          "effect": 0.0039008667254328278,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            16,
+            12
+          ],
+          "effect": 0.0016098171614248868,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            16,
+            12
+          ],
+          "effect": 0.0016098171614248868,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.016541353383458746,
+        "loo_oracle": -0.0015037593984962294,
+        "lime": 0.0015037593984962294
+      },
+      "oracle_effect": null,
+      "efficiency_error": 0.0
+    },
+    {
+      "user": 70,
+      "n_players": 17,
+      "aia": {
+        "shapley_mc": 0.7843137254901962,
+        "loo_oracle": 1.0,
+        "lime": 0.965686274509804
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.7843137254901962,
+        "loo_oracle": 1.0,
+        "lime": 0.965686274509804
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            7,
+            2
+          ],
+          "effect": 0.0036589097888636846,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            7,
+            2
+          ],
+          "effect": 0.0036589097888636846,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            7,
+            2
+          ],
+          "effect": 0.0036589097888636846,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 0.0
+    },
+    {
+      "user": 71,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.8616541353383457,
+        "loo_oracle": 0.9984962406015038,
+        "lime": 0.9909774436090225
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.8541353383458646,
+        "loo_oracle": 1.0,
+        "lime": 0.9879699248120299
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            15,
+            6
+          ],
+          "effect": 0.005747065328208845,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            15,
+            18
+          ],
+          "effect": 0.006107598016860671,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            15,
+            18
+          ],
+          "effect": 0.006107598016860671,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.007518796992481036,
+        "loo_oracle": -0.0015037593984962294,
+        "lime": 0.00300751879699257
+      },
+      "oracle_effect": null,
+      "efficiency_error": 2.0816681711721685e-17
+    },
+    {
+      "user": 72,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.4616541353383458,
+        "loo_oracle": 0.9924812030075187,
+        "lime": 0.932330827067669
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.4616541353383458,
+        "loo_oracle": 1.0,
+        "lime": 0.9353383458646616
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            6,
+            17
+          ],
+          "effect": 0.0018380230455966595,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            9,
+            6
+          ],
+          "effect": 1.8047317392355655e-05,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            9,
+            6
+          ],
+          "effect": 1.8047317392355655e-05,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": -0.007518796992481258,
+        "lime": -0.00300751879699257
+      },
+      "oracle_effect": null,
+      "efficiency_error": 5.204170427930421e-18
+    },
+    {
+      "user": 73,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.8571428571428572,
+        "loo_oracle": 1.0,
+        "lime": 0.9909774436090225
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.8571428571428572,
+        "loo_oracle": 1.0,
+        "lime": 0.9909774436090225
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            19,
+            17
+          ],
+          "effect": 0.006857413818625979,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            19,
+            17
+          ],
+          "effect": 0.006857413818625979,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            19,
+            6
+          ],
+          "effect": 0.0067800255217653205,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 1.3877787807814457e-17
+    },
+    {
+      "user": 74,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.7052631578947368,
+        "loo_oracle": 1.0,
+        "lime": 0.9924812030075187
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.7052631578947368,
+        "loo_oracle": 1.0,
+        "lime": 0.9924812030075187
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            0,
+            3
+          ],
+          "effect": 0.005059500298594477,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            0,
+            3
+          ],
+          "effect": 0.005059500298594477,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            0,
+            3
+          ],
+          "effect": 0.005059500298594477,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 1.3877787807814457e-17
+    },
+    {
+      "user": 75,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.5609022556390978,
+        "loo_oracle": 0.9954887218045112,
+        "lime": 0.9819548872180449
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.5684210526315789,
+        "loo_oracle": 1.0,
+        "lime": 0.9774436090225563
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            11,
+            16
+          ],
+          "effect": 0.002960348829056436,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            11,
+            16
+          ],
+          "effect": 0.002960348829056436,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            11,
+            16
+          ],
+          "effect": 0.002960348829056436,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": -0.007518796992481147,
+        "loo_oracle": -0.004511278195488799,
+        "lime": 0.004511278195488577
+      },
+      "oracle_effect": null,
+      "efficiency_error": 6.938893903907228e-18
+    },
+    {
+      "user": 76,
+      "n_players": 10,
+      "aia": {
+        "shapley_mc": 0.8303030303030302,
+        "loo_oracle": 0.9030303030303028,
+        "lime": 0.6242424242424242
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.8060606060606059,
+        "loo_oracle": 0.9999999999999999,
+        "lime": 0.7939393939393938
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            0,
+            1
+          ],
+          "effect": -0.0026318835307405086,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            0,
+            3
+          ],
+          "effect": -0.00010417876705448581,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            0,
+            3
+          ],
+          "effect": -0.00010417876705448581,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.024242424242424288,
+        "loo_oracle": -0.09696969696969704,
+        "lime": -0.16969696969696968
+      },
+      "oracle_effect": null,
+      "efficiency_error": 1.734723475976807e-18
+    },
+    {
+      "user": 77,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.4421052631578947,
+        "loo_oracle": 0.7834586466165413,
+        "lime": 0.4646616541353384
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.22857142857142856,
+        "loo_oracle": 1.0,
+        "lime": 0.6511278195488721
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            5,
+            13
+          ],
+          "effect": -0.0001560608959714771,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            13,
+            4
+          ],
+          "effect": -0.0006345431486029507,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            4,
+            13
+          ],
+          "effect": -0.0006345431486029507,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.21353383458646616,
+        "loo_oracle": -0.2165413533834587,
+        "lime": -0.18646616541353372
+      },
+      "oracle_effect": null,
+      "efficiency_error": 0.0
+    },
+    {
+      "user": 78,
+      "n_players": 14,
+      "aia": {
+        "shapley_mc": 0.7846153846153847,
+        "loo_oracle": 0.9956043956043955,
+        "lime": 0.9692307692307693
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.7714285714285714,
+        "loo_oracle": 1.0,
+        "lime": 0.9736263736263736
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            9,
+            2
+          ],
+          "effect": 0.004551279263136032,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            9,
+            0
+          ],
+          "effect": 0.0016971637820821228,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            9,
+            0
+          ],
+          "effect": 0.0016971637820821228,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.013186813186813362,
+        "loo_oracle": -0.004395604395604491,
+        "lime": -0.004395604395604269
+      },
+      "oracle_effect": null,
+      "efficiency_error": 0.0
+    },
+    {
+      "user": 79,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.8661654135338346,
+        "loo_oracle": 1.0,
+        "lime": 0.9729323308270676
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.8661654135338346,
+        "loo_oracle": 1.0,
+        "lime": 0.9729323308270676
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            14,
+            4
+          ],
+          "effect": 0.002103295011490869,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            6,
+            14
+          ],
+          "effect": -0.00019251271126896619,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            6,
+            4
+          ],
+          "effect": -0.0002363446140818959,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 0.0
+    },
+    {
+      "user": 80,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.8706766917293233,
+        "loo_oracle": 0.9969924812030074,
+        "lime": 0.9338345864661652
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.8781954887218045,
+        "loo_oracle": 1.0,
+        "lime": 0.9443609022556391
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            2,
+            7
+          ],
+          "effect": -0.00017038765450028137,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            2,
+            7
+          ],
+          "effect": -0.00017038765450028137,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            2,
+            7
+          ],
+          "effect": -0.00017038765450028137,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": -0.007518796992481258,
+        "loo_oracle": -0.00300751879699257,
+        "lime": -0.010526315789473828
+      },
+      "oracle_effect": null,
+      "efficiency_error": 6.505213034913027e-19
+    },
+    {
+      "user": 81,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.8796992481203006,
+        "loo_oracle": 1.0,
+        "lime": 0.9804511278195487
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.8796992481203006,
+        "loo_oracle": 1.0,
+        "lime": 0.9804511278195487
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            0,
+            18
+          ],
+          "effect": 0.005989983374391716,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            0,
+            18
+          ],
+          "effect": 0.005989983374391716,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            0,
+            18
+          ],
+          "effect": 0.005989983374391716,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 6.938893903907228e-18
+    },
+    {
+      "user": 82,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.8120300751879698,
+        "loo_oracle": 1.0,
+        "lime": 0.9864661654135337
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.8120300751879698,
+        "loo_oracle": 1.0,
+        "lime": 0.9864661654135337
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            5,
+            10
+          ],
+          "effect": 0.004861241881772227,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            5,
+            10
+          ],
+          "effect": 0.004861241881772227,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            5,
+            10
+          ],
+          "effect": 0.004861241881772227,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 6.938893903907228e-18
+    },
+    {
+      "user": 83,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.5293233082706766,
+        "loo_oracle": 0.9969924812030074,
+        "lime": 0.9353383458646616
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.5353383458646617,
+        "loo_oracle": 1.0,
+        "lime": 0.9428571428571428
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            7,
+            5
+          ],
+          "effect": -0.0032589474554792774,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            3,
+            7
+          ],
+          "effect": 0.00039133703698290834,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            3,
+            5
+          ],
+          "effect": 0.00040050282892234446,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": -0.006015037593985029,
+        "loo_oracle": -0.00300751879699257,
+        "lime": -0.007518796992481258
+      },
+      "oracle_effect": null,
+      "efficiency_error": 1.3877787807814457e-17
+    },
+    {
+      "user": 84,
+      "n_players": 13,
+      "aia": {
+        "shapley_mc": 0.8021978021978022,
+        "loo_oracle": 1.0,
+        "lime": 0.8956043956043955
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.8021978021978022,
+        "loo_oracle": 1.0,
+        "lime": 0.8956043956043955
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            8,
+            10
+          ],
+          "effect": 0.006267339768776581,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            8,
+            6
+          ],
+          "effect": 0.0059738640908844065,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            8,
+            6
+          ],
+          "effect": 0.0059738640908844065,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 6.938893903907228e-18
+    },
+    {
+      "user": 85,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.6511278195488721,
+        "loo_oracle": 0.9984962406015038,
+        "lime": 0.9684210526315788
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.6466165413533834,
+        "loo_oracle": 1.0,
+        "lime": 0.9699248120300751
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            6,
+            15
+          ],
+          "effect": 0.0077897609867405015,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            6,
+            15
+          ],
+          "effect": 0.0077897609867405015,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            6,
+            15
+          ],
+          "effect": 0.0077897609867405015,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.004511278195488688,
+        "loo_oracle": -0.0015037593984962294,
+        "lime": -0.0015037593984962294
+      },
+      "oracle_effect": null,
+      "efficiency_error": 1.3877787807814457e-17
+    },
+    {
+      "user": 86,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.8075187969924811,
+        "loo_oracle": 0.9984962406015038,
+        "lime": 0.9774436090225563
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.806015037593985,
+        "loo_oracle": 1.0,
+        "lime": 0.9789473684210527
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            4,
+            6
+          ],
+          "effect": 0.004622403785708218,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            6,
+            4
+          ],
+          "effect": 0.004622403785708218,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            6,
+            0
+          ],
+          "effect": 0.004560896404318948,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0015037593984961184,
+        "loo_oracle": -0.0015037593984962294,
+        "lime": -0.0015037593984963404
+      },
+      "oracle_effect": null,
+      "efficiency_error": 6.938893903907228e-18
+    },
+    {
+      "user": 87,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.8330827067669173,
+        "loo_oracle": 0.9984962406015038,
+        "lime": 0.9699248120300751
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.8180451127819548,
+        "loo_oracle": 1.0,
+        "lime": 0.9639097744360902
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            3,
+            6
+          ],
+          "effect": 0.005630094834705779,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            3,
+            6
+          ],
+          "effect": 0.005630094834705779,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            3,
+            6
+          ],
+          "effect": 0.005630094834705779,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.015037593984962516,
+        "loo_oracle": -0.0015037593984962294,
+        "lime": 0.006015037593984918
+      },
+      "oracle_effect": null,
+      "efficiency_error": 1.3877787807814457e-17
+    },
+    {
+      "user": 88,
+      "n_players": 11,
+      "aia": {
+        "shapley_mc": 0.5,
+        "loo_oracle": 1.0,
+        "lime": 1.0
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.5,
+        "loo_oracle": 1.0,
+        "lime": 1.0
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            1,
+            10
+          ],
+          "effect": 0.01262181850908567,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            1,
+            10
+          ],
+          "effect": 0.01262181850908567,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            1,
+            10
+          ],
+          "effect": 0.01262181850908567,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 2.7755575615628914e-17
+    },
+    {
+      "user": 89,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.8541353383458646,
+        "loo_oracle": 1.0,
+        "lime": 0.9804511278195487
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.8541353383458646,
+        "loo_oracle": 1.0,
+        "lime": 0.9804511278195487
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            17,
+            16
+          ],
+          "effect": 0.004018402099757401,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            17,
+            16
+          ],
+          "effect": 0.004018402099757401,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            17,
+            4
+          ],
+          "effect": 0.0016590764206722008,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 6.938893903907228e-18
+    },
+    {
+      "user": 90,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.6150375939849623,
+        "loo_oracle": 0.9969924812030074,
+        "lime": 0.9879699248120299
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.5954887218045113,
+        "loo_oracle": 1.0,
+        "lime": 0.9819548872180449
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            13,
+            14
+          ],
+          "effect": 0.002308072799624028,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            13,
+            12
+          ],
+          "effect": 0.0009307352837344407,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            13,
+            17
+          ],
+          "effect": 0.0009941456520673464,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.019548872180450982,
+        "loo_oracle": -0.00300751879699257,
+        "lime": 0.006015037593985029
+      },
+      "oracle_effect": null,
+      "efficiency_error": 3.469446951953614e-18
+    },
+    {
+      "user": 91,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.6872180451127818,
+        "loo_oracle": 0.9954887218045112,
+        "lime": 0.9578947368421054
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.6781954887218045,
+        "loo_oracle": 1.0,
+        "lime": 0.9669172932330825
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            13,
+            5
+          ],
+          "effect": 0.0017122965404943735,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            13,
+            8
+          ],
+          "effect": 0.0007108509273761054,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            13,
+            8
+          ],
+          "effect": 0.0007108509273761054,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.009022556390977376,
+        "loo_oracle": -0.004511278195488799,
+        "lime": -0.009022556390977154
+      },
+      "oracle_effect": null,
+      "efficiency_error": 3.469446951953614e-18
+    },
+    {
+      "user": 92,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.38796992481203,
+        "loo_oracle": 0.9954887218045112,
+        "lime": 0.9308270676691727
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.35939849624060144,
+        "loo_oracle": 1.0,
+        "lime": 0.9398496240601503
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            18,
+            15
+          ],
+          "effect": -0.00021141011216996297,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            18,
+            6
+          ],
+          "effect": -0.0009697443819798313,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            18,
+            6
+          ],
+          "effect": -0.0009697443819798313,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.02857142857142858,
+        "loo_oracle": -0.004511278195488799,
+        "lime": -0.009022556390977599
+      },
+      "oracle_effect": null,
+      "efficiency_error": 0.0
+    },
+    {
+      "user": 93,
+      "n_players": 12,
+      "aia": {
+        "shapley_mc": 0.965034965034965,
+        "loo_oracle": 0.9930069930069931,
+        "lime": 0.9370629370629372
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.9510489510489512,
+        "loo_oracle": 1.0,
+        "lime": 0.9440559440559443
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            6,
+            0
+          ],
+          "effect": 0.004994636103751449,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            6,
+            10
+          ],
+          "effect": 0.0003434481047155935,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            10,
+            6
+          ],
+          "effect": 0.0003434481047155935,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.013986013986013845,
+        "loo_oracle": -0.006993006993006867,
+        "lime": -0.006993006993007089
+      },
+      "oracle_effect": null,
+      "efficiency_error": 2.42861286636753e-17
+    },
+    {
+      "user": 94,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.7203007518796991,
+        "loo_oracle": 0.9969924812030074,
+        "lime": 0.9849624060150375
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.7187969924812029,
+        "loo_oracle": 1.0,
+        "lime": 0.9849624060150375
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            12,
+            5
+          ],
+          "effect": 0.004905667000693226,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            12,
+            5
+          ],
+          "effect": 0.004905667000693226,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            12,
+            5
+          ],
+          "effect": 0.004905667000693226,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0015037593984962294,
+        "loo_oracle": -0.00300751879699257,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 6.938893903907228e-18
+    },
+    {
+      "user": 95,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.7684210526315788,
+        "loo_oracle": 1.0,
+        "lime": 0.9804511278195487
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.7684210526315788,
+        "loo_oracle": 1.0,
+        "lime": 0.9804511278195487
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            3,
+            14
+          ],
+          "effect": 0.005855769604447114,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            3,
+            14
+          ],
+          "effect": 0.005855769604447114,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            3,
+            14
+          ],
+          "effect": 0.005855769604447114,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 1.3877787807814457e-17
+    },
+    {
+      "user": 96,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.7458646616541353,
+        "loo_oracle": 0.9699248120300751,
+        "lime": 0.8045112781954886
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.6616541353383457,
+        "loo_oracle": 1.0,
+        "lime": 0.8451127819548873
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            5,
+            14
+          ],
+          "effect": 0.0004710582272063335,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            13,
+            15
+          ],
+          "effect": -0.0010570320313962878,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            13,
+            15
+          ],
+          "effect": -0.0010570320313962878,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.08421052631578962,
+        "loo_oracle": -0.03007518796992492,
+        "lime": -0.04060150375939864
+      },
+      "oracle_effect": null,
+      "efficiency_error": 0.0
+    },
+    {
+      "user": 97,
+      "n_players": 10,
+      "aia": {
+        "shapley_mc": 0.7454545454545454,
+        "loo_oracle": 0.9999999999999999,
+        "lime": 0.9878787878787878
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.7454545454545454,
+        "loo_oracle": 0.9999999999999999,
+        "lime": 0.9878787878787878
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            0,
+            9
+          ],
+          "effect": 0.006344868914121615,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            0,
+            9
+          ],
+          "effect": 0.006344868914121615,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            0,
+            3
+          ],
+          "effect": 0.0020444840841933876,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 0.0
+    },
+    {
+      "user": 98,
+      "n_players": 20,
+      "aia": {
+        "shapley_mc": 0.8285714285714285,
+        "loo_oracle": 1.0,
+        "lime": 0.9909774436090225
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.8285714285714285,
+        "loo_oracle": 1.0,
+        "lime": 0.9909774436090225
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            4,
+            17
+          ],
+          "effect": 0.0030251178420198643,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            4,
+            17
+          ],
+          "effect": 0.0030251178420198643,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            4,
+            17
+          ],
+          "effect": 0.0030251178420198643,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 6.938893903907228e-18
+    },
+    {
+      "user": 99,
+      "n_players": 18,
+      "aia": {
+        "shapley_mc": 0.4179566563467492,
+        "loo_oracle": 1.0,
+        "lime": 0.9607843137254902
+      },
+      "faithfulness_alignment": {
+        "shapley_mc": 0.4179566563467492,
+        "loo_oracle": 1.0,
+        "lime": 0.9607843137254902
+      },
+      "joint": {
+        "shapley_mc": {
+          "players": [
+            14,
+            15
+          ],
+          "effect": 0.0038723479007529704,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "loo_oracle": {
+          "players": [
+            6,
+            13
+          ],
+          "effect": 0.0004065909126118039,
+          "regret": null,
+          "normalized_regret": null
+        },
+        "lime": {
+          "players": [
+            6,
+            3
+          ],
+          "effect": 0.00044534550289726527,
+          "regret": null,
+          "normalized_regret": null
+        }
+      },
+      "actionability_gap": {
+        "shapley_mc": 0.0,
+        "loo_oracle": 0.0,
+        "lime": 0.0
+      },
+      "oracle_effect": null,
+      "efficiency_error": 0.0
+    }
+  ],
+  "note": "Run convergence and statistical aggregation before treating these values as paper results."
+}
