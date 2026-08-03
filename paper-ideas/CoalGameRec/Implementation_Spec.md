@@ -83,6 +83,9 @@ The two benchmarks are **MovieLens-1M and Amazon-Book**, standard public dataset
 > ### Do not use the canonical Amazon-Book split.
 > The canonical split used in the DyHuCoG paper and throughout the LightGCN/HCCF literature (52,643 users / 91,599 items / 2,984,108 interactions) is a fixed 80/20 random split of anonymized index pairs — **no ratings, no timestamps, no item metadata**. The benchmark's temporal leave-one-out protocol and (if used) context features need timestamps, and reproducibility demands a rebuildable split. **Build from the raw Amazon Reviews 2018 Books corpus** (`Books_5.json.gz` + `meta_Books.json.gz`), which carries `overall`, `unixReviewTime`, and metadata. State in the paper's §4.1 that the split is rebuilt rather than reused, and why — a reviewer familiar with the canonical split will otherwise assume the temporal protocol is impossible.
 
+> ### Why the 2018 Amazon release (dataset audit #5).
+> We use the **2018 Amazon Reviews `Books_5.json.gz`** rather than the newer 2023 release. Justification to state in §4.1: the 2018 5-core corpus is the de-facto standard for reproducibility against the large existing Amazon-Book literature, has the same `overall`/`unixReviewTime`/metadata fields this protocol needs, and the 2023 release would make the custom split non-comparable to any published numbers. The paper must cite the UCSD page (Ni, Li & McAuley 2019), state the exact file and 5-core count, and disclose that this is an older release retained mainly for reproducing past results.
+
 > ### Subsample before anything else.
 > Raw Books 5-core is ~27M reviews over millions of users. Target ~50,000 users under a fixed reported seed, then re-apply the iterative 5-core filter. Sample **users, not interactions** (sampling interactions destroys the interaction structure the game uses). Check the filter does not collapse the sample (see the snowball/time-window fallbacks in the SignalShap spec §A.3); run that feasibility spike before writing scorers.
 
@@ -92,6 +95,19 @@ Implementation requirements:
 3. **Temporal leave-one-out split per user**: last interaction = test, second-last = validation, rest = train; break timestamp ties deterministically by row order (Amazon timestamps are day-resolution).
 4. **Freeze splits to disk** as user/item integer indices with a config hash, read from there in every stage.
 5. Emit a `DatasetStats` record (users, items, interactions, density, per-user interaction statistics).
+
+## A.3a Dataset, split, and leakage controls (dataset/split audit)
+
+Pin these explicitly before implementation (review 2, dataset/split audit):
+- **Filtering order (audit #1):** state whether 5-core is applied to all ratings before the `rating ≥ 4` positive conversion, or to positive interactions after conversion — this changes users/items/density. **Choose and document one order.** To avoid future leakage (audit #3), apply the eligibility filter from the **training period only** (or explicitly label it transductive preprocessing if the full range is used).
+- **Candidate evaluation (audit #8):** full-catalogue scoring vs. sampled negatives; candidate-pool construction; exclude seen/train items; **exclude held-out positives from negative sampling**; tie handling; candidate pools fixed across methods.
+- **Recall vs. HitRate (audit #9):** under leave-one-out with one test item per user, `Recall@K` collapses to a hit rate. Report **HitRate@K** (or explicitly explain the Recall convention), and state whether multiple test positives are used and the relevant set/interval.
+- **NDCG edge cases (audit #10):** define handling of users with no test positives, IDCG when no relevant item exists, binary vs. graded relevance, and whether rating→positive conversion happens before or after the split.
+- **ILD `sim(i,j)` (audit #11):** define the similarity, its range and feature source, missing-metadata handling, and whether the same item features are used for all methods (do not use learned method-dependent embeddings unless that is the estimand).
+- **Coverage denominator (audit #12):** use the eligible item catalogue after seen-item filtering, or the full item universe — state which.
+- **Negative sampling (audit #14):** popularity distribution, number of negatives, hard-negative refresh schedule, validation/test exclusion, and random streams (separate stream from split/init/coalition).
+- **Temporal ties (audit #13):** preserve a stable secondary key / original line number, not re-parse-dependent row order; release the mapping.
+- **Cross-dataset feature mismatch (audit #15):** if `Context` or ILD uses genres/categories/text/demographics, report separate feature pipelines or use a common interaction-only similarity so the datasets are feature-matched.
 
 ## A.4 Recommender backbones (`backbone.py`)
 
@@ -110,9 +126,10 @@ Two backbones host the attribution modules, chosen to be small and defensible:
 
 | Label | Attribution | Nature | `v(S)` baseline |
 |---|---|---|---|
-| `uniform` | uniform edge weight (no attribution) | degenerate baseline | — |
-| `attention` | learned interaction-level attention gate | non-game-theoretic | — |
-| `heuristic-pop` | popularity/degree weighting | heuristic baseline | — |
+| `uniform` | uniform edge weight | **no-attribution control** (not "an attribution method") | — |
+| `attention` | learned interaction-level attention gate (matched parameter count) | non-game-theoretic control | — |
+| `heuristic-pop` | popularity/degree weighting | heuristic control | — |
+| `additive-pref` | additive preference-similarity prior without game aggregation | **matched non-game heuristic (required, review 2.5)** | same preference term, no Shapley averaging |
 | `shapley-mc` | preference-aware Monte-Carlo Shapley | **game-theoretic (primary)** | $v(S)=\alpha\mathrm{NDCG}+\beta\mathrm{Diversity}+\gamma\mathrm{Context}$; $v_{pref}(S)=v(S)+\lambda_{pref}\sum_{(u,i)\in S}\mathrm{sim}(u,i)$ |
 | `shapley-ai` | **precisely-defined** sampling/importance Shapley variant (§A.6d) | game-theoretic (estimator ablation) | same as `shapley-mc` |
 | `myerson` (exploratory, optional) | communication-graph-restricted Shapley on the hypergraph projection | game-theoretic (structure-aware) | **Myerson value**: the Shapley value of the graph-restricted game `v^g(S) = Σ_{C∈𝒞(g[S])} v(C)`, with `g[S]` the subgraph induced by `S` and `𝒞(g[S])` its connected components; the projection (2-section / incidence / line graph) is a stated method parameter |
@@ -130,6 +147,11 @@ v(S) = α·NDCG@20(S) + β·Diversity(S) + γ·Context(S)
 v_pref(S) = v(S) + λ_pref·Σ_{(u,i)∈S} sim(u,i)
 ```
 
+- **Leakage controls (4.2 #13):** coalition values, hyperparameter tuning, and any `sim` computation must use training data or a clearly separated validation set; graph construction must not see held-out edges; do not inherit hyperparameters previously tuned on the evaluation data. State whether the coalition contains training or evaluation interactions.
+- **Value-function terms (4.2 #10):** each term must be defined with units/range and missing-data rule — `NDCG@20(S)` (per the §A.7a definition over the coalition's candidate set); `Diversity(S)` = mean Intra-List Diversity over the coalition's recommended lists (definition in §A.7a); `Context(S)` = mean context-alignment score (only if context features are actually used — otherwise `γ` is dropped, not silently set); `sim(u,i)` = a stated, feature-fixed similarity (e.g., cosine over shared item metadata or a common interaction-only representation). Specify the data source for each for **both** datasets and reconcile cross-dataset feature availability (audit #15).
+- **Objective normalization (4.2 #11):** NDCG, Diversity, Context, and the similarity are on different scales; specify how each is normalized to a comparable [0,1]-style range before the weighted sum, or the linear combination is arbitrary. State the normalization and the range of `v(S)`.
+- **Same metric as value and outcome (4.2 #12):** because NDCG appears in both `v(S)` and the headline outcome, the benchmark partly rewards an objective it optimizes; disclose this and add at least one held-out/alternative outcome (e.g., a separate metric or a held-out set) and matched non-game objectives so the evaluation is not circular.
+- **Empty-coalition semantics (4.2 #5):** define NDCG, Diversity, Context, and Coverage for an empty ranking/graph rather than assuming a zero convention that creates artificial marginal contributions; justify the baseline value `v(∅)`.
 - Compute exact Shapley where the player set is tractably small (illustrative subgames, synthetic coalitions); use the **Monte-Carlo estimator** for the full interaction player set:
   `φ̂_j = (1/M) Σ_{m=1..M} [v(S_m ∪ {j}) − v(S_m)]`
   with the sampling law made explicit (§A.6a) and `M` chosen by an empirical convergence criterion (§A.6a) rather than an unsupported "99%" claim.
@@ -198,7 +220,7 @@ Tests 1, 3, and 4 are the ones that would catch a wrong paper rather than a cras
 | Shapley MC estimation (refresh period) | 10–25 min | 30–90 min |
 | Re-ranking + metric eval | 5–15 min | 20–60 min |
 | **Full pipeline, one seed** | **~45 min–1.5 h** | **~2–4 h** |
-| Five seeds, both datasets | ~1–2 GPU-days | |
+| Five seeds × both backbones × both datasets × default families | ~1–2 GPU-days (ML-1M dominated) | ~2–4 GPU-days (Amazon-Book, 50k-user sample) |
 
 Cache parsed/subsampled/filtered frames to Parquet keyed by the config hash. If any stage runs an order of magnitude over these, something is wrong (most likely dense ops on the full user–item matrix instead of the candidate slice).
 

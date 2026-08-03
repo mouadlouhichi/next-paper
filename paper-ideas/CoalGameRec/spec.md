@@ -113,19 +113,21 @@ A credible survey must report a transparent protocol. Adopt and cite **PRISMA 20
 ### 4.1 Sources
 - ACM Digital Library, IEEE Xplore, Scopus, Web of Science, arXiv, SpringerLink, Elsevier (ScienceDirect). Optionally Google Scholar for citation chasing.
 
-### 4.2 Search string (documented, reproducible)
-- Primary: `("coalitional" OR "cooperative game" OR "Shapley" OR "Myerson" OR "Banzhaf" OR "Harsanyi" OR "nucleolus") AND ("recommender" OR "recommendation" OR "collaborative filtering")`
+### 4.2 Search string (documented, reproducible — review 2 §5.1)
+The Boolean below is the **conceptual** query; the protocol must also report a **database-specific instantiation** for every source (field tags, syntax, truncation, query limits), plus: synonyms/spelling variants (`cooperative game`, `coalition`, `marginal contribution`, `credit assignment`, `data valuation`, `influence`, `SHAP`, `Shapley`, `graph explainer`, `edge attribution`, `ranking explanation`, `top-N`, `retrieval`, `hypergraph neural network`, `heterogeneous graph`, `knowledge graph`, `provider`, `creator`, `exposure`); language/date/publication-type rules; exact search dates and time zones; export format and dedup key; backward/forward citation chasing from seed papers; and a final search update before submission. Do not claim a single string is "reproducible" across databases that tokenize it differently.
+- Primary (conceptual): `("coalitional" OR "cooperative game" OR "Shapley" OR "Myerson" OR "Banzhaf" OR "Harsanyi" OR "nucleolus") AND ("recommender" OR "recommendation" OR "collaborative filtering")`
 - Graph constraint (for the core set): `AND ("graph" OR "hypergraph" OR "GNN" OR "graph neural" OR "knowledge graph")`
-- Explainability constraint (applied at screening): presence of an explanation/attribution/evaluation purpose.
+- Explainability constraint (applied at screening with a screening codebook, not left informal).
 
 ### 4.3 Time window
 - 2010–2026 (methods) — prioritize 2018 onward; include all seminal prior work (Shapley 1953; Myerson 1977; Harsanyi 1963; Banzhaf 1965) as background.
 
 ### 4.4 Screening and eligibility (documented criteria)
-- **Inclusion:** peer-reviewed papers (or stable arXiv) that (a) define a coalitional game over recommendation-relevant entities **or** use a coalitional solution concept for attribution in a recommendation task, **and** (b) operate on a graph/hypergraph structure or a graph-like interaction structure.
+- **Inclusion:** peer-reviewed papers (or stable arXiv) that (a) define a coalitional game over recommendation-relevant entities **or** use a coalitional solution concept for attribution in a recommendation task, **and** (b) operate on a graph/hypergraph structure or a graph-like interaction structure. **Evidence grading (review 4.4 #6):** label preprints separately from peer-reviewed work and never treat a preprint as peer-reviewed evidence; state the publication-status rule. **Operationalize the graph/inclusion rule (4.4 #3):** define what counts as the graph role (data, model input, interaction structure) and the recommendation task, so the rule is not open-ended.
 - **Exclusion:** papers whose game-theoretic component is only SHAP feature attribution on a tabular classifier with no ranking/recommendation framing; non-recommendation GNN explainers (kept as an *adjacent* category, clearly labelled); non-cooperative formulations.
 - **Screening:** title → abstract → full-text, with counts recorded at each stage (PRISMA flow figure).
 - **Data extraction form (per included paper):** citation · venue/year · task · graph type · player set · value function `v(S)` · solution concept · role · approximation method · datasets · baselines · metrics · reported result · reproducibility flag.
+- **Scope-change decision rule (review 4.4 #18):** predefine how unexpected solution concepts or a larger-than-expected adjacent literature are handled — e.g., a threshold for adding a new taxonomy category, a rule for when adjacent literature expands the core corpus, and a documented protocol-deviation policy so scope changes are recorded, timestamped, and disclosed rather than ad hoc.
 
 ### 4.5 Quality/risk-of-bias assessment (required, review 2.2)
 Not optional: the paper promises a "critical synthesis" and evaluates validation gaps, so it must score/report each included study on a defined rubric (task and player-set clarity; coalition/value-function clarity; model/split/candidate transparency; leakage controls; baseline adequacy; seeds and uncertainty; explanation-faithfulness evaluation; robustness; code/data availability; reported limitations). Distinguish NR (not reported) from NA (not applicable). Use the assessment to qualify synthesis claims, not merely to rank papers.
