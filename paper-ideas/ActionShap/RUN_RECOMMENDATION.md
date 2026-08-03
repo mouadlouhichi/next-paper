@@ -45,7 +45,9 @@ python scripts/download_datasets.py --dataset all --accept-dataset-terms
 
 Pass the acceptance flag only after reviewing the GroupLens and Amazon source
 terms and citation requirements. Existing valid files are reused; `--force`
-redownloads and rebuilds them.
+redownloads and rebuilds them. The downloader retries declared UCSD mirrors. If
+they are blocked, use `--amazon-local-source /path/to/Digital_Music_5.json.gz`
+(or set `AMAZON_LOCAL_SOURCE` in the notebook) and rerun.
 
 ### MovieLens-1M
 

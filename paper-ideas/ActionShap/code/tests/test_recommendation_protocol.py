@@ -79,6 +79,21 @@ def test_dataset_downloader_extracts_and_hashes_movielens_atomically(tmp_path):
     ] == expected
     assert not list(output.parent.glob("*.part"))
 
+    fallback_source = tmp_path / "fallback.bin"
+    fallback_source.write_bytes(b"fallback-payload")
+    destination = tmp_path / "downloaded.bin"
+    downloaded, successful_url = module.download_from_sources(
+        [
+            (tmp_path / "missing.bin").as_uri(),
+            fallback_source.as_uri(),
+        ],
+        destination,
+        attempts=1,
+        timeout=1,
+    )
+    assert downloaded.read_bytes() == b"fallback-payload"
+    assert successful_url == fallback_source.as_uri()
+
 
 def test_amazon_builder_writes_deterministic_provenance(tmp_path):
     source = tmp_path / "Digital_Music_5.json.gz"
