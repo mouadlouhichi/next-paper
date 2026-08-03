@@ -1,7 +1,11 @@
-metric,mean,std,n_seeds,note
-aia_shapley_mean,0.7534502455748585,0.0,1,Paired seed-level descriptive stats; final user-level inference and full convergence analysis pending per manifest notes.
-aia_loo_mean,0.9885171082787181,0.0,1,Paired seed-level descriptive stats; final user-level inference and full convergence analysis pending per manifest notes.
-aia_lime_mean,0.9256947926170835,0.0,1,Paired seed-level descriptive stats; final user-level inference and full convergence analysis pending per manifest notes.
-regret_shapley_mean,0.0002723021953511373,0.0,1,Paired seed-level descriptive stats; final user-level inference and full convergence analysis pending per manifest notes.
-regret_loo_mean,0.000507192366329709,0.0,1,Paired seed-level descriptive stats; final user-level inference and full convergence analysis pending per manifest notes.
-regret_lime_mean,0.0006928107918397292,0.0,1,Paired seed-level descriptive stats; final user-level inference and full convergence analysis pending per manifest notes.
+seed,method_a,method_b,metric,diff_mean,abs_diff,users_n,note
+seed,method_a,method_b,metric,diff_mean,abs_diff,users_n,note
+seed,method_a,method_b,metric,diff_mean,abs_diff,users_n,note
+seed,method_a,method_b,metric,diff_mean,abs_diff,users_n,note
+seed,method_a,method_b,metric,diff_mean,abs_diff,users_n,note
+seed,method_a,method_b,metric,diff_mean,abs_diff,users_n,note
+seed,method_a,method_b,metric,diff_mean,abs_diff,users_n,note
+seed,method_a,method_b,metric,diff_mean,abs_diff,users_n,note
+seed,method_a,method_b,metric,diff_mean,abs_diff,users_n,note
+seed,method_a,method_b,metric,diff_mean,abs_diff,users_n,note
+seed,method_a,method_b,metric,diff_mean,abs_diff,users_n,note
