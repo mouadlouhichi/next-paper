@@ -6,7 +6,7 @@
 **Revision history:**
 - **v1 (2026-08-03):** initial feasibility memo.
 - **v1.1 (2026-08-03):** benchmark deliverable sharpened to report **Recall@K and NDCG@K (K ∈ {5,10,20}) result tables**.
-- **v1.2 (2026-08-03):** updated to reconcile with two pre-submission reviews (`review1.md`, `review2/review2.md`). **This memo's earlier "no GPU / no new experiments / no ethics approval / cheap" claims are SUPERSEDED:** the adopted design is a **systematic review + a separately-scoped, pre-registered empirical case study**, which is original empirical work requiring real compute and an institutional ethics determination for the human-generated data. The novelty claim is a **hypothesis pending the systematic search**, not an established fact. Publication-count claims were corrected (C12).
+- **v1.2 (2026-08-03):** updated to reconcile with two pre-submission reviews (`review1.md`, `review2/review2.md`). **This memo's earlier "no GPU / no new experiments / no ethics approval / cheap" claims are SUPERSEDED:** the adopted design is a **systematic review + a separately-scoped empirical case study planned for external preregistration**, which is original empirical work requiring real compute and an institutional ethics determination for the human-generated data. The novelty claim is a **hypothesis pending the systematic search**, not an established fact. Publication-count claims were corrected (C12).
 
 ---
 
@@ -182,7 +182,7 @@ Three viable framings, in order of fit:
 
 - **(A) Systematic review + taxonomy with a separately-scoped empirical case study — RECOMMENDED.**
   Deliverable: comprehensive review with a registered PRISMA protocol, taxonomy, comparison tables,
-  critical synthesis, and roadmap, plus a separate pre-registered case-study benchmark (realized
+  critical synthesis, and roadmap, plus a separate case-study benchmark planned for external preregistration (realized
   Recall@K/NDCG@K). This is what the title supports and what the field lacks.
 - (B) **Position + research agenda.** Lighter, faster, more opinionated. Viable if the author wants a
   quick, high-impact "call to action" piece, but leaves the field-map unclaimed and invites a
@@ -205,8 +205,9 @@ This keeps it deep and comparative while still being a survey.
 
 - **SRQ1 (taxonomy).** What are the distinct ways coalitional games are instantiated for graph-based
   recommendation — across player set, value function, solution concept, role, and graph type?
-- **SRQ2 (comparison).** How do existing methods compare on the same game-formulation vocabulary, and
-  what correlates with reported gains?
+- **SRQ2 (comparison/synthesis).** What patterns and directions are reported across the coded corpus
+  when methods are expressed in one shared vocabulary? (Synthesis: descriptive + structured vote/count —
+  not correlation/meta-regression.)
 - **SRQ3 (contribution analysis).** What does the game-theoretic lens genuinely add over heuristic
   weighting, and where is it just relabeled reweighting?
 - **SRQ4 (validity).** How is attribution validated (faithfulness, stability, actionability,
@@ -229,18 +230,19 @@ Abstract / Keywords
        dynamic/temporal; top-N problem
    2.4 Explainability in recommendation: post-hoc / in-training / fairness / actionability; and
        evaluation of explanations
-3. Survey methodology (search protocol, sources, inclusion/exclusion, counts, PRISMA-style flow)
+3. Survey methodology (search protocol, sources, inclusion/exclusion, counts, PRISMA 2020 flow + checklist)
 4. A taxonomy of coalitional games for explainable graph-based recommendation
    (axes: players · value function · solution concept · role · graph type)
 5. Systematic review by category
    (player-centric: features→interactions→items/users→contexts→signal sources→data→providers→agents)
-6. Comparative analysis (comparison tables: method × players × v(S) × solution concept × task ×
-   graph × role × approximation × evaluation)
-7. Critical analysis (what game theory buys / does not buy; faithfulness vs. actionability;
-   reproducibility)
-8. Open challenges and research agenda
-9. Conclusion
-Appendix A: notation/glossary · Appendix B: reviewed-works index
+6. Comparative and critical analysis (what game theory buys / does not buy; faithfulness vs.
+   actionability; reproducibility; DyHuCoG audit caveat)
+7. Separately-scoped empirical case study (planned for external preregistration; realized
+   Recall@K/NDCG@K, BQ answers)
+8. Open challenges and research agenda (argued from the literature)
+9. Limitations
+10. Conclusion
+Declarations · Appendices / Online Resources
 ```
 
 Target length ~10,000–12,000 words, 7–9 figures, 5–7 tables in main text (reconciled across files; detailed result tables + prediction register go to supplementary material with distinct labels, review C6/C18).
