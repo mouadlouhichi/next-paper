@@ -7,7 +7,6 @@ __pycache__/
 results/raw/*.json
 **/results/raw/*.json
 **/results/paper_assets/
-*/**/data/ml-1m*
 .DS_Store
 **/.DS_Store
 paper-ideas/ActionShap/code/.DS_Store
