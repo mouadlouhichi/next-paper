@@ -10,7 +10,7 @@
 
 > **Why this paper, and why it fits Discover AI as a Review (private planning note — do NOT carry the portfolio language into the manuscript).** It targets a real gap: we hypothesize there is no dedicated survey at the intersection of *coalitional (cooperative) game theory × explainable AI × graph/hypergraph recommender systems*. General Shapley-XAI surveys are feature/classifier-centric; GNN-explainer work targets node/edge classification; game-theoretic recommender methods are scattered singles. The journal's **Review article type** accepts a comprehensive survey. The "uniquely placed author / citation home / planned method papers (ActionShap, FairShap, SignalShap, MHyperShap)" rationale is **private strategy only** — per review 1.4, keep it out of the manuscript and cover letter to avoid self-citation/self-promotion optics. The novelty claim ("first survey") is a **hypothesis pending the systematic search** (review 1.6/2.2), not an established fact.
 
-> **Critical dependency note (read before starting; review 1.3).** The survey's flagship worked example is the author's own DyHuCoG. An internal audit found 63 extraction gaps that make faithful DyHuCoG reimplementation difficult (undefined hypergraph construction, unspecified similarity functions, dimensionally inconsistent propagation equations). The survey must treat DyHuCoG **candidly**: either (a) disclose that the version used here pins and documents the construction/similarity/propagation choices (i.e., a disclosed, clarified re-specification — say so prominently), or (b) use an independently documented hypergraph GNN and note that the worked example in §4.6 is decoupled from the benchmark backbone. Describe the audit as an **author-side implementation risk**, not a published field fact. See `Implementation_Spec.md` §A.4.
+> **Backbone dependency note (read before starting; review 1.3, authors' decision).** **The benchmark does NOT use DyHuCoG code.** DyHuCoG appears in this paper only as a **literature worked example in the taxonomy (§4.6)**, where it is coded as one case among several and described accurately (an internal audit found extraction gaps; treat this as an author-side implementation caveat, not a published field fact). The benchmark uses an **independently documented hypergraph GNN** (HNN/HGCN/HCCF-style) with a public implementation, so the §4.6 worked example is decoupled from the benchmark backbone. See `Implementation_Spec.md` §A.4.
 
 ---
 
@@ -225,7 +225,7 @@ Recurring gaps: faithfulness vs. actionability (the thesis's unmeasured-claim pr
 A **separately-scoped, pre-registered empirical case study** (secondary to the review). Design from `Implementation_Spec.md`. Do **not** turn this into a method bake-off, and do **not** present it as empirical validation of the whole taxonomy (review 2.5).
 
 ## 7.1 Design
-Backbones (hypergraph GNN + LightGCN), attribution families (`uniform` no-attribution control, `attention`, `heuristic-pop`, `additive-pref` matched additive-similarity heuristic, `shapley-mc` primary; `shapley-ai`/`myerson` exploratory — every promised cell must be run or dropped from headline claims, review C4), protocol (5 seeds, temporal leave-one-out, BPR, Adam), datasets (MovieLens-1M, Amazon-Book), **primary metrics Recall@K and NDCG@K (K ∈ {5,10,20})**, secondary coverage/ILD, statistics (per-user analysis unit, predeclared contrast family, Holm–Bonferroni; review 1.8/2.6). Reference `Implementation_Spec.md` §A.3–§A.10 and §B.1a. All families share a **matched objective and tuning budget** (review 2.5).
+Backbones (**independently documented hypergraph GNN — no DyHuCoG code — + LightGCN**), attribution families (`uniform` no-attribution control, `attention`, `heuristic-pop`, `additive-pref` matched additive-similarity heuristic, `shapley-mc` primary; `shapley-ai`/`myerson` exploratory — every promised cell must be run or dropped from headline claims, review C4), protocol (5 seeds, temporal leave-one-out, BPR, Adam), datasets (MovieLens-1M, Amazon-Book), **primary metrics Recall@K and NDCG@K (K ∈ {5,10,20})**, secondary coverage/ILD, statistics (per-user analysis unit, predeclared contrast family, Holm–Bonferroni; review 1.8/2.6). Reference `Implementation_Spec.md` §A.3–§A.10 and §B.1a. All families share a **matched objective and tuning budget** (review 2.5).
 
 ## 7.2 Results
 The primary realized results are the **Recall@K and NDCG@K (K ∈ {5,10,20}) tables** for every attribution family actually run, on both backbones and both datasets, reported as mean ± std over seeds with significance flagged after correction (§A.10). **These tables are filled only with realized numbers; no predicted values appear as results** (review 1.1/2.1). Present as Tables 5–7 / Figures 3–5 and report the measured ordering neutrally — **do not assume or instruct that `shapley-mc` ranks 1st**; report whichever ordering occurs (review 2.1):
@@ -335,7 +335,7 @@ Standalone table (matching the IJACSA/thesis convention). Include and disambigua
 ## What can be reused from existing work
 - `stats.py` (paired tests, Holm–Bonferroni, Cohen's d_z) and clustering/quality diagnostics from `ActionShap/code/`.
 - Thesis Ch.2/Ch.3 review material — as **source material only**, rewritten in survey voice, not copied.
-- Backbone/metrics from the DyHuCoG line **only after** the reproducibility gaps are fixed or an independently documented backbone is used.
+- **No DyHuCoG code.** The benchmark backbone is an independently documented hypergraph GNN (HNN/HGCN/HCCF-style) with a public implementation (`Implementation_Spec.md` §A.4).
 
 ## Estimated effort
 Roughly 8–14 weeks: ~4–5 weeks for the systematic review (protocol, search, screening, extraction, taxonomy coding), ~3–5 weeks for the pre-registered case-study benchmark (incl. Amazon preprocessing and the hypergraph-backbone decision), ~1–2 weeks for integration/figures/tables, ~1–2 weeks for the submission package (incl. ethics determination, formatting, cover letter). The benchmark is not "cheap" — budget it as a real empirical study (review 1/4.1).
@@ -347,7 +347,7 @@ Roughly 8–14 weeks: ~4–5 weeks for the systematic review (protocol, search, 
 | Benchmark role | Secondary, small | Grounds the taxonomy; kept out of scope for a method bake-off |
 | Datasets | MovieLens-1M + Amazon-Book | Continuity with DyHuCoG; density contrast |
 | Amazon-Book provenance | Rebuilt from raw corpus | Needed for temporal protocol; disclosed in §4.1 |
-| DyHuCoG reuse | Fix/pin or fall back | Preserves the survey's reproducibility credibility |
+| DyHuCoG code in benchmark | **Not used** | Benchmark uses an independently documented hypergraph GNN; DyHuCoG appears only as a taxonomy worked example (§4.6) |
 
 ## Remaining open questions
 - Whether to include the exploratory `myerson` / `shapley-ai` families. **If included, every promised cell must be run (no partial factorial — review C4);** otherwise drop them from headline claims. Do **not** default to "MovieLens-1M only," which creates a partial factorial.

@@ -178,11 +178,11 @@ Adopt the thesis's game notation (Ch. 2.8) so all methods are comparable:
 
 ## 7. Benchmark design (secondary deliverable)
 
-Purpose: empirically instantiate the taxonomy and compare the main attribution families under one shared protocol. **Reuse existing codebases** (DyHuCoG code, ActionShap code) where sound; **do not** build on unresolved DyHuCoG reproducibility gaps without fixing them (see §11 risk register).
+Purpose: empirically instantiate the taxonomy and compare the main attribution families under one shared protocol. **Reuse the ActionShap codebase (`stats.py`, clustering/quality diagnostics) where sound; the benchmark does NOT use DyHuCoG code** — it uses an independently documented hypergraph GNN (see §7.1, §11 risk register, and `Implementation_Spec.md` §A.4).
 
 ### 7.1 Recommender backbone(s)
-Pick a small, defensible set of graph/hypergraph backbones to host the attribution modules:
-- **Hypergraph GNN backbone** (DyHuCoG-style message passing) — primary.
+Pick a small, defensible set of graph/hypergraph backbones to host the attribution modules. **The benchmark does NOT use DyHuCoG code** (authors' decision, review 1.3):
+- **Hypergraph GNN backbone** — an **independently documented** hypergraph GNN with a public implementation (e.g., HNN/HGCN/HCCF-style), pinned before the benchmark — primary.
 - **LightGCN** (homogeneous GNN) — secondary, to show transfer across graph types.
 
 ### 7.2 Attribution families to compare (players = interactions, value = ranking/diversity utility)
@@ -192,7 +192,7 @@ Pick a small, defensible set of graph/hypergraph backbones to host the attributi
 | `attention` | learned interaction-level attention gate (matched parameter count) | non-game-theoretic control |
 | `heuristic-pop` | popularity/degree weighting | heuristic control |
 | `additive-pref` | additive preference-similarity prior without game aggregation | **matched non-game heuristic (required, review 2.5)** |
-| `shapley-mc` | preference-aware Monte-Carlo Shapley (DyHuCoG-style) | **game-theoretic (primary)** |
+| `shapley-mc` | preference-aware Monte-Carlo Shapley (same game *formulation* as the author's DyHuCoG paper, but an **independent implementation** — no DyHuCoG code) | **game-theoretic (primary)** |
 | `shapley-ai` | precisely-defined sampling/importance Shapley variant (§A.6d) | exploratory estimator ablation |
 | `myerson` | Myerson value on a stated graph-restricted game (§A.6) | exploratory structure-aware |
 
@@ -291,7 +291,7 @@ Appendix A: notation/glossary · Appendix B: reviewed-works index
 | Reads as a thesis recap | Frame author's own work (DyHuCoG) as one case study among many; field-wide synthesis voice |
 | Reviewers demand a real protocol | §4 PRISMA-style flow, documented search, data-extraction form, counts |
 | "You missed X" reviews | Transparent inclusion/exclusion; time window; broad search string; record all screened titles |
-| **DyHuCoG reproducibility flag** (repo's own SignalShap audit: 63 extraction gaps) | In the survey, describe DyHuCoG accurately and cite its caveat; in the benchmark, fix/pin the backbone before use or use an independently documented backbone |
+| **DyHuCoG reproducibility flag** (repo's own SignalShap audit: 63 extraction gaps) | **Resolved by decision: no DyHuCoG code in the benchmark.** In the survey, describe DyHuCoG accurately and cite its caveat; the benchmark uses an independently documented hypergraph GNN (`Implementation_Spec.md` §A.4) |
 | Self-plagiarism / overlap with thesis | Rewrite preliminaries in survey voice; do not copy equations/paragraphs verbatim |
 | Scooping (hot intersection, 2025–26) | Ship first; a focused survey draft is feasible in ~3–4 weeks on the thesis literature base |
 | Review vs. Research article type | **Not merely asserted as resolved** — justify the hybrid Review+benchmark format explicitly in the cover letter and Introduction; a handling editor may reclassify to `Research` or ask to split the benchmark (review 1.2/2.1) |

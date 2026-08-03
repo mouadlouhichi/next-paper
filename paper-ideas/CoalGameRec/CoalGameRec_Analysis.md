@@ -152,9 +152,7 @@ should deliver:
    (Shapley feature attribution in KG-based RS; GNN explainers for classification). Inclusion
    criteria must be explicit or reviewers will attack "missing papers."
 5. **Scoop risk.** The intersection is hot (2025–2026). Delay invites a competing survey.
-6. **DyHuCoG reproducibility flag.** An internal audit found 63 extraction gaps; if DyHuCoG is the
-   flagship case study, describe it candidly (pinned re-specification or decouple from the benchmark),
-   and treat the audit as an author-side implementation risk, not a published field fact (review 1.3/2).
+6. **DyHuCoG reproducibility flag.** An internal audit found 63 extraction gaps; **the benchmark uses no DyHuCoG code** (authors' decision), and DyHuCoG appears only as a taxonomy worked example described candidly — the audit is treated as an author-side implementation risk, not a published field fact (review 1.3/2).
 7. **Venue fit / Review vs. Research.** Discover AI's Review type fits a survey, but the hybrid
    Review+benchmark format must be justified in the cover letter and Introduction; an editor may
    reclassify to `Research` or request a split (review 1.2/2.1).
@@ -262,8 +260,7 @@ Target length ~10,000–12,000 words, 7–9 figures, 5–7 tables in main text (
    transparent paper-count/flow figure.
 5. **De-scope the "graph" to recommendation-specific** structures (user–item, KG, hypergraph,
    temporal) and keep GNN node/edge explainers as a clearly-labeled *adjacent* category.
-6. **Position DyHuCoG candidly** (pinned re-specification or decouple); treat the audit as an
-   author-side risk (review 1.3).
+6. **Position DyHuCoG candidly and use no DyHuCoG code** in the benchmark (independently documented hypergraph GNN); treat the audit as an author-side risk (review 1.3).
 7. **Confirm the venue** (Discover AI Review type) and justify the hybrid Review+benchmark format in
    the cover letter; expect possible reclassification (review 1.2/2.1).
 8. **Protect research integrity (blocking):** external pre-registration, realized-only result tables,

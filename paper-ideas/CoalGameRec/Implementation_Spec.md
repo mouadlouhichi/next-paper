@@ -2,7 +2,7 @@
 
 **Companion to:** `Paper_Structure.md` (the paper blueprint) and `spec.md` (the scope/venue/methodology spec). `spec.md` says *what the paper argues and where it is submitted*; `Paper_Structure.md` says *how the manuscript is laid out*; this file says *what to build for the benchmark and what to expect when it runs*.
 **Status:** pre-implementation. Every number in Part B is a **prediction made before running anything**, not a result.
-**Reuse:** `stats.py` (paired tests, Holm–Bonferroni, Cohen's d_z) and the clustering/quality diagnostics from `ActionShap/code/` port over with essentially no change. The DyHuCoG-style hypergraph backbone is reused **only if the reproducibility gaps identified in the internal SignalShap audit are fixed first** (see §A.4). Otherwise build the benchmark on LightGCN + an independently documented hypergraph GNN.
+**Reuse:** `stats.py` (paired tests, Holm–Bonferroni, Cohen's d_z) and the clustering/quality diagnostics from `ActionShap/code/` port over with essentially no change. **The benchmark does NOT use any DyHuCoG code** (decision by the authors, review 1.3): it uses an **independently documented hypergraph GNN** plus LightGCN (see §A.4).
 **Target venue:** *Discover Artificial Intelligence* — the benchmark is a **separately-scoped empirical case study** that grounds one slice of the survey taxonomy; it is a supporting, secondary contribution, not a method bake-off.
 
 ---
@@ -15,7 +15,7 @@ The paper is a **survey first**. The benchmark exists to do three things and not
 
 1. **Ground one slice of the taxonomy** — instantiate the *interaction-player / ranking-utility* cell (the survey's Axis 1 × Axis 2 intersection) on real recommenders, so claims about what that specific game formulation does rest on a reproducible artifact rather than only on cited papers. It does **not** empirically validate the whole five-axis taxonomy (features/items/users/contexts/providers/agents, or all solution concepts) — that breadth is covered by the survey corpus, not by this benchmark (review 1.7/2.3/4.3).
 2. **Provide one clean intervention comparison** between game-theoretic and non-game-theoretic attribution reweighting under a shared protocol (the BQs in `spec.md` §2). This is an *intervention/reranking* study, not an explanation-faithfulness evaluation (§A.7).
-3. **Continuity with the author's work** is limited and must be stated precisely (C11): the benchmark reuses the same **source domains** (MovieLens, Amazon Books) and some metrics, but Amazon-Book is rebuilt, subsampled, and temporally split rather than the reported canonical protocol, so it is **not** the same experimental setting as DyHuCoG.
+3. **Continuity with the author's work** is limited and must be stated precisely (C11): the benchmark shares the same **source domains** (MovieLens, Amazon Books) and some metrics, but it uses an **independently documented hypergraph GNN (not DyHuCoG code)**, Amazon-Book is rebuilt/subsampled/temporally split rather than the canonical protocol, so it is **not** the same experimental setting as DyHuCoG.
 
 It is **not** a method bake-off, a new-architecture contribution, a comprehensive empirical validation, or a large-scale study. Keep the method set small and the compute modest.
 
@@ -99,14 +99,10 @@ Two backbones host the attribution modules, chosen to be small and defensible:
 
 | Backbone | Graph type | Role |
 |---|---|---|
-| **Hypergraph GNN** (DyHuCoG-style message passing) | hypergraph | **primary** |
+| **Hypergraph GNN** (independently documented, NOT DyHuCoG code) | hypergraph | **primary** |
 | **LightGCN** | homogeneous bipartite | secondary (transfer across graph types) |
 
-> **Critical dependency caveat — read before reusing DyHuCoG code.** The repo's own SignalShap audit found 63 gaps that make faithful DyHuCoG reimplementation impossible (undefined hypergraph construction, unspecified similarity functions, dimensionally inconsistent propagation equations). **Options, in order of preference:**
-> 1. Fix and pin the hypergraph construction, the similarity functions, and the propagation equations explicitly in this repo, and document them in the paper's methodology (this also improves the survey's credibility, since DyHuCoG is a flagship case study).
-> 2. Use an **independently documented hypergraph GNN** (e.g., a standard Hypergraph Neural Network / HNN or HCCF-style model with a public implementation) and describe the attribution module generically.
->
-> Do **not** silently build on unresolved DyHuCoG gaps. The survey's reproducibility claims must survive scrutiny.
+> **Backbone decision (authors' decision; review 1.3): no DyHuCoG code is used anywhere in the benchmark.** Use an **independently documented hypergraph GNN** with a public, reproducible implementation — e.g., a standard Hypergraph Neural Network (HNN), a Hypergraph Convolutional Network (HGCN), or an HCCF-style model — and describe the attribution module generically so it is not tied to DyHuCoG's unresolved internal details. The backbone is chosen and pinned **before** the benchmark; the result is an independent implementation of a documented hypergraph GNN, not a DyHuCoG reimplementation. This decouples the benchmark from the survey's §4.6 worked example (which treats DyHuCoG only as a literature case) and keeps reproducibility claims defensible.
 
 ## A.5 Attribution families to compare
 
@@ -284,7 +280,7 @@ The benchmark's primary deliverable is a result table reporting **Recall@K and N
 | `shapley-ai` diverges wildly from `shapley-mc` | estimator instability | Investigate M and the value-function variance; report both with estimator diagnostics |
 | Efficiency test fails | implementation bug | Stop; do not interpret anything until test 1 passes |
 | Amazon-Book subsample collapses under 5-core | uniform user sampling destroyed item support | Switch to snowball or time-window sampling per §A.3, re-report, do not switch again afterwards |
-| Hypergraph backbone reproduces no stable result | DyHuCoG-gap issue | Fall back to the independently documented hypergraph GNN (§A.1 option 2) and say so |
+| Independently documented hypergraph backbone reproduces no stable result | backbone/implementation issue (not a DyHuCoG issue, since no DyHuCoG code is used) | Diagnose the chosen backbone's own determinism/instability; if unresolvable, pin a different documented hypergraph GNN and say so |
 
 The two failures that would genuinely wound the benchmark are (a) `shapley-mc` ≈ `uniform` and (b) the Amazon-Book subsample collapsing. Both are cheap to check early, so **run BQ1 and the Amazon-Book feasibility spike before writing any prose.**
 
