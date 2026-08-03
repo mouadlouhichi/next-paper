@@ -147,7 +147,13 @@ jupyter notebook
 
 Open `CAVI_walkthrough.ipynb`, then **Kernel → Restart Kernel & Run All**. It
 loads all three datasets, validates the theory, runs the forward game + CAV,
-recourse, divergence study, OPE gate, and cross-dataset sections.
+recourse, divergence study, OPE gate, cross-dataset sections, and the new
+**Q1 mechanism** section (non-degenerate forward CAV + actionable recourse).
+
+The Q1 section runs at notebook-friendly scale (~25 users) by default; the
+`run_q1_*.py` scripts scale it up (see §5e). The Q1 section output shows
+realized future-utility lift and success rate per action policy
+(`cavi_fwd` / `backshap` / `random`).
 
 > If you edited any `cavi/*.py` code, restart the kernel before re-running (the
 > setup cell already `importlib.reload`s the package, so a re-run usually suffices).
