@@ -12,6 +12,7 @@ import zipfile
 from pathlib import Path
 
 import numpy as np
+import pandas as pd
 import pytest
 from actionshap.baselines import (
     greedy_counterfactual_attribution,
@@ -94,6 +95,13 @@ def test_dataset_downloader_extracts_and_hashes_movielens_atomically(tmp_path):
     assert downloaded.read_bytes() == b"fallback-payload"
     assert successful_url == fallback_source.as_uri()
 
+    if module.shutil.which("curl") is not None:
+        curl_destination = tmp_path / "curl-downloaded.bin"
+        module._download_with_curl(
+            fallback_source.as_uri(), curl_destination, timeout=1
+        )
+        assert curl_destination.read_bytes() == b"fallback-payload"
+
 
 def test_amazon_builder_writes_deterministic_provenance(tmp_path):
     source = tmp_path / "Digital_Music_5.json.gz"
@@ -140,6 +148,43 @@ def test_amazon_builder_writes_deterministic_provenance(tmp_path):
     assert len(provenance["output_sha256"]) == 64
     data = load_interactions_csv(output, minimum_interactions=4)
     assert len(data.test) == 6
+
+
+def test_method_summary_counts_users_missing_under_every_seed():
+    script = Path(__file__).resolve().parents[1] / "scripts" / "make_paper_assets.py"
+    spec = importlib.util.spec_from_file_location("actionshap_make_assets", script)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    rows = []
+    for user in (1, 2):
+        for seed in (42, 43):
+            row = {
+                "dataset": "toy",
+                "model": "itemknn",
+                "evaluation_mode": "sampled",
+                "utility": "target_margin",
+                "analysis_role": "primary",
+                "condition": "primary",
+                "method": "shapley_mc",
+                "method_label": "Monte Carlo Shapley",
+                "user": user,
+                "seed": seed,
+            }
+            for metric in module.PRIMARY_METRICS + [
+                "aia_null_mean",
+                "aia_null_p95",
+                "aia_permutation_p",
+            ]:
+                row[metric] = np.nan
+            if user == 1:
+                row["aia"] = 0.5 + 0.01 * (seed - 42)
+            rows.append(row)
+    summary = module.method_summaries(pd.DataFrame(rows), draws=25)
+    aia_row = summary.loc[summary["metric"] == "aia"].iloc[0]
+    assert aia_row["n_users"] == 1
+    assert aia_row["missing_users"] == 1
 
 
 def test_canonical_manuscript_passes_static_integrity_checks():

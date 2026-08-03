@@ -31,11 +31,15 @@ AMAZON_URLS = (
         "https://jmcauley.ucsd.edu/data/amazon_v2/categoryFilesSmall/"
         "Digital_Music_5.json.gz"
     ),
-    "http://deepyeti.ucsd.edu/jianmo/amazon/categoryFilesSmall/Digital_Music_5.json.gz",
     (
-        "https://datarepo.eng.ucsd.edu/mcauley_group/data/amazon_v2/"
+        "https://cseweb.ucsd.edu/~jmcauley/datasets/amazon_v2/"
         "categoryFilesSmall/Digital_Music_5.json.gz"
     ),
+    (
+        "https://mcauleylab.ucsd.edu/public_datasets/data/amazon_v2/"
+        "categoryFilesSmall/Digital_Music_5.json.gz"
+    ),
+    "http://deepyeti.ucsd.edu/jianmo/amazon/categoryFilesSmall/Digital_Music_5.json.gz",
 )
 # Verified against GroupLens and the mirror used by the tracked preflight.
 MOVIELENS_RATINGS_SHA256 = (
@@ -91,6 +95,39 @@ def _download_once(url: str, destination: Path, timeout: int) -> Path:
     return destination
 
 
+def _download_with_curl(url: str, destination: Path, timeout: int) -> Path:
+    """Fallback for macOS/network stacks where urllib cannot reach UCSD."""
+    curl = shutil.which("curl")
+    if curl is None:
+        raise RuntimeError("curl is not installed")
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    temporary = destination.with_suffix(destination.suffix + ".part")
+    temporary.unlink(missing_ok=True)
+    command = [
+        curl,
+        "-4",
+        "--http1.1",
+        "-L",
+        "--fail",
+        "--retry",
+        "1",
+        "--retry-all-errors",
+        "--connect-timeout",
+        str(timeout),
+        "--output",
+        str(temporary),
+        url,
+    ]
+    try:
+        subprocess.run(command, check=True)
+        if not temporary.exists() or temporary.stat().st_size == 0:
+            raise RuntimeError(f"curl produced an empty file: {url}")
+        temporary.replace(destination)
+    finally:
+        temporary.unlink(missing_ok=True)
+    return destination
+
+
 def download_from_sources(
     urls: str | Sequence[str],
     destination: Path,
@@ -111,6 +148,13 @@ def download_from_sources(
                 failures.append(f"{url} [attempt {attempt}/{attempts}]: {error}")
                 if attempt < attempts:
                     time.sleep(min(2**attempt, 5))
+    # urllib on some macOS/institutional networks times out before TLS
+    # negotiation. Force IPv4 and HTTP/1.1 through system curl as a final path.
+    for url in _sources(urls):
+        try:
+            return _download_with_curl(url, destination, timeout), url
+        except (OSError, RuntimeError, subprocess.CalledProcessError) as error:
+            failures.append(f"{url} [curl IPv4 fallback]: {error}")
     destination.unlink(missing_ok=True)
     detail = "\n  - ".join(failures)
     raise RuntimeError(

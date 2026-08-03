@@ -15,7 +15,7 @@
 \newcommand{\AIA}{\operatorname{AIA}}
 \newcommand{\NDCG}{\operatorname{NDCG}}
 
-\title{ActionShap: Intervention-Grounded Evaluation of Actionable Explanations in Recommendation}
+\title{ActionShap: Beyond Deletion Faithfulness toward Intervention-Robust Recommendation Explanations}
 \author{Mouad Louhichi \and Redwane Nesmaoui \and Mohamed Lazaar}
 \date{}
 
@@ -23,10 +23,10 @@
 \maketitle
 
 \begin{abstract}
-Recommendation explanations are often evaluated by deleting historical interactions, although deployed systems act through bounded profile changes and may choose several actions jointly. Deletion faithfulness, feasible-action prediction, and intervention decision quality are therefore different evaluation targets. We introduce \textbf{ActionShap}, a model-agnostic protocol that evaluates whether an explanation predicts the outcome of a predeclared, system-executable recommendation intervention. For each user, the protocol freezes a temporal training profile, an unseen-item evaluation set, a ranking utility, an intervention policy, and a global tie-break. It then measures magnitude-only Attribution--Intervention Alignment, signed alignment, directional accuracy, top-$k$ intervention precision, success, and regret against a feasible oracle. Monte Carlo Shapley, locally weighted LIME, leave-one-out attribution, greedy counterfactual search, and a random control are evaluated under one protocol; no method is presumed superior. The primary comparison permits no action and every joint action up to budget two, avoiding the algebraic circularity of treating leave-one-out as a competitor under single-player deletion. The final design evaluates two timestamped datasets, two history-conditioned recommender families, five experiment seeds, independent Monte Carlo convergence studies, and user-clustered inference. \pending{insert only schema-v2, validation-PASS numerical findings}
+Recommendation explanations are commonly evaluated by deleting historical interactions, although deployed systems often act through bounded profile changes. We introduce \textbf{ActionShap}, an intervention-grounded protocol that separates deletion faithfulness, bounded Attribution--Intervention Alignment (AIA), direction, and budgeted decision regret. The protocol freezes temporal profiles, unseen-item evaluation sets, intervention semantics, abstention, global tie-breaking, and distinct-user inference; it evaluates Monte Carlo Shapley, locally weighted LIME, leave-one-out (LOO), greedy counterfactual search, and a random control without presuming a winner. Experiments use MovieLens-1M and Amazon Digital Music, primary history-conditioned ItemKNN, a latent-profile robustness model, five seeds, exact dual-utility oracles at budget two, full-catalogue evaluation, and eight predeclared sensitivities. Across all 11 target-margin ItemKNN conditions, Shapley was the only method with a positive Actionability Gap---bounded AIA minus deletion alignment---whereas LIME and LOO were negative in every condition. Shapley's paired gap advantage was positive and Holm-significant in all 22 comparisons ($p\leq .001$, paired $d_z=0.19$--$0.65$). Local baselines nevertheless retained higher absolute target-margin AIA, and on MovieLens achieved slightly better NDCG intervention outcomes; Amazon decision differences were not significant. Thus the central result is not universal Shapley superiority: cooperative attribution is uniquely robust to replacing deletion with feasible intervention, while absolute local accuracy and downstream ranking utility remain distinct, model- and candidate-dependent objectives.
 \end{abstract}
 
-\textbf{Keywords:} explainable recommendation; actionable explanation; feasible intervention; faithfulness; Shapley value; counterfactual evaluation
+\textbf{Keywords:} explainable recommendation; intervention robustness; actionable explanation; faithfulness; Shapley value; counterfactual evaluation
 
 \section{Introduction}
 An explanation is often consumed as advice about where to act. Standard perturbation tests instead ask whether a recommendation changes after an input is removed. Removal can be useful as a model-faithfulness diagnostic, but it need not represent an available action: a platform may be able to discount an interaction without erasing it, and a useful decision may require suppressing several redundant signals together.
@@ -40,7 +40,8 @@ Our contributions are:
   \item a recommendation-specific intervention-grounded evaluation protocol with frozen temporal data, complete unseen-item exclusion, deterministic candidate sets, and an explicit abstention action;
   \item complementary magnitude, direction, and decision metrics, calibrated by within-user permutation nulls;
   \item a non-circular budget-two comparison in which leave-one-out is an oracle only for the budget-one deletion diagnostic;
-  \item independent Monte Carlo convergence criteria based on rank and action agreement rather than the telescoping efficiency identity; and
+  \item independent Monte Carlo convergence criteria based on rank and action agreement rather than the telescoping efficiency identity;
+  \item evidence that Shapley alone gains alignment under bounded intervention across every predeclared ItemKNN condition, establishing intervention robustness as distinct from absolute local accuracy; and
   \item a reproducible experiment matrix with two datasets, two history-conditioned models, five common seeds, and inference over distinct users rather than seed--user pseudoreplicates.
 \end{enumerate}
 
@@ -145,7 +146,7 @@ Each sampled order is paired with its reverse and coalition values are cached. T
 \begin{equation}
 \phi^{\mathrm{LOO}}_{u,p}=v_u^{\mathrm{attr}}(P_u)-v_u^{\mathrm{attr}}(P_u\setminus\{p\}),
 \end{equation}
-a greedy sequential-deletion counterfactual search baseline, and a seeded random control. The greedy baseline recomputes deletion benefits after each selected player but never observes bounded-intervention effects or the feasible oracle. Gradient attribution is not defined for the primary discrete NDCG utility and is therefore not reported under a misleading surrogate label; target-margin gradients may be added only in that sensitivity analysis. All methods see identical users, players, utilities, and evaluation sets.
+a greedy sequential-deletion counterfactual search baseline, and a seeded random control. The greedy baseline recomputes deletion benefits after each selected player but never observes bounded-intervention effects or the feasible oracle. Architecture-specific gradients were excluded from the frozen model-agnostic comparison and are recorded as a limitation. All methods see identical users, players, utilities, and evaluation sets.
 
 \subsection{Deletion and feasible interventions}
 Deletion is the diagnostic intervention $w_p\leftarrow0$. The primary feasible intervention is bounded downweighting,
@@ -208,16 +209,37 @@ The inferential unit is the distinct user. Repeated experiment seeds are average
 Numerical claims in this section are generated only when \texttt{final/manifests/validation\_report.json} reports PASS. The schema-v1 pilot is archived under \texttt{legacy\_pilot/} and is excluded from the asset generator because its target-margin outcomes were previously mislabelled as NDCG and its action/statistical protocol differed from the one above.
 
 \subsection{Protocol and recommendation validity}
-\pending{report real-data gates, leakage audit, recommendation quality, valid-user counts, and null calibration for every dataset--model pair}
+The final matrix contains 80 schema-v2 runs. MovieLens retained 6,035 users, 3,533 items, and 575,276 positive interactions; Amazon Digital Music retained 10,623 users, 8,582 items, and 104,431 interactions after positive filtering, deterministic deduplication, and iterative 5-core processing. All primary ItemKNN gates passed. The latent-profile robustness model passed all Amazon gates and four of five sampled MovieLens gates; the failed seed is retained as a boundary rather than removed.
 
-\subsection{Faithfulness and feasible-action alignment}
-\pending{report AIA, deletion alignment, signed alignment, direction, gap, uncertainty, and corrected paired tests without assuming a winner}
+ItemKNN exceeded item popularity on both primary sampled evaluations. On MovieLens, NDCG@10 was 0.284 versus 0.158 and Recall@10 was 0.504 versus 0.320. On Amazon, NDCG@10 was 0.181 versus 0.090 and Recall@10 was 0.285 versus 0.155. The advantage persisted under full-catalogue evaluation, although absolute Amazon recall was low (0.024). The profile model underperformed popularity on sampled MovieLens and on every Amazon run, so it cannot establish positive architecture generality.
+
+Target-margin Monte Carlo convergence selected $M=50$ on Amazon ItemKNN, $M=100$ on Amazon profile, $M=250$ on MovieLens ItemKNN, and $M=50$ on MovieLens profile; all primary runs used the conservative floor $M=500$. NDCG attribution failed the frozen convergence thresholds even at $M=1000$. The within-user AIA null was centred near zero. All non-random methods exceeded it ($p\leq0.001$), whereas random attribution did not.
+
+\subsection{Faithfulness, bounded alignment, and intervention robustness}
+Absolute target-margin AIA favoured local methods. On primary ItemKNN, Shapley/LIME/LOO AIA was respectively 0.779/0.933/0.978 on MovieLens and 0.414/0.827/0.851 on Amazon. Deletion alignment had the same ordering, so bounded intervention did not reverse the absolute method ranking.
+
+The predeclared Actionability Gap produced a different and highly consistent result. For Shapley it was positive in every valid ItemKNN condition: MovieLens sampled $+0.0169$ (95\% CI $[0.0127,0.0218]$), Amazon sampled $+0.1285$ ($[0.1102,0.1478]$), MovieLens full catalogue $+0.0438$, Amazon full catalogue $+0.1689$, and all seven target-margin sensitivities. LIME and LOO were negative in every one of the same 11 conditions. Consequently, Shapley's paired gap advantage over each local baseline was positive and Holm-significant in all 22 comparisons ($p\leq0.001$), with paired $d_z$ from 0.19 to 0.65. Figure~\ref{fig:gap-robustness} and Tables~\ref{tab:gap-robustness}--\ref{tab:gap-advantage} show the complete pattern.
+
+This finding is an intervention-robustness advantage, not an absolute-accuracy claim. Cross-utility NDCG AIA was defined for only 349 MovieLens and 233 Amazon ItemKNN users. Shapley was lower than LIME/LOO on MovieLens (0.386 versus 0.409/0.413) but higher on Amazon (0.489 versus 0.419/0.427); both differences were small and significant. The sparse valid fractions bound this comparison.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.94\textwidth]{actionability_gap_robustness.pdf}
+\caption{Actionability Gap across all 11 predeclared target-margin ItemKNN conditions. Positive values mean bounded-intervention alignment exceeds deletion alignment. Error bars are distinct-user bootstrap 95\% confidence intervals.}
+\label{fig:gap-robustness}
+\end{figure}
 
 \subsection{Joint intervention decisions}
-\pending{report B=2 success, abstention, NDCG effect, exact-oracle regret on all primary users, and interaction-stratified analysis}
+On MovieLens ItemKNN, LOO and LIME yielded slightly better NDCG decisions than Shapley. Mean NDCG effect was 0.0431 for LOO, 0.0425 for LIME, and 0.0403 for Shapley. Shapley's paired deficit was 0.00227 versus LIME and 0.00287 versus LOO (both Holm $p=0.014$, $|d_z|\approx0.085$). Among the 339 users with a positive NDCG oracle, normalized regret was 0.268/0.225/0.217 for Shapley/LIME/LOO.
+
+On Amazon ItemKNN, decision differences were not statistically reliable. NDCG effect was 0.0333/0.0331/0.0313 and normalized regret among 196 active-oracle users was 0.206/0.198/0.233 for Shapley/LIME/LOO. Shapley did significantly outperform local baselines on Amazon under the profile model, but that model underperformed popularity and had near-zero cross-seed attribution stability; the result is therefore descriptive robustness evidence only.
+
+NDCG intervention success was sparse: 27.4\% for Shapley on MovieLens ItemKNN and 17.0\% on Amazon ItemKNN. Most all-user regret values were zero because the exact oracle itself selected no improving NDCG action. Normalized regret is consequently reported only for active-oracle users and never generalized to the full cohort.
 
 \subsection{Robustness}
-\pending{report full unseen catalogue, second dataset/model, history cap, rho, candidate size, budget, utility, and convergence}
+The sign of the Actionability Gap was exceptionally robust: Shapley remained positive and LIME/LOO negative for both candidate sizes, both longer histories, $\rho=0.25$, budgets one and three, and both full catalogues. Absolute AIA and NDCG decision quality were not equally robust. With 500 MovieLens candidates, Shapley normalized NDCG regret rose to 0.284 versus 0.170/0.182 for LIME/LOO. At $n_{\max}=100$, by contrast, Shapley was slightly competitive (0.228 versus 0.260/0.245), illustrating condition dependence rather than a universal winner.
+
+Full-catalogue outcomes were especially sparse. NDCG AIA was defined for only 18 MovieLens and 6 Amazon ItemKNN users, and success rates fell to 6.7\% and 1.5\%. Amazon full-catalogue target-margin AIA for Shapley was negative ($-0.119$), while LIME and LOO remained positive. These results prevent a broad full-catalogue superiority claim. The NDCG-utility sensitivity also remained unconverged at $M=1000$ and is reported only as a stress test.
 
 \subsection{Predeclared interpretation rules}
 Four outcomes are distinguished before inspecting final values. If deletion and bounded AIA induce the same method order with small gaps, RQ2 supports deletion as an adequate pointwise proxy under this policy; statistical significance alone will not be described as practical divergence. If their order changes with paired uncertainty, the paper will report an evaluation-target reversal. If pointwise order is stable but budget-two effect or regret reverses it, the conclusion is narrower: individual alignment does not determine joint decision quality. If methods do not separate beyond the random/null controls, the result is a negative finding about this player set and intervention rather than grounds to change the metric or budget post hoc.
@@ -232,11 +254,17 @@ For every outcome, an absolute score and a difference answer different questions
 \safeinput{final/tables/attribution_stability.tex}
 \safeinput{final/tables/full_catalogue_results.tex}
 \safeinput{final/tables/sensitivity_results.tex}
+\safeinput{final/tables/actionability_gap_robustness.tex}
+\safeinput{final/tables/actionability_gap_advantage.tex}
 
 \section{Discussion}
-The central interpretation will depend on the validated data. High magnitude AIA alone cannot establish useful action selection: it ignores direction and player interaction. Conversely, low pointwise alignment does not preclude good joint decisions. Any observed reversal between pointwise alignment and budget-two regret will be presented as a difference between evaluation targets, not as universal explainer superiority.
+The principal finding is a clean separation between \emph{absolute local accuracy} and \emph{intervention robustness}. LOO and LIME align very closely with effects measured near the full profile, as expected from local deletion and surrogate construction. Shapley has lower absolute AIA, but it is the only method whose alignment improves---rather than degrades---when evaluation moves from complete deletion to bounded downweighting. The result holds in every one of 11 predeclared ItemKNN conditions and in every paired comparison. Cooperative averaging therefore supplies a form of robustness to intervention semantics that deletion-centred evaluation does not reveal.
 
-The framework changes what counts as a successful explanation evaluation. A deletion score assesses dependence on evidence under an extreme perturbation. Bounded AIA assesses whether that ordering extrapolates to an operational profile adjustment. Signed alignment asks whether the method predicts the direction of the adjustment, while regret asks whether acting on the ranking sacrifices outcome relative to what was available. Reporting only one collapses these questions and can hide a method that ranks magnitudes accurately but recommends a harmful direction, or one that has moderate global correlation but reliably identifies the best pair.
+This is a stronger and more precise conclusion than universal Shapley superiority. A method can be best at reproducing a local deletion ranking yet be more sensitive to the choice of perturbation. Conversely, Shapley can be less accurate in absolute terms while preserving or improving validity as the perturbation becomes operationally realistic. ActionShap exposes these as two evaluation axes rather than forcing one winner. The positive Actionability Gap is accordingly interpreted as an intervention-robustness property, not evidence that every Shapley-guided action has higher NDCG utility.
+
+The likely mechanism follows from the estimands. LOO observes one marginal contribution at the full profile, and weighted LIME concentrates on masks near that profile; both are naturally optimized for deletion-like perturbations. Shapley averages marginal contributions over coalition contexts and is less anchored to that single endpoint. The present study demonstrates the resulting empirical pattern but does not identify a causal mechanism; interaction-aware Shapley indices and redundancy-stratified confirmation remain future work.
+
+The downstream results reinforce the need for multiple axes. On MovieLens, local methods retained a small NDCG decision advantage; on Amazon, primary-model differences were indistinguishable. Thus high Actionability Gap, high absolute AIA, and low decision regret are complementary properties. Reporting only one would either hide Shapley's robust gain or overstate its operational utility.
 
 The no-action option is substantively important. In an unconstrained benchmark, an oracle forced to choose two harmful interventions can still assign zero regret to a harmful method. Allowing abstention makes the reference decision realistic: success means improving the declared objective, and regret is measured against doing nothing whenever no feasible improvement exists. Success and abstention therefore accompany all regret values.
 
@@ -246,7 +274,7 @@ ActionShap measures intervention effects inside a frozen recommender and declare
 \subsection{Construct validity}
 ``Actionability'' here means predictive validity under one declared system intervention, not perceived usefulness, legal availability, user agency, or a causal effect in the world. The intervention modifies an inference-time profile weight and does not retrain the recommender. The cost of every selected interaction is equal in the primary experiment; deployments with heterogeneous costs require a cost-aware action space. Absolute AIA ignores direction by design, which is why signed alignment, success, and regret are mandatory companions.
 
-NDCG is operationally recognizable but discrete. A small downweight can leave ranks unchanged for many users, producing constant effect vectors and undefined rank correlation. Those users are counted rather than assigned zero. The target-margin sensitivity provides resolution but has a less direct scale and is never relabelled as NDCG. Agreement across both utilities strengthens a conclusion; disagreement bounds it.
+NDCG is operationally recognizable but discrete. A small downweight can leave ranks unchanged for many users, producing constant effect vectors and undefined rank correlation. Those users are counted rather than assigned zero. Target margin provides the converged primary attribution game but has a less direct scale and is never relabelled as NDCG; the unconverged NDCG-attribution condition is a stress test. Agreement across both utilities strengthens a conclusion, while disagreement bounds it.
 
 \subsection{Internal validity}
 The temporal split prevents future interactions from entering training players, and complete pre-test histories exclude false negatives from candidate sampling. Nevertheless, the audit is target-conditioned: the held-out relevant item defines the instance-level utility. This is suitable for retrospective evaluation but not prospective intervention. Method hyperparameters, candidate sets, convergence budgets, and intervention rules are frozen before the final test run to prevent target-conditioned tuning from becoming result-conditioned tuning.
@@ -256,7 +284,7 @@ ItemKNN recomputes scores from retained interactions, while the latent profile a
 \subsection{Statistical conclusion validity}
 Users, not coalition calls or repeated seeds, are the inferential units. Averaging seeds within user avoids pseudoreplication but does not model every source of training uncertainty; seed-level ranges and attribution stability are therefore also reported. Multiple methods and metrics create a multiplicity burden, addressed by predeclared primary comparisons and Holm correction. Confidence intervals and effect sizes determine interpretation; a small but consistent difference is not automatically practically important.
 
-The exact budget-two oracle is feasible for the capped history and is evaluated for every primary user. Above budget two, the greedy oracle is approximate and yields a lower bound on regret against the unknown exact optimum. Those results are labelled separately and validated on a tractable subset.
+The exact budget-two oracle is feasible for the capped history and is evaluated for every primary user. Above budget two, the greedy oracle is approximate and yields a lower bound on regret against the unknown exact optimum. Those results are labelled separately and validated on a tractable subset. NDCG AIA and normalized regret use only users with non-constant effects or positive oracle utility; valid and missing counts accompany every estimate, and very small full-catalogue subsets are treated as descriptive.
 
 \subsection{External validity}
 Two datasets and two history-conditioned models improve transfer but do not cover sequential transformers, graph recommenders, multimodal inputs, provider-side objectives, or online feedback loops. Sampled ranking is not retrieval, and target inclusion gives coverage one by construction. Full-unseen-catalogue robustness addresses candidate size but not exposure bias. User responses to profile changes and long-run feedback can only be established online or through a human study.
@@ -269,7 +297,7 @@ The executable contract is \texttt{code/configs/final.yaml}. A tracked suite run
 The asset generator rejects smoke runs, legacy schemas, failed gates, inconsistent users, inadequate convergence, missing models or datasets, and incomplete sensitivities. It writes repository-relative source paths and hashes, performs distinct-user inference, and emits a validation report. The manuscript may cite a numerical asset only when that report says PASS. Raw JSON is packaged into a content-addressed archive for the public release; machine-specific paths are excluded. The invalidated schema-v1 pilot is retained unchanged under \texttt{paper/legacy\_pilot/} so the correction is auditable rather than silently overwritten.
 
 \section{Conclusion}
-ActionShap evaluates whether recommendation explanations predict feasible actions rather than only deletion effects. Its corrected protocol separates magnitude, direction, and joint decision quality; permits abstention; uses complete unseen candidate exclusion; and performs inference over distinct users. \pending{state validated empirical conclusion, including negative or baseline-favouring results}
+ActionShap evaluates recommendation explanations against feasible bounded actions rather than deletion alone. Across two datasets and 11 predeclared ItemKNN conditions, Shapley was uniquely intervention-robust: its bounded-intervention alignment exceeded its deletion alignment in every condition, while LIME and LOO declined in every condition, with 22 of 22 paired advantages significant after correction. Local baselines nevertheless retained higher absolute alignment and slightly better MovieLens NDCG decisions. The contribution is therefore not a claim that Shapley always chooses the best action. It is the demonstration that deletion faithfulness can systematically mischaracterize how an explanation transfers to feasible intervention, and that intervention robustness, absolute alignment, and decision utility must be reported as separate properties.
 
 \section*{Declarations}
 \textbf{Funding.} \pending{state funding or explicitly state that no funding was received}
@@ -278,7 +306,7 @@ ActionShap evaluates whether recommendation explanations predict feasible action
 
 \textbf{Ethics approval.} Not applicable. The study uses public recommendation datasets and contains no recruited human participants. This statement does not exempt any future online or user study from independent ethics review.
 
-\textbf{Data availability.} MovieLens-1M and Amazon Digital Music reviews are publicly available from their respective maintainers. \pending{insert immutable source URLs, access dates, licenses, and source SHA-256 values}
+\textbf{Data availability.} MovieLens-1M was obtained from \url{https://files.grouplens.org/datasets/movielens/ml-1m.zip} (accessed 3 August 2026); the extracted ratings SHA-256 is \texttt{506d64ca44484487c11dc2d9a28de5c54948213e6b96285e298afe28d6ea4e0f}. Amazon Digital Music 5-core was obtained from \url{https://jmcauley.ucsd.edu/data/amazon_v2/categoryFilesSmall/Digital_Music_5.json.gz} (accessed 3 August 2026); source SHA-256 is \texttt{703f60f74bf1967a75cbb3033532172eeb21139d4df04ec5fe44a7eb8d7fde58}, and the processed interaction CSV SHA-256 is \texttt{1bd6489ff5fdfcdf71ecbd3025beb00b3253f9c06212b32304ff9f0d5b39ee87}. Users must comply with the maintainers' terms.
 
 \textbf{Code and materials availability.} \pending{repository URL, archived schema-v2 result DOI, release tag, and artifact checksum}
 

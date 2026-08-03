@@ -51,10 +51,18 @@ they are blocked, use `--amazon-local-source /path/to/Digital_Music_5.json.gz`
 
 ### MovieLens-1M
 
-Download MovieLens-1M from GroupLens and place the unedited file at:
+Download MovieLens-1M from GroupLens and place the unedited file at
+`code/data/ml-1m/ratings.dat`. Command-line equivalent:
 
-```text
-code/data/ml-1m/ratings.dat
+```bash
+cd paper-ideas/ActionShap/code
+mkdir -p data
+curl -4 --http1.1 -L --fail --retry 10 --retry-all-errors \
+  -o /tmp/ml-1m.zip \
+  https://files.grouplens.org/datasets/movielens/ml-1m.zip
+unzip -o /tmp/ml-1m.zip 'ml-1m/ratings.dat' -d data
+shasum -a 256 data/ml-1m/ratings.dat
+# expected: 506d64ca44484487c11dc2d9a28de5c54948213e6b96285e298afe28d6ea4e0f
 ```
 
 The loader keeps ratings `>=4`, sorts each user by
@@ -64,11 +72,27 @@ for validation and test.
 ### Amazon Digital Music secondary dataset
 
 Download the unmodified `Digital_Music_5.json.gz` file from the Amazon Review
-Data (2018) release, retain its license/readme, and build the analysis CSV:
+Data (2018) release, retain its license/readme, and build the analysis CSV. On
+macOS, this forced-IPv4 curl command avoids the timeout seen with urllib:
 
 ```bash
+cd paper-ideas/ActionShap/code
+mkdir -p data/amazon-digital-music
+output=data/amazon-digital-music/Digital_Music_5.json.gz
+for url in \
+  https://jmcauley.ucsd.edu/data/amazon_v2/categoryFilesSmall/Digital_Music_5.json.gz \
+  https://cseweb.ucsd.edu/~jmcauley/datasets/amazon_v2/categoryFilesSmall/Digital_Music_5.json.gz \
+  https://mcauleylab.ucsd.edu/public_datasets/data/amazon_v2/categoryFilesSmall/Digital_Music_5.json.gz
+do
+  curl -4 --http1.1 -L --fail \
+    --retry 3 --retry-all-errors --connect-timeout 30 \
+    -o "$output.part" "$url" && mv "$output.part" "$output" && break
+  rm -f "$output.part"
+done
+test -s "$output" || { echo "All Amazon mirrors failed"; exit 1; }
+
 python scripts/prepare_amazon_digital_music.py \
-  --input /absolute/path/to/Digital_Music_5.json.gz \
+  --input data/amazon-digital-music/Digital_Music_5.json.gz \
   --output data/amazon-digital-music/interactions.csv
 ```
 

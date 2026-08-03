@@ -1,8 +1,8 @@
 # ActionShap revision 4 — Q1 audit resolution
 
-This document records how the schema-v1 pilot was corrected. It is an audit
-trail, not a numerical-results report. Corrected experiments have not been run
-in this checkout because the two external datasets are not committed.
+This document records how the schema-v1 pilot was corrected. The complete
+schema-v2 matrix has now run and passed the frozen validator; numerical assets
+live under `paper/final/`, while this file remains the design audit trail.
 
 ## Blocking scientific corrections
 
@@ -23,7 +23,7 @@ in this checkout because the two external datasets are not committed.
 | Exactly two actions were forced | The feasible space contains no action, all singletons, and all pairs. Methods and oracle may abstain. |
 | B=2 regret covered 20 users | Batched exact enumeration supports every primary user. Greedy approximation is used only above B=2 and is labelled a lower-bound oracle. |
 | LOO called an oracle outside deletion B=1 | The implementation and tables call it LOO; oracle language is restricted to the algebraic B=1 deletion identity. |
-| Efficiency error interpreted as convergence | Prefix-walk efficiency is numerical only. Independent M=1000 references determine M from rank and action agreement, including 95% user coverage. |
+| Efficiency error interpreted as convergence | Prefix-walk efficiency is numerical only. Independent M=1000 references determine M from aggregate rank and action-set agreement, while valid-user coverage is reported separately. |
 | AIA had only per-user null means | Final assets construct a within-user, within-seed aggregate null with a 95th percentile and plus-one p-value. |
 | Seed-user rows treated as independent users | Seeds are averaged within each distinct user before bootstrap or paired sign permutation inference. |
 | Literal p=0 values | Plus-one permutation p-values have a finite floor recorded in the manifest. |
@@ -33,6 +33,15 @@ in this checkout because the two external datasets are not committed.
 | Missing robustness matrix | Five-seed conditions cover full unseen catalogue, history caps, rho, candidate sizes, budgets, and an NDCG-attribution utility stress test. |
 | Machine-specific source paths | Final manifests use repository-relative paths and SHA-256 hashes; raw results can be packaged into a content-addressed archive. |
 | Stale pilot claims remained in the paper | Pilot assets are preserved under `paper/legacy_pilot/`; the canonical manuscript reads only `paper/final/`. |
+
+## Validated headline result
+
+Across all 11 predeclared target-margin ItemKNN conditions, Shapley has a
+positive Actionability Gap, while LIME and LOO have negative gaps. Shapley's
+paired gap advantage is positive and Holm-significant in all 22 comparisons
+(`p <= .001`, paired `d_z = 0.19--0.65`). This establishes intervention
+robustness, not universal method superiority: local baselines retain higher
+absolute AIA and slightly better MovieLens NDCG decisions.
 
 ## Claim boundary
 
@@ -58,4 +67,5 @@ following hold:
 - complete player/effect vectors and content-addressed provenance.
 
 Only `paper/final/manifests/validation_report.json` with `status: PASS` permits
-numerical claims. The tracked report is currently `NOT_RUN`.
+numerical claims. The tracked schema-v2 report now passes with zero errors and
+zero warnings; robustness limitations remain explicit notes.

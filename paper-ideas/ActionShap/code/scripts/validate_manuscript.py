@@ -48,7 +48,7 @@ def main() -> None:
         )
     if tex.count("{") != tex.count("}"):
         errors.append("raw brace counts differ")
-    if "ActionShap: Intervention-Grounded" not in tex:
+    if "ActionShap: Beyond Deletion Faithfulness" not in tex:
         errors.append("canonical title is missing")
     if "legacy_pilot" in tex and "legacy\\_pilot" not in tex:
         errors.append("unescaped legacy_pilot path in manuscript text")
@@ -71,7 +71,8 @@ def main() -> None:
         if validation_path.exists()
         else {"status": "MISSING"}
     )
-    pending_count = tex.count("\\pending") - 1  # subtract macro definition
+    # Subtract the pending macro and the safeinput fallback macro definitions.
+    pending_count = max(0, tex.count("\\pending") - 2)
     if pending_count:
         warnings.append(f"{pending_count} manuscript placeholders remain")
     if args.require_final:

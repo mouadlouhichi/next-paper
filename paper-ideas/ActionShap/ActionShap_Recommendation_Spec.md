@@ -46,7 +46,7 @@ SignalShap explains **where system value comes from**. ActionShap evaluates **wh
 
 ### Primary title
 
-**ActionShap: Intervention-Grounded Evaluation of Actionable Explanations in Recommendation**
+**ActionShap: Beyond Deletion Faithfulness toward Intervention-Robust Recommendation Explanations**
 
 ### Alternative titles
 

@@ -2,7 +2,8 @@
 
 - `paper.tex` is the canonical recommendation-only manuscript.
 - `final/` is generated from schema-v2 experiments and is the only numerical
-  source the manuscript may cite.
+  source the manuscript may cite; `final/RESULTS_SUMMARY.md` states the validated
+  positive claim and its boundaries.
 - `legacy_pilot/` preserves invalidated schema-v1 pilot assets for provenance;
   those numbers are not final-paper evidence.
 
