@@ -1,9 +1,11 @@
-"""Models supported by ActionShap.
+"""History-conditioned recommendation models supported by ActionShap."""
 
-``static`` is the legacy clustering model. ``profile`` is the recommendation
-model used by the revised recommendation-only specification.
-"""
+from .itemknn import ItemKNNModel, fit_item_knn
+from .profile import ProfileAggregationModel, fit_item_embeddings
 
-from .profile import ProfileAggregationModel
-
-__all__ = ["ProfileAggregationModel"]
+__all__ = [
+    "ItemKNNModel",
+    "ProfileAggregationModel",
+    "fit_item_embeddings",
+    "fit_item_knn",
+]

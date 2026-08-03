@@ -13,6 +13,11 @@ import itertools
 import numpy as np
 import pytest
 
+pytest.importorskip(
+    "interpret",
+    reason="legacy cross-domain decomposition requires requirements.txt, not the recommendation runtime",
+)
+
 from actionshap.decomposition import (
     ALL_SWITCHES,
     PurifiedGA2M,

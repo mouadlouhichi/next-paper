@@ -4,8 +4,11 @@ from __future__ import annotations
 
 import numpy as np
 import pytest
-
-from actionshap.stats import compare_methods, holm_bonferroni
+from actionshap.stats import (
+    compare_methods,
+    holm_bonferroni,
+    paired_user_seed_comparison,
+)
 
 
 def test_holm_matches_worked_example():
@@ -115,3 +118,27 @@ def test_normality_flag_fires_on_skewed_differences():
     (c,) = compare_methods({"a": base + rng.exponential(2.0, size=300), "b": base})
     assert c.normality_suspect
     assert not np.isnan(c.wilcoxon_p)
+
+
+def test_clustered_comparison_averages_seeds_before_counting_users():
+    # Five repeated seed observations belong to each of ten users. Treating
+    # this as n=50 would reproduce the pilot's pseudoreplication bug.
+    left = np.tile(np.arange(10.0)[:, None], (1, 5)) + 0.5
+    right = np.tile(np.arange(10.0)[:, None], (1, 5))
+    result = paired_user_seed_comparison(
+        left, right, bootstrap_draws=199, permutation_draws=199, seed=3
+    )
+    assert result.n_users == 10
+    assert result.mean_difference == pytest.approx(0.5)
+    assert result.wins == 10
+    assert result.permutation_p >= 1 / 200
+
+
+def test_clustered_comparison_ignores_missing_seed_not_missing_user():
+    left = np.array([[1.0, 1.0, np.nan], [2.0, 2.0, 2.0], [3.0, np.nan, 3.0]])
+    right = np.zeros_like(left)
+    result = paired_user_seed_comparison(
+        left, right, bootstrap_draws=99, permutation_draws=99, seed=5
+    )
+    assert result.n_users == 3
+    assert result.mean_difference == pytest.approx(2.0)

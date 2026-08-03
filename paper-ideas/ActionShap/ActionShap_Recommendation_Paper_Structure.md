@@ -1,6 +1,6 @@
 # ActionShap — Recommendation-Only Paper Structure
 
-**Canonical manuscript plan.** This file supersedes the earlier cross-domain ActionShap structure. The older clustering/air-quality version is retained only as historical material and must not be used for the recommendation-only paper.
+**Canonical manuscript plan, revision 4.** This file supersedes the earlier cross-domain ActionShap structure. The older clustering/air-quality version is retained only as historical material and must not be used for the recommendation-only paper. Numerical schema-v1 pilot results are also historical: only `paper/final/` assets generated from the corrected two-dataset, two-model, real-gate protocol may enter the manuscript.
 
 **Target:** recommender-systems/XAI venue; Discover Artificial Intelligence is a suitable target if the final experiments support the claims.
 
@@ -26,7 +26,7 @@ Recommendation explanations are commonly evaluated with deletion-based faithfuln
 2. **Evaluation metrics.** AIA, top-k intervention precision, intervention regret, intervention success, and stability, with a within-user permutation null.
 3. **Faithfulness–actionability analysis.** A controlled comparison showing when deletion/faithfulness and feasible intervention produce different method rankings.
 4. **Budgeted decision evaluation.** A primary joint-intervention experiment at \(B=2\); \(B=1\) is explicitly reported only as the leave-one-out oracle sanity check.
-5. **Reproducible artifact.** One all-in-one notebook, deterministic temporal splits, fixed candidate retrieval, frozen intervention policy, convergence analysis, and generated tables/figures.
+5. **Reproducible artifact.** One notebook wrapper over tracked scripts, deterministic temporal splits, fixed target-plus-unseen-negative evaluation sets, frozen intervention policy, independent convergence analysis, hierarchical statistics, and content-addressed generated assets.
 
 ## Research questions
 
@@ -54,15 +54,15 @@ For user \(u\), the player set is the most recent \(n_{\max}\) training interact
 P_u=\{p_{u1},\ldots,p_{un_u}\}.
 \]
 
-The model consumes the retained history at inference time. Static user embeddings are not attributed because masking their history does not change their output.
+The primary model is history-conditioned ItemKNN with \(n_{\max}=20\); a latent profile aggregator is architecture robustness. Both consume retained history at inference time. Static user embeddings are not attributed because masking their history does not change their output.
 
-The characteristic function is:
+The primary attribution characteristic function is continuous target margin,
 
 \[
-v_u(S)=\operatorname{NDCG@K}(f_u^S,y_u),
+v_u^{\mathrm{attr}}(S)=\sigma\!\left(s_y(S)-\operatorname{mean}(\operatorname{TopL}_{-y}s_i(S))\right),
 \]
 
-computed on a candidate set retrieved once from the full frozen model. The empty coalition uses a zero profile and a fixed deterministic tie-break.
+while \(q_u(S)=\operatorname{NDCG@K}(f_u^S,y_u)\) is the operational action outcome. Effects, exact oracles, and regrets are stored separately for both utilities. They are computed on a fixed target-plus-unseen-negative sampled evaluation set; a separate subset uses the full unseen catalogue. Negatives exclude the complete pre-test history, candidate and tie seeds are independent of experiment randomness, and the empty coalition uses a zero profile with one catalogue-wide seeded tie-break.
 
 The primary feasible intervention is bounded interaction downweighting:
 
@@ -71,13 +71,14 @@ w_p\leftarrow \rho w_p,
 \qquad \rho\in\{0,0.25,0.5\}.
 \]
 
-The primary scientific budget is \(B=2\). The selected joint action is formed by the declared aggregation of per-player explanation scores and is evaluated against the realized intervention effect. The intervention oracle is exhaustive for restricted validation and otherwise uses the predeclared greedy approximation.
+The primary scientific budget is \(B=2\). Signed attributions predict downweight benefit as \(-\phi\); a method may choose no action, one action, or two actions. Magnitude-only rankings are reported separately from beneficial decisions. The \(B\le2\) intervention oracle exhaustively evaluates no action, every singleton, and every pair for every primary user; greedy approximation is reserved for optional budgets above two.
 
 ## Methods compared
 
 - Monte Carlo Shapley;
 - LIME local surrogate;
 - permutation/leave-one-out attribution;
+- greedy sequential-deletion counterfactual search;
 - random attribution negative control;
 - attention or gradient attribution only when the evaluated model exposes that signal.
 
@@ -130,7 +131,7 @@ Figure titles should be descriptive, not implementation labels such as “spec 7
 
 ## Statistical analysis
 
-Use user-level paired comparisons. Report bootstrap confidence intervals, paired permutation or Wilcoxon tests, corrected multiplicity, effect sizes, and the number of valid users. Do not treat coalition evaluations from one user as independent observations.
+Use distinct-user paired comparisons. Average repeated experiment seeds within the same user before primary inference or use an explicitly hierarchical model. Report user-bootstrap confidence intervals, plus-one paired permutation or Wilcoxon/sign tests, corrected multiplicity, effect sizes, and valid/missing user counts. Do not treat coalition evaluations or repeated seed--user rows as independent observations.
 
 A method ranking is only considered meaningful if it is supported by:
 

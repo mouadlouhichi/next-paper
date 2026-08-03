@@ -1,4 +1,5 @@
-# ActionShap -- pinned dependencies
+# Legacy full-stack dependencies (static clustering plus recommendation).
+# The canonical recommendation paper uses requirements-recommendation.txt.
 #
 # Python 3.12. Verified working on macOS 26 / Apple Silicon, 2026-07-30.
 #

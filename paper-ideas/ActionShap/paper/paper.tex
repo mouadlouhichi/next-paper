@@ -7,17 +7,13 @@
 \usepackage{hyperref}
 \usepackage{xcolor}
 \usepackage{natbib}
-\usepackage{caption}
-\usepackage{subcaption}
-\usepackage{siunitx}
-\usepackage{array}
-\usepackage{longtable}
 \hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
-\graphicspath{{figures/}{images/}}
+\graphicspath{{final/figures/}}
 
-\newcommand{\pending}[1]{\textcolor{red}{[PENDING: #1]}}
-\newcommand{\method}[1]{\textsc{#1}}
-\newcommand{\safeinput}[1]{\IfFileExists{#1}{\input{#1}}{\textcolor{red}{[PENDING TABLE: #1]}}}
+\newcommand{\pending}[1]{\textcolor{red}{[PENDING AFTER VALIDATED FINAL RUN: \texttt{\detokenize{#1}}]}}
+\newcommand{\safeinput}[1]{\IfFileExists{#1}{\input{#1}}{\pending{#1}}}
+\newcommand{\AIA}{\operatorname{AIA}}
+\newcommand{\NDCG}{\operatorname{NDCG}}
 
 \title{ActionShap: Intervention-Grounded Evaluation of Actionable Explanations in Recommendation}
 \author{Mouad Louhichi \and Redwane Nesmaoui \and Mohamed Lazaar}
@@ -27,106 +23,266 @@
 \maketitle
 
 \begin{abstract}
-Recommendation explanations are commonly evaluated with deletion-based faithfulness measures, although deployed recommendation systems are used through feasible changes to user profiles, item exposure, or interaction influence. A factor can therefore be faithful under deletion while being infeasible or ineffective under an operational intervention. We introduce \textbf{ActionShap}, an intervention-grounded protocol for evaluating actionable explanations in recommendation. For each user, ActionShap defines a player set of retained historical interactions, a frozen candidate set, a declared intervention policy, and a ranking-quality utility. It measures whether an explanation ranking predicts the realized effect of feasible interventions using Attribution--Intervention Alignment, top-$k$ intervention precision, intervention regret, intervention success, and attribution stability. The protocol supports arbitrary attribution methods; Monte Carlo Shapley is included as one cooperative attribution baseline because the user-specific player set is too large for exact enumeration. The primary analysis compares deletion faithfulness with bounded feasible downweighting and evaluates joint interventions at budget two. Across five seeds and 500 users per seed, feasible-action AIA is 0.749 for Monte Carlo Shapley and 0.919 for LIME, while deletion-faithfulness alignment is 0.736 and 0.934, respectively. The corresponding actionability gaps are positive for Shapley (+0.013) and negative for LIME (−0.016), with seed-level 95\% intervals reported in Table~\ref{tab:actionability-gap}. These values are descriptive until the paired user-level inference table is generated and reported.
+Recommendation explanations are often evaluated by deleting historical interactions, although deployed systems act through bounded profile changes and may choose several actions jointly. Deletion faithfulness, feasible-action prediction, and intervention decision quality are therefore different evaluation targets. We introduce \textbf{ActionShap}, a model-agnostic protocol that evaluates whether an explanation predicts the outcome of a predeclared, system-executable recommendation intervention. For each user, the protocol freezes a temporal training profile, an unseen-item evaluation set, a ranking utility, an intervention policy, and a global tie-break. It then measures magnitude-only Attribution--Intervention Alignment, signed alignment, directional accuracy, top-$k$ intervention precision, success, and regret against a feasible oracle. Monte Carlo Shapley, locally weighted LIME, leave-one-out attribution, greedy counterfactual search, and a random control are evaluated under one protocol; no method is presumed superior. The primary comparison permits no action and every joint action up to budget two, avoiding the algebraic circularity of treating leave-one-out as a competitor under single-player deletion. The final design evaluates two timestamped datasets, two history-conditioned recommender families, five experiment seeds, independent Monte Carlo convergence studies, and user-clustered inference. \pending{insert only schema-v2, validation-PASS numerical findings}
 \end{abstract}
 
-\textbf{Keywords:} explainable recommendation; actionability; feasible intervention; faithfulness; Shapley value; counterfactual evaluation
+\textbf{Keywords:} explainable recommendation; actionable explanation; feasible intervention; faithfulness; Shapley value; counterfactual evaluation
 
 \section{Introduction}
-Explanation methods are increasingly used to support decisions about opaque recommendation systems. Yet the dominant evaluation question is often whether a prediction changes after a feature or interaction is deleted. This is not necessarily the question faced by a system operator: an interaction may be discounted rather than removed, and a feasible action may have an effect different from an extreme deletion.
+An explanation is often consumed as advice about where to act. Standard perturbation tests instead ask whether a recommendation changes after an input is removed. Removal can be useful as a model-faithfulness diagnostic, but it need not represent an available action: a platform may be able to discount an interaction without erasing it, and a useful decision may require suppressing several redundant signals together.
 
-We study the resulting faithfulness--actionability gap. We ask whether an explanation identifies factors whose feasible modification produces a predictable change in ranking quality. ActionShap is an evaluation protocol rather than a new recommender architecture. It can wrap any attribution method and evaluates the method against a declared offline intervention policy.
+ActionShap evaluates the decision implied by an explanation. It does not generate recourse and does not introduce a recommendation architecture. Given a frozen recommender, a user-specific attribution vector, and a declared intervention policy, it asks whether attributed interactions predict measured changes in ranking utility and whether the resulting action approaches the best feasible action under the same budget.
 
-Our contributions are: (i) a recommendation-specific protocol for intervention-grounded explanation evaluation; (ii) AIA and decision-level metrics for alignment, intervention precision, and regret; (iii) a leakage-safe temporal protocol with fixed candidate sets; and (iv) a reproducible comparison in which no attribution method is assumed to be superior in advance.
+The distinction produces three estimands. First, deletion alignment evaluates a conventional faithfulness perturbation. Second, feasible-action alignment evaluates bounded downweighting. Third, intervention regret evaluates the signed joint decision induced by the explanation. A method may rank individual effect magnitudes well yet choose a harmful direction or a poor combination, so all three must be reported separately.
+
+Our contributions are:
+\begin{enumerate}
+  \item a recommendation-specific intervention-grounded evaluation protocol with frozen temporal data, complete unseen-item exclusion, deterministic candidate sets, and an explicit abstention action;
+  \item complementary magnitude, direction, and decision metrics, calibrated by within-user permutation nulls;
+  \item a non-circular budget-two comparison in which leave-one-out is an oracle only for the budget-one deletion diagnostic;
+  \item independent Monte Carlo convergence criteria based on rank and action agreement rather than the telescoping efficiency identity; and
+  \item a reproducible experiment matrix with two datasets, two history-conditioned models, five common seeds, and inference over distinct users rather than seed--user pseudoreplicates.
+\end{enumerate}
+
+\subsection*{Research questions and claim discipline}
+The study is organized around four research questions. \textbf{RQ1} asks whether the protocol is non-degenerate and reproducible: does real-history masking move outputs, does the chance-calibrated AIA null centre near zero, and do conclusions remain stable across seeds? \textbf{RQ2} asks whether deletion faithfulness and bounded-action alignment agree in score and method ordering. \textbf{RQ3} asks whether pointwise alignment predicts the quality of a joint intervention and which method minimizes regret at a common budget. \textbf{RQ4} asks whether conclusions transfer across data sparsity, model family, history cap, candidate size, intervention strength, utility, and action budget.
+
+The hypotheses are deliberately asymmetric. We expect deletion and bounded intervention to differ whenever normalization or interaction makes the response non-linear, but we do not prespecify which explainer benefits. We expect the budget-two comparison to expose redundancy that single-player deletion cannot, but a null result is admissible. No hypothesis states that Shapley must win. A method ordering is a result only when it is supported by paired distinct-user uncertainty, a calibrated negative control, and robustness conditions. This discipline prevents the framework contribution from depending on a favourable method comparison.
 
 \section{Related Work}
-\subsection{Recommendation explanation and faithfulness}
-Prior recommendation explanations emphasize item, feature, path, or attention-based rationales. Faithfulness measures and deletion curves assess sensitivity to perturbation, but generally do not encode whether the perturbation is feasible in the deployment context.
+\subsection{Recommendation explanation and evaluation}
+Explainable recommendation spans feature, item, path, natural-language, and attention-based rationales \citep{zhang2020survey}. Post-hoc work extracts explanations from latent factors \citep{peake2018}, adapts local surrogates to interaction histories \citep{nobrega2019}, or uses model-agnostic methods such as LIME \citep{ribeiro2016} and SHAP \citep{lundberg2017}. These methods answer different questions: a rationale can be persuasive to a user, faithful to a score, sparse enough to read, stable across perturbations, or useful for choosing an action. No one metric establishes all properties.
 
-\subsection{Counterfactual explanation and recourse}
-Counterfactual explanation and algorithmic recourse explicitly reason about feasible changes \citep{wachter2017,karimi2021}. ActionShap differs by evaluating an attribution method rather than prescribing an individual recourse action, and by using ranking utility in recommendation.
+Perturbation evaluation most directly tests model dependence. A deletion curve removes evidence in attribution order and records score or rank degradation; insertion reverses the process. Such tests are auditable, but the conclusion depends on the deletion baseline, perturbation length, candidate catalogue, and whether the evaluated object is a single item or the whole top-$K$ list. Recent studies document inconsistencies between top-1 and top-$K$ counterfactual evaluation \citep{mohammadi2025}. ActionShap treats deletion as one diagnostic condition and requires the operational intervention to be stated separately.
+
+\subsection{Counterfactual recommendation, recourse, and evaluation}
+Counterfactual recommenders identify minimal profile or graph changes that alter an item or list \citep{ghazimatin2020,tran2021,tan2021}. LXR learns scalable counterfactual masks for differentiable recommenders \citep{barkan2024,gurevitch2025}. Counterfactual impact has also been proposed as an offline explanation-evaluation signal and compared with human judgement \citep{yao2022}. CEERS studies reproducible counterfactual evaluation \citep{baklanov2024}, while recent benchmarking compares multiple explainers, model families, datasets, perturbation scopes, and list levels \citep{nguyen2026}.
+
+This literature is related to, but distinct from, algorithmic recourse. Recourse asks which feasible change an affected individual should make to obtain a desired decision \citep{wachter2017,karimi2021}; counterfactual learning and evaluation in recommendation also addresses exposure and logged-policy bias \citep{saito2021}. ActionShap instead audits an attribution under a fixed recommender simulator. It neither establishes causal recourse nor assumes the user can execute a platform-side profile weight change.
+
+Accordingly, ActionShap does not claim to be the first counterfactual recommendation evaluation. Its narrower contribution is the conjunction of four controls: deletion and bounded intervention are measured separately; direction is distinguished from magnitude; the explanation-induced joint decision is scored against a common feasible oracle with abstention; and repeated stochastic runs are analysed at the distinct-user level. Table~\ref{tab:positioning} summarizes this positioning.
+
+\begin{table}[t]
+\centering
+\small
+\caption{Positioning by evaluation target. Entries describe the principal capability, not every variant of each framework.}
+\label{tab:positioning}
+\begin{tabular}{lcccc}
+\toprule
+Approach & Evaluates explainer & Bounded policy & Joint regret & Abstention \\
+\midrule
+Deletion/insertion & Yes & No & No & No \\
+Counterfactual explanation & Usually generates & Method-specific & Sometimes & Method-specific \\
+Counterfactual evaluator & Yes & Usually deletion & No & No \\
+Algorithmic recourse & No & Yes & Optimization target & Often \\
+ActionShap & Yes & Yes & Yes & Yes \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \subsection{Cooperative attribution}
-The Shapley value provides an axiomatic allocation of coalition value \citep{shapley1953}. SHAP and local surrogate methods make attribution practical \citep{lundberg2017,ribeiro2016}. In ActionShap, these methods are evaluation subjects; the paper does not assume that cooperative attribution is universally best.
+The Shapley value allocates coalition value under efficiency, symmetry, null-player, and additivity axioms \citep{shapley1953}. Monte Carlo permutation sampling makes the allocation practical for user histories \citep{castro2009}. Coalition averaging differs fundamentally from leave-one-out: LOO measures one marginal at the full profile, whereas Shapley averages the marginal over predecessor coalitions of every size. For two redundant interactions, either interaction can look unimportant when the other is present even though suppressing both is decisive. Coalition averaging can assign each some of their shared value, which motivates the budget-two experiment.
+
+The same property creates limitations. Random coalitions can represent temporally or behaviourally implausible histories; Shapley efficiency says that allocated values sum to the selected game difference, not that the game is causal or that an action is feasible. In ActionShap, Shapley is therefore one evaluated explainer. Its possible advantage under substitution is tested with synthetic redundancy and real joint actions rather than inferred from its axioms.
+
+\section{Problem Formulation}
+\subsection{Temporal user-specific game}
+For user $u$, let $H_u^{\mathrm{train}}$ contain all positive interactions before validation and test. The attribution players are the most recent training interactions,
+\begin{equation}
+P_u=\{p_{u1},\ldots,p_{un_u}\}, \qquad n_u\le n_{\max}.
+\end{equation}
+A real-data preflight fixed the primary cap at $n_{\max}=20$ before the corrected final suite: averaging 50 interactions made single-item masking fail the declared gate, all five ItemKNN seeds passed at 20, and one of five latent-profile seeds still failed and is retained as a robustness boundary. The content-addressed diagnostic is archived under \texttt{paper/preflight/}; 50 and 100 interactions remain robustness conditions rather than being discarded.
+The model is trained on the complete training histories; $n_{\max}$ limits only the explanation game. Validation and test interactions never enter model training or the player set.
+
+Every user receives an evaluation set $E_u$ containing the temporal test target and negatives sampled uniformly from items absent from the \emph{complete} pre-test history, including validation. Candidate, user-sampling, and tie-break seeds are fixed independently of the model seed. A catalogue-wide seeded permutation supplies tie priorities reused for every user, coalition, method, and seed. Primary results are explicitly sampled-ranking results; a fixed user subset is evaluated against the full unseen catalogue.
+
+\subsection{History-conditioned recommenders}
+The primary model is item-neighbourhood collaborative filtering because it is history-conditioned, transparent under masking, and exceeded the item-popularity quality reference in the preflight. Let $s(i,h)$ be frozen cosine similarity from training co-occurrence. Its candidate score is
+\begin{equation}
+f_u^S(i)=
+\begin{cases}
+\displaystyle\frac{\sum_{h\in S}w_h s(i,h)}{\sum_{h\in S}w_h},&S\ne\varnothing,\\[6pt]
+0,&S=\varnothing.
+\end{cases}
+\end{equation}
+
+A latent profile-aggregation model provides architecture robustness:
+\begin{equation}
+p_u(S)=
+\begin{cases}
+\displaystyle\frac{\sum_{h\in S}w_hq_h}{\sum_{h\in S}w_h},&S\ne\varnothing,\\[6pt]
+\mathbf 0,&S=\varnothing,
+\end{cases}
+\qquad f_u^S(i)=q_i^\top p_u(S).
+\end{equation}
+Its item embeddings are learned with a leave-one-out BPR-style objective \citep{rendle2009}: the sampled positive item is excluded from the context that predicts it. Both models consume the supplied retained history at inference. Static user-embedding models are excluded from attribution because post-training profile masking cannot change their scores. Any quality shortfall of the robustness profile model relative to popularity is disclosed rather than hidden.
+
+Before attribution, a blocking real-data gate masks one random history interaction for at least 200 users. Every condition uses the same fixed 200-item sampled-ranking gate set, including full-catalogue and candidate-size robustness runs. The dynamic model must change the top-10 list for at least 50\% of users and achieve mean absolute $\Delta\NDCG@10\ge10^{-3}$; a frozen-score control must be exactly invariant. Primary-ItemKNN sampled and full-catalogue failures stop the experiment. Declared architecture or history-length robustness conditions may continue after a failed gate only to report the boundary at which single-interaction masking becomes non-responsive.
+
+\subsection{Attribution and outcome utilities}
+The primary attribution game uses the continuous target margin
+\begin{equation}
+v_u^{\mathrm{attr}}(S)=\sigma\!\left(s_y(S)-\frac{1}{L}\sum_{i\in\operatorname{TopL}_{-y}}s_i(S)\right).
+\end{equation}
+A real-data convergence preflight selected this utility because discrete NDCG coalitions did not stabilize rank and action estimates by $M=1000$, whereas target margin did. This does not turn target margin into NDCG: its values and effects are labelled separately throughout.
+
+The operational action outcome is
+\begin{equation}
+q_u(S)=\NDCG@K(f_u^S,y_u).
+\end{equation}
+Every selected action is scored against both $v_u^{\mathrm{attr}}$ and $q_u$, with separate exact oracles and regrets. Alignment with target-margin effects measures whether the explainer predicts its own bounded game; cross-utility AIA and NDCG regret test whether that ranking transfers to recommendation quality. An NDCG-attribution sensitivity exposes constant games and convergence failures rather than replacing them with zero.
+
+Here $y_u$ is the single temporal target. This defines a retrospective, target-conditioned audit: the held-out target is the labelled instance being explained, not information available to a prospective deployment policy. Methods may use this frozen target utility but cannot inspect measured intervention effects or oracle actions. No tuning follows final test evaluation.
 
 \section{ActionShap Protocol}
-\subsection{User-specific game}
-For user $u$, let $P_u$ be the most recent training interactions retained under a predeclared history cap. A history-conditioned model computes a profile from the retained players at inference time. Static user embeddings are not attributed because post-hoc masking would leave their outputs unchanged.
-
-For a coalition $S\subseteq P_u$, let
-\begin{equation}
- v_u(S)=\operatorname{NDCG@K}(f_u^S,y_u),
-\end{equation}
-where the evaluation set is fixed once per user, contains the held-out target and a declared sample of unseen negatives, and $y_u$ is the temporal test target. This is sampled-ranking evaluation rather than retrieval; target coverage is one by construction. The empty coalition is a zero profile with a deterministic tie-break.
-
-\subsection{Deletion and feasible intervention}
-Deletion is used as a faithfulness diagnostic:
-\begin{equation}
- \Delta^{\mathrm{del}}_{u,p}=v_u(P_u\setminus\{p\})-v_u(P_u).
-\end{equation}
-The primary feasible intervention is bounded downweighting:
-\begin{equation}
- \operatorname{do}(p;\rho): w_p\leftarrow \rho w_p, \qquad \rho=0.5,
-\end{equation}
-with $\rho=0$ and $\rho=0.25$ as declared diagnostic and sensitivity conditions. This separation makes it possible to measure a faithfulness--actionability gap rather than reproducing leave-one-out algebraically.
-
 \subsection{Attribution methods}
-We evaluate Monte Carlo Shapley, LIME, permutation/leave-one-out attribution, and random attribution as a negative control. The same players, users, candidate sets, and intervention budgets are used for every method.
-
-\subsection{Metrics}
-The primary alignment metric is
+For a random permutation $\pi$, let $S_{p,\pi}$ be the players preceding $p$. Monte Carlo Shapley estimates
 \begin{equation}
- \operatorname{AIA}_u(g)=\operatorname{Spearman}(|\phi^g_{u,p}|,|\Delta^{\mathrm{act}}_{u,p}|),
+\widehat\phi_{u,p}=\frac{1}{M}\sum_{m=1}^{M}
+\left[v_u^{\mathrm{attr}}(S_{p,\pi_m}\cup\{p\})-v_u^{\mathrm{attr}}(S_{p,\pi_m})\right].
 \end{equation}
-where $\Delta^{\mathrm{act}}$ is measured under the feasible intervention, not deletion. We additionally report deletion alignment, the actionability gap, top-$k$ intervention precision, intervention success, regret against a feasible oracle, and stability. A within-user permutation null calibrates AIA.
+Each sampled order is paired with its reverse and coalition values are cached. The comparison includes locally weighted binary-mask LIME, leave-one-out,
+\begin{equation}
+\phi^{\mathrm{LOO}}_{u,p}=v_u^{\mathrm{attr}}(P_u)-v_u^{\mathrm{attr}}(P_u\setminus\{p\}),
+\end{equation}
+a greedy sequential-deletion counterfactual search baseline, and a seeded random control. The greedy baseline recomputes deletion benefits after each selected player but never observes bounded-intervention effects or the feasible oracle. Gradient attribution is not defined for the primary discrete NDCG utility and is therefore not reported under a misleading surrogate label; target-margin gradients may be added only in that sensitivity analysis. All methods see identical users, players, utilities, and evaluation sets.
+
+\subsection{Deletion and feasible interventions}
+Deletion is the diagnostic intervention $w_p\leftarrow0$. The primary feasible intervention is bounded downweighting,
+\begin{equation}
+\operatorname{do}(p;\rho): w_p\leftarrow\rho w_p,\qquad \rho=0.5,
+\end{equation}
+with $\rho=0.25$ as sensitivity analysis. The model is not retrained.
+
+The primary action space is
+\begin{equation}
+\mathcal A_{u,B}=\{A\subseteq P_u:|A|\le B\},
+\end{equation}
+which includes $A=\varnothing$. Thus neither a method nor the oracle is forced to intervene. For signed attributions, downweighting player $p$ has predicted benefit $-\phi_{u,p}$; only positive predicted benefits are selected, up to $B=2$. Magnitude-only selection is reported separately and cannot support a beneficial-action claim.
+
+At $B=1$ and $\rho=0$, $|\phi^{\mathrm{LOO}}_{u,p}|=|\Delta^{\mathrm{del}}_{u,p}|$ identically. LOO is therefore labelled an algebraic oracle in that diagnostic, not a competing explainer. The scientific decision comparison uses $B=2$.
+
+\subsection{Alignment metrics}
+Primary magnitude-only alignment is
+\begin{equation}
+\AIA_u^{\mathrm{attr}}(g)=\operatorname{Spearman}\left(|\phi^g_{u,p}|,|\Delta^{\mathrm{attr}}_{u,p}|\right),
+\end{equation}
+while cross-utility alignment substitutes $|\Delta^{\mathrm{NDCG}}_{u,p}|$. Deletion alignment uses target-margin deletion effects, and its difference from bounded target-margin AIA is the actionability gap. A positive gap means relative improvement over deletion; it does not imply that the method has the highest AIA.
+
+Signed alignment compares predicted downweight benefit with each signed outcome,
+\begin{equation}
+\AIA_u^{\pm,z}(g)=\operatorname{Spearman}(-\phi^g_{u,p},\Delta^z_{u,p}),
+\qquad z\in\{\mathrm{attr},\mathrm{NDCG}\},
+\end{equation}
+and directional accuracy reports sign agreement on non-zero effects. Top-$k$ intervention precision measures overlap between predicted and realized beneficial factors under the explicitly named utility.
+
+For each method and user, at least 1,000 within-user permutations shuffle effect magnitudes across players. We report the null mean, 95th percentile, and a plus-one permutation $p$-value; a numerical $p=0$ is impossible.
+
+\subsection{Decision metrics}
+Let $\widehat A_{u,g}$ be the action selected from the target-margin attribution and define a separate oracle for each outcome:
+\begin{equation}
+A_u^{*,z}=\arg\max_{A\in\mathcal A_{u,B}}\Delta_u^z(A),
+\qquad z\in\{\mathrm{attr},\mathrm{NDCG}\}.
+\end{equation}
+For $B=2$, the corrected implementation exhaustively evaluates every singleton and pair plus no action. We report signed effects, abstention, utility-specific success, and
+\begin{equation}
+\operatorname{Regret}_u^z(g)=\Delta_u^z(A_u^{*,z})-\Delta_u^z(\widehat A_{u,g}).
+\end{equation}
+NDCG regret is the headline decision outcome; target-margin regret checks consistency with the attribution game. Normalized regret is reported only when the corresponding oracle effect is positive, together with its undefined count. For $B>2$, greedy forward selection stops when no additional action improves utility and is explicitly labelled approximate.
 
 \section{Experimental Protocol}
-\subsection{Data and model}
-The primary benchmark is MovieLens-1M \citep{harper2016}. Interactions are temporally split with a deterministic timestamp/index tie-break. The primary model is a history-conditioned profile aggregation recommender with frozen item embeddings trained from the training split. Each user receives a fixed sampled evaluation set containing the held-out target and declared unseen negatives; the same set is reused for all coalitions. A full-catalogue subset is reserved for robustness.
+\subsection{Datasets and models}
+The final experiment uses MovieLens-1M \citep{harper2016} and the timestamped Amazon Digital Music 5-core review data \citep{ni2019}. MovieLens ratings and Amazon reviews are treated as positive feedback at rating $\ge4$. Because thresholding can break the released Amazon 5-core, an iterative user/item 5-core is recomputed after thresholding; repeated user-item reviews retain the latest deterministic event. Source and generated payload hashes are recorded. Each dataset is evaluated with the profile-aggregation and item-neighbourhood models. Interactions are sorted by $(\text{timestamp},\text{original row index})$; the last event is test, the second-last validation, and users require at least two training interactions.
 
-\subsection{Validity and leakage controls}
-We validate masking sensitivity, empty/full coalition consistency, user-locality, deterministic splits, synthetic additive-game correctness, identical-player symmetry, and AIA-null calibration. Validation and test interactions never enter the training profile or attribution player set.
+For every dataset--model pair, five experiment seeds share the same users, candidate negatives, and tie priorities. They vary Monte Carlo and LIME randomness; profile-model training is also seeded, whereas ItemKNN fitting is deterministic. Primary sampled-ranking analysis uses at least 1,000 randomly selected eligible users or all eligible users, whichever is smaller under the declared rule. Full-unseen-catalogue and sensitivity analyses use fixed matched subsets of the primary cohort. Standard target rank, NDCG@K, Recall@K, and MRR are reported against an item-popularity reference so explanation results are attached to a functioning recommender. The primary ItemKNN model must not underperform popularity on NDCG or Recall; robustness-profile shortfalls remain reportable but explicitly bound generalization.
+
+\subsection{Convergence and validity}
+For each dataset--model pair, $M\in\{25,50,100,250,500,1000\}$ is compared with an independently seeded $M=1000$ reference on fixed users. The selected $M$ is the smallest value achieving mean rank correlation of at least 0.95 and mean Jaccard overlap of at least 0.80 for the signed budget-two action set, with rank convergence defined for at least 95\% of users. Exact top-1 agreement is retained as a diagnostic but is not used as a brittle selection rule when factors are near-tied. Constant games are counted rather than coerced to a correlation. The main experiment cannot use fewer permutations. Prefix-walk efficiency is a numerical identity and is not used for selection.
+
+Additional tests cover temporal leakage, complete unseen-item exclusion, deterministic ties, empty/full coalitions, locality, additive-game correctness, identical-player symmetry, real-data masking sensitivity, AIA-null calibration, abstention, budget compliance, and synthetic redundancy.
 
 \subsection{Statistical analysis}
-Final method comparisons use five seeds and 500 users per seed. The primary inferential unit is the user-level paired difference; the asset notebook generates paired bootstrap intervals and within-user sign-permutation p-values for Shapley-versus-LIME and Shapley-versus-LOO comparisons. Coalition evaluations from one user are not treated as independent observations. The sampled evaluation set contains 200 items including the held-out target, giving target coverage one by construction.
+The inferential unit is the distinct user. Repeated experiment seeds are averaged within user before inference; seed--user rows are never treated as independent users. Headline means receive user-bootstrap 95\% confidence intervals. Paired method differences use user-level sign permutations with plus-one $p$-values, Wilcoxon/sign robustness checks, paired Cohen $d_z$, and Holm--Bonferroni correction within each metric family. Attribution rank stability is computed across experiment seeds for the same user and player window. Missing correlations from constant vectors and undefined normalized regrets are reported rather than imputed.
 
 \section{Results}
-\subsection{Protocol validity}
-The masking gate passed before the primary run. The final evaluation uses fixed sampled evaluation sets with target coverage one; the earlier retrieval-recall experiment is not used as the primary evidence. The gate figure belongs in the validity subsection or appendix, not as a headline performance result.
+Numerical claims in this section are generated only when \texttt{final/manifests/validation\_report.json} reports PASS. The schema-v1 pilot is archived under \texttt{legacy\_pilot/} and is excluded from the asset generator because its target-margin outcomes were previously mislabelled as NDCG and its action/statistical protocol differed from the one above.
 
-\subsection{Faithfulness versus actionability}
-\begin{figure}[t]
-  \centering
-  \IfFileExists{fig02_aia_by_method.pdf}{\includegraphics[width=.48\linewidth]{fig02_aia_by_method.pdf}}{\fbox{AIA figure pending}}
-  \IfFileExists{fig02b_faithfulness_by_method.pdf}{\includegraphics[width=.48\linewidth]{fig02b_faithfulness_by_method.pdf}}{\fbox{Faithfulness figure pending}}
-  \caption{Intervention-grounded AIA and deletion-faithfulness alignment. Values and uncertainty must be generated from the final multi-seed result files.}
-\end{figure}
+\subsection{Protocol and recommendation validity}
+\pending{report real-data gates, leakage audit, recommendation quality, valid-user counts, and null calibration for every dataset--model pair}
 
-The raw AIA ranking is LOO oracle, LIME, then Monte Carlo Shapley. This is not a failure of ActionShap: its purpose is to expose the difference between deletion faithfulness and feasible actionability. Shapley improves from deletion alignment to feasible-action alignment, whereas LIME decreases. The paired user-level tests and bootstrap intervals generated in `paper/tables/paired_tests.csv` determine whether this difference is statistically reliable; no universal superiority claim is made.
+\subsection{Faithfulness and feasible-action alignment}
+\pending{report AIA, deletion alignment, signed alignment, direction, gap, uncertainty, and corrected paired tests without assuming a winner}
 
 \subsection{Joint intervention decisions}
-\begin{figure}[t]
-  \centering
-  \IfFileExists{fig04_joint_effect_b2.pdf}{\includegraphics[width=.48\linewidth]{fig04_joint_effect_b2.pdf}}{\fbox{Effect figure pending}}
-  \IfFileExists{fig05_joint_regret_b2.pdf}{\includegraphics[width=.48\linewidth]{fig05_joint_regret_b2.pdf}}{\fbox{Regret figure pending}}
-  \caption{Realized effect and regret for budget-two feasible interventions.}
-\end{figure}
+\pending{report B=2 success, abstention, NDCG effect, exact-oracle regret on all primary users, and interaction-stratified analysis}
 
-\safeinput{tables/protocol.tex}
-\safeinput{tables/aia.tex}
-\safeinput{tables/faithfulness.tex}
-\safeinput{tables/actionability_gap.tex}
-\safeinput{tables/joint_effect.tex}
-\safeinput{tables/joint_regret.tex}
-\safeinput{tables/full_catalogue_robustness.tex}
-\safeinput{tables/normalized_regret.tex}
-\safeinput{tables/paired_tests.tex}
+\subsection{Robustness}
+\pending{report full unseen catalogue, second dataset/model, history cap, rho, candidate size, budget, utility, and convergence}
 
-\section{Robustness and Limitations}
-We report sensitivity to history length, candidate size, intervention strength, Monte Carlo sample count, and random seed. Limitations include offline ranking utility, the restricted profile-intervention semantics, candidate recall, one primary recommender family, and the gap between system-executable interventions and human user recourse. ActionShap does not establish causal effects without additional causal assumptions.
+\subsection{Predeclared interpretation rules}
+Four outcomes are distinguished before inspecting final values. If deletion and bounded AIA induce the same method order with small gaps, RQ2 supports deletion as an adequate pointwise proxy under this policy; statistical significance alone will not be described as practical divergence. If their order changes with paired uncertainty, the paper will report an evaluation-target reversal. If pointwise order is stable but budget-two effect or regret reverses it, the conclusion is narrower: individual alignment does not determine joint decision quality. If methods do not separate beyond the random/null controls, the result is a negative finding about this player set and intervention rather than grounds to change the metric or budget post hoc.
+
+For every outcome, an absolute score and a difference answer different questions. A positive actionability gap means that one method aligns better with bounded effects than with deletion effects; it does not mean that the method has the highest bounded AIA. Similarly, low regret can coexist with mediocre AIA if the method identifies the small subset needed for a good action. The discussion will preserve these distinctions.
+
+\safeinput{final/tables/protocol_audit.tex}
+\safeinput{final/tables/convergence.tex}
+\safeinput{final/tables/primary_results.tex}
+\safeinput{final/tables/aia_permutation_null.tex}
+\safeinput{final/tables/paired_tests.tex}
+\safeinput{final/tables/attribution_stability.tex}
+\safeinput{final/tables/full_catalogue_results.tex}
+\safeinput{final/tables/sensitivity_results.tex}
+
+\section{Discussion}
+The central interpretation will depend on the validated data. High magnitude AIA alone cannot establish useful action selection: it ignores direction and player interaction. Conversely, low pointwise alignment does not preclude good joint decisions. Any observed reversal between pointwise alignment and budget-two regret will be presented as a difference between evaluation targets, not as universal explainer superiority.
+
+The framework changes what counts as a successful explanation evaluation. A deletion score assesses dependence on evidence under an extreme perturbation. Bounded AIA assesses whether that ordering extrapolates to an operational profile adjustment. Signed alignment asks whether the method predicts the direction of the adjustment, while regret asks whether acting on the ranking sacrifices outcome relative to what was available. Reporting only one collapses these questions and can hide a method that ranks magnitudes accurately but recommends a harmful direction, or one that has moderate global correlation but reliably identifies the best pair.
+
+The no-action option is substantively important. In an unconstrained benchmark, an oracle forced to choose two harmful interventions can still assign zero regret to a harmful method. Allowing abstention makes the reference decision realistic: success means improving the declared objective, and regret is measured against doing nothing whenever no feasible improvement exists. Success and abstention therefore accompany all regret values.
+
+ActionShap measures intervention effects inside a frozen recommender and declared simulator. It does not identify real-world causal effects. The current protocol is a retrospective target-conditioned audit and must not be presented as a policy that knows a future relevant item at deployment. Downweighting is system-executable but is not automatically user recourse; deployment authority, retraining requirements, and intervention cost must be stated for each use case. A prospective extension could learn an action policy on validation periods and evaluate it on future periods without exposing the future relevance target to the explainer.
+
+\section{Threats to Validity and Limitations}
+\subsection{Construct validity}
+``Actionability'' here means predictive validity under one declared system intervention, not perceived usefulness, legal availability, user agency, or a causal effect in the world. The intervention modifies an inference-time profile weight and does not retrain the recommender. The cost of every selected interaction is equal in the primary experiment; deployments with heterogeneous costs require a cost-aware action space. Absolute AIA ignores direction by design, which is why signed alignment, success, and regret are mandatory companions.
+
+NDCG is operationally recognizable but discrete. A small downweight can leave ranks unchanged for many users, producing constant effect vectors and undefined rank correlation. Those users are counted rather than assigned zero. The target-margin sensitivity provides resolution but has a less direct scale and is never relabelled as NDCG. Agreement across both utilities strengthens a conclusion; disagreement bounds it.
+
+\subsection{Internal validity}
+The temporal split prevents future interactions from entering training players, and complete pre-test histories exclude false negatives from candidate sampling. Nevertheless, the audit is target-conditioned: the held-out relevant item defines the instance-level utility. This is suitable for retrospective evaluation but not prospective intervention. Method hyperparameters, candidate sets, convergence budgets, and intervention rules are frozen before the final test run to prevent target-conditioned tuning from becoming result-conditioned tuning.
+
+ItemKNN recomputes scores from retained interactions, while the latent profile aggregator supplies a structurally different robustness model. A static embedding control is intentionally inert under post-hoc history masking. Passing that control establishes sensitivity of the test path, not superiority of either dynamic model. Recommendation quality is reported so explanation conclusions are not drawn from a non-functioning recommender.
+
+\subsection{Statistical conclusion validity}
+Users, not coalition calls or repeated seeds, are the inferential units. Averaging seeds within user avoids pseudoreplication but does not model every source of training uncertainty; seed-level ranges and attribution stability are therefore also reported. Multiple methods and metrics create a multiplicity burden, addressed by predeclared primary comparisons and Holm correction. Confidence intervals and effect sizes determine interpretation; a small but consistent difference is not automatically practically important.
+
+The exact budget-two oracle is feasible for the capped history and is evaluated for every primary user. Above budget two, the greedy oracle is approximate and yields a lower bound on regret against the unknown exact optimum. Those results are labelled separately and validated on a tractable subset.
+
+\subsection{External validity}
+Two datasets and two history-conditioned models improve transfer but do not cover sequential transformers, graph recommenders, multimodal inputs, provider-side objectives, or online feedback loops. Sampled ranking is not retrieval, and target inclusion gives coverage one by construction. Full-unseen-catalogue robustness addresses candidate size but not exposure bias. User responses to profile changes and long-run feedback can only be established online or through a human study.
+
+Finally, Shapley values average over coalitions that may not all be temporally or behaviourally plausible. Future work should constrain coalition sampling by chronology, session structure, or an explicit causal model and should compare with learned counterfactual explainers under the same feasible action policy.
+
+\section{Reproducibility and Artifact Policy}
+The executable contract is \texttt{code/configs/final.yaml}. A tracked suite runs convergence before the primary experiment, selects the smallest admissible $M$, executes every dataset--model--seed condition, and then builds assets. Raw result files use schema version 2 and include the dataset SHA-256, Git commit, dependency versions, gate diagnostics, selected users, per-user effects, attributions, actions, and oracle outcomes. Candidate, user, and tie seeds are independent of model seeds.
+
+The asset generator rejects smoke runs, legacy schemas, failed gates, inconsistent users, inadequate convergence, missing models or datasets, and incomplete sensitivities. It writes repository-relative source paths and hashes, performs distinct-user inference, and emits a validation report. The manuscript may cite a numerical asset only when that report says PASS. Raw JSON is packaged into a content-addressed archive for the public release; machine-specific paths are excluded. The invalidated schema-v1 pilot is retained unchanged under \texttt{paper/legacy\_pilot/} so the correction is auditable rather than silently overwritten.
 
 \section{Conclusion}
-ActionShap evaluates recommendation explanations by asking whether they predict what happens under feasible intervention. In the current five-seed, 500-user study, the feasible-intervention and deletion rankings differ systematically across the evaluated explainers, while joint intervention regret is lowest for Monte Carlo Shapley. These findings support intervention-grounded evaluation, but the final claims must follow the paired user-level tests, convergence analysis, and full-catalogue robustness results rather than raw method means alone.
+ActionShap evaluates whether recommendation explanations predict feasible actions rather than only deletion effects. Its corrected protocol separates magnitude, direction, and joint decision quality; permits abstention; uses complete unseen candidate exclusion; and performs inference over distinct users. \pending{state validated empirical conclusion, including negative or baseline-favouring results}
+
+\section*{Declarations}
+\textbf{Funding.} \pending{state funding or explicitly state that no funding was received}
+
+\textbf{Competing interests.} The authors declare no competing interests.
+
+\textbf{Ethics approval.} Not applicable. The study uses public recommendation datasets and contains no recruited human participants. This statement does not exempt any future online or user study from independent ethics review.
+
+\textbf{Data availability.} MovieLens-1M and Amazon Digital Music reviews are publicly available from their respective maintainers. \pending{insert immutable source URLs, access dates, licenses, and source SHA-256 values}
+
+\textbf{Code and materials availability.} \pending{repository URL, archived schema-v2 result DOI, release tag, and artifact checksum}
+
+\textbf{Author contributions.} \pending{final CRediT contribution statement approved by all authors}
 
 \bibliographystyle{plainnat}
 \bibliography{paper}

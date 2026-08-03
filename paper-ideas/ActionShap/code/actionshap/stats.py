@@ -10,13 +10,19 @@ about whether a difference is large enough to matter.
 from __future__ import annotations
 
 import itertools
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
-from typing import Mapping, Sequence
 
 import numpy as np
 from scipy import stats
 
-__all__ = ["PairedComparison", "compare_methods", "holm_bonferroni"]
+__all__ = [
+    "ClusteredPairedComparison",
+    "PairedComparison",
+    "compare_methods",
+    "holm_bonferroni",
+    "paired_user_seed_comparison",
+]
 
 
 @dataclass(frozen=True)
@@ -46,7 +52,15 @@ class PairedComparison:
     @property
     def effect_label(self) -> str:
         d = abs(self.cohens_dz)
-        return "negligible" if d < 0.2 else "small" if d < 0.5 else "medium" if d < 0.8 else "large"
+        return (
+            "negligible"
+            if d < 0.2
+            else "small"
+            if d < 0.5
+            else "medium"
+            if d < 0.8
+            else "large"
+        )
 
 
 def holm_bonferroni(p_values: Sequence[float]) -> np.ndarray:
@@ -110,6 +124,23 @@ def compare_methods(
             # unambiguous, so short-circuit rather than emit nan.
             raw.append((a, b, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0))
             continue
+        if np.ptp(d) == 0.0:
+            # A constant non-zero paired effect has zero standard error. Avoid
+            # asking SciPy to divide by zero (and emitting precision warnings).
+            direction = float(np.sign(d.mean()))
+            raw.append(
+                (
+                    a,
+                    b,
+                    float(d.mean()),
+                    direction * np.inf,
+                    0.0,
+                    direction * np.inf,
+                    0.0,
+                    float("nan"),
+                )
+            )
+            continue
 
         t_stat, p = stats.ttest_rel(x, y, alternative=alternative)
         sd = d.std(ddof=1)
@@ -138,9 +169,124 @@ def compare_methods(
 
     return [
         PairedComparison(
-            method_a=a, method_b=b, mean_difference=md, t_statistic=t,
-            p_value=p, p_corrected=float(pc), cohens_dz=dz,
-            wilcoxon_p=wp, n_pairs=n, shapiro_p=sp,
+            method_a=a,
+            method_b=b,
+            mean_difference=md,
+            t_statistic=t,
+            p_value=p,
+            p_corrected=float(pc),
+            cohens_dz=dz,
+            wilcoxon_p=wp,
+            n_pairs=n,
+            shapiro_p=sp,
         )
         for (a, b, md, t, p, dz, wp, sp), pc in zip(raw, corrected)
     ]
+
+
+@dataclass(frozen=True)
+class ClusteredPairedComparison:
+    """Paired comparison after averaging repeated seeds within each user."""
+
+    mean_difference: float
+    median_difference: float
+    ci95_low: float
+    ci95_high: float
+    permutation_p: float
+    sign_test_p: float
+    cohens_dz: float
+    n_users: int
+    wins: int
+    losses: int
+    ties: int
+    bootstrap_draws: int
+    permutation_draws: int
+
+
+def paired_user_seed_comparison(
+    method_a: np.ndarray,
+    method_b: np.ndarray,
+    *,
+    bootstrap_draws: int = 10_000,
+    permutation_draws: int = 10_000,
+    seed: int = 42,
+) -> ClusteredPairedComparison:
+    """Compare methods without treating repeated model seeds as new users.
+
+    Inputs may be ``(users, seeds)`` matrices or one-dimensional user vectors.
+    Finite seed observations are averaged within each user first.  Bootstrap
+    resampling and sign flips are then performed over distinct users, the actual
+    inferential unit of the recommendation experiment.
+    """
+    a = np.asarray(method_a, dtype=float)
+    b = np.asarray(method_b, dtype=float)
+    if a.shape != b.shape or a.ndim not in (1, 2):
+        raise ValueError("method arrays must have the same 1-D or 2-D shape")
+    if bootstrap_draws < 1 or permutation_draws < 1:
+        raise ValueError("resampling draw counts must be positive")
+    if a.ndim == 2:
+
+        def finite_row_mean(values: np.ndarray) -> np.ndarray:
+            finite = np.isfinite(values)
+            counts = finite.sum(axis=1)
+            sums = np.where(finite, values, 0.0).sum(axis=1)
+            means = np.full(values.shape[0], np.nan, dtype=float)
+            np.divide(sums, counts, out=means, where=counts > 0)
+            return means
+
+        a = finite_row_mean(a)
+        b = finite_row_mean(b)
+    valid = np.isfinite(a) & np.isfinite(b)
+    differences = a[valid] - b[valid]
+    if differences.size < 3:
+        raise ValueError("at least three distinct paired users are required")
+    rng = np.random.default_rng(seed)
+    # Resample in bounded chunks so an all-user MovieLens or sparse-dataset run
+    # does not allocate a draws-by-users matrix hundreds of megabytes large.
+    bootstrap_means = np.empty(bootstrap_draws, dtype=float)
+    chunk = 256
+    for start in range(0, bootstrap_draws, chunk):
+        stop = min(start + chunk, bootstrap_draws)
+        indices = rng.integers(
+            0, differences.size, size=(stop - start, differences.size)
+        )
+        bootstrap_means[start:stop] = differences[indices].mean(axis=1)
+    exceedances = 0
+    observed_mean = abs(differences.mean())
+    for start in range(0, permutation_draws, chunk):
+        stop = min(start + chunk, permutation_draws)
+        signs = rng.choice(np.array([-1.0, 1.0]), size=(stop - start, differences.size))
+        permuted = (signs * differences).mean(axis=1)
+        exceedances += int(np.count_nonzero(np.abs(permuted) >= observed_mean))
+    permutation_p = (exceedances + 1) / (permutation_draws + 1)
+    positive = int(np.count_nonzero(differences > 0))
+    negative = int(np.count_nonzero(differences < 0))
+    ties = int(differences.size - positive - negative)
+    non_ties = positive + negative
+    sign_p = (
+        1.0
+        if non_ties == 0
+        else float(stats.binomtest(min(positive, negative), non_ties, 0.5).pvalue)
+    )
+    standard_deviation = differences.std(ddof=1)
+    if np.allclose(differences, 0.0):
+        dz = 0.0
+    elif standard_deviation > 0:
+        dz = float(differences.mean() / standard_deviation)
+    else:
+        dz = float(np.sign(differences.mean()) * np.inf)
+    return ClusteredPairedComparison(
+        mean_difference=float(differences.mean()),
+        median_difference=float(np.median(differences)),
+        ci95_low=float(np.quantile(bootstrap_means, 0.025)),
+        ci95_high=float(np.quantile(bootstrap_means, 0.975)),
+        permutation_p=float(permutation_p),
+        sign_test_p=sign_p,
+        cohens_dz=dz,
+        n_users=int(differences.size),
+        wins=positive,
+        losses=negative,
+        ties=ties,
+        bootstrap_draws=int(bootstrap_draws),
+        permutation_draws=int(permutation_draws),
+    )

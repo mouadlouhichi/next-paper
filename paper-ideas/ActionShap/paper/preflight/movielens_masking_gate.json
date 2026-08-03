@@ -1,0 +1,485 @@
+{
+  "status": "DESIGN_PREFLIGHT_NOT_FINAL_RESULT",
+  "date": "2026-08-03",
+  "purpose": "Choose a non-degenerate primary history cap before final experiments.",
+  "dataset": "MovieLens-1M ratings.dat",
+  "source_mirror": "wesm/pydata-book, branch 2nd-edition, datasets/movielens/ratings.dat",
+  "source_git_blob": "77a7c4b150f588c23bb9e1f068aa996c0b413695",
+  "source_sha256": "506d64ca44484487c11dc2d9a28de5c54948213e6b96285e298afe28d6ea4e0f",
+  "common": {
+    "rating_threshold": 4.0,
+    "minimum_interactions": 4,
+    "gate_users": 200,
+    "gate_evaluation_size": 200,
+    "k": 10,
+    "profile_epochs": 10,
+    "profile_dimension": 64
+  },
+  "thresholds": {
+    "changed_fraction": 0.5,
+    "mean_abs_ndcg_change": 0.001,
+    "static_exactly_inert": true
+  },
+  "runs": [
+    {
+      "model": "profile",
+      "seed": 42,
+      "n_max": 50,
+      "users": 200,
+      "changed_fraction": 0.43,
+      "mean_abs_ndcg_change": 0.0005974761807178181,
+      "static_changed_fraction": 0.0,
+      "static_mean_abs_ndcg_change": 0.0,
+      "passed": false
+    },
+    {
+      "model": "profile",
+      "seed": 42,
+      "n_max": 20,
+      "users": 200,
+      "changed_fraction": 0.67,
+      "mean_abs_ndcg_change": 0.0025934022539021305,
+      "static_changed_fraction": 0.0,
+      "static_mean_abs_ndcg_change": 0.0,
+      "passed": true
+    },
+    {
+      "model": "profile",
+      "seed": 43,
+      "n_max": 20,
+      "users": 200,
+      "changed_fraction": 0.785,
+      "mean_abs_ndcg_change": 0.010306861585378715,
+      "static_changed_fraction": 0.0,
+      "static_mean_abs_ndcg_change": 0.0,
+      "passed": true
+    },
+    {
+      "model": "profile",
+      "seed": 44,
+      "n_max": 20,
+      "users": 200,
+      "changed_fraction": 0.69,
+      "mean_abs_ndcg_change": 0.0010241346435953518,
+      "static_changed_fraction": 0.0,
+      "static_mean_abs_ndcg_change": 0.0,
+      "passed": true
+    },
+    {
+      "model": "profile",
+      "seed": 45,
+      "n_max": 20,
+      "users": 200,
+      "changed_fraction": 0.69,
+      "mean_abs_ndcg_change": 0.0022614895877934877,
+      "static_changed_fraction": 0.0,
+      "static_mean_abs_ndcg_change": 0.0,
+      "passed": true
+    },
+    {
+      "model": "profile",
+      "seed": 46,
+      "n_max": 20,
+      "users": 200,
+      "changed_fraction": 0.555,
+      "mean_abs_ndcg_change": 0.006395170548989448,
+      "static_changed_fraction": 0.0,
+      "static_mean_abs_ndcg_change": 0.0,
+      "passed": true
+    },
+    {
+      "model": "itemknn",
+      "seed": 42,
+      "n_max": 20,
+      "users": 200,
+      "changed_fraction": 0.745,
+      "mean_abs_ndcg_change": 0.018902306752531475,
+      "static_changed_fraction": 0.0,
+      "static_mean_abs_ndcg_change": 0.0,
+      "passed": true
+    },
+    {
+      "model": "itemknn",
+      "seed": 43,
+      "n_max": 20,
+      "users": 200,
+      "changed_fraction": 0.81,
+      "mean_abs_ndcg_change": 0.02014486860558246,
+      "static_changed_fraction": 0.0,
+      "static_mean_abs_ndcg_change": 0.0,
+      "passed": true
+    },
+    {
+      "model": "itemknn",
+      "seed": 44,
+      "n_max": 20,
+      "users": 200,
+      "changed_fraction": 0.795,
+      "mean_abs_ndcg_change": 0.02576983049764192,
+      "static_changed_fraction": 0.0,
+      "static_mean_abs_ndcg_change": 0.0,
+      "passed": true
+    },
+    {
+      "model": "itemknn",
+      "seed": 45,
+      "n_max": 20,
+      "users": 200,
+      "changed_fraction": 0.77,
+      "mean_abs_ndcg_change": 0.026595699553458668,
+      "static_changed_fraction": 0.0,
+      "static_mean_abs_ndcg_change": 0.0,
+      "passed": true
+    },
+    {
+      "model": "itemknn",
+      "seed": 46,
+      "n_max": 20,
+      "users": 200,
+      "changed_fraction": 0.835,
+      "mean_abs_ndcg_change": 0.023221621932449553,
+      "static_changed_fraction": 0.0,
+      "static_mean_abs_ndcg_change": 0.0,
+      "passed": true
+    }
+  ],
+  "decision": "Use n_max=20 and ItemKNN as primary: all five fixed 1,000-user ItemKNN gate runs passed and ItemKNN exceeded popularity. Retain the latent profile as architecture robustness; four of five final-window profile gate seeds passed, while seed 45 failed the NDCG-change threshold and is reported as a robustness boundary. n_max=50 and 100 remain declared sensitivities.",
+  "claim_boundary": "These diagnostics select a valid game before the five-seed final test suite. They are not headline explanation results.",
+  "recommendation_quality_preflight": {
+    "itemknn": {
+      "n": 1000,
+      "model_target_rank": 24.751,
+      "model_ndcg@10": 0.28354667448707377,
+      "model_recall@10": 0.504,
+      "model_mrr": 0.2342645539145057,
+      "popularity_target_rank": 38.003,
+      "popularity_ndcg@10": 0.15796350598541428,
+      "popularity_recall@10": 0.32,
+      "popularity_mrr": 0.1306709994090947
+    },
+    "profile": {
+      "n": 1000,
+      "model_target_rank": 51.105,
+      "model_ndcg@10": 0.15556603582040995,
+      "model_recall@10": 0.299,
+      "model_mrr": 0.1319803873322516,
+      "popularity_target_rank": 38.003,
+      "popularity_ndcg@10": 0.15796350598541428,
+      "popularity_recall@10": 0.32,
+      "popularity_mrr": 0.1306709994090947
+    }
+  },
+  "utility_convergence_preflight": {
+    "target_margin": {
+      "users": 100,
+      "reference": 1000,
+      "rows": [
+        {
+          "permutations": 25,
+          "reference_permutations": 1000,
+          "mean_rank_correlation_to_reference": 0.9347913490534233,
+          "std_rank_correlation_to_reference": 0.025875186212894984,
+          "valid_rank_seeds": 5.0,
+          "mean_top1_agreement": 0.596,
+          "mean_top2_jaccard": 0.6466666666666667,
+          "mean_top2_exact_agreement": 0.494,
+          "mean_efficiency_error": 4.181117257973099e-18
+        },
+        {
+          "permutations": 50,
+          "reference_permutations": 1000,
+          "mean_rank_correlation_to_reference": 0.9584243269114785,
+          "std_rank_correlation_to_reference": 0.018845570044933143,
+          "valid_rank_seeds": 5.0,
+          "mean_top1_agreement": 0.664,
+          "mean_top2_jaccard": 0.728,
+          "mean_top2_exact_agreement": 0.602,
+          "mean_efficiency_error": 6.676083297296742e-18
+        },
+        {
+          "permutations": 100,
+          "reference_permutations": 1000,
+          "mean_rank_correlation_to_reference": 0.9744688454476379,
+          "std_rank_correlation_to_reference": 0.01025905947691855,
+          "valid_rank_seeds": 5.0,
+          "mean_top1_agreement": 0.7340000000000001,
+          "mean_top2_jaccard": 0.7879999999999999,
+          "mean_top2_exact_agreement": 0.69,
+          "mean_efficiency_error": 1.0037110032001807e-17
+        },
+        {
+          "permutations": 250,
+          "reference_permutations": 1000,
+          "mean_rank_correlation_to_reference": 0.9853237898840065,
+          "std_rank_correlation_to_reference": 0.006310586238567082,
+          "valid_rank_seeds": 5.0,
+          "mean_top1_agreement": 0.804,
+          "mean_top2_jaccard": 0.8433333333333333,
+          "mean_top2_exact_agreement": 0.768,
+          "mean_efficiency_error": 1.7420093145759097e-17
+        },
+        {
+          "permutations": 500,
+          "reference_permutations": 1000,
+          "mean_rank_correlation_to_reference": 0.9901908481611267,
+          "std_rank_correlation_to_reference": 0.00430182452545315,
+          "valid_rank_seeds": 5.0,
+          "mean_top1_agreement": 0.828,
+          "mean_top2_jaccard": 0.8766666666666667,
+          "mean_top2_exact_agreement": 0.816,
+          "mean_efficiency_error": 3.18404157206853e-17
+        },
+        {
+          "permutations": 1000,
+          "reference_permutations": 1000,
+          "mean_rank_correlation_to_reference": 0.9935496468959317,
+          "std_rank_correlation_to_reference": 0.003083437310052165,
+          "valid_rank_seeds": 5.0,
+          "mean_top1_agreement": 0.866,
+          "mean_top2_jaccard": 0.904,
+          "mean_top2_exact_agreement": 0.856,
+          "mean_efficiency_error": 5.10628865579843e-17
+        }
+      ],
+      "selected_permutations": 250,
+      "rank_valid_fraction": {
+        "25": 1.0,
+        "50": 1.0,
+        "100": 1.0,
+        "250": 1.0,
+        "500": 1.0,
+        "1000": 1.0
+      },
+      "user_threshold_coverage": {
+        "25": 0.13,
+        "50": 0.33,
+        "100": 0.52,
+        "250": 0.69,
+        "500": 0.74,
+        "1000": 0.81
+      }
+    },
+    "ndcg": {
+      "users": 100,
+      "reference": 1000,
+      "rows": [
+        {
+          "permutations": 25,
+          "reference_permutations": 1000,
+          "mean_rank_correlation_to_reference": 0.8256273455056828,
+          "std_rank_correlation_to_reference": 0.04753452998579288,
+          "valid_rank_seeds": 4.52,
+          "mean_top1_agreement": 0.5760000000000001,
+          "mean_top2_jaccard": 0.608,
+          "mean_top2_exact_agreement": 0.494,
+          "mean_efficiency_error": 4.33516070263984e-17
+        },
+        {
+          "permutations": 50,
+          "reference_permutations": 1000,
+          "mean_rank_correlation_to_reference": 0.8574962289017067,
+          "std_rank_correlation_to_reference": 0.039330383651666405,
+          "valid_rank_seeds": 4.59,
+          "mean_top1_agreement": 0.622,
+          "mean_top2_jaccard": 0.6106666666666666,
+          "mean_top2_exact_agreement": 0.488,
+          "mean_efficiency_error": 6.286583666831325e-17
+        },
+        {
+          "permutations": 100,
+          "reference_permutations": 1000,
+          "mean_rank_correlation_to_reference": 0.8844983726202823,
+          "std_rank_correlation_to_reference": 0.034171665670909256,
+          "valid_rank_seeds": 4.59,
+          "mean_top1_agreement": 0.6779999999999999,
+          "mean_top2_jaccard": 0.6896666666666667,
+          "mean_top2_exact_agreement": 0.596,
+          "mean_efficiency_error": 8.355683224318955e-17
+        },
+        {
+          "permutations": 250,
+          "reference_permutations": 1000,
+          "mean_rank_correlation_to_reference": 0.9166258639805528,
+          "std_rank_correlation_to_reference": 0.02334744005156935,
+          "valid_rank_seeds": 4.6,
+          "mean_top1_agreement": 0.718,
+          "mean_top2_jaccard": 0.7366666666666667,
+          "mean_top2_exact_agreement": 0.664,
+          "mean_efficiency_error": 3.1859644046214326e-16
+        },
+        {
+          "permutations": 500,
+          "reference_permutations": 1000,
+          "mean_rank_correlation_to_reference": 0.9303989858016142,
+          "std_rank_correlation_to_reference": 0.019059781739695598,
+          "valid_rank_seeds": 4.6,
+          "mean_top1_agreement": 0.7340000000000001,
+          "mean_top2_jaccard": 0.774,
+          "mean_top2_exact_agreement": 0.706,
+          "mean_efficiency_error": 5.766110719863763e-16
+        },
+        {
+          "permutations": 1000,
+          "reference_permutations": 1000,
+          "mean_rank_correlation_to_reference": 0.9404480457271956,
+          "std_rank_correlation_to_reference": 0.01840614860937259,
+          "valid_rank_seeds": 4.6,
+          "mean_top1_agreement": 0.7559999999999999,
+          "mean_top2_jaccard": 0.7813333333333332,
+          "mean_top2_exact_agreement": 0.722,
+          "mean_efficiency_error": 1.2541686439382359e-15
+        }
+      ],
+      "selected_permutations": null,
+      "rank_valid_fraction": {
+        "25": 0.92,
+        "50": 0.92,
+        "100": 0.92,
+        "250": 0.92,
+        "500": 0.92,
+        "1000": 0.92
+      },
+      "user_threshold_coverage": {
+        "25": 0.22826086956521738,
+        "50": 0.2717391304347826,
+        "100": 0.391304347826087,
+        "250": 0.5217391304347826,
+        "500": 0.6086956521739131,
+        "1000": 0.6195652173913043
+      }
+    }
+  },
+  "utility_decision": "Use target margin for the primary attribution game and NDCG as the operational outcome. In the fixed 100-user preflight, target margin selected M=250 and at M=500 reached mean rank correlation 0.9902 and B=2 Jaccard 0.8767. NDCG failed the frozen thresholds at every budget; at M=1000 it reached 0.9404 correlation, 0.7813 Jaccard, and rank validity 0.92. Final primary runs use a conservative M floor of 500; NDCG remains a declared M=1000 stress test.",
+  "final_window_gate_runs": [
+    {
+      "model": "itemknn",
+      "model_role": "primary",
+      "seed": 42,
+      "n_max": 20,
+      "evaluation_users": 1000,
+      "gate_users": 200,
+      "changed_fraction": 0.8,
+      "mean_abs_ndcg_change": 0.012797750842971625,
+      "static_changed_fraction": 0.0,
+      "static_mean_abs_ndcg_change": 0.0,
+      "passed": true
+    },
+    {
+      "model": "itemknn",
+      "model_role": "primary",
+      "seed": 43,
+      "n_max": 20,
+      "evaluation_users": 1000,
+      "gate_users": 200,
+      "changed_fraction": 0.785,
+      "mean_abs_ndcg_change": 0.019486859711625112,
+      "static_changed_fraction": 0.0,
+      "static_mean_abs_ndcg_change": 0.0,
+      "passed": true
+    },
+    {
+      "model": "itemknn",
+      "model_role": "primary",
+      "seed": 44,
+      "n_max": 20,
+      "evaluation_users": 1000,
+      "gate_users": 200,
+      "changed_fraction": 0.76,
+      "mean_abs_ndcg_change": 0.04238337471607145,
+      "static_changed_fraction": 0.0,
+      "static_mean_abs_ndcg_change": 0.0,
+      "passed": true
+    },
+    {
+      "model": "itemknn",
+      "model_role": "primary",
+      "seed": 45,
+      "n_max": 20,
+      "evaluation_users": 1000,
+      "gate_users": 200,
+      "changed_fraction": 0.7,
+      "mean_abs_ndcg_change": 0.019480494776007017,
+      "static_changed_fraction": 0.0,
+      "static_mean_abs_ndcg_change": 0.0,
+      "passed": true
+    },
+    {
+      "model": "itemknn",
+      "model_role": "primary",
+      "seed": 46,
+      "n_max": 20,
+      "evaluation_users": 1000,
+      "gate_users": 200,
+      "changed_fraction": 0.75,
+      "mean_abs_ndcg_change": 0.02578573988067303,
+      "static_changed_fraction": 0.0,
+      "static_mean_abs_ndcg_change": 0.0,
+      "passed": true
+    },
+    {
+      "model": "profile",
+      "model_role": "robustness",
+      "seed": 42,
+      "n_max": 20,
+      "evaluation_users": 1000,
+      "gate_users": 200,
+      "changed_fraction": 0.64,
+      "mean_abs_ndcg_change": 0.0054171949776825575,
+      "static_changed_fraction": 0.0,
+      "static_mean_abs_ndcg_change": 0.0,
+      "passed": true
+    },
+    {
+      "model": "profile",
+      "model_role": "robustness",
+      "seed": 43,
+      "n_max": 20,
+      "evaluation_users": 1000,
+      "gate_users": 200,
+      "changed_fraction": 0.76,
+      "mean_abs_ndcg_change": 0.006007955113650923,
+      "static_changed_fraction": 0.0,
+      "static_mean_abs_ndcg_change": 0.0,
+      "passed": true
+    },
+    {
+      "model": "profile",
+      "model_role": "robustness",
+      "seed": 44,
+      "n_max": 20,
+      "evaluation_users": 1000,
+      "gate_users": 200,
+      "changed_fraction": 0.62,
+      "mean_abs_ndcg_change": 0.005335675362327874,
+      "static_changed_fraction": 0.0,
+      "static_mean_abs_ndcg_change": 0.0,
+      "passed": true
+    },
+    {
+      "model": "profile",
+      "model_role": "robustness",
+      "seed": 45,
+      "n_max": 20,
+      "evaluation_users": 1000,
+      "gate_users": 200,
+      "changed_fraction": 0.585,
+      "mean_abs_ndcg_change": 0.004554755834100299,
+      "static_changed_fraction": 0.0,
+      "static_mean_abs_ndcg_change": 0.0,
+      "passed": true
+    },
+    {
+      "model": "profile",
+      "model_role": "robustness",
+      "seed": 46,
+      "n_max": 20,
+      "evaluation_users": 1000,
+      "gate_users": 200,
+      "changed_fraction": 0.55,
+      "mean_abs_ndcg_change": 0.0006823290135837063,
+      "static_changed_fraction": 0.0,
+      "static_mean_abs_ndcg_change": 0.0,
+      "passed": false
+    }
+  ]
+}

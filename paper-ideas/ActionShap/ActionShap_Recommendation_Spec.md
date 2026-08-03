@@ -1,7 +1,9 @@
 # ActionShap Recommendation-Only Specification
 
-**Status:** design specification, revision 3
+**Status:** design specification, revision 4
 **Scope:** replacement specification for the current cross-domain ActionShap proposal
+
+> **Revision 4 correction contract (supersedes conflicting text below).** The Q1 audit found that the schema-v1 pilot could not support manuscript claims. Revision 4 therefore requires: (i) target margin as the explicitly labelled primary attribution utility after convergence preflight, with NDCG retained as the operational action outcome and a separate NDCG-utility sensitivity; (ii) model fitting on complete training histories and truncation only for attribution players; (iii) sampled negatives and full-catalogue candidates excluding the complete pre-test history, including validation; (iv) user, candidate, and tie seeds fixed independently of model seeds; (v) signed benefit selection for downweighting, an explicit no-action option, and all action sizes up to the budget; (vi) exact `B<=2` oracles for every primary user; (vii) real-data rather than synthetic masking gates; (viii) random control, genuine locally weighted LIME, direction metrics, recommendation quality, and success/abstention reporting; (ix) independent `M=1000` convergence references with rank and action agreement; (x) repeated seeds averaged within each distinct user before inference; and (xi) final evidence from two timestamped datasets and two history-conditioned models. Schema-v1 assets are archived under `paper/legacy_pilot/` and are not evidence for the revised manuscript. The executable contract is `code/configs/final.yaml` plus `code/scripts/run_final_suite.py`; `code/ActionShap_All.ipynb` is a thin wrapper around those tracked scripts.
 
 > **Revision 2 changelog.** Seven corrections applied to the original draft, all before implementation:
 > 1. **§7.1 — the recommended models were incompatible with the player definition.** BPR-MF and LightGCN hold static user embeddings, so profile masking cannot move their scores and the whole game would have degenerated silently. Replaced with history-conditioned model families and a mandatory gate (§7.1.1).
@@ -76,7 +78,7 @@ The paper must not claim that ActionShap discovers causal effects. It measures i
 ### RQ1 — Evaluation validity
 Do attribution rankings agree with the ranking of feasible intervention effects?
 
-**Primary metric:** Spearman correlation between absolute attribution and absolute intervention effect.
+**Primary metric:** Spearman correlation between absolute attribution and absolute target-margin intervention effect, with cross-utility NDCG AIA reported separately.
 
 ### RQ2 — Faithfulness versus actionability
 Do deletion-based faithfulness metrics agree with feasible-intervention metrics, and under what conditions do their rankings diverge?
@@ -84,9 +86,9 @@ Do deletion-based faithfulness metrics agree with feasible-intervention metrics,
 **Hypothesis:** the rankings will diverge when deletion is infeasible, non-local, or outside the declared intervention budget. This is the central scientific hypothesis; it does not assume that any particular attribution method is best.
 
 ### RQ3 — Decision quality
-Do explanation rankings lead to different intervention choices, and which methods minimize intervention regret under the same feasible action budget?
+Do explanation rankings lead to different intervention choices, and which methods minimize NDCG regret under the same feasible action budget?
 
-This is an open comparison. Monte Carlo Shapley, LIME, permutation importance, and any attention/gradient method are evaluated as explanation methods; no superiority result is assumed.
+This is an open comparison. Monte Carlo Shapley, weighted LIME, leave-one-out, greedy counterfactual search, and random attribution are evaluated under the same protocol; no superiority result is assumed.
 
 ### RQ4 — Generality and stability
 Are the actionability conclusions stable across random seeds, user histories, model variants, intervention budgets, and Monte Carlo sample counts?
@@ -102,7 +104,7 @@ Monte Carlo convergence is a reproducibility analysis, not the paper's scientifi
 - Recommendation only.
 - One trained recommender family in the main experiment, plus one additional architecture for robustness if feasible.
 - MovieLens-1M as the primary dataset.
-- One sparse dataset as a secondary dataset, preferably Amazon-Book rebuilt from raw data or another dataset with reliable timestamps and metadata.
+- Amazon Digital Music 5-core rebuilt from the timestamped Amazon Review Data (2018) source as the sparse secondary dataset, with source/output SHA-256 provenance.
 - User-specific explanations.
 - Monte Carlo Shapley estimation.
 - Feasible, bounded, system-executable interventions.
@@ -136,9 +138,9 @@ where each player is one observed user–item interaction, optionally carrying t
 
 To control computation and make interventions comparable:
 
-- retain at most the most recent \(n_{\max}=50\) interactions per user in the primary experiment;
+- retain at most the most recent \(n_{\max}=20\) interactions per user in the primary experiment, selected by the archived real-data masking preflight;
 - use the same history window for all attribution methods;
-- report a sensitivity analysis for \(n_{\max}\in\{20,50,100\}\);
+- report sensitivity analyses for \(n_{\max}\in\{50,100\}\), including any masking-gate failure as a non-responsiveness boundary;
 - never include validation or test interactions in the player set.
 
 A player is therefore a recommendation factor that can be masked or downweighted in the user's profile. This is a user-level explanation, not a global source attribution.
@@ -161,24 +163,24 @@ If implementation time allows, add candidate-item players as a separate experime
 >
 > Building on either would produce `v_u(S)` constant in `S`, every `\(\hat\phi_{u,p}\approx 0\)`, an efficiency error of zero for the wrong reason, and an AIA that is a rank correlation over a constant vector. **None of this crashes.** It presents as uniformly flat results that can be mistaken for a genuine null finding, which is the worst possible failure mode for an evaluation paper.
 
-Use a frozen, reproducible recommender whose scoring function consumes the retained history. Acceptable families, in order of preference:
+Use a frozen, reproducible recommender whose scoring function consumes the retained history. The corrected experiment uses:
 
-1. **Profile-aggregation model (recommended primary).** The user representation is computed at scoring time from the retained history, e.g. \(p_u(S)=\big(\sum_{h\in S} w_h q_h\big)/\big(\sum_{h\in S} w_h\big)\) and \(f_u^{S}(i)=p_u(S)^\top q_i\). Item embeddings are trained once with BPR and then frozen. This is the cleanest fit: masking is \(w_h\!\to\!0\) and the bounded downweighting of §8 is \(w_h\!\to\!\rho w_h\), both of which have an exact algebraic meaning with no retraining.
-2. **Sequential model (SASRec, GRU4Rec).** Masking an interaction removes it from the input sequence and the hidden state changes deterministically at inference. Faithful and standard, at the cost of a heavier implementation and a subtlety: removing an element also shifts positions, so masking and downweighting are not the same operation and the paper must say which is used.
-3. **Item-based neighbourhood CF.** Scores are an explicit sum over history items, so player masking is exactly the removal of one term. Simple and highly interpretable, but weaker as a recommender, so it works better as the robustness model than the primary.
+1. **Item-based neighbourhood CF (primary).** Scores are an explicit weighted mean of frozen item--item cosine similarities over retained history items. Masking removes one term and bounded downweighting scales it. The real MovieLens preflight showed strong masking sensitivity and recommendation quality above item popularity, making this the defensible primary model.
+2. **Profile-aggregation model (architecture robustness).** The user representation is computed at scoring time from the retained history, e.g. \(p_u(S)=\big(\sum_{h\in S} w_h q_h\big)/\big(\sum_{h\in S} w_h\big)\) and \(f_u^{S}(i)=p_u(S)^\top q_i\). Item embeddings are trained once on each user's **complete training history** with a leave-one-out BPR objective (the sampled positive is excluded from the context that predicts it) and then frozen. The \(n_{\max}\) cap limits attribution players only. Any quality shortfall relative to popularity is disclosed as a robustness limitation rather than hidden.
+3. **Sequential model (future extension).** SASRec or GRU4Rec can consume a masked sequence, but removal shifts positions and bounded downweighting is not naturally equivalent. Such a model requires a separate, explicit intervention semantics and is outside the frozen revision-4 matrix.
 
 **BPR-MF and LightGCN may appear only as recommendation-quality reference points** in §6.1, never as the model under attribution, unless they first pass the masking-sensitivity gate below and the mechanism by which they do so is documented.
 
 #### 7.1.1 Masking-sensitivity gate (run before any other implementation work)
 
-Before building the attribution layer, verify on a sample of at least 200 users that profile masking actually moves the output:
+Before building the attribution layer, verify on a sample of at least 200 **real users from each primary dataset--model experiment** that profile masking actually moves the output. Use one fixed 200-item sampled-ranking gate set, independent of candidate-size and full-catalogue robustness conditions, so target sparsity does not redefine model sensitivity. Primary-model sampled and full-catalogue runs are blocked by failure. A declared architecture-robustness model or history-length sensitivity may fail the gate and continue only to quantify where the player game becomes non-responsive; that failure is reported as a robustness boundary, not hidden. A synthetic gate is a unit test only and cannot satisfy this acceptance criterion:
 
 - mask one uniformly chosen history item per user, rescore the fixed candidate set, and record the change;
 - **gate 1:** the top-10 list changes for at least 50% of sampled users;
 - **gate 2:** mean \(|\Delta \mathrm{NDCG@10}|\) over sampled users is at least \(10^{-3}\);
 - **gate 3:** the same test on a static-embedding model returns exactly zero change, confirming the test itself has power.
 
-If gates 1 and 2 fail, the model is not history-conditioned and no amount of Monte Carlo sampling will fix it. Stop and change the model.
+If gates 1 and 2 fail in a primary or full-catalogue run, the declared player game is operationally non-responsive at that history cap and no amount of Monte Carlo sampling will fix it. Stop the primary run. A predeclared longer-history sensitivity may continue only to quantify and report that boundary.
 
 The main paper must not depend on unspecified DyHuCoG equations or undocumented hypergraph construction. If DyHuCoG is used, freeze the exact implementation, publish the graph construction, include a simpler model as the primary reproducibility reference, and run the gate above on it first.
 
@@ -194,7 +196,7 @@ Tie handling must be deterministic and reported. **Specify the rule concretely r
 
 ### 7.3 Fixed candidate set
 
-Build a fixed **sampled evaluation set** \(E_u\) once per user by including the held-out target and sampling a declared number of unseen negatives uniformly from the training-excluded catalogue. This is not retrieval and must not be described as candidate recall. Reuse the same \(E_u\) for:
+Build a fixed **sampled evaluation set** \(E_u\) once per user by including the held-out target and sampling a declared number of unseen negatives uniformly after excluding the user's **complete pre-test history, including validation**, not merely the truncated attribution window. This is not retrieval and must not be described as candidate recall. Freeze the candidate seed and global catalogue-wide tie-break independently of model and attribution randomness, so all five experiment seeds see identical users and evaluation items. Reuse the same \(E_u\) for:
 
 - the original recommendation;
 - every coalition evaluation;
@@ -205,26 +207,35 @@ Target coverage is therefore exactly one by construction. Report the evaluation-
 
 ### 7.4 Utility function
 
-The primary characteristic function is the user's ranking utility on the fixed candidate set:
+The primary attribution game uses a continuous target-margin utility on the fixed candidate set:
 
 \[
-v_u(S)=
-\operatorname{NDCG@K}\left(f_u^{S}, y_u\right)
+v_u^{\mathrm{attr}}(S)=\sigma\!\left(s_{u,y_u}^{S}-\frac{1}{L}\sum_{i\in\operatorname{TopL}_{-y_u}}s_{u,i}^{S}\right),
 \]
 
-where \(f_u^{S}\) is the frozen recommender evaluated with only the interaction players in coalition \(S\) active, and \(y_u\) is the held-out target. This presumes the model of §7.1 whose score reads the retained history at inference; with a static-embedding model \(f_u^{S}\) does not depend on \(S\) and the definition is vacuous.
+where \(f_u^{S}\) is the frozen recommender evaluated with only coalition \(S\) active and \(y_u\) is the held-out target. A real-data convergence preflight showed that discrete NDCG coalition values left Monte Carlo ranks and action sets unstable even at \(M=1000\), whereas target margin achieved stable rank estimates. This is a design decision, not permission to call target-margin effects NDCG.
 
-**Define the empty coalition explicitly.** With \(S=\varnothing\) a profile-aggregation model has no vectors to average and \(p_u(\varnothing)\) is undefined. Set \(p_u(\varnothing)=\mathbf{0}\), which makes every candidate score zero and leaves the ranking entirely to the tie-break. Fix that tie-break to a single seeded permutation of the candidate set, reused for every user and every method, and report \(v_u(\varnothing)\) — it is the null-ranker baseline that all uplift is measured against, and leaving it to an unspecified argsort is how two runs come to disagree on the denominator of every reported number.
-
-The main paper uses one primary utility, NDCG@10 or NDCG@20. Recall, MRR, coverage, and diversity are secondary outcomes and must not be silently mixed into the Shapley value.
-
-For a positive recommendation objective, define the intervention effect as:
+The operational outcome remains
 
 \[
-\Delta_u(a)=v_u(\operatorname{do}(a))-v_u(P_u).
+q_u(S)=\operatorname{NDCG@K}\left(f_u^{S},y_u\right).
 \]
 
-For interventions intended to remove harmful evidence, also report the signed effect and absolute effect separately. The direction of the action must be declared before results are inspected.
+Every selected action is therefore scored in both target-margin and NDCG units, and regret is computed against separate exact oracles for each utility. Primary attribution alignment uses target-margin intervention effects; cross-utility AIA and decision regret use NDCG effects. A predeclared utility sensitivity runs the attribution game itself with NDCG and reports its missing/unstable cases.
+
+**Define the empty coalition explicitly.** Both models return zero scores when \(S=\varnothing\). Thus \(v_u^{\mathrm{attr}}(\varnothing)=0.5\), while NDCG depends on one catalogue-wide seeded tie priority reused for every user and method. Report both null values and never rely on an implementation-specific argsort.
+
+Recall, MRR, coverage, and diversity are recommendation-quality outcomes and must not be silently mixed into the attribution game.
+
+Define utility-specific intervention effects:
+
+\[
+\Delta_u^{\mathrm{attr}}(a)=v_u^{\mathrm{attr}}(\operatorname{do}(a))-v_u^{\mathrm{attr}}(P_u),
+\qquad
+\Delta_u^{\mathrm{NDCG}}(a)=q_u(\operatorname{do}(a))-q_u(P_u).
+\]
+
+For interventions intended to remove harmful evidence, report signed and absolute effects separately. The direction of the action must be declared before results are inspected.
 
 ---
 
@@ -276,7 +287,7 @@ Use two budgets with different roles:
 - **B=2:** primary scientific comparison. This is the smallest budget at which interaction and redundancy can distinguish coalition-aware attribution from leave-one-out.
 - **B=3:** optional robustness analysis, using the greedy oracle defined in §11.4.
 
-The selected action is the feasible joint action with the highest predicted benefit under the declared budget. The same budget, intervention strengths, and action-selection rule must be used for every explanation method.
+The feasible space contains the no-action option and every action size **up to** the budget, \(\mathcal A_{u,B}=\{A:|A|\le B\}\). No method or oracle may be forced to perform a harmful action. Magnitude prediction and beneficial action selection are separate: for signed attributions under a fixed downweight intervention, predicted benefit is \(-\phi_{u,p}\), and only positive predicted benefits are selected. Absolute attribution may be used for AIA or a separately labelled change-magnitude diagnostic, but not to claim that an intervention improves utility. The same budget, intervention strengths, abstention rule, and signed action-selection rule must be used for every explanation method.
 
 ---
 
@@ -297,7 +308,7 @@ Use paired marginal evaluations so that the two coalition values for a marginal 
 
 ### Required estimator settings
 
-- Primary \(M\): 250 or 500 permutations, selected before final test evaluation.
+- Primary \(M\): a conservative floor of 500 permutations, increased if the independent convergence study selects more.
 - Convergence sweep: \(M\in\{25,50,100,250,500,1000\}\), subject to runtime.
 - At least five independent random seeds for the convergence experiment.
 - Antithetic permutations where possible: evaluate both a permutation and its reverse.
@@ -328,12 +339,12 @@ Report the mean, median, 95th percentile, and maximum. Do not silently normalize
 
 ### Convergence criterion
 
-Define the minimum usable \(M\) before final testing as the smallest value for which both conditions hold:
+Define the minimum usable \(M\) before final testing as the smallest value for which both conditions hold against an **independently seeded** \(M=1000\) reference:
 
-1. mean top-1 intervention agreement with the \(M=1000\) reference is at least 0.95; and
-2. mean Spearman correlation with the reference is at least 0.95.
+1. mean Spearman correlation with the reference is at least 0.95; and
+2. mean Jaccard overlap of the signed \(B=2\) action set is at least 0.80.
 
-If these thresholds are not reached, report the instability rather than increasing \(M\) until a desired result appears.
+Rank correlation must be defined for at least 95% of users. Exact top-1 agreement and the fraction of users meeting both thresholds are reported diagnostics, not selection rules, because near-tied factors make exact identity brittle. Constant games are counted and reported rather than assigned a correlation. The primary experiment may not use fewer permutations than the selected value. If these thresholds are not reached, report the instability rather than increasing \(M\) until a desired result appears.
 
 ---
 
@@ -343,10 +354,11 @@ At minimum compare:
 
 1. Monte Carlo Shapley;
 2. permutation importance;
-3. LIME or a local surrogate;
-4. gradient-based attribution, if the model is differentiable;
-5. attention weights, only if the model has an attention mechanism;
-6. random ranking as a negative control.
+3. genuinely locally weighted LIME over binary history masks (an unweighted global ridge mask model must be labelled as such, not as LIME);
+4. greedy sequential-deletion counterfactual search, recomputed after each selection and never given bounded-intervention or oracle outcomes;
+5. gradient-based attribution only for a differentiable utility (it is not defined for discrete NDCG and must not be silently computed on a different target);
+6. attention weights, only if the model has an attention mechanism;
+7. random ranking as a negative control.
 
 All methods must receive the same input factors, candidate set, evaluation users, and intervention budget.
 
@@ -357,7 +369,7 @@ The paper must distinguish:
 - intervention execution;
 - and outcome measurement.
 
-No method may use the test outcome when producing its attribution or selecting its intervention.
+The primary experiment is a **retrospective, target-conditioned audit**: the held-out target defines the ranking utility being explained, just as a labelled test instance defines the object of an explanation. This is not a prospective deployment policy. No method may inspect measured intervention effects, oracle actions, or aggregate test results when producing its attribution or selecting its intervention, and no hyperparameter or policy may be changed after final test evaluation. Any prospective-action claim requires a separate validation-derived policy whose test-time explanation target is available without future feedback.
 
 ---
 
@@ -368,20 +380,20 @@ No method may use the test outcome when producing its attribution or selecting i
 Primary metric:
 
 \[
-\operatorname{AIA}_{u}(g)=
+\operatorname{AIA}^{\mathrm{attr}}_{u}(g)=
 \operatorname{Spearman}\left(
 |\phi_{u,p}^{g}|,
-|\Delta_u(p)|
+|\Delta_u^{\mathrm{attr}}(p)|
 \right).
 \]
 
-Report mean user-level AIA with bootstrap confidence intervals. Report Kendall's \(\tau\) as a robustness metric.
+Also report cross-utility \(\operatorname{Spearman}(|\phi|,|\Delta^{\mathrm{NDCG}}|)\), signed alignment \(\operatorname{Spearman}(-\phi,\Delta^z)\), and direction accuracy for each utility \(z\). Report mean distinct-user AIA with bootstrap confidence intervals and missing constant-vector counts. Kendall's \(\tau\) is a robustness metric.
 
 #### Required: a permutation null for AIA
 
 An AIA value is not interpretable on its own, and the earlier cross-domain ActionShap experiments demonstrated exactly why — a *random* attribution scored 0.518 on the alignment metric, which is meaningless without knowing what the metric returns under chance for that player-set size and effect distribution. Listing random ranking among the baselines (§10) is necessary but not sufficient, because it yields a single number with no dispersion.
 
-For every method, construct the null by **shuffling \(|\Delta_u(p)|\) across the players within each user**, recomputing AIA, and repeating at least 1,000 times. Report:
+For every method, construct the primary null by **shuffling \(|\Delta_u^{\mathrm{attr}}(p)|\) across the players within each user and seed**, recomputing AIA, and repeating at least 1,000 times. Report:
 
 - the observed mean AIA against the null distribution's mean and 95th percentile;
 - a permutation \(p\)-value per method;
@@ -391,21 +403,27 @@ Shuffle within user, never across users: player-set cardinality \(n_u\) varies, 
 
 #### Joint-action attribution rule
 
-For budgets \(B\ge 2\), individual attributions must be converted into a score for a joint intervention set before an action is selected. Define the predicted value of a candidate action \(A\subseteq P_u\) as
+For budgets \(B\ge 2\), individual attributions must be converted into a score for a joint intervention set before an action is selected. Magnitude-only change prediction may use
 
 \[
-\widehat{\Phi}_{u,g}(A)=\sum_{p\in A}|\widehat{\phi}_{u,p}^{g}|,
+\widehat{\Phi}^{\mathrm{mag}}_{u,g}(A)=\sum_{p\in A}|\widehat{\phi}_{u,p}^{g}|,
 \qquad |A|\le B,
 \]
 
-for methods whose output is an unsigned importance ranking. For signed methods, also report the prespecified signed variant \(\sum_{p\in A}\widehat{\phi}_{u,p}^{g}\) when the intervention direction is fixed. The primary action is
+but it is not the beneficial-action rule. Under the primary fixed downweighting intervention, the prespecified predicted benefit of a signed attribution is
 
 \[
-\widehat{A}_{u,g}=\operatorname{argmax}_{A\in\mathcal{A}_{u,B}}\widehat{\Phi}_{u,g}(A),
+\widehat{\Phi}^{\mathrm{benefit}}_{u,g}(A)=-\sum_{p\in A}\widehat{\phi}_{u,p}^{g}.
 \]
 
-where \(\mathcal{A}_{u,B}\) is the feasible action space, including the allowed \(
-ho\) values. The action score and tie-break must be fixed before test evaluation. For the primary \(B=2\) experiment, enumerate candidate pairs on the retained history; for \(B=3\), use the greedy procedure in §11.4 unless the restricted exhaustive validation is being run.
+The method selects the positive-benefit action with largest score, or \(A=\varnothing\) when no action has positive predicted benefit. The primary action is
+
+\[
+\widehat{A}_{u,g}=\operatorname{argmax}_{A\in\mathcal{A}_{u,B}}\widehat{\Phi}^{\mathrm{benefit}}_{u,g}(A),
+\qquad \mathcal A_{u,B}=\{A:|A|\le B\}.
+\]
+
+The action score and tie-break must be fixed before test evaluation. For the primary \(B=2\) experiment, enumerate no action, all singletons, and all pairs on the retained history; for \(B=3\), use the greedy procedure in §11.4 unless restricted exhaustive validation is being run. Report magnitude AIA, signed alignment, direction accuracy, success, and abstention separately.
 
 This set-level rule is required because a per-player AIA alone does not evaluate whether a method chooses a good *joint* intervention.
 
@@ -442,27 +460,27 @@ For \(k\in\{1,3,5\}\), measure whether the method's top-k factors contain one of
 
 ### 11.4 Intervention regret
 
-Let \(a_g\) be the action selected using method \(g\), and \(a^*\) the best feasible action under the declared budget:
+Let \(a_g\) be the action selected from method \(g\)'s target-margin attribution, and \(a^{*,z}\) the best feasible action for utility \(z\in\{\mathrm{attr},\mathrm{NDCG}\}\):
 
 \[
-\operatorname{Regret}_u(g)=
-\Delta_u(a^*)-\Delta_u(a_g).
+\operatorname{Regret}_u^z(g)=
+\Delta_u^z(a^{*,z})-\Delta_u^z(a_g).
 \]
 
-Normalize only when the denominator is nonzero, and report the fraction of users for whom normalization is undefined.
+NDCG regret is the headline decision result. Target-margin regret checks consistency with the attribution game. Normalize only when the corresponding oracle effect is positive, and report the undefined fraction.
 
 #### How \(a^*\) is computed — pin this down before implementing
 
-\(a^{*}\) is an oracle over the feasible action space, and its cost depends entirely on the budget, which the definition above leaves open. With \(n_{\max}=50\) players and three intervention strengths \(\rho\in\{0,0.25,0.5\}\):
+\(a^{*}\) is an oracle over the feasible action space, and its cost depends entirely on the budget. With the primary \(n_{\max}=20\) players and three diagnostic intervention strengths \(\rho\in\{0,0.25,0.5\}\):
 
 | Budget | Action space | Evaluations for exhaustive \(a^*\) | Verdict |
 |---|---|---|---|
-| \(B=1\) | one player, one \(\rho\) | \(50\times 3=150\) | exhaustive, trivially affordable |
-| \(B=3\) | three players, each with a \(\rho\) | \(\binom{50}{3}\times 3^3 \approx 5.3\times 10^5\) | exhaustive is infeasible per user |
+| \(B=1\) | one player, one \(\rho\) | \(20\times 3=60\) | exhaustive, trivially affordable |
+| \(B=3\) | three players, each with a \(\rho\) | \(\binom{20}{3}\times 3^3 = 30{,}780\) | avoid in the main all-user sweep; validate greedy on a restricted subset |
 
-**Use \(B=1\) only as the exhaustive diagnostic oracle.** It makes the single-player reference exact, but it cannot support the main method comparison because leave-one-out is identical to the measured intervention effect. Use \(B=2\) as the primary experiment; enumerate the feasible joint actions when the retained history is capped at 50 and use the same action space for every method. For \(B=3\), use greedy forward selection and report its gap against exhaustive search on a restricted subset.
+**Use \(B=1\) deletion only as the algebraic diagnostic oracle.** It makes the single-player reference exact, but it cannot support the main deletion-method comparison because leave-one-out is identical to the measured intervention effect. Use \(B=2\) as the primary experiment; with the primary retained history capped at 20, enumerate no action, every singleton, and every pair for **every primary user**, using the same action space for every method. This is the exact \(B\le2\) oracle, not a greedy approximation.
 
-For \(B>1\), \(a^*\) is defined by **greedy forward selection**: pick the best single action, fix it, re-measure all remaining actions against that modified profile, pick the next, repeat \(B\) times. State in the paper that this is a greedy oracle rather than a true optimum, so reported regret is a **lower bound** on regret against the exact optimum. Validate the approximation once, on a restricted setting small enough for exhaustive search (for example \(n_u\le 12\), \(B=2\)), and report the mean gap between greedy and exhaustive \(a^*\). Every method's selected action \(a_g\) must be scored under the same budget and the same greedy protocol, so the comparison stays paired.
+For \(B>2\), \(a^*\) is defined by **greedy forward selection with early stopping**: pick the best improving single action, fix it, re-measure remaining actions against that modified profile, and stop when no addition improves utility or the budget is reached. State that this is a greedy oracle rather than a true optimum, so reported regret is a lower bound on regret against the exact optimum. Validate the approximation on a restricted setting small enough for exhaustive search and report the gap. Every method's selected action must be scored under the same budget and abstention policy.
 
 ### 11.5 Stability
 
@@ -524,7 +542,7 @@ Required analyses:
 - effect sizes, not only p-values;
 - five independent seeds where stochastic training or Monte Carlo estimation is involved.
 
-The statistical unit is the user, not an individual coalition evaluation. Do not treat thousands of coalition evaluations from the same user as independent observations.
+The statistical unit is the **distinct user**, not an individual coalition evaluation and not a seed--user row. When the same users are evaluated under five experiment seeds, average seeds within user before primary inference or use an explicitly hierarchical bootstrap/mixed model. Do not report 500 users under five seeds as \(n=2500\). Sign-permutation p-values use the plus-one correction and are bounded below by \(1/(R+1)\), never printed as zero. Report paired effect sizes, missing constant-vector correlations, undefined normalized regrets, success, and abstention.
 
 ---
 
@@ -535,36 +553,30 @@ The current `ActionShap/code/` is primarily a static clustering prototype. It mu
 ```text
 ActionShap/code/
 ├── configs/
-│   ├── movielens.yaml
-│   └── sparse_dataset.yaml
+│   └── final.yaml             # frozen two-dataset/two-model experiment matrix
 ├── actionshap/
-│   ├── recommendation_data.py   # MovieLens loader and temporal split
-│   ├── candidates.py            # fixed candidate sets and recall
+│   ├── recommendation_data.py   # generic temporal split and deterministic user sampling
+│   ├── candidates.py            # sampled and full-unseen sets plus global tie priorities
 │   ├── models/
-│   │   ├── profile.py           # primary history-conditioned recommender
-│   │   ├── sequential.py        # optional robustness model
-│   │   └── static.py            # BPR-MF: quality reference ONLY, never attributed
-│   ├── recommendation.py        # UserGame, utility, MC Shapley, joint actions
-│   ├── baselines.py             # LOO, LIME, permutation, random
-│   ├── evaluation.py            # intervention effects, AIA, nulls, oracles
-│   ├── convergence.py           # M sweep and rank stability
-│   ├── intervention.py          # legacy tabular intervention code
-│   ├── metrics.py               # legacy/general metrics
-│   ├── stats.py
-│   └── reporting.py
+│   │   ├── itemknn.py           # primary history-conditioned neighbourhood model
+│   │   └── profile.py           # leave-one-out-trained architecture robustness model
+│   ├── recommendation.py        # UserGame, utilities, cached MC Shapley, action rules
+│   ├── baselines.py             # LOO, weighted LIME, greedy CF, random
+│   ├── evaluation.py            # effects, batched exact oracle, AIA, nulls, gates
+│   ├── convergence.py           # independent M=1000 rank/action convergence
+│   └── stats.py                 # distinct-user hierarchical comparisons
 ├── scripts/
-│   ├── prepare_data.py
-│   ├── train_model.py
-│   ├── build_candidates.py
-│   ├── run_attribution.py
-│   ├── run_interventions.py
+│   ├── prepare_amazon_digital_music.py
+│   ├── run_recommendation.py
 │   ├── run_convergence.py
-│   └── make_tables.py
+│   ├── run_final_suite.py
+│   ├── make_paper_assets.py
+│   ├── validate_manuscript.py
+│   └── package_results.py
 ├── tests/
 └── results/
-    ├── raw/
-    ├── tables/
-    └── figures/
+    ├── raw/                      # ignored schema-v2 JSON
+    └── release/                  # content-addressed archival package
 ```
 
 ### Files to archive, not delete
@@ -692,26 +704,29 @@ The project is ready for paper writing only when all conditions below are met:
 10. Results are reported with paired confidence intervals and corrected statistical tests.
 11. No conclusion depends only on the composite Actionability Score.
 12. The final manuscript distinguishes recommendation-factor attribution from source-level SignalShap attribution.
+13. NDCG and target-margin outputs have separate schema fields, labels, tables, and figures.
+14. Complete pre-test histories, not truncated player windows, define unseen candidates; the full-catalogue check excludes seen items.
+15. The primary action space includes no action and all sizes up to \(B=2\), with exact oracles for every primary user.
+16. At least 1,000 distinct primary users (or all eligible users), two timestamped datasets, two history-conditioned models, five common seeds, and a random control are present.
+17. The real-data gate passes for every primary-ItemKNN dataset condition; any robustness-model failure is explicitly retained. The primary \(M\) meets independent rank/action convergence criteria.
+18. The asset manifest uses repository-relative paths and hashes, and schema-v1 pilot assets are excluded from final tables.
+19. Target rank, NDCG, Recall, and MRR are reported against item popularity; the primary ItemKNN model does not underperform popularity on NDCG or Recall. Profile-model shortfalls are retained as an explicit robustness limitation.
 
 ---
 
 ## 17. Recommended build order
 
-0. **Run the masking-sensitivity spike** (`notebooks/00_gate_masking_sensitivity.ipynb`). Train a throwaway static model and a throwaway history-conditioned model on whatever data is at hand, and confirm the first is insensitive to masking and the second is not. Half a day, and it decides the model family for the whole paper.
-1. Rewrite the data loader and freeze the temporal split.
-2. Train and validate the baseline recommender, **history-conditioned per §7.1**.
-3. Build fixed sampled evaluation sets and record target coverage and negative-sampling seed.
-4. Implement profile masking for the empty, singleton, and full coalitions.
-5. Implement exact Shapley on tiny synthetic games for validation only.
-6. Implement Monte Carlo Shapley for real user histories.
-7. Implement the intervention simulator and budgeted selection.
-8. Add AIA, top-k precision, regret, and stability metrics.
-9. Run the Monte Carlo convergence study.
-10. Add attribution baselines.
-11. Run the primary experiment on MovieLens-1M.
-12. Add the sparse dataset only after the primary pipeline is stable.
-13. Generate figures and tables from raw result files.
-14. Rewrite the manuscript around the results; do not pre-fill headline numbers.
+0. Archive schema-v1 assets and freeze revision 4 before inspecting corrected final outcomes.
+1. Build deterministic MovieLens and Amazon Digital Music temporal datasets with source hashes.
+2. Fit ItemKNN and the leave-one-out-trained profile robustness model on complete training histories.
+3. Run the real 200-user gate and quality preflight; freeze ItemKNN, \(n_{\max}=20\), and target-margin attribution utility.
+4. Build sampled and full-unseen candidate sets from complete pre-test histories with independent seeds.
+5. Validate empty/full coalitions, exact tiny-game Shapley, symmetry, redundancy, abstention, and dual-utility oracles.
+6. Run independent \(M=1000\) convergence studies before any final attribution run.
+7. Execute the frozen two-dataset, two-model, five-seed primary and full-catalogue matrix.
+8. Execute the predeclared history, rho, candidate, budget, and NDCG-utility sensitivities.
+9. Generate distinct-user statistics, tables, figures, and content-addressed manifests only from schema-v2 raw results.
+10. Write numerical conclusions only after `paper/final/manifests/validation_report.json` says PASS.
 
 ---
 
@@ -720,11 +735,13 @@ The project is ready for paper writing only when all conditions below are met:
 The revised ActionShap paper uses:
 
 - recommendation only;
-- interaction-level user-specific players;
-- Monte Carlo Shapley values;
-- bounded, declared profile interventions;
-- fixed candidate sets;
-- intervention-grounded metrics;
-- and convergence/stability diagnostics.
+- interaction-level user-specific players capped at 20 in the primary game;
+- primary ItemKNN plus latent-profile architecture robustness;
+- target-margin attribution with separately evaluated NDCG outcomes and oracles;
+- Monte Carlo Shapley as one interchangeable explainer;
+- bounded, signed, abstention-aware profile interventions;
+- fixed sampled and full-unseen candidate sets;
+- distinct-user intervention-grounded metrics;
+- and independent rank/action convergence plus stability diagnostics.
 
 This is the version that should be ranked first: it measures recommendation actionability directly, treats explanation methods as exchangeable inputs, and keeps Monte Carlo Shapley as an estimator rather than the claimed scientific endpoint.

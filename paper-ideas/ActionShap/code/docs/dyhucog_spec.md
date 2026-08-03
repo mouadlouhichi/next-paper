@@ -1,3 +1,10 @@
+> **LEGACY SOURCE AUDIT — NOT PART OF THE ACTIONSHAP REVISION 4 EXPERIMENT.**
+> The canonical recommendation paper uses the profile and ItemKNN models,
+> MovieLens-1M, and Amazon Digital Music as defined in
+> `../../ActionShap_Recommendation_Spec.md` and `../configs/final.yaml`.
+> Amazon-Book and DyHuCoG statements below are retained only to document the
+> superseded proposal and must not be copied into the current manuscript.
+
 # DyHuCoG — Implementation Specification
 
 **Extracted from:** M. Louhichi, R. Nesmaoui, M. Lazaar, *"DyHuCoG: A Dynamic Hypergraph Cooperative Game for Preference-aware Recommendation"*, International Journal of Intelligent Engineering and Systems, Vol. 19, No. 2, 2026. DOI: 10.22266/ijies2026.0228.54. Received October 8, 2025; revised December 30, 2025. Journal pages 887–902 (16 pages).

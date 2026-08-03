@@ -1,0 +1,12 @@
+{
+  "status": "NOT_RUN",
+  "errors": [
+    "Corrected schema-v2 experiments have not been executed in this checkout.",
+    "MovieLens-1M and Amazon Digital Music source data must be supplied locally.",
+    "Two-model, five-seed, convergence, full-catalogue, and sensitivity runs are pending."
+  ],
+  "warnings": [],
+  "notes": [],
+  "experiment_groups": [],
+  "n_files": 0
+}

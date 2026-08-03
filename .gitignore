@@ -2,12 +2,16 @@
 */**/.venv/
 .venv/
 __pycache__/
+*.py[cod]
 .pytest_cache/
 .ipynb_checkpoints/
 results/raw/*.json
 **/results/raw/*.json
 **/results/paper_assets/
+**/results/release/*.tar.gz
+**/results/release/*.sha256
 */**/data/ml-1m*
+**/data/amazon-digital-music/
 .DS_Store
 **/.DS_Store
 paper-ideas/ActionShap/code/.DS_Store
