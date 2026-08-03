@@ -1,0 +1,57 @@
+{
+  "methods": {
+    "none": {
+      "mean_future_util": 0.6760360868409844,
+      "n_users": 900
+    },
+    "random": {
+      "mean_future_util": 0.680172508923123,
+      "n_users": 900,
+      "mean_lift_vs_none": 0.004136422082138631,
+      "success_rate": 0.42777777777777776
+    },
+    "backshap": {
+      "mean_future_util": 0.6808203835075387,
+      "n_users": 900,
+      "mean_lift_vs_none": 0.00478429666655435,
+      "success_rate": 0.4211111111111111
+    },
+    "cavi_fwd": {
+      "mean_future_util": 0.6798639407171835,
+      "n_users": 900,
+      "mean_lift_vs_none": 0.0038278538761990196,
+      "success_rate": 0.4222222222222222
+    }
+  },
+  "significance": {
+    "cavi_fwd": {
+      "wilcoxon_p_vs_random": 0.9985382863060683,
+      "rank_biserial_vs_random": 0.03977272727272727,
+      "wilcoxon_lift_vs_zero": 0.8251583020748983,
+      "holm_p_vs_random": 1.0
+    },
+    "backshap": {
+      "wilcoxon_p_vs_random": 0.825041410800577,
+      "rank_biserial_vs_random": 0.011695906432748537,
+      "wilcoxon_lift_vs_zero": 0.789689825893601,
+      "holm_p_vs_random": 1.0
+    },
+    "random": {
+      "wilcoxon_p_vs_random": 1.0,
+      "rank_biserial_vs_random": 0.0,
+      "wilcoxon_lift_vs_zero": 0.6045831480974289,
+      "holm_p_vs_random": 1.0
+    }
+  },
+  "config": {
+    "data": "/Users/mlouhichi/Desktop/personal/phd/next-paper/paper-ideas/CAVI/scripts/../gate/data",
+    "users": 300,
+    "train_users": 2000,
+    "seeds": [
+      7,
+      42,
+      123
+    ],
+    "candidates": 100
+  }
+}

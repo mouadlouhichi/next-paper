@@ -1,0 +1,67 @@
+{
+  "methods": {
+    "random": {
+      "ndcg_mean": 0.07472970044280769,
+      "ndcg_std": 0.16165033709553805,
+      "recall_mean": 0.21666666666666667,
+      "mrr_mean": 0.03707363533821222,
+      "n_users": 900
+    },
+    "profile_base": {
+      "ndcg_mean": 0.4031709637202953,
+      "ndcg_std": 0.35797956216661286,
+      "recall_mean": 0.7044444444444444,
+      "mrr_mean": 0.3156956053110594,
+      "n_users": 900
+    },
+    "backshap": {
+      "ndcg_mean": 0.4068475709515955,
+      "ndcg_std": 0.3696289769330547,
+      "recall_mean": 0.7033333333333334,
+      "mrr_mean": 0.32275652895054335,
+      "n_users": 900
+    },
+    "cavi_fwd": {
+      "ndcg_mean": 0.39472785355252993,
+      "ndcg_std": 0.36735509591891746,
+      "recall_mean": 0.6933333333333334,
+      "mrr_mean": 0.31063203901361797,
+      "n_users": 900
+    },
+    "bpr_mf": {
+      "ndcg_mean": 0.40331677582802683,
+      "ndcg_std": 0.3661903186182711,
+      "recall_mean": 0.6966666666666667,
+      "mrr_mean": 0.3192447471545769,
+      "n_users": 900
+    }
+  },
+  "significance_vs_base": {
+    "cavi_fwd": {
+      "wilcoxon_p_vs_base": 0.3074472686091342,
+      "rank_biserial_vs_base": -0.05263157894736842,
+      "holm_p": 0.9223418058274025
+    },
+    "backshap": {
+      "wilcoxon_p_vs_base": 0.875007641962505,
+      "rank_biserial_vs_base": -0.022222222222222223,
+      "holm_p": 1.0
+    },
+    "bpr_mf": {
+      "wilcoxon_p_vs_base": 0.9686723580622636,
+      "rank_biserial_vs_base": 0.016100178890876567,
+      "holm_p": 0.9686723580622636
+    }
+  },
+  "config": {
+    "data": "/Users/mlouhichi/Desktop/personal/phd/next-paper/paper-ideas/CAVI/scripts/../gate/data",
+    "users": 300,
+    "train_users": 2000,
+    "seeds": [
+      7,
+      42,
+      123
+    ],
+    "candidates": 100
+  }
+}
