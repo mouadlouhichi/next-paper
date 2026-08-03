@@ -142,7 +142,16 @@ v_pref(S) = v(S) + λ_pref·Σ_{(u,i)∈S} sim(u,i)
 
 ## A.7 Attribution-guided re-ranking (`rerank.py`)
 
-To test the *explanation→improvement* direction that the survey's critical analysis discusses, apply attribution-guided re-ranking: use Shapley-derived interaction weights to re-weight propagation/ranking and measure NDCG/Recall/coverage/ILD vs. the non-attribution backbones. This is a small, contained experiment that grounds the survey's "attribution→intervention" discussion without claiming a new architecture.
+To test the *explanation→improvement* direction that the survey's critical analysis discusses, apply attribution-guided re-ranking: use Shapley-derived interaction weights to re-weight propagation/ranking and measure **Recall@K and NDCG@K** (primary) plus coverage/ILD (secondary) vs. the non-attribution backbones. This is a small, contained experiment that grounds the survey's "attribution→intervention" discussion without claiming a new architecture.
+
+## A.7a Primary metric definitions (used in all result tables)
+
+Report **Recall@K and NDCG@K for K ∈ {5, 10, 20}** as the paper's primary results. Define them explicitly (mirror the thesis Ch. 4.4 so the survey's protocol is auditable):
+
+- **NDCG@K** = `(1/|U|) Σ_u DCG_u@K / IDCG_u@K`, with `DCG_u@K = Σ_{k=1..K} rel_u,k / log2(k+1)` (binary relevance for implicit feedback; IDCG per user).
+- **Recall@K** = `(1/|U|) Σ_u |relevant_u ∩ R_u@K| / |relevant_u|`.
+
+Also compute **Catalogue Coverage** = `|∪_u R_u@K| / |I|` and **Intra-List Diversity (ILD)** = `(2/K(K−1)) Σ_{1≤k<l≤K} [1 − sim(i_k,i_l)]` — these are secondary; they never replace Recall@K/NDCG@K as the headline.
 
 ## A.8 Test suite (`tests/`)
 
@@ -192,17 +201,51 @@ Cache parsed/subsampled/filtered frames to Parquet keyed by the config hash. If 
 
 **Confidence on the Amazon-Book column is deliberately low** — the rebuilt, subsampled split has no published counterpart, so these are extrapolations from the density regime. The prediction worth holding is the **direction** of the contrast, not the levels.
 
+## B.1a Headline result tables — Recall@K and NDCG@K (the paper's primary reported results)
+
+The **core deliverable of the benchmark is the results table** reporting **Recall@K and NDCG@K** (K = 5, 10, 20) for every attribution family on both backbones and both datasets. This is the number reviewers will look at first; all other metrics (coverage, ILD, cost) are secondary to it. Predicted values (mean ± std over 5 seeds) below.
+
+**Table A — MovieLens-1M (dense), hypergraph GNN backbone (primary).**
+
+| Attribution family | NDCG@5 | NDCG@10 | NDCG@20 | Recall@5 | Recall@10 | Recall@20 |
+|---|---|---|---|---|---|---|
+| `uniform` (baseline) | 0.085 | 0.130 | 0.210 | 0.070 | 0.125 | 0.175 |
+| `attention` | 0.088 | 0.135 | 0.218 | 0.073 | 0.130 | 0.183 |
+| `heuristic-pop` | 0.082 | 0.126 | 0.205 | 0.067 | 0.121 | 0.170 |
+| `shapley-ai` | 0.090 | 0.139 | 0.223 | 0.075 | 0.133 | 0.188 |
+| `shapley-mc` | **0.093** | **0.143** | **0.230** | **0.078** | **0.138** | **0.194** |
+| `myerson` (optional) | 0.091 | 0.140 | 0.226 | 0.076 | 0.135 | 0.190 |
+
+**Table B — Amazon-Book (sparse), hypergraph GNN backbone (primary).**
+
+| Attribution family | NDCG@5 | NDCG@10 | NDCG@20 | Recall@5 | Recall@10 | Recall@20 |
+|---|---|---|---|---|---|---|
+| `uniform` (baseline) | 0.012 | 0.017 | 0.027 | 0.015 | 0.024 | 0.036 |
+| `attention` | 0.013 | 0.018 | 0.029 | 0.016 | 0.026 | 0.039 |
+| `heuristic-pop` | 0.011 | 0.016 | 0.026 | 0.014 | 0.023 | 0.034 |
+| `shapley-ai` | 0.013 | 0.019 | 0.030 | 0.017 | 0.027 | 0.040 |
+| `shapley-mc` | **0.014** | **0.020** | **0.032** | **0.018** | **0.029** | **0.043** |
+| `myerson` (optional) | 0.014 | 0.019 | 0.031 | 0.017 | 0.028 | 0.041 |
+
+**Table C — LightGCN backbone (secondary): same layout, all families, both datasets.**
+
+Expected pattern (must be confirmed, not assumed): `shapley-mc` ranks **1st on both Recall@K and NDCG@K** across all cutoffs, with the largest relative margin on the sparse Amazon-Book regime; `shapley-ai` within ±1% of `shapley-mc`; `attention` and `uniform` close on the dense dataset; `heuristic-pop` lowest on diversity-aware ranking. Report every cell as mean ± std over the 5 seeds, with the paired significance tests (§A.8/§B.2) marking which differences are significant after Holm–Bonferroni correction.
+
+> **The result tables are the paper's headline.** Ensure `report.py` emits these tables in LaTeX (Table A/B/C) as the primary output, and that the paper's Results section (§7.2 of `Paper_Structure.md`) leads with Recall@20 and NDCG@20.
+
 ## B.2 BQ1 — ranking quality of game-theoretic vs. non-game-theoretic attribution
 
-| Comparison | Predicted NDCG@20 ordering | Confidence |
-|---|---|---|
-| `shapley-mc` vs `uniform` | `shapley-mc` > `uniform` | **high** (the whole DyHuCoG premise) |
-| `shapley-mc` vs `attention` | `shapley-mc` ≥ `attention` | medium |
-| `shapley-mc` vs `heuristic-pop` | `shapley-mc` > `heuristic-pop` | high |
-| `shapley-ai` vs `shapley-mc` | within ±1% of each other | medium (estimator ablation) |
-| `myerson` vs `shapley-mc` | near-parity, `myerson` may help on sparse | low |
+**Primary reported result: NDCG@K and Recall@K (K ∈ {5,10,20}) from Tables A/B/C in §B.1a.** Comparison table below records the expected ordering for the two headline cutoffs.
 
-**Headline prediction:** the game-theoretic attribution (`shapley-mc`) improves NDCG@20 and Recall@20 over all non-game-theoretic baselines, with the largest relative gain on the sparse Amazon-Book regime (the density-contrast argument).
+| Comparison | Predicted NDCG@20 ordering | Predicted Recall@20 ordering | Confidence |
+|---|---|---|---|
+| `shapley-mc` vs `uniform` | `shapley-mc` > `uniform` | `shapley-mc` > `uniform` | **high** (the whole DyHuCoG premise) |
+| `shapley-mc` vs `attention` | `shapley-mc` ≥ `attention` | `shapley-mc` ≥ `attention` | medium |
+| `shapley-mc` vs `heuristic-pop` | `shapley-mc` > `heuristic-pop` | `shapley-mc` > `heuristic-pop` | high |
+| `shapley-ai` vs `shapley-mc` | within ±1% of each other | within ±1% of each other | medium (estimator ablation) |
+| `myerson` vs `shapley-mc` | near-parity, `myerson` may help on sparse | near-parity, `myerson` may help on sparse | low |
+
+**Headline prediction:** the game-theoretic attribution (`shapley-mc`) improves **both NDCG@20 and Recall@20** over all non-game-theoretic baselines, with the largest relative gain on the sparse Amazon-Book regime (the density-contrast argument). Report both metrics at all three cutoffs so the claim is not a cutoff artifact.
 
 ## B.3 BQ2 — coverage and diversity
 

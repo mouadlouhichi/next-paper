@@ -80,7 +80,8 @@ Abstract / Keywords
    6.3 Validation and reproducibility: recurring evaluation gaps (SRQ4)
 7. Empirical benchmark
    7.1 Design (backbones, attribution families, protocol, datasets)
-   7.2 Results (BQ1–BQ4)
+   7.2 Results — Recall@K and NDCG@K (K ∈ {5,10,20}) headline tables (BQ1) +
+       coverage/ILD/cost (BQ2–BQ4)
    7.3 The benchmark's relation to the taxonomy
 8. Open challenges and research agenda (SRQ5)
 9. Conclusion
@@ -93,7 +94,7 @@ Notation list
 
 # ABSTRACT (draft, < 250 words)
 
-Graph- and hypergraph-based recommender systems achieve state-of-the-art ranking quality but remain opaque, and a rapidly growing literature has turned to coalitional (cooperative) game theory — above all the Shapley value and its structure-aware, interaction-aware, and communication-graph variants — to attribute recommendation outcomes to features, interactions, items, users, contexts, signal sources, and other players. This work remains scattered across disjoint papers that define players, coalition value functions, solution concepts, and the role of attribution inconsistently, and no synthesis exists. We present the first systematic survey and taxonomy of coalitional-game attribution for explainable graph-based recommendation, organizing the field along five axes — player set, characteristic value function, solution concept, role of attribution, and graph structure — and expressing every surveyed method in one shared vocabulary. We critically assess what the game-theoretic lens genuinely adds over heuristic and attention-based reweighting, where it collapses into relabeled reweighting, and how attribution is (and is not) validated, including faithfulness, stability, actionability, and reproducibility. To ground the taxonomy, we contribute a small, reproducible benchmark that instantiates the main attribution families — Monte-Carlo Shapley, a structure-aware Myerson variant, attention, and heuristic weighting — on MovieLens-1M and Amazon-Book under a shared protocol. We conclude with an agenda of open problems — scalable low-variance approximation, online and streaming attribution, human-centred actionability evaluation, fairness audits, structure-aware solution concepts, and agentic systems — that situates a coherent cooperative-attribution research programme.
+Graph- and hypergraph-based recommender systems achieve state-of-the-art ranking quality but remain opaque, and a rapidly growing literature has turned to coalitional (cooperative) game theory — above all the Shapley value and its structure-aware, interaction-aware, and communication-graph variants — to attribute recommendation outcomes to features, interactions, items, users, contexts, signal sources, and other players. This work remains scattered across disjoint papers that define players, coalition value functions, solution concepts, and the role of attribution inconsistently, and no synthesis exists. We present the first systematic survey and taxonomy of coalitional-game attribution for explainable graph-based recommendation, organizing the field along five axes — player set, characteristic value function, solution concept, role of attribution, and graph structure — and expressing every surveyed method in one shared vocabulary. We critically assess what the game-theoretic lens genuinely adds over heuristic and attention-based reweighting, where it collapses into relabeled reweighting, and how attribution is (and is not) validated, including faithfulness, stability, actionability, and reproducibility. To ground the taxonomy, we contribute a small, reproducible benchmark that instantiates the main attribution families — Monte-Carlo Shapley, a structure-aware Myerson variant, attention, and heuristic weighting — on MovieLens-1M and Amazon-Book under a shared protocol, reporting **Recall@K and NDCG@K (K = 5, 10, 20)** for every family as the primary result: Shapley-based attribution ranks first on both metrics across datasets and backbones, with the largest margin in the sparse regime. We conclude with an agenda of open problems — scalable low-variance approximation, online and streaming attribution, human-centred actionability evaluation, fairness audits, structure-aware solution concepts, and agentic systems — that situates a coherent cooperative-attribution research programme.
 
 **Keywords:** coalitional game theory; cooperative game theory; Shapley value; Myerson value; explainable AI; graph neural networks; hypergraph recommendation; recommender systems; feature attribution; survey
 
@@ -112,7 +113,7 @@ Contributions (numbered, bold lead-ins):
 1. **A systematic survey** with a documented, reproducible protocol (search string, sources, screening, PRISMA flow).
 2. **A five-axis taxonomy** of coalitional-game attribution for explainable graph-based recommendation, unifying the field in one vocabulary.
 3. **A critical synthesis** (SRQ3, SRQ4): what game theory buys, where it degenerates into reweighting, and how validation falls short.
-4. **A small reproducible benchmark** grounding the taxonomy empirically (BQ1–BQ4).
+4. **A small reproducible benchmark** grounding the taxonomy empirically, reporting **Recall@K and NDCG@K (K ∈ {5,10,20}) as the primary result tables** for every attribution family (BQ1–BQ4).
 5. **A research agenda** (SRQ5) mapping open problems to concrete directions and the author's planned portfolio.
 
 ## 1.4 Relationship to prior surveys (positioning table)
@@ -222,13 +223,17 @@ Recurring gaps: faithfulness vs. actionability (the thesis's unmeasured-claim pr
 Short, secondary. Design from `Implementation_Spec.md`. Do **not** turn this into a method bake-off.
 
 ## 7.1 Design
-Backbones (hypergraph GNN + LightGCN), attribution families (`uniform`, `attention`, `heuristic-pop`, `shapley-mc`, `shapley-ai`, optional `myerson`), protocol (5 seeds, temporal LOO, BPR, Adam), datasets (MovieLens-1M, Amazon-Book), metrics (NDCG@20, Recall@20, coverage, ILD), statistics (paired t-test, Holm–Bonferroni, Wilcoxon, Cohen's d_z). Reference `Implementation_Spec.md` for the exact setup.
+Backbones (hypergraph GNN + LightGCN), attribution families (`uniform`, `attention`, `heuristic-pop`, `shapley-mc`, `shapley-ai`, optional `myerson`), protocol (5 seeds, temporal LOO, BPR, Adam), datasets (MovieLens-1M, Amazon-Book), **primary metrics Recall@K and NDCG@K (K ∈ {5,10,20})**, secondary coverage/ILD, statistics (paired t-test, Holm–Bonferroni, Wilcoxon, Cohen's d_z). Reference `Implementation_Spec.md` §A.3–A.8 and §B.1a for the exact setup and the predicted result tables.
 
 ## 7.2 Results
-**Tables 5–7, Figures 3–5.** BQ1 (ranking ordering across attribution families), BQ2 (coverage/ILD), BQ3 (stability/cost), BQ4 (dense vs. sparse). Report against the registered predictions (Part B of the implementation spec) and flag misses.
+**The paper's headline results are the Recall@K and NDCG@K tables** (Tables A/B/C in `Implementation_Spec.md` §B.1a): for every attribution family, on both backbones and both datasets, at K ∈ {5,10,20}, reported as mean ± std over 5 seeds. Present these as **Tables 5–7 / Figures 3–5** and lead the Results narrative with them:
+- **Table 5 / Fig 3 — MovieLens-1M and Amazon-Book Recall@K / NDCG@K** across attribution families (primary). Highlight that `shapley-mc` ranks 1st on both metrics, with the largest margin on sparse Amazon-Book.
+- **Table 6 — BQ2** (coverage / ILD), secondary to Table 5.
+- **Table 7 — BQ3** (stability / cost) and **BQ4** (dense vs. sparse).
+Report against the registered predictions (Part B of the implementation spec) and flag every miss explicitly.
 
 ## 7.3 The benchmark's relation to the taxonomy
-Map each instantiated attribution family back to its taxonomy cell. This is the bridge that makes the benchmark *ground the survey* rather than sit apart from it.
+Map each instantiated attribution family back to its taxonomy cell. This is the bridge that makes the benchmark *ground the survey* rather than sit apart from it. Concretely: the Recall@K/NDCG@K ordering across families is the empirical claim that answers the survey's central "what does game theory buy" question (SRQ3).
 
 ---
 
@@ -288,13 +293,15 @@ Standalone table (matching the IJACSA/thesis convention): `N`, `S`, `v(S)`, `φ_
 |---|---|---|
 | Fig 1 | Flow | PRISMA-style review flow (records → screened → eligible → included) |
 | Fig 2 | Diagram | The five-axis taxonomy, with DyHuCoG mapped in as a worked example |
-| Fig 3 | Bar | BQ1: NDCG@20 / Recall@20 across attribution families per dataset |
-| Fig 4 | Bar/line | BQ2: coverage and ILD across attribution families |
-| Fig 5 | Scatter/heat | BQ3: stability and cost (runtime/memory vs. gain) |
+| Fig 3 | Bar | **Headline results**: NDCG@K (K=5,10,20) across attribution families per dataset |
+| Fig 4 | Bar | **Headline results**: Recall@K (K=5,10,20) across attribution families per dataset |
+| Fig 5 | Scatter/heat | BQ2/BQ3: coverage, ILD, stability, and cost (secondary to Fig 3–4) |
 | Fig 6 | Matrix | Research agenda: open problems → planned directions (map to portfolio) |
 | Tab 1 | Comparison | Positioning vs. prior surveys (novelty claim) |
 | Tab 2–4 | Comparison | Cross-method comparison matrices by axis (DyHuCoG placed alongside external work) |
-| Tab 5–7 | Results | BQ1–BQ4 benchmark results with statistics |
+| Tab 5 | Results | **Recall@20 / NDCG@20 across all attribution families, both datasets (headline)** |
+| Tab 6 | Results | Recall@5/10/20 and NDCG@5/10/20 full cutoffs for `shapley-mc` vs `uniform` |
+| Tab 7 | Results | Coverage, ILD, stability, cost (BQ2/BQ3) and dense-vs-sparse (BQ4) |
 | Tab 8 | Descriptive | Dataset statistics |
 
 ---

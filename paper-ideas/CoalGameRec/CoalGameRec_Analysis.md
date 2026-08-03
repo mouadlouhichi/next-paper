@@ -3,6 +3,7 @@
 **Prepared by:** Arena agent, grounded in `phd-thesis/` and `previous-papers/`
 **Date:** 2026-08-03
 **Status:** Critical analysis / feasibility memo for a proposed *next paper* (not a manuscript draft)
+**Update (2026-08-03):** the benchmark deliverable has been sharpened so the paper reports **concrete results** — the headline benchmark output is now explicit **Recall@K and NDCG@K (K ∈ {5,10,20}) result tables** for every attribution family on both backbones and both datasets (see `Implementation_Spec.md` §B.1a, `spec.md` §7.4, and `Paper_Structure.md` §7.2). The survey remains the primary contribution; the Recall/NDCG tables are the empirical grounding that answers SRQ3 ("what does game theory buy").
 
 ---
 

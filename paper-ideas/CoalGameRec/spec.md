@@ -186,10 +186,12 @@ Pick a small, defensible set of graph/hypergraph backbones to host the attributi
 - **Reproducibility:** fixed seeds, recorded hyperparameters, released code.
 
 ### 7.4 Metrics
-- Ranking: **NDCG@20**, **Recall@20** (also report @5, @10).
-- Exposure: **catalogue coverage** (`Coverage = |∪_u R_u| / |I|`), head/tail coverage by popularity decile.
-- Diversity: **Intra-List Diversity (ILD)** (`ILD = 2/(K(K−1)) Σ_{1≤k<l≤K} [1 − sim(i_k,i_l)]`).
-- Cost: training time, inference latency, peak GPU memory.
+**Primary reported results — Recall@K and NDCG@K (K ∈ {5, 10, 20}).** The benchmark's headline deliverable is the result table reporting **NDCG@20 and Recall@20** for every attribution family on both backbones and both datasets (full cutoffs @5/@10/@20 included), per `Implementation_Spec.md` §B.1a.
+- Ranking: **NDCG@K** = `(1/|U|) Σ_u DCG_u@K / IDCG_u@K`, `DCG_u@K = Σ_{k=1..K} rel_u,k / log2(k+1)`; **Recall@K** = `(1/|U|) Σ_u |rel_u ∩ R_u@K| / |rel_u|`. Report mean ± std over 5 seeds for every family.
+- Exposure (secondary): **catalogue coverage** (`Coverage = |∪_u R_u| / |I|`), head/tail coverage by popularity decile.
+- Diversity (secondary): **Intra-List Diversity (ILD)** (`ILD = 2/(K(K−1)) Σ_{1≤k<l≤K} [1 − sim(i_k,i_l)]`).
+- Cost (secondary): training time, inference latency, peak GPU memory.
+Coverage/ILD/cost never replace Recall@K/NDCG@K as the headline; they contextualize them.
 
 ### 7.5 Statistical analysis (reuse thesis protocol)
 - Per-user paired **t-test**; **Holm–Bonferroni** correction across comparisons; **Wilcoxon signed-rank** as a distribution-free check; **Cohen's d_z** effect size; 95% CIs. Report a paired table analogous to the thesis Appendix A.
@@ -292,6 +294,7 @@ For the survey to be defensible, **all** must hold:
 - [ ] ≥ 2 comparison tables placing the author's DyHuCoG alongside external game-theoretic recommender work (not just SHAP-on-tabular).
 - [ ] Critical analysis section addressing *faithfulness vs. actionability*, the value-function-arbitrariness critique, and reproducibility — not just a listing.
 - [ ] Benchmark (if included) runs the full shared protocol: ≥2 datasets, ≥4 attribution families including a game-theoretic and a non-game-theoretic baseline, 5 seeds, paired statistics with correction, and code released.
+- [ ] **Primary results reported as Recall@K and NDCG@K (K ∈ {5,10,20}) result tables** for every attribution family, on both backbones and both datasets, with mean ± std over 5 seeds (per `Implementation_Spec.md` §B.1a).
 - [ ] Scope respected: no clustering datasets in the benchmark; no new-method claim; no verbatim thesis text.
 - [ ] Explicit roadmap linking to the planned method papers (without reporting their results).
 
