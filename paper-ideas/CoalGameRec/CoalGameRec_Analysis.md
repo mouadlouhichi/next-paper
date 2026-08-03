@@ -244,7 +244,7 @@ Abstract / Keywords
 Declarations · Appendices / Online Resources
 ```
 
-Target length ~10,000–12,000 words, 7–9 figures, 5–7 tables in main text (reconciled across files; detailed result tables + prediction register go to supplementary material with distinct labels, review C6/C18).
+Target length ~10,000–12,000 words, 7 figures and 6 tables in main text (reconciled across files; detailed result tables + prediction register go to supplementary material with distinct labels, review C6/C18).
 
 ---
 
