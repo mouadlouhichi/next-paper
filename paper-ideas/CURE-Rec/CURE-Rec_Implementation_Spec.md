@@ -119,6 +119,24 @@ The audit script must write:
 
 **Hard rule:** MovieLens, Amazon Reviews, MIND, or arbitrary implicit-feedback datasets are not assumed to satisfy this contract. They can be used for semi-synthetic or descriptive robustness experiments, not presented as long-term causal exposure evidence without a successful audit.
 
+### Implemented data loaders
+
+The Milestone 1 CLI provides explicit loaders rather than burying preprocessing in notebooks:
+
+```bash
+cure-rec load-data --dataset movielens_1m --source data/raw/ml-1m --download
+cure-rec load-data --dataset coat --source data/raw/coat --download
+cure-rec load-data --dataset yahoo_r3 --source data/raw/yahoo-r3
+cure-rec load-data --dataset csv --source /path/to/interactions.csv
+```
+
+- **MovieLens-1M:** standardized interaction loading for reproducibility and semi-synthetic experiments; no exposure-policy claim.
+- **Coat:** matrix loading for randomized-vs-biased short-horizon estimator checks; timestamps are deliberately left missing rather than fabricated.
+- **Yahoo! R3:** local-only loader because access terms may require manual download; useful for rating-selection comparisons, not complete long-horizon slate-policy validation.
+- **CSV:** generic local schema loader. Every route returns a standard interaction table and an explicit evidence-level audit.
+
+The notebook exposes the same loader selector with download disabled by default. Download is always an explicit user action.
+
 ## A.5 CURE-Sim: primary sequential SCM
 
 ### A.5.1 Why it is required

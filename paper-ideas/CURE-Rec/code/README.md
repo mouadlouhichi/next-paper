@@ -49,7 +49,28 @@ Run the quick synthetic experiment:
 cure-rec simulate --config configs/curesim_quickstart.yaml
 ```
 
-The command prints the run directory. Inspect:
+Load and audit public/local interaction data explicitly:
+
+```bash
+# Download only after you explicitly opt in; standardize to a local CSV.
+cure-rec load-data --dataset movielens_1m --source data/raw/ml-1m --download \
+  --output data/processed/movielens_1m_interactions.csv
+
+# Coat is loaded only with explicit download consent.
+cure-rec load-data --dataset coat --source data/raw/coat --download \
+  --output data/processed/coat_interactions.csv
+
+# Yahoo! R3 must be downloaded manually according to its access terms.
+cure-rec load-data --dataset yahoo_r3 --source data/raw/yahoo-r3 \
+  --output data/processed/yahoo_r3_interactions.csv
+
+# Generic local interaction file.
+cure-rec load-data --dataset csv --source /path/to/interactions.csv
+```
+
+Every loader runs the conservative audit and labels the strongest claim supported by the available fields. MovieLens, Coat, and Yahoo! R3 are not automatically promoted to long-horizon policy-evaluation evidence.
+
+The simulation command prints the run directory. Inspect:
 
 ```bash
 cat runs/<run-id>/run.log
