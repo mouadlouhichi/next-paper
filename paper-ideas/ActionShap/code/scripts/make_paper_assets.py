@@ -1132,45 +1132,58 @@ therefore separate axes.
 
     if not gap.empty:
         # ============================================================
-        # Q1 REVIEW - 5-METHOD PLOT (COMPLETELY SELF-CONTAINED)
-        # This block hard-codes the exact 5 methods + colors + offsets.
-        # It does **not** depend on any outer `methods` / `colors` / `offsets`
-        # variable. This is the final protection against stale checkouts.
+        # Q1 REVIEW FIX - ABSOLUTELY BULLETPROOF 5-METHOD PLOT
+        # The loop below uses hard-coded literals for the 5 methods.
+        # There is NO dict lookup that can raise KeyError for 'greedy_cf' or 'random'.
+        # This code path is completely independent of any outer variables.
         # ============================================================
-        _methods = ["shapley_mc", "lime", "loo", "greedy_cf", "random"]
-        _colors = {
-            "shapley_mc": "#2F5597",
-            "lime": "#E69F00",
-            "loo": "#009E73",
-            "greedy_cf": "#CC3311",
-            "random": "#888888",
-        }
-        _offsets = {
-            "shapley_mc": -0.18,
-            "lime": 0.0,
-            "loo": 0.18,
-            "greedy_cf": 0.36,
-            "random": -0.36,
-        }
-
         figure, axis = plt.subplots(figsize=(8.2, 6.6))
-        for method in _methods:
-            data = gap.loc[gap["method"] == method]
-            if data.empty:
-                continue
-            y = data["condition_order"].to_numpy(float) + _offsets[method]
-            axis.errorbar(
-                data["mean"],
-                y,
-                xerr=[
-                    np.maximum(0.0, data["mean"] - data["ci95_low"]),
-                    np.maximum(0.0, data["ci95_high"] - data["mean"]),
-                ],
-                fmt="o",
-                capsize=3,
-                color=_colors[method],
-                label=METHOD_LABELS[method],
-            )
+
+        # Shapley (primary)
+        data = gap.loc[gap["method"] == "shapley_mc"]
+        if not data.empty:
+            y = data["condition_order"].to_numpy(float) - 0.18
+            axis.errorbar(data["mean"], y,
+                          xerr=[np.maximum(0.0, data["mean"]-data["ci95_low"]),
+                                np.maximum(0.0, data["ci95_high"]-data["mean"])],
+                          fmt="o", capsize=3, color="#2F5597",
+                          label="Monte Carlo Shapley")
+
+        # LIME
+        data = gap.loc[gap["method"] == "lime"]
+        if not data.empty:
+            y = data["condition_order"].to_numpy(float) + 0.0
+            axis.errorbar(data["mean"], y,
+                          xerr=[np.maximum(0.0, data["mean"]-data["ci95_low"]),
+                                np.maximum(0.0, data["ci95_high"]-data["mean"])],
+                          fmt="o", capsize=3, color="#E69F00", label="LIME")
+
+        # LOO
+        data = gap.loc[gap["method"] == "loo"]
+        if not data.empty:
+            y = data["condition_order"].to_numpy(float) + 0.18
+            axis.errorbar(data["mean"], y,
+                          xerr=[np.maximum(0.0, data["mean"]-data["ci95_low"]),
+                                np.maximum(0.0, data["ci95_high"]-data["mean"])],
+                          fmt="o", capsize=3, color="#009E73", label="Leave-one-out")
+
+        # Greedy CF  <--- this was the one causing the KeyError
+        data = gap.loc[gap["method"] == "greedy_cf"]
+        if not data.empty:
+            y = data["condition_order"].to_numpy(float) + 0.36
+            axis.errorbar(data["mean"], y,
+                          xerr=[np.maximum(0.0, data["mean"]-data["ci95_low"]),
+                                np.maximum(0.0, data["ci95_high"]-data["mean"])],
+                          fmt="o", capsize=3, color="#CC3311", label="Greedy counterfactual")
+
+        # Random
+        data = gap.loc[gap["method"] == "random"]
+        if not data.empty:
+            y = data["condition_order"].to_numpy(float) - 0.36
+            axis.errorbar(data["mean"], y,
+                          xerr=[np.maximum(0.0, data["mean"]-data["ci95_low"]),
+                                np.maximum(0.0, data["ci95_high"]-data["mean"])],
+                          fmt="o", capsize=3, color="#888888", label="Random control")
         axis.axvline(0, color="black", linewidth=0.8, linestyle="--")
         axis.set_yticks(list(condition_labels), list(condition_labels.values()))
         axis.invert_yaxis()
