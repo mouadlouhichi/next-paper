@@ -1,27 +1,23 @@
-# CoalGameRec reproducible journal-style local configuration
-# This configuration is suitable for producing a complete MovieLens-1M local run
-# on a Mac M4 Pro / 48GB RAM. It is still a prototype backbone run unless
-# backbone.name is replaced by a validated HCCF adapter.
+# CoalGameRec prospective journal-style local configuration
+# Runs a complete MovieLens-1M local prospective protocol on a Mac M4 Pro / 48GB RAM.
+# This is still a prototype backbone run unless backbone.name is replaced by a validated HCCF adapter.
 
 run:
-  id: ml1m_mac_journal_v1
-  output_dir: results/journal_runs/ml1m_mac_journal_v1
+  id: ml1m_mac_journal_v2_prospective
+  output_dir: results/journal_runs/ml1m_mac_journal_v2_prospective
   device: auto
   seeds: [42, 43, 44, 45, 46]
   ks: [5, 10, 20]
 
-# Dataset protocol
 dataset:
   name: ml1m
   raw_dir: data/raw
-  sample_users: null       # null = full MovieLens-1M after protocol filtering
+  sample_users: null
   sample_seed: 20260803
   rating_threshold: 4.0
   min_user_core: 5
   min_item_core: 5
 
-# Local executable backbone. For confirmatory Q1 case-study claims, replace
-# this with the validated HCCF port and record PORT.md/validation artifacts.
 backbone:
   name: bprmf
   dim: 64
@@ -34,23 +30,31 @@ backbone:
   chunk_items: null
 
 attribution:
+  # Prospective redesign: no additive preference term in the primary game;
+  # smooth validation-only pairwise utility instead of hard NDCG coalition utility.
   exact_threshold: 8
   m_permutations: 32
-  shapley_users: null      # null = all users; use an integer only for smoke tests
-  max_players_per_user: 24 # laptop-feasible bounded-player estimator; set null for unbounded/HPC
-  player_selection: similarity
+  shapley_users: null
+  max_players_per_user: 24
+  player_selection: stratified
   save_every: 10
-  alpha: 0.70
-  beta: 0.30
-  lambda_pref: 0.20
+  antithetic: true
+  value_mode: pairwise_logsigmoid
+  n_val_negatives: 100
+  alpha: 1.0
+  beta: 0.0
+  lambda_pref: 0.0
   lambda_attr_value: 0.10
 
 reranking:
+  # Primary intervention is model/native embedding aggregation where available;
+  # kernel is available as a diagnostic intervention.
+  intervention: native
   lambda_attr: 0.10
-  lambda_attr_sensitivity: [0.05, 0.10, 0.20]
+  lambda_attr_sensitivity: [0.00, 0.05, 0.10, 0.20, 0.40]
   tau_att: 0.10
   primary_families: [uniform, additive-pref, shapley-mc]
-  secondary_families: [attention, heuristic-pop]
+  secondary_families: [attention, heuristic-pop, loo-marginal]
 
 analysis:
   bootstrap_samples: 2000

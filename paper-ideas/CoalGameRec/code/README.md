@@ -113,7 +113,7 @@ The Mac journal-style config therefore uses a **bounded-player estimator**:
 attribution:
   m_permutations: 32
   max_players_per_user: 24
-  player_selection: similarity
+  player_selection: stratified
 ```
 
 This computes Shapley over the 24 training interactions most similar to the user's profile and assigns zero Shapley weight to non-selected interactions for that run. The rule is deterministic and recorded in the config. For an unbounded/HPC run, set:
@@ -132,3 +132,24 @@ raw/seed_<seed>/shapley_checkpoint.npz
 If a run stops, rerunning the same config resumes from the checkpoint.
 
 For Q1 manuscript claims, report exactly which estimator was preregistered: unbounded full-history Shapley, or the bounded-player estimator with its deterministic selection rule and sensitivity analysis.
+
+## Prospective redesign after MovieLens prototype review
+
+The first five-seed BPR-MF MovieLens run showed very small Shapley-vs-uniform gains and a stronger fixed-attention mean. The prospective configuration has therefore been changed before any new confirmatory run:
+
+- primary coalition utility is now `pairwise_logsigmoid` on validation positives versus fixed validation negatives;
+- the additive preference term is removed from the primary Shapley game (`lambda_pref: 0.0`) to avoid similarity-decomposition degeneracy;
+- bounded-player selection is now `stratified` rather than pure similarity;
+- permutation sampling uses antithetic pairs;
+- the primary intervention is `native` embedding aggregation where the backbone exposes item embeddings;
+- `loo-marginal` is added as a secondary control to test Shapley averaging against simple leave-one-out ablation;
+- lightweight explanation diagnostics are emitted per seed (`explanation_diagnostics.json`).
+
+The previous run in `results/journal_runs/ml1m_mac_journal_v1` remains a pilot. New prospective runs should use:
+
+```bash
+python scripts/run_q1_pipeline.py --config configs/q1_mac_ml1m.yaml
+python scripts/analyze_q1_results.py --run-dir results/journal_runs/ml1m_mac_journal_v2_prospective
+```
+
+For Q1 claims, do not mix the old pilot (`v1`) and the redesigned prospective run (`v2`) as if they came from the same protocol.

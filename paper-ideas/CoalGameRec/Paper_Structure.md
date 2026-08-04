@@ -12,6 +12,8 @@
 
 > **Backbone dependency note (read before starting; review 1.3, authors' decision).** **The benchmark does NOT use DyHuCoG code.** DyHuCoG appears in this paper only as a **literature worked example in the taxonomy (§4.6)**, where it is coded as one case among several and described accurately (an internal audit found extraction gaps; treat this as an author-side implementation caveat, not a published field fact). The benchmark uses a **pinned independent backbone — HCCF (Hypergraph Contrastive Collaborative Filtering, Xia et al., SIGIR 2022)**, with a preregistered fallback rule; it does **not** rely on any DyHuCoG internals. The §4.6 worked example (DyHuCoG as a literature case) is decoupled from the benchmark backbone. See `Implementation_Spec.md` §A.4.
 
+> **Prospective redesign after BPR-MF/MovieLens prototype (superseding older benchmark defaults).** The first five-seed BPR-MF/MovieLens pilot showed tiny Shapley-vs-uniform gains and a slightly stronger attention mean. The next preregistered empirical design therefore removes the additive preference term from the primary Shapley game (`λ_pref=0`), uses a smooth validation-only pairwise log-sigmoid coalition utility, treats diversity as a secondary/listwise reranking outcome rather than a primary coalition term, uses stratified bounded-player selection with sensitivity, adds `loo-marginal` as a serious control, and prefers backbone-native embedding aggregation over the external cosine kernel where available. The old `α=.70, β=.30, λ_pref=.20` NDCG/ILD coalition game is retained only as a diagnostic/sensitivity design, not as the prospective primary game.
+
 ---
 
 ## Working Title (primary + alternates)

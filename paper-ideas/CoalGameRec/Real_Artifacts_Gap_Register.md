@@ -4,6 +4,8 @@
 
 **Current status:** the planning/specification files are mostly synchronized after the latest re-check, with residual implementation choices now explicitly tracked below. The project is **not ready to preregister or run** until the blocking real artifacts below exist.
 
+> **Prospective redesign after BPR-MF/MovieLens prototype (superseding older benchmark defaults).** The first five-seed BPR-MF/MovieLens pilot showed tiny Shapley-vs-uniform gains and a slightly stronger attention mean. The next preregistered empirical design therefore removes the additive preference term from the primary Shapley game (`λ_pref=0`), uses a smooth validation-only pairwise log-sigmoid coalition utility, treats diversity as a secondary/listwise reranking outcome rather than a primary coalition term, uses stratified bounded-player selection with sensitivity, adds `loo-marginal` as a serious control, and prefers backbone-native embedding aggregation over the external cosine kernel where available. The old `α=.70, β=.30, λ_pref=.20` NDCG/ILD coalition game is retained only as a diagnostic/sensitivity design, not as the prospective primary game.
+
 ---
 
 ## 1. Blocking artifacts before benchmark preregistration

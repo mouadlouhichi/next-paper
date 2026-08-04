@@ -11,10 +11,11 @@ import pandas as pd
 import torch
 import yaml
 
-from .attribution import compute_shapley_for_users
+from .attribution import compute_attribution_for_users, compute_shapley_for_users
 from .data import load_amazon_books_2018, load_movielens_1m, preprocess_temporal_loo, item_user_vectors, save_split
 from .metrics import evaluate
 from .models import TrainConfig, cache_full_scores, train_bprmf, pick_device
+from .explanation import attribution_concentration, deletion_comprehensiveness, insertion_sufficiency
 from .rerank import rerank_all
 from .utils import sparse_fingerprint, write_json
 from .validation import assert_item_vector_isolation, assert_rerank_nonzero, assert_shapley_shapes
@@ -79,6 +80,7 @@ def run_seed(split, item_vectors, cfg: dict[str, Any], seed: int, out_dir: Path)
     seed_dir.mkdir(parents=True, exist_ok=True)
     t0 = time.time()
     model, base_scores = train_backbone(split, cfg, seed)
+    item_embeddings = model.item_emb.weight.detach().cpu().numpy().astype(np.float32) if hasattr(model, "item_emb") else None
     base_summary, base_per_user = evaluate(base_scores, split, item_vectors, ks=tuple(cfg["run"].get("ks", [5, 10, 20])))
     write_json(seed_dir / "base_summary.json", base_summary)
 
@@ -95,15 +97,42 @@ def run_seed(split, item_vectors, cfg: dict[str, Any], seed: int, out_dir: Path)
         player_selection=a.get("player_selection", "similarity"),
         checkpoint_path=seed_dir / "shapley_checkpoint.npz",
         save_every=int(a.get("save_every", 25)),
-        alpha=float(a.get("alpha", 0.70)),
-        beta=float(a.get("beta", 0.30)),
-        lambda_pref=float(a.get("lambda_pref", 0.20)),
+        alpha=float(a.get("alpha", 1.0)),
+        beta=float(a.get("beta", 0.0)),
+        lambda_pref=float(a.get("lambda_pref", 0.0)),
         lambda_attr_value=float(a.get("lambda_attr_value", 0.10)),
+        value_mode=a.get("value_mode", "pairwise_logsigmoid"),
+        n_val_negatives=int(a.get("n_val_negatives", 100)),
+        antithetic=bool(a.get("antithetic", True)),
     )
     shape_report = assert_shapley_shapes(split, shapley)
     write_json(seed_dir / "shapley_shape_report.json", shape_report)
+    explanation_report = {}
+    explanation_report.update(attribution_concentration(shapley))
+    explanation_report.update(deletion_comprehensiveness(base_scores, split, shapley, fraction=0.2, ks=(20,)))
+    explanation_report.update(insertion_sufficiency(base_scores, split, shapley, fraction=0.2, ks=(20,)))
+    write_json(seed_dir / "explanation_diagnostics.json", explanation_report)
 
+    loo = None
     families = list(cfg["reranking"].get("primary_families", [])) + list(cfg["reranking"].get("secondary_families", []))
+    if "loo-marginal" in families:
+        loo = compute_attribution_for_users(
+            split, base_scores, item_vectors, method="loo-marginal",
+            max_users=a.get("shapley_users"),
+            exact_threshold=int(a.get("exact_threshold", 8)),
+            seed=int(seed),
+            max_players_per_user=a.get("max_players_per_user"),
+            player_selection=a.get("player_selection", "stratified"),
+            checkpoint_path=seed_dir / "loo_checkpoint.npz",
+            save_every=int(a.get("save_every", 25)),
+            alpha=float(a.get("alpha", 1.0)), beta=float(a.get("beta", 0.0)),
+            lambda_pref=float(a.get("lambda_pref", 0.0)),
+            lambda_attr_value=float(a.get("lambda_attr_value", 0.10)),
+            value_mode=a.get("value_mode", "pairwise_logsigmoid"),
+            n_val_negatives=int(a.get("n_val_negatives", 100)),
+        )
+        write_json(seed_dir / "loo_shape_report.json", assert_shapley_shapes(split, loo))
+
     rows = []
     per_user_rows = []
     for fam in families:
@@ -113,8 +142,11 @@ def run_seed(split, item_vectors, cfg: dict[str, Any], seed: int, out_dir: Path)
             item_vectors,
             fam,
             shapley_by_user=shapley,
+            loo_by_user=loo,
             lambda_attr=float(cfg["reranking"].get("lambda_attr", 0.10)),
             tau_att=float(cfg["reranking"].get("tau_att", 0.10)),
+            intervention=cfg["reranking"].get("intervention", "native"),
+            item_embeddings=item_embeddings,
         )
         summary, per_user = evaluate(scores, split, item_vectors, ks=tuple(cfg["run"].get("ks", [5, 10, 20])))
         summary.update({"seed": seed, "family": fam, "backbone": cfg["backbone"]["name"], "dataset": split.name})
@@ -130,7 +162,11 @@ def run_seed(split, item_vectors, cfg: dict[str, Any], seed: int, out_dir: Path)
     sens_rows = []
     for lam in cfg["reranking"].get("lambda_attr_sensitivity", []):
         for fam in cfg["reranking"].get("primary_families", []):
-            scores = rerank_all(base_scores, split, item_vectors, fam, shapley_by_user=shapley, lambda_attr=float(lam), tau_att=float(cfg["reranking"].get("tau_att", 0.10)))
+            scores = rerank_all(
+                base_scores, split, item_vectors, fam, shapley_by_user=shapley, loo_by_user=loo,
+                lambda_attr=float(lam), tau_att=float(cfg["reranking"].get("tau_att", 0.10)),
+                intervention=cfg["reranking"].get("intervention", "native"), item_embeddings=item_embeddings,
+            )
             summary, _ = evaluate(scores, split, item_vectors, ks=tuple(cfg["run"].get("ks", [5, 10, 20])))
             summary.update({"seed": seed, "family": fam, "lambda_attr": lam, "backbone": cfg["backbone"]["name"], "dataset": split.name})
             sens_rows.append(summary)

@@ -9,6 +9,8 @@
 
 > **Scope note (revised per review 1.2/2.1/C1/C15).** This is a **systematic review and taxonomy** (the primary, novel contribution) **plus an explicitly separate empirical case study** (the benchmark). It introduces no new method or unified "meta-framework." The paper must be honest that the benchmark is **original empirical work** (it is not "no new experiments"), that it **grounds only the interaction-player / ranking-utility slice** of the taxonomy (not the whole five axes), and that the survey's arguments do not depend on the benchmark's outcome. The paper must read as a field-wide synthesis in which the author's own work (DyHuCoG) is one case study among many — **not** as a recap of the thesis.
 
+> **Prospective redesign after BPR-MF/MovieLens prototype (superseding older benchmark defaults).** The first five-seed BPR-MF/MovieLens pilot showed tiny Shapley-vs-uniform gains and a slightly stronger attention mean. The next preregistered empirical design therefore removes the additive preference term from the primary Shapley game (`λ_pref=0`), uses a smooth validation-only pairwise log-sigmoid coalition utility, treats diversity as a secondary/listwise reranking outcome rather than a primary coalition term, uses stratified bounded-player selection with sensitivity, adds `loo-marginal` as a serious control, and prefers backbone-native embedding aggregation over the external cosine kernel where available. The old `α=.70, β=.30, λ_pref=.20` NDCG/ILD coalition game is retained only as a diagnostic/sensitivity design, not as the prospective primary game.
+
 ---
 
 ## 1. Purpose and central question

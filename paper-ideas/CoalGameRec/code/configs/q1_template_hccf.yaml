@@ -6,7 +6,7 @@
 run:
   id: hccf_confirmatory_TEMPLATE
   output_dir: results/journal_runs/hccf_confirmatory_TEMPLATE
-  device: cuda   # or mps/cpu only if validated for the port
+  device: cuda
   seeds: [42, 43, 44, 45, 46]
   ks: [5, 10, 20]
 
@@ -42,27 +42,49 @@ backbone:
   keepRate: TODO
 
 attribution:
+  # Prospective confirmatory redesign.
   exact_threshold: 8
   m_permutations: 128
+  diagnostic_permutations: [16, 32, 64, 128]
+  reference_permutations: 512
   shapley_users: null
-  max_players_per_user: null   # unbounded unless preregistration adopts bounded-player estimator
-  player_selection: similarity
+  max_players_per_user: 24
+  player_selection: stratified
+  player_count_sensitivity: [12, 24, 48]
+  selection_sensitivity: [similarity, recency, stratified, random]
   save_every: 10
-  alpha: 0.70
-  beta: 0.30
-  lambda_pref: 0.20
+  antithetic: true
+  common_random_numbers: true
+  value_mode: pairwise_logsigmoid
+  n_val_negatives: 100
+  alpha: 1.0
+  beta: 0.0
+  lambda_pref: 0.0
   lambda_attr_value: 0.10
 
 reranking:
+  intervention: native
+  diagnostic_intervention: kernel
   lambda_attr: 0.10
-  lambda_attr_sensitivity: [0.05, 0.10, 0.20]
+  lambda_attr_sensitivity: [0.00, 0.05, 0.10, 0.20, 0.40]
   tau_att: 0.10
   primary_families: [uniform, additive-pref, shapley-mc]
-  secondary_families: [attention, heuristic-pop]
+  confirmatory_controls: [uniform, additive-pref, attention, loo-marginal]
+  secondary_families: [attention, heuristic-pop, loo-marginal]
+
+explanation_metrics:
+  deletion_comprehensiveness: true
+  insertion_sufficiency: true
+  perturbation_stability: true
+  model_randomization: true
 
 analysis:
   bootstrap_samples: 2000
   bootstrap_seed: 20260804
+  hierarchical_testing:
+    gate_1: shapley-mc_vs_uniform
+    gate_2: shapley-mc_vs_additive-pref
+    gate_3: shapley-mc_noninferiority_or_superiority_vs_attention
   primary_contrasts:
     - dataset: ml1m
       backbone: hccf_validated_port
