@@ -1,0 +1,48 @@
+{
+  "note": "Mac-local CoalGameRec prototype; not confirmatory HCCF preregistration run",
+  "config": {
+    "SAMPLE_USERS": 2000,
+    "EPOCHS": 8,
+    "DIM": 64,
+    "BATCH_SIZE": 4096,
+    "SEED": 42,
+    "SHAPLEY_USERS": 500,
+    "M_PERMUTATIONS": 64,
+    "LAMBDA_ATTR": 0.1
+  },
+  "dataset_stats": {
+    "name": "ml1m",
+    "users": 1991,
+    "items": 2599,
+    "train_interactions": 193789,
+    "val_interactions": 1991,
+    "test_interactions": 1991,
+    "density_train": 0.037449979312446605,
+    "mean_train_per_user": 97.33249623304872,
+    "core_log": [
+      {
+        "iter": 0,
+        "users": 1993,
+        "items": 2599,
+        "edges": 193884
+      },
+      {
+        "iter": 1,
+        "users": 1992,
+        "items": 2599,
+        "edges": 193880
+      },
+      {
+        "iter": 2,
+        "users": 1992,
+        "items": 2599,
+        "edges": 193880
+      }
+    ],
+    "rating_threshold": 4.0,
+    "min_uc": 5,
+    "min_ic": 5
+  },
+  "torch": "2.3.1",
+  "device": "mps"
+}
