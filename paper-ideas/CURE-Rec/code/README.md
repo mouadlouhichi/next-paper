@@ -99,6 +99,15 @@ cure-rec sweep \
 
 Every loader runs the conservative audit and labels the strongest claim supported by the available fields. MovieLens, Coat, and Yahoo! R3 are not automatically promoted to long-horizon policy-evaluation evidence.
 
+The notebook additionally has a guarded master `RUN_ALL_VARIATIONS` cell that executes every self-contained variation. Set both:
+
+```python
+RUN_ALL_VARIATIONS = True
+CONFIRM_RUN_ALL = "RUN_ALL"
+```
+
+only when you intentionally want the several-hour complete experiment plan.
+
 The simulation command prints the run directory. Inspect:
 
 ```bash

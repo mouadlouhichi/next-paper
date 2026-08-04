@@ -820,6 +820,20 @@ The external-data logic stage separately writes `runs/data-analysis-<dataset>-<t
 
 The notebook starts with all expensive variations disabled except the quick end-to-end smoke run. Users should enable one variation at a time and follow the documented scientific execution order.
 
+For a deliberate complete execution, the notebook also provides a master `RUN_ALL_VARIATIONS` cell. It runs, in order:
+
+```text
+external data/model analysis
+→ quick single run
+→ controlled regime suite
+→ quick five-seed sweep
+→ full single run
+→ full five-seed sweep
+→ full 20-seed sweep
+```
+
+The master run requires `CONFIRM_RUN_ALL = "RUN_ALL"` and writes a top-level master manifest, aggregate variation summary, and combined seed-decision table. This guard is intentional because the full plan can take several hours.
+
 ---
 
 # PART B — REGISTERED EVALUATION PLAN

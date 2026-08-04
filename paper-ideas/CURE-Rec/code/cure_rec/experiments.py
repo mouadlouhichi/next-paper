@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
@@ -64,3 +65,133 @@ def run_seed_sweep(settings: Settings, seeds: Iterable[int]) -> SeedSweepResult:
     )
     summary.to_csv(sweep_root / "seed_sweep_attribution_summary.csv", index=False)
     return SeedSweepResult(sweep_root, decisions, attributions)
+
+
+@dataclass(frozen=True)
+class AllVariationsResult:
+    run_dir: Path
+    data_analysis_dir: Path
+    variation_summary: pd.DataFrame
+    decisions: pd.DataFrame
+
+
+def _variation_settings(settings: Settings, *, name: str, output_root: Path) -> Settings:
+    copied = settings.model_copy(deep=True)
+    copied.run.name = name
+    copied.run.output_root = output_root
+    return copied
+
+
+def run_all_variations(
+    quick_settings: Settings,
+    full_settings: Settings,
+    *,
+    dataset: str,
+    source: str | Path,
+    download: bool = False,
+    run_bpr: bool = True,
+    bpr_updates: int = 1_500_000,
+    max_eval_users: int = 1_000,
+    quick_seeds: Iterable[int] = (42, 43, 44, 45, 46),
+    full_seeds: Iterable[int] = (42, 43, 44, 45, 46),
+    final_seeds: Iterable[int] = tuple(range(100, 120)),
+) -> AllVariationsResult:
+    """Run every self-contained experimental variation in a fixed scientific order.
+
+    Order is deliberate: external data/model analysis first, then quick behavioural
+    validation, controlled oracle regimes, quick stability, full behavioural run,
+    full stability, and final 20-seed inference. This command can run for hours.
+    """
+    from cure_rec.analysis import analyze_dataset
+    from cure_rec.data import load_dataset
+    from cure_rec.observability import RunLogger
+    from cure_rec.regimes import run_regime_suite
+
+    quick_seed_list = list(quick_seeds)
+    full_seed_list = list(full_seeds)
+    final_seed_list = list(final_seeds)
+    stamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
+    master_root = Path(full_settings.run.output_root) / f"all-variations-{stamp}"
+    master_root.mkdir(parents=True, exist_ok=False)
+    loaded = load_dataset(dataset, source, download=download)
+    analysis = analyze_dataset(
+        loaded,
+        output_root=master_root / "external_data",
+        run_bpr=run_bpr,
+        bpr_updates=bpr_updates,
+        max_eval_users=max_eval_users,
+        seed=full_settings.run.seed,
+    )
+
+    variation_rows: list[dict] = []
+    decision_frames: list[pd.DataFrame] = []
+
+    def execute_single(label: str, settings: Settings) -> None:
+        logger, _, decision = run_experiment(_variation_settings(settings, name=label, output_root=master_root / label))
+        variation_rows.append({
+            "variation": label,
+            "kind": "single_run",
+            "run_dir": str(logger.run_dir),
+            **decision_to_dict(decision),
+        })
+
+    def execute_sweep(label: str, settings: Settings, seeds: Iterable[int]) -> None:
+        seed_list = list(seeds)
+        result = run_seed_sweep(_variation_settings(settings, name=label, output_root=master_root / label), seed_list)
+        variation_rows.append({
+            "variation": label,
+            "kind": "seed_sweep",
+            "run_dir": str(result.run_dir),
+            "seed_count": len(seed_list),
+        })
+        frame = result.decisions.copy()
+        frame.insert(0, "variation", label)
+        decision_frames.append(frame)
+
+    execute_single("quick_single", quick_settings)
+
+    regime_logger = RunLogger(_variation_settings(quick_settings, name="controlled_regimes", output_root=master_root / "controlled_regimes"))
+    try:
+        regime_result = run_regime_suite(quick_settings, regime_logger)
+        regime_logger.close(status="completed")
+    except Exception:
+        regime_logger.close(status="failed")
+        raise
+    variation_rows.append({
+        "variation": "controlled_regimes",
+        "kind": "oracle_regime_suite",
+        "run_dir": str(regime_result.run_dir),
+        "selection_match_rate": float(regime_result.summary["exact_selection_match"].mean()),
+        "mean_shapley_mae": float(regime_result.attribution_recovery["absolute_error"].mean()),
+    })
+
+    execute_sweep("quick_five_seed", quick_settings, quick_seed_list)
+    execute_single("full_single", full_settings)
+    execute_sweep("full_five_seed", full_settings, full_seed_list)
+    execute_sweep("full_twenty_seed", full_settings, final_seed_list)
+
+    summary = pd.DataFrame(variation_rows)
+    decisions = pd.concat(decision_frames, ignore_index=True) if decision_frames else pd.DataFrame()
+    summary.to_csv(master_root / "all_variations_summary.csv", index=False)
+    decisions.to_csv(master_root / "all_variations_seed_decisions.csv", index=False)
+    manifest = {
+        "dataset": dataset,
+        "source": str(source),
+        "data_analysis_dir": str(analysis.run_dir),
+        "run_bpr": run_bpr,
+        "variations": summary.to_dict(orient="records"),
+        "quick_seeds": quick_seed_list,
+        "full_seeds": full_seed_list,
+        "final_seeds": final_seed_list,
+        "execution_order": [
+            "external_data_analysis",
+            "quick_single",
+            "controlled_regimes",
+            "quick_five_seed",
+            "full_single",
+            "full_five_seed",
+            "full_twenty_seed",
+        ],
+    }
+    (master_root / "all_variations_manifest.json").write_text(json.dumps(manifest, indent=2, default=str), encoding="utf-8")
+    return AllVariationsResult(master_root, analysis.run_dir, summary, decisions)
