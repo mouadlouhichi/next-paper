@@ -218,7 +218,10 @@ Target-margin Monte Carlo convergence selected $M=50$ on Amazon ItemKNN, $M=100$
 \subsection{Faithfulness, bounded alignment, and intervention robustness}
 Absolute target-margin AIA favoured local methods. On primary ItemKNN, Shapley/LIME/LOO AIA was respectively 0.779/0.933/0.978 on MovieLens and 0.414/0.827/0.851 on Amazon. Deletion alignment had the same ordering, so bounded intervention did not reverse the absolute method ranking.
 
-Shapley exhibited a consistently positive Actionability Gap across the evaluated ItemKNN conditions (MovieLens sampled +0.0169, Amazon sampled +0.1285, full-catalogue +0.0438 and +0.1689). However, the random control also produced positive gaps in every displayed condition, and the greedy baseline produced positive gaps in several conditions. LIME and LOO were negative. Shapley's paired gap advantage over LIME and LOO was positive and Holm-significant after correction, but LOO is algebraically prevented from obtaining a positive gap. Consequently the gap alone does not identify meaningful intervention robustness. Figure~ef{fig:gap-robustness} and Tables~ef{tab:gap-robustness}--ef{tab:gap-advantage} show the complete pattern.
+Shapley exhibited a consistently positive Actionability Gap across the evaluated ItemKNN conditions (MovieLens sampled +0.0169, Amazon sampled +0.1285, full-catalogue +0.0438 and +0.1689). However, the random control also produced positive gaps in every displayed condition, and the greedy baseline produced positive gaps in several conditions. LIME and LOO were negative. Shapley's paired gap advantage over LIME and LOO was positive and Holm-significant after correction, but LOO is algebraically prevented from obtaining a positive gap. Consequently the gap alone does not identify meaningful intervention robustness. Figure~
+ef{fig:gap-robustness} and Tables~
+ef{tab:gap-robustness}--
+ef{tab:gap-advantage} show the complete pattern.
 
 This finding is an intervention-robustness advantage, not an absolute-accuracy claim. Cross-utility NDCG AIA was defined for only 349 MovieLens and 233 Amazon ItemKNN users. Shapley was lower than LIME/LOO on MovieLens (0.386 versus 0.409/0.413) but higher on Amazon (0.489 versus 0.419/0.427); both differences were small and significant. The sparse valid fractions bound this comparison.
 
