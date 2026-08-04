@@ -1,0 +1,27 @@
+{
+  "core_log": [
+    {
+      "edges": 562248,
+      "items": 3114,
+      "iter": 0,
+      "users": 6016
+    },
+    {
+      "edges": 562248,
+      "items": 3114,
+      "iter": 1,
+      "users": 6016
+    }
+  ],
+  "density_train": 0.030013971707425934,
+  "items": 3114,
+  "mean_train_per_user": 93.46350789692436,
+  "min_ic": 5,
+  "min_uc": 5,
+  "name": "ml1m",
+  "rating_threshold": 4.0,
+  "test_interactions": 6015,
+  "train_interactions": 562183,
+  "users": 6015,
+  "val_interactions": 6015
+}

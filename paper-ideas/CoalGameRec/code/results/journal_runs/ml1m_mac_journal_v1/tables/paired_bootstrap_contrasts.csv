@@ -1,0 +1,3 @@
+contrast,metric,treatment,control,mean_diff_conditional_user,ci95_low,ci95_high,median_user_diff,cohen_dz_user_conditional_descriptive,bootstrap_p_descriptive,n_seeds,n_user_diffs,holm_reject_0.05,holm_threshold
+shapley-mc_vs_uniform_NDCG@20,NDCG@20,shapley-mc,uniform,0.0002947818995843724,0.00011200882693266833,0.0004885357893100582,0.0,0.01748421943460584,0.002,5,30075,True,0.025
+shapley-mc_vs_uniform_HitRate@20,HitRate@20,shapley-mc,uniform,0.0007315045719035743,6.650041562759766e-05,0.0013965087281795512,0.0,0.0119876715428644,0.04,5,30075,True,0.05
