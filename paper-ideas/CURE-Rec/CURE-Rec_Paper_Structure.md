@@ -12,7 +12,7 @@
 
 > **The paper in one sentence.** CURE-Rec treats *feasible changes to a recommendation policy*—not users, items, features, or interactions—as cooperative-game players, assigns each intervention a **partially identified causal Shapley region** over long-term platform utility, and uses direct robust policy evaluation to select an intervention portfolio that can be explained, certified, or deferred.
 
-> **Scope lock.** This is a recommender-systems and causal-decision paper, not a new base recommendation architecture. The primary setting is a finite-horizon platform policy with a small, fixed library of composable re-ranking/exposure interventions. The first paper does **not** jointly learn a recommender, discover an unrestricted causal graph, perform active experiment design, model arbitrary model-retraining interventions, or solve every fairness notion. Those are sequels, not hidden dependencies.
+> **Scope lock.** This is a recommender-systems and causal-decision paper, not a new base recommendation architecture. The primary setting is a finite-horizon platform policy with a small, fixed library of composable re-ranking/exposure interventions. Deployment selects **robust improvement over the currently deployed base policy**, not raw model utility. The first paper does **not** jointly learn a recommender, discover an unrestricted causal graph, perform active experiment design, model arbitrary model-retraining interventions, or solve every fairness notion. Those are sequels, not hidden dependencies.
 
 ---
 
@@ -61,24 +61,27 @@ Abstract / Keywords
    3.2 Base recommendation policy and policy transformations
    3.3 Intervention players and canonical coalition composition
    3.4 Causal assumptions, logged-policy requirements, and ambiguity sets
-   3.5 Long-term utility, constraints, and robust decision objective
+   3.5 Long-term policy-improvement estimand, robust constraints, and abstention
 4. CURE-Rec Framework
    4.1 Overview
-   4.2 Intervention library
-   4.3 Sequential causal response model
-   4.4 Partially identified coalition values
-   4.5 Exact intervention Shapley values and model-consistent regions
-   4.6 Interaction regions
-   4.7 Robust portfolio selection
-   4.8 Explanation, certification, and abstention
-   4.9 Computational complexity
+   4.2 Intervention library and collision semantics
+   4.3 Coalition policy semantics and composition-order sensitivity
+   4.4 Sequential causal response model
+   4.5 Partially identified coalition values
+   4.6 Statistical uncertainty and estimated regions
+   4.7 Exact intervention Shapley values and model-consistent regions
+   4.8 Interaction regions
+   4.9 Robust portfolio selection
+   4.10 Explanation, certification, and abstention
+   4.11 Computational complexity
 5. Theoretical Analysis
    5.1 Identified sets of cooperative games
    5.2 Existence of model-consistent Shapley regions
    5.3 Valid coalition-wise outer bounds
    5.4 Robust attribution-sign certificates
    5.5 Simulation and exact-game estimation error
-   5.6 Nested-evidence interval contraction
+   5.6 Robust selection regret and feasibility under value-estimation error
+   5.7 Nested-evidence interval contraction
 6. CURE-Sim: A Ground-Truth Sequential Recommendation Benchmark
    6.1 Motivation and design goals
    6.2 User, item, provider, and platform state dynamics
@@ -250,6 +253,8 @@ The baseline policy \(\pi_0\) produces slates \(L_t\). A causal model \(M\) indu
 \mathcal S_{t+1} = F_M(\mathcal S_t, L_t, Y_t, \varepsilon_t), \qquad L_t=\pi(\mathcal S_t).
 \]
 
+When utility includes provider exposure, popularity concentration, or other aggregate outcomes, the intervention unit is a **cohort/platform epoch**, not an isolated user. CURE-Sim therefore applies \(do(\pi=\pi_S)\) to a simulated cohort and evaluates aggregate outcomes over that cohort. Individual-level real-log analyses are not described as identifying arbitrary cross-user spillovers.
+
 **MVP boundary:** \(\theta_t\) is fixed during an evaluation horizon. CURE-Sim may include a controlled retraining-feedback variant in an appendix, but the core method does not claim to model arbitrary online retraining dynamics.
 
 ## 3.2 Base policy and policy transformations
@@ -262,7 +267,9 @@ A coalition transforms the policy:
 \pi_S = g_S(\pi_0), \qquad S\subseteq\mathcal I.
 \]
 
-To make \(g_S\) well-defined, policy operators are composed in a **fixed canonical order**. The Shapley arrival ordering is used only to evaluate marginal coalition additions; it does not change the semantics of the final transformed policy.
+To make \(g_S\) well-defined, policy operators are composed in a **fixed canonical order**. The Shapley arrival ordering is used only to evaluate marginal coalition additions; it does not change the semantics of the final transformed policy. Every result stores the canonical-order version, intervention parameters, deterministic tie-breaking rule, and base-policy hash.
+
+**Composition-order robustness.** The primary analysis pre-registers one canonical order. A required robustness analysis evaluates a small, semantically defensible set \(\mathcal O\) of alternative orders and reports \(\phi_i^{(o)}\), selected portfolios, and coalition values for every \(o\in\mathcal O\). The main causal ambiguity set is not silently widened by order choice; order sensitivity is reported as an independent operational-semantics threat. If it changes conclusions materially, the paper must describe policy-order dependence rather than attribute the effect to an intervention alone.
 
 ## 3.3 Intervention players and canonical composition
 
@@ -297,15 +304,36 @@ State the causal requirements rather than hiding them.
 4. **Interference treatment:** ecosystem outcomes are evaluated at cohort/platform level in CURE-Sim. Logged individual-level analyses do not claim identification of arbitrary cross-user spillovers.
 5. **Partial identification:** unmeasured policy-assignment confounding is represented by a declared sensitivity set, not wished away.
 
-Let \(\mathcal K\) be causal/domain constraints, \(\mathcal C_r\) a confidence region based on evidence up to update index \(r\), and \(\Gamma\) a sequential hidden-confounding sensitivity parameter. Define:
+Let \(\mathcal K\) be causal/domain constraints and \(\mathcal C_r\) a confidence region based on evidence up to update index \(r\). The logged action is a slate or factorized slate action \(A_t\), the recorded pre-treatment history is \(H_t\), and \(U_t\) denotes unrecorded policy-assignment factors. The primary sensitivity model is a sequential generalized odds-ratio restriction:
 
 \[
-\mathfrak M_{\Gamma,r}=\left\{M: M\models\mathcal K,\;P_M\in\mathcal C_r,\;\operatorname{Conf}(M)\leq\Gamma\right\}.
+\frac{1}{\Gamma}
+\leq
+\frac{
+\Pr_M(A_t=a\mid H_t,U_t)/\Pr_M(A_t=a'\mid H_t,U_t)
+}{
+\Pr_M(A_t=a\mid H_t)/\Pr_M(A_t=a'\mid H_t)
+}
+\leq\Gamma
 \]
 
-The implementation approximates this set by adversarially weighted or sampled causal response models, but theory is stated over the full set. A bootstrap ensemble alone is **not** called a valid partial-identification set.
+for supported action pairs \(a,a'\) at every decision time. For a factorized slate policy, this restriction is applied to the declared action factors and the factorization is part of \(\mathcal K\); it is never assumed silently for an opaque deterministic ranker. The resulting ambiguity set is:
 
-## 3.5 Long-term utility, constraints, and robust decision objective
+\[
+\mathfrak M_{\Gamma,r}=\left\{M: M\models\mathcal K,\;P_M\in\mathcal C_r,\;M\text{ satisfies the sequential }\Gamma\text{-restriction}\right\}.
+\]
+
+For a coalition \(S\), the operational lower improvement is computed through an explicitly stated adversarial weighted sequential-DR program:
+
+\[
+\underline{\Delta V}_{\Gamma,r}(S)=
+\min_{w\in\mathcal W_\Gamma(S)}
+\widehat{\Delta V}_{\mathrm{SDR}}(S;w),
+\]
+
+where \(\mathcal W_\Gamma(S)\) contains normalized trajectory or declared time-factor weights obeying the above \(\Gamma\)-bounds. The manuscript must state whether this program is trajectory-level or time-factorized, its solver class, and the exact variables allowed to be unobserved. The implementation approximates the full set with adversarially weighted and sampled response models, while theory remains stated over \(\mathfrak M_{\Gamma,r}\). A bootstrap ensemble alone is **not** called a valid partial-identification set.
+
+## 3.5 Long-term policy-improvement estimand, robust constraints, and abstention
 
 For a coalition \(S\), define:
 
@@ -327,13 +355,26 @@ The main reward prioritizes long-term user satisfaction/retention and penalizes 
 \sup_{M\in\mathfrak M_{\Gamma,r}}D_{\mathrm{provider},M}(S)\leq\epsilon_{\mathrm{prov}}.
 \]
 
+Define policy improvement relative to the deployed base policy:
+
+\[
+\Delta V_M(S)=V_M(S)-V_M(\emptyset),\qquad \pi_{\emptyset}=\pi_0.
+\]
+
 The robust selected portfolio is:
 
 \[
-S^\star=\arg\max_{S\in\mathcal F_{\mathrm{safe}}}\inf_{M\in\mathfrak M_{\Gamma,r}}V_M(S).
+S^\star=\arg\max_{S\in\mathcal F_{\mathrm{safe}}}\inf_{M\in\mathfrak M_{\Gamma,r}}\Delta V_M(S).
 \]
 
-This direct robust objective, not an additive sum of Shapley lower bounds, is the deployment decision rule.
+The abstention rule is explicit:
+
+\[
+\max_{S\in\mathcal F_{\mathrm{safe}}}\underline{\Delta V}(S)\leq0
+\quad\Longrightarrow\quad S^\star=\emptyset.
+\]
+
+This removes model-specific baseline offsets and answers the actual operational question—what policy change can robustly improve on the deployed recommender? The Shapley values are unchanged by this baseline shift because all marginal coalition differences are unchanged. This direct robust objective, not an additive sum of Shapley lower bounds, is the deployment decision rule.
 
 ---
 
@@ -345,13 +386,29 @@ This direct robust objective, not an additive sum of Shapley lower bounds, is th
 
 **Algorithm 1:** CURE-Rec exact intervention game and robust portfolio selection.
 
-## 4.2 Intervention library
+## 4.2 Intervention library and collision semantics
 
 Reproduce the six-player table from §3.3 and specify every threshold, slot count, eligibility condition, and cost in a configuration file. There are only \(2^6=64\) coalitions. Exact enumeration is a deliberate design choice that avoids Monte-Carlo Shapley approximation and makes the portfolio optimizer auditable.
 
-**Important separation:** policy compatibility is resolved by canonical composition. Budget, relevance, provider-exposure, and capacity restrictions are applied in \(\mathcal F_{\mathrm{safe}}\) during final portfolio selection, not by silently skipping players in Shapley permutations.
+### Collision and no-candidate semantics
 
-## 4.3 Sequential causal response model
+The three injection interventions—exploration, long-tail, and novelty—cannot be left as informal requests for a “slot.” Fix injection capacity \(q=2\) in the primary experiments. Each active intervention \(i\) proposes eligible item-score pairs \(C_i(\mathcal S_t)=\{(j,b_i(j))\}\). Resolve the joint allocation deterministically:
+
+\[
+A_S^\star=\arg\max_A\sum_{(i,j)\in A} b_i(j)
+\]
+
+subject to \(|A|\leq q\), at most one proposal per intervention, distinct selected items, slate availability, and every intervention’s eligibility rule. An item may satisfy several eligibility rules but is assigned to at most one intervention in \(A_S^\star\). If an active intervention has no eligible candidate after repeat filtering and availability checks, it produces an explicit no-op with a logged reason. Ties are broken by a fixed item identifier. This exact three-player assignment is enumerated, not greedily approximated.
+
+**Important separation:** policy compatibility is resolved by canonical composition and collision assignment. Budget, relevance, provider-exposure, and capacity restrictions are applied in \(\mathcal F_{\mathrm{safe}}\) during final portfolio selection, not by silently skipping players in Shapley permutations.
+
+## 4.3 Coalition policy semantics and composition-order sensitivity
+
+Every coalition mask maps to one fully specified transformed policy: active operators, canonical order version, collision-allocation result, thresholds, candidate availability, and deterministic tie-breaking are recorded in an immutable coalition manifest. This makes \(\pi_S\) reproducible and lets reviewers distinguish an intervention effect from an unlogged implementation difference.
+
+The primary result uses the pre-registered canonical order in §3.3. A mandatory robustness analysis evaluates a small set of semantically defensible alternatives, for example: injection → diversity → provider balance; injection → provider balance → diversity; and diversity-constrained injection → provider balance. Report \(V_M^{(o)}(S)\), \(\phi_i^{(o)}(M)\), interactions, and selected portfolios for every \(o\in\mathcal O\). If an intervention’s sign or the robust portfolio changes materially, report order dependence as a limitation rather than treating the canonical order as a neutral fact.
+
+## 4.4 Sequential causal response model
 
 Use two estimators depending on evidence source:
 
@@ -360,7 +417,7 @@ Use two estimators depending on evidence source:
 
 A learned response/world model may accelerate trajectory evaluation, but it must be calibrated against held-out logged-policy data and never be confused with causal identification by itself.
 
-## 4.4 Partially identified coalition values
+## 4.5 Partially identified coalition values
 
 For every coalition:
 
@@ -381,7 +438,17 @@ The key implementation distinction:
 - **model-consistent extrema** optimize the complete coalition value under one common \(M\);
 - **coalition-wise interval arithmetic** is cheaper but can combine incompatible extrema and is reported only as a conservative outer bound.
 
-## 4.5 Exact intervention Shapley values and model-consistent regions
+## 4.6 Statistical uncertainty and estimated regions
+
+Separate population ambiguity from finite-sample uncertainty. Let \(\Phi_i^{\mathrm{ID}}(\Gamma)\) denote the population sensitivity/identified region induced by \(\mathfrak M_\Gamma\). Let \(\widehat\Phi_{i,1-\alpha}^{\mathrm{CI}}(\Gamma)\) denote an estimated confidence region that additionally accounts for trajectory, nuisance-model, and finite-sample uncertainty. Report separately:
+
+- **sensitivity validity:** whether the true \(\phi_i(M^\star)\) lies in \(\Phi_i^{\mathrm{ID}}(\Gamma)\) when \(M^\star\in\mathfrak M_\Gamma\);
+- **statistical coverage:** repeated-sample coverage of \(\widehat\Phi_{i,1-\alpha}^{\mathrm{CI}}(\Gamma)\);
+- **ambiguity width** versus **sampling-confidence width**.
+
+Bootstrap/model-ensemble dispersion is labelled sampling/model uncertainty unless it is part of a declared sensitivity-set construction.
+
+## 4.7 Exact intervention Shapley values and model-consistent regions
 
 For a fixed model \(M\):
 
@@ -389,10 +456,10 @@ For a fixed model \(M\):
 \phi_i(M)=
 \sum_{S\subseteq\mathcal I\setminus\{i\}}
 \frac{|S|!(n-|S|-1)!}{n!}
-\left[V_M(S\cup\{i\})-V_M(S)\right].
+\left[\Delta V_M(S\cup\{i\})-\Delta V_M(S)\right].
 \]
 
-With six interventions, compute the exact value from all 64 coalition evaluations. The partially identified Shapley region is:
+This is algebraically identical to applying Shapley to \(V_M\), because \(V_M(\emptyset)\) is a coalition-independent constant. Efficiency now has the operational interpretation \(\sum_i\phi_i(M)=\Delta V_M(\mathcal I)\): the full intervention library’s improvement over the deployed policy is allocated exactly. With six interventions, compute the exact value from all 64 coalition evaluations. The partially identified Shapley region is:
 
 \[
 \Phi_{i,\Gamma,r}=
@@ -416,15 +483,18 @@ The full scientifically correct object is the joint set:
 
 Coordinate intervals are explanatory projections. They must not be summed as if their endpoints necessarily arise from the same causal model.
 
-## 4.6 Interaction regions
+## 4.8 Interaction regions
 
-For selected pairs, compute the Shapley interaction index under each \(M\):
+For selected pairs, use the **Grabisch–Roubens Shapley interaction index** under each \(M\), with its normalization fixed before coding:
 
 \[
 \mathcal I_{ij}(M)=
-\sum_{S\subseteq\mathcal I\setminus\{i,j\}}w_{ij}(S)
-\big[V_M(S\cup\{i,j\})-V_M(S\cup\{i\})-V_M(S\cup\{j\})+V_M(S)\big].
+\sum_{S\subseteq\mathcal I\setminus\{i,j\}}
+\frac{|S|!(n-|S|-2)!}{(n-1)!}
+\big[\Delta V_M(S\cup\{i,j\})-\Delta V_M(S\cup\{i\})-\Delta V_M(S\cup\{j\})+\Delta V_M(S)\big].
 \]
+
+Unit tests cover additive games (zero interaction), pure pair synergy, symmetry, and this exact normalization convention.
 
 Report:
 
@@ -438,26 +508,27 @@ Interpretation:
 - upper bound \(<0\): robust antagonism;
 - interval containing zero: interaction sign is not determined.
 
-Interactions are diagnostic and candidate-screening tools. The final decision still evaluates \(\underline V(S)\) directly.
+Interactions are diagnostic and candidate-screening tools. The final decision still evaluates \(\underline{\Delta V}(S)\) directly.
 
-## 4.7 Robust portfolio selection
+## 4.9 Robust portfolio selection
 
 Since \(n=6\), enumerate every feasible portfolio exactly:
 
 ```text
 for every S in powerset(interventions):
-    if S satisfies budget, capacity, relevance, and provider constraints:
-        estimate lower value inf_M V_M(S)
-return the feasible S with maximum lower value
+    if S satisfies robust budget, capacity, relevance, provider, and safety constraints:
+        estimate lower improvement inf_M Delta V_M(S)
+return empty coalition if every feasible lower improvement is non-positive;
+otherwise return the feasible S with maximum lower improvement
 ```
 
-This avoids unjustified greedy/submodularity claims in the first paper. Include greedy, independent-treatment, and lower-Shapley heuristics as baselines—not as the proposed decision rule.
+This avoids unjustified greedy/submodularity claims in the first paper. Include greedy, independent-treatment, lower-Shapley, and leave-one-intervention-out heuristics as baselines—not as the proposed decision rule. The non-Shapley robust selector uses the identical direct optimization rule and is therefore an explanatory-layer ablation, not a recommendation-utility competitor.
 
-## 4.8 Explanation, certification, and abstention
+## 4.10 Explanation, certification, and abstention
 
 For the selected \(S^\star\), output:
 
-- \(\underline V(S^\star),\overline V(S^\star)\);
+- \(\underline{\Delta V}(S^\star),\overline{\Delta V}(S^\star)\) relative to \(\pi_0\);
 - each selected intervention’s Shapley region;
 - key interaction regions;
 - relevance, provider-exposure, capacity, and cost diagnostics;
@@ -473,7 +544,7 @@ Decision semantics:
 
 Do not call a positive Shapley lower bound a universal safety certificate. It is an attribution-sign certificate conditioned on the ambiguity set and averaging context.
 
-## 4.9 Complexity analysis
+## 4.11 Computational complexity
 
 Let \(n=6\), \(L\) be the number of computational representatives of \(\mathfrak M_\Gamma\), \(B=2^n=64\), and \(R\) the number of trajectory/OPE rollouts per coalition.
 
@@ -558,7 +629,26 @@ then:
 
 Derive a finite-rollout bound for \(\varepsilon\) under bounded rewards using a union bound over the 64 coalitions. Add a separate caveat that fitted OPE/world-model error is not eliminated by this Monte-Carlo result.
 
-## 5.6 Nested-evidence interval contraction
+## 5.6 Robust selection regret and feasibility under value-estimation error
+
+**Theorem 2 (Robust selection stability).** Suppose:
+
+\[
+\sup_{M\in\mathfrak M_\Gamma}\sup_{S\in\mathcal F_{\mathrm{safe}}}
+|\widehat{\Delta V}_M(S)-\Delta V_M(S)|\leq\varepsilon.
+\]
+
+Let \(S^\star\) maximize true robust improvement and \(\widehat S\) maximize estimated robust improvement over the same feasible set. Then:
+
+\[
+\inf_M\Delta V_M(S^\star)-\inf_M\Delta V_M(\widehat S)\leq2\varepsilon.
+\]
+
+This theorem directly supports the decision layer: uniform coalition-value error, rather than Shapley approximation error, controls robust portfolio regret.
+
+**Robust feasibility margin.** For any estimated constraint \(\widehat g_M(S)\) with uniform error at most \(\varepsilon_g\), enforce \(\sup_M\widehat g_M(S)\leq-\varepsilon_g\). Then the true robust constraint satisfies \(\sup_M g_M(S)\leq0\). Apply this margin to provider-exposure, relevance-loss, and safety constraints in estimated-policy experiments.
+
+## 5.7 Nested-evidence interval contraction
 
 **Proposition 2.** Under a stationary environment and an update rule that yields nested valid ambiguity sets:
 
@@ -616,15 +706,18 @@ Generate at least six regimes:
 
 For each environment seed, enumerate all 64 intervention coalitions under the true SCM. Release:
 
-- oracle \(V_{M^\star}(S)\);
+- oracle \(\Delta V_{M^\star}(S)\) and \(V_{M^\star}(S)\);
 - oracle Shapley values and interactions;
-- oracle robust portfolio under declared stress-test uncertainty;
+- **oracle-optimal portfolio** \(S_{\mathrm{oracle}}^\star=\arg\max_S\Delta V_{M^\star}(S)\);
+- **oracle-robust portfolio** only for a pre-declared stress set \(\mathfrak M_{\mathrm{stress}}^\star\), defined by disclosed parameter perturbations before outcomes are inspected;
 - logged trajectories with propensities;
 - environment configuration and deterministic seeds.
 
+Evaluate both **in-set** cases, where \(M^\star\in\mathfrak M_\Gamma\), and deliberately **misspecified** cases, where \(M^\star\notin\mathfrak M_\Gamma\). The latter demonstrates how attribution certificates fail when their assumptions are wrong rather than treating every miss as an implementation defect.
+
 ## 6.5 Benchmark metrics
 
-Attribution MAE, rank correlation, sign accuracy, interaction recovery, interval coverage, interval width, robust regret, relevance-constraint violation, provider-exposure violation, fatigue, and runtime.
+Attribution MAE, rank correlation, sign accuracy, interaction recovery, sensitivity validity, finite-sample confidence coverage, ambiguity and sampling widths, robust regret, false feasibility/false rejection, relevance-constraint violation, provider-exposure violation, fatigue, and runtime.
 
 ---
 
@@ -666,8 +759,10 @@ The base policy is fixed during a rollout horizon. Report CURE-Rec over both bas
 - independently best nominal intervention;
 - independently best lower-bound intervention;
 - greedy nominal coalition utility;
-- robust causal-policy baseline without Shapley explanation;
-- oracle coalition (CURE-Sim only).
+- direct leave-one-intervention-out policy contribution \(\operatorname{LOO}_i=\Delta V(N)-\Delta V(N\setminus\{i\})\);
+- robust causal-policy selector without Shapley explanation (explanatory-layer ablation);
+- deployment-prior weighted semivalue sensitivity analysis, if the coalition prior is defensible;
+- oracle coalition(s) (CURE-Sim only).
 
 ### Attribution baselines
 
@@ -682,9 +777,9 @@ The base policy is fixed during a rollout horizon. Report CURE-Rec over both bas
 
 **Causal attribution:** MAE to oracle Shapley, Spearman/Kendall correlation, top-\(k\) intervention precision, sign accuracy, and interaction-recovery accuracy.
 
-**Uncertainty:** interval coverage, mean width, width–coverage frontier, false robust-positive rate, false robust-negative rate, and sensitivity to \(\Gamma\).
+**Uncertainty:** sensitivity validity of the population identified region, finite-sample confidence coverage of the estimated region, ambiguity width, sampling-confidence width, false robust-positive rate, false robust-negative rate, and sensitivity to \(\Gamma\).
 
-**Decision quality:** robust regret, mean and worst-case policy utility, harmful-policy rate, cost, feasible-portfolio rate, and constraint violations.
+**Decision quality:** robust regret, mean and worst-case policy improvement, harmful-policy rate, abstention frequency, false feasibility/false rejection, cost, and constraint violations.
 
 **Recommendation and ecosystem:** NDCG/Recall as descriptive ranking diagnostics; causal relevance/satisfaction, cumulative reward, fatigue, catalogue coverage, long-tail exposure, provider exposure Gini/disparity, and concentration/popularity feedback.
 
@@ -870,6 +965,7 @@ The prior work develops a single importance-allocation argument across static fe
 4. Never silently skip infeasible actions in a Shapley permutation; separate game semantics from budgeted selection.
 5. Never call \(\underline\phi_i>0\) a universal safety guarantee; it is an ambiguity-set-conditional, order-averaged attribution certificate.
 6. Never claim a new recommender architecture; the policy layer must work over documented base recommenders.
+7. Never call direct robust selection a Shapley performance gain over an identical non-Shapley selector; Shapley’s role is credit recovery, diagnosis, certification, and auditability.
 
 ## Minimum acceptance criteria before writing results prose
 
