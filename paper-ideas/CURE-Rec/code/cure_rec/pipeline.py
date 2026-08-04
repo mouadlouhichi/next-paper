@@ -9,7 +9,7 @@ from cure_rec.config import Settings
 from cure_rec.game import GameResult, run_exact_game
 from cure_rec.observability import RunLogger
 from cure_rec.planner import PortfolioDecision, build_explanation_card, select_robust_portfolio
-from cure_rec.reporting import emit_figures
+from cure_rec.reporting import emit_assets
 
 
 def run_experiment(settings: Settings) -> tuple[RunLogger, GameResult, PortfolioDecision]:
@@ -21,7 +21,7 @@ def run_experiment(settings: Settings) -> tuple[RunLogger, GameResult, Portfolio
             decision = select_robust_portfolio(game, settings, logger)
             card = build_explanation_card(game, decision, logger)
         with logger.span("reporting"):
-            emit_figures(game, decision, logger)
+            emit_assets(game, decision, settings, logger)
             logger.write_json("artifacts/run_summary.json", {
                 "decision": asdict(decision),
                 "selected_attributions": card["selected_attributions"],

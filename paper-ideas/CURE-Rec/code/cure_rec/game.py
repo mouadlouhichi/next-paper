@@ -179,6 +179,7 @@ def evaluate_coalition(
             "config_hash": settings.config_hash(),
             "operator_parameters": settings.interventions.model_dump(),
             "value": asdict(value),
+            "trajectory": summary.step_summaries,
             "sample_transform_traces": [summary["transform_samples"] for summary in summary.step_summaries],
         },
     )

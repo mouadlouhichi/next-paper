@@ -1,7 +1,7 @@
 # CURE-Rec — Technical Implementation Specification and Registered Evaluation Plan
 
 **Companion to:** `CURE-Rec_Paper_Structure.md`  
-**Status:** pre-implementation design specification  
+**Status:** implementation-aligned specification — Milestone 1 runnable on CPU/Apple Silicon
 **Purpose:** This file defines what must be built, what must be measured, and what claims are prohibited until the relevant causal and computational checks pass.
 
 > **Read this first.** CURE-Rec is not implemented by adding a Shapley regularizer to a recommender. It is a two-layer system: a fixed, reproducible base recommendation policy produces candidate slates; an intervention layer evaluates small portfolios of explicit policy transformations under a causal response model and causal ambiguity set. The proposed method selects a portfolio using **direct robust coalition value**. Shapley regions explain and audit that decision; they are not an excuse to replace robust policy evaluation with a sum of individual scores.
@@ -48,7 +48,7 @@ CURE-Rec/code/
 │   ├── interventions.py        # six operators, canonical composition, collision allocation
 │   ├── game.py                 # 64 coalition sweep, exact Shapley, interactions, regions
 │   ├── planner.py              # direct robust-improvement selection and abstention
-│   ├── reporting.py            # tables, figures, explanation cards
+│   ├── reporting.py            # numbered tables, figures, decision card, asset manifest
 │   ├── pipeline.py             # end-to-end experiment runner
 │   └── cli.py                  # `cure-rec simulate` and `cure-rec audit-log`
 ├── notebooks/
@@ -57,7 +57,8 @@ CURE-Rec/code/
 │   ├── test_game.py
 │   ├── test_interventions.py
 │   ├── test_data_and_logging.py
-│   └── test_pipeline_smoke.py
+│   ├── test_pipeline_smoke.py
+│   └── test_assets.py
 └── runs/                       # ignored generated manifests, logs, tables, and figures
 ```
 
@@ -693,6 +694,42 @@ Exact coalition enumeration is intentionally modest. The dominant cost is causal
 | Direct robust selection | milliseconds | milliseconds |
 
 Scaling beyond 10–12 interventions is a separate algorithmic problem. The first paper should demonstrate controlled scalability but not promise exactness for an unrestricted intervention taxonomy.
+
+---
+
+## A.16 Asset-generation contract
+
+Every successful CURE-Sim run must generate a numbered, auditable empirical asset set under `runs/<run-id>/`. The generator is `cure_rec.reporting.emit_assets`; it runs automatically from `pipeline.py` after exact-game evaluation and robust selection.
+
+### Generated tables
+
+| Asset | File | Contents |
+|---|---|---|
+| Table 1 | `tables/table_01_asset_registry.csv` | Asset provenance, readiness, scope, and manual/future dependencies |
+| Table 2 | `tables/table_02_benchmark_configuration.csv` | CURE-Sim dimensions, horizon, scenario set, player count, config hash |
+| Table 3 | `tables/table_03_attribution_regions.csv` | Full-game Shapley and feasibility-aware semivalue regions |
+| Table 4 | `tables/table_04_uncertainty_summary.csv` | Region widths and sign-agreement diagnostics |
+| Table 5 | `tables/table_05_portfolio_decision.csv` | Direct robust-improvement decision, abstention, and constraints |
+| Table 6 | `tables/table_06_long_term_tradeoffs.csv` | Base versus selected long-term outcomes by scenario |
+| Table 7 | `tables/table_07_selection_comparison.csv` | Base, best-single, full-coalition, and direct-robust comparison |
+| Table 8 | `tables/table_08_runtime_summary.csv` | Exact-game runtime by scenario and coalition cardinality |
+
+### Generated figures
+
+| Asset | File | Contents |
+|---|---|---|
+| Figure 1 | `figures/figure_01_framework.png` | Executable CURE-Rec flow and observability layer |
+| Figure 2 | `figures/figure_02_shapley_regions.png` | Shapley regions with selected interventions highlighted |
+| Figure 3 | `figures/figure_03_uncertainty_widths.png` | Full-game versus feasible-semivalue width profile |
+| Figure 4 | `figures/figure_04_interaction_heatmap.png` | Grabisch–Roubens pairwise interaction heatmap |
+| Figure 5 | `figures/figure_05_trajectory_comparison.png` | Base versus selected satisfaction/fatigue/provider trajectories |
+| Figure 6 | `figures/figure_06_decision_card.png` | Human-readable deployment, certificate, and constraint card |
+| Figure 7 | `figures/figure_07_runtime_by_cardinality.png` | Exact coalition-evaluation runtime profile |
+| Figure 8 | `figures/figure_08_scenario_sensitivity.png` | Selected-policy improvement across configured scenarios |
+
+The asset manifest is written to `artifacts/asset_manifest.json`. Per-coalition manifests, transform traces, JSONL events, and raw coalition CSVs provide the provenance required to regenerate each asset.
+
+**Scope discipline:** the literature-positioning table is a manual manuscript artifact; real-log OPE, finite-sample confidence, and \(\Gamma\)-sensitivity figures are marked as future until an audited log and the corresponding estimator are implemented. The registry makes this status visible rather than silently creating unsupported scientific claims.
 
 ---
 
