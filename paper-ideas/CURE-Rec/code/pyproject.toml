@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cure-rec"
+version = "0.1.0"
+description = "Causal and uncertainty-aware cooperative intervention games for recommendation"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+  { name = "Mouad Louhichi" },
+]
+dependencies = [
+  "numpy>=1.26,<3",
+  "pandas>=2.1,<3",
+  "pydantic>=2.7,<3",
+  "PyYAML>=6.0,<7",
+  "matplotlib>=3.8,<4",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8,<9",
+  "jupyterlab>=4,<5",
+  "nbformat>=5.10,<6",
+]
+
+[project.scripts]
+cure-rec = "cure_rec.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["cure_rec*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

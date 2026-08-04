@@ -31,88 +31,37 @@
 This is a planned layout. Do not create empty modules merely to satisfy the tree; build in the order in §B.7.
 
 ```text
-CURE-Rec/
+CURE-Rec/code/
+├── pyproject.toml              # installable CPU-first package
 ├── requirements.txt
-├── README.md
+├── README.md                   # Apple Silicon setup, run/log/artifact guide
+├── .gitignore                  # excludes data, runs, environments, caches
 ├── configs/
-│   ├── curesim_base.yaml
-│   ├── curesim_confounded.yaml
-│   ├── curesim_policy_shift.yaml
-│   ├── coat.yaml
-│   ├── yahoo_r3.yaml
-│   └── interventions.yaml
+│   ├── curesim_quickstart.yaml
+│   └── curesim_full.yaml
 ├── cure_rec/
-│   ├── __init__.py
-│   ├── config.py                 # typed config loading + config hash
-│   ├── seed.py                   # all RNGs, deterministic run manifest
-│   ├── data/
-│   │   ├── schema.py             # logged-slate schema and validation types
-│   │   ├── loaders.py            # CURE-Sim, Coat, Yahoo R3, audited logs
-│   │   ├── audit.py              # propensity, timing, support, overlap audit
-│   │   └── splits.py             # train/validation/test temporal cohorts
-│   ├── policy/
-│   │   ├── base.py               # BasePolicy protocol
-│   │   ├── bpr.py                # primary reproducible base policy
-│   │   ├── lightgcn.py           # optional robustness policy
-│   │   ├── candidates.py         # candidate generation and availability filters
-│   │   └── slates.py             # canonical slate representation
-│   ├── interventions/
-│   │   ├── base.py               # Intervention protocol
-│   │   ├── library.py            # six fixed intervention definitions
-│   │   ├── compose.py            # canonical composition g_S
-│   │   └── constraints.py        # budget/capacity/relevance/provider constraints
-│   ├── environment/
-│   │   ├── state.py              # platform state S_t
-│   │   ├── curesim.py            # oracle sequential SCM environment
-│   │   ├── dynamics.py           # user/item/provider transition mechanisms
-│   │   └── rollout.py            # policy rollout interface
-│   ├── causal/
-│   │   ├── response.py           # learned response/world-model interface
-│   │   ├── ope.py                # sequential IPS, DR, diagnostics
-│   │   ├── sensitivity.py        # Gamma ambiguity and adversarial weights
-│   │   ├── ambiguity.py          # model-consistent M_Gamma interface
-│   │   └── calibration.py        # held-out policy calibration checks
-│   ├── game/
-│   │   ├── coalitions.py         # all 64 coalition masks and cache keys
-│   │   ├── value.py              # V_M(S), confidence/outer bounds
-│   │   ├── shapley.py            # exact intervention Shapley values
-│   │   ├── interaction.py        # exact pair interaction indices
-│   │   └── regions.py            # model-consistent and outer attribution bounds
-│   ├── planner/
-│   │   ├── robust.py             # direct maximin enumeration
-│   │   ├── heuristics.py         # individual, greedy, lower-Shapley baselines
-│   │   └── certificate.py        # selection/explanation/abstention report
-│   ├── metrics/
-│   │   ├── recommendation.py     # NDCG, Recall, MRR as diagnostics
-│   │   ├── causal.py             # attribution MAE, coverage, robust regret
-│   │   ├── ecosystem.py          # fatigue, concentration, provider exposure
-│   │   └── stats.py              # CIs, paired tests, Holm correction
-│   └── report/
-│       ├── tables.py             # manuscript table emitters
-│       ├── figures.py            # manuscript figure emitters
-│       └── cards.py              # intervention explanation cards
-├── scripts/
-│   ├── 00_audit_log.py
-│   ├── 01_train_base_policy.py
-│   ├── 02_build_curesim_logs.py
-│   ├── 03_fit_response_models.py
-│   ├── 04_run_exact_game.py
-│   ├── 05_select_portfolios.py
-│   ├── 06_run_ablations.py
-│   ├── 07_emit_report.py
-│   └── run_all.py
+│   ├── config.py               # Pydantic config, hashes, validation
+│   ├── observability.py        # JSONL events, manifests, human-readable run logs
+│   ├── data.py                 # CURE-Sim loader, generic CSV loader, conservative audit
+│   ├── simulator.py            # disclosed sequential CURE-Sim SCM
+│   ├── policies.py             # documented history-aware base-policy interface
+│   ├── interventions.py        # six operators, canonical composition, collision allocation
+│   ├── game.py                 # 64 coalition sweep, exact Shapley, interactions, regions
+│   ├── planner.py              # direct robust-improvement selection and abstention
+│   ├── reporting.py            # tables, figures, explanation cards
+│   ├── pipeline.py             # end-to-end experiment runner
+│   └── cli.py                  # `cure-rec simulate` and `cure-rec audit-log`
+├── notebooks/
+│   └── 00_cure_rec_quickstart.ipynb
 ├── tests/
-├── results/
-│   ├── manifests/
-│   ├── raw/
-│   ├── coalitions/
-│   ├── tables/
-│   └── figures/
-└── docs/
-    ├── causal_assumptions.md
-    ├── dataset_audits.md
-    └── intervention_cards.md
+│   ├── test_game.py
+│   ├── test_interventions.py
+│   ├── test_data_and_logging.py
+│   └── test_pipeline_smoke.py
+└── runs/                       # ignored generated manifests, logs, tables, and figures
 ```
+
+The first executable milestone deliberately uses a shallow package rather than premature micro-packages. Once real logged-policy estimators are implemented, `data`, `causal`, and `policy` can be promoted to subpackages without changing the public CLI or artifact contract.
 
 ## A.3 Environment and dependency policy
 
@@ -120,19 +69,16 @@ Initial environment:
 
 ```text
 python >= 3.11, < 3.13
-numpy
-scipy
-pandas
-scikit-learn
-pydantic                     # typed configs, manifests, and audited schemas
-pyyaml
-pytest
-hypothesis                   # property-based tests
-matplotlib / seaborn
-networkx                     # causal and intervention dependency graphs
-cvxpy                        # only if ambiguity extremization requires it
-pytorch                      # only for LightGCN/SASRec or neural response model
+numpy                         # simulator and exact cooperative-game arithmetic
+pandas                        # local log loading and artifact tables
+pydantic                      # typed configs, manifests, and audited schemas
+PyYAML                        # configuration loading
+matplotlib                    # deterministic manuscript/quickstart figures
+pytest                        # game, operator, audit, and end-to-end smoke tests
+jupyterlab + nbformat         # validated quickstart notebook
 ```
+
+The first CPU-first milestone intentionally avoids SciPy, scikit-learn, PyTorch, and external tracking services. Add `cvxpy` only when the adversarial \(\Gamma\)-weight optimizer is implemented; add PyTorch only with a documented SASRec/learned-response-model milestone.
 
 Implementation principles:
 

@@ -1,0 +1,11 @@
+# Core runtime — CPU-first and Apple Silicon friendly
+numpy>=1.26,<3
+pandas>=2.1,<3
+pydantic>=2.7,<3
+PyYAML>=6.0,<7
+matplotlib>=3.8,<4
+
+# Development / notebook
+pytest>=8,<9
+jupyterlab>=4,<5
+nbformat>=5.10,<6

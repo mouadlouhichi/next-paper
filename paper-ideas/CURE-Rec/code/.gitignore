@@ -1,0 +1,17 @@
+# Virtual environments and Python cache
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Local data and run artifacts (configs, source code, and notebooks are tracked)
+data/raw/
+data/processed/
+runs/
+*.parquet
+*.npy
+
+# Jupyter
+.ipynb_checkpoints/
+
+*.egg-info/

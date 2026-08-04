@@ -1,0 +1,67 @@
+run:
+  name: curesim-quickstart
+  seed: 42
+  output_root: runs
+  log_level: INFO
+
+simulator:
+  n_users: 24
+  n_items: 72
+  n_providers: 8
+  n_categories: 6
+  embedding_dim: 6
+  horizon: 4
+  slate_size: 8
+  repeat_fatigue_threshold: 2
+  popularity_feedback: 0.03
+  fatigue_multiplier: 1.0
+  satisfaction_shift: 0.0
+
+policy:
+  popularity_weight: 0.35
+  profile_weight: 1.0
+  candidate_pool_size: 36
+
+interventions:
+  repeat_cap: 2
+  injection_capacity: 2
+  proposal_top_n: 6
+  long_tail_quantile: 0.35
+  diversity_weight: 0.45
+  provider_balance_weight: 0.35
+  exploration_temperature: 0.25
+  novelty_threshold: 0.15
+  costs:
+    repeat_cap: 0.05
+    explore_slot: 0.10
+    tail_slot: 0.08
+    diversify: 0.06
+    novel_slot: 0.08
+    provider_balance: 0.12
+
+constraints:
+  budget: 0.35
+  min_relevance_delta: -0.10
+  max_provider_disparity: 0.30
+  max_fatigue: 0.70
+
+utility:
+  gamma: 0.95
+  satisfaction_weight: 0.70
+  retention_weight: 0.30
+  fatigue_weight: 0.35
+  cost_weight: 1.0
+
+scenarios:
+  - name: nominal
+    fatigue_multiplier: 1.0
+    popularity_feedback_multiplier: 1.0
+    satisfaction_shift: 0.0
+  - name: fatigue_stress
+    fatigue_multiplier: 1.35
+    popularity_feedback_multiplier: 1.0
+    satisfaction_shift: -0.02
+  - name: popularity_stress
+    fatigue_multiplier: 1.0
+    popularity_feedback_multiplier: 1.5
+    satisfaction_shift: -0.01

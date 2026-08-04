@@ -1,0 +1,71 @@
+run:
+  name: curesim-full
+  seed: 2026
+  output_root: runs
+  log_level: INFO
+
+simulator:
+  n_users: 120
+  n_items: 240
+  n_providers: 18
+  n_categories: 10
+  embedding_dim: 12
+  horizon: 12
+  slate_size: 10
+  repeat_fatigue_threshold: 3
+  popularity_feedback: 0.025
+  fatigue_multiplier: 1.0
+  satisfaction_shift: 0.0
+
+policy:
+  popularity_weight: 0.30
+  profile_weight: 1.0
+  candidate_pool_size: 96
+
+interventions:
+  repeat_cap: 3
+  injection_capacity: 2
+  proposal_top_n: 10
+  long_tail_quantile: 0.30
+  diversity_weight: 0.50
+  provider_balance_weight: 0.35
+  exploration_temperature: 0.20
+  novelty_threshold: 0.15
+  costs:
+    repeat_cap: 0.05
+    explore_slot: 0.10
+    tail_slot: 0.08
+    diversify: 0.06
+    novel_slot: 0.08
+    provider_balance: 0.12
+
+constraints:
+  budget: 0.35
+  min_relevance_delta: -0.08
+  max_provider_disparity: 0.28
+  max_fatigue: 0.65
+
+utility:
+  gamma: 0.97
+  satisfaction_weight: 0.70
+  retention_weight: 0.30
+  fatigue_weight: 0.35
+  cost_weight: 1.0
+
+scenarios:
+  - name: nominal
+    fatigue_multiplier: 1.0
+    popularity_feedback_multiplier: 1.0
+    satisfaction_shift: 0.0
+  - name: fatigue_stress
+    fatigue_multiplier: 1.40
+    popularity_feedback_multiplier: 1.0
+    satisfaction_shift: -0.03
+  - name: popularity_stress
+    fatigue_multiplier: 1.0
+    popularity_feedback_multiplier: 1.75
+    satisfaction_shift: -0.02
+  - name: mixed_stress
+    fatigue_multiplier: 1.30
+    popularity_feedback_multiplier: 1.50
+    satisfaction_shift: -0.04
