@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import json
+
 from cure_rec.pipeline import run_experiment
 
 
@@ -21,5 +23,9 @@ def test_complete_numbered_asset_contract(settings, tmp_path):
     for number in range(1, 9):
         assert any(name.startswith(f"table_{number:02d}_") for name in table_names)
         assert any(name.startswith(f"figure_{number:02d}_") for name in figure_names)
-    assert (logger.artifacts_dir / "asset_manifest.json").exists()
+    asset_manifest_path = logger.artifacts_dir / "asset_manifest.json"
+    assert asset_manifest_path.exists()
+    asset_manifest = json.loads(asset_manifest_path.read_text())
+    table_one = next(row for row in asset_manifest if row["id"] == "Table 1")
+    assert table_one["exists"] is True
     assert (logger.artifacts_dir / "coalitions" / "nominal" / "mask_00.json").exists()

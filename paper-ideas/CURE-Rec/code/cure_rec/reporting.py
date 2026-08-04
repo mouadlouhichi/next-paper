@@ -322,11 +322,14 @@ def emit_assets(game: GameResult, decision: PortfolioDecision, settings: Setting
     _plot_scenario_sensitivity(game, decision, logger)
 
     registry = pd.DataFrame(ASSET_CONTRACT)
+    # Materialize Table 1 first. Its own existence cannot be measured before the
+    # registry file is written, which previously produced a false negative.
+    _write_table(logger, "table_01_asset_registry.csv", registry)
     for index, row in registry.iterrows():
-        if row["scope"] == "generated":
-            registry.loc[index, "exists"] = (logger.run_dir / row["path"]).exists()
-        else:
-            registry.loc[index, "exists"] = False
+        registry.loc[index, "exists"] = bool(
+            row["scope"] == "generated" and (logger.run_dir / row["path"]).exists()
+        )
+    # Rewrite Table 1 and the machine-readable manifest with final existence flags.
     _write_table(logger, "table_01_asset_registry.csv", registry)
     logger.write_json("artifacts/asset_manifest.json", registry.to_dict(orient="records"))
     logger.event(
