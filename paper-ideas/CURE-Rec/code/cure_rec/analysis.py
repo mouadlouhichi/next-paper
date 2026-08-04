@@ -94,6 +94,7 @@ def analyze_dataset(
     _write_profile_assets(frame, run_dir, result.dataset)
 
     metrics_rows: list[dict] = []
+    bpr: BPRMFRecommender | None = None
     modeling_note = "Chronological model evaluation skipped: timestamps unavailable or insufficient positive history."
     if not frame["timestamp"].isna().all():
         try:
@@ -101,8 +102,10 @@ def analyze_dataset(
             popularity = PopularityRecommender().fit(split.train)
             metrics_rows.append(asdict(evaluate_leave_one_out(popularity, split, max_users=max_eval_users)))
             if run_bpr:
-                bpr = BPRMFRecommender(max_updates=bpr_updates, seed=seed).fit(split.train)
+                bpr = BPRMFRecommender(max_updates=bpr_updates, seed=seed).fit(split.train, validation=split.validation)
                 metrics_rows.append(asdict(evaluate_leave_one_out(bpr, split, max_users=max_eval_users)))
+                pd.DataFrame(bpr.loss_history).to_csv(run_dir / "tables" / "data_table_bpr_loss.csv", index=False)
+                pd.DataFrame(bpr.validation_history).to_csv(run_dir / "tables" / "data_table_bpr_validation.csv", index=False)
             modeling_note = "Chronological leave-one-out ranking evaluation completed."
         except ValueError as exc:
             modeling_note = f"Chronological model evaluation skipped: {exc}"
@@ -120,6 +123,22 @@ def analyze_dataset(
         ax.legend()
         fig.tight_layout()
         fig.savefig(run_dir / "figures" / "data_figure_model_metrics.png", dpi=180)
+        plt.close(fig)
+
+    if bpr is not None and bpr.loss_history:
+        loss = pd.DataFrame(bpr.loss_history)
+        validation = pd.DataFrame(bpr.validation_history)
+        fig, ax = plt.subplots(figsize=(7, 4))
+        ax.plot(loss["updates"], loss["bpr_loss"], color="#E76F51", label="BPR loss")
+        ax.set_xlabel("Triplet updates")
+        ax.set_ylabel("BPR loss")
+        ax.set_title(f"{result.dataset}: BPR-MF training diagnostics")
+        if not validation.empty:
+            twin = ax.twinx()
+            twin.plot(validation["updates"], validation["validation_ndcg_at_10"], color="#2A9D8F", marker="o", label="Validation NDCG@10")
+            twin.set_ylabel("Validation NDCG@10")
+        fig.tight_layout()
+        fig.savefig(run_dir / "figures" / "data_figure_bpr_training.png", dpi=180)
         plt.close(fig)
 
     manifest = {

@@ -638,6 +638,27 @@ def select_robust_portfolio(values_by_model, constraints) -> SelectionResult:
 
 The planner stores both oracle/estimated feasibility and the robust constraint margins used for every candidate coalition.
 
+### Planner modes and statuses
+
+The implementation exposes explicit semantics rather than treating every run as an improvement experiment:
+
+```python
+class DecisionMode(str, Enum):
+    IMPROVEMENT = "improvement"
+    REPAIR = "repair"
+
+class DecisionStatus(str, Enum):
+    IMPROVE_SELECTED = "improve_selected"
+    ABSTAIN_KEEP_BASE = "abstain_keep_base"
+    REPAIR_SELECTED = "repair_selected"
+    NO_FEASIBLE_PORTFOLIO = "no_feasible_portfolio"
+```
+
+- **Improvement mode:** when the base policy is robustly feasible, select a positive maximin-improvement portfolio or retain the feasible base policy.
+- **Repair mode:** when the base violates robust constraints, never return `EMPTY` merely because all repairs are costly; select the best feasible repair or emit `no_feasible_portfolio`.
+
+Every decision card, portfolio table, log event, and manuscript result row must include `mode`, `status`, and `base_feasible`.
+
 ### Required baselines
 
 1. no intervention;
@@ -870,8 +891,10 @@ Report NDCG@\(K\), Recall@\(K\), MRR, and Hit Rate as ranking diagnostics. They 
 
 ## B.6 Statistical protocol
 
-- Use at least five environment/base-policy seeds.
+- Use five paired environment seeds for pipeline stabilization and 20–30 seeds for principal CURE-Sim comparisons.
 - Pair methods on identical environment seeds, cohorts, and trajectories.
+- Common random numbers are shared across coalition rollouts within each scenario/seed; independent seeds provide repeated experimental units.
+- Use `cure-rec sweep --config ... --seeds 42,43,44,45,46` to emit decision frequency and attribution-stability assets.
 - Report mean ± standard deviation and 95% bootstrap confidence intervals where appropriate.
 - Use paired tests over independent environment/cohort units; apply Holm–Bonferroni within each result family.
 - Do not treat every user interaction as independent if platform state or provider exposure creates interference.

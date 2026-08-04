@@ -382,14 +382,22 @@ The robust selected portfolio is:
 S^\star=\arg\max_{S\in\mathcal F_{\mathrm{safe}}}\inf_{M\in\mathfrak M_{\Gamma,r}}\Delta V_M(S).
 \]
 
-The abstention rule is explicit:
+When the base is robustly feasible, the abstention rule is explicit:
 
 \[
 \max_{S\in\mathcal F_{\mathrm{safe}}}\underline{\Delta V}(S)\leq0
 \quad\Longrightarrow\quad S^\star=\emptyset.
 \]
 
-This removes model-specific baseline offsets and answers the actual operational question—what policy change can robustly improve on the deployed recommender? The Shapley values are unchanged by this baseline shift because all marginal coalition differences are unchanged. The hard budget \(C(S)\leq B\) controls deployability; the \(\lambda_cC(S)\) term distinguishes residual operational burden among budget-feasible portfolios. This direct robust objective, not an additive sum of Shapley lower bounds, is the deployment decision rule.
+When the base is not robustly feasible, the task is instead a repair problem:
+
+\[
+S^\star_{\mathrm{repair}}=
+\arg\max_{S\in\mathcal F_{\mathrm{safe}}}
+\underline{\Delta V}(S),
+\]
+
+and a negative improvement does not justify returning the infeasible empty coalition. The system either selects the best feasible repair or returns an explicit `no_feasible_portfolio` certificate. This removes model-specific baseline offsets and answers the actual operational question—what policy change can robustly improve on, or repair, the deployed recommender? The Shapley values are unchanged by this baseline shift because all marginal coalition differences are unchanged. The hard budget \(C(S)\leq B\) controls deployability; the \(\lambda_cC(S)\) term distinguishes residual operational burden among budget-feasible portfolios. This direct robust objective, not an additive sum of Shapley lower bounds, is the deployment decision rule.
 
 ---
 

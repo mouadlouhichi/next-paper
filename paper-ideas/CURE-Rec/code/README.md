@@ -86,6 +86,11 @@ cure-rec analyze-data \
   --dataset movielens_1m \
   --source data/raw/movielens_1m \
   --bpr-updates 50000
+
+# Paired stabilization sweep; common random numbers are shared within each seed.
+cure-rec sweep \
+  --config configs/curesim_full.yaml \
+  --seeds 42,43,44,45,46
 ```
 
 Every loader runs the conservative audit and labels the strongest claim supported by the available fields. MovieLens, Coat, and Yahoo! R3 are not automatically promoted to long-horizon policy-evaluation evidence.

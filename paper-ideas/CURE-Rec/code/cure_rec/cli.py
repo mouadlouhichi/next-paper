@@ -9,6 +9,7 @@ from pathlib import Path
 from cure_rec.analysis import analyze_dataset
 from cure_rec.config import load_settings
 from cure_rec.data import audit_interactions, load_dataset, load_interactions_csv, write_standardized_dataset
+from cure_rec.experiments import run_seed_sweep
 from cure_rec.pipeline import run_experiment
 from cure_rec.workflow import run_full_workflow
 
@@ -67,6 +68,18 @@ def _analyze_data(args: argparse.Namespace) -> int:
     return 0
 
 
+def _sweep(args: argparse.Namespace) -> int:
+    settings = load_settings(args.config)
+    seeds = [int(seed.strip()) for seed in args.seeds.split(",") if seed.strip()]
+    result = run_seed_sweep(settings, seeds)
+    print(json.dumps({
+        "seed_sweep_run": str(result.run_dir),
+        "seeds": seeds,
+        "selection_frequency": result.decisions["selected_interventions"].value_counts().to_dict(),
+    }, indent=2, default=str))
+    return 0
+
+
 def _full_run(args: argparse.Namespace) -> int:
     settings = load_settings(args.config)
     workflow = run_full_workflow(
@@ -121,6 +134,11 @@ def main(argv: list[str] | None = None) -> int:
     analyzer.add_argument("--max-eval-users", type=int, default=1_000)
     analyzer.add_argument("--seed", type=int, default=42)
     analyzer.set_defaults(handler=_analyze_data)
+
+    sweep = subparsers.add_parser("sweep", help="Run paired multi-seed CURE-Sim experiments")
+    sweep.add_argument("--config", type=Path, required=True)
+    sweep.add_argument("--seeds", default="42,43,44,45,46", help="Comma-separated integer seeds")
+    sweep.set_defaults(handler=_sweep)
 
     full = subparsers.add_parser("full-run", help="Fetch/load data, audit it, analyze baseline models, then run CURE-Sim")
     full.add_argument("--config", type=Path, required=True)

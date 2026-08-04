@@ -81,30 +81,62 @@ class PopularityRecommender:
 
 
 class BPRMFRecommender:
-    """Small NumPy BPR-MF implementation for notebook-scale baseline analysis.
+    """Vectorized mini-batch BPR-MF baseline for Apple Silicon CPU analysis.
 
-    The implementation trades throughput for transparency. `max_updates` controls
-    runtime directly and makes it suitable for an M4 laptop without a GPU. It is
-    not presented as the final paper architecture.
+    The model uses batch triplet sampling, vectorized gradients, validation-aware
+    checkpoints, and deterministic initialization. It remains a transparent
+    notebook baseline rather than the paper's final architecture.
     """
 
     name = "bpr_mf"
 
     def __init__(
         self,
-        factors: int = 32,
-        learning_rate: float = 0.05,
-        regularization: float = 1e-4,
-        max_updates: int = 50_000,
+        factors: int = 48,
+        learning_rate: float = 0.03,
+        regularization: float = 2e-4,
+        max_updates: int = 500_000,
+        batch_size: int = 2_048,
+        eval_every_updates: int = 50_000,
+        early_stopping_patience: int = 3,
         seed: int = 42,
     ):
         self.factors = factors
         self.learning_rate = learning_rate
         self.regularization = regularization
         self.max_updates = max_updates
+        self.batch_size = batch_size
+        self.eval_every_updates = eval_every_updates
+        self.early_stopping_patience = early_stopping_patience
         self.seed = seed
+        self.loss_history: list[dict[str, float]] = []
+        self.validation_history: list[dict[str, float]] = []
 
-    def fit(self, interactions: pd.DataFrame) -> "BPRMFRecommender":
+    def _sample_negatives(self, rng: np.random.Generator, users: np.ndarray) -> np.ndarray:
+        negatives = rng.integers(len(self.item_ids), size=len(users))
+        invalid = np.fromiter(
+            (negative in self.user_seen[int(user)] for user, negative in zip(users, negatives, strict=True)),
+            dtype=bool,
+            count=len(users),
+        )
+        attempts = 0
+        while invalid.any() and attempts < 20:
+            negatives[invalid] = rng.integers(len(self.item_ids), size=int(invalid.sum()))
+            invalid = np.fromiter(
+                (negative in self.user_seen[int(user)] for user, negative in zip(users, negatives, strict=True)),
+                dtype=bool,
+                count=len(users),
+            )
+            attempts += 1
+        return negatives
+
+    def _validation_metric(self, validation: pd.DataFrame, max_users: int = 1_000) -> float:
+        if validation.empty:
+            return float("nan")
+        pseudo_split = LeaveOneOutSplit(train=pd.DataFrame(), validation=pd.DataFrame(), test=validation, user_count=validation["user_id"].nunique())
+        return evaluate_leave_one_out(self, pseudo_split, max_users=max_users).ndcg_at_k
+
+    def fit(self, interactions: pd.DataFrame, validation: pd.DataFrame | None = None) -> "BPRMFRecommender":
         positives = interactions[interactions["response"] > 0][["user_id", "item_id"]].drop_duplicates()
         self.user_ids = np.sort(interactions["user_id"].unique())
         self.item_ids = np.sort(interactions["item_id"].unique())
@@ -117,6 +149,9 @@ class BPRMFRecommender:
         self.user_seen = {index: set() for index in range(len(self.user_ids))}
         for user_index, item_index in pairs:
             self.user_seen[int(user_index)].add(int(item_index))
+        valid_pair_mask = np.asarray([len(self.user_seen[int(user)]) < len(self.item_ids) for user, _ in pairs], dtype=bool)
+        pairs = pairs[valid_pair_mask]
+
         rng = np.random.default_rng(self.seed)
         scale = 0.05
         self.user_factors = rng.normal(0.0, scale, size=(len(self.user_ids), self.factors))
@@ -124,23 +159,51 @@ class BPRMFRecommender:
         if len(pairs) == 0:
             return self
 
-        # A transparent online SGD loop avoids incorrect duplicate-index batch updates.
-        updates = min(self.max_updates, max(len(pairs), 1) * 10)
-        for _ in range(updates):
-            user_index, positive_index = pairs[rng.integers(len(pairs))]
-            if len(self.user_seen[int(user_index)]) >= len(self.item_ids):
+        best_metric = -np.inf
+        best_state: tuple[np.ndarray, np.ndarray] | None = None
+        no_improvement = 0
+        updates_completed = 0
+        while updates_completed < self.max_updates:
+            batch_n = min(self.batch_size, self.max_updates - updates_completed)
+            sample = pairs[rng.integers(len(pairs), size=batch_n)]
+            users = sample[:, 0]
+            positives_idx = sample[:, 1]
+            negatives_idx = self._sample_negatives(rng, users)
+            valid = np.asarray([neg not in self.user_seen[int(user)] for user, neg in zip(users, negatives_idx, strict=True)])
+            if not valid.any():
+                updates_completed += batch_n
                 continue
-            negative_index = rng.integers(len(self.item_ids))
-            while negative_index in self.user_seen[int(user_index)]:
-                negative_index = rng.integers(len(self.item_ids))
-            user_vec = self.user_factors[user_index].copy()
-            pos_vec = self.item_factors[positive_index].copy()
-            neg_vec = self.item_factors[negative_index].copy()
-            margin = float(user_vec @ (pos_vec - neg_vec))
+            users, positives_idx, negatives_idx = users[valid], positives_idx[valid], negatives_idx[valid]
+
+            user_vec = self.user_factors[users].copy()
+            pos_vec = self.item_factors[positives_idx].copy()
+            neg_vec = self.item_factors[negatives_idx].copy()
+            margin = np.einsum("ij,ij->i", user_vec, pos_vec - neg_vec)
             gradient = 1.0 / (1.0 + np.exp(np.clip(margin, -30.0, 30.0)))
-            self.user_factors[user_index] += self.learning_rate * (gradient * (pos_vec - neg_vec) - self.regularization * user_vec)
-            self.item_factors[positive_index] += self.learning_rate * (gradient * user_vec - self.regularization * pos_vec)
-            self.item_factors[negative_index] += self.learning_rate * (-gradient * user_vec - self.regularization * neg_vec)
+            user_delta = self.learning_rate * (gradient[:, None] * (pos_vec - neg_vec) - self.regularization * user_vec)
+            pos_delta = self.learning_rate * (gradient[:, None] * user_vec - self.regularization * pos_vec)
+            neg_delta = self.learning_rate * (-gradient[:, None] * user_vec - self.regularization * neg_vec)
+            np.add.at(self.user_factors, users, user_delta)
+            np.add.at(self.item_factors, positives_idx, pos_delta)
+            np.add.at(self.item_factors, negatives_idx, neg_delta)
+            updates_completed += batch_n
+            loss = float(np.mean(np.logaddexp(0.0, -margin)))
+            self.loss_history.append({"updates": float(updates_completed), "bpr_loss": loss})
+
+            if validation is not None and updates_completed % self.eval_every_updates < batch_n:
+                metric = self._validation_metric(validation)
+                self.validation_history.append({"updates": float(updates_completed), "validation_ndcg_at_10": metric})
+                if metric > best_metric + 1e-8:
+                    best_metric = metric
+                    best_state = (self.user_factors.copy(), self.item_factors.copy())
+                    no_improvement = 0
+                else:
+                    no_improvement += 1
+                    if no_improvement >= self.early_stopping_patience:
+                        break
+        if best_state is not None:
+            self.user_factors, self.item_factors = best_state
+        self.updates_completed = updates_completed
         return self
 
     def score(self, user_id: int, items: np.ndarray) -> np.ndarray:

@@ -8,7 +8,6 @@ from manuscript assets requiring literature synthesis or later real-log evidence
 from __future__ import annotations
 
 import json
-from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
@@ -19,7 +18,7 @@ import pandas as pd
 from cure_rec.config import INTERVENTION_NAMES, Settings
 from cure_rec.game import EMPTY_MASK, GameResult
 from cure_rec.observability import RunLogger
-from cure_rec.planner import PortfolioDecision
+from cure_rec.planner import PortfolioDecision, decision_to_dict
 
 
 ASSET_CONTRACT: tuple[dict[str, str], ...] = (
@@ -258,7 +257,7 @@ def _tables(game: GameResult, decision: PortfolioDecision, settings: Settings, l
     uncertainty = regions[["intervention", "phi_lower", "phi_upper", "psi_feasible_lower", "psi_feasible_upper", "phi_psi_sign_agree"]].copy()
     uncertainty["full_shapley_width"] = uncertainty["phi_upper"] - uncertainty["phi_lower"]
     uncertainty["feasible_semivalue_width"] = uncertainty["psi_feasible_upper"] - uncertainty["psi_feasible_lower"]
-    decision_table = pd.DataFrame([asdict(decision)])
+    decision_table = pd.DataFrame([decision_to_dict(decision)])
     tradeoffs = pd.concat([
         _scenario_values(game, EMPTY_MASK).assign(policy="base"),
         _scenario_values(game, decision.selected_mask).assign(policy="selected"),

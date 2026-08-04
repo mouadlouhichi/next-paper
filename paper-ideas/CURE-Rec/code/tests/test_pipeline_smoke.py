@@ -20,5 +20,10 @@ def test_end_to_end_small_exact_run(settings, tmp_path):
     assert (logger.run_dir / "logs" / "events.jsonl").exists()
     assert len(game.coalition_table) == 64
     assert set(game.regions["intervention"]) == set(settings.interventions.costs)
-    assert decision.action in {"deploy", "abstain"}
+    assert decision.action in {
+        "improve_selected",
+        "abstain_keep_base",
+        "repair_selected",
+        "no_feasible_portfolio",
+    }
     assert (logger.run_dir / "artifacts" / "explanation_card.json").exists()

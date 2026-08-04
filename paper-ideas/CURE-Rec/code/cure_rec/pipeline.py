@@ -2,13 +2,12 @@
 
 from __future__ import annotations
 
-from dataclasses import asdict
 from pathlib import Path
 
 from cure_rec.config import Settings
 from cure_rec.game import GameResult, run_exact_game
 from cure_rec.observability import RunLogger
-from cure_rec.planner import PortfolioDecision, build_explanation_card, select_robust_portfolio
+from cure_rec.planner import PortfolioDecision, build_explanation_card, decision_to_dict, select_robust_portfolio
 from cure_rec.reporting import emit_assets
 
 
@@ -23,7 +22,7 @@ def run_experiment(settings: Settings) -> tuple[RunLogger, GameResult, Portfolio
         with logger.span("reporting"):
             emit_assets(game, decision, settings, logger)
             logger.write_json("artifacts/run_summary.json", {
-                "decision": asdict(decision),
+                "decision": decision_to_dict(decision),
                 "selected_attributions": card["selected_attributions"],
                 "run_dir": str(logger.run_dir),
             })
