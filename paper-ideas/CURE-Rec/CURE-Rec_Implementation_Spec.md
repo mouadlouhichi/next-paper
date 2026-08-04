@@ -42,21 +42,25 @@ CURE-Rec/code/
 ├── cure_rec/
 │   ├── config.py               # Pydantic config, hashes, validation
 │   ├── observability.py        # JSONL events, manifests, human-readable run logs
-│   ├── data.py                 # CURE-Sim loader, generic CSV loader, conservative audit
+│   ├── data.py                 # CURE-Sim/public/local loaders and conservative audit
+│   ├── analysis.py             # data profiling and external-data asset generation
+│   ├── models.py               # CPU popularity and BPR-MF baseline models
 │   ├── simulator.py            # disclosed sequential CURE-Sim SCM
 │   ├── policies.py             # documented history-aware base-policy interface
 │   ├── interventions.py        # six operators, canonical composition, collision allocation
 │   ├── game.py                 # 64 coalition sweep, exact Shapley, interactions, regions
 │   ├── planner.py              # direct robust-improvement selection and abstention
 │   ├── reporting.py            # numbered tables, figures, decision card, asset manifest
-│   ├── pipeline.py             # end-to-end experiment runner
-│   └── cli.py                  # `cure-rec simulate` and `cure-rec audit-log`
+│   ├── pipeline.py             # CURE-Sim causal experiment runner
+│   ├── workflow.py             # fetch/load -> audit -> model analysis -> causal run
+│   └── cli.py                  # `simulate`, `load-data`, `analyze-data`, `full-run`
 ├── notebooks/
 │   └── 00_cure_rec_quickstart.ipynb
 ├── tests/
 │   ├── test_game.py
 │   ├── test_interventions.py
 │   ├── test_data_and_logging.py
+│   ├── test_data_loaders.py
 │   ├── test_pipeline_smoke.py
 │   └── test_assets.py
 └── runs/                       # ignored generated manifests, logs, tables, and figures
@@ -135,7 +139,20 @@ cure-rec load-data --dataset csv --source /path/to/interactions.csv
 - **Yahoo! R3:** local-only loader because access terms may require manual download; useful for rating-selection comparisons, not complete long-horizon slate-policy validation.
 - **CSV:** generic local schema loader. Every route returns a standard interaction table and an explicit evidence-level audit.
 
-The notebook exposes the same loader selector with download disabled by default. Download is always an explicit user action.
+The notebook exposes the same loader selector with explicit download consent. Download is always a visible user action.
+
+### Data/model logic stage
+
+Before the CURE-Sim causal run, `cure_rec.analysis.analyze_dataset` generates a separate external-data analysis run with:
+
+- standardized interaction summary and evidence-level audit;
+- user and item activity distributions;
+- chronological leave-one-out split when real timestamps and sufficient positives exist;
+- popularity baseline;
+- CPU NumPy BPR-MF baseline;
+- baseline ranking metrics and figures.
+
+This stage tests loading and recommender-model logic. Its outputs are explicitly labeled as external-data analysis assets; they do not establish long-horizon intervention causality. The orchestrator `cure-rec full-run` enforces the order **load → audit → analyze registered models → CURE-Sim causal game → numbered causal assets**.
 
 ## A.5 CURE-Sim: primary sequential SCM
 
@@ -746,6 +763,8 @@ Every successful CURE-Sim run must generate a numbered, auditable empirical asse
 | Figure 8 | `figures/figure_08_scenario_sensitivity.png` | Selected-policy improvement across configured scenarios |
 
 The asset manifest is written to `artifacts/asset_manifest.json`. Per-coalition manifests, transform traces, JSONL events, and raw coalition CSVs provide the provenance required to regenerate each asset.
+
+The external-data logic stage separately writes `runs/data-analysis-<dataset>-<timestamp>/` with a data summary, activity tables, popularity/BPR metrics where temporal evaluation is valid, and baseline-model figures. These assets are intentionally not mixed with CURE-Sim causal paper assets.
 
 **Scope discipline:** the literature-positioning table is a manual manuscript artifact; real-log OPE, finite-sample confidence, and \(\Gamma\)-sensitivity figures are marked as future until an audited log and the corresponding estimator are implemented. The registry makes this status visible rather than silently creating unsupported scientific claims.
 

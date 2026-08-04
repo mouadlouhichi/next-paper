@@ -68,6 +68,26 @@ cure-rec load-data --dataset yahoo_r3 --source data/raw/yahoo-r3 \
 cure-rec load-data --dataset csv --source /path/to/interactions.csv
 ```
 
+Run the full evidence-first workflow from the command line:
+
+```bash
+# Fetch/load -> audit -> popularity + BPR-MF baseline analysis -> CURE-Sim causal game -> all assets
+cure-rec full-run \
+  --config configs/curesim_quickstart.yaml \
+  --dataset movielens_1m \
+  --source data/raw/movielens_1m \
+  --download
+```
+
+Or run only the external-data model analysis:
+
+```bash
+cure-rec analyze-data \
+  --dataset movielens_1m \
+  --source data/raw/movielens_1m \
+  --bpr-updates 50000
+```
+
 Every loader runs the conservative audit and labels the strongest claim supported by the available fields. MovieLens, Coat, and Yahoo! R3 are not automatically promoted to long-horizon policy-evaluation evidence.
 
 The simulation command prints the run directory. Inspect:
