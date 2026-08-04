@@ -1,21 +1,21 @@
 dataset,model,evaluation_mode,utility,analysis_role,condition,method,method_label,observed_mean_aia,null_mean,null_p95,permutation_p,draws,n_users
-Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy counterfactual,0.1310298051163378,-0.00024148779793284146,0.012429490165672573,0.000999000999000999,1000,993
-Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,0.8271444739507023,-0.0003678584983368347,0.012817181071700528,0.000999000999000999,1000,993
-Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,0.8511143756608114,6.647407569017047e-05,0.012642601965436616,0.000999000999000999,1000,993
-Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,-0.010319619685153297,6.767461060930017e-05,0.012476156129469273,0.9090909090909091,1000,993
-Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,0.4140961342685184,-3.132331425132559e-05,0.01276515448935952,0.000999000999000999,1000,993
-Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy counterfactual,0.4651322796192456,0.0001257913225680412,0.0122001265027542,0.000999000999000999,1000,1000
-Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,0.7552412100696001,-0.00041804424994510087,0.012258539997412282,0.000999000999000999,1000,1000
-Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,0.7804006491135284,0.00014814732655889012,0.012337555979624083,0.000999000999000999,1000,1000
-Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,0.0045326745081543844,-0.00018534311512017406,0.012040042255731881,0.2827172827172827,1000,1000
-Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,0.3100701139984886,-0.0005714512602876998,0.01145946871652599,0.000999000999000999,1000,1000
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy counterfactual,0.31826261206945705,0.0002422394809657121,0.0060743453451722,0.000999000999000999,1000,1000
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,0.9333530379688386,8.348118495796982e-05,0.005887742804691953,0.000999000999000999,1000,1000
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,0.9779660211244914,-0.00011227517778467594,0.005859299178329214,0.000999000999000999,1000,1000
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,0.00034682766810535215,1.4624249961868106e-06,0.005776402860591465,0.46353646353646355,1000,1000
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,0.7786133710444005,-7.987127312420875e-05,0.005450352378945921,0.000999000999000999,1000,1000
-MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy counterfactual,0.316524832515266,5.998853413356515e-05,0.00566301417107146,0.000999000999000999,1000,1000
-MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,0.9733256106690008,-0.00013069544145225275,0.005357383709943301,0.000999000999000999,1000,1000
-MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,0.9936215611426757,0.0001349499493643612,0.005799131032022675,0.000999000999000999,1000,1000
-MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,0.0003579595997397851,-9.877656862229612e-05,0.0056441694131461944,0.4355644355644356,1000,1000
-MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,0.7874882753778729,-8.243342245989293e-05,0.005845631932309187,0.000999000999000999,1000,1000
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy counterfactual,0.06000000000000001,0.003232,0.17600000000000002,0.2987012987012987,1000,5
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,-0.09999999999999998,0.0020519999999999996,0.16399999999999998,0.8111888111888111,1000,5
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,0.020000000000000007,-0.003303999999999999,0.16,0.41358641358641357,1000,5
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,0.076,0.0031079999999999984,0.16,0.24375624375624375,1000,5
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,0.124,0.0025919999999999997,0.16799999999999998,0.10589410589410589,1000,5
+Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy counterfactual,-0.088,0.003539999999999999,0.16819999999999982,0.8271728271728271,1000,5
+Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,-0.23199999999999998,-0.001908,0.16,0.993006993006993,1000,5
+Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,-0.05199999999999998,0.003304000000000001,0.17219999999999983,0.6863136863136863,1000,5
+Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,-0.059999999999999984,-0.004624,0.156,0.7042957042957043,1000,5
+Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,0.011999999999999983,0.0034839999999999997,0.16799999999999998,0.4825174825174825,1000,5
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy counterfactual,-0.04399999999999999,-0.000532,0.16799999999999998,0.6663336663336663,1000,5
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,0.10400000000000001,0.0051519999999999995,0.172,0.16983016983016982,1000,5
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,0.064,0.0033599999999999993,0.16419999999999982,0.2857142857142857,1000,5
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,-0.031999999999999994,-0.0016519999999999996,0.16,0.6233766233766234,1000,5
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,-0.055999999999999994,-0.0039559999999999994,0.152,0.6973026973026973,1000,5
+MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy counterfactual,-0.031999999999999994,-0.0014080000000000008,0.15999999999999998,0.6253746253746254,1000,5
+MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,-0.08399999999999999,0.0017919999999999998,0.168,0.8061938061938062,1000,5
+MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,-0.076,-0.0010280000000000005,0.16419999999999982,0.7582417582417582,1000,5
+MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,-0.019999999999999987,-0.004511999999999999,0.16399999999999998,0.5684315684315684,1000,5
+MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,0.16799999999999998,0.0023159999999999995,0.16399999999999998,0.04395604395604396,1000,5

@@ -151,18 +151,19 @@ def experiment_key(result: dict[str, Any]) -> tuple[str, str, str, str, str, str
 
 def load_convergence(raw_root: Path) -> dict[tuple[str, str, str], dict[str, Any]]:
     studies: dict[tuple[str, str, str], dict[str, Any]] = {}
-    for path in sorted(raw_root.glob("convergence*.json")):
-        payload = json.loads(path.read_text())
-        if payload.get("schema_version") != 2 or "selected_permutations" not in payload:
-            continue
-        config = payload["config"]
-        key = (
-            str(config.get("dataset_name", "MovieLens-1M")),
-            str(config["model"]),
-            str(config["utility"]),
-        )
-        payload["_path"] = path
-        studies[key] = payload
+    for pattern in ("convergence*.json", "conv*.json"):
+        for path in sorted(raw_root.glob(pattern)):
+            payload = json.loads(path.read_text())
+            if payload.get("schema_version") != 2 or "selected_permutations" not in payload:
+                continue
+            config = payload["config"]
+            key = (
+                str(config.get("dataset_name", "MovieLens-1M")),
+                str(config["model"]),
+                str(config["utility"]),
+            )
+            payload["_path"] = path
+            studies[key] = payload
     return studies
 
 

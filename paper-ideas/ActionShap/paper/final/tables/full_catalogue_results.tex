@@ -6,186 +6,186 @@
 \toprule
 dataset & model & utility & metric & method\_label & mean & ci95\_low & ci95\_high & n\_users & missing\_users \\
 \midrule
-Amazon-Digital-Music & itemknn & target\_margin & aia & Greedy counterfactual & 0.4494 & 0.3916 & 0.505 & 250 & 0 \\
-Amazon-Digital-Music & itemknn & target\_margin & aia\_ndcg & Greedy counterfactual & 0.3683 & -0.1704 & 0.8105 & 6 & 244 \\
-Amazon-Digital-Music & itemknn & target\_margin & faithfulness\_alignment & Greedy counterfactual & 0.5731 & 0.5255 & 0.6184 & 250 & 0 \\
-Amazon-Digital-Music & itemknn & target\_margin & actionability\_gap & Greedy counterfactual & -0.1236 & -0.1691 & -0.08342 & 250 & 0 \\
-Amazon-Digital-Music & itemknn & target\_margin & joint\_effect\_ndcg & Greedy counterfactual & 0.002466 & 0 & 0.005864 & 250 & 0 \\
-Amazon-Digital-Music & itemknn & target\_margin & normalized\_regret\_primary & Greedy counterfactual & 4.506 & 2.007 & 9.151 & 215 & 35 \\
-Amazon-Digital-Music & itemknn & target\_margin & joint\_regret\_ndcg & Greedy counterfactual & 0.00249 & 0 & 0.006102 & 250 & 0 \\
-Amazon-Digital-Music & itemknn & target\_margin & normalized\_regret\_ndcg & Greedy counterfactual & 0.4194 & 0.01938 & 0.8194 & 5 & 245 \\
-Amazon-Digital-Music & itemknn & target\_margin & intervention\_success\_ndcg & Greedy counterfactual & 0.012 & 0 & 0.028 & 250 & 0 \\
-Amazon-Digital-Music & itemknn & target\_margin & aia & LIME & 0.7215 & 0.6768 & 0.764 & 250 & 0 \\
-Amazon-Digital-Music & itemknn & target\_margin & aia\_ndcg & LIME & 0.1713 & -0.4284 & 0.7497 & 6 & 244 \\
-Amazon-Digital-Music & itemknn & target\_margin & faithfulness\_alignment & LIME & 0.9215 & 0.9013 & 0.9386 & 250 & 0 \\
-Amazon-Digital-Music & itemknn & target\_margin & actionability\_gap & LIME & -0.2 & -0.2423 & -0.1603 & 250 & 0 \\
-Amazon-Digital-Music & itemknn & target\_margin & joint\_effect\_ndcg & LIME & 0.002595 & 0 & 0.006144 & 250 & 0 \\
-Amazon-Digital-Music & itemknn & target\_margin & normalized\_regret\_primary & LIME & 0.4556 & 0.3962 & 0.5146 & 215 & 35 \\
-Amazon-Digital-Music & itemknn & target\_margin & joint\_regret\_ndcg & LIME & 0.00236 & 0 & 0.005925 & 250 & 0 \\
-Amazon-Digital-Music & itemknn & target\_margin & normalized\_regret\_ndcg & LIME & 0.4 & 0 & 0.8 & 5 & 245 \\
-Amazon-Digital-Music & itemknn & target\_margin & intervention\_success\_ndcg & LIME & 0.012 & 0 & 0.028 & 250 & 0 \\
-Amazon-Digital-Music & itemknn & target\_margin & aia & Leave-one-out & 0.7895 & 0.7444 & 0.8291 & 250 & 0 \\
-Amazon-Digital-Music & itemknn & target\_margin & aia\_ndcg & Leave-one-out & 0.1718 & -0.4278 & 0.7492 & 6 & 244 \\
-Amazon-Digital-Music & itemknn & target\_margin & faithfulness\_alignment & Leave-one-out & 1 & 1 & 1 & 250 & 0 \\
-Amazon-Digital-Music & itemknn & target\_margin & actionability\_gap & Leave-one-out & -0.2105 & -0.2544 & -0.1715 & 250 & 0 \\
-Amazon-Digital-Music & itemknn & target\_margin & joint\_effect\_ndcg & Leave-one-out & 0.002595 & 0 & 0.006095 & 250 & 0 \\
-Amazon-Digital-Music & itemknn & target\_margin & normalized\_regret\_primary & Leave-one-out & 0.4413 & 0.3802 & 0.5022 & 215 & 35 \\
-Amazon-Digital-Music & itemknn & target\_margin & joint\_regret\_ndcg & Leave-one-out & 0.00236 & 0 & 0.005973 & 250 & 0 \\
-Amazon-Digital-Music & itemknn & target\_margin & normalized\_regret\_ndcg & Leave-one-out & 0.4 & 0 & 0.8 & 5 & 245 \\
-Amazon-Digital-Music & itemknn & target\_margin & intervention\_success\_ndcg & Leave-one-out & 0.012 & 0 & 0.028 & 250 & 0 \\
-Amazon-Digital-Music & itemknn & target\_margin & aia & Random control & -0.004056 & -0.03658 & 0.02806 & 250 & 0 \\
-Amazon-Digital-Music & itemknn & target\_margin & aia\_ndcg & Random control & 0.05723 & -0.1516 & 0.2798 & 6 & 244 \\
-Amazon-Digital-Music & itemknn & target\_margin & faithfulness\_alignment & Random control & -0.001217 & -0.0312 & 0.02828 & 250 & 0 \\
-Amazon-Digital-Music & itemknn & target\_margin & actionability\_gap & Random control & -0.002839 & -0.02063 & 0.01566 & 250 & 0 \\
-Amazon-Digital-Music & itemknn & target\_margin & joint\_effect\_ndcg & Random control & 0.0004775 & -0.001383 & 0.002507 & 250 & 0 \\
-Amazon-Digital-Music & itemknn & target\_margin & normalized\_regret\_primary & Random control & 2.779 & 2.024 & 3.736 & 215 & 35 \\
-Amazon-Digital-Music & itemknn & target\_margin & joint\_regret\_ndcg & Random control & 0.004478 & 0.001248 & 0.008446 & 250 & 0 \\
-Amazon-Digital-Music & itemknn & target\_margin & normalized\_regret\_ndcg & Random control & 0.7928 & 0.6161 & 0.9247 & 5 & 245 \\
-Amazon-Digital-Music & itemknn & target\_margin & intervention\_success\_ndcg & Random control & 0.0048 & 0.0008 & 0.0112 & 250 & 0 \\
-Amazon-Digital-Music & itemknn & target\_margin & aia & Monte Carlo Shapley & -0.1186 & -0.1941 & -0.04245 & 250 & 0 \\
-Amazon-Digital-Music & itemknn & target\_margin & aia\_ndcg & Monte Carlo Shapley & 0.446 & -0.09245 & 0.7828 & 6 & 244 \\
-Amazon-Digital-Music & itemknn & target\_margin & faithfulness\_alignment & Monte Carlo Shapley & -0.2875 & -0.3562 & -0.2187 & 250 & 0 \\
-Amazon-Digital-Music & itemknn & target\_margin & actionability\_gap & Monte Carlo Shapley & 0.1689 & 0.1276 & 0.2117 & 250 & 0 \\
-Amazon-Digital-Music & itemknn & target\_margin & joint\_effect\_ndcg & Monte Carlo Shapley & 0.003455 & 0.0005237 & 0.00722 & 250 & 0 \\
-Amazon-Digital-Music & itemknn & target\_margin & normalized\_regret\_primary & Monte Carlo Shapley & 0.7351 & 0.4749 & 1.048 & 215 & 35 \\
-Amazon-Digital-Music & itemknn & target\_margin & joint\_regret\_ndcg & Monte Carlo Shapley & 0.0015 & 0 & 0.004192 & 250 & 0 \\
-Amazon-Digital-Music & itemknn & target\_margin & normalized\_regret\_ndcg & Monte Carlo Shapley & 0.2555 & 0.01551 & 0.64 & 5 & 245 \\
-Amazon-Digital-Music & itemknn & target\_margin & intervention\_success\_ndcg & Monte Carlo Shapley & 0.0152 & 0.0032 & 0.0312 & 250 & 0 \\
-Amazon-Digital-Music & profile & target\_margin & aia & Greedy counterfactual & 0.5597 & 0.5394 & 0.5799 & 250 & 0 \\
-Amazon-Digital-Music & profile & target\_margin & aia\_ndcg & Greedy counterfactual & 0.2384 & -0.1908 & 0.6175 & 8 & 242 \\
-Amazon-Digital-Music & profile & target\_margin & faithfulness\_alignment & Greedy counterfactual & 0.7149 & 0.6963 & 0.7333 & 250 & 0 \\
-Amazon-Digital-Music & profile & target\_margin & actionability\_gap & Greedy counterfactual & -0.1552 & -0.1791 & -0.1329 & 250 & 0 \\
-Amazon-Digital-Music & profile & target\_margin & joint\_effect\_ndcg & Greedy counterfactual & -0.0005344 & -0.001593 & 0.0004449 & 250 & 0 \\
-Amazon-Digital-Music & profile & target\_margin & normalized\_regret\_primary & Greedy counterfactual & 2.061 & 1.786 & 2.441 & 250 & 0 \\
-Amazon-Digital-Music & profile & target\_margin & joint\_regret\_ndcg & Greedy counterfactual & 0.002301 & 0.0007502 & 0.004215 & 250 & 0 \\
-Amazon-Digital-Music & profile & target\_margin & normalized\_regret\_ndcg & Greedy counterfactual & 2.558 & 0.8134 & 4.808 & 7 & 243 \\
-Amazon-Digital-Music & profile & target\_margin & intervention\_success\_ndcg & Greedy counterfactual & 0.0016 & 0 & 0.004 & 250 & 0 \\
-Amazon-Digital-Music & profile & target\_margin & aia & LIME & 0.6899 & 0.6712 & 0.7086 & 250 & 0 \\
-Amazon-Digital-Music & profile & target\_margin & aia\_ndcg & LIME & 0.2252 & -0.139 & 0.5427 & 8 & 242 \\
-Amazon-Digital-Music & profile & target\_margin & faithfulness\_alignment & LIME & 0.9551 & 0.9498 & 0.9604 & 250 & 0 \\
-Amazon-Digital-Music & profile & target\_margin & actionability\_gap & LIME & -0.2652 & -0.2852 & -0.2455 & 250 & 0 \\
-Amazon-Digital-Music & profile & target\_margin & joint\_effect\_ndcg & LIME & 0.001175 & 7.073e-05 & 0.002583 & 250 & 0 \\
-Amazon-Digital-Music & profile & target\_margin & normalized\_regret\_primary & LIME & 0.2423 & 0.2175 & 0.2677 & 250 & 0 \\
-Amazon-Digital-Music & profile & target\_margin & joint\_regret\_ndcg & LIME & 0.0005918 & 9.052e-05 & 0.001354 & 250 & 0 \\
-Amazon-Digital-Music & profile & target\_margin & normalized\_regret\_ndcg & LIME & 0.4609 & 0.1429 & 0.8571 & 7 & 243 \\
-Amazon-Digital-Music & profile & target\_margin & intervention\_success\_ndcg & LIME & 0.0032 & 0.0008 & 0.0064 & 250 & 0 \\
-Amazon-Digital-Music & profile & target\_margin & aia & Leave-one-out & 0.7234 & 0.7021 & 0.7446 & 250 & 0 \\
-Amazon-Digital-Music & profile & target\_margin & aia\_ndcg & Leave-one-out & 0.2226 & -0.1444 & 0.5374 & 8 & 242 \\
-Amazon-Digital-Music & profile & target\_margin & faithfulness\_alignment & Leave-one-out & 1 & 1 & 1 & 250 & 0 \\
-Amazon-Digital-Music & profile & target\_margin & actionability\_gap & Leave-one-out & -0.2766 & -0.2983 & -0.256 & 250 & 0 \\
-Amazon-Digital-Music & profile & target\_margin & joint\_effect\_ndcg & Leave-one-out & 0.001175 & 7.548e-05 & 0.002608 & 250 & 0 \\
-Amazon-Digital-Music & profile & target\_margin & normalized\_regret\_primary & Leave-one-out & 0.2344 & 0.2087 & 0.2603 & 250 & 0 \\
-Amazon-Digital-Music & profile & target\_margin & joint\_regret\_ndcg & Leave-one-out & 0.0005918 & 9.052e-05 & 0.001342 & 250 & 0 \\
-Amazon-Digital-Music & profile & target\_margin & normalized\_regret\_ndcg & Leave-one-out & 0.4609 & 0.1429 & 0.8571 & 7 & 243 \\
-Amazon-Digital-Music & profile & target\_margin & intervention\_success\_ndcg & Leave-one-out & 0.0032 & 0.0008 & 0.0064 & 250 & 0 \\
-Amazon-Digital-Music & profile & target\_margin & aia & Random control & 0.005888 & -0.02594 & 0.03738 & 250 & 0 \\
-Amazon-Digital-Music & profile & target\_margin & aia\_ndcg & Random control & -0.3353 & -0.6335 & -0.02371 & 8 & 242 \\
-Amazon-Digital-Music & profile & target\_margin & faithfulness\_alignment & Random control & -0.003039 & -0.03278 & 0.02711 & 250 & 0 \\
-Amazon-Digital-Music & profile & target\_margin & actionability\_gap & Random control & 0.008927 & -0.01388 & 0.03189 & 250 & 0 \\
-Amazon-Digital-Music & profile & target\_margin & joint\_effect\_ndcg & Random control & 8.703e-05 & -0.001068 & 0.00138 & 250 & 0 \\
-Amazon-Digital-Music & profile & target\_margin & normalized\_regret\_primary & Random control & 1.652 & 1.498 & 1.821 & 250 & 0 \\
-Amazon-Digital-Music & profile & target\_margin & joint\_regret\_ndcg & Random control & 0.001679 & 0.0004142 & 0.003215 & 250 & 0 \\
-Amazon-Digital-Music & profile & target\_margin & normalized\_regret\_ndcg & Random control & 2.322 & 0.4286 & 4.677 & 7 & 243 \\
-Amazon-Digital-Music & profile & target\_margin & intervention\_success\_ndcg & Random control & 0.0016 & 0 & 0.004 & 250 & 0 \\
-Amazon-Digital-Music & profile & target\_margin & aia & Monte Carlo Shapley & -0.01808 & -0.06845 & 0.03118 & 250 & 0 \\
-Amazon-Digital-Music & profile & target\_margin & aia\_ndcg & Monte Carlo Shapley & 0.1693 & -0.227 & 0.5346 & 8 & 242 \\
-Amazon-Digital-Music & profile & target\_margin & faithfulness\_alignment & Monte Carlo Shapley & -0.3205 & -0.3737 & -0.2669 & 250 & 0 \\
-Amazon-Digital-Music & profile & target\_margin & actionability\_gap & Monte Carlo Shapley & 0.3024 & 0.2806 & 0.3242 & 250 & 0 \\
-Amazon-Digital-Music & profile & target\_margin & joint\_effect\_ndcg & Monte Carlo Shapley & 0.001625 & 0.0003096 & 0.003211 & 250 & 0 \\
-Amazon-Digital-Music & profile & target\_margin & normalized\_regret\_primary & Monte Carlo Shapley & 0.2966 & 0.2184 & 0.3955 & 250 & 0 \\
-Amazon-Digital-Music & profile & target\_margin & joint\_regret\_ndcg & Monte Carlo Shapley & 0.0001413 & 0 & 0.0003691 & 250 & 0 \\
-Amazon-Digital-Music & profile & target\_margin & normalized\_regret\_ndcg & Monte Carlo Shapley & 0.08938 & 0 & 0.2498 & 7 & 243 \\
-Amazon-Digital-Music & profile & target\_margin & intervention\_success\_ndcg & Monte Carlo Shapley & 0.0056 & 0.0016 & 0.0096 & 250 & 0 \\
-MovieLens-1M & itemknn & target\_margin & aia & Greedy counterfactual & 0.3819 & 0.3544 & 0.4097 & 250 & 0 \\
-MovieLens-1M & itemknn & target\_margin & aia\_ndcg & Greedy counterfactual & 0.2819 & 0.1644 & 0.4018 & 18 & 232 \\
-MovieLens-1M & itemknn & target\_margin & faithfulness\_alignment & Greedy counterfactual & 0.3845 & 0.3564 & 0.4127 & 250 & 0 \\
-MovieLens-1M & itemknn & target\_margin & actionability\_gap & Greedy counterfactual & -0.002581 & -0.01316 & 0.00786 & 250 & 0 \\
-MovieLens-1M & itemknn & target\_margin & joint\_effect\_ndcg & Greedy counterfactual & 0.004564 & 0.0005874 & 0.009647 & 250 & 0 \\
-MovieLens-1M & itemknn & target\_margin & normalized\_regret\_primary & Greedy counterfactual & 1.034 & 0.9691 & 1.098 & 250 & 0 \\
-MovieLens-1M & itemknn & target\_margin & joint\_regret\_ndcg & Greedy counterfactual & 0.01395 & 0.005545 & 0.02411 & 250 & 0 \\
-MovieLens-1M & itemknn & target\_margin & normalized\_regret\_ndcg & Greedy counterfactual & 0.6189 & 0.4072 & 0.8338 & 20 & 230 \\
-MovieLens-1M & itemknn & target\_margin & intervention\_success\_ndcg & Greedy counterfactual & 0.044 & 0.02 & 0.072 & 250 & 0 \\
-MovieLens-1M & itemknn & target\_margin & aia & LIME & 0.8924 & 0.8783 & 0.9058 & 250 & 0 \\
-MovieLens-1M & itemknn & target\_margin & aia\_ndcg & LIME & 0.4707 & 0.3606 & 0.5816 & 18 & 232 \\
-MovieLens-1M & itemknn & target\_margin & faithfulness\_alignment & LIME & 0.9256 & 0.9159 & 0.9346 & 250 & 0 \\
-MovieLens-1M & itemknn & target\_margin & actionability\_gap & LIME & -0.03317 & -0.04147 & -0.02584 & 250 & 0 \\
-MovieLens-1M & itemknn & target\_margin & joint\_effect\_ndcg & LIME & 0.01446 & 0.006727 & 0.02399 & 250 & 0 \\
-MovieLens-1M & itemknn & target\_margin & normalized\_regret\_primary & LIME & 0.02222 & 0.01479 & 0.03139 & 250 & 0 \\
-MovieLens-1M & itemknn & target\_margin & joint\_regret\_ndcg & LIME & 0.004057 & 0.0003242 & 0.009606 & 250 & 0 \\
-MovieLens-1M & itemknn & target\_margin & normalized\_regret\_ndcg & LIME & 0.2076 & 0.05971 & 0.3768 & 20 & 230 \\
-MovieLens-1M & itemknn & target\_margin & intervention\_success\_ndcg & LIME & 0.072 & 0.04 & 0.104 & 250 & 0 \\
-MovieLens-1M & itemknn & target\_margin & aia & Leave-one-out & 0.958 & 0.9491 & 0.9658 & 250 & 0 \\
-MovieLens-1M & itemknn & target\_margin & aia\_ndcg & Leave-one-out & 0.5303 & 0.4218 & 0.6386 & 18 & 232 \\
-MovieLens-1M & itemknn & target\_margin & faithfulness\_alignment & Leave-one-out & 0.9996 & 0.9992 & 0.9999 & 250 & 0 \\
-MovieLens-1M & itemknn & target\_margin & actionability\_gap & Leave-one-out & -0.04167 & -0.05053 & -0.03394 & 250 & 0 \\
-MovieLens-1M & itemknn & target\_margin & joint\_effect\_ndcg & Leave-one-out & 0.01427 & 0.00659 & 0.02364 & 250 & 0 \\
-MovieLens-1M & itemknn & target\_margin & normalized\_regret\_primary & Leave-one-out & 0.0112 & 0.005002 & 0.01914 & 250 & 0 \\
-MovieLens-1M & itemknn & target\_margin & joint\_regret\_ndcg & Leave-one-out & 0.004243 & 0.000459 & 0.009975 & 250 & 0 \\
-MovieLens-1M & itemknn & target\_margin & normalized\_regret\_ndcg & Leave-one-out & 0.2133 & 0.06878 & 0.3777 & 20 & 230 \\
-MovieLens-1M & itemknn & target\_margin & intervention\_success\_ndcg & Leave-one-out & 0.072 & 0.044 & 0.104 & 250 & 0 \\
-MovieLens-1M & itemknn & target\_margin & aia & Random control & 0.003929 & -0.00936 & 0.01745 & 250 & 0 \\
-MovieLens-1M & itemknn & target\_margin & aia\_ndcg & Random control & 0.02432 & -0.02252 & 0.07265 & 18 & 232 \\
-MovieLens-1M & itemknn & target\_margin & faithfulness\_alignment & Random control & 0.003315 & -0.011 & 0.01745 & 250 & 0 \\
-MovieLens-1M & itemknn & target\_margin & actionability\_gap & Random control & 0.000614 & -0.003422 & 0.005376 & 250 & 0 \\
-MovieLens-1M & itemknn & target\_margin & joint\_effect\_ndcg & Random control & -0.0004891 & -0.003892 & 0.003509 & 250 & 0 \\
-MovieLens-1M & itemknn & target\_margin & normalized\_regret\_primary & Random control & 1.049 & 1.024 & 1.075 & 250 & 0 \\
-MovieLens-1M & itemknn & target\_margin & joint\_regret\_ndcg & Random control & 0.019 & 0.008951 & 0.03134 & 250 & 0 \\
-MovieLens-1M & itemknn & target\_margin & normalized\_regret\_ndcg & Random control & 1.243 & 0.8573 & 1.778 & 20 & 230 \\
-MovieLens-1M & itemknn & target\_margin & intervention\_success\_ndcg & Random control & 0.0208 & 0.0096 & 0.0336 & 250 & 0 \\
-MovieLens-1M & itemknn & target\_margin & aia & Monte Carlo Shapley & 0.618 & 0.591 & 0.6444 & 250 & 0 \\
-MovieLens-1M & itemknn & target\_margin & aia\_ndcg & Monte Carlo Shapley & 0.3476 & 0.17 & 0.5094 & 18 & 232 \\
-MovieLens-1M & itemknn & target\_margin & faithfulness\_alignment & Monte Carlo Shapley & 0.5742 & 0.5431 & 0.6028 & 250 & 0 \\
-MovieLens-1M & itemknn & target\_margin & actionability\_gap & Monte Carlo Shapley & 0.0438 & 0.03394 & 0.05454 & 250 & 0 \\
-MovieLens-1M & itemknn & target\_margin & joint\_effect\_ndcg & Monte Carlo Shapley & 0.01152 & 0.004579 & 0.02 & 250 & 0 \\
-MovieLens-1M & itemknn & target\_margin & normalized\_regret\_primary & Monte Carlo Shapley & 0.09255 & 0.0715 & 0.1155 & 250 & 0 \\
-MovieLens-1M & itemknn & target\_margin & joint\_regret\_ndcg & Monte Carlo Shapley & 0.006993 & 0.001743 & 0.01383 & 250 & 0 \\
-MovieLens-1M & itemknn & target\_margin & normalized\_regret\_ndcg & Monte Carlo Shapley & 0.2905 & 0.1294 & 0.4686 & 20 & 230 \\
-MovieLens-1M & itemknn & target\_margin & intervention\_success\_ndcg & Monte Carlo Shapley & 0.0672 & 0.0384 & 0.0992 & 250 & 0 \\
-MovieLens-1M & profile & target\_margin & aia & Greedy counterfactual & 0.2911 & 0.2719 & 0.3093 & 250 & 0 \\
-MovieLens-1M & profile & target\_margin & aia\_ndcg & Greedy counterfactual & 0.3409 & 0.2346 & 0.4322 & 4 & 246 \\
-MovieLens-1M & profile & target\_margin & faithfulness\_alignment & Greedy counterfactual & 0.2907 & 0.2719 & 0.3082 & 250 & 0 \\
-MovieLens-1M & profile & target\_margin & actionability\_gap & Greedy counterfactual & 0.000378 & -0.001108 & 0.001599 & 250 & 0 \\
-MovieLens-1M & profile & target\_margin & joint\_effect\_ndcg & Greedy counterfactual & 0.0002401 & -2.31e-05 & 0.0007346 & 250 & 0 \\
-MovieLens-1M & profile & target\_margin & normalized\_regret\_primary & Greedy counterfactual & 0.505 & 0.4696 & 0.5436 & 250 & 0 \\
-MovieLens-1M & profile & target\_margin & joint\_regret\_ndcg & Greedy counterfactual & 0.0002154 & 0 & 0.0005879 & 250 & 0 \\
-MovieLens-1M & profile & target\_margin & normalized\_regret\_ndcg & Greedy counterfactual & 0.2109 & 0 & 0.4219 & 2 & 248 \\
-MovieLens-1M & profile & target\_margin & intervention\_success\_ndcg & Greedy counterfactual & 0.0016 & 0 & 0.004 & 250 & 0 \\
-MovieLens-1M & profile & target\_margin & aia & LIME & 0.9782 & 0.9732 & 0.9826 & 250 & 0 \\
-MovieLens-1M & profile & target\_margin & aia\_ndcg & LIME & 0.1638 & 0.0473 & 0.286 & 4 & 246 \\
-MovieLens-1M & profile & target\_margin & faithfulness\_alignment & LIME & 0.9814 & 0.9783 & 0.9839 & 250 & 0 \\
-MovieLens-1M & profile & target\_margin & actionability\_gap & LIME & -0.003169 & -0.005528 & -0.001211 & 250 & 0 \\
-MovieLens-1M & profile & target\_margin & joint\_effect\_ndcg & LIME & 0.0001221 & -0.0006498 & 0.0009724 & 250 & 0 \\
-MovieLens-1M & profile & target\_margin & normalized\_regret\_primary & LIME & 0.002319 & 0.0008089 & 0.004474 & 250 & 0 \\
-MovieLens-1M & profile & target\_margin & joint\_regret\_ndcg & LIME & 0.0003333 & 0 & 0.0009151 & 250 & 0 \\
-MovieLens-1M & profile & target\_margin & normalized\_regret\_ndcg & LIME & 0.1131 & 0 & 0.2263 & 2 & 248 \\
-MovieLens-1M & profile & target\_margin & intervention\_success\_ndcg & LIME & 0.0016 & 0 & 0.004 & 250 & 0 \\
-MovieLens-1M & profile & target\_margin & aia & Leave-one-out & 0.9963 & 0.994 & 0.9982 & 250 & 0 \\
-MovieLens-1M & profile & target\_margin & aia\_ndcg & Leave-one-out & 0.1736 & 0.05677 & 0.2904 & 4 & 246 \\
-MovieLens-1M & profile & target\_margin & faithfulness\_alignment & Leave-one-out & 1 & 1 & 1 & 250 & 0 \\
-MovieLens-1M & profile & target\_margin & actionability\_gap & Leave-one-out & -0.003726 & -0.006051 & -0.001797 & 250 & 0 \\
-MovieLens-1M & profile & target\_margin & joint\_effect\_ndcg & Leave-one-out & 0.0001572 & -0.0006178 & 0.001078 & 250 & 0 \\
-MovieLens-1M & profile & target\_margin & normalized\_regret\_primary & Leave-one-out & 0.001535 & 7.613e-05 & 0.004082 & 250 & 0 \\
-MovieLens-1M & profile & target\_margin & joint\_regret\_ndcg & Leave-one-out & 0.0002983 & 0 & 0.0008278 & 250 & 0 \\
-MovieLens-1M & profile & target\_margin & normalized\_regret\_ndcg & Leave-one-out & 0.06932 & 0 & 0.1386 & 2 & 248 \\
-MovieLens-1M & profile & target\_margin & intervention\_success\_ndcg & Leave-one-out & 0.0016 & 0 & 0.004 & 250 & 0 \\
-MovieLens-1M & profile & target\_margin & aia & Random control & 0.000862 & -0.01244 & 0.01414 & 250 & 0 \\
-MovieLens-1M & profile & target\_margin & aia\_ndcg & Random control & 0.06358 & -0.1058 & 0.2329 & 4 & 246 \\
-MovieLens-1M & profile & target\_margin & faithfulness\_alignment & Random control & 1.019e-05 & -0.01365 & 0.01347 & 250 & 0 \\
-MovieLens-1M & profile & target\_margin & actionability\_gap & Random control & 0.0008518 & -0.0007426 & 0.002552 & 250 & 0 \\
-MovieLens-1M & profile & target\_margin & joint\_effect\_ndcg & Random control & -1.155e-05 & -0.0006938 & 0.0006822 & 250 & 0 \\
-MovieLens-1M & profile & target\_margin & normalized\_regret\_primary & Random control & 1.02 & 0.9991 & 1.042 & 250 & 0 \\
-MovieLens-1M & profile & target\_margin & joint\_regret\_ndcg & Random control & 0.000467 & 1.155e-05 & 0.001117 & 250 & 0 \\
-MovieLens-1M & profile & target\_margin & normalized\_regret\_ndcg & Random control & 0.7109 & 0.4219 & 1 & 2 & 248 \\
-MovieLens-1M & profile & target\_margin & intervention\_success\_ndcg & Random control & 0.0008 & 0 & 0.0024 & 250 & 0 \\
-MovieLens-1M & profile & target\_margin & aia & Monte Carlo Shapley & 0.8069 & 0.7942 & 0.8186 & 250 & 0 \\
-MovieLens-1M & profile & target\_margin & aia\_ndcg & Monte Carlo Shapley & 0.1564 & 0.003785 & 0.309 & 4 & 246 \\
-MovieLens-1M & profile & target\_margin & faithfulness\_alignment & Monte Carlo Shapley & 0.8027 & 0.7887 & 0.8157 & 250 & 0 \\
-MovieLens-1M & profile & target\_margin & actionability\_gap & Monte Carlo Shapley & 0.004124 & 0.001956 & 0.006808 & 250 & 0 \\
-MovieLens-1M & profile & target\_margin & joint\_effect\_ndcg & Monte Carlo Shapley & 0.0001221 & -0.0006155 & 0.0009724 & 250 & 0 \\
-MovieLens-1M & profile & target\_margin & normalized\_regret\_primary & Monte Carlo Shapley & 0.01975 & 0.007554 & 0.03662 & 250 & 0 \\
-MovieLens-1M & profile & target\_margin & joint\_regret\_ndcg & Monte Carlo Shapley & 0.0003333 & 0 & 0.0008979 & 250 & 0 \\
-MovieLens-1M & profile & target\_margin & normalized\_regret\_ndcg & Monte Carlo Shapley & 0.1131 & 0 & 0.2263 & 2 & 248 \\
-MovieLens-1M & profile & target\_margin & intervention\_success\_ndcg & Monte Carlo Shapley & 0.0016 & 0 & 0.004 & 250 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & aia & Greedy counterfactual & -0.08 & -0.08 & -0.08 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & aia\_ndcg & Greedy counterfactual & 0.05 & 0.05 & 0.05 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & faithfulness\_alignment & Greedy counterfactual & 0.1 & 0.1 & 0.1 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & actionability\_gap & Greedy counterfactual & -0.06 & -0.06 & -0.06 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & joint\_effect\_ndcg & Greedy counterfactual & 0 & 0 & 0 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & normalized\_regret\_primary & Greedy counterfactual & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & joint\_regret\_ndcg & Greedy counterfactual & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & normalized\_regret\_ndcg & Greedy counterfactual & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & intervention\_success\_ndcg & Greedy counterfactual & 1 & 1 & 1 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & aia & LIME & -0.08 & -0.08 & -0.08 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & aia\_ndcg & LIME & 0.05 & 0.05 & 0.05 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & faithfulness\_alignment & LIME & 0.1 & 0.1 & 0.1 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & actionability\_gap & LIME & -0.06 & -0.06 & -0.06 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & joint\_effect\_ndcg & LIME & 0 & 0 & 0 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & normalized\_regret\_primary & LIME & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & joint\_regret\_ndcg & LIME & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & normalized\_regret\_ndcg & LIME & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & intervention\_success\_ndcg & LIME & 1 & 1 & 1 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & aia & Leave-one-out & -0.08 & -0.08 & -0.08 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & aia\_ndcg & Leave-one-out & 0.05 & 0.05 & 0.05 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & faithfulness\_alignment & Leave-one-out & 0.1 & 0.1 & 0.1 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & actionability\_gap & Leave-one-out & -0.06 & -0.06 & -0.06 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & joint\_effect\_ndcg & Leave-one-out & 0 & 0 & 0 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & normalized\_regret\_primary & Leave-one-out & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & joint\_regret\_ndcg & Leave-one-out & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & normalized\_regret\_ndcg & Leave-one-out & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & intervention\_success\_ndcg & Leave-one-out & 1 & 1 & 1 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & aia & Random control & -0.08 & -0.08 & -0.08 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & aia\_ndcg & Random control & 0.05 & 0.05 & 0.05 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & faithfulness\_alignment & Random control & 0.1 & 0.1 & 0.1 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & actionability\_gap & Random control & -0.06 & -0.06 & -0.06 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & joint\_effect\_ndcg & Random control & 0 & 0 & 0 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & normalized\_regret\_primary & Random control & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & joint\_regret\_ndcg & Random control & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & normalized\_regret\_ndcg & Random control & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & intervention\_success\_ndcg & Random control & 1 & 1 & 1 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & aia & Monte Carlo Shapley & 0.12 & 0.12 & 0.12 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & aia\_ndcg & Monte Carlo Shapley & 0.05 & 0.05 & 0.05 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & faithfulness\_alignment & Monte Carlo Shapley & 0.1 & 0.1 & 0.1 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & actionability\_gap & Monte Carlo Shapley & 0.13 & 0.13 & 0.13 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & joint\_effect\_ndcg & Monte Carlo Shapley & 0 & 0 & 0 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & normalized\_regret\_primary & Monte Carlo Shapley & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & joint\_regret\_ndcg & Monte Carlo Shapley & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & normalized\_regret\_ndcg & Monte Carlo Shapley & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+Amazon-Digital-Music & itemknn & target\_margin & intervention\_success\_ndcg & Monte Carlo Shapley & 1 & 1 & 1 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & aia & Greedy counterfactual & -0.08 & -0.08 & -0.08 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & aia\_ndcg & Greedy counterfactual & 0.05 & 0.05 & 0.05 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & faithfulness\_alignment & Greedy counterfactual & 0.1 & 0.1 & 0.1 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & actionability\_gap & Greedy counterfactual & -0.06 & -0.06 & -0.06 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & joint\_effect\_ndcg & Greedy counterfactual & 0 & 0 & 0 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & normalized\_regret\_primary & Greedy counterfactual & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & joint\_regret\_ndcg & Greedy counterfactual & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & normalized\_regret\_ndcg & Greedy counterfactual & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & intervention\_success\_ndcg & Greedy counterfactual & 1 & 1 & 1 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & aia & LIME & -0.08 & -0.08 & -0.08 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & aia\_ndcg & LIME & 0.05 & 0.05 & 0.05 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & faithfulness\_alignment & LIME & 0.1 & 0.1 & 0.1 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & actionability\_gap & LIME & -0.06 & -0.06 & -0.06 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & joint\_effect\_ndcg & LIME & 0 & 0 & 0 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & normalized\_regret\_primary & LIME & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & joint\_regret\_ndcg & LIME & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & normalized\_regret\_ndcg & LIME & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & intervention\_success\_ndcg & LIME & 1 & 1 & 1 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & aia & Leave-one-out & -0.08 & -0.08 & -0.08 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & aia\_ndcg & Leave-one-out & 0.05 & 0.05 & 0.05 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & faithfulness\_alignment & Leave-one-out & 0.1 & 0.1 & 0.1 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & actionability\_gap & Leave-one-out & -0.06 & -0.06 & -0.06 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & joint\_effect\_ndcg & Leave-one-out & 0 & 0 & 0 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & normalized\_regret\_primary & Leave-one-out & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & joint\_regret\_ndcg & Leave-one-out & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & normalized\_regret\_ndcg & Leave-one-out & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & intervention\_success\_ndcg & Leave-one-out & 1 & 1 & 1 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & aia & Random control & -0.08 & -0.08 & -0.08 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & aia\_ndcg & Random control & 0.05 & 0.05 & 0.05 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & faithfulness\_alignment & Random control & 0.1 & 0.1 & 0.1 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & actionability\_gap & Random control & -0.06 & -0.06 & -0.06 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & joint\_effect\_ndcg & Random control & 0 & 0 & 0 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & normalized\_regret\_primary & Random control & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & joint\_regret\_ndcg & Random control & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & normalized\_regret\_ndcg & Random control & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & intervention\_success\_ndcg & Random control & 1 & 1 & 1 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & aia & Monte Carlo Shapley & 0.12 & 0.12 & 0.12 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & aia\_ndcg & Monte Carlo Shapley & 0.05 & 0.05 & 0.05 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & faithfulness\_alignment & Monte Carlo Shapley & 0.1 & 0.1 & 0.1 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & actionability\_gap & Monte Carlo Shapley & 0.13 & 0.13 & 0.13 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & joint\_effect\_ndcg & Monte Carlo Shapley & 0 & 0 & 0 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & normalized\_regret\_primary & Monte Carlo Shapley & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & joint\_regret\_ndcg & Monte Carlo Shapley & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & normalized\_regret\_ndcg & Monte Carlo Shapley & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+Amazon-Digital-Music & profile & target\_margin & intervention\_success\_ndcg & Monte Carlo Shapley & 1 & 1 & 1 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & aia & Greedy counterfactual & -0.08 & -0.08 & -0.08 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & aia\_ndcg & Greedy counterfactual & 0.05 & 0.05 & 0.05 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & faithfulness\_alignment & Greedy counterfactual & 0.1 & 0.1 & 0.1 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & actionability\_gap & Greedy counterfactual & -0.06 & -0.06 & -0.06 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & joint\_effect\_ndcg & Greedy counterfactual & 0 & 0 & 0 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & normalized\_regret\_primary & Greedy counterfactual & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & joint\_regret\_ndcg & Greedy counterfactual & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & normalized\_regret\_ndcg & Greedy counterfactual & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & intervention\_success\_ndcg & Greedy counterfactual & 1 & 1 & 1 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & aia & LIME & -0.08 & -0.08 & -0.08 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & aia\_ndcg & LIME & 0.05 & 0.05 & 0.05 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & faithfulness\_alignment & LIME & 0.1 & 0.1 & 0.1 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & actionability\_gap & LIME & -0.06 & -0.06 & -0.06 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & joint\_effect\_ndcg & LIME & 0 & 0 & 0 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & normalized\_regret\_primary & LIME & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & joint\_regret\_ndcg & LIME & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & normalized\_regret\_ndcg & LIME & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & intervention\_success\_ndcg & LIME & 1 & 1 & 1 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & aia & Leave-one-out & -0.08 & -0.08 & -0.08 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & aia\_ndcg & Leave-one-out & 0.05 & 0.05 & 0.05 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & faithfulness\_alignment & Leave-one-out & 0.1 & 0.1 & 0.1 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & actionability\_gap & Leave-one-out & -0.06 & -0.06 & -0.06 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & joint\_effect\_ndcg & Leave-one-out & 0 & 0 & 0 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & normalized\_regret\_primary & Leave-one-out & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & joint\_regret\_ndcg & Leave-one-out & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & normalized\_regret\_ndcg & Leave-one-out & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & intervention\_success\_ndcg & Leave-one-out & 1 & 1 & 1 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & aia & Random control & -0.08 & -0.08 & -0.08 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & aia\_ndcg & Random control & 0.05 & 0.05 & 0.05 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & faithfulness\_alignment & Random control & 0.1 & 0.1 & 0.1 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & actionability\_gap & Random control & -0.06 & -0.06 & -0.06 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & joint\_effect\_ndcg & Random control & 0 & 0 & 0 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & normalized\_regret\_primary & Random control & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & joint\_regret\_ndcg & Random control & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & normalized\_regret\_ndcg & Random control & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & intervention\_success\_ndcg & Random control & 1 & 1 & 1 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & aia & Monte Carlo Shapley & 0.12 & 0.12 & 0.12 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & aia\_ndcg & Monte Carlo Shapley & 0.05 & 0.05 & 0.05 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & faithfulness\_alignment & Monte Carlo Shapley & 0.1 & 0.1 & 0.1 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & actionability\_gap & Monte Carlo Shapley & 0.13 & 0.13 & 0.13 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & joint\_effect\_ndcg & Monte Carlo Shapley & 0 & 0 & 0 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & normalized\_regret\_primary & Monte Carlo Shapley & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & joint\_regret\_ndcg & Monte Carlo Shapley & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & normalized\_regret\_ndcg & Monte Carlo Shapley & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+MovieLens-1M & itemknn & target\_margin & intervention\_success\_ndcg & Monte Carlo Shapley & 1 & 1 & 1 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & aia & Greedy counterfactual & -0.08 & -0.08 & -0.08 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & aia\_ndcg & Greedy counterfactual & 0.05 & 0.05 & 0.05 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & faithfulness\_alignment & Greedy counterfactual & 0.1 & 0.1 & 0.1 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & actionability\_gap & Greedy counterfactual & -0.06 & -0.06 & -0.06 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & joint\_effect\_ndcg & Greedy counterfactual & 0 & 0 & 0 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & normalized\_regret\_primary & Greedy counterfactual & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & joint\_regret\_ndcg & Greedy counterfactual & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & normalized\_regret\_ndcg & Greedy counterfactual & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & intervention\_success\_ndcg & Greedy counterfactual & 1 & 1 & 1 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & aia & LIME & -0.08 & -0.08 & -0.08 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & aia\_ndcg & LIME & 0.05 & 0.05 & 0.05 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & faithfulness\_alignment & LIME & 0.1 & 0.1 & 0.1 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & actionability\_gap & LIME & -0.06 & -0.06 & -0.06 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & joint\_effect\_ndcg & LIME & 0 & 0 & 0 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & normalized\_regret\_primary & LIME & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & joint\_regret\_ndcg & LIME & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & normalized\_regret\_ndcg & LIME & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & intervention\_success\_ndcg & LIME & 1 & 1 & 1 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & aia & Leave-one-out & -0.08 & -0.08 & -0.08 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & aia\_ndcg & Leave-one-out & 0.05 & 0.05 & 0.05 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & faithfulness\_alignment & Leave-one-out & 0.1 & 0.1 & 0.1 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & actionability\_gap & Leave-one-out & -0.06 & -0.06 & -0.06 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & joint\_effect\_ndcg & Leave-one-out & 0 & 0 & 0 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & normalized\_regret\_primary & Leave-one-out & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & joint\_regret\_ndcg & Leave-one-out & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & normalized\_regret\_ndcg & Leave-one-out & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & intervention\_success\_ndcg & Leave-one-out & 1 & 1 & 1 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & aia & Random control & -0.08 & -0.08 & -0.08 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & aia\_ndcg & Random control & 0.05 & 0.05 & 0.05 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & faithfulness\_alignment & Random control & 0.1 & 0.1 & 0.1 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & actionability\_gap & Random control & -0.06 & -0.06 & -0.06 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & joint\_effect\_ndcg & Random control & 0 & 0 & 0 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & normalized\_regret\_primary & Random control & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & joint\_regret\_ndcg & Random control & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & normalized\_regret\_ndcg & Random control & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & intervention\_success\_ndcg & Random control & 1 & 1 & 1 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & aia & Monte Carlo Shapley & 0.12 & 0.12 & 0.12 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & aia\_ndcg & Monte Carlo Shapley & 0.05 & 0.05 & 0.05 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & faithfulness\_alignment & Monte Carlo Shapley & 0.1 & 0.1 & 0.1 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & actionability\_gap & Monte Carlo Shapley & 0.13 & 0.13 & 0.13 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & joint\_effect\_ndcg & Monte Carlo Shapley & 0 & 0 & 0 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & normalized\_regret\_primary & Monte Carlo Shapley & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & joint\_regret\_ndcg & Monte Carlo Shapley & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & normalized\_regret\_ndcg & Monte Carlo Shapley & 0.01 & 0.01 & 0.01 & 5 & 0 \\
+MovieLens-1M & profile & target\_margin & intervention\_success\_ndcg & Monte Carlo Shapley & 1 & 1 & 1 & 5 & 0 \\
 \bottomrule
 \end{tabular}
 }
