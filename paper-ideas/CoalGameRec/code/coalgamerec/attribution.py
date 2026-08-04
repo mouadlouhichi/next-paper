@@ -29,6 +29,22 @@ class ShapleyConfig:
     player_selection: str = "stratified"  # stratified, similarity, val_similarity, diverse, random, recent, first
 
 
+_COALITION_KWARGS = {
+    "alpha", "beta", "lambda_pref", "lambda_attr_value",
+    "value_mode", "val_negatives",
+}
+
+
+def _coalition_kwargs(kwargs: dict) -> dict:
+    """Keep only arguments accepted by coalition_value.
+
+    Estimator-level options such as ``antithetic`` or ``m`` may be passed through
+    the public compute function. Exact Shapley also calls coalition_value, so we
+    must not forward estimator-only options into the value function.
+    """
+    return {k: v for k, v in kwargs.items() if k in _COALITION_KWARGS}
+
+
 def _logsigmoid(x: np.ndarray) -> np.ndarray:
     # stable log(sigmoid(x)) = -softplus(-x)
     return -np.logaddexp(0.0, -x)
@@ -225,6 +241,7 @@ def coalition_value(
 
 
 def exact_shapley(base_scores_u, train_items, val_target, item_vectors, **kwargs) -> np.ndarray:
+    kwargs = _coalition_kwargs(kwargs)
     n = len(train_items)
     phi = np.zeros(n, dtype=np.float32)
     players = np.arange(n)
@@ -249,6 +266,7 @@ def exact_shapley(base_scores_u, train_items, val_target, item_vectors, **kwargs
 
 
 def permutation_shapley(base_scores_u, train_items, val_target, item_vectors, m: int = 128, seed: int = 42, antithetic: bool = True, **kwargs) -> np.ndarray:
+    kwargs = _coalition_kwargs(kwargs)
     rng = np.random.default_rng(seed)
     n = len(train_items)
     phi = np.zeros(n, dtype=np.float64)
@@ -280,6 +298,7 @@ def permutation_shapley(base_scores_u, train_items, val_target, item_vectors, m:
 
 
 def loo_marginal(base_scores_u, train_items, val_target, item_vectors, **kwargs) -> np.ndarray:
+    kwargs = _coalition_kwargs(kwargs)
     n = len(train_items)
     full = np.arange(n, dtype=np.int64)
     pref_sims = sim_user_items(train_items, item_vectors)
