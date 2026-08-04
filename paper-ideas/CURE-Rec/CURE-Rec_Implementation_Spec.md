@@ -124,7 +124,7 @@ numpy
 scipy
 pandas
 scikit-learn
-pydantic or attrs            # typed configs/schemas
+pydantic                     # typed configs, manifests, and audited schemas
 pyyaml
 pytest
 hypothesis                   # property-based tests
@@ -274,7 +274,7 @@ Use a reproducible, documented base ranker. Recommended first implementation:
 
 Add exactly one standard robustness policy after the synthetic pipeline is correct:
 
-- LightGCN **or** SASRec, using a maintained implementation and frozen hyperparameters.
+- SASRec, using a maintained implementation and frozen hyperparameters. This is the stronger temporal/state-dependent robustness policy; LightGCN remains an optional appendix check, not an unresolved design choice.
 
 ### Policy API
 
@@ -305,16 +305,23 @@ The CURE-Rec game must never depend on internal embeddings or base-model archite
 The active injection operators (`explore_slot`, `tail_slot`, `novel_slot`) compete for a fixed injection capacity \(q=2\). This is part of the policy definition, not an implementation accident.
 
 1. Each active operator returns eligible proposals \(C_i(\mathcal S_t)=\{(j,b_i(j))\}\), after repeat filtering, availability checks, and its own eligibility rule.
-2. Resolve active proposals exactly:
+2. Convert incomparable operator scores to a common within-operator scale before collision assignment:
 
 \[
-A_S^\star=\arg\max_A\sum_{(i,j)\in A}b_i(j)
+\widetilde b_i(j)=\operatorname{PercentileRank}_{C_i}(b_i(j)).
+\]
+
+Percentile rank is the primary choice because exploration uncertainty, novelty distance, and long-tail scores have different native units. Persist native score, percentile score, candidate-set size, and normalization version in the manifest.
+3. Resolve active proposals exactly:
+
+\[
+A_S^\star=\arg\max_A\sum_{(i,j)\in A}\widetilde b_i(j)
 \]
 
 subject to \(|A|\leq q\), at most one proposal per intervention, and distinct recommended items.
-3. An item eligible for multiple interventions may be selected only once and is assigned to the highest-scoring feasible proposal; exact ties are broken by stable item ID then intervention ID.
-4. If an active intervention has no eligible candidate, record a `no_eligible_candidate` no-op. Do not substitute an arbitrary popular item.
-5. Persist all rejected proposals and the allocation result in the coalition manifest.
+4. An item eligible for multiple interventions may be selected only once and is assigned to the highest normalized-score feasible proposal; exact ties are broken by stable item ID then intervention ID.
+5. If an active intervention has no eligible candidate, record a `no_eligible_candidate` no-op. Do not substitute an arbitrary popular item.
+6. Persist all rejected proposals and the allocation result in the coalition manifest.
 
 This optimization has at most three active injection players and is solved by exhaustive enumeration. Unit tests must cover empty eligible sets, duplicate proposals, repeat-cap conflicts, unavailable items, and all three injection operators active.
 
@@ -378,7 +385,15 @@ The deployment estimand is improvement over the base policy:
 \Delta V_M(S)=V_M(S)-V_M(\emptyset),\qquad\pi_{\emptyset}=\pi_0.
 \]
 
-Use one declared main utility. Do not put every desirable recommender metric into one scalar reward simply because it is available.
+Define the relevance-loss constraint using a causal immediate response outcome rather than held-out NDCG:
+
+\[
+\Delta_{\mathrm{rel},M}(S)=
+\mathbb E_{P_M^{\pi_S}}[R_t^{\mathrm{rel}}]-
+\mathbb E_{P_M^{\pi_0}}[R_t^{\mathrm{rel}}].
+\]
+
+The hard budget controls deployability. The cost term \(\lambda_cC(S)\) ranks residual operational burden among portfolios that already meet the budget. Use one declared main utility. Do not put every desirable recommender metric into one scalar reward simply because it is available.
 
 ### A.8.2 Hard constraints
 
@@ -423,25 +438,35 @@ where \(\mu\) is the logging policy and \(\rho\) is pre-registered. The claimed 
 
 ### A.9.2 Sequential Gamma sensitivity set
 
-The logged treatment is a displayed slate or a declared factorization of that slate, denoted \(A_t\); \(H_t\) is recorded pre-treatment history and \(U_t\) denotes unrecorded policy-assignment factors. The primary sensitivity model is the sequential generalized odds-ratio restriction:
+The main partial-identification implementation applies only to an auditable **stochastic policy-mixture assignment**. For a coalition \(S\), define \(Z_t^S\in\{0,1\}\) as assignment of a cohort/time-step to the supported transformed mixture \(\widetilde\pi_{S,\rho}\) versus base/logging policy. Let \(H_t\) be recorded pre-treatment history and \(U_t\) unrecorded policy-assignment factors. With \(e_t(H_t,U_t)=\Pr(Z_t^S=1\mid H_t,U_t)\) and \(\bar e_t(H_t)=\Pr(Z_t^S=1\mid H_t)\), impose:
 
 \[
-\frac{1}{\Gamma}
-\leq
-\frac{
-\Pr_M(A_t=a\mid H_t,U_t)/\Pr_M(A_t=a'\mid H_t,U_t)
-}{
-\Pr_M(A_t=a\mid H_t)/\Pr_M(A_t=a'\mid H_t)
-}
-\leq\Gamma
+\frac{1}{\Gamma}\leq
+\frac{e_t(H_t,U_t)/(1-e_t(H_t,U_t))}
+{\bar e_t(H_t)/(1-\bar e_t(H_t))}
+\leq\Gamma.
 \]
 
-for every supported action pair \(a,a'\) and decision time. `Gamma=1` is the sequential-ignorability reference. The action representation—full slate, position-factorized slate, or bounded policy-mixture indicator—is fixed by the data audit and written into the run manifest.
+The implied propensity bounds are:
+
+\[
+\ell_{\Gamma,t}=\frac{\bar e_t}{\bar e_t+\Gamma(1-\bar e_t)}
+\leq e_t\leq
+\frac{\Gamma\bar e_t}{1-\bar e_t+\Gamma\bar e_t}=u_{\Gamma,t}.
+\]
+
+For a treated trajectory, define the hidden-assignment multiplier \(\xi_t=\bar e_t/e_t\), which obeys \(\bar e_t/u_{\Gamma,t}\leq\xi_t\leq\bar e_t/\ell_{\Gamma,t}\); control-arm bounds are derived analogously and documented in `docs/causal_assumptions.md`. The supported target policy’s nominal sequential ratio is multiplied by \(\prod_t\xi_t\), with trajectory-level or pre-registered time-factorized normalization:
+
+\[
+\mathcal W_\Gamma(S)=
+\left\{W_S^{\mathrm{nom}}(\tau)\prod_t\xi_t:
+\xi_t\text{ obeys the declared bounds and normalization constraints}\right\}.
+\]
 
 The formal target is:
 
 \[
-\mathfrak M_{\Gamma,r}=\{M:M\models\mathcal K,\;P_M\in\mathcal C_r,\;M\text{ satisfies the sequential }\Gamma\text{-restriction}\}.
+\mathfrak M_{\Gamma,r}=\{M:M\models\mathcal K,\;P_M\in\mathcal C_r,\;M\text{ satisfies the declared sequential }\Gamma\text{-restriction}\}.
 \]
 
 For each coalition, solve or approximate:
@@ -449,12 +474,12 @@ For each coalition, solve or approximate:
 \[
 \underline{\Delta V}_{\Gamma,r}(S)=
 \min_{w\in\mathcal W_\Gamma(S)}
-\widehat{\Delta V}_{\mathrm{SDR}}(S;w),
+\widehat{\Delta V}_{\mathrm{SDR}}(S;w).
 \]
 
-where \(\mathcal W_\Gamma(S)\) is a normalized set of trajectory or declared time-factor weights consistent with the above restriction. The implementation must name the choice (`trajectory_level` or `time_factorized`), record the optimizer and convergence status, and disclose which variables may be unobserved.
+The configuration must name `trajectory_level` or `time_factorized`, the solver, convergence status, action unit, and variables allowed to be unobserved. A full-slate or factorized-slate log without this derivation may support point OPE under stated assumptions but must not be labelled as a valid \(\Gamma\)-sensitivity result.
 
-Operationally, finite candidate response models and adversarial weights approximate the set. For every intervention and coalition, increase the number of representatives and log the extrema-stability diagnostic:
+Finite candidate response models and adversarial weights approximate the set. For every intervention and coalition, increase the number of representatives and log:
 
 \[
 \operatorname{Gap}_{L,i}=|\underline\phi_i^{(L)}-\underline\phi_i^{(2L)}|,
@@ -555,7 +580,27 @@ Persist two distinct objects:
 
 Evaluation must separately report sensitivity validity (whether the true Shapley value lies in the population region when the true SCM belongs to the declared set) and repeated-sample statistical coverage of the estimated confidence region. Do not collapse ambiguity width and sampling-confidence width into one number.
 
-### A.11.3 Outer bounds
+### A.11.3 Feasibility-aware attribution sensitivity
+
+The exact Shapley value remains the primary full-game allocation. Add a separate deployment-context sensitivity analysis. Build \(\mathcal F_{\mathrm{deploy}}\) from deterministic budget, capacity, eligibility, availability, and collision constraints; do not mix model-dependent relevance/provider outcomes into this distribution without reporting the resulting model dependence. For intervention \(i\), form:
+
+\[
+\mathcal P_i^{\mathrm{deploy}}=
+\{S:S\in\mathcal F_{\mathrm{deploy}},\;S\cup\{i\}\in\mathcal F_{\mathrm{deploy}}\}.
+\]
+
+The default semivalue is uniform over \(\mathcal P_i^{\mathrm{deploy}}\):
+
+\[
+\psi_i^{\mathrm{feasible}}(M)=
+\frac{1}{|\mathcal P_i^{\mathrm{deploy}}|}
+\sum_{S\in\mathcal P_i^{\mathrm{deploy}}}
+[\Delta V_M(S\cup\{i\})-\Delta V_M(S)].
+\]
+
+If a deployment prior over portfolios is defensible, report a separately labelled weighted \(q_i\)-semivalue. Store both `phi_full` and `psi_feasible` by model and report their rank/sign agreement. The semivalue is explanatory sensitivity only: portfolio selection still uses direct robust improvement.
+
+### A.11.4 Outer bounds
 
 Given coalition intervals \([\underline V(S),\overline V(S)]\), compute:
 
@@ -577,7 +622,7 @@ Report the width ratio:
 
 The outer method is a computational baseline, not the preferred interpretation.
 
-### A.11.4 Never do this
+### A.11.5 Never do this
 
 ```python
 # Invalid as a certified portfolio lower bound:
@@ -665,25 +710,28 @@ Tests are publication safeguards, not optional engineering polish.
 7. **Collision allocation:** all three injection operators active respects capacity, unique-item, eligibility, and fixed tie-breaking rules.
 8. **No-candidate semantics:** empty/overlapping/unavailable candidate sets produce logged no-ops rather than undefined slates.
 9. **Order robustness harness:** every registered alternative order produces a manifest and a fully defined slate for all 64 coalitions.
+10. **Reusable null fixture:** an extra synthetic no-op player has \(\phi_{\mathrm{null}}=0\) and \(\mathcal I_{\mathrm{null},j}=0\) for every \(j\).
+11. **Environment equations:** fatigue rises after its declared threshold, popularity feedback has the configured direction, provider exposure is conserved, novelty has the declared delayed effect, and \(\Gamma=1\) recovers the no-hidden-confounding reference environment.
 
 ### Robustness and bounds
 
-7. **Model-consistent interval:** lower/upper bound model IDs reproduce their reported value.
-8. **Outer-bound validity:** every fixed-model Shapley value lies inside outer bounds on synthetic cases.
-9. **Sign certificate:** synthetic model sets with all-positive/all-negative attribution satisfy certificate logic.
-10. **No invalid lower-bound summation:** planner test asserts it chooses by direct lower coalition utility, not a Shapley sum.
-11. **Nested contraction:** synthetic nested ambiguity sets cannot increase coordinate interval widths.
-12. **Robust-selection stability:** synthetic uniform value perturbation obeys the \(2\varepsilon\) selection-regret bound.
-13. **Robust-feasibility margin:** estimated constraints with an \(\varepsilon_g\) margin never accept a truly infeasible synthetic coalition.
-14. **Oracle modes:** distinguish oracle-optimal and pre-declared oracle-robust portfolios in in-set and misspecified ambiguity experiments.
+12. **Model-consistent interval:** lower/upper bound model IDs reproduce their reported value.
+13. **Outer-bound validity:** every fixed-model Shapley value lies inside outer bounds on synthetic cases.
+14. **Feasibility semivalue:** feasible-predecessor support excludes deployment-infeasible coalitions and does not replace the direct planner objective.
+15. **Sign certificate:** synthetic model sets with all-positive/all-negative attribution satisfy certificate logic.
+16. **No invalid lower-bound summation:** planner test asserts it chooses by direct lower coalition improvement, not a Shapley sum.
+17. **Nested contraction:** synthetic nested ambiguity sets cannot increase coordinate interval widths.
+18. **Robust-selection stability:** synthetic uniform value perturbation obeys the \(2\varepsilon\) selection-regret bound.
+19. **Robust-feasibility margin:** estimated constraints with an \(\varepsilon_g\) margin never accept a truly infeasible synthetic coalition.
+20. **Oracle modes:** distinguish oracle-optimal and pre-declared oracle-robust portfolios in in-set and misspecified ambiguity experiments.
 
 ### Causal/logging diagnostics
 
 12. **Timing:** response/outcome fields do not precede logged slate treatment.
-13. **Support:** transformed policy probabilities outside support are flagged and block causal OPE claims.
-14. **Propensity:** zero/near-zero propensities fail the audit unless a documented alternative estimator is used.
-15. **Rollout:** CURE-Sim oracle response model predicts one-step transition probabilities within tolerance.
-16. **Coalition-level support:** every real-log coalition records ESS, support violation, and maximum importance weight; unsupported coalitions cannot enter causal-result tables.
+21. **Support:** transformed policy probabilities outside support are flagged and block causal OPE claims.
+22. **Propensity:** zero/near-zero propensities fail the audit unless a documented alternative estimator is used.
+23. **Rollout:** CURE-Sim oracle response model predicts one-step transition probabilities within tolerance.
+24. **Coalition-level support:** every real-log coalition records ESS, support violation, and maximum importance weight; unsupported coalitions cannot enter causal-result tables.
 
 ## A.15 Runtime budget
 
