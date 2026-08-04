@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from dataclasses import dataclass
 from itertools import combinations
 import math
 
@@ -9,6 +10,17 @@ from tqdm.auto import tqdm
 
 from .metrics import topk
 from .rerank import attribution_adjustment, zscore, sim_user_items
+
+
+@dataclass(frozen=True)
+class ShapleyConfig:
+    alpha: float = 0.70
+    beta: float = 0.30
+    lambda_pref: float = 0.20
+    lambda_attr_value: float = 0.10
+    m: int = 128
+    exact_threshold: int = 8
+    seed: int = 42
 
 
 def _ndcg_single(scores: np.ndarray, target: int, train_items: np.ndarray, k: int = 20) -> float:
@@ -22,7 +34,8 @@ def _ndcg_single(scores: np.ndarray, target: int, train_items: np.ndarray, k: in
 
 
 def _diversity(scores: np.ndarray, train_items: np.ndarray, item_vectors: sparse.csr_matrix, k: int = 20) -> float:
-    s = scores.copy(); s[train_items] = -np.inf
+    s = scores.copy()
+    s[train_items] = -np.inf
     recs = topk(s[None, :], k)[0]
     if len(recs) < 2:
         return 0.0
@@ -41,24 +54,32 @@ def coalition_value(
     lambda_pref: float = 0.20,
     lambda_attr_value: float = 0.10,
 ) -> float:
+    """Preference-aware per-user coalition value v_pref,u(S_u).
+
+    This local prototype uses the train-only item-kernel mask as the deterministic
+    coalition intervention. Relevance is the validation target; the test target is
+    not used here.
+    """
     if len(coalition_idx) == 0:
-        raw_w = np.zeros(0, dtype=np.float32)
         coalition_items = train_items[:0]
+        raw_w = np.zeros(0, dtype=np.float32)
         pref = 0.0
     else:
         coalition_items = train_items[coalition_idx]
         raw_w = np.ones(len(coalition_items), dtype=np.float32)
         pref_sims = sim_user_items(train_items, item_vectors)[coalition_idx]
         pref = float(np.sum(pref_sims))
-    # The local prototype uses coalition membership as the deterministic mask effect.
-    adj_all = np.zeros_like(base_scores_u, dtype=np.float32)
+
     if len(coalition_items):
         candidates = np.arange(base_scores_u.shape[0], dtype=np.int64)
         adj_all = attribution_adjustment(coalition_items, raw_w, item_vectors, candidates)
-    scores = zscore(base_scores_u) + lambda_attr_value * zscore(adj_all)
+    else:
+        adj_all = np.zeros_like(base_scores_u, dtype=np.float32)
+
+    scores = zscore(base_scores_u) + float(lambda_attr_value) * zscore(adj_all)
     ndcg = _ndcg_single(scores, val_target, train_items, k=20)
     div = _diversity(scores, train_items, item_vectors, k=20)
-    return alpha * ndcg + beta * div + lambda_pref * pref
+    return float(alpha * ndcg + beta * div + lambda_pref * pref)
 
 
 def exact_shapley(base_scores_u, train_items, val_target, item_vectors, **kwargs) -> np.ndarray:
@@ -68,11 +89,13 @@ def exact_shapley(base_scores_u, train_items, val_target, item_vectors, **kwargs
     fact = math.factorial
     nfact = fact(n)
     cache: dict[tuple[int, ...], float] = {}
+
     def v(tup):
         tup = tuple(sorted(tup))
         if tup not in cache:
             cache[tup] = coalition_value(base_scores_u, train_items, np.array(tup, dtype=np.int64), val_target, item_vectors, **kwargs)
         return cache[tup]
+
     for p in players:
         others = [o for o in players if o != p]
         for r in range(n):
@@ -87,11 +110,13 @@ def permutation_shapley(base_scores_u, train_items, val_target, item_vectors, m:
     n = len(train_items)
     phi = np.zeros(n, dtype=np.float64)
     cache: dict[tuple[int, ...], float] = {}
+
     def v(prefix):
         tup = tuple(sorted(prefix))
         if tup not in cache:
             cache[tup] = coalition_value(base_scores_u, train_items, np.array(tup, dtype=np.int64), val_target, item_vectors, **kwargs)
         return cache[tup]
+
     for _ in range(m):
         perm = rng.permutation(n)
         S: list[int] = []
@@ -101,10 +126,19 @@ def permutation_shapley(base_scores_u, train_items, val_target, item_vectors, m:
             cur = v(S)
             phi[p] += cur - prev
             prev = cur
-    return (phi / m).astype(np.float32)
+    return (phi / max(1, m)).astype(np.float32)
 
 
-def compute_shapley_for_users(split, base_scores: np.ndarray, item_vectors: sparse.csr_matrix, max_users: int | None = None, m: int = 128, exact_threshold: int = 8, seed: int = 42, **kwargs) -> dict[int, np.ndarray]:
+def compute_shapley_for_users(
+    split,
+    base_scores: np.ndarray,
+    item_vectors: sparse.csr_matrix,
+    max_users: int | None = None,
+    m: int = 128,
+    exact_threshold: int = 8,
+    seed: int = 42,
+    **kwargs,
+) -> dict[int, np.ndarray]:
     train_csr = split.train_csr
     val_targets = split.val.sort_values("user").set_index("user").item.to_dict()
     users = np.arange(split.n_users)
