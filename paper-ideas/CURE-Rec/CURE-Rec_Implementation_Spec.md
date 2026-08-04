@@ -802,6 +802,26 @@ The external-data logic stage separately writes `runs/data-analysis-<dataset>-<t
 
 ---
 
+## A.17 Notebook variation contract
+
+`notebooks/00_cure_rec_quickstart.ipynb` is the experiment control surface. Every expensive variation has a separate, commented switch cell; no variation is hidden inside a single ambiguous run.
+
+| Notebook variation | Default | Purpose |
+|---|---:|---|
+| MovieLens data/model analysis | off | Fetch/load, audit, popularity and BPR-MF diagnostics |
+| Coat analysis | off | Randomized-vs-biased short-horizon data audit |
+| Yahoo!/local CSV analysis | off | Local evidence-level audit |
+| End-to-end quick | on | Full load → analysis → quick CURE-Sim → assets smoke run |
+| End-to-end full | off | Larger behavioural CURE-Sim run |
+| Controlled regime suite | off | Oracle recovery of additive/complementary/redundant/repair structures |
+| Quick five-seed sweep | off | Paired stabilization run |
+| Full five-seed sweep | off | Full-configuration stability run |
+| Full 20-seed sweep | off | Final statistical experiment |
+
+The notebook starts with all expensive variations disabled except the quick end-to-end smoke run. Users should enable one variation at a time and follow the documented scientific execution order.
+
+---
+
 # PART B — REGISTERED EVALUATION PLAN
 
 > These are pre-implementation claims and falsification conditions, not results. The manuscript must preserve unfavorable outcomes rather than silently changing its story.
