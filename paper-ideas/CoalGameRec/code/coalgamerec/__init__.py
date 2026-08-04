@@ -8,3 +8,5 @@ post-hoc attribution/reranking pipeline.
 """
 
 __all__ = ["data", "metrics", "models", "attribution", "rerank", "stats"]
+
+__version__ = "0.2.1-sparse-fix"

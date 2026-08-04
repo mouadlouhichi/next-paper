@@ -7,6 +7,8 @@ from scipy import sparse
 
 from .utils import as_1d_float, stable_zscore
 
+SPARSE_FIX_VERSION = "0.2.1-sparse-safe"
+
 
 @dataclass(frozen=True)
 class RerankConfig:
