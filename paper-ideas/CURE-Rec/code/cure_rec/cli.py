@@ -10,7 +10,9 @@ from cure_rec.analysis import analyze_dataset
 from cure_rec.config import load_settings
 from cure_rec.data import audit_interactions, load_dataset, load_interactions_csv, write_standardized_dataset
 from cure_rec.experiments import run_seed_sweep
+from cure_rec.observability import RunLogger
 from cure_rec.pipeline import run_experiment
+from cure_rec.regimes import run_regime_suite
 from cure_rec.workflow import run_full_workflow
 
 
@@ -64,6 +66,23 @@ def _analyze_data(args: argparse.Namespace) -> int:
         "analysis_run": str(analysis.run_dir),
         "permitted_claim": analysis.audit.permitted_claim,
         "model_metrics": analysis.model_metrics.to_dict(orient="records"),
+    }, indent=2, default=str))
+    return 0
+
+
+def _regimes(args: argparse.Namespace) -> int:
+    settings = load_settings(args.config)
+    logger = RunLogger(settings)
+    try:
+        result = run_regime_suite(settings, logger)
+        logger.close(status="completed")
+    except Exception:
+        logger.close(status="failed")
+        raise
+    print(json.dumps({
+        "regime_run": str(result.run_dir),
+        "selection_summary": result.summary.to_dict(orient="records"),
+        "mean_attribution_error": float(result.attribution_recovery["absolute_error"].mean()),
     }, indent=2, default=str))
     return 0
 
@@ -134,6 +153,10 @@ def main(argv: list[str] | None = None) -> int:
     analyzer.add_argument("--max-eval-users", type=int, default=1_000)
     analyzer.add_argument("--seed", type=int, default=42)
     analyzer.set_defaults(handler=_analyze_data)
+
+    regimes = subparsers.add_parser("regimes", help="Run controlled additive/complementary/redundant/repair benchmark regimes")
+    regimes.add_argument("--config", type=Path, required=True)
+    regimes.set_defaults(handler=_regimes)
 
     sweep = subparsers.add_parser("sweep", help="Run paired multi-seed CURE-Sim experiments")
     sweep.add_argument("--config", type=Path, required=True)

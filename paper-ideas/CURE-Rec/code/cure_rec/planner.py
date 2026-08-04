@@ -72,7 +72,7 @@ def _constraints_for_mask(game: GameResult, mask: int, settings: Settings) -> tu
         "fatigue_upper": float(np.max([value.fatigue for value in scenario_values])),
     }
     feasible = (
-        metrics["cost"] <= settings.constraints.budget
+        metrics["cost"] <= settings.constraints.budget + 1e-12
         and metrics["relevance_delta_lower"] >= settings.constraints.min_relevance_delta
         and metrics["provider_disparity_upper"] <= settings.constraints.max_provider_disparity
         and metrics["fatigue_upper"] <= settings.constraints.max_fatigue

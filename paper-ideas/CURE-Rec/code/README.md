@@ -87,6 +87,10 @@ cure-rec analyze-data \
   --source data/raw/movielens_1m \
   --bpr-updates 50000
 
+# Controlled known-structure benchmark; run before large behavioural sweeps.
+cure-rec regimes \
+  --config configs/curesim_quickstart.yaml
+
 # Paired stabilization sweep; common random numbers are shared within each seed.
 cure-rec sweep \
   --config configs/curesim_full.yaml \

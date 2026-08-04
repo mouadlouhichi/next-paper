@@ -212,18 +212,27 @@ Implement configurable mechanisms, all with disclosed equations and deterministi
 
 ### A.5.4 Regimes
 
-At minimum generate six named regimes:
+The implementation provides a controlled **analytic oracle regime suite** in `cure_rec.regimes`. These transparent games validate cooperative recovery before scaling the behavioural CURE-Sim runs:
 
-| Regime | Intended causal property |
-|---|---|
-| `additive` | interventions add independently |
-| `complementary` | exploration + repeat cap has positive interaction |
-| `redundant` | novelty + long-tail slot overlap in value |
-| `antagonistic` | provider balancing conflicts with immediate relevance |
-| `delayed` | fatigue mitigation has delayed long-term benefit |
-| `confounded_shift` | hidden policy-assignment confounding and test-policy shift |
+| Regime | Intended structure | Expected planner behavior |
+|---|---|---|
+| `additive` | independent positive intervention effects | select the best budget-feasible multi-intervention portfolio; interactions near zero |
+| `complementary` | repeat cap + exploration pair bonus | select the pair although either member is weak alone |
+| `redundant` | novelty and long-tail overlap | select one member rather than both |
+| `antagonistic` | exploration and diversity jointly harmful | select an individual intervention, avoid the pair |
+| `delayed_fatigue_short` | repeat suppression has short-horizon cost | abstain with feasible base |
+| `delayed_fatigue_long` | repeat suppression has delayed benefit | select repeat cap at long horizon |
+| `provider_repair_balancing` | base violates provider constraint | select provider balancing repair |
+| `provider_repair_repeat` | base violates provider constraint | select repeat-cap repair |
+| `misspecified_ambiguity` | true and estimated games disagree | reveal attribution/sign recovery failure under misspecification |
 
-Every regime must expose an oracle `rollout(policy, seed)` and an exhaustive `oracle_values()` method over all 64 coalitions.
+Run the suite through:
+
+```bash
+cure-rec regimes --config configs/curesim_quickstart.yaml
+```
+
+It writes oracle selection, Shapley recovery, interaction, misspecification, and portfolio-recovery assets. The behavioural CURE-Sim configurations remain the second stage: they test whether the same logic remains useful under exposure, fatigue, popularity, and provider dynamics rather than only analytic values.
 
 ### A.5.5 Ground-truth outputs
 
