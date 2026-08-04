@@ -8,6 +8,8 @@ from pathlib import Path
 from cure_rec.analysis import DataAnalysisResult, analyze_dataset
 from cure_rec.config import Settings
 from cure_rec.data import DatasetLoadResult, load_dataset
+from cure_rec.game import GameResult
+from cure_rec.observability import RunLogger
 from cure_rec.pipeline import run_experiment
 from cure_rec.planner import PortfolioDecision
 
@@ -16,6 +18,8 @@ from cure_rec.planner import PortfolioDecision
 class FullWorkflowResult:
     dataset: DatasetLoadResult
     analysis: DataAnalysisResult
+    logger: RunLogger
+    game: GameResult
     cure_run_dir: Path
     decision: PortfolioDecision
 
@@ -45,5 +49,5 @@ def run_full_workflow(
         max_eval_users=max_eval_users,
         seed=settings.run.seed,
     )
-    logger, _, decision = run_experiment(settings)
-    return FullWorkflowResult(loaded, analysis, logger.run_dir, decision)
+    logger, game, decision = run_experiment(settings)
+    return FullWorkflowResult(loaded, analysis, logger, game, logger.run_dir, decision)

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from dataclasses import asdict, dataclass
 from datetime import UTC, datetime
 from pathlib import Path
@@ -132,5 +133,5 @@ def analyze_dataset(
         "generated_tables": sorted(path.name for path in (run_dir / "tables").glob("*.csv")),
         "generated_figures": sorted(path.name for path in (run_dir / "figures").glob("*.png")),
     }
-    (run_dir / "artifacts" / "analysis_manifest.json").write_text(pd.Series(manifest).to_json(indent=2), encoding="utf-8")
+    (run_dir / "artifacts" / "analysis_manifest.json").write_text(json.dumps(manifest, indent=2, default=str), encoding="utf-8")
     return DataAnalysisResult(run_dir, result.dataset, audit, metrics, summary)

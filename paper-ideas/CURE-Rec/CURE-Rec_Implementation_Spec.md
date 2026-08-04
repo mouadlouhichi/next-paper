@@ -61,7 +61,9 @@ CURE-Rec/code/
 │   ├── test_interventions.py
 │   ├── test_data_and_logging.py
 │   ├── test_data_loaders.py
+│   ├── test_models_and_analysis.py
 │   ├── test_pipeline_smoke.py
+│   ├── test_workflow.py
 │   └── test_assets.py
 └── runs/                       # ignored generated manifests, logs, tables, and figures
 ```
