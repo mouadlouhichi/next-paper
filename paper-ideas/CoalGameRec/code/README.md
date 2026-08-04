@@ -98,3 +98,37 @@ __pycache__/
 ```
 
 Keep only curated small summaries/manifests when needed.
+
+## Runtime reality and recommended settings
+
+Unbounded interaction-level Shapley on every MovieLens user can take days on a laptop because the cost scales roughly with:
+
+```text
+users × history_length × M_permutations × full-catalogue value evaluations
+```
+
+The Mac journal-style config therefore uses a **bounded-player estimator**:
+
+```yaml
+attribution:
+  m_permutations: 32
+  max_players_per_user: 24
+  player_selection: similarity
+```
+
+This computes Shapley over the 24 training interactions most similar to the user's profile and assigns zero Shapley weight to non-selected interactions for that run. The rule is deterministic and recorded in the config. For an unbounded/HPC run, set:
+
+```yaml
+max_players_per_user: null
+m_permutations: 128
+```
+
+The code checkpoints Shapley estimates per seed at:
+
+```text
+raw/seed_<seed>/shapley_checkpoint.npz
+```
+
+If a run stops, rerunning the same config resumes from the checkpoint.
+
+For Q1 manuscript claims, report exactly which estimator was preregistered: unbounded full-history Shapley, or the bounded-player estimator with its deterministic selection rule and sensitivity analysis.

@@ -27,7 +27,7 @@ backbone:
   dim: 64
   lr: 0.002
   weight_decay: 0.00001
-  epochs: 50
+  epochs: 25
   batch_size: 4096
   n_neg: 4
   score_batch_size: 256
@@ -35,8 +35,11 @@ backbone:
 
 attribution:
   exact_threshold: 8
-  m_permutations: 128
+  m_permutations: 32
   shapley_users: null      # null = all users; use an integer only for smoke tests
+  max_players_per_user: 24 # laptop-feasible bounded-player estimator; set null for unbounded/HPC
+  player_selection: similarity
+  save_every: 10
   alpha: 0.70
   beta: 0.30
   lambda_pref: 0.20

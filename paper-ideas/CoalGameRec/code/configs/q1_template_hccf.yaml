@@ -45,6 +45,9 @@ attribution:
   exact_threshold: 8
   m_permutations: 128
   shapley_users: null
+  max_players_per_user: null   # unbounded unless preregistration adopts bounded-player estimator
+  player_selection: similarity
+  save_every: 10
   alpha: 0.70
   beta: 0.30
   lambda_pref: 0.20
