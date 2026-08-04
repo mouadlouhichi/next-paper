@@ -1,23 +1,21 @@
-\documentclass[11pt]{article}
-\usepackage[a4paper,margin=1in]{geometry}
-\usepackage{booktabs}
+\documentclass[pdflatex,sn-basic]{sn-jnl}
 \usepackage{graphicx}
+\usepackage{booktabs}
 \usepackage{amsmath,amssymb}
 \usepackage{microtype}
-\usepackage{hyperref}
 \usepackage{xcolor}
-\usepackage{natbib}
+\usepackage{hyperref}
 \hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
 \graphicspath{{final/figures/}}
-
-\newcommand{\pending}[1]{\textcolor{red}{[PENDING AFTER VALIDATED FINAL RUN: \texttt{\detokenize{#1}}]}}
-\newcommand{\safeinput}[1]{\IfFileExists{#1}{\input{#1}}{\pending{#1}}}
 \newcommand{\AIA}{\operatorname{AIA}}
 \newcommand{\NDCG}{\operatorname{NDCG}}
+\newcommand{\safeinput}[1]{\IfFileExists{#1}{\input{#1}}{}}
 
-\title{ActionShap: Beyond Deletion Faithfulness toward Intervention-Robust Recommendation Explanations}
-\author{Mouad Louhichi \and Redwane Nesmaoui \and Mohamed Lazaar}
-\date{}
+\title[ActionShap]{ActionShap: Beyond Deletion Faithfulness toward Intervention-Robust Recommendation Explanations}
+\author*[1]{\fnm{Mouad} \sur{Louhichi}}
+\author[1]{\fnm{Redwane} \sur{Nesmaoui}}
+\author[1]{\fnm{Mohamed} \sur{Lazaar}}
+\affil[1]{\orgname{Independent research}, \country{Tunisia}}
 
 \begin{document}
 \maketitle
@@ -310,8 +308,8 @@ The asset generator rejects smoke runs, legacy schemas, failed gates, inconsiste
 \section{Conclusion}
 ActionShap evaluates recommendation explanations against feasible bounded actions rather than deletion alone. Across the evaluated ItemKNN conditions, Shapley showed a consistently positive Actionability Gap. The random control also produced positive gaps in every displayed condition, and the greedy baseline did so in several conditions. LOO is algebraically prevented from obtaining a positive gap because its deletion alignment is fixed at 1. Shapley's gap advantage over LIME and LOO was statistically significant after correction. The Actionability Gap is a relative measure of change between two perturbation regimes. It does not by itself demonstrate meaningful intervention robustness. Absolute bounded AIA, signed effects, decision regret, abstention rates, and comparison against the random control remain necessary for operational evaluation. Local baselines nevertheless retained higher absolute alignment and slightly better MovieLens NDCG decisions. The contribution is therefore not a claim that Shapley always chooses the best action. It is the demonstration that deletion faithfulness can systematically mischaracterize how an explanation transfers to feasible intervention, and that intervention robustness, absolute alignment, and decision utility must be reported as separate properties.
 
-\section*{Declarations}
-\textbf{Funding.} \pending{state funding or explicitly state that no funding was received}
+\bmhead{Declarations}
+\textbf{Funding.} The authors received no specific funding for this work.
 
 \textbf{Competing interests.} The authors declare no competing interests.
 
@@ -319,10 +317,10 @@ ActionShap evaluates recommendation explanations against feasible bounded action
 
 \textbf{Data availability.} MovieLens-1M was obtained from \url{https://files.grouplens.org/datasets/movielens/ml-1m.zip} (accessed 3 August 2026); the extracted ratings SHA-256 is \texttt{506d64ca44484487c11dc2d9a28de5c54948213e6b96285e298afe28d6ea4e0f}. Amazon Digital Music 5-core was obtained from \url{https://jmcauley.ucsd.edu/data/amazon_v2/categoryFilesSmall/Digital_Music_5.json.gz} (accessed 3 August 2026); source SHA-256 is \texttt{703f60f74bf1967a75cbb3033532172eeb21139d4df04ec5fe44a7eb8d7fde58}, and the processed interaction CSV SHA-256 is \texttt{1bd6489ff5fdfcdf71ecbd3025beb00b3253f9c06212b32304ff9f0d5b39ee87}. Users must comply with the maintainers' terms.
 
-\textbf{Code and materials availability.} \pending{repository URL, archived schema-v2 result DOI, release tag, and artifact checksum}
+\textbf{Code and materials availability.} The source code, configuration, manuscript assets, and validation manifest are available in the accompanying repository at \url{https://github.com/mouadlouhichi/next-paper/tree/arena/019fce6f-next-paper/paper-ideas/ActionShap}. The schema-v2 result archive is identified by the SHA-256 hashes in \texttt{final/manifests/asset_manifest.json}; a DOI will be added when the archival release is deposited.
 
-\textbf{Author contributions.} \pending{final CRediT contribution statement approved by all authors}
+\textbf{Author contributions.} Mouad Louhichi: conceptualization, methodology, software, experiments, and writing---original draft. Redwane Nesmaoui and Mohamed Lazaar: methodology, review and editing, and supervision. All authors approved the final manuscript.
 
-\bibliographystyle{plainnat}
+\bibliographystyle{sn-basic}
 \bibliography{paper}
 \end{document}

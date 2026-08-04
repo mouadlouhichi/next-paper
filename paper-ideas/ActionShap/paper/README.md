@@ -1,13 +1,3 @@
-# ActionShap paper assets
+# ActionShap manuscript
 
-- `paper.tex` is the canonical recommendation-only manuscript.
-- `final/` is generated from schema-v2 experiments and is the only numerical
-  source the manuscript may cite; `final/RESULTS_SUMMARY.md` states the validated
-  positive claim and its boundaries.
-- `legacy_pilot/` preserves invalidated schema-v1 pilot assets for provenance;
-  those numbers are not final-paper evidence.
-
-Use `code/ActionShap_All.ipynb` for the complete download-to-release workflow,
-or run `code/scripts/run_final_suite.py` after preparing data. The generator
-requires two datasets, two history-conditioned models, five common seeds, the
-real-data masking gate, independent convergence, and distinct-user inference.
+`paper.tex` is the canonical manuscript and uses the Springer Nature journal template (`sn-jnl.cls`, December 2024 template lineage) with `pdflatex,sn-basic`. The generated numerical assets under `final/` are the only assets cited by the manuscript. Run `python ../code/scripts/validate_manuscript.py --require-final` from this directory's parent before submission.

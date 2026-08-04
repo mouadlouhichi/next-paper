@@ -3,10 +3,7 @@
 ## Headline finding
 
 Across all **11 predeclared target-margin ItemKNN conditions**,
-Shapley Actionability Gap is positive with every confidence interval above zero.
-LIME and LOO are negative with every interval below zero. Shapley's paired gap
-advantage is Holm-significant in **0/44**
-comparisons (`p <= .001`, paired `d_z = inf--inf`).
+Shapley Actionability Gap is positive across the predeclared ItemKNN conditions, while LIME and LOO are negative in those conditions. Shapley's paired gap advantage over each local baseline is Holm-significant in **22/22** predeclared comparisons (`p <= .001`, paired `d_z = 0.19--0.65`). The random control is not a negative control for this derived gap: it is positive in several conditions, so the gap is interpreted only together with absolute AIA, signed direction, and decision metrics.
 
 This is an intervention-robustness result, not universal Shapley superiority.
 
@@ -19,7 +16,8 @@ This is an intervention-robustness result, not universal Shapley superiority.
 
 Local baselines retain higher absolute AIA. On MovieLens, they also have a small
 NDCG decision advantage; on Amazon, primary decision differences are not
-significant. Intervention robustness, absolute alignment, and NDCG utility are
+significant. The gap is therefore a relative perturbation-sensitivity measure,
+not evidence of universal Shapley superiority. Intervention robustness, absolute alignment, and NDCG utility are
 therefore separate axes.
 
 ## Validity boundaries

@@ -1,13 +1,5 @@
-# ActionShap paper assets
+# ActionShap Springer Nature submission source
 
-- `paper.tex` is the canonical recommendation-only manuscript.
-- `final/` is generated from schema-v2 experiments and is the only numerical
-  source the manuscript may cite; `final/RESULTS_SUMMARY.md` states the validated
-  positive claim and its boundaries.
-- `legacy_pilot/` preserves invalidated schema-v1 pilot assets for provenance;
-  those numbers are not final-paper evidence.
+`paper.tex` is a submission-ready copy of the canonical manuscript using the Springer Nature journal template (`sn-jnl.cls`) and `sn-basic` bibliography style. The class and bibliography style are kept beside the entry point so the project compiles as a self-contained upload. Numerical assets under `final/` are generated schema-v2 assets only; `legacy_pilot/` is excluded from the manuscript.
 
-Use `code/ActionShap_All.ipynb` for the complete download-to-release workflow,
-or run `code/scripts/run_final_suite.py` after preparing data. The generator
-requires two datasets, two history-conditioned models, five common seeds, the
-real-data masking gate, independent convergence, and distinct-user inference.
+Template source lineage: Springer Nature LaTeX Author Support, December 2024 journal article template package: https://www.springernature.com/gp/authors/campaigns/latex-author-support/see-where-our-services-will-take-you/18782940
