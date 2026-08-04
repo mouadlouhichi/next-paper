@@ -2,35 +2,30 @@
 
 ## Headline finding
 
-Across all **11 predeclared target-margin ItemKNN conditions**,
-Shapley Actionability Gap is positive across the predeclared ItemKNN conditions, while LIME and LOO are negative in those conditions. Shapley's paired gap advantage over each local baseline is Holm-significant in **22/22** predeclared comparisons (`p <= .001`, paired `d_z = 0.19--0.65`). The random control is not a negative control for this derived gap: it is positive in several conditions, so the gap is interpreted only together with absolute AIA, signed direction, and decision metrics.
+Across **9 distinct singleton target-margin ItemKNN conditions**
+(budgets are excluded because they do not enter singleton AIA), Shapley's
+bounded AIA changed relative to deletion. This change was not unique: the
+random control was also positive in displayed conditions and greedy was positive
+in some. The Actionability Gap is therefore a descriptive perturbation-
+sensitivity statistic, not standalone evidence of explanation validity.
 
-This is an intervention-robustness result, not universal Shapley superiority.
+LOO is reported as the deletion oracle only. For every nonconstant valid user,
+its deletion AIA is exactly one, so its gap cannot be positive. LOO is excluded
+from Shapley gap-competitor claims and from the headline comparison count.
 
-## Absolute target-margin AIA
+## Required component reporting
 
-| Dataset | Shapley | LIME | LOO |
-|---|---:|---:|---:|
-| MovieLens | 0.120 | -0.080 | -0.080 |
-| Amazon Digital Music | 0.120 | -0.080 | -0.080 |
-
-Local baselines retain higher absolute AIA. On MovieLens, they also have a small
-NDCG decision advantage; on Amazon, primary decision differences are not
-significant. The gap is therefore a relative perturbation-sensitivity measure,
-not evidence of universal Shapley superiority. Intervention robustness, absolute alignment, and NDCG utility are
-therefore separate axes.
-
-## Validity boundaries
-
-- Primary ItemKNN exceeds item popularity on both datasets.
-- The profile model is a negative robustness boundary on Amazon.
-- NDCG attribution remains an unconverged stress test at `M=1000`.
-- NDCG AIA and normalized regret require explicit valid/missing-user counts.
-- Full-catalogue NDCG subsets are descriptive because very few users are active.
+Every method and condition is reported with deletion AIA, bounded AIA, their
+difference, valid-user counts, confidence intervals, and null-adjusted context in
+`tables/aia_components.tex` and `tables/aia_permutation_null.tex`. Operational
+action quality is reported separately in `tables/intervention_outcomes.tex`:
+NDCG effect, success, harm/abstention, and normalized regret.
 
 ## Safe claim
 
-> Deletion faithfulness systematically understates Shapley's alignment under
-> feasible bounded intervention. Shapley alone improves across all predeclared
-> ItemKNN conditions, even though local methods remain stronger in absolute
-> alignment and sometimes downstream NDCG decision quality.
+> Under the declared bounded-downweighting policy, Shapley's target-margin
+> alignment changed relative to deletion across the evaluated ItemKNN
+> configurations. A positive change was not unique to Shapley: the random
+> control also produced positive gaps, and greedy did so in several conditions.
+> The gap must therefore be interpreted jointly with absolute bounded AIA,
+> signed alignment, null-adjusted comparisons, and decision regret.

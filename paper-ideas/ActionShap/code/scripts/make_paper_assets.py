@@ -952,31 +952,26 @@ def make_actionability_gap_assets(
     figure_root: Path,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     """Summarize the predeclared cross-condition intervention-robustness result."""
+    # Gap is a singleton estimand. Budget changes affect joint decisions and
+    # regret, not deletion/bounded per-player AIA, so budget rows are excluded.
+    # Keep utility-ndcg separate because it is an unconverged stress test.
     condition_order = {
         ("Amazon-Digital-Music", "primary", "primary"): 0,
         ("Amazon-Digital-Music", "full_catalogue", "full_catalogue"): 1,
         ("MovieLens-1M", "primary", "primary"): 2,
         ("MovieLens-1M", "full_catalogue", "full_catalogue"): 3,
-        ("MovieLens-1M", "sensitivity", "budget1"): 4,
-        ("MovieLens-1M", "sensitivity", "budget3"): 5,
-        ("MovieLens-1M", "sensitivity", "candidates100"): 6,
-        ("MovieLens-1M", "sensitivity", "candidates500"): 7,
-        ("MovieLens-1M", "sensitivity", "nmax50"): 8,
-        ("MovieLens-1M", "sensitivity", "nmax100"): 9,
-        ("MovieLens-1M", "sensitivity", "rho025"): 10,
+        ("MovieLens-1M", "sensitivity", "candidates100"): 4,
+        ("MovieLens-1M", "sensitivity", "candidates500"): 5,
+        ("MovieLens-1M", "sensitivity", "nmax50"): 6,
+        ("MovieLens-1M", "sensitivity", "nmax100"): 7,
+        ("MovieLens-1M", "sensitivity", "rho025"): 8,
     }
     condition_labels = {
-        0: "Amazon sampled",
-        1: "Amazon full catalogue",
-        2: "MovieLens sampled",
-        3: "MovieLens full catalogue",
-        4: "MovieLens B=1",
-        5: "MovieLens B=3",
-        6: "MovieLens 100 candidates",
-        7: "MovieLens 500 candidates",
-        8: "MovieLens n_max=50",
-        9: "MovieLens n_max=100",
-        10: "MovieLens rho=0.25",
+        0: "Amazon sampled", 1: "Amazon full catalogue",
+        2: "MovieLens sampled", 3: "MovieLens full catalogue",
+        4: "MovieLens 100 candidates", 5: "MovieLens 500 candidates",
+        6: "MovieLens n_max=50", 7: "MovieLens n_max=100",
+        8: "MovieLens rho=0.25",
     }
 
     # ============================================================
@@ -1028,7 +1023,9 @@ def make_actionability_gap_assets(
         & (paired["utility"] == "target_margin")
         & (paired["metric"] == "actionability_gap")
         & (paired["left"] == "shapley_mc")
-        & paired["right"].isin(["lime", "loo", "greedy_cf", "random"])
+        # LOO is retained as the algebraic deletion oracle, not a gap
+        # competitor. Random is the required null comparison.
+        & paired["right"].isin(["lime", "greedy_cf", "random"])
     ].copy()
     advantage["condition_order"] = [
         condition_order.get((row.dataset, row.analysis_role, row.condition), 999)
@@ -1090,116 +1087,123 @@ def make_actionability_gap_assets(
         ]
         return float(row.iloc[0]["mean"])
 
+    # Publish all components, not just their difference. This prevents a
+    # positive gap from being mistaken for positive absolute alignment.
+    component = summary.loc[
+        (summary["model"] == "itemknn")
+        & (summary["utility"] == "target_margin")
+        & summary["method"].isin(methods)
+        & summary["metric"].isin(["faithfulness_alignment", "aia", "actionability_gap"])
+    ].copy()
+    component["condition_order"] = [condition_order.get((r.dataset, r.analysis_role, r.condition), 999) for r in component.itertuples()]
+    component = component.loc[component["condition_order"] < 999].copy()
+    component["condition_label"] = component["condition_order"].map(condition_labels)
+    component["component"] = component["metric"].map({
+        "faithfulness_alignment": "Deletion AIA",
+        "aia": "Bounded AIA",
+        "actionability_gap": "Gap (bounded - deletion)",
+    })
+    # Define the published gap from its two reported components. Do not use a
+    # separately averaged user-level gap here: correlations are nonlinear, and
+    # the review requires the displayed identity G = bounded AIA - deletion AIA.
+    component_index = component.set_index(["dataset", "model", "evaluation_mode", "utility", "analysis_role", "condition", "method"])
+    for idx in gap.index:
+        key = tuple(gap.loc[idx, col] for col in ["dataset", "model", "evaluation_mode", "utility", "analysis_role", "condition", "method"])
+        try:
+            bounded = float(component_index.loc[key].loc[component_index.loc[key, "metric"] == "aia", "mean"].iloc[0])
+            deletion = float(component_index.loc[key].loc[component_index.loc[key, "metric"] == "faithfulness_alignment", "mean"].iloc[0])
+            derived_gap = bounded - deletion
+            gap.loc[idx, "mean"] = derived_gap
+            mask = (
+                (component["dataset"] == key[0]) & (component["model"] == key[1])
+                & (component["evaluation_mode"] == key[2]) & (component["utility"] == key[3])
+                & (component["analysis_role"] == key[4]) & (component["condition"] == key[5])
+                & (component["method"] == key[6]) & (component["metric"] == "actionability_gap")
+            )
+            component.loc[mask, "mean"] = derived_gap
+        except (KeyError, IndexError):
+            pass
+    gap.to_csv(table_root / "actionability_gap_robustness.csv", index=False)
+    write_tex(gap[["condition_label", "method_label", "mean", "ci95_low", "ci95_high", "n_users", "missing_users"]], table_root / "actionability_gap_robustness.tex", "Actionability Gap defined as bounded AIA minus deletion AIA; budgets excluded.", "tab:gap-robustness")
+    component.to_csv(table_root / "aia_components.csv", index=False)
+    write_tex(component[["condition_label", "method_label", "component", "mean", "ci95_low", "ci95_high", "n_users", "missing_users"]], table_root / "aia_components.tex", "Deletion AIA, bounded-intervention AIA, and their difference; all five methods.", "tab:aia-components")
+
+    outcome_metrics = summary.loc[
+        (summary["model"] == "itemknn") & (summary["utility"] == "target_margin")
+        & summary["metric"].isin(["joint_effect_ndcg", "intervention_success_ndcg", "abstention", "normalized_regret_ndcg"])
+    ].copy()
+    outcome_metrics.to_csv(table_root / "intervention_outcomes.csv", index=False)
+    write_tex(outcome_metrics[["dataset", "evaluation_mode", "condition", "method_label", "metric", "mean", "ci95_low", "ci95_high", "n_users", "missing_users"]], table_root / "intervention_outcomes.tex", "Joint intervention outcomes, including success, abstention, and conditional normalized regret.", "tab:intervention-outcomes")
+
     summary_markdown = f"""# ActionShap schema-v2 results summary
 
 ## Headline finding
 
-Across all **{len(shapley_gap)} predeclared target-margin ItemKNN conditions**,
-Shapley Actionability Gap is positive with every confidence interval above zero.
-LIME and LOO are negative with every interval below zero. Shapley's paired gap
-advantage is Holm-significant in **{len(significant_advantage)}/{len(advantage)}**
-comparisons (`p <= .001`, paired `d_z = {effect_min:.2f}--{effect_max:.2f}`).
+Across **{len(shapley_gap)} distinct singleton target-margin ItemKNN conditions**
+(budgets are excluded because they do not enter singleton AIA), Shapley's
+bounded AIA changed relative to deletion. This change was not unique: the
+random control was also positive in displayed conditions and greedy was positive
+in some. The Actionability Gap is therefore a descriptive perturbation-
+sensitivity statistic, not standalone evidence of explanation validity.
 
-This is an intervention-robustness result, not universal Shapley superiority.
+LOO is reported as the deletion oracle only. For every nonconstant valid user,
+its deletion AIA is exactly one, so its gap cannot be positive. LOO is excluded
+from Shapley gap-competitor claims and from the headline comparison count.
 
-## Absolute target-margin AIA
+## Required component reporting
 
-| Dataset | Shapley | LIME | LOO |
-|---|---:|---:|---:|
-| MovieLens | {primary_value("MovieLens-1M", "shapley_mc", "aia"):.3f} | {primary_value("MovieLens-1M", "lime", "aia"):.3f} | {primary_value("MovieLens-1M", "loo", "aia"):.3f} |
-| Amazon Digital Music | {primary_value("Amazon-Digital-Music", "shapley_mc", "aia"):.3f} | {primary_value("Amazon-Digital-Music", "lime", "aia"):.3f} | {primary_value("Amazon-Digital-Music", "loo", "aia"):.3f} |
-
-Local baselines retain higher absolute AIA. On MovieLens, they also have a small
-NDCG decision advantage; on Amazon, primary decision differences are not
-significant. Intervention robustness, absolute alignment, and NDCG utility are
-therefore separate axes.
-
-## Validity boundaries
-
-- Primary ItemKNN exceeds item popularity on both datasets.
-- The profile model is a negative robustness boundary on Amazon.
-- NDCG attribution remains an unconverged stress test at `M=1000`.
-- NDCG AIA and normalized regret require explicit valid/missing-user counts.
-- Full-catalogue NDCG subsets are descriptive because very few users are active.
+Every method and condition is reported with deletion AIA, bounded AIA, their
+difference, valid-user counts, confidence intervals, and null-adjusted context in
+`tables/aia_components.tex` and `tables/aia_permutation_null.tex`. Operational
+action quality is reported separately in `tables/intervention_outcomes.tex`:
+NDCG effect, success, harm/abstention, and normalized regret.
 
 ## Safe claim
 
-> Deletion faithfulness systematically understates Shapley's alignment under
-> feasible bounded intervention. Shapley alone improves across all predeclared
-> ItemKNN conditions, even though local methods remain stronger in absolute
-> alignment and sometimes downstream NDCG decision quality.
+> Under the declared bounded-downweighting policy, Shapley's target-margin
+> alignment changed relative to deletion across the evaluated ItemKNN
+> configurations. A positive change was not unique to Shapley: the random
+> control also produced positive gaps, and greedy did so in several conditions.
+> The gap must therefore be interpreted jointly with absolute bounded AIA,
+> signed alignment, null-adjusted comparisons, and decision regret.
 """
     (table_root.parent / "RESULTS_SUMMARY.md").write_text(summary_markdown)
 
     if not gap.empty:
-        # ============================================================
-        # Q1 REVIEW FIX - ABSOLUTELY BULLETPROOF 5-METHOD PLOT
-        # The loop below uses hard-coded literals for the 5 methods.
-        # There is NO dict lookup that can raise KeyError for 'greedy_cf' or 'random'.
-        # This code path is completely independent of any outer variables.
-        # ============================================================
-        figure, axis = plt.subplots(figsize=(8.2, 6.6))
-
-        # Shapley (primary)
-        data = gap.loc[gap["method"] == "shapley_mc"]
-        if not data.empty:
-            y = data["condition_order"].to_numpy(float) - 0.18
-            axis.errorbar(data["mean"], y,
-                          xerr=[np.maximum(0.0, data["mean"]-data["ci95_low"]),
-                                np.maximum(0.0, data["ci95_high"]-data["mean"])],
-                          fmt="o", capsize=3, color="#2F5597",
-                          label="Monte Carlo Shapley")
-
-        # LIME
-        data = gap.loc[gap["method"] == "lime"]
-        if not data.empty:
-            y = data["condition_order"].to_numpy(float) + 0.0
-            axis.errorbar(data["mean"], y,
-                          xerr=[np.maximum(0.0, data["mean"]-data["ci95_low"]),
-                                np.maximum(0.0, data["ci95_high"]-data["mean"])],
-                          fmt="o", capsize=3, color="#E69F00", label="LIME")
-
-        # LOO
-        data = gap.loc[gap["method"] == "loo"]
-        if not data.empty:
-            y = data["condition_order"].to_numpy(float) + 0.18
-            axis.errorbar(data["mean"], y,
-                          xerr=[np.maximum(0.0, data["mean"]-data["ci95_low"]),
-                                np.maximum(0.0, data["ci95_high"]-data["mean"])],
-                          fmt="o", capsize=3, color="#009E73", label="Leave-one-out")
-
-        # Greedy CF  <--- this was the one causing the KeyError
-        data = gap.loc[gap["method"] == "greedy_cf"]
-        if not data.empty:
-            y = data["condition_order"].to_numpy(float) + 0.36
-            axis.errorbar(data["mean"], y,
-                          xerr=[np.maximum(0.0, data["mean"]-data["ci95_low"]),
-                                np.maximum(0.0, data["ci95_high"]-data["mean"])],
-                          fmt="o", capsize=3, color="#CC3311", label="Greedy counterfactual")
-
-        # Random
-        data = gap.loc[gap["method"] == "random"]
-        if not data.empty:
-            y = data["condition_order"].to_numpy(float) - 0.36
-            axis.errorbar(data["mean"], y,
-                          xerr=[np.maximum(0.0, data["mean"]-data["ci95_low"]),
-                                np.maximum(0.0, data["ci95_high"]-data["mean"])],
-                          fmt="o", capsize=3, color="#888888", label="Random control")
-        axis.axvline(0, color="black", linewidth=0.8, linestyle="--")
-        axis.set_yticks(list(condition_labels), list(condition_labels.values()))
-        axis.invert_yaxis()
-        axis.set_xlabel("Actionability Gap (bounded AIA minus deletion alignment)")
-        axis.set_title("Actionability Gap across all predeclared ItemKNN conditions (all 5 methods)")
-        axis.legend(frameon=False, loc="lower right")
-        axis.grid(axis="x", color="#DDDDDD", linewidth=0.6)
-        figure.tight_layout()
+        # Component figure: a gap-only plot hides the fact that a random method
+        # can have a positive difference while both component alignments are
+        # uninformative. Report deletion, bounded, and difference together.
+        component_lookup = component.copy()
+        component_lookup["method_order"] = component_lookup["method"].map({m:i for i,m in enumerate(methods)})
+        component_lookup = component_lookup.sort_values(["condition_order", "method_order"])
+        labels = [condition_labels[i] for i in sorted(condition_labels)]
+        fig, axes = plt.subplots(1, 3, figsize=(14.0, max(4.8, 0.55 * len(labels))), sharey=True)
+        panel_specs = [("faithfulness_alignment", "Deletion AIA"), ("aia", "Bounded AIA"), ("actionability_gap", "Difference")]
+        colors = {"shapley_mc":"#2F5597", "lime":"#E69F00", "loo":"#009E73", "greedy_cf":"#CC3311", "random":"#888888"}
+        offsets = {m: (i-2)*0.13 for i,m in enumerate(methods)}
+        for ax, (metric, title) in zip(axes, panel_specs):
+            panel = component_lookup.loc[component_lookup["metric"] == metric]
+            for method in methods:
+                d = panel.loc[panel["method"] == method]
+                if d.empty: continue
+                y = d["condition_order"].to_numpy(float) + offsets[method]
+                ax.errorbar(d["mean"], y, xerr=[np.maximum(0, d["mean"]-d["ci95_low"]), np.maximum(0, d["ci95_high"]-d["mean"])], fmt="o", capsize=2.5, color=colors[method], label=METHOD_LABELS[method])
+            ax.axvline(0, color="black", linewidth=0.7, linestyle="--")
+            ax.set_title(title)
+            ax.grid(axis="x", color="#DDDDDD", linewidth=0.5)
+            ax.set_xlabel("Spearman correlation")
+        axes[0].set_yticks(list(sorted(condition_labels)), labels)
+        axes[0].invert_yaxis()
+        axes[-1].legend(frameon=False, bbox_to_anchor=(1.02, 1), loc="upper left", fontsize=8)
+        fig.suptitle("AIA components and Actionability Gap (singleton estimand; budgets excluded)", y=1.01)
+        fig.tight_layout()
         for extension in ("png", "pdf"):
-            figure.savefig(
-                figure_root / f"actionability_gap_robustness.{extension}",
-                bbox_inches="tight",
-            )
-        plt.close(figure)
+            fig.savefig(figure_root / f"aia_components_robustness.{extension}", bbox_inches="tight")
+            # Preserve the historical filename as a compatibility alias.
+            fig.savefig(figure_root / f"actionability_gap_robustness.{extension}", bbox_inches="tight")
+        plt.close(fig)
     return gap, advantage
+
 
 
 def make_figures(summary: pd.DataFrame, figure_root: Path) -> None:

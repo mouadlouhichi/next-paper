@@ -21,7 +21,7 @@
 \maketitle
 
 \begin{abstract}
-Recommendation explanations are commonly evaluated by deleting historical interactions, although deployed systems often act through bounded profile changes. We introduce \textbf{ActionShap}, an intervention-grounded protocol that separates deletion faithfulness, bounded Attribution--Intervention Alignment (AIA), direction, and budgeted decision regret. The protocol freezes temporal profiles, unseen-item evaluation sets, intervention semantics, abstention, global tie-breaking, and distinct-user inference; it evaluates Monte Carlo Shapley, locally weighted LIME, leave-one-out (LOO), greedy counterfactual search, and a random control without presuming a winner. Experiments use MovieLens-1M and Amazon Digital Music, primary history-conditioned ItemKNN, a latent-profile robustness model, five seeds, exact dual-utility oracles at budget two, full-catalogue evaluation, and eight predeclared sensitivities. Across all 11 target-margin ItemKNN conditions, Shapley was the only method with a positive Actionability Gap---bounded AIA minus deletion alignment---whereas LIME and LOO were negative in every condition. Shapley's paired gap advantage was positive and Holm-significant in all 22 comparisons ($p\leq .001$, paired $d_z=0.19$--$0.65$). Local baselines nevertheless retained higher absolute target-margin AIA, and on MovieLens achieved slightly better NDCG intervention outcomes; Amazon decision differences were not significant. Thus the central result is not universal Shapley superiority: cooperative attribution is uniquely robust to replacing deletion with feasible intervention, while absolute local accuracy and downstream ranking utility remain distinct, model- and candidate-dependent objectives.
+Recommendation explanations are commonly evaluated by deleting historical interactions, although deployed systems often act through bounded profile changes. We introduce \textbf{ActionShap}, an intervention-grounded protocol that separates deletion faithfulness, bounded Attribution--Intervention Alignment (AIA), direction, and budgeted decision regret. The protocol freezes temporal profiles, unseen-item evaluation sets, intervention semantics, abstention, global tie-breaking, and distinct-user inference; it evaluates Monte Carlo Shapley, locally weighted LIME, leave-one-out (LOO), greedy counterfactual search, and a random control without presuming a winner. Experiments use MovieLens-1M and Amazon Digital Music, primary history-conditioned ItemKNN, a latent-profile robustness model, five seeds, exact dual-utility oracles at budget two, full-catalogue evaluation, and eight predeclared sensitivities. Across the distinct singleton target-margin ItemKNN conditions, Shapley's bounded alignment changed relative to its deletion alignment. This change was not unique: the random control also produced positive gaps and the greedy baseline did so in some conditions. LOO is retained only as the algebraic deletion oracle because its deletion AIA is one for every nonconstant valid user. We therefore treat the Actionability Gap as a descriptive perturbation-sensitivity statistic, not standalone evidence of explanation validity. Absolute bounded AIA, signed alignment, null-adjusted comparisons, and NDCG decision outcomes are reported separately; local methods retained higher absolute alignment and slightly better MovieLens NDCG decisions.
 \end{abstract}
 
 \textbf{Keywords:} explainable recommendation; intervention robustness; actionable explanation; faithfulness; Shapley value; counterfactual evaluation
@@ -39,7 +39,7 @@ Our contributions are:
   \item complementary magnitude, direction, and decision metrics, calibrated by within-user permutation nulls;
   \item a non-circular budget-two comparison in which leave-one-out is an oracle only for the budget-one deletion diagnostic;
   \item independent Monte Carlo convergence criteria based on rank and action agreement rather than the telescoping efficiency identity;
-  \item evidence that Shapley alone gains alignment under bounded intervention across every predeclared ItemKNN condition, establishing intervention robustness as distinct from absolute local accuracy; and
+  \item evidence that deletion and bounded intervention can yield different alignment values, motivating component-wise reporting rather than a single robustness claim; and
   \item a reproducible experiment matrix with two datasets, two history-conditioned models, five common seeds, and inference over distinct users rather than seed--user pseudoreplicates.
 \end{enumerate}
 
@@ -200,6 +200,31 @@ For each dataset--model pair, $M\in\{25,50,100,250,500,1000\}$ is compared with 
 
 Additional tests cover temporal leakage, complete unseen-item exclusion, deterministic ties, empty/full coalitions, locality, additive-game correctness, identical-player symmetry, real-data masking sensitivity, AIA-null calibration, abstention, budget compliance, and synthetic redundancy.
 
+\subsection{Normalized regret and two-part outcome analysis}
+For utility $z$, let $A_u^{*,z}$ be the exact feasible oracle and $A_{u,g}$ the action selected by method $g$. We define
+\begin{equation}
+\operatorname{NRegret}_u^z(g)=
+\frac{\Delta_u^z(A_u^{*,z})-\Delta_u^z(A_{u,g})}
+{\Delta_u^z(A_u^{*,z})},
+\qquad \Delta_u^z(A_u^{*,z})>\epsilon,
+\end{equation}
+where $\epsilon=10^{-12}$ in utility units. Values are averaged conditionally over active-oracle users; the active-oracle fraction is reported separately. NRegret need not lie in $[0,1]$: a harmful method can exceed one, and values are not clipped. Users with oracle effect at most $\epsilon$ contribute to the unconditional success and abstention analysis but not the conditional normalized-regret mean. We report effect, harm rate ($\Delta<0$), success, abstention, active-oracle fraction, and conditional regret together.
+
+\subsection{Executable algorithms and deterministic edge cases}
+The following compact pseudocode fixes the implementation details that matter for reproduction.
+
+\begin{figure}[t]
+\small
+\begin{minipage}{0.97\linewidth}
+\textbf{Algorithm 1: paired Monte Carlo attribution.} For each user, seed an independent permutation generator; sample $M$ permutations and their reverses. For each order, evaluate the cached prefix walk from $\varnothing$ to $P_u$ and add the consecutive marginal to the corresponding player. Average over all orders. The empty coalition has zero scores and seeded catalogue tie priorities.\par\medskip
+\textbf{Algorithm 2: bounded action and exact $B\le2$ oracle.} Enumerate $\varnothing$, every singleton, and every pair. For each action apply $w_p\leftarrow0.5w_p$ simultaneously, evaluate target margin and NDCG, and retain the largest improving utility with lexicographic tie-break on sorted player indices. A method scores an action by $-\sum_{p\in A}\hat\phi_p$ and abstains when the best positive score is not greater than $10^{-12}$.\par\medskip
+\textbf{Algorithm 3: within-user inference.} For each distinct user, average the five experiment seeds before bootstrap and paired sign permutation. Shuffle effect magnitudes within user and seed for 1,000 AIA-null draws. Report finite-valid counts; never replace a constant-vector correlation by zero. Holm correction is applied within each predeclared comparison family.\par\medskip
+\textbf{Algorithm 4: convergence selection.} On fixed users and candidates, compare each $M\in\{25,50,100,250,500,1000\}$ with an independently seeded $M=1000$ reference. Select the smallest $M$ with mean Spearman rank agreement $\ge0.95$ and signed $B=2$ action Jaccard $\ge0.80$ for at least 95\% valid users; otherwise report non-convergence and retain $M=1000$ as the stress-test ceiling.
+\end{minipage}
+\caption{Executable algorithm specification used by the corrected suite.}
+\label{fig:algorithms}
+\end{figure}
+
 \subsection{Statistical analysis}
 The inferential unit is the distinct user. Repeated experiment seeds are averaged within user before inference; seed--user rows are never treated as independent users. Headline means receive user-bootstrap 95\% confidence intervals. Paired method differences use user-level sign permutations with plus-one $p$-values, Wilcoxon/sign robustness checks, paired Cohen $d_z$, and Holm--Bonferroni correction within each metric family. Attribution rank stability is computed across experiment seeds for the same user and player window. Missing correlations from constant vectors and undefined normalized regrets are reported rather than imputed.
 
@@ -221,13 +246,13 @@ ef{fig:gap-robustness} and Tables~
 ef{tab:gap-robustness}--
 ef{tab:gap-advantage} show the complete pattern.
 
-This finding is an intervention-robustness advantage, not an absolute-accuracy claim. Cross-utility NDCG AIA was defined for only 349 MovieLens and 233 Amazon ItemKNN users. Shapley was lower than LIME/LOO on MovieLens (0.386 versus 0.409/0.413) but higher on Amazon (0.489 versus 0.419/0.427); both differences were small and significant. The sparse valid fractions bound this comparison.
+This pattern is a perturbation-sensitivity observation, not an absolute-accuracy or explanation-validity claim. Cross-utility NDCG AIA was defined for only 349 MovieLens and 233 Amazon ItemKNN users. Shapley was lower than LIME/LOO on MovieLens (0.386 versus 0.409/0.413) but higher on Amazon (0.489 versus 0.419/0.427); both differences were small and significant. The sparse valid fractions bound this comparison.
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.94\textwidth]{actionability_gap_robustness.pdf}
-\caption{Actionability Gap (bounded AIA minus deletion AIA) for all five attribution methods. The random control produced positive gaps in every condition. Error bars are distinct-user bootstrap 95\% confidence intervals.}
-\label{fig:gap-robustness}
+\includegraphics[width=0.99\textwidth]{aia_components_robustness.pdf}
+\caption{Deletion AIA, bounded-intervention AIA, and their difference for all five methods. Budgets are excluded because they do not define singleton gap estimands. Error bars are distinct-user bootstrap 95\% confidence intervals; finite valid-user counts are in Table~\ref{tab:aia-components}.}
+\label{fig:aia-components}
 \end{figure}
 
 \subsection{Joint intervention decisions}
@@ -238,7 +263,7 @@ On Amazon ItemKNN, decision differences were not statistically reliable. NDCG ef
 NDCG intervention success was sparse: 27.4\% for Shapley on MovieLens ItemKNN and 17.0\% on Amazon ItemKNN. Most all-user regret values were zero because the exact oracle itself selected no improving NDCG action. Normalized regret is consequently reported only for active-oracle users and never generalized to the full cohort.
 
 \subsection{Robustness}
-The sign of the Actionability Gap was exceptionally robust: Shapley remained positive and LIME/LOO negative for both candidate sizes, both longer histories, $\rho=0.25$, budgets one and three, and both full catalogues. Absolute AIA and NDCG decision quality were not equally robust. With 500 MovieLens candidates, Shapley normalized NDCG regret rose to 0.284 versus 0.170/0.182 for LIME/LOO. At $n_{\max}=100$, by contrast, Shapley was slightly competitive (0.228 versus 0.260/0.245), illustrating condition dependence rather than a universal winner.
+The singleton Actionability Gap was evaluated for primary, full-catalogue, candidate-size, history-length, and intervention-strength conditions. Budgets one and three are excluded from this gap analysis because budget changes affect joint action selection and regret, not the singleton attribution/effect estimand; they are reported only in the joint-outcome sensitivity tables. Absolute AIA and NDCG decision quality were not equally robust. With 500 MovieLens candidates, Shapley normalized NDCG regret rose to 0.284 versus 0.170/0.182 for LIME/LOO. At $n_{\max}=100$, by contrast, Shapley was slightly competitive (0.228 versus 0.260/0.245), illustrating condition dependence rather than a universal winner.
 
 Full-catalogue outcomes were especially sparse. NDCG AIA was defined for only 18 MovieLens and 6 Amazon ItemKNN users, and success rates fell to 6.7\% and 1.5\%. Shapley's Amazon full-catalogue bounded target-margin AIA was negative (-0.119) while its Actionability Gap was positive (+0.1689). This shows that a positive gap can coexist with negative absolute bounded AIA and must be reported together with the raw AIA values. The NDCG-utility sensitivity also remained unconverged at $M=1000$ and is reported only as a stress test.
 
@@ -257,13 +282,15 @@ For every outcome, an absolute score and a difference answer different questions
 \safeinput{final/tables/sensitivity_results.tex}
 \safeinput{final/tables/actionability_gap_robustness.tex}
 \safeinput{final/tables/actionability_gap_advantage.tex}
+\safeinput{final/tables/aia_components.tex}
+\safeinput{final/tables/intervention_outcomes.tex}
 
 \section{Discussion}
-The principal finding is a clean separation between \emph{absolute local accuracy} and \emph{intervention robustness}. LOO and LIME align very closely with effects measured near the full profile, as expected from local deletion and surrogate construction. Shapley has lower absolute AIA, but its alignment improved when evaluation moved from deletion to bounded downweighting. A positive gap was also observed for the random control (and for greedy in several conditions). LOO cannot produce a positive gap. The observed pattern is therefore a relative sensitivity result that requires joint interpretation with absolute bounded AIA and the random baseline.
+The principal finding is a clean separation between \emph{absolute local accuracy} and \emph{intervention robustness}. LOO and LIME align very closely with effects measured near the full profile, as expected from local deletion and surrogate construction. Shapley has lower absolute AIA, but its alignment improved when evaluation moved from deletion to bounded downweighting. A positive gap was also observed for the random control (and for greedy in several conditions). LOO cannot produce a positive gap: its deletion AIA is algebraically one for nonconstant valid vectors. The observed pattern is therefore a relative sensitivity result that requires joint interpretation with absolute bounded AIA, the random baseline, and null-adjusted comparisons.
 
 This is a stronger and more precise conclusion than universal Shapley superiority. A method can be best at reproducing a local deletion ranking yet be more sensitive to the choice of perturbation. Conversely, Shapley can be less accurate in absolute terms while preserving or improving validity as the perturbation becomes operationally realistic. ActionShap exposes these as two evaluation axes rather than forcing one winner. The positive Actionability Gap is accordingly interpreted as an intervention-robustness property, not evidence that every Shapley-guided action has higher NDCG utility.
 
-The likely mechanism follows from the estimands. LOO observes one marginal contribution at the full profile, and weighted LIME concentrates on masks near that profile; both are naturally optimized for deletion-like perturbations. Shapley averages marginal contributions over coalition contexts and is less anchored to that single endpoint. The present study demonstrates the resulting empirical pattern but does not identify a causal mechanism; interaction-aware Shapley indices and redundancy-stratified confirmation remain future work.
+The observed Shapley pattern is consistent with a coalition-context explanation, because Shapley averages marginals over predecessor coalitions, but it does not establish that mechanism. LOO observes one marginal at the full profile and weighted LIME concentrates on local masks; random gaps show that relative movement can arise without useful explanation. A mechanism claim would require Banzhaf, weighted semivalues, coalition-size restrictions, or interaction-index ablations, which are outside the present evidence.
 
 The downstream results reinforce the need for multiple axes. On MovieLens, local methods retained a small NDCG decision advantage; on Amazon, primary-model differences were indistinguishable. Thus high Actionability Gap, high absolute AIA, and low decision regret are complementary properties. Reporting only one would either hide Shapley's robust gain or overstate its operational utility.
 
@@ -306,7 +333,7 @@ The executable contract is \texttt{code/configs/final.yaml}. A tracked suite run
 The asset generator rejects smoke runs, legacy schemas, failed gates, inconsistent users, inadequate convergence, missing models or datasets, and incomplete sensitivities. It writes repository-relative source paths and hashes, performs distinct-user inference, and emits a validation report. The manuscript may cite a numerical asset only when that report says PASS. Raw JSON is packaged into a content-addressed archive for the public release; machine-specific paths are excluded. The invalidated schema-v1 pilot is retained unchanged under \texttt{paper/legacy\_pilot/} so the correction is auditable rather than silently overwritten.
 
 \section{Conclusion}
-ActionShap evaluates recommendation explanations against feasible bounded actions rather than deletion alone. Across the evaluated ItemKNN conditions, Shapley showed a consistently positive Actionability Gap. The random control also produced positive gaps in every displayed condition, and the greedy baseline did so in several conditions. LOO is algebraically prevented from obtaining a positive gap because its deletion alignment is fixed at 1. Shapley's gap advantage over LIME and LOO was statistically significant after correction. The Actionability Gap is a relative measure of change between two perturbation regimes. It does not by itself demonstrate meaningful intervention robustness. Absolute bounded AIA, signed effects, decision regret, abstention rates, and comparison against the random control remain necessary for operational evaluation. Local baselines nevertheless retained higher absolute alignment and slightly better MovieLens NDCG decisions. The contribution is therefore not a claim that Shapley always chooses the best action. It is the demonstration that deletion faithfulness can systematically mischaracterize how an explanation transfers to feasible intervention, and that intervention robustness, absolute alignment, and decision utility must be reported as separate properties.
+ActionShap evaluates recommendation explanations against feasible bounded actions rather than deletion alone. Across the evaluated ItemKNN conditions, Shapley showed a change in target-margin alignment when evaluation moved from deletion to bounded downweighting, but that change was not unique: the random control was positive in displayed conditions and greedy was positive in several. LOO is an algebraic deletion oracle whose deletion AIA is one for valid nonconstant users, so it is excluded from claims about positive gaps. The Actionability Gap is a relative measure of perturbation sensitivity, not standalone evidence of explanation validity. Absolute bounded AIA, signed effects, null-adjusted comparisons, decision regret, abstention, harm rate, and valid-user counts are the primary operational evidence. The contribution is therefore not a claim that Shapley is uniquely robust or always chooses the best action; it is a protocol showing why deletion, bounded intervention, and joint decision quality must be reported as separate estimands.
 
 \bmhead{Declarations}
 \textbf{Funding.} The authors received no specific funding for this work.

@@ -1,0 +1,136 @@
+dataset,model,evaluation_mode,utility,analysis_role,condition,method,method_label,metric,mean,ci95_low,ci95_high,n_users,n_seeds,missing_users,condition_order,condition_label,component
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy counterfactual,aia,-0.08,-0.08,-0.08,5,5,0,1,Amazon full catalogue,Bounded AIA
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy counterfactual,faithfulness_alignment,0.1,0.1,0.1,5,5,0,1,Amazon full catalogue,Deletion AIA
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy counterfactual,actionability_gap,-0.18,-0.06,-0.06,5,5,0,1,Amazon full catalogue,Gap (bounded - deletion)
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,lime,LIME,aia,-0.08,-0.08,-0.08,5,5,0,1,Amazon full catalogue,Bounded AIA
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,lime,LIME,faithfulness_alignment,0.1,0.1,0.1,5,5,0,1,Amazon full catalogue,Deletion AIA
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,lime,LIME,actionability_gap,-0.18,-0.06,-0.06,5,5,0,1,Amazon full catalogue,Gap (bounded - deletion)
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,aia,-0.08,-0.08,-0.08,5,5,0,1,Amazon full catalogue,Bounded AIA
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,faithfulness_alignment,0.1,0.1,0.1,5,5,0,1,Amazon full catalogue,Deletion AIA
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,actionability_gap,-0.18,-0.06,-0.06,5,5,0,1,Amazon full catalogue,Gap (bounded - deletion)
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,random,Random control,aia,-0.08,-0.08,-0.08,5,5,0,1,Amazon full catalogue,Bounded AIA
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,random,Random control,faithfulness_alignment,0.1,0.1,0.1,5,5,0,1,Amazon full catalogue,Deletion AIA
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,random,Random control,actionability_gap,-0.18,-0.06,-0.06,5,5,0,1,Amazon full catalogue,Gap (bounded - deletion)
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,aia,0.12,0.12,0.12,5,5,0,1,Amazon full catalogue,Bounded AIA
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,faithfulness_alignment,0.1,0.1,0.1,5,5,0,1,Amazon full catalogue,Deletion AIA
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,actionability_gap,0.01999999999999999,0.13,0.13,5,5,0,1,Amazon full catalogue,Gap (bounded - deletion)
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy counterfactual,aia,-0.08,-0.08,-0.08,5,5,0,0,Amazon sampled,Bounded AIA
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy counterfactual,faithfulness_alignment,0.1,0.1,0.1,5,5,0,0,Amazon sampled,Deletion AIA
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy counterfactual,actionability_gap,-0.18,-0.06,-0.06,5,5,0,0,Amazon sampled,Gap (bounded - deletion)
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,aia,-0.08,-0.08,-0.08,5,5,0,0,Amazon sampled,Bounded AIA
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,faithfulness_alignment,0.1,0.1,0.1,5,5,0,0,Amazon sampled,Deletion AIA
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,actionability_gap,-0.18,-0.06,-0.06,5,5,0,0,Amazon sampled,Gap (bounded - deletion)
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,aia,-0.08,-0.08,-0.08,5,5,0,0,Amazon sampled,Bounded AIA
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,faithfulness_alignment,0.1,0.1,0.1,5,5,0,0,Amazon sampled,Deletion AIA
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,actionability_gap,-0.18,-0.06,-0.06,5,5,0,0,Amazon sampled,Gap (bounded - deletion)
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,aia,-0.08,-0.08,-0.08,5,5,0,0,Amazon sampled,Bounded AIA
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,faithfulness_alignment,0.1,0.1,0.1,5,5,0,0,Amazon sampled,Deletion AIA
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,actionability_gap,-0.18,-0.06,-0.06,5,5,0,0,Amazon sampled,Gap (bounded - deletion)
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,aia,0.12,0.12,0.12,5,5,0,0,Amazon sampled,Bounded AIA
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,faithfulness_alignment,0.1,0.1,0.1,5,5,0,0,Amazon sampled,Deletion AIA
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,actionability_gap,0.01999999999999999,0.13,0.13,5,5,0,0,Amazon sampled,Gap (bounded - deletion)
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy counterfactual,aia,-0.08,-0.08,-0.08,5,5,0,3,MovieLens full catalogue,Bounded AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy counterfactual,faithfulness_alignment,0.1,0.1,0.1,5,5,0,3,MovieLens full catalogue,Deletion AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy counterfactual,actionability_gap,-0.18,-0.06,-0.06,5,5,0,3,MovieLens full catalogue,Gap (bounded - deletion)
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,lime,LIME,aia,-0.08,-0.08,-0.08,5,5,0,3,MovieLens full catalogue,Bounded AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,lime,LIME,faithfulness_alignment,0.1,0.1,0.1,5,5,0,3,MovieLens full catalogue,Deletion AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,lime,LIME,actionability_gap,-0.18,-0.06,-0.06,5,5,0,3,MovieLens full catalogue,Gap (bounded - deletion)
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,aia,-0.08,-0.08,-0.08,5,5,0,3,MovieLens full catalogue,Bounded AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,faithfulness_alignment,0.1,0.1,0.1,5,5,0,3,MovieLens full catalogue,Deletion AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,actionability_gap,-0.18,-0.06,-0.06,5,5,0,3,MovieLens full catalogue,Gap (bounded - deletion)
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,random,Random control,aia,-0.08,-0.08,-0.08,5,5,0,3,MovieLens full catalogue,Bounded AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,random,Random control,faithfulness_alignment,0.1,0.1,0.1,5,5,0,3,MovieLens full catalogue,Deletion AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,random,Random control,actionability_gap,-0.18,-0.06,-0.06,5,5,0,3,MovieLens full catalogue,Gap (bounded - deletion)
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,aia,0.12,0.12,0.12,5,5,0,3,MovieLens full catalogue,Bounded AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,faithfulness_alignment,0.1,0.1,0.1,5,5,0,3,MovieLens full catalogue,Deletion AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,actionability_gap,0.01999999999999999,0.13,0.13,5,5,0,3,MovieLens full catalogue,Gap (bounded - deletion)
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy counterfactual,aia,-0.08,-0.08,-0.08,5,5,0,2,MovieLens sampled,Bounded AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy counterfactual,faithfulness_alignment,0.1,0.1,0.1,5,5,0,2,MovieLens sampled,Deletion AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy counterfactual,actionability_gap,-0.18,-0.06,-0.06,5,5,0,2,MovieLens sampled,Gap (bounded - deletion)
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,aia,-0.08,-0.08,-0.08,5,5,0,2,MovieLens sampled,Bounded AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,faithfulness_alignment,0.1,0.1,0.1,5,5,0,2,MovieLens sampled,Deletion AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,actionability_gap,-0.18,-0.06,-0.06,5,5,0,2,MovieLens sampled,Gap (bounded - deletion)
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,aia,-0.08,-0.08,-0.08,5,5,0,2,MovieLens sampled,Bounded AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,faithfulness_alignment,0.1,0.1,0.1,5,5,0,2,MovieLens sampled,Deletion AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,actionability_gap,-0.18,-0.06,-0.06,5,5,0,2,MovieLens sampled,Gap (bounded - deletion)
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,aia,-0.08,-0.08,-0.08,5,5,0,2,MovieLens sampled,Bounded AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,faithfulness_alignment,0.1,0.1,0.1,5,5,0,2,MovieLens sampled,Deletion AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,actionability_gap,-0.18,-0.06,-0.06,5,5,0,2,MovieLens sampled,Gap (bounded - deletion)
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,aia,0.12,0.12,0.12,5,5,0,2,MovieLens sampled,Bounded AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,faithfulness_alignment,0.1,0.1,0.1,5,5,0,2,MovieLens sampled,Deletion AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,actionability_gap,0.01999999999999999,0.13,0.13,5,5,0,2,MovieLens sampled,Gap (bounded - deletion)
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,greedy_cf,Greedy counterfactual,aia,-0.08,-0.08,-0.08,5,5,0,4,MovieLens 100 candidates,Bounded AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,greedy_cf,Greedy counterfactual,faithfulness_alignment,0.1,0.1,0.1,5,5,0,4,MovieLens 100 candidates,Deletion AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,greedy_cf,Greedy counterfactual,actionability_gap,-0.18,-0.06,-0.06,5,5,0,4,MovieLens 100 candidates,Gap (bounded - deletion)
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,lime,LIME,aia,-0.08,-0.08,-0.08,5,5,0,4,MovieLens 100 candidates,Bounded AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,lime,LIME,faithfulness_alignment,0.1,0.1,0.1,5,5,0,4,MovieLens 100 candidates,Deletion AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,lime,LIME,actionability_gap,-0.18,-0.06,-0.06,5,5,0,4,MovieLens 100 candidates,Gap (bounded - deletion)
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,loo,Leave-one-out,aia,-0.08,-0.08,-0.08,5,5,0,4,MovieLens 100 candidates,Bounded AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,loo,Leave-one-out,faithfulness_alignment,0.1,0.1,0.1,5,5,0,4,MovieLens 100 candidates,Deletion AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,loo,Leave-one-out,actionability_gap,-0.18,-0.06,-0.06,5,5,0,4,MovieLens 100 candidates,Gap (bounded - deletion)
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,random,Random control,aia,-0.08,-0.08,-0.08,5,5,0,4,MovieLens 100 candidates,Bounded AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,random,Random control,faithfulness_alignment,0.1,0.1,0.1,5,5,0,4,MovieLens 100 candidates,Deletion AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,random,Random control,actionability_gap,-0.18,-0.06,-0.06,5,5,0,4,MovieLens 100 candidates,Gap (bounded - deletion)
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,shapley_mc,Monte Carlo Shapley,aia,0.12,0.12,0.12,5,5,0,4,MovieLens 100 candidates,Bounded AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,shapley_mc,Monte Carlo Shapley,faithfulness_alignment,0.1,0.1,0.1,5,5,0,4,MovieLens 100 candidates,Deletion AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,shapley_mc,Monte Carlo Shapley,actionability_gap,0.01999999999999999,0.13,0.13,5,5,0,4,MovieLens 100 candidates,Gap (bounded - deletion)
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,greedy_cf,Greedy counterfactual,aia,-0.08,-0.08,-0.08,5,5,0,5,MovieLens 500 candidates,Bounded AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,greedy_cf,Greedy counterfactual,faithfulness_alignment,0.1,0.1,0.1,5,5,0,5,MovieLens 500 candidates,Deletion AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,greedy_cf,Greedy counterfactual,actionability_gap,-0.18,-0.06,-0.06,5,5,0,5,MovieLens 500 candidates,Gap (bounded - deletion)
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,lime,LIME,aia,-0.08,-0.08,-0.08,5,5,0,5,MovieLens 500 candidates,Bounded AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,lime,LIME,faithfulness_alignment,0.1,0.1,0.1,5,5,0,5,MovieLens 500 candidates,Deletion AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,lime,LIME,actionability_gap,-0.18,-0.06,-0.06,5,5,0,5,MovieLens 500 candidates,Gap (bounded - deletion)
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,loo,Leave-one-out,aia,-0.08,-0.08,-0.08,5,5,0,5,MovieLens 500 candidates,Bounded AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,loo,Leave-one-out,faithfulness_alignment,0.1,0.1,0.1,5,5,0,5,MovieLens 500 candidates,Deletion AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,loo,Leave-one-out,actionability_gap,-0.18,-0.06,-0.06,5,5,0,5,MovieLens 500 candidates,Gap (bounded - deletion)
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,random,Random control,aia,-0.08,-0.08,-0.08,5,5,0,5,MovieLens 500 candidates,Bounded AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,random,Random control,faithfulness_alignment,0.1,0.1,0.1,5,5,0,5,MovieLens 500 candidates,Deletion AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,random,Random control,actionability_gap,-0.18,-0.06,-0.06,5,5,0,5,MovieLens 500 candidates,Gap (bounded - deletion)
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,shapley_mc,Monte Carlo Shapley,aia,0.12,0.12,0.12,5,5,0,5,MovieLens 500 candidates,Bounded AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,shapley_mc,Monte Carlo Shapley,faithfulness_alignment,0.1,0.1,0.1,5,5,0,5,MovieLens 500 candidates,Deletion AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,shapley_mc,Monte Carlo Shapley,actionability_gap,0.01999999999999999,0.13,0.13,5,5,0,5,MovieLens 500 candidates,Gap (bounded - deletion)
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,greedy_cf,Greedy counterfactual,aia,-0.08,-0.08,-0.08,5,5,0,7,MovieLens n_max=100,Bounded AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,greedy_cf,Greedy counterfactual,faithfulness_alignment,0.1,0.1,0.1,5,5,0,7,MovieLens n_max=100,Deletion AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,greedy_cf,Greedy counterfactual,actionability_gap,-0.18,-0.06,-0.06,5,5,0,7,MovieLens n_max=100,Gap (bounded - deletion)
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,lime,LIME,aia,-0.08,-0.08,-0.08,5,5,0,7,MovieLens n_max=100,Bounded AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,lime,LIME,faithfulness_alignment,0.1,0.1,0.1,5,5,0,7,MovieLens n_max=100,Deletion AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,lime,LIME,actionability_gap,-0.18,-0.06,-0.06,5,5,0,7,MovieLens n_max=100,Gap (bounded - deletion)
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,loo,Leave-one-out,aia,-0.08,-0.08,-0.08,5,5,0,7,MovieLens n_max=100,Bounded AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,loo,Leave-one-out,faithfulness_alignment,0.1,0.1,0.1,5,5,0,7,MovieLens n_max=100,Deletion AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,loo,Leave-one-out,actionability_gap,-0.18,-0.06,-0.06,5,5,0,7,MovieLens n_max=100,Gap (bounded - deletion)
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,random,Random control,aia,-0.08,-0.08,-0.08,5,5,0,7,MovieLens n_max=100,Bounded AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,random,Random control,faithfulness_alignment,0.1,0.1,0.1,5,5,0,7,MovieLens n_max=100,Deletion AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,random,Random control,actionability_gap,-0.18,-0.06,-0.06,5,5,0,7,MovieLens n_max=100,Gap (bounded - deletion)
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,shapley_mc,Monte Carlo Shapley,aia,0.12,0.12,0.12,5,5,0,7,MovieLens n_max=100,Bounded AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,shapley_mc,Monte Carlo Shapley,faithfulness_alignment,0.1,0.1,0.1,5,5,0,7,MovieLens n_max=100,Deletion AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,shapley_mc,Monte Carlo Shapley,actionability_gap,0.01999999999999999,0.13,0.13,5,5,0,7,MovieLens n_max=100,Gap (bounded - deletion)
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,greedy_cf,Greedy counterfactual,aia,-0.08,-0.08,-0.08,5,5,0,6,MovieLens n_max=50,Bounded AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,greedy_cf,Greedy counterfactual,faithfulness_alignment,0.1,0.1,0.1,5,5,0,6,MovieLens n_max=50,Deletion AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,greedy_cf,Greedy counterfactual,actionability_gap,-0.18,-0.06,-0.06,5,5,0,6,MovieLens n_max=50,Gap (bounded - deletion)
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,lime,LIME,aia,-0.08,-0.08,-0.08,5,5,0,6,MovieLens n_max=50,Bounded AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,lime,LIME,faithfulness_alignment,0.1,0.1,0.1,5,5,0,6,MovieLens n_max=50,Deletion AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,lime,LIME,actionability_gap,-0.18,-0.06,-0.06,5,5,0,6,MovieLens n_max=50,Gap (bounded - deletion)
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,loo,Leave-one-out,aia,-0.08,-0.08,-0.08,5,5,0,6,MovieLens n_max=50,Bounded AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,loo,Leave-one-out,faithfulness_alignment,0.1,0.1,0.1,5,5,0,6,MovieLens n_max=50,Deletion AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,loo,Leave-one-out,actionability_gap,-0.18,-0.06,-0.06,5,5,0,6,MovieLens n_max=50,Gap (bounded - deletion)
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,random,Random control,aia,-0.08,-0.08,-0.08,5,5,0,6,MovieLens n_max=50,Bounded AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,random,Random control,faithfulness_alignment,0.1,0.1,0.1,5,5,0,6,MovieLens n_max=50,Deletion AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,random,Random control,actionability_gap,-0.18,-0.06,-0.06,5,5,0,6,MovieLens n_max=50,Gap (bounded - deletion)
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,shapley_mc,Monte Carlo Shapley,aia,0.12,0.12,0.12,5,5,0,6,MovieLens n_max=50,Bounded AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,shapley_mc,Monte Carlo Shapley,faithfulness_alignment,0.1,0.1,0.1,5,5,0,6,MovieLens n_max=50,Deletion AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,shapley_mc,Monte Carlo Shapley,actionability_gap,0.01999999999999999,0.13,0.13,5,5,0,6,MovieLens n_max=50,Gap (bounded - deletion)
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,greedy_cf,Greedy counterfactual,aia,-0.08,-0.08,-0.08,5,5,0,8,MovieLens rho=0.25,Bounded AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,greedy_cf,Greedy counterfactual,faithfulness_alignment,0.1,0.1,0.1,5,5,0,8,MovieLens rho=0.25,Deletion AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,greedy_cf,Greedy counterfactual,actionability_gap,-0.18,-0.06,-0.06,5,5,0,8,MovieLens rho=0.25,Gap (bounded - deletion)
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,lime,LIME,aia,-0.08,-0.08,-0.08,5,5,0,8,MovieLens rho=0.25,Bounded AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,lime,LIME,faithfulness_alignment,0.1,0.1,0.1,5,5,0,8,MovieLens rho=0.25,Deletion AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,lime,LIME,actionability_gap,-0.18,-0.06,-0.06,5,5,0,8,MovieLens rho=0.25,Gap (bounded - deletion)
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,loo,Leave-one-out,aia,-0.08,-0.08,-0.08,5,5,0,8,MovieLens rho=0.25,Bounded AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,loo,Leave-one-out,faithfulness_alignment,0.1,0.1,0.1,5,5,0,8,MovieLens rho=0.25,Deletion AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,loo,Leave-one-out,actionability_gap,-0.18,-0.06,-0.06,5,5,0,8,MovieLens rho=0.25,Gap (bounded - deletion)
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,random,Random control,aia,-0.08,-0.08,-0.08,5,5,0,8,MovieLens rho=0.25,Bounded AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,random,Random control,faithfulness_alignment,0.1,0.1,0.1,5,5,0,8,MovieLens rho=0.25,Deletion AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,random,Random control,actionability_gap,-0.18,-0.06,-0.06,5,5,0,8,MovieLens rho=0.25,Gap (bounded - deletion)
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,shapley_mc,Monte Carlo Shapley,aia,0.12,0.12,0.12,5,5,0,8,MovieLens rho=0.25,Bounded AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,shapley_mc,Monte Carlo Shapley,faithfulness_alignment,0.1,0.1,0.1,5,5,0,8,MovieLens rho=0.25,Deletion AIA
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,shapley_mc,Monte Carlo Shapley,actionability_gap,0.01999999999999999,0.13,0.13,5,5,0,8,MovieLens rho=0.25,Gap (bounded - deletion)

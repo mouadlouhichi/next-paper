@@ -17,3 +17,18 @@ This revision addresses the rejection-risk issues identified in the revision-4 a
 ## Remaining limitations disclosed rather than repaired by narrative
 
 The profile model is a robustness boundary, full-catalogue NDCG correlations are sparse, and NDCG attribution does not meet the frozen convergence threshold at M=1000. These are retained in the Results and Limitations. No additional experiment is claimed until raw, provenance-complete data are available; the tracked final assets are accepted only through `validation_report.json`.
+
+## Second-review corrections implemented
+
+- Replaced the three-method gap narrative with a five-method component report. The manuscript now reports deletion AIA, bounded AIA, and their difference for Shapley, LIME, LOO, greedy, and random.
+- Recast the Actionability Gap as a descriptive singleton perturbation-sensitivity statistic. It is no longer presented as proof of validity, robustness, or superiority.
+- Removed LOO from positive-gap competitor claims and formalized its deletion-AIA ceiling: for valid nonconstant users, deletion AIA is exactly one and the gap is non-positive.
+- Removed `B=1` and `B=3` from the gap figure, gap count, and gap comparisons. Those budgets remain only in joint-action effect, success, abstention, harm, and regret analyses.
+- Corrected the Amazon full-catalogue distinction: bounded target-margin AIA is `-0.119`; the Actionability Gap is `+0.1689`.
+- Replaced the invalid “22 of 22” headline with component-wise reporting and an explicit random-control comparison. Conditions are described as dependent repeated estimands, not independent confirmations.
+- Added `aia_components.tex/csv` and `intervention_outcomes.tex/csv`, including confidence intervals and valid/missing-user counts.
+- Redesigned Figure 2 as three panels: deletion AIA, bounded AIA, and their difference.
+- Added explicit normalized-regret definition, epsilon threshold, conditional averaging rule, and unbounded-regret behavior.
+- Added executable pseudocode covering attribution, bounded actions and the exact B<=2 oracle, within-user inference/nulls, and convergence selection.
+- Added `scripts/validate_review_contract.py`, which asserts gap algebra, method completeness, budget exclusion, table existence, normalized-regret documentation, and forbidden headline claims.
+- Added `ActionShap_Final_Experiment.ipynb` as the single fixed end-to-end runner.

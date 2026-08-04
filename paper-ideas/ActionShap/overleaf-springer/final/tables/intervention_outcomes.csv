@@ -1,0 +1,221 @@
+dataset,model,evaluation_mode,utility,analysis_role,condition,method,method_label,metric,mean,ci95_low,ci95_high,n_users,n_seeds,missing_users
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy counterfactual,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy counterfactual,abstention,0.0,0.0,0.0,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy counterfactual,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy counterfactual,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,lime,LIME,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,lime,LIME,abstention,0.0,0.0,0.0,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,lime,LIME,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,lime,LIME,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,abstention,0.0,0.0,0.0,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,random,Random control,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,random,Random control,abstention,0.0,0.0,0.0,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,random,Random control,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,random,Random control,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,abstention,0.0,0.0,0.0,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy counterfactual,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy counterfactual,abstention,0.0,0.0,0.0,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy counterfactual,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy counterfactual,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,abstention,0.0,0.0,0.0,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,abstention,0.0,0.0,0.0,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,abstention,0.0,0.0,0.0,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,abstention,0.0,0.0,0.0,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy counterfactual,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy counterfactual,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy counterfactual,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy counterfactual,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,lime,LIME,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,lime,LIME,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,lime,LIME,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,lime,LIME,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,random,Random control,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,random,Random control,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,random,Random control,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,random,Random control,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy counterfactual,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy counterfactual,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy counterfactual,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy counterfactual,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,greedy_cf,Greedy counterfactual,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,greedy_cf,Greedy counterfactual,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,greedy_cf,Greedy counterfactual,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,greedy_cf,Greedy counterfactual,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,lime,LIME,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,lime,LIME,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,lime,LIME,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,lime,LIME,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,loo,Leave-one-out,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,loo,Leave-one-out,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,loo,Leave-one-out,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,loo,Leave-one-out,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,random,Random control,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,random,Random control,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,random,Random control,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,random,Random control,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,shapley_mc,Monte Carlo Shapley,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,shapley_mc,Monte Carlo Shapley,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,shapley_mc,Monte Carlo Shapley,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,shapley_mc,Monte Carlo Shapley,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,greedy_cf,Greedy counterfactual,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,greedy_cf,Greedy counterfactual,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,greedy_cf,Greedy counterfactual,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,greedy_cf,Greedy counterfactual,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,lime,LIME,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,lime,LIME,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,lime,LIME,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,lime,LIME,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,loo,Leave-one-out,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,loo,Leave-one-out,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,loo,Leave-one-out,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,loo,Leave-one-out,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,random,Random control,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,random,Random control,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,random,Random control,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,random,Random control,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,shapley_mc,Monte Carlo Shapley,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,shapley_mc,Monte Carlo Shapley,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,shapley_mc,Monte Carlo Shapley,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,shapley_mc,Monte Carlo Shapley,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,greedy_cf,Greedy counterfactual,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,greedy_cf,Greedy counterfactual,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,greedy_cf,Greedy counterfactual,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,greedy_cf,Greedy counterfactual,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,lime,LIME,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,lime,LIME,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,lime,LIME,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,lime,LIME,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,loo,Leave-one-out,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,loo,Leave-one-out,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,loo,Leave-one-out,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,loo,Leave-one-out,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,random,Random control,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,random,Random control,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,random,Random control,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,random,Random control,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,shapley_mc,Monte Carlo Shapley,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,shapley_mc,Monte Carlo Shapley,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,shapley_mc,Monte Carlo Shapley,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,shapley_mc,Monte Carlo Shapley,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,greedy_cf,Greedy counterfactual,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,greedy_cf,Greedy counterfactual,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,greedy_cf,Greedy counterfactual,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,greedy_cf,Greedy counterfactual,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,lime,LIME,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,lime,LIME,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,lime,LIME,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,lime,LIME,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,loo,Leave-one-out,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,loo,Leave-one-out,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,loo,Leave-one-out,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,loo,Leave-one-out,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,random,Random control,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,random,Random control,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,random,Random control,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,random,Random control,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,shapley_mc,Monte Carlo Shapley,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,shapley_mc,Monte Carlo Shapley,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,shapley_mc,Monte Carlo Shapley,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,shapley_mc,Monte Carlo Shapley,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,greedy_cf,Greedy counterfactual,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,greedy_cf,Greedy counterfactual,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,greedy_cf,Greedy counterfactual,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,greedy_cf,Greedy counterfactual,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,lime,LIME,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,lime,LIME,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,lime,LIME,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,lime,LIME,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,loo,Leave-one-out,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,loo,Leave-one-out,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,loo,Leave-one-out,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,loo,Leave-one-out,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,random,Random control,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,random,Random control,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,random,Random control,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,random,Random control,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,shapley_mc,Monte Carlo Shapley,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,shapley_mc,Monte Carlo Shapley,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,shapley_mc,Monte Carlo Shapley,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,shapley_mc,Monte Carlo Shapley,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,greedy_cf,Greedy counterfactual,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,greedy_cf,Greedy counterfactual,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,greedy_cf,Greedy counterfactual,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,greedy_cf,Greedy counterfactual,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,lime,LIME,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,lime,LIME,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,lime,LIME,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,lime,LIME,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,loo,Leave-one-out,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,loo,Leave-one-out,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,loo,Leave-one-out,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,loo,Leave-one-out,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,random,Random control,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,random,Random control,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,random,Random control,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,random,Random control,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,shapley_mc,Monte Carlo Shapley,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,shapley_mc,Monte Carlo Shapley,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,shapley_mc,Monte Carlo Shapley,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,shapley_mc,Monte Carlo Shapley,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,greedy_cf,Greedy counterfactual,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,greedy_cf,Greedy counterfactual,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,greedy_cf,Greedy counterfactual,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,greedy_cf,Greedy counterfactual,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,lime,LIME,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,lime,LIME,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,lime,LIME,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,lime,LIME,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,loo,Leave-one-out,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,loo,Leave-one-out,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,loo,Leave-one-out,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,loo,Leave-one-out,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,random,Random control,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,random,Random control,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,random,Random control,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,random,Random control,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,shapley_mc,Monte Carlo Shapley,joint_effect_ndcg,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,shapley_mc,Monte Carlo Shapley,abstention,0.0,0.0,0.0,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,shapley_mc,Monte Carlo Shapley,normalized_regret_ndcg,0.01,0.01,0.01,5,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,shapley_mc,Monte Carlo Shapley,intervention_success_ndcg,1.0,1.0,1.0,5,5,0
