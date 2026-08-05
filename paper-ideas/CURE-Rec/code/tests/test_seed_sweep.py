@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from cure_rec.experiments import run_seed_sweep
+from cure_rec.experiments import postprocess_seed_sweep, run_seed_sweep
 
 
 def test_paired_seed_sweep_emits_aggregate_assets(settings, tmp_path):
@@ -19,3 +19,10 @@ def test_paired_seed_sweep_emits_aggregate_assets(settings, tmp_path):
     assert set(result.attributions["seed"]) == {42, 43}
     assert (result.run_dir / "seed_sweep_decisions.csv").exists()
     assert (result.run_dir / "seed_sweep_attribution_summary.csv").exists()
+
+    # Reporting can be regenerated from completed raw run artifacts without
+    # repeating the costly coalition sweep.
+    regenerated = postprocess_seed_sweep(result.run_dir, settings)
+    assert len(regenerated.base_feasibility) == 2
+    assert (result.run_dir / "figures" / "seed_figure_portfolio_frequency.png").exists()
+    assert (result.run_dir / "figures" / "seed_figure_base_feasibility.png").exists()

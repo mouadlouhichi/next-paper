@@ -938,6 +938,7 @@ Report NDCG@\(K\), Recall@\(K\), MRR, and Hit Rate as ranking diagnostics. They 
 - Pair methods on identical environment seeds, cohorts, and trajectories.
 - Common random numbers are shared across coalition rollouts within each scenario/seed; independent seeds provide repeated experimental units.
 - Use `cure-rec sweep --config ... --seeds 42,43,44,45,46` to emit decision frequency, lower-improvement, Shapley-stability, base-feasibility, and interaction assets.
+- Use `cure-rec postprocess-sweep --config ... --run-dir ...` to regenerate aggregate seed figures and constraint tables from raw completed sweep artifacts without rerunning expensive coalitions.
 - Every seed records base provider/fatigue margins, improvement-versus-repair mode, selected portfolio, and post-selection constraint status.
 - In controlled regimes, report estimated-game selection match separately from oracle-game selection match, oracle regret, Shapley MAE, sign accuracy, and point-region coverage.
 - Report mean ± standard deviation and 95% bootstrap confidence intervals where appropriate.

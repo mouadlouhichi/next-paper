@@ -95,6 +95,11 @@ cure-rec regimes \
 cure-rec sweep \
   --config configs/curesim_full.yaml \
   --seeds 42,43,44,45,46
+
+# Regenerate aggregate figures and feasibility tables from a completed expensive sweep.
+cure-rec postprocess-sweep \
+  --config configs/curesim_full.yaml \
+  --run-dir runs/seed-sweep-<timestamp>
 ```
 
 Every loader runs the conservative audit and labels the strongest claim supported by the available fields. MovieLens, Coat, and Yahoo! R3 are not automatically promoted to long-horizon policy-evaluation evidence.

@@ -287,3 +287,75 @@ def run_all_variations(
     }
     (master_root / "all_variations_manifest.json").write_text(json.dumps(manifest, indent=2, default=str), encoding="utf-8")
     return AllVariationsResult(master_root, analysis.run_dir, summary, decisions)
+
+
+def postprocess_seed_sweep(run_dir: str | Path, settings: Settings | None = None) -> SeedSweepResult:
+    """Regenerate aggregate tables and figures from an existing completed sweep.
+
+    This avoids repeating expensive full CURE-Sim sweeps when only reporting code
+    changes. The completed child run directories already hold raw coalition and
+    interaction tables.
+    """
+    sweep_root = Path(run_dir)
+    decisions = pd.read_csv(sweep_root / "seed_sweep_decisions.csv")
+    attributions = pd.read_csv(sweep_root / "seed_sweep_attributions.csv")
+    interaction_rows: list[pd.DataFrame] = []
+    base_rows: list[dict] = []
+    for decision in decisions.to_dict(orient="records"):
+        child = Path(decision["cure_run_dir"])
+        interactions_path = child / "tables" / "interaction_regions.csv"
+        coalition_path = child / "tables" / "coalition_values.csv"
+        if interactions_path.exists():
+            frame = pd.read_csv(interactions_path)
+            frame.insert(0, "seed", decision["seed"])
+            interaction_rows.append(frame)
+        if coalition_path.exists():
+            coalitions = pd.read_csv(coalition_path)
+            base = coalitions[coalitions["mask"] == 0]
+            base_rows.append({
+                "seed": decision["seed"],
+                "base_feasible": bool(decision["base_feasible"]),
+                "provider_disparity_upper": float(base["provider_disparity"].max()),
+                "provider_margin": (
+                    float(settings.constraints.max_provider_disparity - base["provider_disparity"].max())
+                    if settings is not None else float("nan")
+                ),
+                "fatigue_upper": float(base["fatigue"].max()),
+                "fatigue_margin": (
+                    float(settings.constraints.max_fatigue - base["fatigue"].max())
+                    if settings is not None else float("nan")
+                ),
+                "relevance_margin": -settings.constraints.min_relevance_delta if settings is not None else float("nan"),
+                "budget_margin": settings.constraints.budget if settings is not None else float("nan"),
+                "provider_failure": (
+                    bool(base["provider_disparity"].max() > settings.constraints.max_provider_disparity)
+                    if settings is not None else not bool(decision["base_feasible"])
+                ),
+                "fatigue_failure": (
+                    bool(base["fatigue"].max() > settings.constraints.max_fatigue)
+                    if settings is not None else False
+                ),
+            })
+    interactions = pd.concat(interaction_rows, ignore_index=True) if interaction_rows else pd.DataFrame()
+    # Existing decisions do not store historical constraint thresholds. Recompute
+    # visual base feasibility from the recorded planner decision and preserve raw
+    # provider values; future sweeps write exact margins directly.
+    base_feasibility = pd.DataFrame(base_rows)
+    attribution_summary = attributions.groupby("intervention", as_index=False).agg(
+        phi_mean_mean=("phi_mean", "mean"),
+        phi_mean_std=("phi_mean", "std"),
+        phi_lower_mean=("phi_lower", "mean"),
+        phi_upper_mean=("phi_upper", "mean"),
+        positive_sign_rate=("phi_lower", lambda x: float((x > 0).mean())),
+    )
+    selection_frequency = decisions.assign(portfolio=decisions["selected_interventions"].astype(str)).groupby("portfolio", as_index=False).agg(
+        frequency=("seed", "count"),
+        lower_improvement_mean=("lower_improvement", "mean"),
+    )
+    interactions.to_csv(sweep_root / "seed_sweep_interactions.csv", index=False)
+    base_feasibility.to_csv(sweep_root / "seed_sweep_base_feasibility.csv", index=False)
+    attribution_summary.to_csv(sweep_root / "seed_sweep_attribution_summary.csv", index=False)
+    selection_frequency.to_csv(sweep_root / "seed_sweep_selection_frequency.csv", index=False)
+    if not interactions.empty and not base_feasibility.empty:
+        _emit_seed_sweep_assets(sweep_root, decisions, attribution_summary, interactions, base_feasibility, selection_frequency)
+    return SeedSweepResult(sweep_root, decisions, attributions, interactions, base_feasibility)

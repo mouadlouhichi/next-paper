@@ -9,7 +9,7 @@ from pathlib import Path
 from cure_rec.analysis import analyze_dataset
 from cure_rec.config import load_settings
 from cure_rec.data import audit_interactions, load_dataset, load_interactions_csv, write_standardized_dataset
-from cure_rec.experiments import run_seed_sweep
+from cure_rec.experiments import postprocess_seed_sweep, run_seed_sweep
 from cure_rec.observability import RunLogger
 from cure_rec.pipeline import run_experiment
 from cure_rec.regimes import run_regime_suite
@@ -99,6 +99,18 @@ def _sweep(args: argparse.Namespace) -> int:
     return 0
 
 
+def _postprocess_sweep(args: argparse.Namespace) -> int:
+    settings = load_settings(args.config)
+    result = postprocess_seed_sweep(args.run_dir, settings)
+    print(json.dumps({
+        "sweep_run": str(result.run_dir),
+        "decision_rows": len(result.decisions),
+        "base_feasibility_rows": len(result.base_feasibility),
+        "generated_figures": str(result.run_dir / "figures"),
+    }, indent=2, default=str))
+    return 0
+
+
 def _full_run(args: argparse.Namespace) -> int:
     settings = load_settings(args.config)
     workflow = run_full_workflow(
@@ -162,6 +174,11 @@ def main(argv: list[str] | None = None) -> int:
     sweep.add_argument("--config", type=Path, required=True)
     sweep.add_argument("--seeds", default="42,43,44,45,46", help="Comma-separated integer seeds")
     sweep.set_defaults(handler=_sweep)
+
+    postprocess = subparsers.add_parser("postprocess-sweep", help="Regenerate aggregate seed assets from an existing completed sweep")
+    postprocess.add_argument("--config", type=Path, required=True)
+    postprocess.add_argument("--run-dir", type=Path, required=True)
+    postprocess.set_defaults(handler=_postprocess_sweep)
 
     full = subparsers.add_parser("full-run", help="Fetch/load data, audit it, analyze baseline models, then run CURE-Sim")
     full.add_argument("--config", type=Path, required=True)
