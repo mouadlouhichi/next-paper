@@ -26,6 +26,7 @@
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning,fit,backgrounds,calc}
 \usepackage{microtype}
+\usepackage{placeins}
 \hypersetup{pdftitle={ActionShap: Evaluating Recommendation Attributions under Bounded Profile Interventions},pdfauthor={Mouad Louhichi; Redwane Nesmaoui; Mohamed Lazaar},pdfsubject={Intervention-grounded evaluation of recommendation attributions},pdfkeywords={explainable recommendation, bounded profile intervention, Shapley value, faithfulness, actionability}}
 
 \theoremstyle{thmstyleone}
@@ -598,6 +599,8 @@ For deletion at $\rho=0$, $\Delta^{\mathrm{del}}_{u,p}=v(P_u\setminus\{p\})-v(P_
 \subsection{Exact budget-two action space}
 With $n_u\le20$, the exact action space contains $1+n_u+\binom{n_u}{2}\le211$ actions, including no action. Each action is evaluated against target margin and NDCG using the same cached candidate scores. The oracle is therefore exact for every primary user and does not rely on a sampled action subset.
 
+\FloatBarrier
+\clearpage
 \section{Experimental Contract}\label{app:contract}
 \setcounter{table}{0}
 
@@ -631,21 +634,28 @@ Null/inference & $R=1000$ matched null draws; 10,000 bootstrap/permutation draws
 The profile optimizer samples one positive item per user per epoch, excludes that positive from its temporary context, and samples a negative uniformly outside the user's complete training history. ItemKNN has no latent user embedding, shrinkage coefficient, minimum-support cutoff, or negative-similarity branch: the retained similarity matrix is non-negative by construction. AIA is Spearman rank correlation and is missing for constant or non-finite vectors. Normalized regret uses $\varepsilon=10^{-12}$ and is averaged only over positive-oracle users. The release archive records the exact dependency versions, source hashes, run durations, and selected users; complete per-user vectors remain in the compressed machine-readable asset rather than in the PDF.
 
 
+\FloatBarrier
+\clearpage
 \section{Robustness Results}\label{app:robustness}
 \setcounter{table}{0}
 \input{tables/appendix_alignment_compact.tex}
 \input{tables/appendix_decisions_compact.tex}
 
+\FloatBarrier
+\clearpage
 \section{Statistical Validation and Convergence}\label{app:statistics}
 \setcounter{table}{0}
 \input{tables/appendix_statistics_compact.tex}
 \input{tables/appendix_convergence_compact.tex}
 \input{tables/appendix_diagnostics_compact.tex}
 
+\FloatBarrier
+\clearpage
 \section{Computational Cost and Reproducibility}\label{app:release}
 \setcounter{table}{0}
 \input{tables/appendix_computation.tex}
-
+\FloatBarrier
+\clearpage
 \bibliography{actionshap-bibliography}
 
 \end{document}
