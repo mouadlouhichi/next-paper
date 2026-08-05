@@ -1,7 +1,7 @@
 # ActionShap release metadata
 
 - Source repository: `https://github.com/mouadlouhichi/next-paper`
-- Core source commit: `bcef6ca`
+- Core source commit: `8ce1349`
 - Source visibility: the repository must be made public or mirrored before submission.
 - Manuscript entry point: `actionshap.tex`
 - Supplementary entry point: `supplementary.tex`
