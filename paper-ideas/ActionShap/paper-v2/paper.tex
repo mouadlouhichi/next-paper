@@ -5,6 +5,8 @@
 \usepackage{microtype}
 \usepackage{xcolor}
 \usepackage{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,backgrounds}
 \hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
 \graphicspath{{final/figures/}}
 \newcommand{\AIA}{\operatorname{AIA}}
@@ -12,10 +14,10 @@
 \newcommand{\safeinput}[1]{\IfFileExists{#1}{\input{#1}}{}}
 
 \title[ActionShap]{ActionShap: Beyond Deletion Faithfulness toward Intervention-Robust Recommendation Explanations}
-\author*[1]{\fnm{Mouad} \sur{Louhichi}}
-\author[1]{\fnm{Redwane} \sur{Nesmaoui}}
-\author[1]{\fnm{Mohamed} \sur{Lazaar}}
-\affil[1]{\orgname{Independent research}, \country{Tunisia}}
+\author*[1]{\fnm{Mouad} \sur{Louhichi}}\email{mouad.louhichi@um5.ac.ma}
+\author[1]{\fnm{Redwane} \sur{Nesmaoui}}\email{redwane.nesmaoui@um5.ac.ma}
+\author[1]{\fnm{Mohamed} \sur{Lazaar}}\email{mohamed.lazaar@ensias.um5.ac.ma}
+\affil[1]{\orgdiv{National Higher School of Computer Science and Systems Analysis (ENSIAS)}, \orgname{Mohammed V University in Rabat}, \city{Rabat}, \country{Morocco}}
 
 \begin{document}
 \maketitle
@@ -32,6 +34,36 @@ An explanation is often consumed as advice about where to act. Standard perturba
 ActionShap evaluates the decision implied by an explanation. It does not generate recourse and does not introduce a recommendation architecture. Given a frozen recommender, a user-specific attribution vector, and a declared intervention policy, it asks whether attributed interactions predict measured changes in ranking utility and whether the resulting action approaches the best feasible action under the same budget.
 
 The distinction produces three estimands. First, deletion alignment evaluates a conventional faithfulness perturbation. Second, feasible-action alignment evaluates bounded downweighting. Third, intervention regret evaluates the signed joint decision induced by the explanation. A method may rank individual effect magnitudes well yet choose a harmful direction or a poor combination, so all three must be reported separately.
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[
+  actionblue/.style={draw=blue!70!black, fill=blue!6, rounded corners=2pt,
+    minimum width=7.0cm, minimum height=0.72cm, align=center,
+    font=\small, line width=0.7pt},
+  arrow/.style={-{Latex[length=2.2mm]}, draw=blue!70!black,
+    line width=0.8pt},
+  note/.style={draw=blue!45!black, fill=blue!2, rounded corners=2pt,
+    align=left, font=\scriptsize, inner sep=4pt}
+]
+\node[actionblue] (data) {Temporal interactions\\$H_u^{\mathrm{train}}$ and held-out target $y_u$};
+\node[actionblue, below=4mm of data] (players) {Retained interaction players\\$P_u$ (most recent $n_{\max}=20$)};
+\node[actionblue, below=4mm of players] (model) {Frozen history-conditioned recommender\\ItemKNN (primary) / profile aggregator (robustness)};
+\node[actionblue, below=4mm of model] (candidates) {Fixed candidate set\\target + unseen negatives; seeded global ties};
+\node[actionblue, below=4mm of candidates] (explain) {Attribution methods\\Shapley, LIME, LOO, greedy, random};
+\node[actionblue, below=4mm of explain] (intervene) {Declared intervention\\deletion diagnostic; bounded downweighting $\rho=0.5$};
+\node[actionblue, below=4mm of intervene] (evaluate) {Evaluate every action\\target margin, NDCG@10, success, harm, abstention};
+\node[actionblue, below=4mm of evaluate] (report) {Distinct-user inference and release\\AIA, nulls, regret, stability, convergence};
+\foreach \a/\b in {data/players,players/model,model/candidates,candidates/explain,explain/intervene,intervene/evaluate,evaluate/report}
+  \draw[arrow] (\a) -- (\b);
+\node[note, right=8mm of candidates, text width=3.25cm] (validity) {\textbf{Validity controls}\nTemporal split; complete pre-test exclusion; independent candidate, user, tie, and model seeds; no test-driven tuning.};
+\draw[arrow] (validity.west) -- ++(-4mm,0) |- (candidates.east);
+\node[note, right=8mm of evaluate, text width=3.25cm] (decision) {\textbf{Decision controls}\nSigned benefit $-\phi$, no-action option, exact $B\le2$ oracle, and utility-specific regret.};
+\draw[arrow] (decision.west) -- ++(-4mm,0) |- (evaluate.east);
+\end{tikzpicture}
+\caption{ActionShap architecture. The protocol separates data and player construction, frozen recommendation scoring, attribution, intervention execution, and outcome measurement. Blue edges indicate the fixed evaluation path; side panels identify validity and decision controls that are held constant across methods.}
+\label{fig:actionshap-architecture}
+\end{figure}
 
 Our contributions are:
 \begin{enumerate}
@@ -333,17 +365,19 @@ The asset generator rejects smoke runs, legacy schemas, failed gates, inconsiste
 ActionShap evaluates recommendation explanations against feasible bounded actions rather than deletion alone. Across the evaluated ItemKNN conditions, Shapley showed a change in target-margin alignment when evaluation moved from deletion to bounded downweighting, but that change was not unique: the random control was positive in displayed conditions and greedy was positive in several. LOO is an algebraic deletion oracle whose deletion AIA is one for valid nonconstant users, so it is excluded from claims about positive gaps. The Actionability Gap is a relative measure of perturbation sensitivity, not standalone evidence of explanation validity. Absolute bounded AIA, signed effects, null-adjusted comparisons, decision regret, abstention, harm rate, and valid-user counts are the primary operational evidence. The contribution is therefore not a claim that Shapley is uniquely robust or always chooses the best action; it is a protocol showing why deletion, bounded intervention, and joint decision quality must be reported as separate estimands.
 
 \bmhead{Declarations}
-\textbf{Funding.} The authors received no specific funding for this work.
+\textbf{Funding.} The authors declare that no funds, grants, or other support were received during the preparation of this manuscript.
 
 \textbf{Competing interests.} The authors declare no competing interests.
 
-\textbf{Ethics approval.} Not applicable. The study uses public recommendation datasets and contains no recruited human participants. This statement does not exempt any future online or user study from independent ethics review.
+\textbf{Ethics approval.} Not applicable. The study uses publicly available secondary recommendation data and involves no recruited human participants. Any future online or user study would require independent ethics review.
 
-\textbf{Data availability.} MovieLens-1M was obtained from \url{https://files.grouplens.org/datasets/movielens/ml-1m.zip} (accessed 3 August 2026); the extracted ratings SHA-256 is \texttt{506d64ca44484487c11dc2d9a28de5c54948213e6b96285e298afe28d6ea4e0f}. Amazon Digital Music 5-core was obtained from \url{https://jmcauley.ucsd.edu/data/amazon_v2/categoryFilesSmall/Digital_Music_5.json.gz} (accessed 3 August 2026); source SHA-256 is \texttt{703f60f74bf1967a75cbb3033532172eeb21139d4df04ec5fe44a7eb8d7fde58}, and the processed interaction CSV SHA-256 is \texttt{1bd6489ff5fdfcdf71ecbd3025beb00b3253f9c06212b32304ff9f0d5b39ee87}. Users must comply with the maintainers' terms.
+\textbf{Consent to participate / for publication.} Not applicable.
 
-\textbf{Code and materials availability.} The source code, configuration, manuscript assets, and validation manifest are available in the accompanying repository at \url{https://github.com/mouadlouhichi/next-paper/tree/arena/019fce6f-next-paper/paper-ideas/ActionShap}. The schema-v2 result archive is identified by the SHA-256 hashes in \texttt{final/manifests/asset_manifest.json}; a DOI will be added when the archival release is deposited.
+\textbf{Data availability.} MovieLens-1M was obtained from the GroupLens public release, and Amazon Digital Music was reconstructed from the Amazon Reviews 2018 public release after the documented rating threshold, deterministic deduplication, and iterative 5-core filtering. Source and processed-data SHA-256 values, split rules, and candidate construction are recorded in the final provenance manifest. The datasets are subject to their respective maintainers' terms and are not redistributed in this repository.
 
-\textbf{Author contributions.} Mouad Louhichi: conceptualization, methodology, software, experiments, and writing---original draft. Redwane Nesmaoui and Mohamed Lazaar: methodology, review and editing, and supervision. All authors approved the final manuscript.
+\textbf{Code and materials availability.} The code, frozen configuration, manuscript assets, validation manifest, and content-addressed result-release instructions are available in the accompanying repository. The canonical submission package is \texttt{paper-ideas/ActionShap/paper-v2/}; the raw result archive is distributed separately because raw experiment files and source datasets are not ordinary manuscript assets.
+
+\textbf{Author contributions.} M.L.: conceptualization, methodology, software, formal analysis, investigation, and writing---original draft. R.N.: methodology, validation, and writing---review and editing. M.Laz.: supervision, methodology, and writing---review and editing. All authors approved the final manuscript.
 
 \bibliographystyle{sn-basic}
 \bibliography{paper}
