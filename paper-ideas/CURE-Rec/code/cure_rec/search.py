@@ -134,12 +134,12 @@ def run_final_bpr_audit(
     summary = pd.DataFrame([
         {"seed": seed, "model": "popularity", "selected_config_hash": selected_hash, **pop_metric},
         {
+            **bpr_metric,
             "seed": seed,
             "model": "torch_bpr_mf_bias_final",
             "selected_config_hash": selected_hash,
             "best_validation_epoch": getattr(model, "best_validation_epoch", None),
             "restored_checkpoint_epoch": getattr(model, "restored_checkpoint_epoch", None),
-            **bpr_metric,
         },
     ])
     summary.to_csv(root / "final_bpr_test_metrics.csv", index=False)
@@ -198,8 +198,12 @@ def run_final_bpr_seed_replication(
                 seed=seed,
                 max_eval_users=max_eval_users,
             )
+        summary = summary.copy()
+        # Legacy artifacts used the generic model label because metric-dict
+        # expansion overwrote the intended final-model label. Normalize both
+        # loaded and freshly generated summaries before aggregation.
+        summary["model"] = summary["model"].replace({"torch_bpr_mf_bias": "torch_bpr_mf_bias_final"})
         if "seed" not in summary.columns:
-            summary = summary.copy()
             summary.insert(0, "seed", seed)
         rows.append(summary)
 
