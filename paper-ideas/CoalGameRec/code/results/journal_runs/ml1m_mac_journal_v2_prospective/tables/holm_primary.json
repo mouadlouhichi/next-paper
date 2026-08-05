@@ -1,0 +1,12 @@
+{
+  "shapley-mc_vs_uniform_HitRate@20": {
+    "holm_threshold": 0.05,
+    "p": 0.0,
+    "reject_0.05": true
+  },
+  "shapley-mc_vs_uniform_NDCG@20": {
+    "holm_threshold": 0.025,
+    "p": 0.0,
+    "reject_0.05": true
+  }
+}
