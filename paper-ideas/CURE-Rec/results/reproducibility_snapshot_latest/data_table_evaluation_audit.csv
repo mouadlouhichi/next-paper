@@ -1,0 +1,4 @@
+model,evaluated_users,warm_test_targets,cold_test_targets,mean_candidate_count,minimum_candidate_count,maximum_candidate_count,seen_item_violations,missing_target_violations,candidate_equality_violations,descending_score_violations,best_validation_epoch,restored_checkpoint_epoch
+popularity,1000,1000,1,3436.958,2739,3521,0,0,0,0,,
+torch_bpr_mf_bias,1000,1000,1,3436.958,2739,3521,0,0,0,0,2.0,2.0
+hybrid_alpha_0.40,1000,1000,1,3436.958,2739,3521,0,0,0,0,,

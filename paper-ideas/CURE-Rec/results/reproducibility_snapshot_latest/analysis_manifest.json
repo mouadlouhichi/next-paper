@@ -1,0 +1,58 @@
+{
+  "dataset": "movielens_1m",
+  "metadata": {
+    "ratings_path": "/Users/mlouhichi/Desktop/CURE-Rec/next-paper/paper-ideas/CURE-Rec/code/data/raw/movielens_1m/ml-1m/ratings.dat",
+    "rows": 1000209,
+    "has_exposure_log": false
+  },
+  "audit": {
+    "rows": 1000209,
+    "columns": [
+      "item_id",
+      "rating",
+      "response",
+      "source_dataset",
+      "split",
+      "timestamp",
+      "user_id"
+    ],
+    "missing_required": [],
+    "missing_causal": [
+      "candidate_set",
+      "displayed_slate",
+      "position",
+      "propensity"
+    ],
+    "duplicate_rows": 0,
+    "null_counts": {},
+    "permitted_claim": "descriptive_or_semisynthetic",
+    "notes": [
+      "Missing logged slate/propensity fields; do not make offline causal-policy claims."
+    ]
+  },
+  "modeling_note": "Chronological evaluation completed with torch_adam_bias BPR backend and validation-tuned popularity blend.",
+  "run_bpr": true,
+  "bpr_updates": 500000,
+  "bpr_epochs": 200,
+  "bpr_backend": "torch",
+  "selected_hybrid_alpha": 0.4,
+  "max_eval_users": 1000,
+  "evaluation_audit_rows": 3,
+  "pairwise_audit_rows": 3,
+  "generated_tables": [
+    "data_table_bpr_loss.csv",
+    "data_table_bpr_validation.csv",
+    "data_table_evaluation_audit.csv",
+    "data_table_hybrid_validation.csv",
+    "data_table_item_activity.csv",
+    "data_table_model_metrics.csv",
+    "data_table_pairwise_accuracy.csv",
+    "data_table_summary.csv",
+    "data_table_user_activity.csv"
+  ],
+  "generated_figures": [
+    "data_figure_activity_distributions.png",
+    "data_figure_bpr_training.png",
+    "data_figure_model_metrics.png"
+  ]
+}

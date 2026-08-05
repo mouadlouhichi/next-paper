@@ -1,0 +1,4 @@
+model,evaluated_users,candidate_coverage,cold_test_items,recall_at_k,ndcg_at_k,hit_rate_at_k
+popularity,1000,0.999000999000999,1,0.049,0.025520142891504102,0.049
+torch_bpr_mf_bias,1000,0.999000999000999,1,0.052,0.02412748289684808,0.052
+bpr_popularity_hybrid_alpha_0.40,1000,0.999000999000999,1,0.049,0.025736614114331494,0.049
