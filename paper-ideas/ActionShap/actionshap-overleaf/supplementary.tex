@@ -1,0 +1,51 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% ActionShap -- supplementary numerical audit
+%% Uses the same Springer Nature template as actionshap.tex and
+%% signalshap-overleaf.zip. Compile separately when a reviewer requests
+%% the complete machine-readable audit tables in PDF form.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[pdflatex,sn-mathphys-num]{sn-jnl}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{amsthm}
+\usepackage[title]{appendix}
+\usepackage{xcolor}
+\usepackage{textcomp}
+\usepackage{manyfoot}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{microtype}
+\hypersetup{pdftitle={ActionShap Supplementary Numerical Audit},pdfauthor={Mouad Louhichi; Redwane Nesmaoui; Mohamed Lazaar},pdfsubject={Supplementary numerical audit for ActionShap}}
+\graphicspath{{figures/}}
+\raggedbottom
+\begin{document}
+
+\title[ActionShap Supplementary Audit]{ActionShap: Supplementary Numerical Audit}
+\author*[1]{\fnm{Mouad} \sur{Louhichi}}\email{mouad\_louhichi@um5.ac.ma}
+\author[1]{\fnm{Redwane} \sur{Nesmaoui}}
+\author[1]{\fnm{Mohamed} \sur{Lazaar}}
+\affil*[1]{\orgdiv{National Higher School of Computer Science and Systems Analysis (ENSIAS)}, \orgname{Mohammed V University in Rabat}, \orgaddress{\city{Rabat}, \country{Morocco}}}
+\date{}
+\maketitle
+
+This supplementary document contains the expanded numerical audit behind the
+compact manuscript tables. It is generated from the schema-v2 release and is
+not required for compiling the main manuscript. The CSV/JSON release remains
+the authoritative machine-readable source.
+
+\begin{appendices}
+\renewcommand{\thesection}{\Alph{section}}
+\section{Complete alignment matrix}
+\input{tables/appendix_aia_full.tex}
+\section{Complete joint-intervention outcomes}
+\input{tables/appendix_intervention_full.tex}
+\section{Selected paired comparisons}
+\input{tables/appendix_paired_tests.tex}
+\section{Full convergence matrix}
+\input{tables/appendix_convergence_full.tex}
+\section{Executable contract}
+\input{tables/appendix_contract.tex}
+\end{appendices}
+
+\end{document}

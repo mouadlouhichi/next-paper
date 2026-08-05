@@ -26,6 +26,7 @@
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning,fit,backgrounds,calc}
 \usepackage{microtype}
+\hypersetup{pdftitle={ActionShap: Beyond Deletion Faithfulness toward Intervention-Robust Recommendation Explanations},pdfauthor={Mouad Louhichi; Redwane Nesmaoui; Mohamed Lazaar},pdfsubject={Intervention-grounded evaluation of recommendation explanations},pdfkeywords={explainable recommendation, intervention evaluation, Shapley value, faithfulness, actionability}}
 
 \theoremstyle{thmstyleone}
 \newtheorem{theorem}{Theorem}
@@ -107,12 +108,12 @@ The paper makes no a priori claim that Shapley, LIME, LOO, or any other explaine
 
 \section{Literature Review}
 \subsection{Explainable recommendation}
-Explainable recommendation includes feature, item, path, attention, sentiment, and natural-language rationales. Surveys emphasize that these forms serve different objectives, including user persuasion, model fidelity, transparency, and preference communication \cite{zhang2020survey}. Latent-factor explanations expose item or feature contributions, while post-hoc methods apply model-agnostic surrogates such as LIME and SHAP \cite{peake2018,nobrega2019,ribeiro2016,lundberg2017}. Sentiment- and phrase-level models construct explanations during recommendation rather than evaluating a post-hoc attribution \cite{zhang2014,zheng2018}. ActionShap addresses a complementary question: whether an explanation predicts the outcome of a declared feasible change.
+Explainable recommendation includes feature, item, path, attention, sentiment, and natural-language rationales. Surveys emphasize that these forms serve different objectives, including user persuasion, model fidelity, transparency, and preference communication \cite{zhang2020survey}. Latent-factor explanations expose item or feature contributions, while post-hoc methods apply model-agnostic surrogates such as LIME and SHAP \cite{peake2018,nobrega2019,ribeiro2016,lundberg2017}. Sentiment- and phrase-level models construct explanations during recommendation rather than evaluating a post-hoc attribution \cite{zhang2014}. ActionShap addresses a complementary question: whether an explanation predicts the outcome of a declared feasible change.
 
 \subsection{Recommender models and offline evaluation}
 Classical matrix factorization and pairwise learning-to-rank remain foundations for offline recommendation \cite{koren2009,joachims2002,rendle2009,burges2005}. Neural collaborative filtering, recurrent session models, self-attentive sequence models, and bidirectional transformer recommenders broaden the architecture space \cite{he2017ncf,hidasi2016gru4rec,kang2018sasrec,sun2019bert4rec}. Graph recommenders introduce a further distinction between a trained graph representation and an inference-time profile intervention \cite{wang2019ngcf,he2020lightgcn}. We use ItemKNN as the primary model because its history dependence is transparent under masking; the profile aggregator is a robustness model, not a claim to cover all architectures.
 
-Offline evaluation depends on temporal leakage, negative sampling, exposure, and the candidate universe. Results on a target-plus-negative set are sampled-ranking results, not catalogue retrieval. Evaluation choices can materially change rankings between methods and models \cite{harper2016,bennett2007,zheng2017,saito2021,ji2020,chen2022,mcnamara2017}. ActionShap fixes these choices before final testing, reports popularity references, and separates sampled ranking from full-unseen-catalogue evaluation.
+Offline evaluation depends on temporal leakage, negative sampling, exposure, and the candidate universe. Results on a target-plus-negative set are sampled-ranking results, not catalogue retrieval. Evaluation choices can materially change rankings between methods and models \cite{harper2016,bennett2007,saito2021}. ActionShap fixes these choices before final testing, reports popularity references, and separates sampled ranking from full-unseen-catalogue evaluation.
 
 \subsection{Faithfulness, counterfactual evaluation, and recourse}
 Deletion and insertion tests measure model dependence but can be sensitive to the baseline and perturbation path. Sanity checks show that some attribution maps can appear plausible while failing model or data randomization tests \cite{adebayo2018}. Perturbation-based explanations also raise the question of whether the perturbation remains within a meaningful data manifold \cite{hooker2019}. Counterfactual recommendation and recourse methods instead search for profile or graph changes that alter a ranking or decision \cite{ghazimatin2020,tran2021,tan2021,yao2022,baklanov2024,barkan2024,gurevitch2025,mohammadi2025,nguyen2026,wachter2017,karimi2021}. ActionShap does not generate causal recourse. It evaluates an attribution under a fixed intervention policy and makes the policy, cost, authority, and offline limitations explicit.
@@ -143,7 +144,7 @@ For user $u$, let $H_u^{\mathrm{train}}$ contain all interactions before validat
 \begin{equation}
 P_u=\{p_{u1},\ldots,p_{un_u}\},\qquad n_u\le n_{\max}=20,
 \end{equation}
-and define the older training context $B_u=H_u^{\mathrm{train}}\setminus P_u$. Interactions are ordered by $(\mathrm{timestamp},\mathrm{original\_record\_index})$; the last event is test and the preceding event is validation. Validation and test events are never players. Models are fitted using the complete training histories $H_u^{\mathrm{train}}$, but the released scoring implementation uses the second semantics: the profile score $f_u(i;S)$ is computed from $S$ alone, with no $B_u$ term. Thus $B_u$ is not silently added as fixed scoring context. Consequently, $n_{\max}$ is both the operating profile boundary and the player-game boundary; the $n_{\max}\in\{50,100\}$ runs are sensitivity analyses of that boundary, not experiments that hold the recommender input fixed.
+and define the older training context $B_u=H_u^{\mathrm{train}}\setminus P_u$. Interactions are ordered by $(\mathrm{timestamp},\mathrm{original\_record\_index})$; the last event is test and the preceding event is validation. Validation and test events are never players. Models are fitted using the complete training histories $H_u^{\mathrm{train}}$, but the released scoring implementation excludes older interactions $B_u$ from inference-time scoring: the profile score $f_u(i;S)$ depends only on $S$. Thus $B_u$ is not silently added as fixed scoring context. Consequently, $n_{\max}$ is both the operating profile boundary and the player-game boundary; the $n_{\max}\in\{50,100\}$ runs are sensitivity analyses of that boundary, not experiments that hold the recommender input fixed.
 
 Every user has a fixed candidate set $E_u$ containing the held-out target and sampled negatives. Negatives exclude the complete pre-test history, including validation. The user seed, candidate seed, tie seed, model seed, and attribution seed are independent. Full-catalogue robustness uses the target plus all unseen items. Target coverage is one by construction and is not called retrieval recall.
 
@@ -198,6 +199,35 @@ For a sampled base permutation $\pi_m$, let $S_{p,\pi_m}$ be the predecessor coa
 \end{equation}
 The reverse orders are antithetic variance-reduction partners and coalition states are cached. In the executable configuration, \texttt{permutations} denotes $M_{\mathrm{pair}}=500$, hence $T=1000$ evaluated orders. The comparison includes locally weighted binary-mask LIME, LOO, greedy sequential deletion, and random attribution. No method observes measured intervention effects, oracle actions, or aggregate test outcomes.
 
+For completeness, the greedy and random controls are defined operationally. Greedy sequential deletion starts at $S_0=P_u$. At step $t$ it evaluates $v_u^{\mathrm{attr}}(S_{t-1}\setminus\{p\})-v_u^{\mathrm{attr}}(S_{t-1})$ for every remaining player, selects the largest benefit, breaks ties by the lowest player index, records the signed value under the convention that $-\phi$ predicts downweight benefit, and recomputes the next step from the reduced coalition. It repeats until every player is ordered; it does not inspect bounded effects or the oracle, and the later signed action rule may abstain. Random attribution draws independent scores $r_{u,p}\sim\mathcal{N}(0,1)$ for every user and experiment seed using NumPy's seeded generator. The random vector is passed through the same signed action-selection rule as every explainer, including the same budget and abstention option. Its seed is independently offset from the model/attribution seed by $1{,}000{,}000+u$, so it is redrawn per user and seed.
+
+\begin{algorithm}[t]
+\caption{Greedy sequential-deletion baseline}
+\label{alg:greedy-baseline}
+\begin{algorithmic}[1]
+\Require target-margin utility $v$, player set $P_u$
+\Ensure signed ranking vector $\phi^{\mathrm{greedy}}_u$
+\State $S\gets P_u$; recompute $v(S)$
+\While{$S\ne\varnothing$}
+  \State evaluate every $v(S\setminus\{p\})-v(S)$ for $p\in S$
+  \State choose the maximum; break ties by lowest player index
+  \State record its negative as $\phi^{\mathrm{greedy}}_{u,p}$; set $S\gets S\setminus\{p\}$
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[t]
+\caption{Random attribution negative control}
+\label{alg:random-baseline}
+\begin{algorithmic}[1]
+\Require user $u$, player count $n_u$, seed $s$
+\Ensure random signed scores and optional action
+\State draw $r_{u,p}\overset{\mathrm{iid}}{\sim}\mathcal{N}(0,1)$ for $p=1,\ldots,n_u$
+\State apply the common signed downweight rule with budget $B$ and abstention
+\State do not evaluate intervention effects before selecting the action
+\end{algorithmic}
+\end{algorithm}
+
 \subsection{Metrics}
 Magnitude AIA is
 \begin{equation}
@@ -216,6 +246,12 @@ and the method action is $\widehat A_{u,g}$. Regret is
 \begin{equation}
 \operatorname{Regret}_u^z(g)=\Delta_u^z(A_u^{*,z})-\Delta_u^z(\widehat A_{u,g}).
 \end{equation}
+For a general budget $B$, the utility-specific feasible oracle is
+\begin{equation}
+A_u^{*,z}(B)=\arg\max_{A\subseteq P_u,\,|A|\le B}\Delta_u^z(A).
+\end{equation}
+At $B=2$ the released primary results exhaustively enumerate no action, all singletons, and all pairs. The archived $B=3$ sensitivity was produced with the declared greedy lower-bound search rather than exhaustive triples; it is retained only for joint-effect, success, and abstention sensitivity. No normalized-regret claim is made for $B=3$. Exhaustive triples would require at most $1+20+\binom{20}{2}+\binom{20}{3}=1351$ actions per user and are recommended for a future regenerated $B=3$ release.
+
 For utility $z$, normalized regret is
 \begin{equation}
 \operatorname{NRegret}_u^z(g)=
@@ -294,7 +330,7 @@ It is averaged only over active-oracle users. Zero means an oracle-equivalent ac
 \end{algorithmic}
 \end{algorithm}
 
-\section{Experimental Results}
+\section{Experimental Protocol}
 \subsection{Datasets and temporal split}
 We use MovieLens-1M \cite{harper2016,ni2019} and Amazon Digital Music reconstructed from the Amazon Reviews 2018 release. Positive feedback is rating $\ge4$; Amazon duplicate user--item records retain the latest deterministic event and iterative 5-core filtering is reapplied after thresholding. MovieLens retains 6,035 users, 3,533 items, and 575,276 positive interactions. Amazon retains 10,623 users, 8,582 items, and 104,431 interactions. Source and processed hashes are recorded in the final manifest.
 
@@ -311,13 +347,15 @@ For each seed we compute user-level quantities first; repeated seed values are t
 \subsection{Reproducibility}
 The real result archive contains 80 recommendation runs plus five convergence studies. All assets in this manuscript are generated from schema-v2 raw results with repository-relative paths and content hashes. The primary ItemKNN target-margin analysis uses $M_{\mathrm{pair}}=500$ base permutations and $T=1000$ evaluated orders; the independent convergence study selects lower diagnostic values for some conditions, while the conservative final floor is retained.
 
-\subsection{Results}
+\section{Results}
 All numerical claims below are generated only when \texttt{validation\_report.json} reports PASS. The legacy pilot is excluded from the canonical package.
 
 \subsection{Recommendation quality and protocol audit}
-Table~\ref{tab:protocol-audit} shows that primary ItemKNN exceeds the popularity reference on both datasets. MovieLens ItemKNN reaches NDCG@10 $=0.284$ and Recall@10 $=0.504$, compared with $0.158$ and $0.320$ for popularity. Amazon ItemKNN reaches $0.181$ and $0.285$, compared with $0.090$ and $0.155$. The profile model is weaker on both datasets and is therefore interpreted only as architectural robustness evidence.
+Table~\ref{tab:recommendation-quality} shows that primary ItemKNN exceeds the popularity reference on both datasets. MovieLens ItemKNN reaches NDCG@10 $=0.284$ and HitRate@10 $=0.504$, compared with $0.158$ and $0.320$ for popularity. Amazon ItemKNN reaches $0.181$ and $0.285$, compared with $0.090$ and $0.155$. The profile model is weaker on both datasets and is therefore interpreted only as architectural robustness evidence.
 
-\safeinput{tables/protocol_audit.tex}
+Because each user has one held-out target, sampled-set HitRate@10 is numerically the same indicator as a one-target recall measure; HitRate is used here to avoid any implication of catalogue-level retrieval recall.
+
+\safeinput{tables/recommendation_quality.tex}
 
 \subsection{Faithfulness versus bounded alignment}
 Table~\ref{tab:aia-components} separates deletion AIA, bounded AIA, and their difference. On MovieLens ItemKNN, Shapley has bounded AIA $0.779$ versus $0.933$ for LIME and $0.978$ for LOO. On Amazon, Shapley has bounded AIA $0.414$ versus $0.827$ and $0.851$. Thus Shapley does not win absolute alignment.
@@ -364,7 +402,7 @@ Target-margin convergence selects $M_{\mathrm{pair}}=50$ for Amazon ItemKNN, $M_
 \end{figure}
 
 \subsection{Robustness and boundaries}
-The positive Shapley gap persists across the primary ItemKNN candidate, history, intervention-strength, and full-catalogue conditions, but the absolute values vary. Full-catalogue NDCG alignment is sparse and is treated descriptively. The longer-history conditions also show reduced masking sensitivity, supporting the use of $n_{\max}=20$ as a declared operating boundary rather than an arbitrary computational cap.
+The positive Shapley gap persists across the primary ItemKNN candidate, history, intervention-strength, and full-catalogue conditions, but the absolute values vary. For Amazon full catalogue, the positive difference reflects reduced anti-alignment rather than positive bounded-intervention alignment: deletion AIA is $-0.2875$ and bounded AIA is $-0.1186$, so both absolute AIA values remain negative. Full-catalogue NDCG alignment is sparse and is treated descriptively. The longer-history conditions also show reduced masking sensitivity, supporting the use of $n_{\max}=20$ as a declared operating boundary rather than an arbitrary computational cap.
 
 The profile model supplies a useful negative boundary: it can change rankings while underperforming popularity, and one MovieLens seed fails the NDCG masking threshold. This demonstrates why a non-degenerate masking gate and recommendation-quality audit are necessary before interpreting attribution results.
 
@@ -377,16 +415,16 @@ The decision results reinforce this distinction. On MovieLens, local methods sel
 The protocol also clarifies what offline actionability means. The intervention is system-executable inside the frozen simulator: it changes an inference-time interaction weight without retraining. It is not automatically a user action, causal intervention, or prospective policy. A production deployment would need authority, cost, user-consent, and feedback-loop specifications that are outside this benchmark.
 
 \subsection{Limitations and Threats to Validity}
-\subsection{Construct validity}
+\subsubsection{Construct validity}
 Actionability is defined as predictive validity under one bounded downweighting policy. It is not perceived usefulness, legal recourse, user agency, or a causal effect in the world. All primary players are technically mutable, so feasibility does not differentiate factors; future work should study heterogeneous costs and user-side constraints.
 
-\subsection{Metric validity}
+\subsubsection{Metric validity}
 NDCG is discrete and produces constant effect vectors for some users. We report missing correlations rather than imputing zero. Target margin is the converged attribution utility but has less direct operational meaning; NDCG is the action outcome and is never relabelled as target margin.
 
-\subsection{Internal validity}
+\subsubsection{Internal validity}
 Temporal splitting and complete pre-test exclusion reduce leakage, but the audit remains target-conditioned. The held-out target defines the labelled instance being explained, which is appropriate for retrospective evaluation but unavailable to a prospective policy. Candidate sets are fixed and target coverage is one by construction; sampled ranking is not retrieval evaluation.
 
-\subsection{External validity}
+\subsubsection{External validity}
 Two datasets and two history-conditioned models do not cover sequential transformers, graph recommenders, multimodal inputs, online feedback, provider objectives, or heterogeneous intervention costs. The full-catalogue subset is smaller than the primary cohort. The profile model’s quality shortfall and one failed gate are retained as explicit boundaries rather than generalized.
 
 \section{Conclusion}
@@ -413,6 +451,10 @@ ActionShap provides a reproducible protocol for asking whether recommendation ex
 
 
 \begin{appendices}
+% Explicit alphabetic appendix lettering: A--F are the only manuscript appendices.
+\setcounter{section}{0}
+\renewcommand{\thesection}{\Alph{section}}
+\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
 \section{Formal proofs and edge-case guarantees}\label{app:proofs}
 
 \subsection{Efficiency of the prefix-walk estimator}
@@ -460,7 +502,7 @@ Null/inference & $R=1000$ matched null draws; 10,000 bootstrap/permutation draws
 The profile optimizer samples one positive item per user per epoch, excludes that positive from its temporary context, and samples a negative uniformly outside the user's complete training history. ItemKNN has no latent user embedding, shrinkage coefficient, minimum-support cutoff, or negative-similarity branch: the retained similarity matrix is non-negative by construction. AIA is Spearman rank correlation and is missing for constant or non-finite vectors. Normalized regret uses $\varepsilon=10^{-12}$ and is averaged only over positive-oracle users. The release archive records the exact dependency versions, source hashes, run durations, and selected users; complete per-user vectors remain in the compressed machine-readable asset rather than in the PDF.''
 
 
-\section{Expanded robustness results}\label{app:robustness}
+\section{Robustness results}\label{app:robustness}
 
 The primary ItemKNN result is intentionally complemented by a matrix of candidate-size, history-length, intervention-strength, and budget sensitivities. Candidate-size changes test whether the pointwise alignment is an artefact of a 200-item sampled pool. History-length changes test whether the declared $n_{\max}=20$ window is an operational boundary. The $\rho=0.25$ condition tests whether the bounded action remains separable from deletion. Budgets one and three are reported only for joint decision outcomes because they do not define new singleton gap estimands.
 
@@ -468,7 +510,7 @@ The primary ItemKNN result is intentionally complemented by a matrix of candidat
 \safeinput{tables/full_catalogue_results.tex}
 \safeinput{tables/actionability_gap_robustness.tex}
 The complete paired gap-advantage comparisons, including effect sizes and Holm-adjusted $p$-values, are supplied in
-\texttt{tables/actionability_gap_advantage.csv}; they are not duplicated as a dense PDF export.
+\texttt{tables/actionability\_gap\_advantage.csv}; they are not duplicated as a dense PDF export.
 
 \section{Statistical reporting and null calibration}\label{app:statistics}
 
@@ -479,6 +521,25 @@ The statistical unit is a distinct user. For a method metric $m$, seed-level val
 
 The result release contains 85 JSON files: 80 recommendation runs and five convergence studies. It records source hashes, configuration values, seed assignments, gate diagnostics, selected users, per-user effects, attributions, actions, and oracle outcomes. The raw archive is distributed separately because the datasets and raw user-level records are not ordinary manuscript assets. The final validation manifest is the gate for numerical claims; its notes, including one nonblocking MovieLens profile gate failure and NDCG stress-test non-convergence, are part of the evidence rather than suppressed warnings.
 
+Table~\ref{tab:computational-cost} reports the allocation-stage computational budgets. These are analytical scorer-call counts, not claims that every call has identical wall-clock cost; the exact ItemKNN batch implementation reuses cached similarity blocks, while the joint-action oracle is evaluated once per user and shared across methods.
+
+\begin{table}[t]
+\centering\small
+\caption{Attribution-stage computational cost for a user with $n_u\le20$ players. Joint-action selection and the common exact oracle are excluded because they are shared outcome evaluations.}
+\label{tab:computational-cost}
+\begin{tabular}{@{}p{.22\textwidth}p{.23\textwidth}p{.43\textwidth}@{}}
+\toprule
+Method & Allocation-stage score budget & Reproducible definition \\
+\midrule
+Monte Carlo Shapley & $T(n_u+1)\le21{,}000$ prefix states before cache reuse & $M_{\mathrm{pair}}=500$ base orders plus reverses; coalition states cached and batched. \\
+LIME & 512 binary masks & Full, empty, all leave-one-out masks, then seeded random masks; weighted ridge with Hamming kernel. \\
+LOO & $n_u+1\le21$ states & Full coalition and every one-deletion coalition; exact deletion diagnostic. \\
+Greedy deletion & $1+n_u(n_u+1)/2\le211$ states & Every remaining deletion is recomputed at every step; lower-index ties win. \\
+Random control & 0 attribution utility calls & IID $\mathcal{N}(0,1)$ scores; the common action/effect evaluation is still applied after selection. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 The canonical artifact directory is \texttt{paper-ideas/ActionShap/paper-v3/}. The reproducibility command is:
 \begin{verbatim}
 python scripts/make_paper_assets.py --raw results/raw --out ../paper-v3
@@ -488,39 +549,6 @@ All paths in generated manifests are repository-relative and all release archive
 \section{Additional limitations}\label{app:limitations}
 
 ActionShap evaluates a retrospective target-conditioned audit. The held-out target is used to define the labelled instance and ranking utility, so the protocol is not a prospective action policy. The bounded intervention changes inference-time profile influence without retraining; it is system-executable but not necessarily user-executable. Candidate target inclusion gives coverage one by construction, while full-catalogue results use a smaller subset. The profile model is deliberately retained as a quality and masking-sensitivity boundary. These restrictions define the scope of the conclusions and should accompany any reuse of the artifact.
-
-\clearpage
-\section{Expanded Asset Tables and Statistical Audit}\label{app:expanded-audit}
-
-This appendix exposes the complete numerical views behind the compact tables in the main text. It is intentionally long: the purpose is auditability, not a second narrative results section. Rows are generated from the schema-v2 release and are not manually transcribed. All means use the distinct-user aggregation specified in the main text; confidence intervals and missing-user counts remain in the CSV release.
-
-\subsection{Complete alignment matrix}
-\input{tables/appendix_aia_full.tex}
-
-\subsection{Complete joint-intervention outcomes}
-\input{tables/appendix_intervention_full.tex}
-
-\subsection{Selected paired comparisons}
-\input{tables/appendix_paired_tests.tex}
-
-\subsection{Convergence matrix}
-\input{tables/appendix_convergence_full.tex}
-
-\subsection{Executable contract}
-\input{tables/appendix_contract.tex}
-
-\section{Reproducibility and release record}\label{app:release-record}
-
-The Overleaf folder is a presentation package, not the raw experiment directory. The source archive contains the frozen runner, requirements lockfile, schema-v2 result bundle, source hashes, and validation report. The archive SHA-256 is recorded in the repository release metadata. The manuscript build uses the exact Springer Nature class and numeric Math--Physical Sciences bibliography style supplied by the working SignalShap Overleaf package. The main PDF intentionally includes only compact tables; the full user--seed vectors and paired-test matrix are retained outside the manuscript source so that readers can audit the calculation without forcing the publication layout to contain a raw data frame.
-
-\subsection{Submission checklist}
-\begin{enumerate}
-\item Compile with pdfLaTeX and BibTeX using the included \texttt{latexmkrc};
-\item confirm that all 47 ActionShap citation keys resolve to numbered bibliography entries;
-\item confirm that the first page has one title, separated authors, numbered affiliation, corresponding-author email, and a labelled Keywords line;
-\item confirm that Tables~\ref{tab:protocol-audit}, \ref{tab:aia-components}, and \ref{tab:intervention-outcomes} appear once in the main text and that the appendix tables are not duplicated;
-\item report the exact release commit and artifact hash with any public code deposit.
-\end{enumerate}
 
 \end{appendices}
 
