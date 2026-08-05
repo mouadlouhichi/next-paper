@@ -81,30 +81,7 @@ Our contributions are fourfold:
 
 The paper makes no a priori claim that Shapley, LIME, LOO, or any other explainer is best. The framework is the contribution; method rankings are empirical and bounded by the declared offline simulator.
 
-\begin{figure}[t]
-\centering
-\begin{tikzpicture}[
-  stage/.style={draw=black, fill=white, rounded corners=2pt, minimum width=7cm, minimum height=0.68cm, align=center, font=\small, line width=.7pt},
-  edge/.style={-{Latex[length=2mm]}, draw=black, line width=.8pt},
-  note/.style={draw=black, fill=white, rounded corners=2pt, align=left, font=\scriptsize, inner sep=4pt}
-]
-\node[stage] (a) {Temporal interactions and held-out target};
-\node[stage, below=3.5mm of a] (b) {Retained player window $P_u$};
-\node[stage, below=3.5mm of b] (c) {Frozen history-conditioned recommender};
-\node[stage, below=3.5mm of c] (d) {Fixed candidate set and global tie priority};
-\node[stage, below=3.5mm of d] (e) {Attribution methods};
-\node[stage, below=3.5mm of e] (f) {Deletion and bounded intervention};
-\node[stage, below=3.5mm of f] (g) {Target-margin and NDCG outcomes};
-\node[stage, below=3.5mm of g] (h) {AIA, nulls, regret, stability, and release};
-\foreach \x/\y in {a/b,b/c,c/d,d/e,e/f,f/g,g/h}{\draw[edge] (\x)--(\y);}
-\node[note, right=7mm of d, text width=3.3cm] (v) {\textbf{Validity controls}\\Temporal split; complete pre-test exclusion; independent candidate, user, tie, model, and attribution seeds.};
-\draw[edge] (v.west)--++(-4mm,0)|-(d.east);
-\node[note, right=7mm of g, text width=3.3cm] (q) {\textbf{Decision controls}\\Signed benefit, no-action option, exact $B\le2$ oracle, utility-specific regret, and conditional normalized regret.};
-\draw[edge] (q.west)--++(-4mm,0)|-(g.east);
-\end{tikzpicture}
-\caption{ActionShap evaluation architecture. The fixed vertical path separates player construction, model scoring, attribution, intervention execution, and outcome measurement. Side panels show controls held constant across methods.}
-\label{fig:architecture}
-\end{figure}
+
 
 \section{Literature Review}
 \subsection{Explainable recommendation}
@@ -192,6 +169,34 @@ The action space is
 including no action. The primary scientific budget is $B=2$. A signed attribution predicts downweighting benefit as $-\phi$; only positive predicted benefit is selected. LOO is an algebraic deletion oracle at $B=1$, not a headline competitor.
 
 \section{Methodology}
+\subsection{Protocol architecture}
+Figure~\ref{fig:architecture} summarizes the evaluation pipeline used throughout the paper. The architecture is placed with the methodology because it defines the sequence of player construction, scoring, attribution, intervention, and outcome measurement before the experimental results are introduced.
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[
+  stage/.style={draw=black, fill=white, rounded corners=2pt, minimum width=7cm, minimum height=0.68cm, align=center, font=\small, line width=.7pt},
+  edge/.style={-{Latex[length=2mm]}, draw=black, line width=.8pt},
+  note/.style={draw=black, fill=white, rounded corners=2pt, align=left, font=\scriptsize, inner sep=4pt}
+]
+\node[stage] (a) {Temporal interactions and held-out target};
+\node[stage, below=3.5mm of a] (b) {Retained player window $P_u$};
+\node[stage, below=3.5mm of b] (c) {Frozen history-conditioned recommender};
+\node[stage, below=3.5mm of c] (d) {Fixed candidate set and global tie priority};
+\node[stage, below=3.5mm of d] (e) {Attribution methods};
+\node[stage, below=3.5mm of e] (f) {Deletion and bounded intervention};
+\node[stage, below=3.5mm of f] (g) {Target-margin and NDCG outcomes};
+\node[stage, below=3.5mm of g] (h) {AIA, nulls, regret, stability, and release};
+\foreach \x/\y in {a/b,b/c,c/d,d/e,e/f,f/g,g/h}{\draw[edge] (\x)--(\y);}
+\node[note, right=7mm of d, text width=3.3cm] (v) {\textbf{Validity controls}\\Temporal split; complete pre-test exclusion; independent candidate, user, tie, model, and attribution seeds.};
+\draw[edge] (v.west)--++(-4mm,0)|-(d.east);
+\node[note, right=7mm of g, text width=3.3cm] (q) {\textbf{Decision controls}\\Signed benefit, no-action option, exact $B\le2$ oracle, utility-specific regret, and conditional normalized regret.};
+\draw[edge] (q.west)--++(-4mm,0)|-(g.east);
+\end{tikzpicture}
+\caption{ActionShap evaluation architecture. The fixed vertical path separates player construction, model scoring, attribution, intervention execution, and outcome measurement. Side panels show controls held constant across methods.}
+\label{fig:architecture}
+\end{figure}
+
 \subsection{Attribution methods}
 For a sampled base permutation $\pi_m$, let $S_{p,\pi_m}$ be the predecessor coalition of player $p$. We use $M_{\mathrm{pair}}$ base permutations and also evaluate each reverse order, giving $T=2M_{\mathrm{pair}}$ total prefix walks. The estimator is
 \begin{equation}

@@ -7,7 +7,7 @@
 - Supplementary entry point: `supplementary.tex`
 - Licence: `LICENSE` (MIT for manuscript/code/non-data assets)
 - Dependency lockfile: `requirements-recommendation.lock`
-- Archive SHA-256: `188c234a8ec970b29ab4bc54b2eebf302d20ebf1512648865f76781eb7b09a9c` (the zip excludes this metadata file to avoid a self-referential hash)
+- Archive SHA-256: `9c318d856d2b05e45215170721732e17a9fffd45f5df83e1684b01c73159b7bc` (the zip excludes this metadata file to avoid a self-referential hash)
 - Immutable release tag and DOI: to be assigned when the public artifact is deposited.
 
 The numerical source remains the validated schema-v2 release in the parent
