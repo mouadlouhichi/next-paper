@@ -146,9 +146,9 @@ class CureSim:
             1.6 * affinity
             + 0.45 * position_bonus
             + 0.15 * popularity_signal
-            - 0.85 * scenario.fatigue_multiplier * self.state.fatigue[user_id]
+            - 0.85 * cfg.fatigue_multiplier * scenario.fatigue_multiplier * self.state.fatigue[user_id]
             - 0.55 * repeated
-            + scenario.satisfaction_shift
+            + cfg.satisfaction_shift + scenario.satisfaction_shift
         )
         response_probability = sigmoid(response_logit)
         clicks = self.rng.binomial(1, response_probability)
@@ -185,6 +185,16 @@ class CureSim:
             # A small satisfaction-mediated preference drift creates delayed effects.
             direction = self.catalog.features[items].mean(axis=0)
             updated = self.state.hidden_interest[user_id] + 0.03 * response["satisfaction"] * direction
+            # This optional term is zero in the archived baseline configuration.
+            # When varied in calibration it encodes a disclosed behavioral
+            # assumption: exposure to items unlike the public profile can create
+            # delayed preference broadening rather than an immediate click gain.
+            profile_similarity = self.catalog.features[items] @ self.state.public_profiles[user_id]
+            novelty = np.clip(-profile_similarity, 0.0, None)
+            if novelty.any() and cfg.novelty_preference_drift > 0:
+                novelty_direction = (self.catalog.features[items] * novelty[:, None]).sum(axis=0)
+                novelty_direction /= max(float(novelty.sum()), 1e-8)
+                updated += cfg.novelty_preference_drift * novelty_direction
             self.state.hidden_interest[user_id] = updated / max(np.linalg.norm(updated), 1e-8)
             for key, value in transform_info.get("stats", {}).items():
                 intervention_stats[key] = intervention_stats.get(key, 0) + int(value)

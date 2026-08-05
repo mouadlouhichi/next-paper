@@ -39,6 +39,9 @@ class SimulatorConfig(BaseModel):
     repeat_fatigue_threshold: PositiveInt = 2
     popularity_feedback: float = Field(default=0.03, ge=0.0, le=1.0)
     fatigue_multiplier: PositiveFloat = 1.0
+    # Delayed preference drift from novel exposure. Zero preserves the frozen
+    # historical CURE-Sim behavior; calibration can vary this assumption.
+    novelty_preference_drift: float = Field(default=0.0, ge=0.0, le=1.0)
     satisfaction_shift: float = 0.0
 
     @model_validator(mode="after")

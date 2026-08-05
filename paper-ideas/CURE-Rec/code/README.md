@@ -107,11 +107,33 @@ cure-rec sweep \
   --config configs/curesim_full.yaml \
   --seeds 42,43,44,45,46
 
+# Pre-specified behavioural sensitivity. This runs exact games and can take
+# hours under the full configuration; start with a guarded notebook smoke run.
+cure-rec calibrate \
+  --config configs/curesim_full.yaml \
+  --seeds 42,43,44,45,46 \
+  --design oat
+
+# Joint robustness probe. It adds one baseline plus the requested number of
+# Latin-hypercube settings, each evaluated for every listed seed.
+cure-rec calibrate \
+  --config configs/curesim_full.yaml \
+  --seeds 42,43,44,45,46 \
+  --design lhs \
+  --lhs-samples 24
+
 # Regenerate aggregate figures and feasibility tables from a completed expensive sweep.
 cure-rec postprocess-sweep \
   --config configs/curesim_full.yaml \
   --run-dir runs/seed-sweep-<timestamp>
 ```
+
+`calibrate` is a sensitivity analysis of stated CURE-Sim assumptions, **not** a
+fit to MovieLens or an empirical causal calibration. OAT varies fatigue strength,
+repeat threshold, horizon, provider threshold, provider-balance strength, delayed
+novelty preference drift, and exploration cost. The joint LHS design samples the
+same assumptions together. Both preserve seed-level decisions, base feasibility,
+planner mode, exact attributions, and interactions.
 
 Every loader runs the conservative audit and labels the strongest claim supported by the available fields. MovieLens, Coat, and Yahoo! R3 are not automatically promoted to long-horizon policy-evaluation evidence.
 

@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 
 from cure_rec.analysis import analyze_dataset
+from cure_rec.calibration import run_calibration_sweep
 from cure_rec.config import load_settings
 from cure_rec.data import audit_interactions, load_dataset, load_interactions_csv, write_standardized_dataset
 from cure_rec.experiments import postprocess_seed_sweep, run_seed_sweep
@@ -132,6 +133,26 @@ def _sweep(args: argparse.Namespace) -> int:
     return 0
 
 
+def _calibrate(args: argparse.Namespace) -> int:
+    settings = load_settings(args.config)
+    seeds = [int(seed.strip()) for seed in args.seeds.split(",") if seed.strip()]
+    result = run_calibration_sweep(
+        settings,
+        seeds,
+        design=args.design,
+        lhs_samples=args.lhs_samples,
+        lhs_seed=args.lhs_seed,
+    )
+    print(json.dumps({
+        "calibration_run": str(result.run_dir),
+        "design": args.design,
+        "configuration_count": len(result.configurations),
+        "seed_decision_count": len(result.seed_decisions),
+        "summary": result.summary.to_dict(orient="records"),
+    }, indent=2, default=str))
+    return 0
+
+
 def _postprocess_sweep(args: argparse.Namespace) -> int:
     settings = load_settings(args.config)
     result = postprocess_seed_sweep(args.run_dir, settings)
@@ -243,6 +264,14 @@ def main(argv: list[str] | None = None) -> int:
     sweep.add_argument("--config", type=Path, required=True)
     sweep.add_argument("--seeds", default="42,43,44,45,46", help="Comma-separated integer seeds")
     sweep.set_defaults(handler=_sweep)
+
+    calibration = subparsers.add_parser("calibrate", help="Run pre-specified CURE-Sim OAT or Latin-hypercube behavioral sensitivity")
+    calibration.add_argument("--config", type=Path, required=True)
+    calibration.add_argument("--seeds", default="42,43,44,45,46", help="Comma-separated independent environment seeds")
+    calibration.add_argument("--design", choices=("oat", "lhs"), default="oat")
+    calibration.add_argument("--lhs-samples", type=int, default=16, help="Joint configurations for --design lhs")
+    calibration.add_argument("--lhs-seed", type=int, default=20260805)
+    calibration.set_defaults(handler=_calibrate)
 
     postprocess = subparsers.add_parser("postprocess-sweep", help="Regenerate aggregate seed assets from an existing completed sweep")
     postprocess.add_argument("--config", type=Path, required=True)
