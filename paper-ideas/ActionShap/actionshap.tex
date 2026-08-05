@@ -1,914 +1,456 @@
-% LEGACY CROSS-DOMAIN LATEX DRAFT -- NOT THE CANONICAL RECOMMENDATION-ONLY PAPER.
-% Use ActionShap_Recommendation_Paper_Structure.md for the current manuscript plan.
+\documentclass[pdflatex,sn-basic,Numbered]{sn-jnl}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% ActionShap -- manuscript draft for Discover Artificial Intelligence
-%% Springer Nature journal template (sn-jnl.cls, v3.1 December 2024)
-%%
-%% Compile: pdflatex -> bibtex -> pdflatex -> pdflatex
-%% Requires: sn-jnl.cls and sn-mathphys-num.bst in the same directory,
-%%           plus actionshap-bibliography.bib
-%%
-%% STRUCTURE
-%%   Follows the six-section layout of the authors' IJACSA 2025 paper
-%%   "Game Theory Meets Explainable AI" [louhichi2025]:
-%%     1 Introduction (flat, numbered contributions list, roadmap)
-%%     2 Literature review (thematic subsections)
-%%     3 Methodology (pipeline subsections; comparative analysis,
-%%       theoretical justification, and practical implementation as the
-%%       final three subsections, per that paper's III.D-III.F)
-%%     4 Experimental results (setup and results combined; datasets,
-%%       protocols, validation measures, parameter influence, then one
-%%       analysis block per regime, the second closing with a discussion)
-%%     5 Discussion and broader implications
-%%     6 Conclusion
-%%   Declarations and appendices are retained although the IJACSA paper
-%%   has neither: declarations are mandatory for Springer, and the proofs
-%%   need somewhere to live.
-%%
-%% CONVENTIONS USED IN THIS DRAFT
-%%   \tbd{...}  marks a value or passage to be filled from experimental
-%%              output before submission. Search "\tbd" for every open
-%%              item. Delete the macro definition once none remain.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usetikzlibrary{arrows.meta,positioning,fit,backgrounds}
+\hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
+\graphicspath{{paper-v2/final/figures/}}
 
-\documentclass[pdflatex,sn-mathphys-num]{sn-jnl}% Math and Physical Sciences Numbered Reference Style
+\newcommand{\AIA}{\operatorname{AIA}}
+\newcommand{\NDCG}{\operatorname{NDCG}}
+\newcommand{\Recall}{\operatorname{Recall}}
+\newcommand{\MRR}{\operatorname{MRR}}
+\newcommand{\safeinput}[1]{\IfFileExists{#1}{\input{#1}}{}}
 
-%%%% Standard packages (as shipped with the template)
-\usepackage{graphicx}%
-\usepackage{multirow}%
-\usepackage{amsmath,amssymb,amsfonts}%
-\usepackage{amsthm}%
-\usepackage{mathrsfs}%
-\usepackage[title]{appendix}%
-\usepackage{xcolor}%
-\usepackage{textcomp}%
-\usepackage{manyfoot}%
-\usepackage{booktabs}%
-\usepackage{algorithm}%
-\usepackage{algorithmicx}%
-\usepackage{algpseudocode}%
-\usepackage{listings}%
+\title[ActionShap]{ActionShap: Beyond Deletion Faithfulness toward Intervention-Robust Recommendation Explanations}
 
-%%%% Theorem-like environments
-\theoremstyle{thmstyleone}%
-\newtheorem{theorem}{Theorem}%
-\newtheorem{proposition}[theorem]{Proposition}%
-\newtheorem{corollary}[theorem]{Corollary}%
-
-\theoremstyle{thmstyletwo}%
-\newtheorem{example}{Example}%
-\newtheorem{remark}{Remark}%
-
-\theoremstyle{thmstylethree}%
-\newtheorem{definition}{Definition}%
-
-%%%% Draft-only placeholder macro. Remove before submission.
-\newcommand{\tbd}[1]{\textbf{[#1]}}
-
-%%%% Shorthands. Keeping the two games' symbols distinct in the source
-%%%% makes the phi/psi separation harder to get wrong.
-\newcommand{\AS}{\mathrm{AS}}
-\newcommand{\ASm}{\mathrm{AS}^{-m}}
-\newcommand{\AIA}{\mathrm{AIA}}
-\newcommand{\Reg}{\mathrm{Reg}}
-\newcommand{\Ppre}{\mathrm{P}}
-
-\raggedbottom
+\author*[1]{\fnm{Mouad} \sur{Louhichi}}\email{mouad.louhichi@um5.ac.ma}
+\author[1]{\fnm{Redwane} \sur{Nesmaoui}}
+\author[1]{\fnm{Mohamed} \sur{Lazaar}}
+\affil[1]{\orgdiv{National Higher School of Computer Science and Systems Analysis (ENSIAS)}, \orgname{Mohammed V University in Rabat}, \orgaddress{\city{Rabat}, \country{Morocco}}}
 
 \begin{document}
-
-\title[ActionShap: Intervention-Grounded Evaluation of Cooperative Attribution]{ActionShap: Intervention-Grounded Evaluation of Cooperative Attribution for Explainable Clustering and Recommendation}
-
-\author*[1]{\fnm{Mouad} \sur{Louhichi}}\email{mouad\_louhichi@um5.ac.ma}
-
-\author[1]{\fnm{Redwane} \sur{Nesmaoui}}\email{redwane\_nesmaoui@um5.ac.ma}
-
-\author[1]{\fnm{Mohamed} \sur{Lazaar}}\email{mohamed.lazaar@ensias.um5.ac.ma}
-
-\affil*[1]{\orgdiv{National Higher School of Computer Science and Systems Analysis (ENSIAS)}, \orgname{Mohammed V University in Rabat}, \orgaddress{\city{Rabat}, \country{Morocco}}}
-
-%%==================================%%
-%% Abstract: Discover AI asks for 150--250 words, unstructured,
-%% no citations, no equations. Current length ~225 words.
-%%==================================%%
-
-\abstract{Explanation methods are routinely evaluated with faithfulness proxies such as sufficiency and comprehensiveness, which measure how a model responds when a factor is removed. Practitioners, however, act by modifying factors rather than deleting them, and many highly attributed factors cannot be modified at all. An explanation may therefore be faithful yet operationally useless. We introduce ActionShap, a unified cooperative-game framework for measuring the actionability of attributions without recourse to human subjects. ActionShap formalizes clustering and recommendation as instances of a single importance-allocation problem, comprising static feature-player games and dynamic interaction-player games, and defines four computable quantities: an Actionability Score combining domain-elicited modifiability, realized effect under a feasible intervention, and attribution stability; Attribution--Intervention Alignment, the rank agreement between an attribution ordering and the measured intervention-effect ordering; and two decision-level metrics, top-$k$ intervention precision and intervention regret, which score an attribution by the quality of the action a practitioner would select from it. We prove that the attribution and intervention orderings coincide under local linearity and unit modifiability, and decompose the observed divergence into curvature, interaction, and infeasibility components using a Shapley allocation that is additive by construction. Across four public datasets and six attribution methods, we quantify how far faithfulness and actionability diverge, and introduce actionability-guided reranking, which surfaces modifiable drivers first and measurably changes which intervention a practitioner would select. \tbd{insert two headline numbers once experiments complete}}
-
-%% Discover AI requests 3--6 keywords.
-\keywords{Explainable AI, Shapley value, Cooperative game theory, Actionability, Attribution evaluation, Recommender systems}
-
 \maketitle
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Introduction}\label{sec1}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Flat, no subheadings: required by the Springer template and matching
-%% the introductions of [louhichi2023, louhichi2025, louhichi2026].
-%% Closes with a numbered contributions list and a roadmap paragraph,
-%% following the four-item bold-lead-in pattern of [louhichi2025].
+\begin{abstract}
+Recommendation explanations are commonly evaluated by deleting historical interactions, although deployed recommendation systems act through bounded changes to the influence of observed evidence. Deletion and feasible intervention therefore measure different properties. We introduce \textbf{ActionShap}, a model-agnostic protocol for evaluating whether user-specific explanation rankings predict the effects of declared, system-executable interventions. ActionShap separates deletion alignment, bounded-intervention alignment, and the quality of the joint action selected under a fixed budget. It fixes temporal splits, complete pre-test-history exclusion, target-plus-unseen-negative candidate sets, global tie priorities, signed action selection, abstention, convergence, and inference over distinct users. We evaluate Monte Carlo Shapley, locally weighted LIME, leave-one-out, greedy sequential deletion, and a random control on MovieLens-1M and Amazon Digital Music. The primary analysis uses a history-conditioned ItemKNN recommender, 1,000 users, five common seeds, and exact budget-two oracles; a latent profile model and full-unseen-catalogue subset provide robustness evidence. Shapley improves from deletion to bounded target-margin alignment in the primary ItemKNN conditions, with gaps of $+0.0169$ on MovieLens and $+0.1285$ on Amazon, but local methods retain higher absolute alignment and slightly better MovieLens NDCG decisions. The random control remains near its within-user null, showing that a positive gap alone is not evidence of explanation validity. ActionShap contributes an auditable evaluation instrument for separating perturbation sensitivity, absolute alignment, and intervention decision quality rather than claiming universal superiority for any explainer.
+\end{abstract}
 
-Attribution methods now mediate how analysts, regulators, and system designers interrogate opaque models. The implicit promise of an attribution is that a high score tells the user \emph{where to act}. Yet the criteria by which attributions are evaluated never test that promise. Faithfulness metrics---sufficiency, comprehensiveness, deletion and insertion curves---ask what happens to the output when a factor is \emph{removed} \cite{deyoung2020,hooker2019,covert2021}. A practitioner asks something different: what happens when a factor is \emph{changed by an amount they can actually realize}.
+\keywords{explainable recommendation \and intervention evaluation \and faithfulness \and actionability \and Shapley value \and LIME \and counterfactual recommendation}
 
-These two questions come apart for two reasons. The first is infeasibility. Many high-attribution factors are not modifiable by the decision-maker at all. In air-quality monitoring, temperature and dew point may dominate a cluster explanation while lying entirely outside operator control; only pollutant emissions can be acted upon. An attribution that ranks meteorological variables first is not wrong, but neither is it usable. The second is non-locality. Deletion moves a factor to a baseline that may sit far outside any feasible operating range, so the measured effect need not reflect the effect of a realistic adjustment, particularly where the model response is curved or the inputs are dependent \cite{janzing2020,haufe2026}.
+\section{Introduction}
+An explanation is often consumed as advice about where to act. A user, analyst, or system operator does not usually ask only whether a recommendation score changes when an input is deleted; they ask what will happen if a factor is discounted, suppressed, or otherwise modified within an available operating policy. The distinction is important in recommender systems because historical interactions are evidence, not necessarily controls. Removing an interaction can be a useful faithfulness diagnostic while being an unrealistic intervention.
 
-The gap between these two questions has recently been named. Position work argues that interpretability research should be evaluated by actionability---the extent to which insights enable concrete decisions and interventions---rather than by internal comparison among interpretability methods \cite{actionableinterp2026}. Complementary human-centred work catalogues the information categories that users draw on when taking action \cite{evalactionability2026}. What is missing is an operationalization: a computable definition of actionability, and an experimental protocol that measures it for attribution methods already in wide use. Accordingly, the central research question of this paper is: \emph{how can the qualitative notion of actionable insight be operationalized into metrics computable from a trained model alone, and do cooperative-game attributions score better on those metrics than the heuristic, gradient-based, and attention-based alternatives with which they compete?}
+This paper studies the resulting evaluation gap. We ask whether an attribution ranking predicts the effect of a feasible modification to the interaction history, and whether the explanation leads to a useful joint intervention under a fixed budget. The question is deliberately narrower than recourse: ActionShap does not claim that a user can cause a profile change, does not estimate causal effects in the world, and does not propose a new recommender architecture. It audits an explanation inside a frozen recommender and an explicitly declared intervention simulator.
 
-Cooperative game theory is the right substrate for the attempt. The Shapley value allocates credit under explicit axioms---efficiency, symmetry, the null-player property, and additivity---which make attributions complete and mutually commensurable \cite{shapley1953,lundberg2017}. Commensurability is a precondition for ranking candidate interventions against one another: heuristic and attention-based importance scores lack it, so their magnitudes cannot meaningfully be compared across factors. A cooperative formulation additionally allows two superficially different tasks to be treated as one problem. In explainable clustering the players are features and the characteristic function is a surrogate's cluster-membership probability \cite{louhichi2023,louhichi2025}; in recommendation the players are users, items, and contexts, and the characteristic function is a utility combining ranking quality, diversity, and context alignment \cite{louhichi2026}. Both are instances of a single importance-allocation problem, and both admit interventions.
+The protocol is motivated by three observations. First, deletion and bounded modification are different estimands. A deletion moves a factor to a baseline that may be far outside an operational range. Second, pointwise attribution quality does not determine decision quality: a method can rank individual effects well while selecting a harmful pair, or select a good pair despite modest average rank agreement. Third, a method comparison is not interpretable without a chance control, valid-user counts, convergence diagnostics, and inference over distinct users rather than repeated seed--user records.
 
-We therefore ask whether cooperative attributions predict what happens when a practitioner intervenes, and answer it by measurement rather than argument. The contributions are as follows.
+ActionShap addresses these issues with a history-conditioned interaction-player game. For each user, the most recent training interactions form the player set. A frozen ItemKNN model computes scores from the retained history at inference time, allowing masking and bounded downweighting to change the profile without retraining. The primary characteristic function is a continuous target-margin utility selected by an independent convergence study; NDCG@10 remains the operational ranking outcome. Every method receives the same temporal users, candidates, intervention strengths, action space, and tie rules.
 
+Our contributions are fourfold:
 \begin{enumerate}
-\item \textbf{An actionability formalism.} We operationalize actionable insight into three measurable ingredients---modifiability, feasible-intervention effect, and attribution stability---each computable from a trained model together with a declared domain protocol, and none requiring a human-subject study.
-
-\item \textbf{A four-metric evaluation suite.} We define an Actionability Score at the factor level, Attribution--Intervention Alignment at the method level, and two decision-level metrics, top-$k$ intervention precision and intervention regret, which evaluate an attribution by the quality of the action it induces rather than by rank correlation alone.
-
-\item \textbf{A unified game formulation with an alignment result.} We show that static feature-player games and dynamic interaction-player games instantiate one template, and prove that the attribution ordering and the intervention-effect ordering coincide exactly under local linearity, a common perturbation budget, and unit modifiability.
-
-\item \textbf{An additive decomposition of misalignment.} We attribute observed divergence to curvature, interaction, and infeasibility by treating the three mechanisms as players in a second cooperative game, so that the shares sum to the measured gap by efficiency rather than by post-hoc normalization.
-
-\item \textbf{A cross-regime empirical study with an algorithmic remedy.} We evaluate six attribution methods on four public datasets spanning clustering and recommendation, and introduce actionability-guided reranking, which prioritizes modifiable drivers and changes the intervention a practitioner would select.
+  \item We formalize a recommendation-specific evaluation protocol that separates deletion faithfulness, bounded intervention, and budgeted decision quality under a frozen model.
+  \item We provide complementary magnitude, signed-direction, success, abstention, regret, stability, and within-user null metrics, with explicit handling of constant vectors and inactive oracles.
+  \item We give executable algorithms for paired Monte Carlo attribution, signed action selection, the exact $B\le2$ oracle, user-level inference, and independent convergence selection.
+  \item We report a two-dataset, two-model, five-seed benchmark. The primary ItemKNN results show that Shapley can improve relative to deletion while LIME and LOO retain higher absolute alignment and downstream decision quality in some conditions.
 \end{enumerate}
 
-The remainder of this paper is organized as follows. Section~\ref{sec2} reviews attribution, faithfulness evaluation, recourse, and the emerging actionability literature. Section~\ref{sec3} presents the ActionShap methodology, including its comparative positioning, theoretical justification, and practical implementation. Section~\ref{sec4} describes the datasets, protocols, and validation measures, and reports results for the static and dynamic regimes in turn. Section~\ref{sec5} discusses contributions, applications, and limitations. Section~\ref{sec6} concludes.
+The paper makes no a priori claim that Shapley, LIME, LOO, or any other explainer is best. The framework is the contribution; method rankings are empirical and bounded by the declared offline simulator.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Literature review}\label{sec2}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Thematic subsections, per [louhichi2025] II.A-II.D. The
-%% differentiation table is deliberately NOT here; following that
-%% paper's habit it appears in the methodology, as Section 3.6.
-
-\subsection{Feature attribution and cooperative-game explanation}\label{subsec2_1}
-
-The Shapley value \cite{shapley1953} was introduced to allocate the value of a cooperative game among its players, and is the unique allocation satisfying efficiency, symmetry, the null-player property, and additivity. SHAP \cite{lundberg2017} recast feature attribution as such a game, with model-specific estimators including TreeSHAP for tree ensembles \cite{lundberg2020} and the model-agnostic KernelSHAP. Removal-based explanation methods, among them LIME \cite{ribeiro2016}, permutation importance, and occlusion, have been unified under a common framework parameterized by how features are removed, how the model is evaluated, and how the resulting summary is formed \cite{covert2021}. Our own prior work applies cooperative attribution to black-box clustering \cite{louhichi2023}, extends it to a scalable multilevel pipeline validated on high-dimensional environmental data \cite{louhichi2025}, and embeds it as an in-training signal in a dynamic hypergraph recommender \cite{louhichi2026}.
-
-\subsection{Evaluating explanations and the limits of faithfulness}\label{subsec2_2}
-
-Evaluation of attributions is dominated by faithfulness. Sufficiency and comprehensiveness measure the output change when top-attributed features are retained or deleted \cite{deyoung2020}; ROAR retrains after removing ranked features to control for distribution shift \cite{hooker2019}; sanity checks test sensitivity to model and data randomization \cite{adebayo2018}; and robustness measures test whether similar inputs receive similar explanations \cite{alvarezmelis2018}. Every one of these criteria is defined by a removal or a perturbation chosen for analytical convenience rather than by a change the decision-maker could realize, and none is feasibility-constrained. A recent analysis argues more broadly that the field lacks formal notions of explanation correctness, and that feature attribution methods systematically mislead under feature dependence \cite{haufe2026}---a finding that motivates both our intervention-grounded framing and the identifiability treatment of Section~\ref{subsec3_7}.
-
-\subsection{Counterfactual explanation and algorithmic recourse}\label{subsec2_3}
-
-Counterfactual explanation \cite{wachter2017} and algorithmic recourse \cite{ustun2019,karimi2021} are the closest existing work in spirit, since both are explicitly concerned with feasible change. Recourse produces a per-individual prescription: the minimal actionable modification that flips a supervised classifier's decision, optionally subject to causal constraints \cite{karimi2021}. Our object of study differs in three ways. ActionShap evaluates an \emph{attribution method} rather than prescribing an action for an individual; it applies to unsupervised clustering, where there is no decision boundary to flip; and it applies to recommendation, where individual recourse is undefined. Recourse asks what a person should do, whereas ActionShap asks whether an explanation would have told them.
-
-\subsection{Interpretability in clustering and recommendation}\label{subsec2_4}
-
-Interpretability for clustering divides into pre-clustering approaches that cluster in an interpretable space, in-clustering approaches that constrain the algorithm to interpretable structure, and post-clustering approaches that explain assignments after the fact. Post-hoc attribution over a surrogate classifier trained on cluster labels is the most common of these and is the setting we adopt \cite{louhichi2023,louhichi2025}. Existing evaluations report cluster-quality indices such as silhouette and Davies--Bouldin, which certify the partition but say nothing about whether the resulting explanation supports intervention. In recommendation, explanation is commonly attention-based, path-based, or counterfactual, with cooperative allocation also applied over graph-structured preference models \cite{nesmaoui2025}, and attention weights in particular are widely read as importance scores despite evidence that they need not behave as explanations \cite{jain2019}, a claim which has itself been contested \cite{wiegreffe2019}. That debate has been conducted almost entirely on classification tasks and almost entirely against faithfulness criteria.
-
-\subsection{Actionability as an evaluation objective}\label{subsec2_5}
-
-Actionability has recently been proposed as a first-class evaluation objective for interpretability, on the argument that methods are currently graded against one another rather than against downstream decisions \cite{actionableinterp2026}. Human-centred work approaches the same gap empirically, mapping information categories to the actions users take when given them \cite{evalactionability2026}. Both are essential framing, and both leave the operational question open: the former proposes criteria without instantiating them, and the latter measures actionability through interviews rather than through model interventions. Taken together, the literature supplies a faithfulness toolkit that is feasibility-blind, a recourse literature that prescribes actions without evaluating explanations, and an actionability literature that names the objective without computing it. ActionShap supplies the missing instrument.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Methodology}\label{sec3}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Pipeline-shaped subsections, closing with comparative analysis (3.6),
-%% theoretical justification (3.7), and practical implementation (3.8),
-%% mirroring [louhichi2025] III.D-III.F.
-
-\subsection{Notation and the unified cooperative game}\label{subsec3_1}
-
-Let $N$ denote the player set of a cooperative game, $S \subseteq N$ a coalition, and $v : 2^{N} \to \mathbb{R}$ the characteristic function, with $v(\varnothing) = 0$. The Shapley value of player $j$ is
-\begin{equation}
-\phi_j \;=\; \sum_{S \subseteq N \setminus \{j\}} \frac{|S|!\,\bigl(|N| - |S| - 1\bigr)!}{|N|!}\,\bigl[\,v(S \cup \{j\}) - v(S)\,\bigr],
-\label{eq1}
-\end{equation}
-with Monte-Carlo estimate $\hat{\phi}_j$. We write $f$ for the model output functional under study. Table~\ref{tab1} lists all symbols.
-
-A second cooperative game appears in Section~\ref{subsec3_7}, played over mechanisms rather than factors. To keep the two visibly distinct we reserve $v$ and $\phi$ for the attribution game over factor-players, and use $u$ and $\psi$ for the decomposition game over mechanism-switches. The two are never interchanged.
-
-\begin{table}[h]
-\caption{Notation. The manuscript uses two cooperative games at different levels; their symbols are kept distinct throughout.}\label{tab1}
-\begin{tabular*}{\textwidth}{@{\extracolsep\fill}ll}
-\toprule
-Symbol & Meaning \\
-\midrule
-\multicolumn{2}{@{}l}{\textit{Attribution game over factor-players}} \\
-$N$, $S$ & player set and coalition \\
-$v(S)$ & characteristic function of the attribution game \\
-$\phi_j$, $\hat{\phi}_j$ & Shapley value of factor $j$ and its Monte-Carlo estimate \\
-$f$ & model output functional under study \\
-$M$ & Monte-Carlo permutation samples \\
-\midrule
-\multicolumn{2}{@{}l}{\textit{Actionability quantities}} \\
-$m_j$ & modifiability of factor $j$, in $[0,1]$ \\
-$\tau_j$ & feasible perturbation budget for factor $j$ \\
-$\Delta_j$ & measured intervention effect \\
-$s_j$ & attribution stability over $R$ repetitions \\
-$\AS_j$, $\ASm_j$ & Actionability Score and its modifiability-held-out control \\
-$\AIA$ & Attribution--Intervention Alignment \\
-$\Ppre@k$, $\Reg$ & top-$k$ intervention precision and intervention regret \\
-$\delta$ & minimum practical effect magnitude \\
-$C$ & pre-declared candidate intervention set size \\
-$\eta$ & reranking mixing weight \\
-$R$ & attribution repetitions \\
-\midrule
-\multicolumn{2}{@{}l}{\textit{Decomposition game over mechanism-switches}} \\
-$\Sigma$, $Q$ & switch set $\{\mathrm{H1},\mathrm{H2},\mathrm{H3}\}$ and a subset of it \\
-$u(Q)$ & characteristic function of the decomposition game \\
-$\psi_c$ & Shapley allocation to mechanism $c$ \\
-$f_Q$ & model variant with the switches in $Q$ enabled \\
-\botrule
-\end{tabular*}
-\end{table}
-
-Both regimes studied here instantiate one template: a player set, a task-specific characteristic function, and a Shapley allocation. They differ only in what a player is and what the characteristic function measures, as set out in Table~\ref{tab2}. This unification is what allows a single actionability metric to be reported across tasks ordinarily evaluated by incomparable criteria.
-
-\begin{table}[h]
-\caption{The two regimes as instances of a single importance-allocation problem}\label{tab2}
-\begin{tabular*}{\textwidth}{@{\extracolsep\fill}lll}
-\toprule
- & Static regime (clustering) & Dynamic regime (recommendation) \\
-\midrule
-Players $N$ & features $\mathcal{F}$ & $\mathcal{U} \cup \mathcal{I} \cup \mathcal{C}$ (users, items, contexts) \\
-$v(S)$ & surrogate cluster-membership probability & $\alpha\,\mathrm{NDCG}@K(S) + \beta\,\mathrm{Div}(S) + \gamma\,\mathrm{Ctx}(S)$ \\
-Output $f$ & cluster or regime label & top-$N$ ranked list quality \\
-Intervention & adjust a physicochemical or pollutant variable & reweight an interaction, alter a context signal \\
-\botrule
-\end{tabular*}
-\end{table}
-
-\subsubsection{Static feature-player game}\label{subsubsec3_1_1}
-
-In the static regime we reuse the $k$-means--LightGBM--TreeSHAP formulation established in our earlier work \cite{louhichi2023,louhichi2025}. Partitioning is performed on the standardized full feature matrix; a principal-component projection is retained for visualization but is not part of the modelling path, so no inverse transform is required and attributions are natively expressed in original feature units. Features are players; a LightGBM surrogate is trained on the original features to predict the cluster label assigned by the unsupervised model; and $v(S)$ is the surrogate's predicted probability of the observed cluster given only the features in $S$. Eq.~\eqref{eq1} then distributes membership responsibility across features.
-
-Attributions therefore explain the surrogate's reconstruction of the partition rather than the partition's intrinsic quality, and are only as trustworthy as the surrogate is faithful. We report surrogate fidelity alongside every static-regime result for that reason.
-
-\subsubsection{Dynamic interaction-player game}\label{subsubsec3_1_2}
-
-In the dynamic regime we reuse the DyHuCoG coalition utility \cite{louhichi2026}, in which users, items, and contexts are heterogeneous players in a hypergraph and the coalition value combines ranking quality, diversity, and context alignment:
-\begin{equation}
-v(S) \;=\; \alpha\,\mathrm{NDCG}@20(S) \;+\; \beta\,\mathrm{Div}(S) \;+\; \gamma\,\mathrm{Ctx}(S), \qquad \alpha + \beta + \gamma = 1 .
-\label{eq2}
-\end{equation}
-The preference-weighted variant adds a similarity term,
-\begin{equation}
-v_{\mathrm{pref}}(S) \;=\; v(S) \;+\; \lambda_{\mathrm{pref}} \sum_{(u,i) \in S} \mathrm{sim}(u,i),
-\label{eq3}
-\end{equation}
-and the allocation is estimated by Monte-Carlo sampling over $M$ permutations,
-\begin{equation}
-\hat{\phi}_j \;=\; \frac{1}{M} \sum_{m=1}^{M} \bigl[\, v(S_m \cup \{j\}) - v(S_m) \,\bigr].
-\label{eq4}
-\end{equation}
-
-\subsection{Modifiability and feasible interventions}\label{subsec3_2}
-
-\begin{definition}[Modifiability]\label{def1}
-The modifiability $m_j \in [0,1]$ of factor $j$ quantifies the degree to which $j$ is under the decision-maker's control. A value of $m_j = 1$ denotes a directly controllable factor and $m_j = 0$ an immutable one; intermediate values encode partial, indirect, or costly control.
-\end{definition}
-
-Modifiability is a property of the deployment context rather than of the model, and is therefore elicited rather than computed. The elicitation is protocolized in Section~\ref{subsec4_2} and the resulting tables are published per dataset in Appendix~\ref{secA3}, so that the one subjective step in the framework is auditable and its influence on the conclusions can be tested directly. The distinction it encodes is already drawn informally in practice: in air-quality analysis, pollutant concentrations are intervention targets whereas temperature, pressure, and dew point are interpretive only. ActionShap makes the distinction explicit and numeric.
-
-\begin{definition}[Feasible intervention effect]\label{def2}
-For factor $j$ with feasible perturbation budget $\tau_j$,
-\begin{equation}
-\Delta_j \;=\; \mathbb{E}_{x}\Bigl[\, f\bigl(x \mid do(x_j \leftarrow x_j + \tau_j)\bigr) \;-\; f(x) \,\Bigr],
-\label{eq5}
-\end{equation}
-where $\tau_j$ is calibrated to a realistic operating range---one within-domain standard deviation, or a domain-specified achievable adjustment---and \emph{not} to a deletion baseline.
-\end{definition}
-
-The contrast with faithfulness is the point of the definition. Faithfulness sets $x_j$ to a baseline value, which is an unconstrained move and frequently an out-of-distribution one; Eq.~\eqref{eq5} restricts the move to what the decision-maker could bring about. Where the response is locally linear and all budgets are equal the two coincide up to scale, which is precisely the content of Proposition~\ref{prop1}.
-
-\subsection{Attribution stability and the Actionability Score}\label{subsec3_3}
-
-\begin{definition}[Stability]\label{def3}
-Over $R$ repeated attribution runs differing in random seed, Monte-Carlo draw, or perturbation neighbourhood,
-\begin{equation}
-s_j \;=\; \max\!\left(0,\; 1 - \frac{\mathrm{sd}(\hat{\phi}_j)}{\bigl|\overline{\hat{\phi}_j}\bigr| + \varepsilon}\right) \;\in\; [0,1].
-\label{eq6}
-\end{equation}
-\end{definition}
-
-Stability enters the actionability calculation because an attribution that changes between runs cannot responsibly be acted upon, however large its magnitude. We expect perturbation-based methods with stochastic neighbourhoods to be penalized here.
-
-We state the modelling assumption before the combining formula, since the functional form is a choice rather than a derivation. Actionability requires three conditions jointly: the factor must be controllable, the controllable change must move the output, and the attribution must be reliable enough to act on. Each condition is \emph{necessary}. A factor failing any one of them is not actionable at all, regardless of how well it scores on the other two---an immovable factor with a large effect is as useless as a movable factor with no effect. The combining function must therefore vanish whenever any argument vanishes and increase monotonically in each, and the product is the simplest such form. A weighted sum is rejected because it permits compensation across conditions, contradicting the definition. Section~\ref{subsec4_4} tests the choice against a normalized weighted sum and a min-based conjunctive alternative.
-
-\begin{definition}[Actionability Score]\label{def4}
-\begin{equation}
-\AS_j \;=\; m_j \cdot |\Delta_j| \cdot s_j .
-\label{eq7}
-\end{equation}
-\end{definition}
-
-\begin{remark}[Reporting guard]\label{rem1}
-Because $m_j = 0$ forces $\AS_j = 0$, any claim of the form ``the Actionability Score ranks unmodifiable factors last'' holds by construction and is not an empirical finding. We therefore report every Actionability Score alongside the modifiability-held-out control
-\begin{equation}
-\ASm_j \;=\; |\Delta_j| \cdot s_j ,
-\label{eq8}
-\end{equation}
-which carries no such tautology, and phrase the empirical claims on the attribution side: what is measured is the mass of attribution a method places on factors with $m_j = 0$, and the alignment it loses once feasibility is enforced.
-\end{remark}
-
-\subsection{Alignment and intervention-decision metrics}\label{subsec3_4}
-
-\begin{definition}[Attribution--Intervention Alignment]\label{def5}
-For attribution method $g$ on task $T$,
-\begin{equation}
-\AIA(g, T) \;=\; \rho\Bigl(\bigl[\,|\phi_j|\,\bigr]_{j \in N},\ \bigl[\,|\Delta_j|\,\bigr]_{j \in N}\Bigr),
-\label{eq9}
-\end{equation}
-with $\rho$ the Spearman rank correlation as the primary statistic and Kendall's $\tau$ reported for robustness.
-\end{definition}
-
-We additionally report \emph{modifiability-restricted} alignment, computed over $\{j : m_j > 0\}$ only, which isolates agreement on the factors a practitioner could act upon. The difference between the unrestricted and restricted values is the visible signature of the infeasibility mechanism analysed in Section~\ref{subsec3_7}.
-
-Alignment scores an ordering, but a practitioner acts on a choice. Two further metrics close that gap.
-
-\begin{definition}[Top-$k$ intervention precision]\label{def6}
-Let $\mathcal{K}_g$ be the top-$k$ factors under method $g$. Then
-\begin{equation}
-\Ppre@k(g) \;=\; \frac{1}{k}\Bigl|\bigl\{\, j \in \mathcal{K}_g \;:\; m_j > 0 \;\wedge\; \mathrm{sign}(\Delta_j) = \mathrm{sign}(\phi_j) \;\wedge\; |\Delta_j| \geq \delta \,\bigr\}\Bigr|,
-\label{eq10}
-\end{equation}
-the fraction of top-attributed factors that are modifiable and whose feasible intervention produces an effect of the predicted sign and at least a minimum practical magnitude $\delta$.
-\end{definition}
-
-\begin{definition}[Intervention regret]\label{def7}
-With $j^{\star}_{g} = \arg\max_{j : m_j > 0} |\phi_j|$ the modifiable factor the attribution recommends most strongly, and $j^{\mathrm{opt}} = \arg\max_{j : m_j > 0} |\Delta_j|$ the best feasible intervention,
-\begin{equation}
-\Reg(g) \;=\; \bigl|\Delta_{j^{\mathrm{opt}}}\bigr| - \bigl|\Delta_{j^{\star}_{g}}\bigr| \;\geq\; 0 ,
-\label{eq11}
-\end{equation}
-the outcome forgone by acting on the attribution's recommendation instead of the best available one. We report $\Reg$ normalized by $|\Delta_{j^{\mathrm{opt}}}|$ for cross-dataset comparability.
-\end{definition}
-
-Regret presupposes that the intervention sweep is exhaustive over the feasible set. This holds trivially for the eleven-feature wine task and remains cheap for air quality, but the recommendation tasks contain far too many players for an exhaustive sweep. There we define regret over a pre-declared candidate set of size $C$, comprising the top-$C$ players by attribution under \emph{any} of the compared methods together with a random control sample. The value of $C$ is stated per dataset in Section~\ref{subsec4_3}, so that the metric is reproducible and not silently dependent on the method being evaluated.
-
-\subsection{Actionability-guided reranking}\label{subsec3_5}
-
-\begin{definition}[A-Shapley reranking]\label{def8}
-\begin{equation}
-\tilde{\phi}_j \;=\; (1-\eta)\,\frac{|\phi_j|}{\max_k |\phi_k|} \;+\; \eta\,\frac{\AS_j}{\max_k \AS_k}, \qquad \eta \in [0,1],
-\label{eq12}
-\end{equation}
-interpolating between pure attribution at $\eta = 0$ and pure actionability at $\eta = 1$.
-\end{definition}
-
-Reranking is evaluated by the \emph{intervention switch rate}, the fraction of cases in which the top-ranked recommended intervention changes, and by the realized outcome improvement, reported in the same units as the regret it is intended to reduce.
-
-\subsection{Comparative analysis with existing evaluation methods}\label{subsec3_6}
-
-Table~\ref{tab3} positions ActionShap against the paradigms reviewed in Section~\ref{sec2}, and Fig.~\ref{fig1} contrasts the two evaluation regimes schematically. Faithfulness measures evaluate attributions but ignore feasibility entirely. Recourse and counterfactual methods respect feasibility but prescribe actions rather than evaluating explanations, and neither extends to unsupervised or ranking tasks. Human-centred actionability catalogues achieve feasibility grounding through user studies, which requires participant recruitment and ethical approval. The precise novelty claim is therefore this: ActionShap is the first framework to evaluate attribution methods against feasibility-constrained interventions rather than deletions, and the first to do so under a single cooperative-game formulation spanning unsupervised clustering and recommendation.
-
-\begin{table}[h]
-\caption{Positioning of ActionShap against existing evaluation and explanation paradigms. ``Evaluates attribution?'' distinguishes methods that score an explanation from methods that produce one.}\label{tab3}
-\begin{tabular*}{\textwidth}{@{\extracolsep\fill}lccccc}
-\toprule
-Approach & Evaluates & Feasibility- & Unsupervised & Recommen- & Model- \\
-         & attribution? & constrained? & tasks? & dation? & agnostic? \\
-\midrule
-Faithfulness (sufficiency, comprehensiveness) & Yes & No & Partial & Partial & Yes \\
-Deletion and insertion curves, ROAR & Yes & No & No & No & Yes \\
-Stability and sanity checks & Yes & No & Partial & No & Yes \\
-Algorithmic recourse & No & Yes & No & No & No \\
-Counterfactual explanation & No & Partial & No & Partial & No \\
-Human-centred actionability catalogues & Yes & Yes & Partial & Partial & Yes \\
-\textbf{ActionShap (this work)} & \textbf{Yes} & \textbf{Yes} & \textbf{Yes} & \textbf{Yes} & \textbf{Yes} \\
-\botrule
-\end{tabular*}
-\footnotetext{Human-centred actionability catalogues achieve feasibility grounding through user studies rather than model interventions, and therefore require participant recruitment; ActionShap does not.}
-\end{table}
-
-\begin{figure}[h]
+\begin{figure}[t]
 \centering
-\includegraphics[width=0.85\textwidth]{fig1_concept.pdf}
-\caption{Faithfulness and actionability ask different questions of the same attribution. Faithfulness moves a factor to a baseline, which may lie far outside any achievable operating range; actionability moves it by an amount the decision-maker can realize, and assigns no value to a factor that cannot be moved at all.}\label{fig1}
+\begin{tikzpicture}[
+  stage/.style={draw=black, fill=white, rounded corners=2pt, minimum width=7cm, minimum height=0.68cm, align=center, font=\small, line width=.7pt},
+  edge/.style={-{Latex[length=2mm]}, draw=black, line width=.8pt},
+  note/.style={draw=black, fill=white, rounded corners=2pt, align=left, font=\scriptsize, inner sep=4pt}
+]
+\node[stage] (a) {Temporal interactions and held-out target};
+\node[stage, below=3.5mm of a] (b) {Retained player window $P_u$};
+\node[stage, below=3.5mm of b] (c) {Frozen history-conditioned recommender};
+\node[stage, below=3.5mm of c] (d) {Fixed candidate set and global tie priority};
+\node[stage, below=3.5mm of d] (e) {Attribution methods};
+\node[stage, below=3.5mm of e] (f) {Deletion and bounded intervention};
+\node[stage, below=3.5mm of f] (g) {Target-margin and NDCG outcomes};
+\node[stage, below=3.5mm of g] (h) {AIA, nulls, regret, stability, and release};
+\foreach \x/\y in {a/b,b/c,c/d,d/e,e/f,f/g,g/h}{\draw[edge] (\x)--(\y);}
+\node[note, right=7mm of d, text width=3.3cm] (v) {\textbf{Validity controls}\\Temporal split; complete pre-test exclusion; independent candidate, user, tie, model, and attribution seeds.};
+\draw[edge] (v.west)--++(-4mm,0)|-(d.east);
+\node[note, right=7mm of g, text width=3.3cm] (q) {\textbf{Decision controls}\\Signed benefit, no-action option, exact $B\le2$ oracle, utility-specific regret, and conditional normalized regret.};
+\draw[edge] (q.west)--++(-4mm,0)|-(g.east);
+\end{tikzpicture}
+\caption{ActionShap evaluation architecture. The fixed vertical path separates player construction, model scoring, attribution, intervention execution, and outcome measurement. Side panels show controls held constant across methods.}
+\label{fig:architecture}
 \end{figure}
 
-\subsection{Theoretical justification}\label{subsec3_7}
+\section{Related Work}
+\subsection{Explainable recommendation}
+Explainable recommendation includes feature, item, path, attention, sentiment, and natural-language rationales. Surveys emphasize that these forms serve different objectives, including user persuasion, model fidelity, transparency, and preference communication \citep{zhang2020survey}. Latent-factor explanations expose item or feature contributions, while post-hoc methods apply model-agnostic surrogates such as LIME and SHAP \citep{peake2018,nobrega2019,ribeiro2016,lundberg2017}. Sentiment- and phrase-level models construct explanations during recommendation rather than evaluating a post-hoc attribution \citep{zhang2014,zheng2018}. ActionShap addresses a complementary question: whether an explanation predicts the outcome of a declared feasible change.
 
-\subsubsection{When the attribution and intervention orderings coincide}\label{subsubsec3_7_1}
+\subsection{Recommender models and offline evaluation}
+Classical matrix factorization and pairwise learning-to-rank remain foundations for offline recommendation \citep{koren2009,joachims2002,rendle2009,burges2005}. Neural collaborative filtering, recurrent session models, self-attentive sequence models, and bidirectional transformer recommenders broaden the architecture space \citep{he2017ncf,hidasi2016gru4rec,kang2018sasrec,sun2019bert4rec}. Graph recommenders introduce a further distinction between a trained graph representation and an inference-time profile intervention \citep{wang2019ngcf,he2020lightgcn}. We use ItemKNN as the primary model because its history dependence is transparent under masking; the profile aggregator is a robustness model, not a claim to cover all architectures.
 
-\begin{proposition}[Alignment under local linearity]\label{prop1}
-Let $f$ be locally linear on the feasible region, so that $f(x + \tau) = f(x) + \sum_j w_j \tau_j$; let all factors share a common budget $\tau_j = \tau$; and let $m_j = 1$ for all $j$. Then $|\Delta_j| = |w_j|\,\tau$, the Shapley ordering coincides with the intervention-effect ordering, and $\AIA = 1$.
-\end{proposition}
+Offline evaluation depends on temporal leakage, negative sampling, exposure, and the candidate universe. Results on a target-plus-negative set are sampled-ranking results, not catalogue retrieval. Evaluation choices can materially change rankings between methods and models \citep{harper2016,bennett2007,zheng2017,saito2021,ji2020,chen2022,mcnamara2017}. ActionShap fixes these choices before final testing, reports popularity references, and separates sampled ranking from full-unseen-catalogue evaluation.
 
-The proof appears in Appendix~\ref{secA1} and follows from the additivity of the induced game together with the efficiency of the Shapley value. The proposition is deliberately light: its role is to identify the exact conditions under which faithfulness-style and actionability-style evaluation agree, so that the empirical study may be read as measuring how far real settings depart from them.
+\subsection{Faithfulness, counterfactual evaluation, and recourse}
+Deletion and insertion tests measure model dependence but can be sensitive to the baseline and perturbation path. Sanity checks show that some attribution maps can appear plausible while failing model or data randomization tests \citep{adebayo2018}. Perturbation-based explanations also raise the question of whether the perturbation remains within a meaningful data manifold \citep{hooker2019}. Counterfactual recommendation and recourse methods instead search for profile or graph changes that alter a ranking or decision \citep{ghazimatin2020,tran2021,tan2021,yao2022,baklanov2024,barkan2024,gurevitch2025,mohammadi2025,nguyen2026,wachter2017,karimi2021}. ActionShap does not generate causal recourse. It evaluates an attribution under a fixed intervention policy and makes the policy, cost, authority, and offline limitations explicit.
 
-\subsubsection{Sources of misalignment}\label{subsubsec3_7_2}
+\subsection{Interpretable machine learning and cooperative attribution}
+Interpretability is not a single property: faithfulness, stability, simulatability, and usefulness can disagree \citep{gilpin2018,arrieta2020,molnar2022,samek2017,deyoung2020}. SHAP connects feature attribution with cooperative-game values, while sampling makes the construction applicable when exact enumeration is infeasible \citep{shapley1953,castro2009,lundberg2020,covert2021}. ActionShap treats Shapley as one interchangeable explainer. Its axioms do not imply causal validity, intervention feasibility, or decision superiority; these are measured separately.
 
-Proposition~\ref{prop1} can fail in exactly three ways, and the switches that restore it must be defined so that each targets one hypothesis and the three jointly restore all of them. The functional-ANOVA decomposition of $f$ over the feasible region,
-\begin{equation}
-f(x) \;=\; f_0 \;+\; \sum_j f_j(x_j) \;+\; \sum_{j<k} f_{jk}(x_j, x_k) \;+\; \cdots ,
-\label{eq13}
-\end{equation}
-separates the two ways local linearity can fail---nonlinear main effects, and cross terms---and gives each its own switch, as set out in Table~\ref{tab4}.
-
-\begin{table}[h]
-\caption{The three misalignment mechanisms, stated as hypotheses, with the switch that restores the corresponding hypothesis of Proposition~\ref{prop1}}\label{tab4}
-\begin{tabular*}{\textwidth}{@{\extracolsep\fill}llp{0.30\textwidth}p{0.30\textwidth}}
+\begin{table}[t]
+\centering
+\small
+\caption{Positioning by evaluation target.}
+\label{tab:positioning}
+\begin{tabular}{lcccc}
 \toprule
- & Mechanism & Hypothesis that fails & Switch that restores it \\
+Approach & Explainer audit & Feasible policy & Joint regret & Abstention\\
 \midrule
-H1 & Curvature & local linearity, through nonlinear main effects $f_j$ & replace each main effect by its linear part, $f_j(x_j) \to w_j x_j$, retaining interaction terms \\
-H2 & Interaction & local linearity, through cross terms $f_{jk}$ and higher & drop all higher-order terms, retaining nonlinear main effects \\
-H3 & Infeasibility & common budget $\tau_j = \tau$ and $m_j = 1$ for all $j$ & impose a common budget and restrict to $\{j : m_j = 1\}$ \\
-\botrule
-\end{tabular*}
+Deletion/insertion & Yes & No & No & No\\
+Counterfactual explanation & Usually generates & Method-specific & Sometimes & Method-specific\\
+Algorithmic recourse & No & Yes & Optimization target & Often\\
+ActionShap & Yes & Yes & Yes & Yes\\
+\bottomrule
+\end{tabular}
 \end{table}
 
-The intuitive switch for interaction---replacing single-factor interventions with joint perturbation of the top-$k$ set---is deliberately not used. Additivity in Proposition~\ref{prop1} derives from efficiency over the full player set, so a top-$k$ joint perturbation narrows the gap without provably closing it unless $k = |N|$, which would leave H2 weaker than H1 and H3 and convert part of the residual into an unnamed fourth mechanism. The functional-ANOVA switches avoid this, since H1 and H2 together yield $f_0 + \sum_j w_j x_j$, which is exactly local linearity. The top-$k$ coalitional perturbation is retained as a robustness probe in Section~\ref{subsec4_4}, where it carries no load-bearing claim.
-
-We hypothesize that H3 dominates, since it is the only mechanism that operates even when the model is perfectly linear and perfectly estimated. This is a prediction rather than a result; Section~\ref{subsec4_7} reports the three allocations with confidence intervals and the conclusion follows the data. \tbd{state the measured ordering once available; if H3 does not dominate, report that plainly---the contribution is the decomposition, not the ordering}
-
-\subsubsection{Identifiability of the curvature--interaction split}\label{subsubsec3_7_3}
-
-The H1 and H2 switches are well defined only if the decomposition of $f$ into main effects and interactions is unique, which in general it is not. Under the standard functional-ANOVA decomposition, orthogonality of the components requires independent inputs; under dependent inputs the split is unidentified and a main-effect function can absorb interaction signal \cite{hooker2007}. This is not hypothetical for the datasets used here, since the air-quality features are strongly dependent---temperature with dew point, and particulate measurements with one another---which is precisely the regime in which naive fitting misallocates, and is an instance of the broader dependence problem recently identified for attribution methods generally \cite{haufe2026}.
-
-Two consequences follow, and both are built into the protocol. First, we fit a \emph{single} generalized additive model with pairwise interactions \cite{lou2013} over the feasible region and purify it, moving interaction mass into main effects until the interaction terms have zero conditional means and the decomposition is unique \cite{lengerich2020}. Both switches are then derived as projections of that one fitted object: H2 drops the purified $f_{jk}$ terms, and H1 replaces the purified $f_j$ with their linear parts. Fitting an interaction-free and an interaction-bearing surrogate independently would allow the two fits to disagree about what the main effects are, reintroducing exactly the absorption problem that purification removes. Second, we report a concurvity diagnostic together with a shape-shift check, refitting main effects with pairwise terms present and absent and reporting the displacement of the shape functions. Large displacement indicates that absorption is occurring and that the split is unstable; small displacement licenses it. A pairwise model captures interactions only to second order, so any higher-order structure falls into the residual rather than into the interaction share, and we disclose this as a ceiling on the decomposition.
-
-\subsubsection{A Shapley decomposition of the misalignment gap}\label{subsubsec3_7_4}
-
-The natural estimator for each mechanism is a one-at-a-time difference: enable one switch and record how much alignment improves. This does not license describing the results as shares of a total, for three reasons. Alignment is a rank correlation rather than a variance, so differences between Spearman coefficients have no additive structure. The switches interact in their effect on alignment even though they target orthogonal components of $f$, because removing interaction changes which main effects dominate the ranking, so one-at-a-time estimates double-count. And sequential ablation is order-dependent, with no principled basis for choosing an order.
-
-We therefore treat the three switches as players in a second cooperative game and allocate the gap by the Shapley value, applying the solution concept this paper studies to the question of why that concept's attributions misalign. Let $\Sigma = \{\mathrm{H1}, \mathrm{H2}, \mathrm{H3}\}$ and let $\AIA(Q)$ denote alignment measured with the switches in $Q \subseteq \Sigma$ enabled. Define
+\section{Problem Formulation}
+\subsection{Temporal user-specific game}
+For user $u$, let $H_u^{\mathrm{train}}$ contain interactions before validation and test. The player set is the most recent training window,
 \begin{equation}
-u(Q) \;=\; \AIA(Q) - \AIA(\varnothing), \qquad u(\varnothing) = 0 ,
-\label{eq14}
+P_u=\{p_{u1},\ldots,p_{un_u}\},\qquad n_u\le n_{\max}=20.
 \end{equation}
-and allocate by
+Interactions are ordered by $(\mathrm{timestamp},\mathrm{original\_record\_index})$; the last event is test and the preceding event is validation. Validation and test events are never players. Models are fitted using complete training histories; the cap limits only the explanation game.
+
+Every user has a fixed candidate set $E_u$ containing the held-out target and sampled negatives. Negatives exclude the complete pre-test history, including validation. The user seed, candidate seed, tie seed, model seed, and attribution seed are independent. Full-catalogue robustness uses the target plus all unseen items. Target coverage is one by construction and is not called retrieval recall.
+
+\subsection{History-conditioned recommenders}
+The primary ItemKNN score is a weighted mean of frozen item--item similarities:
 \begin{equation}
-\psi_c \;=\; \sum_{Q \subseteq \Sigma \setminus \{c\}} \frac{|Q|!\,\bigl(|\Sigma| - |Q| - 1\bigr)!}{|\Sigma|!}\,\bigl[\, u(Q \cup \{c\}) - u(Q) \,\bigr], \qquad c \in \Sigma .
-\label{eq15}
+f_u^S(i)=
+\begin{cases}
+\displaystyle\frac{\sum_{h\in S}w_hs(i,h)}{\sum_{h\in S}w_h},&S\ne\varnothing,\\[6pt]
+0,&S=\varnothing.
+\end{cases}
 \end{equation}
+A profile aggregator is used for robustness,
+\begin{equation}
+p_u(S)=
+\begin{cases}
+\displaystyle\frac{\sum_{h\in S}w_hq_h}{\sum_{h\in S}w_h},&S\ne\varnothing,\\[6pt]
+\mathbf 0,&S=\varnothing,
+\end{cases}
+\qquad f_u^S(i)=q_i^\top p_u(S).
+\end{equation}
+Its item embeddings are trained once with a leave-one-out BPR-style objective and then frozen. Static user embeddings are excluded from attribution because post-training history masking cannot change their scores.
 
-\begin{corollary}[Exact additivity of the decomposition]\label{cor1}
-By efficiency of the Shapley value, $\psi_{\mathrm{H1}} + \psi_{\mathrm{H2}} + \psi_{\mathrm{H3}} = u(\Sigma) = \AIA(\Sigma) - \AIA(\varnothing)$. The three mechanisms therefore partition the measured closed portion of the misalignment gap exactly, and the allocation is order-independent and symmetric.
-\end{corollary}
+\subsection{Utilities and interventions}
+The primary characteristic function is the target-margin utility
+\begin{equation}
+v_u^{\mathrm{attr}}(S)=\sigma\left(s_y^S-\frac{1}{L}\sum_{i\in\operatorname{TopL}_{-y}}s_i^S\right),
+\end{equation}
+where $y$ is the temporal target. The operational ranking outcome is
+\begin{equation}
+q_u(S)=\NDCG@10(f_u^S,y).
+\end{equation}
+All effects and regrets are stored separately for target margin and NDCG. The empty coalition has target-margin utility $0.5$ and deterministic catalogue ties.
 
-Under the switch definitions above, the grand coalition satisfies the hypotheses of Proposition~\ref{prop1} on the surrogate, so $\AIA(\Sigma) = 1$ would hold were the surrogate exact. We therefore report $\AIA(\Sigma)$ empirically and carry the shortfall $1 - \AIA(\Sigma)$ as a separate residual. It is worth stating what Corollary~\ref{cor1} does and does not require: efficiency holds for any characteristic function, so additivity, order-independence, and the absence of double-counting are unconditional and do not depend on the switches being well designed. The switch definitions govern only whether $u(\Sigma)$ may be read as the full gap, which is why $\AIA(\Sigma)$ is measured rather than assumed. The residual is ambiguous by construction between surrogate approximation error, interaction beyond the pairwise ceiling, and a genuine mechanism outside H1--H3, and we do not pre-name it: it is adjudicated against the surrogate fidelity and shape-shift diagnostics, and a large residual accompanied by high fidelity is reported as implicating a mechanism the framework does not capture.
+Deletion is the diagnostic $w_p\leftarrow0$. The primary feasible intervention is bounded downweighting,
+\begin{equation}
+\operatorname{do}(p;\rho):w_p\leftarrow\rho w_p,\qquad \rho=0.5,
+\end{equation}
+with $\rho=0.25$ as a predeclared sensitivity. No model retraining occurs after an intervention.
 
-\subsection{Practical implementation}\label{subsec3_8}
+The action space is
+\begin{equation}
+\mathcal A_{u,B}=\{A\subseteq P_u:|A|\le B\},
+\end{equation}
+including no action. The primary scientific budget is $B=2$. A signed attribution predicts downweighting benefit as $-\phi$; only positive predicted benefit is selected. LOO is an algebraic deletion oracle at $B=1$, not a headline competitor.
 
-ActionShap wraps any attribution method in the six-stage procedure of Algorithm~\ref{algo1}, illustrated in Fig.~\ref{fig2}. The model is attributed repeatedly to establish stability; each factor is perturbed by a feasible amount and the realized effect recorded; the two orderings are compared; and the attribution is optionally reranked to prioritize modifiable drivers. Nothing in the procedure requires retraining and the attribution stage is unchanged from the underlying method, so ActionShap can be applied to published models as an audit.
+\section{ActionShap Protocol}
+\subsection{Attribution methods}
+For permutation $\pi$, let $S_{p,\pi}$ be the predecessor coalition of player $p$. The Monte Carlo Shapley estimate is
+\begin{equation}
+\widehat\phi_{u,p}=\frac{1}{M}\sum_{m=1}^{M}\left[v(S_{p,\pi_m}\cup\{p\})-v(S_{p,\pi_m})\right].
+\end{equation}
+Reverse orders are paired and coalition states are cached. The comparison includes locally weighted binary-mask LIME, LOO, greedy sequential deletion, and random attribution. No method observes measured intervention effects, oracle actions, or aggregate test outcomes.
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.95\textwidth]{fig2_workflow.pdf}
-\caption{Workflow of the proposed ActionShap framework. A trained model is attributed over $R$ repetitions to yield an attribution vector and a per-factor stability score; domain-elicited modifiability and feasible budgets define an intervention per factor; measured intervention effects are compared against the attribution ordering to give Attribution--Intervention Alignment; and the Actionability Score combines the three ingredients for actionability-guided reranking.}\label{fig2}
-\end{figure}
+\subsection{Metrics}
+Magnitude AIA is
+\begin{equation}
+\AIA_u(g)=\operatorname{Spearman}(|\phi^g_{u,p}|,|\Delta^{\mathrm{attr}}_{u,p}|).
+\end{equation}
+Deletion AIA and bounded AIA are reported separately; their difference is the Actionability Gap. Signed alignment compares $-\phi$ with signed intervention effects. We also report direction accuracy, top-$k$ precision, realized effect, success, harm, abstention, and stability.
 
-\begin{algorithm}[h]
-\caption{ActionShap evaluation of an attribution method}\label{algo1}
+For each user and seed, 1,000 within-user permutations shuffle effect magnitudes across players. We report null means, null 95th percentiles, plus-one permutation $p$-values, and valid-user counts. Constant vectors are missing, not imputed.
+
+\subsection{Decision quality and regret}
+For utility $z$, the exact budget-two oracle is
+\begin{equation}
+A_u^{*,z}=\arg\max_{A\in\mathcal A_{u,2}}\Delta_u^z(A),
+\end{equation}
+and the method action is $\widehat A_{u,g}$. Regret is
+\begin{equation}
+\operatorname{Regret}_u^z(g)=\Delta_u^z(A_u^{*,z})-\Delta_u^z(\widehat A_{u,g}).
+\end{equation}
+Normalized regret is reported only when $\Delta_u^z(A_u^{*,z})>10^{-12}$ and is averaged conditionally over active-oracle users. It is not clipped; harmful actions may exceed one.
+
+\begin{algorithm}[t]
+\caption{Paired Monte Carlo attribution}
+\label{alg:shapley}
 \begin{algorithmic}[1]
-\Require Trained model $f$; player set $N$; attribution method $g$; modifiability map $m$; budget map $\tau$; repetitions $R$
-\Ensure Per-factor scores $\AS_j$; method-level $\AIA$, $\Ppre@k$, $\Reg$; reranked ordering $\tilde{\phi}$
-\For{$r = 1$ to $R$}
-    \State $\phi^{(r)} \gets g(f, N)$ \Comment{repeat under seed $r$}
+\Require $u,P_u,v,M$, attribution seed
+\Ensure $\widehat{\boldsymbol\phi}_u$
+\State Initialise $\hat\phi_{u,p}\gets0$ for all $p\in P_u$
+\For{$m=1$ to $M$}
+\State Draw $\pi_m$ and its reverse; evaluate the cached prefix walk
+\For{each consecutive pair $(S,S\cup\{p\})$}
+\State $\hat\phi_{u,p}\gets\hat\phi_{u,p}+v(S\cup\{p\})-v(S)$
 \EndFor
-\State $\phi_j \gets \mathrm{mean}_r\,\phi_j^{(r)}$ and $s_j \gets$ stability from dispersion across $r$ \Comment{Definition~\ref{def3}}
-\For{each $j \in N$}
-    \State $\Delta_j \gets \mathbb{E}_x\bigl[f(x \mid do(x_j \leftarrow x_j + \tau_j)) - f(x)\bigr]$ \Comment{Definition~\ref{def2}}
-    \State $\AS_j \gets m_j \cdot |\Delta_j| \cdot s_j$ \Comment{Definition~\ref{def4}}
 \EndFor
-\State $\AIA \gets \rho\bigl([\,|\phi_j|\,]_{j \in N},\ [\,|\Delta_j|\,]_{j \in N}\bigr)$ \Comment{Definition~\ref{def5}}
-\State compute $\Ppre@k$ and $\Reg$ \Comment{Definitions~\ref{def6} and \ref{def7}}
-\State $\tilde{\phi} \gets$ actionability-guided reranking of $\phi$ at weight $\eta$ \Comment{Definition~\ref{def8}}
-\State \Return $\AS$, $\AIA$, $\Ppre@k$, $\Reg$, $\tilde{\phi}$
+\State Average over orders and record finite/constant-vector flags
 \end{algorithmic}
 \end{algorithm}
 
-Attribution cost is unchanged from the underlying method. ActionShap adds $\mathcal{O}(|N| \cdot R)$ attribution repetitions for stability and $\mathcal{O}(|N|)$ intervention evaluations, both embarrassingly parallel and negligible relative to model training. The decomposition of Section~\ref{subsubsec3_7_4} requires eight configurations per method--dataset pair, but these are projections of a single purified surrogate fit rather than eight independent experiments, and each reduces to a rank correlation over cached intervention values. In the dynamic regime the surrogate is fitted over the pre-declared candidate set of size $C$, so no additional scaling parameter is introduced.
+\begin{algorithm}[t]
+\caption{Signed action selection and exact budget-two oracle}
+\label{alg:actions}
+\begin{algorithmic}[1]
+\Require $\hat{\boldsymbol\phi}_u$, profile weights, $\rho=0.5$, candidate set
+\Ensure Method action and utility-specific oracle actions
+\State Enumerate $\varnothing$, every singleton, and every pair
+\For{each action $A$}
+\State Apply $w_p\gets\rho w_p$ simultaneously for $p\in A$
+\State Cache target-margin and NDCG effects
+\EndFor
+\State Select $\arg\max_A[-\sum_{p\in A}\hat\phi_{u,p}]$ over positive scores
+\State Return $\varnothing$ when the best score is at most $10^{-12}$
+\State Select the exact oracle separately for each utility
+\end{algorithmic}
+\end{algorithm}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Experimental results}\label{sec4}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Setup and results combined, per [louhichi2025] Section IV.
-%% 4.1 datasets, 4.2 protocols (the "optimization strategies" slot),
-%% 4.3 validation measures and comparative analysis, 4.4 influence of
-%% algorithm parameters, then one analysis block per regime with the
-%% repeated 1)/2)/3) template and a closing discussion on the second.
-%%
-%% WRITING NOTE (delete before submission): word budget is roughly
-%% 200-300 words per sub-subsection. If the draft runs long, the cut
-%% order is: (1) fold 4.7.3 into the caption of Table 15; (2) move the
-%% decomposition table to Appendix A, keeping a three-sentence summary;
-%% (3) move Table 1 (notation) and Table 8 (parameters) to the appendix;
-%% (4) merge Tables 6 and 7 into a single setup table.
-%% Sections 4.5.3 and 4.6.2 carry the decision-level and
-%% Shapley-vs-attention results and are not to be cut.
+\begin{algorithm}[t]
+\caption{Distinct-user inference and AIA null}
+\label{alg:inference}
+\begin{algorithmic}[1]
+\Require Five seed records per user and $R=1000$ null draws
+\Ensure User-level estimates and corrected comparisons
+\For{each distinct user $u$}
+\State Average repeated seeds within $u$
+\State Compute AIA only for finite, nonconstant vectors
+\For{$r=1$ to $R$}
+\State Shuffle effect magnitudes within $u$ and seed; recompute AIA
+\EndFor
+\EndFor
+\State Bootstrap users; apply paired plus-one tests and Holm correction
+\end{algorithmic}
+\end{algorithm}
 
-\subsection{Datasets description}\label{subsec4_1}
+\begin{algorithm}[t]
+\caption{Independent convergence selection}
+\label{alg:convergence}
+\begin{algorithmic}[1]
+\Require $M\in\{25,50,100,250,500,1000\}$ and independent $M=1000$ reference
+\Ensure Selected $M$ or explicit unconverged status
+\For{each candidate $M$}
+\State Compare attribution ranks and signed-$B=2$ action Jaccard with reference
+\State Record rank-valid fraction and threshold coverage
+\EndFor
+\State Select smallest $M$ with rank $\ge.95$, Jaccard $\ge.80$, rank validity $\ge.95$
+\If{no candidate qualifies}\State Retain $M=1000$ as unconverged stress test\EndIf
+\end{algorithmic}
+\end{algorithm}
 
-We evaluate on four public datasets spanning both regimes, summarized in Table~\ref{tab5}. All four have been used in our prior work, so models, preprocessing, and training protocols are established and reused without modification; the contribution of this paper lies in the evaluation applied to them, not in new models.
+\section{Experimental Protocol}
+\subsection{Datasets and temporal split}
+We use MovieLens-1M \citep{harper2016,ni2019} and Amazon Digital Music reconstructed from the Amazon Reviews 2018 release. Positive feedback is rating $\ge4$; Amazon duplicate user--item records retain the latest deterministic event and iterative 5-core filtering is reapplied after thresholding. MovieLens retains 6,035 users, 3,533 items, and 575,276 positive interactions. Amazon retains 10,623 users, 8,582 items, and 104,431 interactions. Source and processed hashes are recorded in the final manifest.
 
-\begin{table}[h]
-\caption{Dataset characteristics and task instantiation. All datasets are public; preprocessing follows the cited prior work without modification.}\label{tab5}
-\begin{tabular*}{\textwidth}{@{\extracolsep\fill}lllll}
-\toprule
-Dataset & Regime & Players & Output $f$ & Source \\
-\midrule
-Wine Quality & static & 11 physicochemical features & cluster-membership probability & \cite{cortez2009} \\
-Beijing Multi-Site Air Quality & static & pollutant and meteorological features & pollution-regime assignment & \cite{zhang2017} \\
-MovieLens-1M & dynamic & users, items, contexts & NDCG@20, coverage, ILD & \cite{harper2015} \\
-Amazon-Book & dynamic & users, items, contexts & NDCG@20, coverage, ILD & \cite{louhichi2026} \\
-\botrule
-\end{tabular*}
-\end{table}
+\subsection{Models, candidates, and gates}
+The matrix includes ItemKNN and profile aggregation, five seeds, primary 1,000-user sampled ranking, 250-user full-catalogue subsets, and predeclared history, candidate, intervention-strength, budget, and utility sensitivities. ItemKNN passes all blocking masking gates. The profile model fails the NDCG masking threshold for one MovieLens seed (mean absolute change $0.000682$ versus $0.001$) and is retained as a nonblocking robustness boundary.
 
-\subsubsection{Static regime datasets}\label{subsubsec4_1_1}
+\subsection{Statistical analysis}
+Seeds are averaged within distinct users before inference. We use user bootstrap intervals, paired plus-one sign permutations, effect sizes, and Holm correction within comparison families. We report missing correlations, active-oracle counts, and conditional normalized regret. No coalition evaluation is an independent statistical observation.
 
-The white variant of the Portuguese \emph{vinho verde} wine quality dataset provides eleven physicochemical features over 4{,}898 instances, all numeric and all in principle adjustable within a production process, which makes it the setting in which modifiability is least contested. The quality score is excluded, since the task is unsupervised. The Beijing multi-site air quality dataset provides pollutant and meteorological measurements across twelve monitoring stations, yielding 383{,}585 complete hourly observations once rows with missing values in the eleven retained variables are dropped. It is the more important of the two for this study, because its factor set divides cleanly into variables an operator can influence, namely pollutant concentrations, and variables an operator can only observe, namely temperature, pressure, dew point, and wind. That division supplies the negative control: a method that ranks meteorological variables highly is faithful but not actionable, which is exactly the phenomenon under study.
+\subsection{Reproducibility}
+The real result archive contains 80 recommendation runs plus five convergence studies. All assets in this manuscript are generated from schema-v2 raw results with repository-relative paths and content hashes. The primary ItemKNN target-margin analysis uses at least $M=500$ permutations; the independent convergence study selects lower diagnostic values for some conditions, while the conservative final floor is retained.
 
-\subsubsection{Dynamic regime datasets}\label{subsubsec4_1_2}
+\section{Results}
+All numerical claims below are generated only when `final/manifests/validation_report.json` reports PASS. The legacy pilot is excluded from the canonical package.
 
-MovieLens-1M and Amazon-Book are used with the splits, filtering, and evaluation cutoffs of our prior recommendation work \cite{louhichi2026}, so that the attribution signals under comparison are extracted from models already validated on those benchmarks. Players here are heterogeneous: users, items, and contexts occupy the same player set, and an intervention correspondingly means reweighting an interaction, altering a context signal, or adjusting an item's exposure rather than changing a scalar feature value.
+\subsection{Recommendation quality and protocol audit}
+Table~\ref{tab:protocol-audit} shows that primary ItemKNN exceeds the popularity reference on both datasets. MovieLens ItemKNN reaches NDCG@10 $=0.284$ and Recall@10 $=0.504$, compared with $0.158$ and $0.320$ for popularity. Amazon ItemKNN reaches $0.181$ and $0.285$, compared with $0.090$ and $0.155$. The profile model is weaker on both datasets and is therefore interpreted only as architectural robustness evidence.
 
-\subsection{Modifiability elicitation and intervention protocols}\label{subsec4_2}
+\safeinput{paper-v2/final/tables/protocol_audit.tex}
 
-Modifiability was elicited by the three authors, working independently and blind to model outputs, against a rubric specified in advance. We state this here rather than only in the declarations: the annotators are the authors, so this is expert self-elicitation and not blind third-party annotation, and the safeguards below are designed accordingly. \tbd{if the external check is obtained, revise to report it; if not, retain the statement that no external annotation was obtained}
+\subsection{Faithfulness versus bounded alignment}
+Table~\ref{tab:aia-components} separates deletion AIA, bounded AIA, and their difference. On MovieLens ItemKNN, Shapley has bounded AIA $0.779$ versus $0.933$ for LIME and $0.978$ for LOO. On Amazon, Shapley has bounded AIA $0.414$ versus $0.827$ and $0.851$. Thus Shapley does not win absolute alignment.
 
-The rubric, published verbatim in Appendix~\ref{secA3}, discretizes the modifiability of Definition~\ref{def1} into three levels: it assigns $m_j = 1.0$ to factors directly controllable by the decision-maker, $m_j = 0.5$ to factors controllable indirectly or at substantial cost or delay, and $m_j = 0.0$ to factors that are observable but immutable. Annotation was completed and frozen, with a timestamped commit in the released repository, before any attribution or intervention result was inspected. This pre-registration is the substantive safeguard, since it prevents modifiability from being tuned toward a favourable finding, and it is stronger than annotator independence alone. We report Krippendorff's $\alpha$ across the three annotators, described accurately as intra-team agreement: it measures the clarity of the rubric rather than domain consensus. Disagreements were resolved by discussion and the final per-dataset tables are released. \tbd{external check: two domain-adjacent colleagues outside the author team annotate the air-quality dataset; report agreement with the author labels}
+The contrast is in the change between perturbations. Shapley’s primary gap is $+0.0169$ on MovieLens and $+0.1285$ on Amazon. LIME and LOO are negative. The random control is close to zero and its confidence intervals include zero in the primary conditions. Greedy is negative on the primary conditions. The gap therefore measures a change of evaluation target; it is not an explanation-validity score.
 
-Table~\ref{tab6} summarizes the protocol elements and the purpose each serves. Interventions are specified per dataset in advance and released in Appendix~\ref{secA4}: for wine, a physicochemical variable is adjusted within an achievable production range and the change in cluster-assignment probability recorded; for air quality, a pollutant concentration is reduced by a policy-realistic percentage and the regime-reassignment rate recorded; for recommendation, an interaction is reweighted or removed, a context signal injected or suppressed, or an item's exposure adjusted, and the realized change in NDCG@20, coverage, and intra-list diversity recorded.
-
-\begin{table}[h]
-\caption{Protocol elements and the purpose each serves. Every element is fixed before results are inspected.}\label{tab6}
-\begin{tabular*}{\textwidth}{@{\extracolsep\fill}p{0.34\textwidth}p{0.58\textwidth}}
-\toprule
-Element & Purpose \\
-\midrule
-Pre-specified modifiability rubric & Fixes the mapping from domain control to $m_j$ before any result is seen \\
-Frozen, timestamped annotation & Prevents $m_j$ from being tuned toward a favourable finding \\
-Intra-team agreement ($\alpha$) & Measures rubric clarity, reported as such rather than as domain consensus \\
-Per-dataset budgets $\tau_j$ & Restricts each intervention to a realistic operating range \\
-Practical threshold $\delta$ & Excludes effects too small to matter operationally from $\Ppre@k$ \\
-Candidate set size $C$ & Makes intervention regret computable and method-independent in the dynamic regime \\
-Purified GA2M surrogate & Gives an identifiable curvature--interaction split under dependent inputs \\
-\botrule
-\end{tabular*}
-\footnotetext{Modifiability values, annotator assignments, and agreement statistics appear per dataset in Appendix~\ref{secA3}.}
-\end{table}
-
-\subsection{Validation measures and comparative analysis}\label{subsec4_3}
-
-All metrics are defined in Section~\ref{sec3} and are instantiated here rather than introduced. We report alignment with Spearman as primary and Kendall's $\tau$ for robustness, together with modifiability-restricted alignment; Actionability Score distributions alongside the modifiability-held-out control of Eq.~\eqref{eq8}; top-$k$ intervention precision at $k \in \{1, 3, 5\}$ and normalized intervention regret, with candidate set sizes \tbd{$C$ values}; stability $s_j$; and, for contrast, standard sufficiency and comprehensiveness, so that the comparison in Section~\ref{subsec4_7} is like-for-like.
-
-Six importance signals are compared, listed in Table~\ref{tab7}: TreeSHAP as used in our clustering pipeline \cite{lundberg2020}, KernelSHAP, LIME \cite{ribeiro2016}, permutation importance, integrated gradients in the dynamic regime \cite{sundararajan2017}, and the DyHuCoG attention gate \cite{louhichi2026}. The last is of particular interest. Because DyHuCoG contains both a Shapley weighting and an attention mechanism, we can ask which of two importance signals \emph{inside the same trained model} is more actionable, measured against a common intervention set, which isolates the importance signal from every other source of variation.
-
-\begin{table}[h]
-\caption{Importance signals compared, with the regime in which each is defined and the role it plays in the comparison}\label{tab7}
-\begin{tabular*}{\textwidth}{@{\extracolsep\fill}llp{0.44\textwidth}}
-\toprule
-Signal & Regime & Role \\
-\midrule
-TreeSHAP & static & cooperative attribution used in the established clustering pipeline \\
-KernelSHAP & both & model-agnostic cooperative baseline \\
-LIME & both & local surrogate baseline, expected to be penalized on stability \\
-Permutation importance & both & removal-based baseline without a game-theoretic guarantee \\
-Integrated gradients & dynamic & gradient-based baseline for the neural recommender \\
-DyHuCoG attention gate & dynamic & non-cooperative importance signal from the same trained model \\
-\botrule
-\end{tabular*}
-\end{table}
-
-Experiments use Python 3.8 and PyTorch 2.0.1 on a single RTX 4090, matching the hardware of our prior work \cite{louhichi2026}. Attributions are repeated $R = 5$ times under seeds $\{42, 43, 44, 45, 46\}$, and all results are reported as mean $\pm$ standard deviation with 95\% confidence intervals. Code, modifiability tables, intervention protocols, and the frozen annotation commit are released publicly. \tbd{repository DOI}
-
-\subsection{Influence of algorithm parameters}\label{subsec4_4}
-
-Before reporting the main results we establish that the conclusions do not depend on protocol choices. Table~\ref{tab8} varies each element in turn and reports whether the ranking of methods by alignment is preserved. The elements examined are the perturbation budget $\tau$; jittered modifiability values, which test the one elicited quantity directly; the two alternative functional forms for the Actionability Score promised in Section~\ref{subsec3_3}; top-$k$ coalitional perturbation as an alternative interaction probe, reported here rather than used as the H2 switch for the reason given in Section~\ref{subsubsec3_7_2}; Monte-Carlo sample counts, reusing the convergence framing of our prior work; the repetition count $R$; and the fidelity, concurvity, and shape-shift diagnostics of the surrogate. \tbd{state which conclusions are invariant and which are form-dependent}
-
-\begin{table}[h]
-\caption{Influence of algorithm parameters on the validation measures. Each row varies one element and reports whether the method ranking by alignment is preserved.}\label{tab8}
-\begin{tabular*}{\textwidth}{@{\extracolsep\fill}llcc}
-\toprule
-Element varied & Range & Ranking preserved? & Max $\Delta\AIA$ \\
-\midrule
-Perturbation budget $\tau$ & $\{0.5, 1.0, 1.5\}$ sd & \tbd{} & \tbd{} \\
-Modifiability jitter & $\pm 0.25$ & \tbd{} & \tbd{} \\
-$\AS$ functional form & product / weighted sum / min & \tbd{} & \tbd{} \\
-Interaction probe & ANOVA switch / top-$k$ coalitional & \tbd{} & \tbd{} \\
-Monte-Carlo samples $M$ & $\{10, 25, 50, 100\}$ & \tbd{} & \tbd{} \\
-Repetitions $R$ & $\{3, 5, 10\}$ & \tbd{} & \tbd{} \\
-Surrogate fidelity $R^2$ & --- & \tbd{} & \tbd{} \\
-\botrule
-\end{tabular*}
-\end{table}
-
-\subsection{Static regime analysis}\label{subsec4_5}
-
-\subsubsection{Overall alignment}\label{subsubsec4_5_1}
-
-Table~\ref{tab9} reports unrestricted and modifiability-restricted alignment for every method on both static datasets, and Fig.~\ref{fig3} displays the same values. Reporting both variants together is deliberate, since the gap between them is the visible signature of the infeasibility mechanism and previews the decomposition of Section~\ref{subsec4_7}. \tbd{state whether cooperative attribution leads, where LIME falls, and how large the restriction gap is}
-
-\begin{table}[h]
-\caption{Attribution--Intervention Alignment in the static regime, unrestricted and restricted to modifiable factors. Spearman $\rho$, mean $\pm$ standard deviation over $R = 5$ repetitions. Higher is better.}\label{tab9}
-\begin{tabular*}{\textwidth}{@{\extracolsep\fill}lcccc}
-\toprule
-& \multicolumn{2}{@{}c@{}}{Wine Quality} & \multicolumn{2}{@{}c@{}}{Beijing Air Quality} \\
-\cmidrule{2-3}\cmidrule{4-5}
-Method & All factors & $m_j > 0$ & All factors & $m_j > 0$ \\
-\midrule
-TreeSHAP & \tbd{} & \tbd{} & \tbd{} & \tbd{} \\
-KernelSHAP & \tbd{} & \tbd{} & \tbd{} & \tbd{} \\
-LIME & \tbd{} & \tbd{} & \tbd{} & \tbd{} \\
-Permutation importance & \tbd{} & \tbd{} & \tbd{} & \tbd{} \\
-\botrule
-\end{tabular*}
-\end{table}
-
-\begin{figure}[h]
+\begin{figure}[t]
 \centering
-\includegraphics[width=0.9\textwidth]{fig3_static_aia.pdf}
-\caption{Attribution--Intervention Alignment in the static regime. Paired bars show unrestricted alignment and alignment restricted to modifiable factors; the difference within each pair is the alignment lost by enforcing feasibility.}\label{fig3}
+\includegraphics[width=\linewidth]{aia_components_robustness.pdf}
+\caption{Deletion AIA, bounded-intervention AIA, and their difference for the five methods. Points are distinct-user means and intervals are user-bootstrap 95\% confidence intervals. Budget rows are excluded because budgets do not define singleton gap estimands.}
+\label{fig:aia-components}
 \end{figure}
 
-\subsubsection{Actionability Score profiles}\label{subsubsec4_5_2}
+\safeinput{paper-v2/final/tables/aia_components.tex}
+\safeinput{paper-v2/final/tables/aia_permutation_null.tex}
 
-Table~\ref{tab10} reports per-dataset Actionability Score rankings alongside the control $\ASm_j$ of Eq.~\eqref{eq8}, and Fig.~\ref{fig4} plots $\AS_j$ against $|\phi_j|$ with the highly-attributed-but-unactionable quadrant highlighted. Following Remark~\ref{rem1}, the claim established here is not that the Actionability Score demotes unmodifiable factors, which holds by construction, but its mirror image on the attribution side: the proportion of total attribution mass each method places on factors with $m_j = 0$. \tbd{report that proportion per method for the air-quality dataset; this is the headline number of the static regime}
+\subsection{Joint intervention decisions}
+The operational outcome is NDCG@10 under the exact $B=2$ action space. On MovieLens ItemKNN, LOO yields mean NDCG effect $0.0431$, LIME $0.0425$, and Shapley $0.0403$. Success is $28.9\%$, $28.8\%$, and $27.4\%$, respectively. Conditional normalized regret among 339 active-oracle users is $0.217$, $0.225$, and $0.268$. Local methods therefore retain a modest decision advantage on MovieLens.
 
-\begin{table}[h]
-\caption{Actionability Score rankings in the static regime, with the modifiability-held-out control $\ASm_j = |\Delta_j| \cdot s_j$ reported alongside. The control column carries no dependence on $m_j$ and therefore no construction-induced ordering.}\label{tab10}
-\begin{tabular*}{\textwidth}{@{\extracolsep\fill}llcccc}
-\toprule
-Dataset & Factor & $m_j$ & $|\Delta_j|$ & $\AS_j$ & $\ASm_j$ \\
-\midrule
-\multirow{3}{*}{Wine Quality} & \tbd{factor} & \tbd{} & \tbd{} & \tbd{} & \tbd{} \\
- & \tbd{factor} & \tbd{} & \tbd{} & \tbd{} & \tbd{} \\
- & \tbd{factor} & \tbd{} & \tbd{} & \tbd{} & \tbd{} \\
-\midrule
-\multirow{3}{*}{Air Quality} & \tbd{pollutant} & \tbd{} & \tbd{} & \tbd{} & \tbd{} \\
- & \tbd{pollutant} & \tbd{} & \tbd{} & \tbd{} & \tbd{} \\
- & \tbd{meteorological} & 0.0 & \tbd{} & 0.00 & \tbd{} \\
-\botrule
-\end{tabular*}
-\footnotetext{Rows with $m_j = 0$ necessarily have $\AS_j = 0$; the control column shows what the score would be absent the modifiability constraint.}
-\end{table}
+On Amazon ItemKNN, NDCG effects are $0.0333$ for Shapley, $0.0331$ for LIME, and $0.0313$ for LOO. Conditional normalized regret among 196 active-oracle users is $0.206$, $0.197$, and $0.232$. The differences are small and do not support a universal winner. Random actions have negative mean NDCG effects on both datasets.
 
-\begin{figure}[h]
+\safeinput{paper-v2/final/tables/intervention_outcomes.tex}
+\safeinput{paper-v2/final/tables/paired_tests.tex}
+
+\begin{figure}[t]
 \centering
-\includegraphics[width=0.9\textwidth]{fig4_as_vs_phi.pdf}
-\caption{Actionability Score against attribution magnitude for all factors in the static regime. The shaded region contains factors that are highly attributed but unactionable, which are invisible to faithfulness-based evaluation.}\label{fig4}
+\includegraphics[width=\linewidth]{joint_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf}
+\caption{Primary MovieLens ItemKNN NDCG effect for actions selected at budget two. The comparison is retrospective and target-conditioned; intervals are distinct-user bootstrap intervals.}
+\label{fig:joint-ndcg}
 \end{figure}
 
-\subsubsection{Intervention decisions and regret}\label{subsubsec4_5_3}
+\subsection{Null calibration and convergence}
+The within-user AIA null is centred near zero for all primary ItemKNN conditions. Shapley, LIME, LOO, and greedy exceed the null for absolute AIA, while random attribution does not. This establishes that absolute alignment is not merely a consequence of the correlation statistic returning positive values.
 
-Alignment can be moderate while the intervention a practitioner would actually select is still the wrong one, and Table~\ref{tab11} quantifies that gap directly. It reports top-$k$ intervention precision at $k \in \{1,3,5\}$ and normalized regret for each method on both static datasets. \tbd{state the worst-case regret and which method incurs it}
+Target-margin convergence selects $M=50$ for Amazon ItemKNN, $M=100$ for Amazon profile, $M=250$ for MovieLens ItemKNN, and $M=50$ for MovieLens profile; the final suite retains the conservative floor $M=500$. The NDCG attribution sensitivity remains unconverged at $M=1000$ and is reported only as a stress test.
 
-\begin{table}[h]
-\caption{Top-$k$ intervention precision and normalized intervention regret in the static regime. Precision is higher-is-better; regret is lower-is-better and is normalized by the best available feasible effect.}\label{tab11}
-\begin{tabular*}{\textwidth}{@{\extracolsep\fill}lcccc}
-\toprule
-Method & $\Ppre@1$ & $\Ppre@3$ & $\Ppre@5$ & Normalized $\Reg$ \\
-\midrule
-TreeSHAP & \tbd{} & \tbd{} & \tbd{} & \tbd{} \\
-KernelSHAP & \tbd{} & \tbd{} & \tbd{} & \tbd{} \\
-LIME & \tbd{} & \tbd{} & \tbd{} & \tbd{} \\
-Permutation importance & \tbd{} & \tbd{} & \tbd{} & \tbd{} \\
-\botrule
-\end{tabular*}
-\end{table}
+\safeinput{paper-v2/final/tables/convergence.tex}
+\safeinput{paper-v2/final/tables/attribution_stability.tex}
 
-\subsubsection{Case study: an unactionable dominant driver}\label{subsubsec4_5_4}
-
-Fig.~\ref{fig5} narrates a single air-quality regime in which the dominant attributed driver is meteorological and therefore outside operator control, while the highest-scoring actionable driver is a pollutant, and traces what a regulator would have done under each ranking. This is the concrete form of the aggregate finding of Section~\ref{subsubsec4_5_2}. \tbd{complete the narrative from experimental output, naming the regime, the dominant meteorological driver, and the pollutant that displaces it}
-
-\begin{figure}[h]
+\begin{figure}[t]
 \centering
-\includegraphics[width=0.9\textwidth]{fig5_case_study.pdf}
-\caption{Air-quality case study. The attribution ranking and the Actionability Score ranking for a single pollution regime, with the intervention a regulator would select under each.}\label{fig5}
+\includegraphics[width=\linewidth]{convergence.pdf}
+\caption{Independent Monte Carlo convergence against an $M=1000$ reference. Efficiency is not used as a convergence criterion because the prefix walk telescopes.}
+\label{fig:convergence}
 \end{figure}
 
-\subsection{Validation on the dynamic regime}\label{subsec4_6}
+\subsection{Robustness and boundaries}
+The positive Shapley gap persists across the primary ItemKNN candidate, history, intervention-strength, and full-catalogue conditions, but the absolute values vary. Full-catalogue NDCG alignment is sparse and is treated descriptively. The longer-history conditions also show reduced masking sensitivity, supporting the use of $n_{\max}=20$ as a declared operating boundary rather than an arbitrary computational cap.
 
-\subsubsection{Overall alignment}\label{subsubsec4_6_1}
+The profile model supplies a useful negative boundary: it can change rankings while underperforming popularity, and one MovieLens seed fails the NDCG masking threshold. This demonstrates why a non-degenerate masking gate and recommendation-quality audit are necessary before interpreting attribution results.
 
-Table~\ref{tab12} repeats the alignment analysis for MovieLens-1M and Amazon-Book, adding the two signals that exist only in the neural setting. The purpose of this subsection is generalization: if the static-regime conclusions hold when players are heterogeneous, interventions are structural rather than scalar, and the model is a trained hypergraph network rather than a surrogate classifier, then the findings are properties of the evaluation criterion rather than artefacts of a single task family. \tbd{state whether the static-regime ordering of methods is reproduced}
+\safeinput{paper-v2/final/tables/sensitivity_results.tex}
+\safeinput{paper-v2/final/tables/full_catalogue_results.tex}
 
-\begin{table}[h]
-\caption{Attribution--Intervention Alignment in the dynamic regime, with top-$k$ precision and normalized regret. Spearman $\rho$, mean $\pm$ standard deviation over $R = 5$ repetitions.}\label{tab12}
-\begin{tabular*}{\textwidth}{@{\extracolsep\fill}lccccc}
-\toprule
-& \multicolumn{2}{@{}c@{}}{$\AIA$} & \multicolumn{2}{@{}c@{}}{$\Ppre@3$} & \\
-\cmidrule{2-3}\cmidrule{4-5}
-Method & ML-1M & Amazon-Book & ML-1M & Amazon-Book & Normalized $\Reg$ \\
-\midrule
-KernelSHAP & \tbd{} & \tbd{} & \tbd{} & \tbd{} & \tbd{} \\
-LIME & \tbd{} & \tbd{} & \tbd{} & \tbd{} & \tbd{} \\
-Permutation importance & \tbd{} & \tbd{} & \tbd{} & \tbd{} & \tbd{} \\
-Integrated gradients & \tbd{} & \tbd{} & \tbd{} & \tbd{} & \tbd{} \\
-DyHuCoG attention gate & \tbd{} & \tbd{} & \tbd{} & \tbd{} & \tbd{} \\
-DyHuCoG Shapley weighting & \tbd{} & \tbd{} & \tbd{} & \tbd{} & \tbd{} \\
-\botrule
-\end{tabular*}
-\end{table}
+\section{Discussion}
+The results support a three-axis interpretation. LIME and LOO are strongest on absolute pointwise alignment because their constructions are local to deletion or the full profile. Shapley has lower absolute alignment but a larger positive change when the evaluation moves from deletion to bounded downweighting. This is consistent with coalition-context averaging, but the experiment does not establish a causal mechanism and the random control prevents interpreting the gap as standalone validity.
 
-\subsubsection{Shapley against attention within a single model}\label{subsubsec4_6_2}
+The decision results reinforce this distinction. On MovieLens, local methods select slightly better NDCG actions. On Amazon, Shapley and LIME are close, with modest differences in conditional regret. A method can therefore be more stable across perturbation semantics without selecting the best action for every operational utility. This is precisely why ActionShap reports pointwise alignment, signed direction, success, abstention, and regret together.
 
-This comparison is reported separately from Table~\ref{tab12} because it isolates the importance signal from every other source of variation: one trained model, two importance signals, one intervention set. Table~\ref{tab13} reports alignment, top-$k$ precision, regret, and stability for the Shapley weighting and the attention gate side by side, and Fig.~\ref{fig6} shows both rankings against the measured intervention-effect ranking. The result speaks directly to the standing question of whether attention weights may be read as importance \cite{jain2019,wiegreffe2019}, and answers it on a criterion that debate has not previously used. \tbd{report both signals and state which is more actionable}
+The protocol also clarifies what offline actionability means. The intervention is system-executable inside the frozen simulator: it changes an inference-time interaction weight without retraining. It is not automatically a user action, causal intervention, or prospective policy. A production deployment would need authority, cost, user-consent, and feedback-loop specifications that are outside this benchmark.
 
-\begin{table}[h]
-\caption{Shapley weighting against the attention gate within DyHuCoG. Both signals are extracted from the same trained model and evaluated against the same interventions.}\label{tab13}
-\begin{tabular*}{\textwidth}{@{\extracolsep\fill}llcccc}
-\toprule
-Dataset & Signal & $\AIA$ & $\Ppre@3$ & Normalized $\Reg$ & Stability $\bar{s}$ \\
-\midrule
-\multirow{2}{*}{MovieLens-1M} & Shapley weighting & \tbd{} & \tbd{} & \tbd{} & \tbd{} \\
- & Attention gate & \tbd{} & \tbd{} & \tbd{} & \tbd{} \\
-\midrule
-\multirow{2}{*}{Amazon-Book} & Shapley weighting & \tbd{} & \tbd{} & \tbd{} & \tbd{} \\
- & Attention gate & \tbd{} & \tbd{} & \tbd{} & \tbd{} \\
-\botrule
-\end{tabular*}
-\end{table}
+\section{Limitations and Threats to Validity}
+\subsection{Construct validity}
+Actionability is defined as predictive validity under one bounded downweighting policy. It is not perceived usefulness, legal recourse, user agency, or a causal effect in the world. All primary players are technically mutable, so feasibility does not differentiate factors; future work should study heterogeneous costs and user-side constraints.
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.9\textwidth]{fig6_shapley_vs_attention.pdf}
-\caption{Importance rankings from the Shapley weighting and the attention gate of the same trained recommender, each plotted against the measured intervention-effect ranking.}\label{fig6}
-\end{figure}
+\subsection{Metric validity}
+NDCG is discrete and produces constant effect vectors for some users. We report missing correlations rather than imputing zero. Target margin is the converged attribution utility but has less direct operational meaning; NDCG is the action outcome and is never relabelled as target margin.
 
-\subsubsection{Actionability-guided reranking}\label{subsubsec4_6_3}
+\subsection{Internal validity}
+Temporal splitting and complete pre-test exclusion reduce leakage, but the audit remains target-conditioned. The held-out target defines the labelled instance being explained, which is appropriate for retrospective evaluation but unavailable to a prospective policy. Candidate sets are fixed and target coverage is one by construction; sampled ranking is not retrieval evaluation.
 
-Table~\ref{tab14} and Fig.~\ref{fig7} report the intervention switch rate and realized outcome improvement as the mixing weight $\eta$ varies. Improvement is expressed as a reduction in the normalized regret of Section~\ref{subsubsec4_6_1}, so that the remedy is measured in the same currency as the diagnosis. \tbd{report the switch rate at the selected $\eta$ and the regret reduction achieved}
+\subsection{External validity}
+Two datasets and two history-conditioned models do not cover sequential transformers, graph recommenders, multimodal inputs, online feedback, provider objectives, or heterogeneous intervention costs. The full-catalogue subset is smaller than the primary cohort. The profile model’s quality shortfall and one failed gate are retained as explicit boundaries rather than generalized.
 
-\begin{table}[h]
-\caption{Effect of actionability-guided reranking. Switch rate is the fraction of cases in which the top recommended intervention changes; regret reduction is measured against the $\eta = 0$ baseline.}\label{tab14}
-\begin{tabular*}{\textwidth}{@{\extracolsep\fill}lcccc}
-\toprule
-$\eta$ & Switch rate & Normalized $\Reg$ & Regret reduction & $\AIA$ \\
-\midrule
-0.00 & 0.00 & \tbd{} & --- & \tbd{} \\
-0.25 & \tbd{} & \tbd{} & \tbd{} & \tbd{} \\
-0.50 & \tbd{} & \tbd{} & \tbd{} & \tbd{} \\
-0.75 & \tbd{} & \tbd{} & \tbd{} & \tbd{} \\
-1.00 & \tbd{} & \tbd{} & \tbd{} & \tbd{} \\
-\botrule
-\end{tabular*}
-\end{table}
+\section{Conclusion}
+ActionShap provides a reproducible protocol for asking whether recommendation explanations predict the effects of feasible profile interventions. In the primary ItemKNN experiments, Shapley’s target-margin alignment improves relative to deletion, particularly on Amazon, while LIME and LOO retain higher absolute alignment and slightly better MovieLens NDCG decisions. The random control remains near its chance null, and a positive Actionability Gap is therefore not sufficient evidence of explanation validity. The principal contribution is the separation of deletion faithfulness, bounded-intervention alignment, and joint decision quality under a common, leakage-safe, abstention-aware protocol.
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.85\textwidth]{fig7_reranking.pdf}
-\caption{Intervention switch rate and realized regret reduction as a function of the reranking weight $\eta$. The intersection identifies the operating point at which actionability is gained without sacrificing attribution fidelity.}\label{fig7}
-\end{figure}
 
-\subsubsection{Discussion}\label{subsubsec4_6_4}
-
-Taken together, the two regimes test whether actionability is a property of the evaluation criterion or of a particular task. \tbd{compare the static and dynamic findings: does the method ordering transfer, does the restriction gap behave similarly, and does the attention result change how the cooperative signal should be interpreted} The heterogeneity of the dynamic regime makes the comparison a demanding one, since players are of three different kinds and interventions are structural rather than scalar; agreement across regimes under those conditions is correspondingly stronger evidence than agreement across two similar tabular datasets would be.
-
-\subsection{Cross-regime analysis}\label{subsec4_7}
-
-\subsubsection{Faithfulness against actionability}\label{subsubsec4_7_1}
-
-Fig.~\ref{fig8} plots faithfulness against alignment across all method--dataset pairs and reports their rank correlation. Two outcomes are possible and the interpretation of each is fixed in advance. If the two criteria diverge, the central claim of this paper is established directly: a method may rank highly on faithfulness and poorly on actionability, so the choice of evaluation criterion changes which explanation method a practitioner should prefer. If they converge, the finding is bounded rather than negative---faithfulness is an adequate proxy for actionability on modifiable factors and fails only on the full factor set, where highly attributed unmodifiable factors dominate---and the weight of evidence shifts to Sections~\ref{subsubsec4_5_2}, \ref{subsubsec4_5_3}, and \ref{subsubsec4_6_3}, none of which depends on the two criteria disagreeing. \tbd{select the applicable framing and delete the other}
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.85\textwidth]{fig8_faithfulness_vs_actionability.pdf}
-\caption{Faithfulness against Attribution--Intervention Alignment for every method--dataset pair across both regimes. Departure from the diagonal indicates that the two criteria induce different method rankings.}\label{fig8}
-\end{figure}
-
-\subsubsection{Decomposing the misalignment gap}\label{subsubsec4_7_2}
-
-Table~\ref{tab15} reports the Shapley allocations of Eq.~\eqref{eq15} with bootstrap confidence intervals, together with the measured $\AIA(\Sigma)$ and the residual. These are shares of the measured closed gap by efficiency, per Corollary~\ref{cor1}, and not by normalization---a distinction worth stating explicitly, since the additivity of a decomposition built on rank correlations is the natural point of scrutiny. Cardinality matching was applied to the H3 switch, comparing restricted alignment against the mean alignment over random subsets of equal size, so that the feasibility effect is not confounded with a set-size artefact. \tbd{report the three shares and whether H3 dominates as hypothesized}
-
-\begin{table}[h]
-\caption{Decomposition of the misalignment gap into curvature, interaction, and infeasibility. Allocations are Shapley values over the three switches and sum to the measured closed gap by Corollary~\ref{cor1}; the residual is reported separately and is not attributed.}\label{tab15}
-\begin{tabular*}{\textwidth}{@{\extracolsep\fill}lccccc}
-\toprule
-Dataset & $\AIA(\varnothing)$ & $\psi_{\mathrm{H1}}$ & $\psi_{\mathrm{H2}}$ & $\psi_{\mathrm{H3}}$ & Residual \\
-\midrule
-Wine Quality & \tbd{} & \tbd{} & \tbd{} & \tbd{} & \tbd{} \\
-Beijing Air Quality & \tbd{} & \tbd{} & \tbd{} & \tbd{} & \tbd{} \\
-MovieLens-1M & \tbd{} & \tbd{} & \tbd{} & \tbd{} & \tbd{} \\
-Amazon-Book & \tbd{} & \tbd{} & \tbd{} & \tbd{} & \tbd{} \\
-\botrule
-\end{tabular*}
-\footnotetext{The residual equals $1 - \AIA(\Sigma)$ and is ambiguous between surrogate approximation error, interaction beyond the pairwise ceiling, and a mechanism outside H1--H3; surrogate fidelity is reported in Table~\ref{tab8}.}
-\end{table}
-
-\subsubsection{Statistical significance}\label{subsubsec4_7_3}
-
-Differences between methods are tested with paired $t$-tests over per-factor differences in the static regime and per-user differences in the dynamic regime, with Holm--Bonferroni correction for multiple comparisons and Wilcoxon signed-rank tests as a distribution-free robustness check, following the protocol of our prior work \cite{louhichi2026}. Full test statistics, effect sizes, and diagnostic plots appear in Appendix~\ref{secA2}. \tbd{state which comparisons remain significant after correction}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Discussion and broader implications}\label{sec5}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Standalone discussion section per [louhichi2025] Section V.
-
-\subsection{Contributions to the field}\label{subsec5_1}
-
-The primary contribution is a change in what attribution evaluation measures. Faithfulness asks a counterfactual question about deletion; ActionShap asks a counterfactual question about feasible modification, and the two are not interchangeable whenever some factors cannot be modified---which is to say, in most deployments. Making that distinction computable required three further steps: operationalizing modifiability as an elicited, auditable, pre-registered quantity rather than an informal caveat; formulating clustering and recommendation as one importance-allocation problem so that a single criterion can be reported across them; and supplying decision-level metrics, since a practitioner acts on a choice rather than on an ordering.
-
-A secondary contribution is methodological and concerns how such a study should be reported. Because the Actionability Score contains modifiability as a factor, any claim about how it ranks unmodifiable factors is circular, and we state the reporting guard that prevents it. Because the misalignment decomposition is built on rank correlations, which do not decompose additively, we obtain additivity from the efficiency axiom of a second cooperative game rather than by normalizing after the fact. And because the curvature--interaction split is unidentified under dependent inputs, we derive both switches from a single purified surrogate and report the diagnostics that would reveal absorption. Each of these is a small point individually, but together they determine whether the headline numbers mean what they appear to mean.
-
-\subsection{Applications and use cases}\label{subsec5_2}
-
-\emph{Environmental regulation.} Air-quality authorities act on emissions, not on weather. An explanation that ranks meteorological variables first is accurate and useless, and the Actionability Score separates the two cases without discarding the meteorological information, which remains valuable for interpretation.
-
-\emph{Recommender platform operations.} Platform teams intervene on exposure, catalogue composition, and context signals rather than on user identity. Intervention regret tells such a team how much outcome it forgoes by acting on the top-attributed lever instead of the best feasible one, in the same units it already reports.
-
-\emph{Clinical and industrial decision support.} Wherever a model's inputs divide into the controllable and the merely observed---dosage against age, process parameters against ambient conditions---the same division applies, and the elicitation protocol transfers unchanged.
-
-\emph{Model auditing and regulatory compliance.} Frameworks requiring meaningful human oversight implicitly demand that an explanation support intervention, not merely description. ActionShap is cheap enough to run as an audit on a published model, since it requires no retraining and no participants, and it produces a reportable number rather than a qualitative assessment.
-
-\subsection{Limitations and future work}\label{subsec5_3}
-
-Modifiability was elicited by the authors rather than by blind external annotators. The safeguards are a pre-specified rubric, annotation frozen before results were inspected, publication of the per-dataset tables, and the sensitivity analysis of Section~\ref{subsec4_4}; nonetheless this remains expert self-elicitation and should be read as such. The multiplicative form of the Actionability Score is an assumption motivated by the necessity of each condition, tested but not derived. Interventions are simulated on trained models rather than deployed, so realized effects are model-predicted rather than observed in the world. The decomposition captures interaction only to second order, and its residual is correspondingly ambiguous. Regret in the dynamic regime is defined over a declared candidate set rather than the full feasible space. Finally, the study covers tabular clustering and top-$N$ recommendation only, and offers no human-subject validation of whether practitioners find high-scoring explanations more useful in practice.
-
-Each limitation indicates a direction. Deployed or online interventions would replace model-predicted effects with observed ones, closing the gap between the metric and the outcome it proxies. Causal-graph-aware feasibility constraints would let modifiability encode the downstream consequences of an intervention rather than treating factors as independently adjustable, which is the natural point of contact with the recourse literature. A human-subject study would test whether the ranking the metric produces matches the ranking practitioners endorse, and would connect this line of work to the human-centred actionability catalogues discussed in Section~\ref{subsec2_5}. Extension to sequential and multimodal settings would test whether the unified game formulation holds beyond the two regimes examined here.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Conclusion}\label{sec6}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Explanation methods are evaluated by what happens when a factor is deleted, but they are used to decide what to change. This paper made that distinction measurable. ActionShap operationalizes actionability into an Actionability Score at the factor level, Attribution--Intervention Alignment at the method level, and two decision-level metrics that score an attribution by the quality of the action it induces, none of which requires a human-subject study.
-
-Methodologically, we showed that static feature-player games and dynamic interaction-player games are instances of a single importance-allocation problem, proved that attribution and intervention orderings coincide under local linearity and unit modifiability, and decomposed the observed divergence into curvature, interaction, and infeasibility components that sum to the measured gap by the efficiency of a second Shapley allocation.
-
-Empirically, across four public datasets and six attribution methods, \tbd{restate the headline findings with numbers: the divergence between faithfulness and actionability, the attribution mass placed on unmodifiable factors, the Shapley-versus-attention result, and the regret reduction from reranking}.
-
-The practical implication is that faithfulness alone is not a sufficient basis on which to select an explanation method for a deployment in which someone will act on the output. A feasibility-constrained axis belongs alongside it, and this paper provides one that is cheap to compute and reportable from any trained model. The limitations recorded in Section~\ref{subsec5_3}---self-elicited modifiability, simulated rather than deployed interventions, a second-order interaction ceiling, and the absence of human-subject validation---bound that claim and set the agenda: deployed interventions, causally constrained feasibility, and a study of whether practitioners agree with what the metric ranks highly.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\backmatter
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\bmhead{Supplementary information}
-
-Modifiability tables, intervention protocols, and the frozen annotation commit accompany the released code. \tbd{repository and Zenodo DOI}
-
-\bmhead{Acknowledgements}
-
-\tbd{optional; state grant support or delete}
-
-%% NOTE: the IJACSA paper this structure follows carries no declarations.
-%% Springer requires them, so they are retained here.
-\section*{Declarations}
-
-\begin{itemize}
-\item \textbf{Funding.} \tbd{state grant or ``No funding was received for conducting this study.''}
-
-\item \textbf{Competing interests.} The authors declare no competing interests.
-
-\item \textbf{Ethics approval and consent to participate.} Not applicable. No human participants were involved. The modifiability elicitation described in Section~\ref{subsec4_2} was performed by the authors against a pre-specified rubric and is reported as a methodological protocol, not as a study of human annotators.
-
-\item \textbf{Consent for publication.} Not applicable.
-
-\item \textbf{Data availability.} All four datasets are publicly available: UCI Wine Quality \cite{cortez2009}, UCI Beijing Multi-Site Air Quality \cite{zhang2017}, MovieLens-1M \cite{harper2015}, and Amazon-Book. Modifiability tables and intervention protocols are released with the code.
-
-\item \textbf{Materials availability.} Not applicable.
-
-\item \textbf{Code availability.} \tbd{repository link and Zenodo DOI}
-
-\item \textbf{Author contributions.} M.L. conceived the study, developed the framework, implemented the software, and wrote the original draft. R.N. contributed to software development, data curation, and validation. M.La. supervised the work, contributed to formal analysis, and reviewed and edited the manuscript. All authors performed the modifiability annotation independently and approved the final manuscript.
-\end{itemize}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{appendices}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Formal proofs and edge-case guarantees}\label{app:proofs}
 
-\section{Proofs and derivations}\label{secA1}
+\subsection{Efficiency of the prefix-walk estimator}
+For any permutation $\pi=(p_1,\ldots,p_n)$, define $S_0=\varnothing$ and $S_j=\{p_1,\ldots,p_j\}$. The prefix-walk contribution of $p_j$ is $v(S_j)-v(S_{j-1})$. Consequently,
+\begin{equation}
+\sum_{j=1}^{n}\left[v(S_j)-v(S_{j-1})\right]=v(P_u)-v(\varnothing).
+\end{equation}
+Averaging over paired permutations preserves the identity up to floating-point arithmetic. The efficiency residual in the release is therefore a cache and arithmetic diagnostic, not a convergence criterion.
 
-\subsection*{Proof of Proposition~\ref{prop1}}
+\subsection{Leave-one-out ceiling}
+For deletion at $\rho=0$, $\Delta^{\mathrm{del}}_{u,p}=v(P_u\setminus\{p\})-v(P_u)$ and $\phi^{\mathrm{LOO}}_{u,p}=v(P_u)-v(P_u\setminus\{p\})$. Thus $|\phi^{\mathrm{LOO}}_{u,p}|=|\Delta^{\mathrm{del}}_{u,p}|$ for every valid nonconstant user and deletion AIA is one. LOO's deletion-to-bounded gap is consequently bounded above by zero; it is retained as a diagnostic oracle, not a positive-gap competitor.
 
-\begin{proof}
-Under local linearity, $f(x + \tau) - f(x) = \sum_j w_j \tau_j$, so the induced cooperative game is additive: for any coalition $S$, $v(S) = \sum_{j \in S} w_j \tau_j$. The Shapley value of an additive game assigns each player its own contribution, giving $\phi_j = w_j \tau_j$. With the common budget $\tau_j = \tau$ this becomes $\phi_j = w_j \tau$, while Definition~\ref{def2} gives $\Delta_j = w_j \tau$ directly. With $m_j = 1$ for all $j$ no factor is excluded from the comparison, so the vectors $[\,|\phi_j|\,]$ and $[\,|\Delta_j|\,]$ are identical and their rank correlation is unity.
-\end{proof}
+\subsection{Exact budget-two action space}
+With $n_u\le20$, the exact action space contains $1+n_u+\binom{n_u}{2}\le211$ actions, including no action. Each action is evaluated against target margin and NDCG using the same cached candidate scores. The oracle is therefore exact for every primary user and does not rely on a sampled action subset.
 
-\subsection*{Proof of Corollary~\ref{cor1}}
+\section{Complete experimental contract}\label{app:contract}
 
-\begin{proof}
-Immediate from the efficiency of the Shapley value applied to the game $u$ of Eq.~\eqref{eq14}: the allocations of Eq.~\eqref{eq15} sum to $u(\Sigma) - u(\varnothing) = u(\Sigma)$, since $u(\varnothing) = 0$ by construction. Order-independence and symmetry follow from the corresponding axioms.
-\end{proof}
+\begin{table}[t]
+\centering\small
+\caption{Frozen experimental contract used for every paper-eligible run.}
+\label{tab:contract}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lll}
+\toprule
+Element & Primary setting & Robustness/sensitivity settings\\
+\midrule
+Datasets & MovieLens-1M; Amazon Digital Music & same\\
+Models & ItemKNN; profile aggregator & full catalogue and profile boundary\\
+Temporal split & last test, penultimate validation & deterministic record-index ties\\
+Primary users & 1,000 distinct users & 250 matched users\\
+Players & most recent 20 training interactions & 50 and 100 history caps\\
+Candidates & target + 199 unseen negatives & 100, 500, full unseen catalogue\\
+Attribution utility & target margin & NDCG stress test\\
+Intervention & downweight $\rho=0.5$ & deletion and $\rho=0.25$\\
+Budget & exact $B=2$ & $B=1$ diagnostic, $B=3$ sensitivity\\
+Seeds & 42,43,44,45,46 & candidate/user/tie seeds independent\\
+Inference & seed-average within user & user bootstrap and paired tests\\
+\bottomrule
+\end{tabular}}
+\end{table}
 
-\subsection*{The switch game in full}
+\safeinput{paper-v2/final/tables/protocol_audit.tex}
+\safeinput{paper-v2/final/tables/convergence.tex}
+\safeinput{paper-v2/final/tables/aia_permutation_null.tex}
+\safeinput{paper-v2/final/tables/attribution_stability.tex}
+\safeinput{paper-v2/final/tables/intervention_outcomes.tex}
 
-\tbd{tabulate all eight configurations $Q \subseteq \Sigma$ with the surrogate used, the factor set, the budget rule, and the measured $\AIA(Q)$, so that a reader can reconstruct Eq.~\eqref{eq15} from reported values}
+\section{Expanded robustness results}\label{app:robustness}
 
-\subsection*{Surrogate specification, purification, and diagnostics}
+The primary ItemKNN result is intentionally complemented by a matrix of candidate-size, history-length, intervention-strength, and budget sensitivities. Candidate-size changes test whether the pointwise alignment is an artefact of a 200-item sampled pool. History-length changes test whether the declared $n_{\max}=20$ window is an operational boundary. The $\rho=0.25$ condition tests whether the bounded action remains separable from deletion. Budgets one and three are reported only for joint decision outcomes because they do not define new singleton gap estimands.
 
-\tbd{state the GA2M specification, the purification procedure, fidelity $R^2$ per dataset, concurvity, and the shape-shift statistic; state explicitly that both $\phi$ and $\Delta$ are recomputed on the switched model $f_Q$ in every configuration}
+\safeinput{paper-v2/final/tables/sensitivity_results.tex}
+\safeinput{paper-v2/final/tables/full_catalogue_results.tex}
+\safeinput{paper-v2/final/tables/actionability_gap_robustness.tex}
+\safeinput{paper-v2/final/tables/actionability_gap_advantage.tex}
 
-\subsection*{Cardinality matching for the infeasibility switch}
+\section{Statistical reporting and null calibration}\label{app:statistics}
 
-\tbd{describe the matched-subset procedure and report the number of random subsets averaged}
+The statistical unit is a distinct user. For a method metric $m$, repeated seed values are averaged within user before bootstrap resampling. Missing AIA values are retained as missing when a vector is constant or non-finite. Normalized regret is conditional on a positive oracle effect and is reported with the active-oracle count. The random control is a negative control for absolute alignment and action selection; its gap is not interpreted as a validity measure.
 
-\section{Statistical methodology}\label{secA2}
+\safeinput{paper-v2/final/tables/paired_tests.tex}
+\safeinput{paper-v2/final/tables/aia_components.tex}
 
-Following the protocol established in our prior work \cite{louhichi2026}, method comparisons use paired $t$-tests over per-factor differences in the static regime and per-user differences in the dynamic regime, with Cohen's $d_z$ as the effect size and Holm--Bonferroni correction applied across the family of pairwise comparisons. Wilcoxon signed-rank tests are reported as a distribution-free robustness check. Fig.~\ref{fig9} gives the normality diagnostics for the paired differences.
+\section{Reproducibility and release manifest}\label{app:release}
 
-\tbd{complete with the full test-statistic table, degrees of freedom, corrected thresholds, and effect sizes}
+The result release contains 85 JSON files: 80 recommendation runs and five convergence studies. It records source hashes, configuration values, seed assignments, gate diagnostics, selected users, per-user effects, attributions, actions, and oracle outcomes. The raw archive is distributed separately because the datasets and raw user-level records are not ordinary manuscript assets. The final validation manifest is the gate for numerical claims; its notes, including one nonblocking MovieLens profile gate failure and NDCG stress-test non-convergence, are part of the evidence rather than suppressed warnings.
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.9\textwidth]{fig9_significance_diagnostics.pdf}
-\caption{Diagnostics for the paired comparisons: distribution of per-factor and per-user differences, with the corresponding normal quantile--quantile plot.}\label{fig9}
-\end{figure}
+The canonical artifact directory is \texttt{paper-ideas/ActionShap/paper-v2/}. The reproducibility command is:
+\begin{verbatim}
+python scripts/make_paper_assets.py --raw results/raw --out ../paper-v2
+\end{verbatim}
+All paths in generated manifests are repository-relative and all release archives are verified by SHA-256.
 
-\section{Modifiability tables}\label{secA3}
+\section{Additional limitations}\label{app:limitations}
 
-\tbd{full per-dataset modifiability tables with the verbatim rubric, per-annotator assignments, Krippendorff's $\alpha$, and the resolution of each disagreement}
-
-\section{Intervention protocols and hyperparameters}\label{secA4}
-
-\tbd{per-dataset intervention definitions, budgets $\tau_j$, the practical-magnitude threshold $\delta$, candidate set sizes $C$, and all hyperparameters}
+ActionShap evaluates a retrospective target-conditioned audit. The held-out target is used to define the labelled instance and ranking utility, so the protocol is not a prospective action policy. The bounded intervention changes inference-time profile influence without retraining; it is system-executable but not necessarily user-executable. Candidate target inclusion gives coverage one by construction, while full-catalogue results use a smaller subset. The profile model is deliberately retained as a quality and masking-sensitivity boundary. These restrictions define the scope of the conclusions and should accompany any reuse of the artifact.
 
 \end{appendices}
 
-\bibliography{actionshap-bibliography}
+\bmhead{Declarations}
+\textbf{Funding.} The authors declare that no funds, grants, or other support were received during the preparation of this manuscript.
 
+\textbf{Competing interests.} The authors declare no competing interests.
+
+\textbf{Ethics approval.} Not applicable. The study uses publicly available secondary recommendation data and involves no recruited human participants. Any future online or user study would require independent ethics review.
+
+\textbf{Consent to participate / for publication.} Not applicable.
+
+\textbf{Data availability.} MovieLens-1M was obtained from the GroupLens public release, and Amazon Digital Music was reconstructed from the Amazon Reviews 2018 public release after the documented rating threshold, deterministic deduplication, and iterative 5-core filtering. Source and processed-data SHA-256 values, split rules, and candidate construction are recorded in the final provenance manifest. The datasets are subject to their respective maintainers' terms and are not redistributed in this repository.
+
+\textbf{Code and materials availability.} The canonical submission package is \texttt{paper-ideas/ActionShap/paper-v2/}. The raw experiment archive is distributed separately through the content-addressed release workflow because source datasets and raw JSON files are not ordinary manuscript assets.
+
+\textbf{Author contributions.} M.L.: conceptualization, methodology, software, formal analysis, investigation, and writing---original draft. R.N.: methodology, validation, and writing---review and editing. M.Laz.: supervision, methodology, and writing---review and editing. All authors approved the final manuscript.
+
+\bibliographystyle{sn-basic}
+\bibliography{paper-v2/paper}
 \end{document}
