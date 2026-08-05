@@ -17,9 +17,9 @@
 
 \title[ActionShap]{ActionShap: Beyond Deletion Faithfulness toward Intervention-Robust Recommendation Explanations}
 \author*[1]{\fnm{Mouad} \sur{Louhichi}}\email{mouad.louhichi@um5.ac.ma}
-\author[1]{\fnm{Redwane} \sur{Nesmaoui}}\email{redwane.nesmaoui@um5.ac.ma}
-\author[1]{\fnm{Mohamed} \sur{Lazaar}}\email{mohamed.lazaar@ensias.um5.ac.ma}
-\affil[1]{\orgdiv{National Higher School of Computer Science and Systems Analysis (ENSIAS)}, \orgname{Mohammed V University in Rabat}, \city{Rabat}, \country{Morocco}}
+\author[1]{\fnm{Redwane} \sur{Nesmaoui}}
+\author[1]{\fnm{Mohamed} \sur{Lazaar}}
+\affil[1]{\orgdiv{National Higher School of Computer Science and Systems Analysis (ENSIAS)}, \orgname{Mohammed V University in Rabat}, \orgaddress{\city{Rabat}, \country{Morocco}}}
 
 \begin{document}
 \maketitle
@@ -112,6 +112,13 @@ ActionShap & Yes & Yes & Yes & Yes \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+\subsection{Recommender models and evaluation practice}
+The benchmark deliberately separates explanation evaluation from recommender-architecture novelty. Classical latent-factor models provide useful quality references but do not, by themselves, support post-training interaction interventions; ranking objectives and pairwise learning-to-rank remain foundational to offline recommendation evaluation \citep{koren2009,joachims2002,rendle2009,burges2005}. Neural collaborative filtering, sequential recommenders, and transformer-style history encoders broaden the model space, but they differ in how a retained interaction can be modified at inference \citep{he2017ncf,hidasi2016gru4rec,kang2018sasrec,sun2019bert4rec}. Graph recommenders likewise require care because a post-hoc profile intervention is not equivalent to recomputing a trained propagation process \citep{wang2019ngcf,he2020lightgcn}. We therefore use ItemKNN as the primary transparent history-conditioned model and treat the profile aggregator as architecture robustness rather than claiming coverage of all recommender families.
+
+Evaluation protocol choices matter as much as the explainer. Offline top-$K$ metrics depend on negative sampling, temporal leakage, exposure, and the candidate universe; sampled ranking must not be described as retrieval or recall over the catalogue \citep{zheng2017,ji2020,saito2021,chen2022,mcnamara2017}. Counterfactual and explanation evaluation can also be unstable when perturbations alter the input distribution or when discrete metrics create ties \citep{hooker2019,adebayo2018,deyoung2020,covert2021}. ActionShap makes these choices explicit and reports quality references, valid-user counts, and missing correlations rather than hiding them inside a single score.
+
+Explainability research emphasizes that attribution is a family of desiderata rather than one property: faithfulness, stability, simulatability, and usefulness can disagree \citep{gilpin2018,arrieta2020,molnar2022,samek2017}. Local surrogate explanations and perturbation tests are valuable precisely because they expose model dependence, but their interpretation must follow the intervention semantics \citep{ribeiro2016,lundberg2017,lundberg2020}. Explainable recommendation also includes explicit sentiment and rationale models, which are complementary to the post-hoc intervention audit studied here \citep{zhang2014,zheng2018,bennett2007}.
 
 \subsection{Cooperative attribution}
 The Shapley value allocates coalition value under efficiency, symmetry, null-player, and additivity axioms \citep{shapley1953}. Monte Carlo permutation sampling makes the allocation practical for user histories \citep{castro2009}. Coalition averaging differs fundamentally from leave-one-out: LOO measures one marginal at the full profile, whereas Shapley averages the marginal over predecessor coalitions of every size. For two redundant interactions, either interaction can look unimportant when the other is present even though suppressing both is decisive. Coalition averaging can assign each some of their shared value, which motivates the budget-two experiment.
