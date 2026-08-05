@@ -937,7 +937,9 @@ Report NDCG@\(K\), Recall@\(K\), MRR, and Hit Rate as ranking diagnostics. They 
 - Use five paired environment seeds for pipeline stabilization and 20–30 seeds for principal CURE-Sim comparisons.
 - Pair methods on identical environment seeds, cohorts, and trajectories.
 - Common random numbers are shared across coalition rollouts within each scenario/seed; independent seeds provide repeated experimental units.
-- Use `cure-rec sweep --config ... --seeds 42,43,44,45,46` to emit decision frequency and attribution-stability assets.
+- Use `cure-rec sweep --config ... --seeds 42,43,44,45,46` to emit decision frequency, lower-improvement, Shapley-stability, base-feasibility, and interaction assets.
+- Every seed records base provider/fatigue margins, improvement-versus-repair mode, selected portfolio, and post-selection constraint status.
+- In controlled regimes, report estimated-game selection match separately from oracle-game selection match, oracle regret, Shapley MAE, sign accuracy, and point-region coverage.
 - Report mean ± standard deviation and 95% bootstrap confidence intervals where appropriate.
 - Use paired tests over independent environment/cohort units; apply Holm–Bonferroni within each result family.
 - Do not treat every user interaction as independent if platform state or provider exposure creates interference.

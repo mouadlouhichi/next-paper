@@ -41,7 +41,8 @@ class RegimeDefinition:
     name: str
     description: str
     expected_status: str
-    expected_selected: tuple[str, ...]
+    expected_selected: tuple[str, ...]  # Expected optimizer under the estimated game
+    oracle_selected: tuple[str, ...]    # True-game optimum used for oracle recovery
     horizon: int
     estimated_value: MaskValue
     true_value: MaskValue
@@ -149,15 +150,15 @@ def _misspecified_estimated(mask: int) -> float:
 
 def regime_library() -> tuple[RegimeDefinition, ...]:
     return (
-        RegimeDefinition("additive", "Independent positive interventions with zero interactions.", "improve_selected", ("repeat_cap", "explore_slot", "tail_slot", "provider_balance"), 12, _additive, _additive, _provider_nominal, _relevance_ok),
-        RegimeDefinition("complementary", "Repeat cap and exploration are jointly valuable but weak alone.", "improve_selected", ("repeat_cap", "explore_slot"), 12, _complementary, _complementary, _provider_nominal, _relevance_ok),
-        RegimeDefinition("redundant", "Long-tail and novelty overlap; one should be selected by tie/cost rule.", "improve_selected", ("tail_slot",), 12, _redundant, _redundant, _provider_nominal, _relevance_ok),
-        RegimeDefinition("antagonistic", "Exploration and diversity are individually useful but jointly harmful.", "improve_selected", ("explore_slot",), 12, _antagonistic, _antagonistic, _provider_nominal, _relevance_ok),
-        RegimeDefinition("delayed_fatigue_short", "Repeat cap is costly at short horizon.", "abstain_keep_base", (), 4, _delayed_short, _delayed_short, _provider_nominal, _relevance_ok),
-        RegimeDefinition("delayed_fatigue_long", "Repeat cap yields delayed benefit at long horizon.", "improve_selected", ("repeat_cap",), 12, _delayed_long, _delayed_long, _provider_nominal, _relevance_ok),
-        RegimeDefinition("provider_repair_balancing", "Infeasible base repaired most efficiently by provider balancing.", "repair_selected", ("provider_balance",), 12, _provider_repair_balancing, _provider_repair_balancing, _provider_repair_balance, _relevance_ok),
-        RegimeDefinition("provider_repair_repeat", "Infeasible base repaired most efficiently by repeat suppression.", "repair_selected", ("repeat_cap",), 12, _provider_repair_repeat_utility, _provider_repair_repeat_utility, _provider_repair_repeat_disparity, _relevance_ok),
-        RegimeDefinition("misspecified_ambiguity", "Estimated model favours repeat cap while true model favours exploration.", "improve_selected", ("repeat_cap",), 12, _misspecified_estimated, _misspecified_true, _provider_nominal, _relevance_ok),
+        RegimeDefinition("additive", "Independent positive interventions with zero interactions.", "improve_selected", ("repeat_cap", "explore_slot", "tail_slot", "provider_balance"), ("repeat_cap", "explore_slot", "tail_slot", "provider_balance"), 12, _additive, _additive, _provider_nominal, _relevance_ok),
+        RegimeDefinition("complementary", "Repeat cap and exploration are jointly valuable but weak alone.", "improve_selected", ("repeat_cap", "explore_slot"), ("repeat_cap", "explore_slot"), 12, _complementary, _complementary, _provider_nominal, _relevance_ok),
+        RegimeDefinition("redundant", "Long-tail and novelty overlap; one should be selected by tie/cost rule.", "improve_selected", ("tail_slot",), ("tail_slot",), 12, _redundant, _redundant, _provider_nominal, _relevance_ok),
+        RegimeDefinition("antagonistic", "Exploration and diversity are individually useful but jointly harmful.", "improve_selected", ("explore_slot",), ("explore_slot",), 12, _antagonistic, _antagonistic, _provider_nominal, _relevance_ok),
+        RegimeDefinition("delayed_fatigue_short", "Repeat cap is costly at short horizon.", "abstain_keep_base", (), (), 4, _delayed_short, _delayed_short, _provider_nominal, _relevance_ok),
+        RegimeDefinition("delayed_fatigue_long", "Repeat cap yields delayed benefit at long horizon.", "improve_selected", ("repeat_cap",), ("repeat_cap",), 12, _delayed_long, _delayed_long, _provider_nominal, _relevance_ok),
+        RegimeDefinition("provider_repair_balancing", "Infeasible base repaired most efficiently by provider balancing.", "repair_selected", ("provider_balance",), ("provider_balance",), 12, _provider_repair_balancing, _provider_repair_balancing, _provider_repair_balance, _relevance_ok),
+        RegimeDefinition("provider_repair_repeat", "Infeasible base repaired most efficiently by repeat suppression.", "repair_selected", ("repeat_cap",), ("repeat_cap",), 12, _provider_repair_repeat_utility, _provider_repair_repeat_utility, _provider_repair_repeat_disparity, _relevance_ok),
+        RegimeDefinition("misspecified_ambiguity", "Estimated model favours repeat cap while true model favours exploration.", "improve_selected", ("repeat_cap",), ("explore_slot",), 12, _misspecified_estimated, _misspecified_true, _provider_nominal, _relevance_ok),
     )
 
 
@@ -238,23 +239,31 @@ def run_regime_suite(settings: Settings, logger: RunLogger) -> RegimeRunResult:
     for regime in regime_library():
         estimated = _game_from_value(settings, regime, regime.estimated_value, f"{regime.name}_estimated")
         true = _game_from_value(settings, regime, regime.true_value, f"{regime.name}_true")
-        decision = select_robust_portfolio(estimated, settings, logger)
-        expected_set = set(regime.expected_selected)
-        observed_set = set(decision.selected_interventions)
-        union = expected_set | observed_set
-        jaccard = len(expected_set & observed_set) / len(union) if union else 1.0
+        estimated_decision = select_robust_portfolio(estimated, settings, logger)
+        oracle_decision = select_robust_portfolio(true, settings, logger)
+        expected_estimated_set = set(regime.expected_selected)
+        observed_set = set(estimated_decision.selected_interventions)
+        oracle_set = set(oracle_decision.selected_interventions)
+        estimated_union = expected_estimated_set | observed_set
+        oracle_union = oracle_set | observed_set
+        true_values = next(iter(true.scenario_games.values())).values
+        oracle_regret = true_values[oracle_decision.selected_mask].improvement - true_values[estimated_decision.selected_mask].improvement
         summary_rows.append({
             "regime": regime.name,
             "description": regime.description,
             "horizon": regime.horizon,
             "expected_status": regime.expected_status,
-            "expected_selected": ";".join(regime.expected_selected),
-            "observed_status": decision.status.value,
-            "observed_selected": ";".join(decision.selected_interventions),
-            "base_feasible": decision.base_feasible,
-            "lower_improvement": decision.lower_improvement,
-            "exact_selection_match": expected_set == observed_set,
-            "jaccard": jaccard,
+            "expected_estimated_selected": ";".join(regime.expected_selected),
+            "oracle_selected": ";".join(oracle_decision.selected_interventions),
+            "observed_estimated_selected": ";".join(estimated_decision.selected_interventions),
+            "observed_status": estimated_decision.status.value,
+            "base_feasible": estimated_decision.base_feasible,
+            "lower_improvement": estimated_decision.lower_improvement,
+            "estimated_selection_match": expected_estimated_set == observed_set,
+            "oracle_selection_match": oracle_set == observed_set,
+            "estimated_jaccard": len(expected_estimated_set & observed_set) / len(estimated_union) if estimated_union else 1.0,
+            "oracle_jaccard": len(oracle_set & observed_set) / len(oracle_union) if oracle_union else 1.0,
+            "oracle_regret": oracle_regret,
         })
         true_shapley = next(iter(true.scenario_games.values())).shapley
         est_shapley = next(iter(estimated.scenario_games.values())).shapley
@@ -282,7 +291,8 @@ def run_regime_suite(settings: Settings, logger: RunLogger) -> RegimeRunResult:
             "name": regime.name,
             "description": regime.description,
             "expected_status": regime.expected_status,
-            "expected_selected": regime.expected_selected,
+            "expected_estimated_selected": regime.expected_selected,
+            "oracle_selected": regime.oracle_selected,
             "horizon": regime.horizon,
             "estimated_value_function": regime.estimated_value.__name__,
             "true_value_function": regime.true_value.__name__,
@@ -294,7 +304,7 @@ def run_regime_suite(settings: Settings, logger: RunLogger) -> RegimeRunResult:
     (run_dir / "regime_manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
 
     fig, ax = plt.subplots(figsize=(10, 4.5))
-    ax.bar(summary["regime"], summary["jaccard"], color="#2E86AB")
+    ax.bar(summary["regime"], summary["oracle_jaccard"], color="#2E86AB")
     ax.set_ylim(0, 1.05)
     ax.set_ylabel("Jaccard similarity to oracle portfolio")
     ax.set_title("Controlled-regime portfolio recovery")

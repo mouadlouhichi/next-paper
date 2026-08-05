@@ -8,6 +8,8 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Iterable
 
+import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 
 from cure_rec.config import Settings
@@ -20,6 +22,8 @@ class SeedSweepResult:
     run_dir: Path
     decisions: pd.DataFrame
     attributions: pd.DataFrame
+    interactions: pd.DataFrame
+    base_feasibility: pd.DataFrame
 
 
 def run_seed_sweep(settings: Settings, seeds: Iterable[int]) -> SeedSweepResult:
@@ -36,6 +40,8 @@ def run_seed_sweep(settings: Settings, seeds: Iterable[int]) -> SeedSweepResult:
     sweep_root = Path(settings.run.output_root) / f"seed-sweep-{stamp}"
     decision_rows: list[dict] = []
     attribution_rows: list[dict] = []
+    interaction_rows: list[dict] = []
+    base_rows: list[dict] = []
 
     for seed in seed_list:
         seeded = settings.model_copy(deep=True)
@@ -50,21 +56,106 @@ def run_seed_sweep(settings: Settings, seeds: Iterable[int]) -> SeedSweepResult:
         })
         for row in game.regions.to_dict(orient="records"):
             attribution_rows.append({"seed": seed, **row})
+        for row in game.interaction_table.to_dict(orient="records"):
+            interaction_rows.append({"seed": seed, **row})
+        base_values = [scenario.values[0] for scenario in game.scenario_games.values()]
+        provider_upper = float(max(value.provider_disparity for value in base_values))
+        fatigue_upper = float(max(value.fatigue for value in base_values))
+        base_rows.append({
+            "seed": seed,
+            "base_feasible": decision.base_feasible,
+            "provider_disparity_upper": provider_upper,
+            "provider_margin": settings.constraints.max_provider_disparity - provider_upper,
+            "fatigue_upper": fatigue_upper,
+            "fatigue_margin": settings.constraints.max_fatigue - fatigue_upper,
+            "relevance_margin": -settings.constraints.min_relevance_delta,
+            "budget_margin": settings.constraints.budget,
+            "provider_failure": provider_upper > settings.constraints.max_provider_disparity,
+            "fatigue_failure": fatigue_upper > settings.constraints.max_fatigue,
+        })
 
     sweep_root.mkdir(parents=True, exist_ok=True)
     decisions = pd.DataFrame(decision_rows)
     attributions = pd.DataFrame(attribution_rows)
+    interactions = pd.DataFrame(interaction_rows)
+    base_feasibility = pd.DataFrame(base_rows)
     decisions.to_csv(sweep_root / "seed_sweep_decisions.csv", index=False)
     attributions.to_csv(sweep_root / "seed_sweep_attributions.csv", index=False)
-    summary = attributions.groupby("intervention", as_index=False).agg(
+    interactions.to_csv(sweep_root / "seed_sweep_interactions.csv", index=False)
+    base_feasibility.to_csv(sweep_root / "seed_sweep_base_feasibility.csv", index=False)
+    attribution_summary = attributions.groupby("intervention", as_index=False).agg(
         phi_mean_mean=("phi_mean", "mean"),
         phi_mean_std=("phi_mean", "std"),
         phi_lower_mean=("phi_lower", "mean"),
         phi_upper_mean=("phi_upper", "mean"),
         positive_sign_rate=("phi_lower", lambda x: float((x > 0).mean())),
     )
-    summary.to_csv(sweep_root / "seed_sweep_attribution_summary.csv", index=False)
-    return SeedSweepResult(sweep_root, decisions, attributions)
+    attribution_summary.to_csv(sweep_root / "seed_sweep_attribution_summary.csv", index=False)
+    selection_frequency = decisions.assign(portfolio=decisions["selected_interventions"].astype(str)).groupby("portfolio", as_index=False).agg(
+        frequency=("seed", "count"),
+        lower_improvement_mean=("lower_improvement", "mean"),
+    )
+    selection_frequency.to_csv(sweep_root / "seed_sweep_selection_frequency.csv", index=False)
+    _emit_seed_sweep_assets(sweep_root, decisions, attribution_summary, interactions, base_feasibility, selection_frequency)
+    return SeedSweepResult(sweep_root, decisions, attributions, interactions, base_feasibility)
+
+
+def _emit_seed_sweep_assets(
+    sweep_root: Path,
+    decisions: pd.DataFrame,
+    attribution_summary: pd.DataFrame,
+    interactions: pd.DataFrame,
+    base_feasibility: pd.DataFrame,
+    selection_frequency: pd.DataFrame,
+) -> None:
+    figures = sweep_root / "figures"
+    figures.mkdir(parents=True, exist_ok=True)
+
+    fig, ax = plt.subplots(figsize=(7, 4))
+    ax.bar(selection_frequency["portfolio"], selection_frequency["frequency"], color="#2E86AB")
+    ax.set_ylabel("Selection frequency")
+    ax.set_title("Seed-sweep selected portfolios")
+    ax.tick_params(axis="x", rotation=25)
+    fig.tight_layout(); fig.savefig(figures / "seed_figure_portfolio_frequency.png", dpi=180); plt.close(fig)
+
+    fig, ax = plt.subplots(figsize=(7, 4))
+    colors = np.where(decisions["base_feasible"], "#2A9D8F", "#E76F51")
+    ax.scatter(decisions["seed"], decisions["lower_improvement"], c=colors, s=55)
+    ax.axhline(0, color="black", linewidth=0.8)
+    ax.set_xlabel("Seed"); ax.set_ylabel("Lower robust improvement")
+    ax.set_title("Seed-level robust improvement (green=improvement, red=repair)")
+    fig.tight_layout(); fig.savefig(figures / "seed_figure_lower_improvement.png", dpi=180); plt.close(fig)
+
+    fig, ax = plt.subplots(figsize=(8, 4.5))
+    ax.errorbar(attribution_summary["intervention"], attribution_summary["phi_mean_mean"], yerr=attribution_summary["phi_mean_std"].fillna(0.0), fmt="o", capsize=4, color="#264653")
+    ax.axhline(0, color="black", linewidth=0.8)
+    ax.set_ylabel("Mean Shapley value ± seed SD")
+    ax.set_title("Shapley stability across seeds")
+    ax.tick_params(axis="x", rotation=25)
+    fig.tight_layout(); fig.savefig(figures / "seed_figure_shapley_stability.png", dpi=180); plt.close(fig)
+
+    fig, ax = plt.subplots(figsize=(7, 4))
+    colors = np.where(base_feasibility["base_feasible"], "#2A9D8F", "#E76F51")
+    ax.scatter(base_feasibility["seed"], base_feasibility["provider_margin"], c=colors, s=55)
+    ax.axhline(0, color="black", linewidth=0.8)
+    ax.set_xlabel("Seed"); ax.set_ylabel("Base provider feasibility margin")
+    ax.set_title("Base-policy feasibility by seed")
+    fig.tight_layout(); fig.savefig(figures / "seed_figure_base_feasibility.png", dpi=180); plt.close(fig)
+
+    names = list(attribution_summary["intervention"])
+    matrix = np.zeros((len(names), len(names)))
+    interaction_mean = interactions.groupby(["intervention_i", "intervention_j"], as_index=False)["interaction_mean"].mean()
+    for row in interaction_mean.itertuples(index=False):
+        i, j = names.index(row.intervention_i), names.index(row.intervention_j)
+        matrix[i, j] = matrix[j, i] = row.interaction_mean
+    bound = max(float(np.abs(matrix).max()), 1e-6)
+    fig, ax = plt.subplots(figsize=(7, 6))
+    image = ax.imshow(matrix, cmap="coolwarm", vmin=-bound, vmax=bound)
+    ax.set_xticks(range(len(names)), names, rotation=35, ha="right")
+    ax.set_yticks(range(len(names)), names)
+    fig.colorbar(image, ax=ax, label="Mean interaction across seeds")
+    ax.set_title("Seed-aggregated interaction heatmap")
+    fig.tight_layout(); fig.savefig(figures / "seed_figure_interaction_heatmap.png", dpi=180); plt.close(fig)
 
 
 @dataclass(frozen=True)
@@ -161,7 +252,8 @@ def run_all_variations(
         "variation": "controlled_regimes",
         "kind": "oracle_regime_suite",
         "run_dir": str(regime_result.run_dir),
-        "selection_match_rate": float(regime_result.summary["exact_selection_match"].mean()),
+        "estimated_selection_match_rate": float(regime_result.summary["estimated_selection_match"].mean()),
+        "oracle_selection_match_rate": float(regime_result.summary["oracle_selection_match"].mean()),
         "mean_shapley_mae": float(regime_result.attribution_recovery["absolute_error"].mean()),
     })
 
