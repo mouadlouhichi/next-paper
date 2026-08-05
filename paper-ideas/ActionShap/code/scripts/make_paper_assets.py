@@ -1717,21 +1717,6 @@ def main() -> None:
         data_root / "user_seed_metrics.csv.gz", index=False, compression="gzip"
     )
     pointwise_export_metrics = set(pointwise_export_columns)
-        "aia",
-        "aia_ndcg",
-        "faithfulness_alignment",
-        "actionability_gap",
-        "signed_alignment",
-        "signed_alignment_ndcg",
-        "direction_accuracy",
-        "direction_accuracy_ndcg",
-        "top1_precision",
-        "top3_precision",
-        "top5_precision",
-        "aia_null_mean",
-        "aia_null_p95",
-        "aia_permutation_p",
-    }
     summary_export = summaries.loc[
         ~(
             summaries["condition"].isin({"budget1", "budget3"})
