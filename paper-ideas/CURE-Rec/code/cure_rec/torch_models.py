@@ -100,6 +100,10 @@ class TorchBPRMFWithBias:
         updates = 0
 
         def sample_unseen(users_np: np.ndarray, strategy: str):
+            # Stage search can produce an empty mixture branch for a batch.
+            # Torch multinomial rejects zero samples, so preserve an empty shape.
+            if len(users_np) == 0:
+                return np.empty(0, dtype=np.int64)
             if strategy == "pop":
                 candidates = torch.multinomial(pop_tensor, len(users_np), replacement=True).cpu().numpy()
             else:
