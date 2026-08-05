@@ -67,5 +67,7 @@ The `sn-jnl` class wraps every `table` environment in the real
 `threeparttable`, which measures the `tabular` body in its own box. Wrapping a
 `tabular` in `\resizebox` (or `\scalebox`) inside these tables breaks group
 balance and triggers "Missing \endgroup", "Division by 0", and vanished tables.
-All manuscript tables are therefore resize-free; width is controlled by font
-size, `tabcolsep`, and `p{...}` columns. Keep it that way when editing tables.
+All manuscript tables are therefore resize-free and use *plain* `tabular`
+only (`tabularx`/`tabular*` inside the threeparttable wrapper are not used);
+width is controlled by font size, `tabcolsep`, wrapping `p{...}` columns, and
+shortened cell text. Keep it that way when editing tables.
