@@ -1,0 +1,19 @@
+\begin{table}[t]
+\centering\scriptsize
+\caption{Advertised diagnostic metrics for the primary ItemKNN target-margin analysis. Direction accuracy and top-$3$ precision use signed bounded effects; stability is rank stability across the five seed runs.}
+\label{tab:app-diagnostics}
+\begin{tabular}{@{}llrrrr@{}}
+\toprule
+Dataset & Method & Direction accuracy & Precision@3 & Stability & Valid $n$ \\
+\midrule
+MovieLens & Shapley & .888 & .820 & .985 & 1000 \\
+MovieLens & LIME & .963 & .920 & .975 & 1000 \\
+MovieLens & LOO & .989 & .967 & 1.000 & 1000 \\
+Amazon & Shapley & .784 & .603 & .971 & 993 \\
+Amazon & LIME & .936 & .596 & .969 & 993 \\
+Amazon & LOO & .941 & .596 & 1.000 & 993 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent Harm is not promoted as a separate aggregate headline metric; harmful selected actions are represented by negative realized effect and success is defined by a positive realized effect.

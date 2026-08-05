@@ -26,7 +26,7 @@
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning,fit,backgrounds,calc}
 \usepackage{microtype}
-\hypersetup{pdftitle={ActionShap: Beyond Deletion Faithfulness toward Intervention-Robust Recommendation Explanations},pdfauthor={Mouad Louhichi; Redwane Nesmaoui; Mohamed Lazaar},pdfsubject={Intervention-grounded evaluation of recommendation explanations},pdfkeywords={explainable recommendation, intervention evaluation, Shapley value, faithfulness, actionability}}
+\hypersetup{pdftitle={ActionShap: Evaluating Recommendation Attributions under Bounded Profile Interventions},pdfauthor={Mouad Louhichi; Redwane Nesmaoui; Mohamed Lazaar},pdfsubject={Intervention-grounded evaluation of recommendation attributions},pdfkeywords={explainable recommendation, bounded profile intervention, Shapley value, faithfulness, actionability}}
 
 \theoremstyle{thmstyleone}
 \newtheorem{theorem}{Theorem}
@@ -48,7 +48,7 @@
 
 \begin{document}
 
-\title[ActionShap]{ActionShap: Beyond Deletion Faithfulness toward Intervention-Robust Recommendation Explanations}
+\title[ActionShap]{ActionShap: Evaluating Recommendation Attributions under Bounded Profile Interventions}
 
 \author*[1]{\fnm{Mouad} \sur{Louhichi}}\email{mouad\_louhichi@um5.ac.ma}
 \author[1]{\fnm{Redwane} \sur{Nesmaoui}}\email{redwane\_nesmaoui@um5.ac.ma}
@@ -56,7 +56,7 @@
 \affil*[1]{\orgdiv{National Higher School of Computer Science and Systems Analysis (ENSIAS)}, \orgname{Mohammed V University in Rabat}, \orgaddress{\city{Rabat}, \country{Morocco}}}
 \date{}
 
-\abstract{Recommendation explanations are commonly evaluated by deleting historical interactions, although deployed recommendation systems act through bounded changes to the influence of observed evidence. Deletion and feasible intervention therefore measure different properties. We introduce \textbf{ActionShap}, an architecture-agnostic protocol for history-conditioned recommenders with inference-time profile interventions. ActionShap separates deletion alignment, bounded-intervention alignment, and the quality of the joint action selected under a fixed budget. It fixes temporal splits, complete pre-test-history exclusion, target-plus-unseen-negative candidate sets, global tie priorities, signed action selection, abstention, convergence, and inference over distinct users. We evaluate Monte Carlo Shapley, locally weighted LIME, leave-one-out, greedy sequential deletion, and a random control on MovieLens-1M and Amazon Digital Music. The primary analysis uses a history-conditioned ItemKNN recommender, 1,000 users, five common seeds, and exact budget-two oracles; a latent profile model and full-unseen-catalogue subset provide robustness evidence. Shapley improves from deletion to bounded target-margin alignment in the primary ItemKNN conditions, but local methods retain higher absolute alignment and slightly better MovieLens NDCG decisions. The random control remains near its within-user null. ActionShap contributes an auditable evaluation instrument for separating perturbation sensitivity, absolute alignment, and intervention decision quality rather than claiming universal superiority for any explainer.}
+\abstract{Recommendation explanations are commonly evaluated by deleting historical interactions, although deployed recommendation systems act through bounded changes to the influence of observed evidence. Deletion and a declared system-executable intervention therefore measure different properties. We introduce \textbf{ActionShap}, a model-interface-agnostic protocol for history-conditioned recommenders exposing inference-time profile weighting. ActionShap separates deletion alignment, bounded-intervention alignment, and the quality of the joint action selected under a fixed budget. It fixes temporal splits, complete pre-test-history exclusion, target-plus-unseen-negative candidate sets, global tie priorities, signed action selection, abstention, convergence, and inference over distinct users. We evaluate Monte Carlo Shapley, locally weighted LIME, leave-one-out, greedy sequential deletion, and a random control on MovieLens-1M and Amazon Digital Music. The primary analysis uses a history-conditioned ItemKNN recommender, 1,000 users, five common seeds, and exact budget-two oracles; a latent profile model and full-unseen-catalogue subset provide robustness evidence. Shapley exhibits a positive bounded-minus-deletion alignment difference in the primary ItemKNN conditions, especially on Amazon. LIME and leave-one-out retain higher absolute bounded alignment, and on MovieLens they achieve slightly higher realized NDCG effects and lower conditional normalized regret than Shapley. The random control remains near its within-user null. ActionShap contributes an auditable evaluation instrument for separating perturbation sensitivity, absolute alignment, and intervention decision quality rather than claiming universal superiority for any explainer.}
 
 \keywords{Explainable recommendation, Intervention evaluation, Faithfulness, Actionability, Shapley value, LIME}
 
@@ -74,7 +74,7 @@ ActionShap addresses these issues with a history-conditioned interaction-player 
 Our contributions are fourfold:
 \begin{enumerate}
   \item We formalize a recommendation-specific evaluation protocol that separates deletion faithfulness, bounded intervention, and budgeted decision quality under a frozen model.
-  \item We provide complementary magnitude, signed-direction, success, abstention, regret, stability, and within-user null metrics, with explicit handling of constant vectors and inactive oracles.
+  \item We provide complementary magnitude, signed-direction, success, abstention, regret, stability, and within-user null metrics, with explicit handling of constant vectors and inactive oracles; harmful actions are represented by their negative realized effect rather than a separate headline aggregate.
   \item We give executable algorithms for paired Monte Carlo attribution, signed action selection, the exact $B\le2$ oracle, user-level inference, and independent convergence selection.
   \item We report a two-dataset, two-model, five-seed benchmark. The primary ItemKNN results show that Shapley can improve relative to deletion while LIME and LOO retain higher absolute alignment and downstream decision quality in some conditions.
 \end{enumerate}
@@ -126,23 +126,26 @@ and define the older training context $B_u=H_u^{\mathrm{train}}\setminus P_u$. I
 Every user has a fixed candidate set $E_u$ containing the held-out target and sampled negatives. Negatives exclude the complete pre-test history, including validation. The user seed, candidate seed, tie seed, model seed, and attribution seed are independent. Full-catalogue robustness uses the target plus all unseen items. Target coverage is one by construction and is not called retrieval recall.
 
 \subsection{History-conditioned recommenders}
-The primary ItemKNN score is a weighted mean of frozen item--item similarities:
+The primary ItemKNN score is a weighted mean of frozen item--item similarities. We write the inference-time weighted profile as $\mathcal{P}_u=(P_u,w)$ and define $W_u(S)=\sum_{h\in S}w_h$:
 \begin{equation}
-f_u^S(i)=
+f_u(i\mid S,w)=
 \begin{cases}
-\displaystyle\frac{\sum_{h\in S}w_hs(i,h)}{\sum_{h\in S}w_h},&S\ne\varnothing,\\[6pt]
-0,&S=\varnothing.
+\displaystyle\frac{\sum_{h\in S}w_hs(i,h)}{W_u(S)},&W_u(S)>0,\\[6pt]
+0,&W_u(S)=0.
 \end{cases}
+\label{eq:itemknn-weighted}
 \end{equation}
 A profile aggregator is used for robustness,
 \begin{equation}
-p_u(S)=
+p_u(S,w)=
 \begin{cases}
-\displaystyle\frac{\sum_{h\in S}w_hq_h}{\sum_{h\in S}w_h},&S\ne\varnothing,\\[6pt]
-\mathbf 0,&S=\varnothing,
+\displaystyle\frac{\sum_{h\in S}w_hq_h}{W_u(S)},&W_u(S)>0,\\[6pt]
+\mathbf 0,&W_u(S)=0,
 \end{cases}
-\qquad f_u^S(i)=q_i^\top p_u(S).
+\qquad f_u(i\mid S,w)=q_i^\top p_u(S,w).
+\label{eq:profile-weighted}
 \end{equation}
+Thus the empty coalition and any nonempty all-zero-weight coalition use the same zero-profile convention. The primary full profile uses $w_h=1$ for every retained interaction. For readability below, $f_u^S(i)$ abbreviates $f_u(i\mid S,\mathbf{1})$ and $s_i^S=f_u^S(i)$.
 Its item embeddings are trained once with the leave-one-out BPR-style objective
 \begin{equation}
 \mathcal{L}_{\mathrm{BPR}}=-\sum_{(u,i,j)}\log\sigma\left(p_{u,-i}^{\top}(q_i-q_j)\right)
@@ -287,20 +290,25 @@ Deletion AIA substitutes $\Delta_{u,p}^{z,\mathrm{del}}$; bounded AIA uses $\Del
 \begin{equation}
 \mathrm{DirAcc}_u^z(g)=|I_u^z|^{-1}\sum_{p\in I_u^z}\mathbf{1}\left[\operatorname{sign}(-\phi^g_{u,p})=\operatorname{sign}(\Delta_{u,p}^z)\right].
 \end{equation}
-Let $T_{u,k}^g$ be the $k$ players with largest predicted benefit $-\phi^g$; top-$k$ intervention precision is
+When $I_u^z=\varnothing$, direction accuracy is missing. Let $k_u=\min(k,n_u)$ and let $T_{u,k_u}^g$ be the $k_u$ players with largest predicted benefit $-\phi^g$; top-$k$ intervention precision is
 \begin{equation}
-\mathrm{Prec}@k_u^z(g)=k^{-1}\sum_{p\in T_{u,k}^g}\mathbf{1}\left[\Delta_{u,p}^z>0\ \wedge\ \operatorname{sign}(-\phi^g_{u,p})=\operatorname{sign}(\Delta_{u,p}^z)\right].
+\mathrm{Prec}@k_u^z(g)=k_u^{-1}\sum_{p\in T_{u,k_u}^g}\mathbf{1}\left[\Delta_{u,p}^z>0\ \wedge\ \operatorname{sign}(-\phi^g_{u,p})=\operatorname{sign}(\Delta_{u,p}^z)\right].
 \end{equation}
-For a selected joint action $\widehat A_{u,g}$, success and harm are $\mathbf{1}[\Delta_u^z(\widehat A_{u,g})>0]$ and $\mathbf{1}[\Delta_u^z(\widehat A_{u,g})<0]$, while abstention is $\mathbf{1}[\widehat A_{u,g}=\varnothing]$. Rank stability over $R$ seed runs is
+For a selected joint action $\widehat A_{u,g}$, success is $\mathbf{1}[\Delta_u^z(\widehat A_{u,g})>0]$; a negative realized effect identifies a harmful action, and abstention is $\mathbf{1}[\widehat A_{u,g}=\varnothing]$. Rank stability over $R_{\mathrm{seed}}$ seed runs is
 \begin{equation}
-\mathrm{Stab}_u(g)=\frac{2}{R(R-1)}\sum_{r<s}\rho_S(\boldsymbol\phi_{u}^{g,r},\boldsymbol\phi_{u}^{g,s}),
+\mathrm{Stab}_u(g)=\frac{2}{R_{\mathrm{seed}}(R_{\mathrm{seed}}-1)}\sum_{r<s}\rho_S(\boldsymbol\phi_{u}^{g,r},\boldsymbol\phi_{u}^{g,s}),
 \end{equation}
 computed only over finite nonconstant pairs.
 
-For each user and seed, $R=1{,}000$ within-seed permutations shuffle effect magnitudes across players. We first compute the observed AIA and its $R$ null draws within each seed; then we average the observed value and each matched null draw across the five seeds within user. Bootstrap and paired inference operate on these distinct-user summaries. We report null means, null 95th percentiles, plus-one permutation $p$-values, and valid-user counts. Constant vectors are missing, not imputed.
+For each user and seed, $R_{\mathrm{null}}=1{,}000$ within-seed permutations shuffle effect magnitudes across players. We first compute the observed AIA and its $R$ null draws within each seed; then we average the observed value and each matched null draw across the five seeds within user. Bootstrap and paired inference operate on these distinct-user summaries. We report null means, null 95th percentiles, plus-one permutation $p$-values, and valid-user counts. Constant vectors are missing, not imputed.
 
 \subsection{Decision quality and regret}
-For utility $z$, the exact budget-two oracle is
+For a method action, define the predicted joint benefit
+\begin{equation}
+\widehat B_u^g(A)=-\sum_{p\in A}\widehat\phi_{u,p}^g.
+\label{eq:predicted-benefit}
+\end{equation}
+The method considers an action eligible when $\widehat B_u^g(A)>10^{-12}$; otherwise it abstains. Because this predicted benefit is additive, the implementation obtains the maximizer by sorting strictly positive individual benefits and taking at most $B$ of them; equal scores use the deterministic tie rule below. For utility $z$, the exact budget-two oracle is
 \begin{equation}
 A_u^{*,z}=\arg\max_{A\in\mathcal A_{u,2}}\Delta_u^z(A),
 \end{equation}
@@ -352,7 +360,8 @@ It is averaged only over active-oracle users. Zero means an oracle-equivalent ac
 \State Apply $w_p\gets\rho w_p$ simultaneously for $p\in A$
 \State Cache target-margin and NDCG effects
 \EndFor
-\State Select $\arg\max_A[-\sum_{p\in A}\hat\phi_{u,p}]$ over positive scores
+\State Compute $\widehat B_u^g(A)=-\sum_{p\in A}\hat\phi_{u,p}$ for each candidate action
+\State Select the maximum eligible $\widehat B_u^g(A)$ using the deterministic tie rule
 \State Return $\varnothing$ when the best score is at most $10^{-12}$
 \State Select the exact oracle separately for each utility
 \end{algorithmic}
@@ -406,7 +415,7 @@ The primary candidate set contains the target and 199 uniformly sampled unseen n
 LIME uses 512 binary masks including the full, empty, and all leave-one-out masks, a normalized Hamming-distance kernel with width $0.25$, and ridge coefficient $1.0$. The target-margin competitor count is $L=10$ and the sigmoid temperature is one. The primary intervention is $\rho=0.5$; $\rho=0.25$ is sensitivity-only. The exact budget-two action space includes no action, all singletons, and all pairs.
 
 \subsection{Statistical analysis}
-For each seed we compute user-level quantities first; repeated seed values are then averaged within distinct user before bootstrap resampling. User bootstrap intervals are two-sided percentile intervals from 10,000 user resamples. Paired plus-one sign permutations use 10,000 two-sided sign flips of the user-level differences, with $p=(1+\#\{|T^*|\ge|T_{\mathrm{obs}}|\})/(R+1)$. Holm correction is applied separately within each dataset--model--condition--metric family across the declared method-pair comparisons. Paired Cohen's $d_z$ is $\bar d/s_d$, where $d_u$ is the user-level paired difference and $s_d$ its sample standard deviation. The paired comparison uses the intersection of users with finite values for both methods; missing correlations are retained as missing. Active-oracle counts define the denominator for normalized regret. No coalition evaluation is an independent statistical observation.
+For each seed we compute user-level quantities first; repeated seed values are then averaged within distinct user before bootstrap resampling. User bootstrap intervals are two-sided percentile intervals from 10,000 user resamples. For a paired metric, $d_u=x_u-y_u$ and $T_{\mathrm{obs}}=n^{-1}\sum_{u=1}^{n}d_u$. Paired plus-one sign permutations use 10,000 two-sided sign flips $T_r^*=n^{-1}\sum_u\epsilon_{u,r}d_u$, with $\epsilon_{u,r}\in\{-1,+1\}$ and $p=(1+\#\{|T_r^*|\ge|T_{\mathrm{obs}}|\})/(R+1)$. Holm correction is applied separately within each dataset--model--condition--metric family across the declared method-pair comparisons. Paired Cohen's $d_z$ is $\bar d/s_d$, where $d_u$ is the user-level paired difference and $s_d$ its sample standard deviation. The paired comparison uses the intersection of users with finite values for both methods; missing correlations are retained as missing. Active-oracle counts define the denominator for normalized regret. No coalition evaluation is an independent statistical observation.
 
 \subsection{Reproducibility}
 The real result archive contains 80 recommendation runs plus five convergence studies. All assets in this manuscript are generated from schema-v2 raw results with repository-relative paths and content hashes. The primary ItemKNN target-margin analysis uses $M_{\mathrm{pair}}=500$ base permutations and $T=1000$ evaluated orders; the independent convergence study selects lower diagnostic values for some conditions, while the conservative final floor is retained. The archived runs record macOS-26.5.1-arm64, Python 3.12.13, NumPy 2.4.6, SciPy 1.17.1, pandas 2.3.3, scikit-learn 1.9.0, matplotlib 3.11.1, and PyYAML 6.0.3. Historical processor model, RAM, and peak RSS were not serialized.
@@ -446,7 +455,7 @@ On Amazon ItemKNN, NDCG effects are $0.0333$ for Shapley, $0.0331$ for LIME, and
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{joint_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf}
-\caption{Primary MovieLens ItemKNN NDCG effect for actions selected at budget two. The comparison is retrospective and target-conditioned; intervals are distinct-user bootstrap intervals.}
+\caption{Primary MovieLens ItemKNN NDCG effect for actions selected at budget two. We show MovieLens for visual legibility; the analogous Amazon effects are reported in Table~\ref{tab:intervention-outcomes}. The comparison is retrospective and target-conditioned; intervals are distinct-user bootstrap intervals.}
 \label{fig:joint-ndcg}
 \end{figure}
 
@@ -517,13 +526,16 @@ PRINCE \cite{ghazimatin2020} & Provider/profile & Counterfactual generation & Re
 ACCENT \cite{tran2021} & User factors & Counterfactual masking & Top-$K$ explanation & No common budget oracle & Method-specific \\
 Tan et al. \cite{tan2021} & Recommendation factors & Counterfactual explanation & Ranking change & Method-specific & User/item evaluation \\
 CEERS \cite{baklanov2024} & Explanation factors & Counterfactual evaluation & Explanation quality & Benchmark-specific & Reproducibility protocol \\
-LXR \cite{barkan2024,gurevitch2025} & Learned masks & Model-specific counterfactual & Explanation quality & Learned objective & Method-specific \\
+Barkan et al. \cite{barkan2024} & Learned masks & Model-specific counterfactual & Explanation quality & Learned objective & Method-specific \\
+LXR \cite{gurevitch2025} & Learned explanation masks & Model-specific counterfactual & Explanation quality & Learned objective & Method-specific \\
+Mohammadi et al. \cite{mohammadi2025} & Explanation factors & Top-$K$ counterfactual evaluation & Consistency & No common budget oracle & Benchmark study \\
+Nguyen et al. \cite{nguyen2026} & User/profile factors & Top-$K$ counterfactual evaluation & Effectiveness, sparsity & Benchmark-specific & Cross-paper benchmark \\
 ActionShap & History interactions & $w_p\leftarrow\rho w_p$ & AIA, NDCG, regret & Exact $B=2$; abstention & Distinct-user paired inference \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-The decision results reinforce this distinction. On MovieLens, local methods select slightly better NDCG actions. On Amazon, Shapley and LIME are close, with modest differences in conditional regret. A method can therefore be more stable across perturbation semantics without selecting the best action for every operational utility. This is precisely why ActionShap reports pointwise alignment, signed direction, success, abstention, and regret together.
+The decision results reinforce this distinction. On MovieLens, local methods select slightly better NDCG actions. On Amazon, Shapley and LIME are close, with modest differences in conditional regret. A method can therefore show a positive change between deletion and bounded-intervention alignment without selecting the best action for every operational utility. This is precisely why ActionShap reports pointwise alignment, signed direction, success, abstention, and regret together.
 
 The protocol also clarifies what offline actionability means. The intervention is system-executable inside the frozen simulator: it changes an inference-time interaction weight without retraining. It is not automatically a user action, causal intervention, or prospective policy. A production deployment would need authority, cost, user-consent, and feedback-loop specifications that are outside this benchmark.
 
@@ -541,7 +553,7 @@ Temporal splitting and complete pre-test exclusion reduce leakage, but the audit
 Two datasets and two history-conditioned models do not cover sequential transformers, graph recommenders, multimodal inputs, online feedback, provider objectives, or heterogeneous intervention costs. The full-catalogue subset is smaller than the primary cohort. The profile model’s quality shortfall and one failed gate are retained as explicit boundaries rather than generalized.
 
 \section{Conclusion}
-ActionShap provides a reproducible protocol for asking whether recommendation explanations predict the effects of feasible profile interventions. In the primary ItemKNN experiments, Shapley’s target-margin alignment improves relative to deletion, particularly on Amazon, while LIME and LOO retain higher absolute alignment and slightly better MovieLens NDCG decisions. The random control remains near its chance null, and a positive Actionability Gap is therefore not sufficient evidence of explanation validity. The principal contribution is the separation of deletion faithfulness, bounded-intervention alignment, and joint decision quality under a common, leakage-safe, abstention-aware protocol.
+ActionShap provides a reproducible protocol for asking whether recommendation explanations predict the effects of declared system-executable profile interventions. In the primary ItemKNN experiments, Shapley exhibits a positive bounded-minus-deletion alignment difference, particularly on Amazon, while LIME and LOO retain higher absolute alignment and slightly better MovieLens NDCG decisions. The random control remains near its chance null, and a positive Actionability Gap is therefore not sufficient evidence of explanation validity. The principal contribution is the separation of deletion faithfulness, bounded-intervention alignment, and joint decision quality under a common, leakage-safe, abstention-aware protocol.
 
 
 
@@ -629,6 +641,7 @@ The profile optimizer samples one positive item per user per epoch, excludes tha
 \setcounter{table}{0}
 \input{tables/appendix_statistics_compact.tex}
 \input{tables/appendix_convergence_compact.tex}
+\input{tables/appendix_diagnostics_compact.tex}
 
 \section{Computational Cost and Reproducibility}\label{app:release}
 \setcounter{table}{0}
