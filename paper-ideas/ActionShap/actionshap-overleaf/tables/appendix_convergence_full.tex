@@ -1,0 +1,47 @@
+\begin{longtable}{@{}p{.14\textwidth}p{.10\textwidth}p{.14\textwidth}rrrrp{.16\textwidth}@{}}
+\caption{Full independent convergence matrix. $M_{\mathrm{pair}}$ is the number of base permutations and every estimate also evaluates its reverse order.}\label{app:full-convergence}\\
+\toprule
+Dataset & Model & Utility & $M_{\mathrm{pair}}$ & Rank & Jaccard & Coverage & Status \\
+\midrule
+\endfirsthead
+\multicolumn{8}{c}{\tablename\ \thetable{} -- continued from previous page}\\
+\toprule
+Dataset & Model & Utility & $M_{\mathrm{pair}}$ & Rank & Jaccard & Coverage & Status \\
+\midrule
+\endhead
+\midrule
+\multicolumn{8}{r}{Continued on next page}\\
+\endfoot
+\bottomrule
+\endlastfoot
+Amazon & itemknn & target\_margin & 25 & 0.9348 & 0.8707 & 43.0\%  & threshold\_selected \\
+Amazon & itemknn & target\_margin & 50 & 0.9532 & 0.9090 & 60.0\%  & threshold\_selected \\
+Amazon & itemknn & target\_margin & 100 & 0.9690 & 0.9450 & 70.0\%  & threshold\_selected \\
+Amazon & itemknn & target\_margin & 250 & 0.9739 & 0.9467 & 78.0\%  & threshold\_selected \\
+Amazon & itemknn & target\_margin & 500 & 0.9797 & 0.9617 & 83.0\%  & threshold\_selected \\
+Amazon & itemknn & target\_margin & 1000 & 0.9821 & 0.9653 & 85.0\%  & threshold\_selected \\
+Amazon & profile & target\_margin & 25 & 0.9023 & 0.7913 & 23.0\%  & threshold\_selected \\
+Amazon & profile & target\_margin & 50 & 0.9297 & 0.8563 & 39.0\%  & threshold\_selected \\
+Amazon & profile & target\_margin & 100 & 0.9670 & 0.9110 & 66.0\%  & threshold\_selected \\
+Amazon & profile & target\_margin & 250 & 0.9742 & 0.9297 & 74.0\%  & threshold\_selected \\
+Amazon & profile & target\_margin & 500 & 0.9841 & 0.9467 & 78.0\%  & threshold\_selected \\
+Amazon & profile & target\_margin & 1000 & 0.9888 & 0.9683 & 89.0\%  & threshold\_selected \\
+MovieLens & itemknn & ndcg & 25 & 0.8257 & 0.6087 & 22.8\%  & max\_budget\_unconverged \\
+MovieLens & itemknn & ndcg & 50 & 0.8575 & 0.6113 & 27.2\%  & max\_budget\_unconverged \\
+MovieLens & itemknn & ndcg & 100 & 0.8847 & 0.6897 & 39.1\%  & max\_budget\_unconverged \\
+MovieLens & itemknn & ndcg & 250 & 0.9167 & 0.7373 & 52.2\%  & max\_budget\_unconverged \\
+MovieLens & itemknn & ndcg & 500 & 0.9306 & 0.7740 & 60.9\%  & max\_budget\_unconverged \\
+MovieLens & itemknn & ndcg & 1000 & 0.9409 & 0.7813 & 62.0\%  & max\_budget\_unconverged \\
+MovieLens & itemknn & target\_margin & 25 & 0.9348 & 0.6467 & 13.0\%  & threshold\_selected \\
+MovieLens & itemknn & target\_margin & 50 & 0.9584 & 0.7280 & 33.0\%  & threshold\_selected \\
+MovieLens & itemknn & target\_margin & 100 & 0.9745 & 0.7880 & 52.0\%  & threshold\_selected \\
+MovieLens & itemknn & target\_margin & 250 & 0.9853 & 0.8433 & 69.0\%  & threshold\_selected \\
+MovieLens & itemknn & target\_margin & 500 & 0.9902 & 0.8767 & 74.0\%  & threshold\_selected \\
+MovieLens & itemknn & target\_margin & 1000 & 0.9936 & 0.9040 & 81.0\%  & threshold\_selected \\
+MovieLens & profile & target\_margin & 25 & 0.9455 & 0.7787 & 25.0\%  & threshold\_selected \\
+MovieLens & profile & target\_margin & 50 & 0.9670 & 0.8320 & 56.0\%  & threshold\_selected \\
+MovieLens & profile & target\_margin & 100 & 0.9779 & 0.8773 & 70.0\%  & threshold\_selected \\
+MovieLens & profile & target\_margin & 250 & 0.9873 & 0.9053 & 82.0\%  & threshold\_selected \\
+MovieLens & profile & target\_margin & 500 & 0.9912 & 0.9267 & 86.0\%  & threshold\_selected \\
+MovieLens & profile & target\_margin & 1000 & 0.9941 & 0.9373 & 89.0\%  & threshold\_selected \\
+\end{longtable}

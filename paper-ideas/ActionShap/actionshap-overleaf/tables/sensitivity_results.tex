@@ -1,0 +1,52 @@
+% Budget sensitivities intentionally contain no singleton AIA, deletion, or gap rows.
+\begin{table}[t]\centering\scriptsize
+\caption{Budget sensitivities for the MovieLens ItemKNN model. Only joint-action outcomes are reported; singleton AIA estimands are excluded by design.}
+\label{tab:sensitivity}
+\begin{tabular}{llrrr}
+\toprule
+Budget & Method & Outcome & Mean & $n$ \\
+\midrule
+$B=1$ & Shapley & $\Delta$NDCG & 0.026 & 250 \\
+$B=1$ & Shapley & Success & 0.194 & 250 \\
+$B=1$ & Shapley & Abstention & 0.000 & 250 \\
+$B=1$ & Shapley & NRegret & 0.274 & 60 \\
+$B=1$ & LIME & $\Delta$NDCG & 0.026 & 250 \\
+$B=1$ & LIME & Success & 0.182 & 250 \\
+$B=1$ & LIME & Abstention & 0.004 & 250 \\
+$B=1$ & LIME & NRegret & 0.297 & 60 \\
+$B=1$ & LOO & $\Delta$NDCG & 0.027 & 250 \\
+$B=1$ & LOO & Success & 0.188 & 250 \\
+$B=1$ & LOO & Abstention & 0.004 & 250 \\
+$B=1$ & LOO & NRegret & 0.260 & 60 \\
+$B=1$ & Greedy & $\Delta$NDCG & -0.002 & 250 \\
+$B=1$ & Greedy & Success & 0.064 & 250 \\
+$B=1$ & Greedy & Abstention & 0.000 & 250 \\
+$B=1$ & Greedy & NRegret & 0.944 & 60 \\
+$B=1$ & Random & $\Delta$NDCG & 0.001 & 250 \\
+$B=1$ & Random & Success & 0.046 & 250 \\
+$B=1$ & Random & Abstention & 0.001 & 250 \\
+$B=1$ & Random & NRegret & 0.960 & 60 \\
+\midrule
+$B=3$ & Shapley & $\Delta$NDCG & 0.062 & 250 \\
+$B=3$ & Shapley & Success & 0.340 & 250 \\
+$B=3$ & Shapley & Abstention & 0.000 & 250 \\
+$B=3$ & Shapley & NRegret & 0.082 & 25 \\
+$B=3$ & LIME & $\Delta$NDCG & 0.062 & 250 \\
+$B=3$ & LIME & Success & 0.340 & 250 \\
+$B=3$ & LIME & Abstention & 0.004 & 250 \\
+$B=3$ & LIME & NRegret & 0.089 & 25 \\
+$B=3$ & LOO & $\Delta$NDCG & 0.061 & 250 \\
+$B=3$ & LOO & Success & 0.340 & 250 \\
+$B=3$ & LOO & Abstention & 0.004 & 250 \\
+$B=3$ & LOO & NRegret & 0.089 & 25 \\
+$B=3$ & Greedy & $\Delta$NDCG & 0.010 & 250 \\
+$B=3$ & Greedy & Success & 0.152 & 250 \\
+$B=3$ & Greedy & Abstention & 0.000 & 250 \\
+$B=3$ & Greedy & NRegret & 0.753 & 25 \\
+$B=3$ & Random & $\Delta$NDCG & 0.002 & 250 \\
+$B=3$ & Random & Success & 0.095 & 250 \\
+$B=3$ & Random & Abstention & 0.001 & 250 \\
+$B=3$ & Random & NRegret & 0.946 & 25 \\
+\bottomrule
+\end{tabular}
+\end{table}
