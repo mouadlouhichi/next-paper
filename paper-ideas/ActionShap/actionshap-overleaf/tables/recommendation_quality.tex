@@ -2,7 +2,7 @@
 % NOTE: sn-jnl wraps every table in threeparttable, which is incompatible with
 % \resizebox around tabular (group imbalance + division-by-zero). Keep tables
 % resize-free; width controlled via font size and column spacing % which is the construct verified compatible with sn-jnl's threeparttable wrapper.
-\begin{table}[H]
+\begin{table}[!htbp]
 \centering\scriptsize
 \setlength{\tabcolsep}{2.5pt}
 \caption{Recommendation-quality and masking-gate audit. The evaluation set contains the held-out target plus the stated number of unseen negatives; HitRate@10 is the one-target hit indicator and is not catalogue retrieval recall. ML-1M = MovieLens-1M.}

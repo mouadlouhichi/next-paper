@@ -71,3 +71,11 @@ All manuscript tables are therefore resize-free and use *plain* `tabular`
 only (`tabularx`/`tabular*` inside the threeparttable wrapper are not used);
 width is controlled by font size, `tabcolsep`, wrapping `p{...}` columns, and
 shortened cell text. Keep it that way when editing tables.
+
+For the same reason, never use the `[H]` placement specifier on `table` (or
+`sidewaystable`) environments: `float.sty` implements `[H]` by locally
+redefining `\endtable` to its own `\float@endH`, which bypasses the class's
+threeparttable/closing code and causes "Extra }, or forgotten \\endgroup",
+"\\begin{threeparttable} ... ended by \\end{table}", and a cascade of
+"Not in outer par mode" errors. Use `[!htbp]` plus the existing `\\FloatBarrier`
+commands instead (figures are unaffected because the class does not wrap them).

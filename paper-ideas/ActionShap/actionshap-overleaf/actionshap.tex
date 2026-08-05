@@ -28,6 +28,14 @@
 \usepackage{microtype}
 \usepackage{placeins}
 \usepackage{float}
+% WARNING (sn-jnl): do NOT use the [H] specifier on table (or sidewaystable)
+% environments. sn-jnl redefines table to wrap its body in
+% center+threeparttable, whose groups are closed only by the class's own
+% \endtable code. float.sty's [H] handler (@float@HH) locally redefines
+% \endtable to \float@endH, bypassing that wrapper; the open groups then make
+% \@endfloatbox fail with "Extra }, or forgotten \endgroup" and
+% "\begin{threeparttable} ended by \end{table}". Use [!htbp] instead;
+% \FloatBarrier (placeins) keeps floats in their sections.
 \hypersetup{pdftitle={ActionShap: Evaluating Recommendation Attributions under Bounded Profile Interventions},pdfauthor={Mouad Louhichi; Redwane Nesmaoui; Mohamed Lazaar},pdfsubject={Intervention-grounded evaluation of recommendation attributions},pdfkeywords={explainable recommendation, bounded profile intervention, Shapley value, faithfulness, actionability}}
 
 \theoremstyle{thmstyleone}
@@ -623,7 +631,7 @@ With $n_u\le20$, the exact action space contains $1+n_u+\binom{n_u}{2}\le211$ ac
 \section{Experimental Contract}\label{app:contract}
 \setcounter{table}{0}
 
-\begin{table}[H]
+\begin{table}[!htbp]
 \centering\scriptsize
 \setlength{\tabcolsep}{3pt}
 \caption{Frozen experimental contract used for every paper-eligible run. The executable YAML and scripts are the source of truth; this table records every parameter that changes the estimand or reported uncertainty.}
