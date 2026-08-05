@@ -165,17 +165,32 @@ def run_final_bpr_seed_replication(
     *,
     max_eval_users: int = 1_000,
 ) -> pd.DataFrame:
-    """Replicate the frozen selected BPR config across seeds without retuning."""
+    """Replicate the frozen selected BPR config across seeds without retuning.
+
+    Existing seed artifacts are resumed only when they contain the expected frozen
+    configuration and both popularity/BPR rows. Incomplete artifacts from a prior
+    failed aggregation are automatically retrained rather than silently yielding
+    an empty paired result.
+    """
     root = Path(output_dir)
     root.mkdir(parents=True, exist_ok=True)
+    expected_cfg, _ = _load_selected_search_config(search_root)
+    expected_hash = _hash(expected_cfg)
     rows = []
-    # Resume completed seed audits rather than repeating expensive MPS training.
     for seed in seeds:
         seed_root = root / f"seed-{seed}"
         completed = seed_root / "final_bpr_test_metrics.csv"
+        summary = None
         if completed.exists():
-            summary = pd.read_csv(completed)
-        else:
+            candidate = pd.read_csv(completed)
+            # Accept legacy BPR label only when it explicitly records the same config.
+            labels = set(candidate.get("model", pd.Series(dtype=str)).astype(str))
+            hashes = set(candidate.get("selected_config_hash", pd.Series(dtype=str)).dropna().astype(str))
+            has_pair = "popularity" in labels and bool(labels & {"torch_bpr_mf_bias_final", "torch_bpr_mf_bias"})
+            if not candidate.empty and has_pair and expected_hash in hashes:
+                summary = candidate.copy()
+                summary["model"] = summary["model"].replace({"torch_bpr_mf_bias": "torch_bpr_mf_bias_final"})
+        if summary is None:
             summary = run_final_bpr_audit(
                 split,
                 search_root,
@@ -187,11 +202,16 @@ def run_final_bpr_seed_replication(
             summary = summary.copy()
             summary.insert(0, "seed", seed)
         rows.append(summary)
+
     metrics = pd.concat(rows, ignore_index=True)
     metrics.to_csv(root / "final_bpr_seed_metrics.csv", index=False)
-    bpr = metrics[metrics["model"] == "torch_bpr_mf_bias_final"].copy()
-    pop = metrics[metrics["model"] == "popularity"][["seed", "recall_at_k", "ndcg_at_k"]].copy()
-    pop = pop.groupby("seed", as_index=False).first().rename(columns={"recall_at_k": "pop_recall_at_k", "ndcg_at_k": "pop_ndcg_at_k"})
+    bpr = metrics[metrics["model"] == "torch_bpr_mf_bias_final"].groupby("seed", as_index=False).first()
+    pop = metrics[metrics["model"] == "popularity"].groupby("seed", as_index=False).first()[["seed", "recall_at_k", "ndcg_at_k"]]
+    if len(bpr) != len(seeds) or len(pop) != len(seeds):
+        raise RuntimeError(
+            f"Incomplete final BPR replication: expected {len(seeds)} BPR and popularity rows; got {len(bpr)} BPR and {len(pop)} popularity rows."
+        )
+    pop = pop.rename(columns={"recall_at_k": "pop_recall_at_k", "ndcg_at_k": "pop_ndcg_at_k"})
     paired = bpr.merge(pop, on="seed", how="left", validate="one_to_one")
     if paired[["pop_recall_at_k", "pop_ndcg_at_k"]].isna().any().any():
         raise ValueError("Missing matching popularity row for one or more BPR replication seeds")
