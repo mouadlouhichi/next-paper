@@ -1694,10 +1694,29 @@ def main() -> None:
     aggregate_null = aggregate_aia_null(attributions, args.null_draws)
     protocol = protocol_table(results)
 
-    metrics.to_csv(
+    metrics_export = metrics.copy()
+    pointwise_export_columns = [
+        "aia",
+        "aia_ndcg",
+        "faithfulness_alignment",
+        "actionability_gap",
+        "signed_alignment",
+        "signed_alignment_ndcg",
+        "direction_accuracy",
+        "direction_accuracy_ndcg",
+        "top1_precision",
+        "top3_precision",
+        "top5_precision",
+        "aia_null_mean",
+        "aia_null_p95",
+        "aia_permutation_p",
+    ]
+    budget_mask = metrics_export["condition"].isin({"budget1", "budget3"})
+    metrics_export.loc[budget_mask, pointwise_export_columns] = np.nan
+    metrics_export.to_csv(
         data_root / "user_seed_metrics.csv.gz", index=False, compression="gzip"
     )
-    pointwise_export_metrics = {
+    pointwise_export_metrics = set(pointwise_export_columns)
         "aia",
         "aia_ndcg",
         "faithfulness_alignment",
