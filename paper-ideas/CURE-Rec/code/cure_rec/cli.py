@@ -58,6 +58,8 @@ def _analyze_data(args: argparse.Namespace) -> int:
         output_root=args.output_root,
         run_bpr=not args.skip_bpr,
         bpr_updates=args.bpr_updates,
+        bpr_epochs=args.bpr_epochs,
+        bpr_backend=args.bpr_backend,
         max_eval_users=args.max_eval_users,
         seed=args.seed,
     )
@@ -120,6 +122,8 @@ def _full_run(args: argparse.Namespace) -> int:
         download=args.download,
         run_bpr=not args.skip_bpr,
         bpr_updates=args.bpr_updates,
+        bpr_epochs=args.bpr_epochs,
+        bpr_backend=args.bpr_backend,
         max_eval_users=args.max_eval_users,
     )
     print(json.dumps({
@@ -161,7 +165,9 @@ def main(argv: list[str] | None = None) -> int:
     analyzer.add_argument("--download", action="store_true")
     analyzer.add_argument("--output-root", type=Path, default=Path("runs"))
     analyzer.add_argument("--skip-bpr", action="store_true", help="Run popularity baseline only")
-    analyzer.add_argument("--bpr-updates", type=int, default=50_000)
+    analyzer.add_argument("--bpr-updates", type=int, default=500_000, help="NumPy fallback update budget")
+    analyzer.add_argument("--bpr-epochs", type=int, default=200, help="PyTorch Adam maximum epochs")
+    analyzer.add_argument("--bpr-backend", choices=("auto", "torch", "numpy"), default="auto")
     analyzer.add_argument("--max-eval-users", type=int, default=1_000)
     analyzer.add_argument("--seed", type=int, default=42)
     analyzer.set_defaults(handler=_analyze_data)
@@ -186,7 +192,9 @@ def main(argv: list[str] | None = None) -> int:
     full.add_argument("--source", type=Path, required=True)
     full.add_argument("--download", action="store_true")
     full.add_argument("--skip-bpr", action="store_true")
-    full.add_argument("--bpr-updates", type=int, default=50_000)
+    full.add_argument("--bpr-updates", type=int, default=500_000, help="NumPy fallback update budget")
+    full.add_argument("--bpr-epochs", type=int, default=200, help="PyTorch Adam maximum epochs")
+    full.add_argument("--bpr-backend", choices=("auto", "torch", "numpy"), default="auto")
     full.add_argument("--max-eval-users", type=int, default=1_000)
     full.set_defaults(handler=_full_run)
 

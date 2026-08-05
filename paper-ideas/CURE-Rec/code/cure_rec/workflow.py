@@ -31,7 +31,9 @@ def run_full_workflow(
     source: str | Path,
     download: bool = False,
     run_bpr: bool = True,
-    bpr_updates: int = 50_000,
+    bpr_updates: int = 500_000,
+    bpr_epochs: int = 200,
+    bpr_backend: str = "auto",
     max_eval_users: int = 1_000,
 ) -> FullWorkflowResult:
     """Run data/model analysis before the CURE-Sim causal benchmark.
@@ -46,6 +48,8 @@ def run_full_workflow(
         output_root=settings.run.output_root,
         run_bpr=run_bpr,
         bpr_updates=bpr_updates,
+        bpr_epochs=bpr_epochs,
+        bpr_backend=bpr_backend,
         max_eval_users=max_eval_users,
         seed=settings.run.seed,
     )

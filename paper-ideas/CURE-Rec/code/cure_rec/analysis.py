@@ -78,6 +78,7 @@ def analyze_dataset(
     output_root: str | Path,
     run_bpr: bool = True,
     bpr_updates: int = 500_000,
+    bpr_epochs: int = 200,
     bpr_backend: str = "auto",
     max_eval_users: int = 1_000,
     seed: int = 42,
@@ -109,7 +110,7 @@ def analyze_dataset(
                     try:
                         from cure_rec.torch_models import TorchBPRConfig, TorchBPRMFWithBias, torch_available
                         if torch_available():
-                            bpr = TorchBPRMFWithBias(TorchBPRConfig(max_epochs=max(20, bpr_updates // max(len(split.train), 1)), seed=seed))
+                            bpr = TorchBPRMFWithBias(TorchBPRConfig(max_epochs=bpr_epochs, seed=seed))
                             bpr.fit(split.train, validation_split=split, max_eval_users=max_eval_users)
                             backend_used = "torch_adam_bias"
                     except ImportError:
@@ -182,6 +183,7 @@ def analyze_dataset(
         "modeling_note": modeling_note,
         "run_bpr": run_bpr,
         "bpr_updates": bpr_updates,
+        "bpr_epochs": bpr_epochs,
         "bpr_backend": bpr_backend,
         "selected_hybrid_alpha": selected_hybrid_alpha,
         "max_eval_users": max_eval_users,
