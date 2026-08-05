@@ -46,3 +46,5 @@ ActionShap package. The public source repository is
 `https://github.com/mouadlouhichi/next-paper`; its visibility and any DOI-backed
 archive deposit must be completed before submission. The exact branch commit and
 archive SHA-256 are recorded in the parent `paper-v3/REPRODUCIBILITY.md`.
+
+The repository does not track stale compiled PDFs. Compile `actionshap.tex` and `supplementary.tex` from this package in Overleaf so the PDF reflects the current source, table sequence, and release metadata.

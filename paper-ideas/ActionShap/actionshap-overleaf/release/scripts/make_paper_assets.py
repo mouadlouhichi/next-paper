@@ -36,7 +36,7 @@ METHOD_LABELS = {
     "shapley_mc": "Monte Carlo Shapley",
     "lime": "LIME",
     "loo": "Leave-one-out",
-    "greedy_cf": "Greedy counterfactual",
+    "greedy_cf": "Greedy sequential deletion",
     "random": "Random control",
 }
 METHOD_ORDER = ["shapley_mc", "lime", "loo", "greedy_cf", "random"]
