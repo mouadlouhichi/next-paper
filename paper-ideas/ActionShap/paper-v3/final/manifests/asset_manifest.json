@@ -3,7 +3,7 @@
   "repository": {
     "url": "https://github.com/mouadlouhichi/next-paper",
     "manuscript_root": "paper-ideas/ActionShap/paper-v3",
-    "source_commit": "33834237cd5f987722c51a20f6a67e2855030809",
+    "source_commit": "ee7d9977589118d4126669ea198cd6922348fba6",
     "release_archive_sha256": "ac4c7fb1993458b6b41054974ebff215710e7a8b5894c7aa6af828e94b2a5b0f",
     "visibility_required_before_submission": "public_or_mirrored"
   },

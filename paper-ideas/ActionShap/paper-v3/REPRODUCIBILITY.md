@@ -7,7 +7,7 @@
 - Canonical implementation: `paper-ideas/ActionShap/code/`
 - Release archive: `paper-ideas/ActionShap/code/results/release/actionshap-schema-v2-results.tar.gz`
 - Release archive SHA-256: `ac4c7fb1993458b6b41054974ebff215710e7a8b5894c7aa6af828e94b2a5b0f`
-- Core revision commit: `33834237cd5f987722c51a20f6a67e2855030809` (the commit containing the manuscript, implementation, validators, and compact asset rebuild)
+- Core revision commit: `ee7d9977589118d4126669ea198cd6922348fba6` (the commit containing the manuscript, implementation, validators, and compact asset rebuild)
 - License: `paper-v3/LICENSE` applies to the manuscript/code/non-data assets;
   `CITATION.cff` provides machine-readable citation metadata. The source data
   remain governed by GroupLens/Amazon terms and are not redistributed.
