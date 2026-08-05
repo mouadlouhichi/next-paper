@@ -11,7 +11,7 @@
 \usepackage{algpseudocode}
 \usetikzlibrary{arrows.meta,positioning,fit,backgrounds}
 \hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
-\graphicspath{{paper-v2/final/figures/}}
+\graphicspath{{final/figures/}}
 
 \newcommand{\AIA}{\operatorname{AIA}}
 \newcommand{\NDCG}{\operatorname{NDCG}}
@@ -277,7 +277,7 @@ All numerical claims below are generated only when `final/manifests/validation_r
 \subsection{Recommendation quality and protocol audit}
 Table~\ref{tab:protocol-audit} shows that primary ItemKNN exceeds the popularity reference on both datasets. MovieLens ItemKNN reaches NDCG@10 $=0.284$ and Recall@10 $=0.504$, compared with $0.158$ and $0.320$ for popularity. Amazon ItemKNN reaches $0.181$ and $0.285$, compared with $0.090$ and $0.155$. The profile model is weaker on both datasets and is therefore interpreted only as architectural robustness evidence.
 
-\safeinput{paper-v2/final/tables/protocol_audit.tex}
+\safeinput{final/tables/protocol_audit.tex}
 
 \subsection{Faithfulness versus bounded alignment}
 Table~\ref{tab:aia-components} separates deletion AIA, bounded AIA, and their difference. On MovieLens ItemKNN, Shapley has bounded AIA $0.779$ versus $0.933$ for LIME and $0.978$ for LOO. On Amazon, Shapley has bounded AIA $0.414$ versus $0.827$ and $0.851$. Thus Shapley does not win absolute alignment.
@@ -291,16 +291,16 @@ The contrast is in the change between perturbations. Shapley’s primary gap is 
 \label{fig:aia-components}
 \end{figure}
 
-\safeinput{paper-v2/final/tables/aia_components.tex}
-\safeinput{paper-v2/final/tables/aia_permutation_null.tex}
+\safeinput{final/tables/aia_components.tex}
+\safeinput{final/tables/aia_permutation_null.tex}
 
 \subsection{Joint intervention decisions}
 The operational outcome is NDCG@10 under the exact $B=2$ action space. On MovieLens ItemKNN, LOO yields mean NDCG effect $0.0431$, LIME $0.0425$, and Shapley $0.0403$. Success is $28.9\%$, $28.8\%$, and $27.4\%$, respectively. Conditional normalized regret among 339 active-oracle users is $0.217$, $0.225$, and $0.268$. Local methods therefore retain a modest decision advantage on MovieLens.
 
 On Amazon ItemKNN, NDCG effects are $0.0333$ for Shapley, $0.0331$ for LIME, and $0.0313$ for LOO. Conditional normalized regret among 196 active-oracle users is $0.206$, $0.197$, and $0.232$. The differences are small and do not support a universal winner. Random actions have negative mean NDCG effects on both datasets.
 
-\safeinput{paper-v2/final/tables/intervention_outcomes.tex}
-\safeinput{paper-v2/final/tables/paired_tests.tex}
+\safeinput{final/tables/intervention_outcomes.tex}
+\safeinput{final/tables/paired_tests.tex}
 
 \begin{figure}[t]
 \centering
@@ -314,8 +314,8 @@ The within-user AIA null is centred near zero for all primary ItemKNN conditions
 
 Target-margin convergence selects $M=50$ for Amazon ItemKNN, $M=100$ for Amazon profile, $M=250$ for MovieLens ItemKNN, and $M=50$ for MovieLens profile; the final suite retains the conservative floor $M=500$. The NDCG attribution sensitivity remains unconverged at $M=1000$ and is reported only as a stress test.
 
-\safeinput{paper-v2/final/tables/convergence.tex}
-\safeinput{paper-v2/final/tables/attribution_stability.tex}
+\safeinput{final/tables/convergence.tex}
+\safeinput{final/tables/attribution_stability.tex}
 
 \begin{figure}[t]
 \centering
@@ -329,8 +329,8 @@ The positive Shapley gap persists across the primary ItemKNN candidate, history,
 
 The profile model supplies a useful negative boundary: it can change rankings while underperforming popularity, and one MovieLens seed fails the NDCG masking threshold. This demonstrates why a non-degenerate masking gate and recommendation-quality audit are necessary before interpreting attribution results.
 
-\safeinput{paper-v2/final/tables/sensitivity_results.tex}
-\safeinput{paper-v2/final/tables/full_catalogue_results.tex}
+\safeinput{final/tables/sensitivity_results.tex}
+\safeinput{final/tables/full_catalogue_results.tex}
 
 \section{Discussion}
 The results support a three-axis interpretation. LIME and LOO are strongest on absolute pointwise alignment because their constructions are local to deletion or the full profile. Shapley has lower absolute alignment but a larger positive change when the evaluation moves from deletion to bounded downweighting. This is consistent with coalition-context averaging, but the experiment does not establish a causal mechanism and the random control prevents interpreting the gap as standalone validity.
@@ -398,27 +398,27 @@ Inference & seed-average within user & user bootstrap and paired tests\\
 \end{tabular}}
 \end{table}
 
-\safeinput{paper-v2/final/tables/protocol_audit.tex}
-\safeinput{paper-v2/final/tables/convergence.tex}
-\safeinput{paper-v2/final/tables/aia_permutation_null.tex}
-\safeinput{paper-v2/final/tables/attribution_stability.tex}
-\safeinput{paper-v2/final/tables/intervention_outcomes.tex}
+\safeinput{final/tables/protocol_audit.tex}
+\safeinput{final/tables/convergence.tex}
+\safeinput{final/tables/aia_permutation_null.tex}
+\safeinput{final/tables/attribution_stability.tex}
+\safeinput{final/tables/intervention_outcomes.tex}
 
 \section{Expanded robustness results}\label{app:robustness}
 
 The primary ItemKNN result is intentionally complemented by a matrix of candidate-size, history-length, intervention-strength, and budget sensitivities. Candidate-size changes test whether the pointwise alignment is an artefact of a 200-item sampled pool. History-length changes test whether the declared $n_{\max}=20$ window is an operational boundary. The $\rho=0.25$ condition tests whether the bounded action remains separable from deletion. Budgets one and three are reported only for joint decision outcomes because they do not define new singleton gap estimands.
 
-\safeinput{paper-v2/final/tables/sensitivity_results.tex}
-\safeinput{paper-v2/final/tables/full_catalogue_results.tex}
-\safeinput{paper-v2/final/tables/actionability_gap_robustness.tex}
-\safeinput{paper-v2/final/tables/actionability_gap_advantage.tex}
+\safeinput{final/tables/sensitivity_results.tex}
+\safeinput{final/tables/full_catalogue_results.tex}
+\safeinput{final/tables/actionability_gap_robustness.tex}
+\safeinput{final/tables/actionability_gap_advantage.tex}
 
 \section{Statistical reporting and null calibration}\label{app:statistics}
 
 The statistical unit is a distinct user. For a method metric $m$, repeated seed values are averaged within user before bootstrap resampling. Missing AIA values are retained as missing when a vector is constant or non-finite. Normalized regret is conditional on a positive oracle effect and is reported with the active-oracle count. The random control is a negative control for absolute alignment and action selection; its gap is not interpreted as a validity measure.
 
-\safeinput{paper-v2/final/tables/paired_tests.tex}
-\safeinput{paper-v2/final/tables/aia_components.tex}
+\safeinput{final/tables/paired_tests.tex}
+\safeinput{final/tables/aia_components.tex}
 
 \section{Reproducibility and release manifest}\label{app:release}
 
@@ -452,5 +452,5 @@ ActionShap evaluates a retrospective target-conditioned audit. The held-out targ
 \textbf{Author contributions.} M.L.: conceptualization, methodology, software, formal analysis, investigation, and writing---original draft. R.N.: methodology, validation, and writing---review and editing. M.Laz.: supervision, methodology, and writing---review and editing. All authors approved the final manuscript.
 
 \bibliographystyle{sn-basic}
-\bibliography{paper-v2/paper}
+\bibliography{paper}
 \end{document}
