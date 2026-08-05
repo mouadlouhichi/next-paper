@@ -1,8 +1,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% ActionShap -- supplementary numerical audit
-%% Uses the same Springer Nature template as actionshap.tex and
-%% signalshap-overleaf.zip. Compile separately when a reviewer requests
-%% the complete machine-readable audit tables in PDF form.
+%% Uses the same Springer Nature template as actionshap.tex.
+%% Compile separately when a reviewer requests the complete
+%% machine-readable audit tables in PDF form.
+%%
+%% Supplementary numbering scheme (counter-driven): the table counter
+%% runs S1..S7 across this document, so the headings below state the
+%% printed table numbers explicitly and agree with \thetable.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass[pdflatex,sn-mathphys-num]{sn-jnl}
 \usepackage{graphicx}
@@ -18,6 +22,7 @@
 \usepackage{array}
 \usepackage{microtype}
 \usepackage{placeins}
+\usepackage{needspace}
 \hypersetup{pdftitle={ActionShap Supplementary Numerical Audit},pdfauthor={Mouad Louhichi; Redwane Nesmaoui; Mohamed Lazaar},pdfsubject={Supplementary numerical audit for ActionShap},pdfkeywords={ActionShap, intervention evaluation, Shapley value, recommender systems}}
 \graphicspath{{figures/}}
 \raggedbottom
@@ -42,32 +47,36 @@ the authoritative machine-readable source.
 \setcounter{section}{0}
 \renewcommand{\thesection}{S\arabic{section}}
 \renewcommand{\thetable}{S\arabic{table}}
-\section{Alignment matrix (Table S1)}
+\section{Alignment matrix (Table S1)}\nopagebreak
 \input{tables/appendix_aia_full.tex}
-\section{Joint outcomes (Table S2)}
+\clearpage
+\section{Joint outcomes (Table S2)}\nopagebreak
 \begin{landscape}
 \input{tables/appendix_intervention_full.tex}
 \end{landscape}
 \clearpage
-\section{Paired comparisons (Tables S3a--S3c)}
-\subsection*{Table S3a: AIA and gap}
+\section{Paired comparisons (Tables S3--S5)}
+\Needspace{6\baselineskip}
+\subsection*{Table S3: AIA and gap comparisons}\nopagebreak
 \begin{landscape}
 \input{tables/appendix_s3a_aia.tex}
 \end{landscape}
-\subsection*{Table S3b: effects and success}
+\Needspace{6\baselineskip}
+\subsection*{Table S4: joint NDCG effect and success comparisons}\nopagebreak
 \begin{landscape}
 \input{tables/appendix_s3b_effects.tex}
 \end{landscape}
-\subsection*{Table S3c: normalized regret}
+\Needspace{6\baselineskip}
+\subsection*{Table S5: conditional normalized-regret comparisons}\nopagebreak
 \begin{landscape}
 \input{tables/appendix_s3c_regret.tex}
 \end{landscape}
 \clearpage
-\section{Convergence matrix (Table S4)}
+\section{Convergence matrix (Table S6)}\nopagebreak
 \begin{landscape}
 \input{tables/appendix_convergence_full.tex}
 \end{landscape}
 \clearpage
-\section{Executable contract (Table S5)}
+\section{Executable contract (Table S7)}\nopagebreak
 \input{tables/appendix_contract_supp.tex}
 \end{document}

@@ -409,8 +409,7 @@ With $n_u\le20$, the exact action space contains $1+n_u+\binom{n_u}{2}\le211$ ac
 \centering\scriptsize
 \caption{Frozen experimental contract used for every paper-eligible run. The executable YAML and scripts are the source of truth; this table records every parameter that changes the estimand or reported uncertainty.}
 \label{tab:contract}
-\resizebox{\linewidth}{!}{%
-\begin{tabular}{lll}
+\begin{tabular}{@{}p{.18\textwidth}p{.36\textwidth}p{.38\textwidth}@{}}
 \toprule
 Element & Primary setting & Robustness/sensitivity settings\\
 \midrule
@@ -429,7 +428,7 @@ Intervention & simultaneous downweight $w_p\leftarrow.5w_p$ & deletion and $\rho
 Budget/oracle & exact all actions up to $B=2$, including no action & $B=1$ and $B=3$ joint decisions\\
 Null/inference & $R=1000$ matched null draws; 10,000 bootstrap/permutation draws & Holm correction\\
 \bottomrule
-\end{tabular}}
+\end{tabular}
 \end{table}
 
 The profile optimizer samples one positive item per user per epoch, excludes that positive from its temporary context, and samples a negative uniformly outside the user's complete training history. ItemKNN has no latent user embedding, shrinkage coefficient, minimum-support cutoff, or negative-similarity branch: the retained similarity matrix is non-negative by construction. AIA is Spearman rank correlation and is missing for constant or non-finite vectors. Normalized regret uses $\varepsilon=10^{-12}$ and is averaged only over positive-oracle users. The release archive records the exact dependency versions, source hashes, run durations, and selected users; complete per-user vectors remain in the compressed machine-readable asset rather than in the PDF.''

@@ -1,10 +1,11 @@
-\begin{table}[t]
+\begin{table}[H]
 \centering\scriptsize
-\caption{Table D3. Primary signed diagnostic metrics for the ItemKNN target-margin analysis. Direction accuracy and top-$3$ precision use signed bounded effects; stability is rank stability across the five seed runs.}
+\setlength{\tabcolsep}{3pt}
+\caption{Table D3. Primary signed diagnostic metrics for the ItemKNN target-margin analysis. This is a descriptive diagnostic summary; the confirmatory inferential targets are the paired comparisons of Table D1. Direction accuracy and top-$3$ precision use signed bounded effects, and Precision@3 is the compound positive-and-correct-direction metric defined in Section 4.3; stability is rank stability across the five seed runs.}
 \label{tab:app-diagnostics}
 \begin{tabular}{@{}p{.15\textwidth}p{.25\textwidth}rrrr@{}}
 \toprule
-Dataset & Method & Direction accuracy & Precision@3 & Stability & Valid $n$ \\
+Dataset & Method & Dir.\ acc. & Prec.@3 & Stab. & $n$ \\
 \midrule
 MovieLens & Shapley & .888 & .820 & .985 & 1000 \\
 MovieLens & LIME & .963 & .920 & .975 & 1000 \\

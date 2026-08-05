@@ -240,13 +240,13 @@ Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,
 Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,aia_null_p95,0.7670817560281793,0.7548027870833081,0.7791010415228202,993,5,7
 Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,aia_permutation_p,0.3081919087961384,0.2894642467301078,0.32685671327665283,993,5,7
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,aia,0.5597416831053362,0.5393513678813446,0.5799356849590038,250,5,0
-Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,aia_ndcg,0.23844153502761267,-0.19083569694553248,0.6174816307567295,8,5,242
+Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,aia_ndcg,,,,0,5,250
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,faithfulness_alignment,0.7149231055425482,0.6963239524902343,0.7332898737691617,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,actionability_gap,-0.15518142243721192,-0.1790544756275716,-0.13292302740396858,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,signed_alignment,-0.036941952866534906,-0.07801690660526263,0.00442780703300826,250,5,0
-Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,signed_alignment_ndcg,-0.1318549568193803,-0.5225411726443241,0.27216727163989196,8,5,242
+Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,signed_alignment_ndcg,,,,0,5,250
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,direction_accuracy,0.6269241838553603,0.6139576164374839,0.6396154436168406,250,5,0
-Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,direction_accuracy_ndcg,0.6208333333333333,0.3666666666666667,0.8626041666666652,8,5,242
+Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,direction_accuracy_ndcg,,,,0,5,250
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,top1_precision,0.0064,0.0024000000000000002,0.012,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,top3_precision,0.3909333333333333,0.37146666666666667,0.4098666666666666,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,top5_precision,0.36432,0.344573,0.38460033333333327,250,5,0
@@ -258,19 +258,19 @@ Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,joint_regret_primary,0.0012187826718347728,0.0011660786450468261,0.0012725181642074094,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,normalized_regret_primary,2.0608187198605745,1.7858275573291724,2.4411842208490238,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,joint_regret_ndcg,0.0023007996802929223,0.0007501534462020873,0.004215264127549106,250,5,0
-Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,normalized_regret_ndcg,2.5584807885850376,0.8134223701309846,4.808155143598046,7,5,243
+Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,normalized_regret_ndcg,,,,0,5,250
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,intervention_success_ndcg,0.0016,0.0,0.004,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,aia_null_mean,-0.0009050266905437184,-0.00377823335197826,0.001986852733309001,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,aia_null_p95,0.7833393163461924,0.7582224496751699,0.8087251325219929,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,aia_permutation_p,0.2520316831683168,0.23103306930693066,0.2727843564356436,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,aia,0.689906188280244,0.6712083136584778,0.7086198270872573,250,5,0
-Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,aia_ndcg,0.2251897238870979,-0.1389814476633877,0.5427315291635759,8,5,242
+Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,aia_ndcg,,,,0,5,250
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,faithfulness_alignment,0.9551362624372532,0.9498220971345476,0.9603884371990239,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,actionability_gap,-0.26523007415700917,-0.28520669310307856,-0.2454699450544296,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,signed_alignment,0.9504375418595852,0.9432388632781048,0.9572951572009002,250,5,0
-Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,signed_alignment_ndcg,0.6995910255596651,0.48749309931335094,0.8321174535572519,8,5,242
+Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,signed_alignment_ndcg,,,,0,5,250
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,direction_accuracy,0.8755986342415755,0.8675104091970122,0.8835297161531279,250,5,0
-Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,direction_accuracy_ndcg,0.8208333333333333,0.6541666666666666,0.9583333333333333,8,5,242
+Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,direction_accuracy_ndcg,,,,0,5,250
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,top1_precision,0.7575999999999999,0.7303999999999999,0.7832,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,top3_precision,0.4584,0.42773333333333335,0.49040666666666655,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,top5_precision,0.3618133333333334,0.3352926666666667,0.3900543333333334,250,5,0
@@ -282,19 +282,19 @@ Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,joint_regret_primary,0.00013712776591867778,0.00012309098164983137,0.00015130536535058926,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,normalized_regret_primary,0.24227332492280926,0.21750961050525414,0.2676762723569508,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,joint_regret_ndcg,0.0005917698517266497,9.05177542123667e-05,0.0013544268406849502,250,5,0
-Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,normalized_regret_ndcg,0.4608991979329881,0.14285714285714285,0.8571428571428571,7,5,243
+Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,normalized_regret_ndcg,,,,0,5,250
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,intervention_success_ndcg,0.0032,0.0008,0.0064,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,aia_null_mean,0.00014016665233631176,-0.0029132110417240138,0.0030697192923227427,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,aia_null_p95,0.7842480444137905,0.7576338770343949,0.8095024202085582,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,aia_permutation_p,0.20528316831683172,0.1850920792079208,0.225949702970297,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,aia,0.7233980955061451,0.7020931319258656,0.744597716242478,250,5,0
-Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,aia_ndcg,0.22264625593162807,-0.14439539579417873,0.5373998200350021,8,5,242
+Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,aia_ndcg,,,,0,5,250
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,faithfulness_alignment,1.0,1.0,1.0,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,actionability_gap,-0.2766019044938549,-0.29833479874150615,-0.25603279963122544,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,signed_alignment,0.9553414504381069,0.9478747022482161,0.9622017222261743,250,5,0
-Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,signed_alignment_ndcg,0.6966406027313201,0.48397900255846965,0.8325255076075335,8,5,242
+Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,signed_alignment_ndcg,,,,0,5,250
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,direction_accuracy,0.8871252796876327,0.8787498866395043,0.8952893396995161,250,5,0
-Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,direction_accuracy_ndcg,0.8208333333333333,0.6541666666666666,0.9583333333333333,8,5,242
+Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,direction_accuracy_ndcg,,,,0,5,250
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,top1_precision,0.7736000000000001,0.7456000000000002,0.8008,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,top3_precision,0.484,0.4493333333333333,0.5184,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,top5_precision,0.38176,0.3525853333333333,0.41253399999999996,250,5,0
@@ -306,19 +306,19 @@ Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,joint_regret_primary,0.0001326672873807376,0.00011814815672475601,0.00014764003789254586,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,normalized_regret_primary,0.23435854524828392,0.20872461058693223,0.26031946174488174,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,joint_regret_ndcg,0.0005917698517266497,9.05177542123667e-05,0.001341566165901755,250,5,0
-Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,normalized_regret_ndcg,0.4608991979329881,0.14285714285714285,0.8571428571428571,7,5,243
+Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,normalized_regret_ndcg,,,,0,5,250
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,intervention_success_ndcg,0.0032,0.0008,0.0064,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,aia_null_mean,-6.191113901578293e-05,-0.0030128972635878053,0.0029236557568334655,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,aia_null_p95,0.7829802650868223,0.7563391385709234,0.808292389310844,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,aia_permutation_p,0.1986851485148515,0.17715623762376237,0.22066574257425745,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,aia,0.005887965594776741,-0.025936949386526787,0.037379842413520416,250,5,0
-Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,aia_ndcg,-0.33527224937833877,-0.6334989757868519,-0.023709578597995704,8,5,242
+Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,aia_ndcg,,,,0,5,250
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,faithfulness_alignment,-0.0030394970973299145,-0.03278146294056821,0.0271076017429423,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,actionability_gap,0.008927462692106659,-0.013883106846713657,0.031888210409817215,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,signed_alignment,-0.0040828917419010275,-0.035861912536380026,0.028135497593737534,250,5,0
-Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,signed_alignment_ndcg,0.3221451682165656,-0.10825317547305484,0.7046947534497959,8,5,242
+Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,signed_alignment_ndcg,,,,0,5,250
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,direction_accuracy,0.504701941261353,0.4908168485485103,0.5181844696545286,250,5,0
-Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,direction_accuracy_ndcg,0.6166666666666666,0.3666666666666667,0.8666666666666667,8,5,242
+Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,direction_accuracy_ndcg,,,,0,5,250
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,top1_precision,0.192,0.1672,0.21760000000000002,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,top3_precision,0.2509333333333333,0.23679999999999998,0.26506666666666673,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,top5_precision,0.23145333333333332,0.219173,0.24358666666666665,250,5,0
@@ -330,19 +330,19 @@ Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,joint_regret_primary,0.0011431969371017289,0.0010747430779873455,0.0012153156234556196,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,normalized_regret_primary,1.651667084813462,1.4977712025416574,1.8206075415191674,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,joint_regret_ndcg,0.0016794137451604687,0.0004142260486447993,0.0032153709773158684,250,5,0
-Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,normalized_regret_ndcg,2.321500862988274,0.42857142857142855,4.67662385983801,7,5,243
+Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,normalized_regret_ndcg,,,,0,5,250
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,intervention_success_ndcg,0.0016,0.0,0.004,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,aia_null_mean,5.898406052152194e-05,-0.0031053577700266713,0.0032276462276010884,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,aia_null_p95,0.7850616553828009,0.7590098751333805,0.8106511080039155,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,aia_permutation_p,0.55070099009901,0.5323009900990099,0.569489504950495,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,aia,-0.018075147102639362,-0.0684514795998635,0.031177464569486234,250,5,0
-Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,aia_ndcg,0.16934154943410618,-0.22697788019400494,0.5345772064579061,8,5,242
+Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,aia_ndcg,,,,0,5,250
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,faithfulness_alignment,-0.3205235444844114,-0.3736789668577037,-0.26693674445729715,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,actionability_gap,0.302448397381772,0.2806292810971278,0.32418882822904654,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,signed_alignment,0.8864284868279295,0.8758005059965834,0.8969784635921354,250,5,0
-Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,signed_alignment_ndcg,0.8326704340941744,0.7795881386077688,0.8814529109584845,8,5,242
+Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,signed_alignment_ndcg,,,,0,5,250
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,direction_accuracy,0.6504950241914949,0.6328686201086495,0.6679377547321959,250,5,0
-Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,direction_accuracy_ndcg,0.9458333333333333,0.8624999999999999,1.0,8,5,242
+Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,direction_accuracy_ndcg,,,,0,5,250
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,top1_precision,0.7984000000000001,0.7752,0.8215999999999999,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,top3_precision,0.5682666666666667,0.544,0.5925333333333334,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,top5_precision,0.48041333333333336,0.45921300000000004,0.5022933333333334,250,5,0
@@ -354,19 +354,19 @@ Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,joint_regret_primary,0.00010568364728750895,9.269878626465581e-05,0.00011945697213843896,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,normalized_regret_primary,0.2966266255944301,0.21839797874533942,0.39552429878783185,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,joint_regret_ndcg,0.00014134196889666823,0.0,0.00036912865763075143,250,5,0
-Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,normalized_regret_ndcg,0.08937750492551226,0.0,0.2497853644963086,7,5,243
+Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,normalized_regret_ndcg,,,,0,5,250
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,intervention_success_ndcg,0.005600000000000001,0.0016,0.009600000000000001,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,aia_null_mean,0.0008225238917944806,-0.002069443636832723,0.0036697669489179556,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,aia_null_p95,0.7816623889495437,0.7564042184991479,0.80684921576754,250,5,0
 Amazon-Digital-Music,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,aia_permutation_p,0.5111128712871287,0.4772352475247525,0.5439057425742574,250,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,aia,0.4651322796192455,0.4522501895564445,0.47770973565572716,1000,5,0
-Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,aia_ndcg,0.1962592855328952,0.14598681332197072,0.24535858270622857,383,5,617
+Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,aia_ndcg,0.09036237137966287,-0.06160212906690442,0.2419406902583124,19,5,981
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,faithfulness_alignment,0.5454561554492978,0.5327830530663865,0.5581022879171912,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,actionability_gap,-0.08032387583005231,-0.09154047340146954,-0.06924011376935758,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,signed_alignment,0.09784582148501653,0.07732145916454548,0.11803197563092221,1000,5,0
-Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,signed_alignment_ndcg,0.4757651019500157,0.4330672525159747,0.5172270261264562,383,5,617
+Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,signed_alignment_ndcg,0.40396084840241947,0.2577194707535233,0.5465188428332659,19,5,981
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,direction_accuracy,0.6459170252056164,0.6403795955055437,0.6513381475203288,1000,5,0
-Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,direction_accuracy_ndcg,0.8167858034700867,0.7914093108242349,0.8411295649645834,384,5,616
+Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,direction_accuracy_ndcg,0.8214076858813701,0.7408067042606516,0.8944037176274018,19,5,981
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,top1_precision,0.115,0.10579999999999999,0.124,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,top3_precision,0.463,0.4546,0.47126666666666667,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,top5_precision,0.44606666666666667,0.43740324999999997,0.4549034166666667,1000,5,0
@@ -378,19 +378,19 @@ Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,joint_regret_primary,0.00089047051865208,0.0008666625499311165,0.0009149272944072659,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,normalized_regret_primary,1.403423718846707,1.2993695024133571,1.5313358189255044,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,joint_regret_ndcg,0.01951406654855019,0.01722914992015238,0.021911659879941085,1000,5,0
-Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,normalized_regret_ndcg,0.8610584331810152,0.6962695711697113,1.056848300353094,440,5,560
+Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,normalized_regret_ndcg,1.4239753032406597,0.4677701866512559,3.1914842770396277,19,5,981
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,intervention_success_ndcg,0.062,0.055395,0.069,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,aia_null_mean,0.000226361174424131,-0.0002518777945163713,0.0006963735740196336,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,aia_null_p95,0.7688269319119991,0.7568093297683288,0.7811050145108889,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,aia_permutation_p,0.2778013986013985,0.26697115384615383,0.2885901798201798,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,aia,0.7552412100696001,0.7455998379542285,0.7646987413248516,1000,5,0
-Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,aia_ndcg,0.2804682680440238,0.22979969565902217,0.3302957764876418,383,5,617
+Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,aia_ndcg,0.16759892074127009,-0.025327060581485095,0.3311320756341743,19,5,981
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,faithfulness_alignment,0.9620130745209383,0.9595195792092325,0.9644032838580409,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,actionability_gap,-0.20677186445133816,-0.21716279352664877,-0.19662173227752638,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,signed_alignment,0.9571698279326453,0.9535800554296066,0.9604292885239116,1000,5,0
-Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,signed_alignment_ndcg,0.7961979085505367,0.7730435062690824,0.8173049480483322,383,5,617
+Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,signed_alignment_ndcg,0.741624344930805,0.6726355553384553,0.8033722442997915,19,5,981
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,direction_accuracy,0.9109448004472308,0.9072065471106552,0.9146944901764259,1000,5,0
-Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,direction_accuracy_ndcg,0.9046839764096198,0.8857051253304412,0.9224632589398788,384,5,616
+Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,direction_accuracy_ndcg,0.8965016708437761,0.8396927213868002,0.9466687552213867,19,5,981
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,top1_precision,0.8626,0.8524,0.8726,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,top3_precision,0.5760666666666667,0.5604666666666667,0.5915999999999999,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,top5_precision,0.4635533333333333,0.4499898333333333,0.47722333333333333,1000,5,0
@@ -402,19 +402,19 @@ Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,joint_regret_primary,7.610158821261724e-05,7.076502444749362e-05,8.154651347882911e-05,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,normalized_regret_primary,0.13146358004138955,0.12233444363011153,0.14075464526672274,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,joint_regret_ndcg,0.0062949444805418175,0.005147391872753554,0.007495894319064657,1000,5,0
-Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,normalized_regret_ndcg,0.2508577770392316,0.16986657347988504,0.38212551518418064,440,5,560
+Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,normalized_regret_ndcg,0.18838687709514357,0.11228509135943292,0.27303404585390867,19,5,981
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,intervention_success_ndcg,0.1006,0.09179999999999999,0.10940000000000001,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,aia_null_mean,-2.092133258382488e-05,-0.00047384284178811386,0.00043558894911834803,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,aia_null_p95,0.7690403953726871,0.7568759325733219,0.7815340671475196,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,aia_permutation_p,0.16173566433566436,0.15174002497502498,0.17173272227772227,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,aia,0.7804006491135284,0.7700984142163309,0.7904240810393166,1000,5,0
-Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,aia_ndcg,0.28465934100421203,0.23374631869486248,0.33443134609746683,383,5,617
+Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,aia_ndcg,0.1580421892012598,-0.034967094867987505,0.33062627316526105,19,5,981
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,faithfulness_alignment,1.0,1.0,1.0,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,actionability_gap,-0.21959935088647164,-0.2299713708079846,-0.20934628892559973,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,signed_alignment,0.9627679233460039,0.9592518991525761,0.96610797298741,1000,5,0
-Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,signed_alignment_ndcg,0.7965973158666015,0.773543399766033,0.8179482920385116,383,5,617
+Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,signed_alignment_ndcg,0.7485819612744192,0.680594356510187,0.8098553150658353,19,5,981
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,direction_accuracy,0.9212954498872301,0.9173153427922268,0.9251089191933584,1000,5,0
-Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,direction_accuracy_ndcg,0.9092009654969213,0.8905501516223598,0.9270217966053214,384,5,616
+Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,direction_accuracy_ndcg,0.9071637426900585,0.8486842105263158,0.9576023391812867,19,5,981
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,top1_precision,0.8752000000000001,0.8652000000000001,0.885,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,top3_precision,0.5948,0.5780666666666666,0.6112666666666666,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,top5_precision,0.47899,0.46416324999999997,0.49369783333333334,1000,5,0
@@ -426,19 +426,19 @@ Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,joint_regret_primary,7.518104256144268e-05,6.96815969266392e-05,8.080901060876149e-05,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,normalized_regret_primary,0.12929830423339767,0.11976599508203876,0.13893468354349495,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,joint_regret_ndcg,0.006209402989731604,0.005080566918742372,0.007413186714207133,1000,5,0
-Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,normalized_regret_ndcg,0.2630365691996446,0.17242776676437516,0.4044267652507041,440,5,560
+Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,normalized_regret_ndcg,0.6186637427223531,0.13089621009241262,1.508706955186813,19,5,981
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,intervention_success_ndcg,0.1012,0.09259999999999999,0.11040000000000001,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,aia_null_mean,-3.942234785338497e-05,-0.0005033774735604951,0.00043102191553286737,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,aia_null_p95,0.7691997813476512,0.7570412902023543,0.7815085657666894,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,aia_permutation_p,0.15784415584415584,0.14762165334665334,0.16814754245754246,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,aia,0.004532674508154383,-0.010287996653887903,0.019319673088263645,1000,5,0
-Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,aia_ndcg,-0.057323635982550566,-0.10764202309029634,-0.006175818208451866,383,5,617
+Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,aia_ndcg,-0.007378191639132345,-0.11176128396040226,0.10252228129457508,19,5,981
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,faithfulness_alignment,0.0019335298035298037,-0.013034796994414257,0.016996974685917793,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,actionability_gap,0.0025991447046245808,-0.008563779215237806,0.013523915191104036,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,signed_alignment,-0.0006808897707040131,-0.015601816788732424,0.01419313670539986,1000,5,0
-Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,signed_alignment_ndcg,-0.014393588669053353,-0.06262940809984383,0.03572284587922424,383,5,617
+Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,signed_alignment_ndcg,-0.011094501449992996,-0.10280989440944491,0.06799802046269392,19,5,981
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,direction_accuracy,0.5013730156161348,0.49501412855765237,0.5078247627764607,1000,5,0
-Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,direction_accuracy_ndcg,0.4764183390734402,0.44338728125981114,0.5104409997703312,384,5,616
+Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,direction_accuracy_ndcg,0.4599728487886382,0.3736983082706767,0.5407800751879699,19,5,981
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,top1_precision,0.19319999999999998,0.18180000000000002,0.20460000000000003,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,top3_precision,0.27020000000000005,0.26280000000000003,0.27773333333333333,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,top5_precision,0.25808000000000003,0.25195633333333334,0.2643036666666666,1000,5,0
@@ -450,19 +450,19 @@ Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,joint_regret_primary,0.0010443952655957824,0.0010139285976025875,0.001075597802813422,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,normalized_regret_primary,1.3940861049578477,1.2979382908638486,1.5228214631151453,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,joint_regret_ndcg,0.0338158250986442,0.030670809327903212,0.037119654893919794,1000,5,0
-Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,normalized_regret_ndcg,1.203503134874231,1.0728553066877233,1.366936687512216,440,5,560
+Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,normalized_regret_ndcg,1.4769656365452912,0.8974003900349176,2.402041797703956,19,5,981
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,intervention_success_ndcg,0.028,0.023399999999999997,0.032799999999999996,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,aia_null_mean,-1.025712477409068e-05,-0.0004924262220362196,0.000468269319472452,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,aia_null_p95,0.7684095506049677,0.7560129469686336,0.7810751713122531,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,aia_permutation_p,0.542995004995005,0.5342607192807193,0.5516616283716284,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,aia,0.3100701139984886,0.28720311452028363,0.3327229010159088,1000,5,0
-Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,aia_ndcg,0.44563605343377843,0.40150267508678994,0.489050193570275,383,5,617
+Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,aia_ndcg,0.4286626304413381,0.2898027276606384,0.559850588705188,19,5,981
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,faithfulness_alignment,0.06400255666418206,0.0366635421625588,0.09095029401236021,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,actionability_gap,0.24606755733430657,0.23530112913234857,0.25694336366407067,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,signed_alignment,0.9117698752743645,0.9069875557211107,0.9164087141982116,1000,5,0
-Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,signed_alignment_ndcg,0.774946468750393,0.7500360729844965,0.797916468680637,383,5,617
+Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,signed_alignment_ndcg,0.7278807823758088,0.6507106773777827,0.7941128792833075,19,5,981
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,direction_accuracy,0.7641061999232279,0.7562278330205442,0.7717764055282523,1000,5,0
-Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,direction_accuracy_ndcg,0.9142691488624393,0.896931173396448,0.9302282071067973,384,5,616
+Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,direction_accuracy_ndcg,0.9187447786131996,0.8713967209690894,0.959202955304929,19,5,981
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,top1_precision,0.8416,0.8306,0.8522000000000001,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,top3_precision,0.6399333333333334,0.6278,0.6522666666666667,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,top5_precision,0.5401800000000001,0.5288465833333333,0.5515104166666666,1000,5,0
@@ -474,7 +474,7 @@ Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,joint_regret_primary,5.33443467315856e-05,4.957113946636841e-05,5.715346579625645e-05,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,normalized_regret_primary,0.15165860157308017,0.1213626388880146,0.18909986300208279,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,joint_regret_ndcg,0.00452719214892894,0.003624935196614861,0.005514311753380479,1000,5,0
-Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,normalized_regret_ndcg,0.16661044103498546,0.12566179613088105,0.2195872303304906,440,5,560
+Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,normalized_regret_ndcg,0.5574019685629721,0.06670081825576972,1.4638559372215165,19,5,981
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,intervention_success_ndcg,0.1046,0.09559999999999999,0.11360499999999993,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,aia_null_mean,0.00039179155304963354,-7.100667696764015e-05,0.0008603673155309603,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,aia_null_p95,0.7688811536605809,0.7565520048818828,0.7810815477582466,1000,5,0
@@ -1540,13 +1540,13 @@ MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitiv
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,shapley_mc,Monte Carlo Shapley,aia_null_p95,0.3865796689627471,0.37842471787552534,0.39594708194422706,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,shapley_mc,Monte Carlo Shapley,aia_permutation_p,0.026011881188118816,0.01626910891089109,0.03893069306930693,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,aia,0.2911046602520287,0.27190632107933344,0.3092554652607454,250,5,0
-MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,aia_ndcg,0.3408678061391721,0.23462864145045537,0.43217222437036296,4,5,246
+MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,aia_ndcg,,,,0,5,250
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,faithfulness_alignment,0.29072668048154116,0.2719382815481732,0.3082086212193379,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,actionability_gap,0.00037797977048751094,-0.0011078944986901637,0.0015990241322145333,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,signed_alignment,0.6194846441071827,0.5982026564070603,0.638964871357229,250,5,0
-MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,signed_alignment_ndcg,0.18089247566868313,-0.06780141795492603,0.4524852636412452,4,5,246
+MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,signed_alignment_ndcg,,,,0,5,250
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,direction_accuracy,0.5286090373094399,0.518347619775821,0.5387480395116581,250,5,0
-MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,direction_accuracy_ndcg,0.5833333333333333,0.29166666666666663,0.875,4,5,246
+MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,direction_accuracy_ndcg,,,,0,5,250
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,top1_precision,0.3336,0.2944,0.37360000000000004,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,top3_precision,0.6253333333333333,0.6056,0.6442733333333333,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,top5_precision,0.7038933333333334,0.68624,0.7208013333333333,250,5,0
@@ -1558,19 +1558,19 @@ MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_cat
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,joint_regret_primary,0.002832954778943887,0.0026205611497893753,0.0030551737058355038,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,normalized_regret_primary,0.5050324475661866,0.46955337845486833,0.5436124031622878,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,joint_regret_ndcg,0.00021535504451416888,0.0,0.0005879103230766293,250,5,0
-MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,normalized_regret_ndcg,0.21093517368211212,0.0,0.42187034736422424,2,5,248
+MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,normalized_regret_ndcg,,,,0,5,250
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,intervention_success_ndcg,0.0016,0.0,0.004,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,aia_null_mean,-0.0006062380325556793,-0.001944957490899193,0.000752820489634204,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,aia_null_p95,0.38517130952020107,0.3772163046323645,0.3943100865334871,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,aia_permutation_p,0.17392475247524755,0.1571562376237624,0.1923091089108911,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,aia,0.978190108281811,0.9731997070354824,0.982586812189874,250,5,0
-MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,aia_ndcg,0.16378878616916076,0.04730472703803727,0.2860160948444739,4,5,246
+MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,aia_ndcg,,,,0,5,250
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,faithfulness_alignment,0.9813592502646991,0.9782614433858194,0.9839231678419619,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,actionability_gap,-0.0031691419828881115,-0.005527531713384652,-0.0012110797468785068,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,signed_alignment,0.9902267153073963,0.9886490316278149,0.9915552856184063,250,5,0
-MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,signed_alignment_ndcg,0.4707386257076589,0.22227304916689133,0.7416160910035391,4,5,246
+MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,signed_alignment_ndcg,,,,0,5,250
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,direction_accuracy,0.9849894060566198,0.9823808833112192,0.9873939162612413,250,5,0
-MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,direction_accuracy_ndcg,0.9375,0.875,1.0,4,5,246
+MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,direction_accuracy_ndcg,,,,0,5,250
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,top1_precision,0.9808,0.972,0.9887999999999999,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,top3_precision,0.9682666666666666,0.9586666666666668,0.9765333333333333,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,top5_precision,0.9475733333333333,0.9349333333333334,0.9585600000000001,250,5,0
@@ -1582,19 +1582,19 @@ MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_cat
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,joint_regret_primary,2.056072243320939e-06,1.308327409029505e-06,2.925192709148648e-06,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,normalized_regret_primary,0.0023185530804204816,0.0008089479314131062,0.004474484636795269,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,joint_regret_ndcg,0.0003333175201640751,0.0,0.0009150924931704541,250,5,0
-MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,normalized_regret_ndcg,0.11314719276545837,0.0,0.22629438553091674,2,5,248
+MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,normalized_regret_ndcg,,,,0,5,250
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,intervention_success_ndcg,0.0016,0.0,0.004,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,aia_null_mean,0.0009181181765602816,-0.0004199528726742814,0.0022530436372451075,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,aia_null_p95,0.38570550397590025,0.37744949047327797,0.39530587166571807,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,aia_permutation_p,0.011152475247524753,0.009980198019801979,0.012942772277227722,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,aia,0.9962737891210957,0.9939566916587026,0.9981734755894262,250,5,0
-MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,aia_ndcg,0.1735999800757042,0.05676567244564473,0.2904342877057636,4,5,246
+MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,aia_ndcg,,,,0,5,250
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,faithfulness_alignment,1.0,1.0,1.0,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,actionability_gap,-0.0037262108789043857,-0.006051081797974997,-0.001796689164808368,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,signed_alignment,0.9991341478129714,0.9983660838124724,0.9996482219689496,250,5,0
-MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,signed_alignment_ndcg,0.472231633476046,0.22227304916689133,0.7460951143087005,4,5,246
+MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,signed_alignment_ndcg,,,,0,5,250
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,direction_accuracy,0.9971955555555555,0.9955866666666667,0.9985555555555554,250,5,0
-MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,direction_accuracy_ndcg,0.9375,0.875,1.0,4,5,246
+MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,direction_accuracy_ndcg,,,,0,5,250
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,top1_precision,0.9952,0.9912000000000001,0.9984000000000001,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,top3_precision,0.9882666666666666,0.9797333333333333,0.9949333333333334,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,top5_precision,0.9717333333333333,0.9590933333333334,0.98256,250,5,0
@@ -1606,19 +1606,19 @@ MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_cat
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,joint_regret_primary,5.588309084330501e-07,5.5978122379589655e-08,1.4033801980070112e-06,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,normalized_regret_primary,0.0015352794237202619,7.61307443870767e-05,0.004081790368407133,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,joint_regret_ndcg,0.0002982585194929939,0.0,0.0008277689000402981,250,5,0
-MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,normalized_regret_ndcg,0.06932344192660694,0.0,0.1386468838532139,2,5,248
+MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,normalized_regret_ndcg,,,,0,5,250
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,intervention_success_ndcg,0.0016,0.0,0.004,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,aia_null_mean,0.001058094470441839,-0.0002484970889275841,0.00235556290372682,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,aia_null_p95,0.38715621607391576,0.3789622651178027,0.39649880302512236,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,aia_permutation_p,0.010811881188118811,0.009900990099009901,0.012396039603960397,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,aia,0.0008619501654176588,-0.012438990887853116,0.014142764416697838,250,5,0
-MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,aia_ndcg,0.0635831548527038,-0.1057696078079058,0.23293591751331338,4,5,246
+MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,aia_ndcg,,,,0,5,250
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,faithfulness_alignment,1.0190779292947427e-05,-0.01365407612253587,0.013470406623819936,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,actionability_gap,0.0008517593861247109,-0.000742612780408446,0.0025517420634061498,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,signed_alignment,-0.013347243612940205,-0.026124492630176844,-0.00020606924808937234,250,5,0
-MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,signed_alignment_ndcg,0.08387476019149089,-0.09982713553952147,0.26757665592250324,4,5,246
+MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,signed_alignment_ndcg,,,,0,5,250
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,direction_accuracy,0.489078501687511,0.4824689423918875,0.4954823946604651,250,5,0
-MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,direction_accuracy_ndcg,0.59375,0.4375,0.75,4,5,246
+MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,direction_accuracy_ndcg,,,,0,5,250
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,top1_precision,0.05280000000000001,0.0416,0.0648,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,top3_precision,0.15893333333333332,0.148,0.16986666666666667,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,top5_precision,0.2522666666666667,0.24303999999999998,0.26138799999999995,250,5,0
@@ -1630,19 +1630,19 @@ MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_cat
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,joint_regret_primary,0.007209816751495006,0.00665532609074931,0.0077905547002809486,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,normalized_regret_primary,1.0198975267476118,0.9990615067955434,1.042398291596143,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,joint_regret_ndcg,0.00046700665843868363,1.1547904897398052e-05,0.001116851392957727,250,5,0
-MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,normalized_regret_ndcg,0.7109351736821121,0.42187034736422424,1.0,2,5,248
+MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,normalized_regret_ndcg,,,,0,5,250
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,intervention_success_ndcg,0.0008,0.0,0.0024000000000000002,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,aia_null_mean,0.0005583247584201146,-0.0007918295072368291,0.0018827060298112611,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,aia_null_p95,0.3874998317554478,0.37940452347015724,0.3969582737973326,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,aia_permutation_p,0.5059564356435643,0.49025742574257425,0.5217108910891088,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,aia,0.8068733464883928,0.7942437805837093,0.8185739496385968,250,5,0
-MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,aia_ndcg,0.15639901419940277,0.0037853130491128095,0.30901271534969277,4,5,246
+MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,aia_ndcg,,,,0,5,250
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,faithfulness_alignment,0.8027488867788558,0.7887342801007041,0.8156961764824442,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,actionability_gap,0.004124459709537108,0.001955883212762467,0.0068075797071865144,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,signed_alignment,0.9742508973173369,0.9676861690017928,0.9800779970612463,250,5,0
-MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,signed_alignment_ndcg,0.45726339321758824,0.25538635809351745,0.7153818116447384,4,5,246
+MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,signed_alignment_ndcg,,,,0,5,250
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,direction_accuracy,0.9049741434348245,0.8986006857511254,0.9110659899446959,250,5,0
-MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,direction_accuracy_ndcg,0.7291666666666667,0.5,0.9583333333333335,4,5,246
+MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,direction_accuracy_ndcg,,,,0,5,250
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,top1_precision,0.9248,0.9056,0.9424,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,top3_precision,0.9501333333333333,0.9373333333333332,0.9618666666666666,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,top5_precision,0.9387733333333333,0.92496,0.9509346666666667,250,5,0
@@ -1654,19 +1654,19 @@ MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_cat
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,joint_regret_primary,2.1318223057904495e-05,1.253552319314763e-05,3.349638047236084e-05,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,normalized_regret_primary,0.019747480630210094,0.0075540367656620295,0.03661839110156213,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,joint_regret_ndcg,0.0003333175201640751,0.0,0.0008978869013824604,250,5,0
-MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,normalized_regret_ndcg,0.11314719276545837,0.0,0.22629438553091674,2,5,248
+MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,normalized_regret_ndcg,,,,0,5,250
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,intervention_success_ndcg,0.0016,0.0,0.004,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,aia_null_mean,0.00011332062859740885,-0.0011329026522857947,0.0013506141385033956,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,aia_null_p95,0.3843936038388855,0.37643102602791934,0.39362885321904606,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,aia_permutation_p,0.017243564356435644,0.013251485148514852,0.022162376237623765,250,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,aia,0.3165248325152659,0.30492928337271596,0.3281711528550139,1000,5,0
-MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,aia_ndcg,0.10337411297400514,0.07622835728921733,0.1305505945944999,281,5,719
+MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,aia_ndcg,0.1081269838587393,0.05497704135086688,0.1614376387092883,37,5,963
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,faithfulness_alignment,0.3141757568592398,0.3026198320655093,0.3257517173287239,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,actionability_gap,0.00234907565602612,0.0014313477274789197,0.003239153425264106,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,signed_alignment,0.46458876852249914,0.4413015016188661,0.4867781688788507,1000,5,0
-MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,signed_alignment_ndcg,0.19631078069458155,0.16561141327428452,0.2277032658427033,281,5,719
+MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,signed_alignment_ndcg,0.18949895700308347,0.12876110022300596,0.2500579297256436,37,5,963
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,direction_accuracy,0.5536202690807644,0.5481986508003734,0.558992308013903,1000,5,0
-MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,direction_accuracy_ndcg,0.6692848154886307,0.6303129358530728,0.7066998737539054,281,5,719
+MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,direction_accuracy_ndcg,0.6119729187743893,0.5336948114981204,0.6907201981696467,37,5,963
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,top1_precision,0.29760000000000003,0.2798,0.3154,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,top3_precision,0.5192666666666667,0.5034666666666667,0.5350666666666666,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,top5_precision,0.5829133333333334,0.5673133333333333,0.59843025,1000,5,0
@@ -1678,19 +1678,19 @@ MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,joint_regret_primary,0.0013083973245152155,0.0012099186873257642,0.0014133432610374489,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,normalized_regret_primary,0.7057642005623462,0.6757647622014005,0.7361436099196277,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,joint_regret_ndcg,0.011473465470641622,0.00978921306130809,0.013273554002544067,1000,5,0
-MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,normalized_regret_ndcg,1.1143074271750468,0.914802715439493,1.3661687872408497,290,5,710
+MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,normalized_regret_ndcg,1.3517284426428617,0.9576126872187608,1.8691054161850362,40,5,960
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,intervention_success_ndcg,0.022600000000000002,0.018200000000000004,0.027200000000000002,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,aia_null_mean,-0.00017433537480063794,-0.0003879056746325141,4.4398507054735795e-05,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,aia_null_p95,0.3989148206465876,0.3948048093006837,0.4032842379783207,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,greedy_cf,Greedy sequential deletion,aia_permutation_p,0.17906713286713288,0.1679124175824176,0.19092827672327675,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,aia,0.9733256106690008,0.9712786129922707,0.9752703985409583,1000,5,0
-MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,aia_ndcg,0.1352838161156928,0.10617060108944949,0.16327397945268146,281,5,719
+MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,aia_ndcg,0.15899912068760508,0.10641728524684009,0.21183646199812775,37,5,963
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,faithfulness_alignment,0.9787797625388027,0.9774983833295188,0.9799763763450172,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,actionability_gap,-0.005454151869802024,-0.006535841722261227,-0.004489470405626366,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,signed_alignment,0.9900529505169752,0.9895040537478516,0.9905744476354399,1000,5,0
-MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,signed_alignment_ndcg,0.3639481542323066,0.3335531174596763,0.394559266853631,281,5,719
+MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,signed_alignment_ndcg,0.4122536808418786,0.35428571546836496,0.4686636093411134,37,5,963
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,direction_accuracy,0.979833223638247,0.9784216619921403,0.981143920887227,1000,5,0
-MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,direction_accuracy_ndcg,0.7801586037867962,0.7505307904075927,0.8080040479854368,281,5,719
+MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,direction_accuracy_ndcg,0.7987947706697707,0.7495764977796228,0.8450736625736626,37,5,963
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,top1_precision,0.9504000000000001,0.9436000000000001,0.957,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,top3_precision,0.9502,0.9448,0.9551333333333334,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,top5_precision,0.9393933333333334,0.9326965833333334,0.9455635000000001,1000,5,0
@@ -1702,19 +1702,19 @@ MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,joint_regret_primary,3.6918996617354983e-06,2.7704699974925495e-06,4.730238193923768e-06,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,normalized_regret_primary,0.0035579362210445865,0.0026542243844351297,0.004674856760298789,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,joint_regret_ndcg,0.006428617996298841,0.005293141634982136,0.007660048992432826,1000,5,0
-MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,normalized_regret_ndcg,0.6946035982436544,0.5215549392159146,0.9206431468192352,290,5,710
+MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,normalized_regret_ndcg,0.9838880223770975,0.4646402331389781,1.6800546393450653,40,5,960
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,intervention_success_ndcg,0.0494,0.04240000000000001,0.056799999999999996,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,aia_null_mean,1.6809448240098502e-06,-0.00021194447147692354,0.00021479757433330335,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,aia_null_p95,0.39892635422523803,0.39484416901479574,0.40322828950325984,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,aia_permutation_p,0.0016423576423576429,0.0011800199800199803,0.0022873226773226776,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,aia,0.9936215611426756,0.9924858239112538,0.9945963716385523,1000,5,0
-MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,aia_ndcg,0.1406096628190106,0.11246158636691232,0.16781218844018939,281,5,719
+MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,aia_ndcg,0.15953010479382412,0.10682918457267701,0.21093316376052046,37,5,963
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,faithfulness_alignment,1.0,1.0,1.0,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,actionability_gap,-0.00637843885732433,-0.00754280664291851,-0.0053701619585265325,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,signed_alignment,0.9984097311821307,0.9980878727433559,0.9986469841598031,1000,5,0
-MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,signed_alignment_ndcg,0.36315783437944554,0.3324701560891494,0.3942158793239983,281,5,719
+MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,signed_alignment_ndcg,0.4110048133062096,0.35098337792655376,0.4677644960363202,37,5,963
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,direction_accuracy,0.9952214391370584,0.9944419697743132,0.9959581745478895,1000,5,0
-MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,direction_accuracy_ndcg,0.7834339733177916,0.7549863272017932,0.8110733258508078,281,5,719
+MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,direction_accuracy_ndcg,0.7974149411649412,0.7439678314678314,0.8478903057028058,37,5,963
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,top1_precision,0.9892,0.986,0.992,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,top3_precision,0.9833333333333334,0.9790666666666666,0.9873333333333333,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,top5_precision,0.9678333333333334,0.9613798333333333,0.9738135,1000,5,0
@@ -1726,19 +1726,19 @@ MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,joint_regret_primary,1.632920603563437e-06,8.394160368035914e-07,2.593842529804741e-06,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,normalized_regret_primary,0.0012415675760377104,0.0008122778354092576,0.0017927280738353106,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,joint_regret_ndcg,0.006882895978246143,0.005698442881612109,0.008136967618625285,1000,5,0
-MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,normalized_regret_ndcg,0.7256781216737389,0.5421131745971266,0.9727976000721446,290,5,710
+MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,normalized_regret_ndcg,0.8268524868715229,0.459400248613342,1.350271126209448,40,5,960
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,intervention_success_ndcg,0.048,0.04100000000000001,0.055200000000000006,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,aia_null_mean,-1.6754948611759774e-06,-0.00020959370220079198,0.0002095981122464996,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,aia_null_p95,0.3988653610468478,0.39477503965741423,0.4032250204113094,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,aia_permutation_p,0.001582817182817183,0.0011308641358641362,0.0022281968031968033,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,aia,0.0003579595997397846,-0.006446349673804009,0.0072260418464404515,1000,5,0
-MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,aia_ndcg,0.01660060765698967,-0.009404335351666885,0.042411934104212644,281,5,719
+MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,aia_ndcg,-0.017959111846996657,-0.05967156700035515,0.02543606448935694,37,5,963
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,faithfulness_alignment,-1.0652165172289951e-05,-0.006714212610145273,0.006712229758631459,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,actionability_gap,0.0003686117649120746,-0.00045744996463804535,0.001227991143660261,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,signed_alignment,-0.00034647358317636855,-0.006844094553923889,0.006287476054260495,1000,5,0
-MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,signed_alignment_ndcg,0.026996565404372737,0.0008691879725769687,0.052914078921615586,281,5,719
+MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,signed_alignment_ndcg,0.018168070656152835,-0.029175966850851293,0.06425658689835312,37,5,963
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,direction_accuracy,0.49918743437419133,0.495827748963326,0.5024555068013342,1000,5,0
-MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,direction_accuracy_ndcg,0.5283847975083321,0.495281143291597,0.5622512125556497,281,5,719
+MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,direction_accuracy_ndcg,0.5114239821960409,0.4385961899472929,0.5808316707535455,37,5,963
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,top1_precision,0.056600000000000004,0.050199999999999995,0.0632,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,top3_precision,0.1638,0.15766666666666668,0.16993333333333333,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,top5_precision,0.2593566666666667,0.2540131666666666,0.26465675000000005,1000,5,0
@@ -1750,19 +1750,19 @@ MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,joint_regret_primary,0.002360158827849034,0.002230458730738577,0.0024983801709602196,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,normalized_regret_primary,1.010856887570715,0.9994457053433856,1.0221587733596271,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,joint_regret_ndcg,0.012170588086230331,0.010538115196443433,0.013888319288266332,1000,5,0
-MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,normalized_regret_ndcg,1.170680783739087,0.9783913892538966,1.416475158946736,290,5,710
+MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,normalized_regret_ndcg,1.2246964153931625,0.8975586227056543,1.7425440443791274,40,5,960
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,intervention_success_ndcg,0.015600000000000001,0.012,0.019600000000000003,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,aia_null_mean,2.0521253545216376e-05,-0.00020261853000624246,0.00024368520110681362,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,aia_null_p95,0.39904406540054355,0.3948938438813121,0.403517681216629,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,aia_permutation_p,0.5003278721278722,0.49230016983016983,0.5083293256743256,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,aia,0.7874882753778729,0.78197903609587,0.7927763136419824,1000,5,0
-MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,aia_ndcg,0.15298044029867788,0.1264845174771042,0.1790929646428787,281,5,719
+MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,aia_ndcg,0.16352458609669893,0.11427504394254182,0.21248014335743284,37,5,963
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,faithfulness_alignment,0.7795285940633155,0.7734363863992044,0.7854725432521554,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,actionability_gap,0.007959681314557477,0.006431951173568434,0.009690221263514607,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,signed_alignment,0.9630125835310199,0.9607277711924298,0.965225309949983,1000,5,0
-MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,signed_alignment_ndcg,0.3800880577986346,0.3497856983063806,0.4086759853282925,281,5,719
+MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,signed_alignment_ndcg,0.41300490919227234,0.35665430431888423,0.46838673390032265,37,5,963
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,direction_accuracy,0.8916275291349517,0.8888747930677854,0.894373317464828,1000,5,0
-MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,direction_accuracy_ndcg,0.8110292549676577,0.7853344619983266,0.8359315416807043,281,5,719
+MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,direction_accuracy_ndcg,0.8048826111326111,0.7536169184606685,0.8535853324915823,37,5,963
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,top1_precision,0.885,0.8742000000000001,0.8956000000000001,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,top3_precision,0.9034666666666668,0.8964666666666667,0.9103333333333333,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,top5_precision,0.9001933333333334,0.8933131666666668,0.90684,1000,5,0
@@ -1774,7 +1774,7 @@ MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,joint_regret_primary,1.2857450701983388e-05,1.128264789165287e-05,1.4586119671339897e-05,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,normalized_regret_primary,0.01865243021243686,0.016180583786849983,0.021229461789146194,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,joint_regret_ndcg,0.006778934877160415,0.005582103503953922,0.008016802144811241,1000,5,0
-MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,normalized_regret_ndcg,0.6887799355584395,0.5276262187619903,0.9149016206760618,290,5,710
+MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,normalized_regret_ndcg,0.799363055042133,0.42790314379045274,1.3333150544621768,40,5,960
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,intervention_success_ndcg,0.047799999999999995,0.041,0.055,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,aia_null_mean,3.76789205892147e-05,-0.0001766907035624334,0.000250444115648541,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,aia_null_p95,0.3990103639203933,0.39481061213692775,0.40349591411118546,1000,5,0

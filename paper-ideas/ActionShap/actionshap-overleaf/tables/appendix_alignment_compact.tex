@@ -1,11 +1,11 @@
-\begin{table}[t]
+\begin{table}[H]
 \centering\scriptsize
 \caption{Alignment robustness across the predeclared ItemKNN conditions. Deletion and bounded columns are Shapley; LIME and LOO columns are their Actionability Gaps.}
 \label{tab:app-alignment}
-\setlength{\tabcolsep}{3pt}
-\begin{tabular}{@{}p{.27\textwidth}rrrrrr@{}}
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{.24\textwidth}rrrrrr@{}}
 \toprule
-Condition & Shapley Del. & Shapley Bnd. & Shapley Gap & LIME Gap & LOO Gap & Valid $n$ \\
+Condition & Del. & Bnd. & Gap & LIME gap & LOO gap & Valid $n$ \\
 \midrule
 Amazon sampled & .286 & .414 & +.129 & -.103 & -.149 & 993 \\
 Amazon full catalogue & -.288 & -.119 & +.169 & -.200 & -.211 & 250 \\

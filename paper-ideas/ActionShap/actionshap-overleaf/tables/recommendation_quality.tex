@@ -1,19 +1,20 @@
 % Compact Table 2: recommendation quality and masking gate.
-\begin{table}[t]
+% NOTE: sn-jnl wraps every table in threeparttable, which is incompatible with
+% \resizebox around tabular (group imbalance + division-by-zero). Keep tables
+% resize-free; width controlled via font size and column spacing % which is the construct verified compatible with sn-jnl's threeparttable wrapper.
+\begin{table}[H]
 \centering\scriptsize
 \setlength{\tabcolsep}{2.5pt}
-\caption{Recommendation-quality and masking-gate audit. The evaluation set contains the held-out target plus the stated number of unseen negatives; HitRate@10 is the one-target hit indicator and is not catalogue retrieval recall.}
+\caption{Recommendation-quality and masking-gate audit. The evaluation set contains the held-out target plus the stated number of unseen negatives; HitRate@10 is the one-target hit indicator and is not catalogue retrieval recall. ML-1M = MovieLens-1M.}
 \label{tab:recommendation-quality}
-\resizebox{\linewidth}{!}{%
-\begin{tabular}{llrrrrrrr}
+\begin{tabular}{@{}llccccccc@{}}
 \toprule
-Dataset & Model & Users & Candidates & NDCG@10 & HitRate@10 & Pop. NDCG & Pop. HitRate & Gate \\
+Dataset & Model & Users & Cand. & NDCG@10 & HR@10 & Pop.\ NDCG & Pop.\ HR & Gate \\
 \midrule
-MovieLens-1M & ItemKNN & 1000 & 200 & 0.284 & 0.504 & 0.158 & 0.320 & 5/5 \\
-Amazon Digital Music & ItemKNN & 1000 & 200 & 0.181 & 0.285 & 0.090 & 0.155 & 5/5 \\
-MovieLens-1M & Profile & 1000 & 200 & 0.156 & 0.301 & 0.158 & 0.320 & 4/5 \\
-Amazon Digital Music & Profile & 1000 & 200 & 0.038 & 0.073 & 0.090 & 0.155 & 5/5 \\
+ML-1M & ItemKNN & 1000 & 200 & 0.284 & 0.504 & 0.158 & 0.320 & 5/5 \\
+Amazon & ItemKNN & 1000 & 200 & 0.181 & 0.285 & 0.090 & 0.155 & 5/5 \\
+ML-1M & Profile & 1000 & 200 & 0.156 & 0.301 & 0.158 & 0.320 & 4/5 \\
+Amazon & Profile & 1000 & 200 & 0.038 & 0.073 & 0.090 & 0.155 & 5/5 \\
 \bottomrule
-\end{tabular}%
-}
+\end{tabular}
 \end{table}

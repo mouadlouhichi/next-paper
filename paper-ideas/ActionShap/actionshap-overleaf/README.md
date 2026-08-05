@@ -48,3 +48,24 @@ archive deposit must be completed before submission. The exact branch commit and
 archive SHA-256 are recorded in the parent `paper-v3/REPRODUCIBILITY.md`.
 
 The repository does not track stale compiled PDFs. Compile `actionshap.tex` and `supplementary.tex` from this package in Overleaf so the PDF reflects the current source, table sequence, and release metadata.
+
+## Overleaf troubleshooting
+
+- Upload the **entire folder**, including `tables/`, `figures/`, `sn-jnl.cls`,
+  `sn-mathphys-num.bst`, and `latexmkrc`. If `tables/` (or any input asset) is
+  missing, the compiler reports a warning and a bold placeholder instead of the
+  table; re-upload the complete `tables/` directory and recompile.
+- Set the main document to `actionshap.tex` (Menu > Settings > Main file).
+  Compile `supplementary.tex` as a separate project entry point only when the
+  full numerical audit PDF is required.
+- The package was compile-verified end-to-end with pdfLaTeX (29 pages main,
+  37 pages supplement, zero errors) using the pinned `sn-jnl` class.
+
+### Table authoring rule (sn-jnl + threeparttable)
+
+The `sn-jnl` class wraps every `table` environment in the real
+`threeparttable`, which measures the `tabular` body in its own box. Wrapping a
+`tabular` in `\resizebox` (or `\scalebox`) inside these tables breaks group
+balance and triggers "Missing \endgroup", "Division by 0", and vanished tables.
+All manuscript tables are therefore resize-free; width is controlled by font
+size, `tabcolsep`, and `p{...}` columns. Keep it that way when editing tables.

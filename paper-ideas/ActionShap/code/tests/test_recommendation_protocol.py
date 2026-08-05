@@ -158,8 +158,10 @@ def test_method_summary_counts_users_missing_under_every_seed():
     spec.loader.exec_module(module)
 
     rows = []
+    # Three seeds so a fully valid user satisfies the MIN_VALID_SEEDS=3 floor;
+    # user 2 remains missing under every seed.
     for user in (1, 2):
-        for seed in (42, 43):
+        for seed in (42, 43, 44):
             row = {
                 "dataset": "toy",
                 "model": "itemknn",
