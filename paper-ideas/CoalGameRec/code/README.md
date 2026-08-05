@@ -153,3 +153,29 @@ python scripts/analyze_q1_results.py --run-dir results/journal_runs/ml1m_mac_jou
 ```
 
 For Q1 claims, do not mix the old pilot (`v1`) and the redesigned prospective run (`v2`) as if they came from the same protocol.
+
+## Strong-baseline paired analyses
+
+After a run finishes, generate all reviewer-critical paired contrasts in one file:
+
+```bash
+python scripts/analyze_q1_results.py \
+  --run-dir results/journal_runs/ml1m_mac_journal_v2_prospective \
+  --treatment shapley-mc \
+  --controls uniform additive-pref attention loo-marginal \
+  --output-prefix paired_bootstrap_all_controls
+```
+
+This writes:
+
+```text
+tables/paired_bootstrap_all_controls.csv
+tables/paired_bootstrap_all_controls_by_seed.csv
+tables/paired_bootstrap_all_controls_holm.json
+```
+
+The table includes mean paired difference, 95% conditional user bootstrap CI,
+user-conditional descriptive `d_z`, median difference, and proportions of users
+improved/harmed/unchanged. The Shapley-vs-LOO contrast is the key test of whether
+coalition-context averaging adds value beyond simple leave-one-out marginal
+importance.
