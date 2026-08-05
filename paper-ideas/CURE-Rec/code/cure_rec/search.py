@@ -167,22 +167,37 @@ def run_final_bpr_seed_replication(
 ) -> pd.DataFrame:
     """Replicate the frozen selected BPR config across seeds without retuning."""
     root = Path(output_dir)
+    root.mkdir(parents=True, exist_ok=True)
     rows = []
+    # Resume completed seed audits rather than repeating expensive MPS training.
     for seed in seeds:
-        summary = run_final_bpr_audit(
-            split,
-            search_root,
-            root / f"seed-{seed}",
-            seed=seed,
-            max_eval_users=max_eval_users,
-        )
+        seed_root = root / f"seed-{seed}"
+        completed = seed_root / "final_bpr_test_metrics.csv"
+        if completed.exists():
+            summary = pd.read_csv(completed)
+        else:
+            summary = run_final_bpr_audit(
+                split,
+                search_root,
+                seed_root,
+                seed=seed,
+                max_eval_users=max_eval_users,
+            )
+        if "seed" not in summary.columns:
+            summary = summary.copy()
+            summary.insert(0, "seed", seed)
         rows.append(summary)
     metrics = pd.concat(rows, ignore_index=True)
     metrics.to_csv(root / "final_bpr_seed_metrics.csv", index=False)
     bpr = metrics[metrics["model"] == "torch_bpr_mf_bias_final"].copy()
-    pop = metrics[metrics["model"] == "popularity"].set_index("seed")
-    bpr["delta_recall_at_k"] = bpr.apply(lambda row: row.recall_at_k - pop.loc[row.seed, "recall_at_k"], axis=1)
-    bpr["delta_ndcg_at_k"] = bpr.apply(lambda row: row.ndcg_at_k - pop.loc[row.seed, "ndcg_at_k"], axis=1)
-    summary = bpr[["recall_at_k", "ndcg_at_k", "delta_recall_at_k", "delta_ndcg_at_k"]].agg(["mean", "std", "min", "max"]).T.reset_index().rename(columns={"index": "metric"})
+    pop = metrics[metrics["model"] == "popularity"][["seed", "recall_at_k", "ndcg_at_k"]].copy()
+    pop = pop.groupby("seed", as_index=False).first().rename(columns={"recall_at_k": "pop_recall_at_k", "ndcg_at_k": "pop_ndcg_at_k"})
+    paired = bpr.merge(pop, on="seed", how="left", validate="one_to_one")
+    if paired[["pop_recall_at_k", "pop_ndcg_at_k"]].isna().any().any():
+        raise ValueError("Missing matching popularity row for one or more BPR replication seeds")
+    paired["delta_recall_at_k"] = paired["recall_at_k"] - paired["pop_recall_at_k"]
+    paired["delta_ndcg_at_k"] = paired["ndcg_at_k"] - paired["pop_ndcg_at_k"]
+    paired.to_csv(root / "final_bpr_seed_paired_metrics.csv", index=False)
+    summary = paired[["recall_at_k", "ndcg_at_k", "delta_recall_at_k", "delta_ndcg_at_k"]].agg(["mean", "std", "min", "max"]).T.reset_index().rename(columns={"index": "metric"})
     summary.to_csv(root / "final_bpr_seed_summary.csv", index=False)
-    return metrics
+    return paired
