@@ -1,0 +1,3 @@
+model,pairwise_training_accuracy,training_pairs,pairwise_validation_accuracy,validation_pairs
+popularity,0.8681,10000,0.8242414193334439,6031
+torch_bpr_mf_bias,0.9541,10000,0.9041618305421987,6031

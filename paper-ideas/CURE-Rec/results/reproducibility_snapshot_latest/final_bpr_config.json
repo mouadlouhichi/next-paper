@@ -1,0 +1,13 @@
+{
+  "selected_config_hash": "9875430c235b",
+  "config": {
+    "embedding_dim": 128,
+    "batch_size": 8192,
+    "learning_rate": 0.003,
+    "weight_decay": 1e-05,
+    "negative_strategy": "popularity_mixture"
+  },
+  "seed": 42,
+  "best_validation_epoch": 22,
+  "restored_checkpoint_epoch": 22
+}
