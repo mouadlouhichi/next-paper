@@ -499,13 +499,15 @@ ActionShap provides a reproducible protocol for asking whether recommendation ex
 
 
 \appendix
-% Explicit alphabetic appendix lettering: A--B are the only manuscript appendices.
+% Explicit alphabetic appendix lettering: A--E are the only manuscript appendices.
 \setcounter{section}{0}
 \renewcommand{\thesection}{\Alph{section}}
 \renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
 \renewcommand{\thetable}{\thesection\arabic{table}}
+\renewcommand{\theequation}{\thesection\arabic{equation}}
 \setcounter{table}{0}
-\section{Formal proofs and edge-case guarantees}\label{app:proofs}
+\setcounter{equation}{0}
+\section{Formal Guarantees}\label{app:proofs}
 
 \subsection{Efficiency of the prefix-walk estimator}
 For any permutation $\pi=(p_1,\ldots,p_n)$, define $S_0=\varnothing$ and $S_j=\{p_1,\ldots,p_j\}$. The prefix-walk contribution of $p_j$ is $v(S_j)-v(S_{j-1})$. Consequently,
@@ -520,13 +522,13 @@ For deletion at $\rho=0$, $\Delta^{\mathrm{del}}_{u,p}=v(P_u\setminus\{p\})-v(P_
 \subsection{Exact budget-two action space}
 With $n_u\le20$, the exact action space contains $1+n_u+\binom{n_u}{2}\le211$ actions, including no action. Each action is evaluated against target margin and NDCG using the same cached candidate scores. The oracle is therefore exact for every primary user and does not rely on a sampled action subset.
 
-\section{Complete experimental contract}\label{app:contract}
+\section{Experimental Contract}\label{app:contract}
 \setcounter{table}{0}
 
 \begin{table}[t]
 \centering\scriptsize
 \caption{Frozen experimental contract used for every paper-eligible run. The executable YAML and scripts are the source of truth; this table records every parameter that changes the estimand or reported uncertainty.}
-\label{tab:contract}
+\label{tab:app-contract}
 \resizebox{\linewidth}{!}{%
 \begin{tabular}{lll}
 \toprule
@@ -552,6 +554,20 @@ Null/inference & $R=1000$ matched null draws; 10,000 bootstrap/permutation draws
 
 The profile optimizer samples one positive item per user per epoch, excludes that positive from its temporary context, and samples a negative uniformly outside the user's complete training history. ItemKNN has no latent user embedding, shrinkage coefficient, minimum-support cutoff, or negative-similarity branch: the retained similarity matrix is non-negative by construction. AIA is Spearman rank correlation and is missing for constant or non-finite vectors. Normalized regret uses $\varepsilon=10^{-12}$ and is averaged only over positive-oracle users. The release archive records the exact dependency versions, source hashes, run durations, and selected users; complete per-user vectors remain in the compressed machine-readable asset rather than in the PDF.
 
+
+\section{Robustness Results}\label{app:robustness}
+\setcounter{table}{0}
+\input{tables/appendix_alignment_compact.tex}
+\input{tables/appendix_decisions_compact.tex}
+
+\section{Statistical Validation and Convergence}\label{app:statistics}
+\setcounter{table}{0}
+\input{tables/appendix_statistics_compact.tex}
+\input{tables/appendix_convergence_compact.tex}
+
+\section{Computational Cost and Reproducibility}\label{app:release}
+\setcounter{table}{0}
+\input{tables/appendix_computation.tex}
 
 \bibliography{actionshap-bibliography}
 

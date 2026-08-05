@@ -14,9 +14,10 @@ as the working `signalshap-overleaf.zip` package.
 - Compact manuscript tables: `tables/`
 
 The main manuscript has the six-section SignalShap-style organization,
-explicit Appendices A--B in the main paper, a recommendation-quality Table 2,
-a computational-cost table, and no internal submission checklist. Robustness and
-statistical audit matrices are supplied only in the separate supplementary PDF.
+explicit Appendices A--E in the main paper, a compact evidence appendix of
+approximately 6--7 pages, a recommendation-quality Table 2, a computational-cost
+table, and no internal submission checklist. Full robustness and statistical audit
+matrices are supplied only in the separate supplementary PDF.
 
 ## Supplementary audit
 

@@ -1,0 +1,21 @@
+\begin{table}[t]
+\centering\scriptsize
+\caption{Computational cost and release record. Analytical budgets are per user; runtime values are complete-pipeline measurements.}
+\label{tab:app-computation}
+\begin{tabular}{@{}p{.29\textwidth}p{.61\textwidth}@{}}
+\toprule
+Item & Value \\
+\midrule
+Shapley budget & $T(n_u+1)\le21{,}000$ prefix states before cache reuse. \\
+LIME budget & 512 masks. \\
+LOO budget & $n_u+1\le21$ states. \\
+Greedy budget & $1+n_u(n_u+1)/2\le211$ states. \\
+ItemKNN runtime & 29.8--2851.6 s; mean 183.0 s over 60 runs. \\
+Profile runtime & 26.9--299.6 s; mean 95.0 s over 20 runs. \\
+Environment & macOS-26.5.1-arm64; Python 3.12.13; NumPy 2.4.6; SciPy 1.17.1; pandas 2.3.3; scikit-learn 1.9.0; matplotlib 3.11.1; PyYAML 6.0.3. \\
+Release & 80 recommendation runs; 5 convergence studies; result archive SHA-256 is recorded in the release metadata. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent Complete per-user, per-seed, robustness, convergence, and pairwise-comparison matrices are provided in the content-addressed CSV/JSON release. The historical schema did not record processor model, RAM, or peak RSS; the current runner records those fields for future regenerated releases.

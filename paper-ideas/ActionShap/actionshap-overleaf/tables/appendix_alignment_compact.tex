@@ -1,0 +1,23 @@
+\begin{table}[t]
+\centering\scriptsize
+\caption{Alignment robustness across the predeclared ItemKNN conditions. Deletion and bounded columns are Shapley; LIME and LOO columns are their Actionability Gaps.}
+\label{tab:app-alignment}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}p{.27\textwidth}rrrrrr@{}}
+\toprule
+Condition & Shapley Del. & Shapley Bnd. & Shapley Gap & LIME Gap & LOO Gap & Valid $n$ \\
+\midrule
+Amazon sampled & .286 & .414 & +.129 & -.103 & -.149 & 993 \\
+Amazon full catalogue & -.288 & -.119 & +.169 & -.200 & -.211 & 250 \\
+MovieLens sampled & .762 & .779 & +.017 & -.018 & -.022 & 1000 \\
+MovieLens full catalogue & .574 & .618 & +.044 & -.033 & -.042 & 250 \\
+MovieLens 100 candidates & .809 & .821 & +.012 & -.014 & -.018 & 250 \\
+MovieLens 500 candidates & .692 & .724 & +.032 & -.023 & -.029 & 250 \\
+MovieLens $n_{\max}=50$ & .800 & .808 & +.008 & -.010 & -.013 & 250 \\
+MovieLens $n_{\max}=100$ & .802 & .808 & +.006 & -.010 & -.013 & 250 \\
+MovieLens $\rho=.25$ & .760 & .766 & +.007 & -.005 & -.008 & 250 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent Across these conditions, the Random gap remains approximately between $-.003$ and $+.002$, while Greedy ranges from approximately $-.124$ to $+.005$.

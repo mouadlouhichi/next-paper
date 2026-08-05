@@ -1,0 +1,29 @@
+\begin{table}[t]
+\centering\scriptsize
+\caption{Decision robustness on primary and representative boundary conditions. NRegret is conditional on active NDCG oracles; B=3 has no normalized-regret claim.}
+\label{tab:app-decisions}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}p{.19\textwidth}p{.14\textwidth}rrrrr@{}}
+\toprule
+Condition & Method & $\Delta$NDCG & Success & Abstention & NRegret & Active $n$ \\
+\midrule
+MovieLens primary & Shapley & .040 & 27.4\% & 0.0\% & .268 & 339 \\
+MovieLens primary & LIME & .043 & 28.8\% & 0.0\% & .225 & 339 \\
+MovieLens primary & LOO & .043 & 28.9\% & 0.0\% & .217 & 339 \\
+Amazon primary & Shapley & .033 & 17.0\% & 1.0\% & .206 & 196 \\
+Amazon primary & LIME & .033 & 17.1\% & 7.0\% & .197 & 196 \\
+Amazon primary & LOO & .031 & 16.7\% & 8.6\% & .232 & 196 \\
+MovieLens full catalogue & Shapley & .012 & 6.7\% & -- & .291 & 20 \\
+Amazon full catalogue & Shapley & .003 & 1.5\% & -- & .256 & 5 \\
+\midrule
+$B=1$ & Shapley & .026 & -- & -- & -- & -- \\
+$B=1$ & LIME & .026 & -- & -- & -- & -- \\
+$B=1$ & LOO & .027 & -- & -- & -- & -- \\
+$B=3$ & Shapley & .062 & -- & -- & -- & -- \\
+$B=3$ & LIME & .062 & -- & -- & -- & -- \\
+$B=3$ & LOO & .061 & -- & -- & -- & -- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent The archived B=3 sensitivity uses greedy rather than exhaustive triple enumeration and therefore reports no normalized regret.
