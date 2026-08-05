@@ -179,3 +179,34 @@ user-conditional descriptive `d_z`, median difference, and proportions of users
 improved/harmed/unchanged. The Shapley-vs-LOO contrast is the key test of whether
 coalition-context averaging adds value beyond simple leave-one-out marginal
 importance.
+
+## Q1 main-claim readiness additions
+
+The repository now contains the missing infrastructure needed to move beyond the
+BPR-MF MovieLens pilot:
+
+1. **Graph backbone:** `backbone.name: lightgcn` is implemented and can be run via `configs/q1_lightgcn_ml1m.yaml`.
+2. **Second dataset template:** `configs/q1_lightgcn_amazon_template.yaml` defines the custom temporal Amazon-Book run; set `books_5_json_gz` to your local file.
+3. **Strong baseline inference:** `analyze_q1_results.py --controls uniform additive-pref attention loo-marginal` produces paired CIs for all reviewer-critical contrasts.
+4. **Cost/effectiveness:** `scripts/cost_effectiveness.py` summarizes runtime, attribution cost, and NDCG gain per attribution hour.
+
+Recommended next commands:
+
+```bash
+# 1) Untouched graph-backbone MovieLens run
+python scripts/run_q1_pipeline.py --config configs/q1_lightgcn_ml1m.yaml
+python scripts/analyze_q1_results.py \
+  --run-dir results/journal_runs/ml1m_lightgcn_v3_prospective \
+  --treatment shapley-mc \
+  --controls uniform additive-pref attention loo-marginal \
+  --output-prefix paired_bootstrap_all_controls
+python scripts/cost_effectiveness.py \
+  --run-dir results/journal_runs/ml1m_lightgcn_v3_prospective
+
+# 2) Then Amazon after the MovieLens LightGCN gate is acceptable
+python scripts/run_q1_pipeline.py --config configs/q1_lightgcn_amazon_template.yaml
+```
+
+A Q1 main empirical claim should not be made until the LightGCN/HCCF and Amazon
+runs are complete, paired strong-baseline contrasts are positive or properly
+qualified, and ethics/preregistration artifacts exist.

@@ -14,7 +14,7 @@ import yaml
 from .attribution import compute_attribution_for_users, compute_shapley_for_users
 from .data import load_amazon_books_2018, load_movielens_1m, preprocess_temporal_loo, item_user_vectors, save_split
 from .metrics import evaluate
-from .models import TrainConfig, cache_full_scores, train_bprmf, pick_device
+from .models import TrainConfig, cache_full_scores, get_item_embeddings, train_bprmf, train_lightgcn, pick_device
 from .explanation import attribution_concentration, deletion_comprehensiveness, insertion_sufficiency
 from .rerank import rerank_all
 from .utils import sparse_fingerprint, write_json
@@ -50,11 +50,6 @@ def prepare_split(cfg: dict[str, Any]):
 
 def train_backbone(split, cfg: dict[str, Any], seed: int):
     b = cfg["backbone"]
-    if b["name"] != "bprmf":
-        raise NotImplementedError(
-            f"Backbone {b['name']} is not implemented in this local runner. "
-            "Use bprmf for prototype runs, or add the validated HCCF adapter after PORT.md validation."
-        )
     train_cfg = TrainConfig(
         dim=int(b.get("dim", 64)),
         lr=float(b.get("lr", 2e-3)),
@@ -65,7 +60,21 @@ def train_backbone(split, cfg: dict[str, Any], seed: int):
         seed=int(seed),
         device=cfg["run"].get("device", "auto"),
     )
-    model = train_bprmf(split.train, split.n_users, split.n_items, train_cfg, verbose=True)
+    name = b["name"]
+    if name == "bprmf":
+        model = train_bprmf(split.train, split.n_users, split.n_items, train_cfg, verbose=True)
+    elif name == "lightgcn":
+        model = train_lightgcn(
+            split.train, split.n_users, split.n_items, train_cfg,
+            n_layers=int(b.get("n_layers", 2)), verbose=True,
+        )
+    elif name == "hccf_validated_port":
+        raise NotImplementedError(
+            "HCCF is intentionally blocked until fork_commit, PORT.md, lockfile, "
+            "and official-code validation artifacts exist."
+        )
+    else:
+        raise NotImplementedError(f"Unsupported backbone: {name}")
     base_scores = cache_full_scores(
         model,
         split.n_users,
@@ -79,12 +88,16 @@ def run_seed(split, item_vectors, cfg: dict[str, Any], seed: int, out_dir: Path)
     seed_dir = out_dir / "raw" / f"seed_{seed}"
     seed_dir.mkdir(parents=True, exist_ok=True)
     t0 = time.time()
+    stage_times = {}
+    t_stage = time.time()
     model, base_scores = train_backbone(split, cfg, seed)
-    item_embeddings = model.item_emb.weight.detach().cpu().numpy().astype(np.float32) if hasattr(model, "item_emb") else None
+    stage_times["train_and_score_seconds"] = time.time() - t_stage
+    item_embeddings = get_item_embeddings(model)
     base_summary, base_per_user = evaluate(base_scores, split, item_vectors, ks=tuple(cfg["run"].get("ks", [5, 10, 20])))
     write_json(seed_dir / "base_summary.json", base_summary)
 
     a = cfg["attribution"]
+    t_stage = time.time()
     shapley = compute_shapley_for_users(
         split,
         base_scores,
@@ -105,6 +118,7 @@ def run_seed(split, item_vectors, cfg: dict[str, Any], seed: int, out_dir: Path)
         n_val_negatives=int(a.get("n_val_negatives", 100)),
         antithetic=bool(a.get("antithetic", True)),
     )
+    stage_times["shapley_seconds"] = time.time() - t_stage
     shape_report = assert_shapley_shapes(split, shapley)
     write_json(seed_dir / "shapley_shape_report.json", shape_report)
     explanation_report = {}
@@ -116,6 +130,7 @@ def run_seed(split, item_vectors, cfg: dict[str, Any], seed: int, out_dir: Path)
     loo = None
     families = list(cfg["reranking"].get("primary_families", [])) + list(cfg["reranking"].get("secondary_families", []))
     if "loo-marginal" in families:
+        t_stage = time.time()
         loo = compute_attribution_for_users(
             split, base_scores, item_vectors, method="loo-marginal",
             max_users=a.get("shapley_users"),
@@ -131,8 +146,10 @@ def run_seed(split, item_vectors, cfg: dict[str, Any], seed: int, out_dir: Path)
             value_mode=a.get("value_mode", "pairwise_logsigmoid"),
             n_val_negatives=int(a.get("n_val_negatives", 100)),
         )
+        stage_times["loo_seconds"] = time.time() - t_stage
         write_json(seed_dir / "loo_shape_report.json", assert_shapley_shapes(split, loo))
 
+    t_stage = time.time()
     rows = []
     per_user_rows = []
     for fam in families:
@@ -172,8 +189,9 @@ def run_seed(split, item_vectors, cfg: dict[str, Any], seed: int, out_dir: Path)
             sens_rows.append(summary)
     sens_df = pd.DataFrame(sens_rows)
     sens_df.to_csv(seed_dir / "lambda_sensitivity.csv", index=False)
+    stage_times["rerank_eval_sensitivity_seconds"] = time.time() - t_stage
 
-    write_json(seed_dir / "runtime.json", {"seed": seed, "seconds": time.time() - t0})
+    write_json(seed_dir / "runtime.json", {"seed": seed, "seconds": time.time() - t0, "stages": stage_times})
     return summary_df, per_user_df
 
 
