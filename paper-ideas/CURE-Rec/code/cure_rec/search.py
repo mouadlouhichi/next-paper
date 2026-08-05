@@ -10,6 +10,7 @@ from pathlib import Path
 
 import pandas as pd
 
+from cure_rec.evaluation_audit import audit_evaluation
 from cure_rec.models import LeaveOneOutSplit, PopularityHybrid, PopularityRecommender, evaluate_leave_one_out
 from cure_rec.torch_models import TorchBPRConfig, TorchBPRMFWithBias, torch_available
 
@@ -101,3 +102,87 @@ def run_staged_bpr_search(split: LeaveOneOutSplit, output_dir: str | Path, searc
     summary.to_csv(root / "bpr_search_final_test.csv", index=False)
     (root / "bpr_search_manifest.json").write_text(json.dumps({"search": asdict(search), "best_config": best_cfg, "alpha": alpha}, indent=2), encoding="utf-8")
     return summary
+
+
+def _load_selected_search_config(search_root: str | Path) -> tuple[dict, int]:
+    root = Path(search_root)
+    manifest = json.loads((root / "bpr_search_manifest.json").read_text())
+    return manifest["best_config"], int(manifest["search"]["final_epochs"])
+
+
+def run_final_bpr_audit(
+    split: LeaveOneOutSplit,
+    search_root: str | Path,
+    output_dir: str | Path,
+    *,
+    seed: int = 42,
+    max_eval_users: int = 1_000,
+) -> pd.DataFrame:
+    """Retrain the frozen selected BPR config and emit its final audit artifacts."""
+    if not torch_available():
+        raise ImportError("PyTorch/MPS unavailable. Install with python -m pip install -e '.[dev,torch]'")
+    best_cfg, final_epochs = _load_selected_search_config(search_root)
+    root = Path(output_dir)
+    root.mkdir(parents=True, exist_ok=True)
+    model = TorchBPRMFWithBias(TorchBPRConfig(max_epochs=final_epochs, seed=seed, **best_cfg))
+    model.fit(split.train, validation_split=split, max_eval_users=max_eval_users)
+    popularity = PopularityRecommender().fit(split.train)
+    bpr_metric = asdict(evaluate_leave_one_out(model, split, max_users=max_eval_users))
+    pop_metric = asdict(evaluate_leave_one_out(popularity, split, max_users=max_eval_users))
+    audit, pairwise = audit_evaluation([popularity, model], split, max_users=max_eval_users, seed=seed)
+    selected_hash = _hash(best_cfg)
+    summary = pd.DataFrame([
+        {"seed": seed, "model": "popularity", "selected_config_hash": selected_hash, **pop_metric},
+        {
+            "seed": seed,
+            "model": "torch_bpr_mf_bias_final",
+            "selected_config_hash": selected_hash,
+            "best_validation_epoch": getattr(model, "best_validation_epoch", None),
+            "restored_checkpoint_epoch": getattr(model, "restored_checkpoint_epoch", None),
+            **bpr_metric,
+        },
+    ])
+    summary.to_csv(root / "final_bpr_test_metrics.csv", index=False)
+    audit.to_csv(root / "final_bpr_evaluation_audit.csv", index=False)
+    pairwise.to_csv(root / "final_bpr_pairwise_accuracy.csv", index=False)
+    pd.DataFrame(model.loss_history).to_csv(root / "final_bpr_loss.csv", index=False)
+    pd.DataFrame(model.validation_history).to_csv(root / "final_bpr_validation.csv", index=False)
+    (root / "final_bpr_config.json").write_text(json.dumps({
+        "selected_config_hash": selected_hash,
+        "config": best_cfg,
+        "seed": seed,
+        "best_validation_epoch": getattr(model, "best_validation_epoch", None),
+        "restored_checkpoint_epoch": getattr(model, "restored_checkpoint_epoch", None),
+    }, indent=2), encoding="utf-8")
+    return summary
+
+
+def run_final_bpr_seed_replication(
+    split: LeaveOneOutSplit,
+    search_root: str | Path,
+    output_dir: str | Path,
+    seeds: tuple[int, ...] = (42, 43, 44, 45, 46),
+    *,
+    max_eval_users: int = 1_000,
+) -> pd.DataFrame:
+    """Replicate the frozen selected BPR config across seeds without retuning."""
+    root = Path(output_dir)
+    rows = []
+    for seed in seeds:
+        summary = run_final_bpr_audit(
+            split,
+            search_root,
+            root / f"seed-{seed}",
+            seed=seed,
+            max_eval_users=max_eval_users,
+        )
+        rows.append(summary)
+    metrics = pd.concat(rows, ignore_index=True)
+    metrics.to_csv(root / "final_bpr_seed_metrics.csv", index=False)
+    bpr = metrics[metrics["model"] == "torch_bpr_mf_bias_final"].copy()
+    pop = metrics[metrics["model"] == "popularity"].set_index("seed")
+    bpr["delta_recall_at_k"] = bpr.apply(lambda row: row.recall_at_k - pop.loc[row.seed, "recall_at_k"], axis=1)
+    bpr["delta_ndcg_at_k"] = bpr.apply(lambda row: row.ndcg_at_k - pop.loc[row.seed, "ndcg_at_k"], axis=1)
+    summary = bpr[["recall_at_k", "ndcg_at_k", "delta_recall_at_k", "delta_ndcg_at_k"]].agg(["mean", "std", "min", "max"]).T.reset_index().rename(columns={"index": "metric"})
+    summary.to_csv(root / "final_bpr_seed_summary.csv", index=False)
+    return metrics

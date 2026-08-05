@@ -13,7 +13,7 @@ from cure_rec.experiments import postprocess_seed_sweep, run_seed_sweep
 from cure_rec.observability import RunLogger
 from cure_rec.pipeline import run_experiment
 from cure_rec.regimes import run_regime_suite
-from cure_rec.search import SearchConfig, run_staged_bpr_search
+from cure_rec.search import SearchConfig, run_final_bpr_audit, run_final_bpr_seed_replication, run_staged_bpr_search
 from cure_rec.models import chronological_leave_one_out
 from cure_rec.workflow import run_full_workflow
 
@@ -83,6 +83,23 @@ def _search_bpr(args: argparse.Namespace) -> int:
         SearchConfig(stage_epochs=args.stage_epochs, final_epochs=args.final_epochs, max_eval_users=args.max_eval_users, top_k_stage_a=args.top_k, seed=args.seed),
     )
     print(json.dumps({"search_run": str(args.output_root), "final_test": summary.to_dict(orient="records")}, indent=2, default=str))
+    return 0
+
+
+def _final_bpr_audit(args: argparse.Namespace) -> int:
+    result = load_dataset(args.dataset, args.source, download=args.download)
+    split = chronological_leave_one_out(result.interactions)
+    summary = run_final_bpr_audit(split, args.search_root, args.output_root, seed=args.seed, max_eval_users=args.max_eval_users)
+    print(json.dumps({"final_audit_run": str(args.output_root), "metrics": summary.to_dict(orient="records")}, indent=2, default=str))
+    return 0
+
+
+def _final_bpr_seeds(args: argparse.Namespace) -> int:
+    result = load_dataset(args.dataset, args.source, download=args.download)
+    split = chronological_leave_one_out(result.interactions)
+    seeds = tuple(int(seed.strip()) for seed in args.seeds.split(",") if seed.strip())
+    metrics = run_final_bpr_seed_replication(split, args.search_root, args.output_root, seeds=seeds, max_eval_users=args.max_eval_users)
+    print(json.dumps({"final_seed_run": str(args.output_root), "rows": len(metrics)}, indent=2, default=str))
     return 0
 
 
@@ -197,6 +214,26 @@ def main(argv: list[str] | None = None) -> int:
     search.add_argument("--max-eval-users", type=int, default=1_000)
     search.add_argument("--seed", type=int, default=42)
     search.set_defaults(handler=_search_bpr)
+
+    final_audit = subparsers.add_parser("final-bpr-audit", help="Retrain and audit the frozen staged-search BPR configuration")
+    final_audit.add_argument("--dataset", choices=(*PUBLIC_DATASETS, "csv"), required=True)
+    final_audit.add_argument("--source", type=Path, required=True)
+    final_audit.add_argument("--search-root", type=Path, required=True)
+    final_audit.add_argument("--output-root", type=Path, required=True)
+    final_audit.add_argument("--download", action="store_true")
+    final_audit.add_argument("--seed", type=int, default=42)
+    final_audit.add_argument("--max-eval-users", type=int, default=1_000)
+    final_audit.set_defaults(handler=_final_bpr_audit)
+
+    final_seeds = subparsers.add_parser("final-bpr-seeds", help="Replicate the frozen staged-search BPR configuration across seeds")
+    final_seeds.add_argument("--dataset", choices=(*PUBLIC_DATASETS, "csv"), required=True)
+    final_seeds.add_argument("--source", type=Path, required=True)
+    final_seeds.add_argument("--search-root", type=Path, required=True)
+    final_seeds.add_argument("--output-root", type=Path, required=True)
+    final_seeds.add_argument("--seeds", default="42,43,44,45,46")
+    final_seeds.add_argument("--download", action="store_true")
+    final_seeds.add_argument("--max-eval-users", type=int, default=1_000)
+    final_seeds.set_defaults(handler=_final_bpr_seeds)
 
     regimes = subparsers.add_parser("regimes", help="Run controlled additive/complementary/redundant/repair benchmark regimes")
     regimes.add_argument("--config", type=Path, required=True)
