@@ -98,6 +98,33 @@ cure-rec search-bpr \
   --stage-epochs 40 \
   --final-epochs 200
 
+# SASRec is enabled only after the BPR evaluation protocol and seed replication
+# have been accepted. Search selects by validation NDCG@10 and does not rank test
+# targets. It requires the optional torch install.
+cure-rec search-sasrec \
+  --dataset movielens_1m \
+  --source data/raw/movielens_1m \
+  --output-root runs/sasrec-search-movielens \
+  --stage-epochs 30 \
+  --final-epochs 120
+
+# This is the first held-out-test evaluation after SASRec validation selection.
+cure-rec final-sasrec-audit \
+  --dataset movielens_1m \
+  --source data/raw/movielens_1m \
+  --search-root runs/sasrec-search-movielens \
+  --output-root runs/final-sasrec-audit-movielens \
+  --seed 42
+
+# Replicate the frozen selection; this never retunes SASRec or uses test metrics
+# for configuration choice.
+cure-rec final-sasrec-seeds \
+  --dataset movielens_1m \
+  --source data/raw/movielens_1m \
+  --search-root runs/sasrec-search-movielens \
+  --output-root runs/final-sasrec-seed-replication \
+  --seeds 42,43,44,45,46
+
 # Controlled known-structure benchmark; run before large behavioural sweeps.
 cure-rec regimes \
   --config configs/curesim_quickstart.yaml
@@ -178,6 +205,9 @@ cure_rec/
 ├── interventions.py   # six policy operators and exact collision allocation
 ├── game.py            # 64 coalition sweep, exact Shapley, interactions, regions
 ├── planner.py         # robust improvement and abstention planner
+├── calibration.py     # OAT and Latin-hypercube CURE-Sim sensitivity designs
+├── sasrec.py          # optional Torch sequential external-ranking comparator
+├── sasrec_search.py   # validation-only SASRec selection, audit, and replication
 ├── pipeline.py        # complete end-to-end run
 └── cli.py             # `cure-rec simulate`
 ```

@@ -166,15 +166,25 @@ class PopularityHybrid:
 
 
 def evaluate_cases(model, cases: list[EvaluationCase], cold_count: int, k: int = 10) -> RankingMetrics:
+    # Sequential models can batch their user-history encodings once while still
+    # receiving exactly the same candidate vector for every ranking case.
+    prepare = getattr(model, "prepare_evaluation", None)
+    finish = getattr(model, "finish_evaluation", None)
+    if callable(prepare):
+        prepare([case.user_id for case in cases])
     hits: list[float] = []; ndcgs: list[float] = []
-    for case in cases:
-        scores = model.score(case.user_id, case.candidate_items)
-        order = np.lexsort((case.candidate_items, -scores))
-        ranked = case.candidate_items[order[:k]]
-        position = np.where(ranked == case.target_item)[0]
-        if len(position):
-            rank = int(position[0]) + 1; hits.append(1.0); ndcgs.append(1 / np.log2(rank + 1))
-        else: hits.append(0.0); ndcgs.append(0.0)
+    try:
+        for case in cases:
+            scores = model.score(case.user_id, case.candidate_items)
+            order = np.lexsort((case.candidate_items, -scores))
+            ranked = case.candidate_items[order[:k]]
+            position = np.where(ranked == case.target_item)[0]
+            if len(position):
+                rank = int(position[0]) + 1; hits.append(1.0); ndcgs.append(1 / np.log2(rank + 1))
+            else: hits.append(0.0); ndcgs.append(0.0)
+    finally:
+        if callable(finish):
+            finish()
     total = len(cases) + cold_count
     return RankingMetrics(model.name, len(cases), len(cases) / total if total else 0.0, cold_count, float(np.mean(hits)) if hits else 0.0, float(np.mean(ndcgs)) if ndcgs else 0.0, float(np.mean(hits)) if hits else 0.0)
 
