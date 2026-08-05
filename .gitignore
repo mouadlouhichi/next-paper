@@ -11,6 +11,8 @@ results/raw/*.json
 **/results/release/*.tar.gz
 **/results/release/*.sha256
 */**/data/ml-1m*
+*/**/data/ml1m*
+
 **/data/amazon-digital-music/
 .DS_Store
 **/.DS_Store
