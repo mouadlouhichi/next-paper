@@ -1,17 +1,36 @@
 \documentclass[pdflatex,sn-basic,Numbered]{sn-jnl}
 
+%%%% Springer Nature journal packages, following the working SignalShap source
 \usepackage{graphicx}
-\usepackage{booktabs}
-\usepackage{amsmath,amssymb}
-\usepackage{microtype}
+\usepackage{multirow}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+\usepackage[title]{appendix}
 \usepackage{xcolor}
-\usepackage{hyperref}
-\usepackage{tikz}
+\usepackage{textcomp}
+\usepackage{manyfoot}
+\usepackage{booktabs}
 \usepackage{algorithm}
+\usepackage{algorithmicx}
 \usepackage{algpseudocode}
+\usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning,fit,backgrounds}
+\usepackage{microtype}
+\usepackage{hyperref}
 \hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
 \graphicspath{{final/figures/}}
+
+%%%% Theorem-like environments used by the formal appendix
+\theoremstyle{thmstyleone}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{thmstyletwo}
+\newtheorem{example}{Example}
+\newtheorem{remark}{Remark}
+\theoremstyle{thmstylethree}
+\newtheorem{definition}{Definition}
 
 \newcommand{\AIA}{\operatorname{AIA}}
 \newcommand{\NDCG}{\operatorname{NDCG}}
@@ -27,13 +46,11 @@
 \affil[1]{\orgdiv{National Higher School of Computer Science and Systems Analysis (ENSIAS)}, \orgname{Mohammed V University in Rabat}, \orgaddress{\city{Rabat}, \country{Morocco}}}
 
 \begin{document}
-\maketitle
 
-\begin{abstract}
-Recommendation explanations are commonly evaluated by deleting historical interactions, although deployed recommendation systems act through bounded changes to the influence of observed evidence. Deletion and feasible intervention therefore measure different properties. We introduce \textbf{ActionShap}, a model-agnostic protocol for evaluating whether user-specific explanation rankings predict the effects of declared, system-executable interventions. ActionShap separates deletion alignment, bounded-intervention alignment, and the quality of the joint action selected under a fixed budget. It fixes temporal splits, complete pre-test-history exclusion, target-plus-unseen-negative candidate sets, global tie priorities, signed action selection, abstention, convergence, and inference over distinct users. We evaluate Monte Carlo Shapley, locally weighted LIME, leave-one-out, greedy sequential deletion, and a random control on MovieLens-1M and Amazon Digital Music. The primary analysis uses a history-conditioned ItemKNN recommender, 1,000 users, five common seeds, and exact budget-two oracles; a latent profile model and full-unseen-catalogue subset provide robustness evidence. Shapley improves from deletion to bounded target-margin alignment in the primary ItemKNN conditions, with gaps of $+0.0169$ on MovieLens and $+0.1285$ on Amazon, but local methods retain higher absolute alignment and slightly better MovieLens NDCG decisions. The random control remains near its within-user null, showing that a positive gap alone is not evidence of explanation validity. ActionShap contributes an auditable evaluation instrument for separating perturbation sensitivity, absolute alignment, and intervention decision quality rather than claiming universal superiority for any explainer.
-\end{abstract}
+\abstract{Recommendation explanations are commonly evaluated by deleting historical interactions, although deployed recommendation systems act through bounded changes to the influence of observed evidence. Deletion and feasible intervention therefore measure different properties. We introduce \textbf{ActionShap}, a model-agnostic protocol for evaluating whether user-specific explanation rankings predict the effects of declared, system-executable interventions. ActionShap separates deletion alignment, bounded-intervention alignment, and the quality of the joint action selected under a fixed budget. It fixes temporal splits, complete pre-test-history exclusion, target-plus-unseen-negative candidate sets, global tie priorities, signed action selection, abstention, convergence, and inference over distinct users. We evaluate Monte Carlo Shapley, locally weighted LIME, leave-one-out, greedy sequential deletion, and a random control on MovieLens-1M and Amazon Digital Music. The primary analysis uses a history-conditioned ItemKNN recommender, 1,000 users, five common seeds, and exact budget-two oracles; a latent profile model and full-unseen-catalogue subset provide robustness evidence. Shapley improves from deletion to bounded target-margin alignment in the primary ItemKNN conditions, with gaps of $+0.0169$ on MovieLens and $+0.1285$ on Amazon, but local methods retain higher absolute alignment and slightly better MovieLens NDCG decisions. The random control remains near its within-user null, showing that a positive gap alone is not evidence of explanation validity. ActionShap contributes an auditable evaluation instrument for separating perturbation sensitivity, absolute alignment, and intervention decision quality rather than claiming universal superiority for any explainer.}
 
 \keywords{explainable recommendation \and intervention evaluation \and faithfulness \and actionability \and Shapley value \and LIME \and counterfactual recommendation}
+\maketitle
 
 \section{Introduction}
 An explanation is often consumed as advice about where to act. A user, analyst, or system operator does not usually ask only whether a recommendation score changes when an input is deleted; they ask what will happen if a factor is discounted, suppressed, or otherwise modified within an available operating policy. The distinction is important in recommender systems because historical interactions are evidence, not necessarily controls. Removing an interaction can be a useful faithfulness diagnostic while being an unrealistic intervention.
