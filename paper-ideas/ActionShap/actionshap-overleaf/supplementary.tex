@@ -22,12 +22,14 @@
 \begin{document}
 
 \title[ActionShap Supplementary Audit]{ActionShap: Supplementary Numerical Audit}
+\subtitle{Schema-v2 release; source commit \texttt{8ce1349}; result archive SHA-256 \texttt{ac4c7fb1993458b6b41054974ebff215710e7a8b5894c7aa6af828e94b2a5b0f}}
 \author*[1]{\fnm{Mouad} \sur{Louhichi}}\email{mouad\_louhichi@um5.ac.ma}
 \author[1]{\fnm{Redwane} \sur{Nesmaoui}}
 \author[1]{\fnm{Mohamed} \sur{Lazaar}}
 \affil*[1]{\orgdiv{National Higher School of Computer Science and Systems Analysis (ENSIAS)}, \orgname{Mohammed V University in Rabat}, \orgaddress{\city{Rabat}, \country{Morocco}}}
 \date{}
 \maketitle
+\begin{center}\small Schema-v2 audit; source commit and archive SHA-256 are recorded in \texttt{RELEASE\_METADATA.md}.\end{center}
 
 This supplementary document contains the expanded numerical audit behind the
 compact manuscript tables. It is generated from the schema-v2 release and is
@@ -35,17 +37,18 @@ not required for compiling the main manuscript. The CSV/JSON release remains
 the authoritative machine-readable source.
 
 \begin{appendices}
-\renewcommand{\thesection}{\Alph{section}}
-\section{Complete alignment matrix}
+\setcounter{section}{0}
+\renewcommand{\thesection}{S\arabic{section}}
+\section{Alignment matrix (Table S1)}
 \input{tables/appendix_aia_full.tex}
-\section{Complete joint-intervention outcomes}
+\section{Joint outcomes (Table S2)}
 \input{tables/appendix_intervention_full.tex}
-\section{Selected paired comparisons}
+\section{Paired comparisons (Table S3)}
 \input{tables/appendix_paired_tests.tex}
-\section{Full convergence matrix}
+\section{Convergence matrix (Table S4)}
 \input{tables/appendix_convergence_full.tex}
-\section{Executable contract}
-\input{tables/appendix_contract.tex}
+\section{Executable contract (Table S5)}
+\input{tables/appendix_contract_supp.tex}
 \end{appendices}
 
 \end{document}

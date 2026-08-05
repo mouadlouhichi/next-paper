@@ -3,14 +3,14 @@
 \centering\small
 \caption{Recommendation-quality and masking-gate audit. The evaluation set contains the held-out target plus the stated number of unseen negatives; HitRate@10 is the one-target hit indicator and is not catalogue retrieval recall.}
 \label{tab:recommendation-quality}
-\begin{tabular}{llrrrrrr}
+\begin{tabular}{llrrrrrrr}
 \toprule
-Dataset & Model & Users & Candidates & NDCG@10 & HitRate@10 & Pop. NDCG & Gate \\
+Dataset & Model & Users & Candidates & NDCG@10 & HitRate@10 & Pop. NDCG & Pop. HitRate & Gate \\
 \midrule
-MovieLens-1M & ItemKNN & 1000 & 200 & 0.284 & 0.504 & 0.158 & 5/5 \\
-Amazon Digital Music & ItemKNN & 1000 & 200 & 0.181 & 0.285 & 0.090 & 5/5 \\
-MovieLens-1M & Profile & 1000 & 200 & 0.156 & 0.301 & 0.158 & 4/5 \\
-Amazon Digital Music & Profile & 1000 & 200 & 0.038 & 0.073 & 0.090 & 5/5 \\
+MovieLens-1M & ItemKNN & 1000 & 200 & 0.284 & 0.504 & 0.158 & 0.320 & 5/5 \\
+Amazon Digital Music & ItemKNN & 1000 & 200 & 0.181 & 0.285 & 0.090 & 0.155 & 5/5 \\
+MovieLens-1M & Profile & 1000 & 200 & 0.156 & 0.301 & 0.158 & 0.320 & 4/5 \\
+Amazon Digital Music & Profile & 1000 & 200 & 0.038 & 0.073 & 0.090 & 0.155 & 5/5 \\
 \bottomrule
 \end{tabular}
 \end{table}

@@ -144,9 +144,11 @@ def convergence_frame(
                         )
                     ),
                     "selection_status": (
-                        "threshold_selected"
+                        "selected"
+                        if selected is not None and permutations == int(selected)
+                        else "not_selected"
                         if selected is not None
-                        else "max_budget_unconverged"
+                        else "unconverged_max"
                     ),
                 }
             )
@@ -1212,7 +1214,7 @@ def write_compact_gap_table(summary: pd.DataFrame, path: Path) -> None:
 
 
 def write_compact_convergence_table(frame: pd.DataFrame, path: Path) -> None:
-    """One row per convergence study instead of the raw 30-row matrix."""
+    """One row per selected target-margin study with both validity columns."""
     rows = frame.loc[
         (frame["utility"] == "target_margin")
         & frame["selected"].astype(bool)
@@ -1220,18 +1222,19 @@ def write_compact_convergence_table(frame: pd.DataFrame, path: Path) -> None:
     lines = [
         "% Full convergence matrix is in convergence.csv.",
         r"\begin{table}[t]\centering\small",
-        r"\caption{Selected target-margin Monte Carlo convergence budgets. $M_{\mathrm{pair}}$ counts base permutations; the evaluated-order count is twice this value.}",
+        r"\caption{Selected target-margin Monte Carlo convergence budgets. Rank-valid fraction and threshold coverage are reported separately; only selected rows are shown.}",
         r"\label{tab:convergence}",
-        r"\begin{tabular}{llrrrr}",
+        r"\begin{tabular}{llrrrrrr}",
         r"\toprule",
-        r"Dataset & Model & $M_{\mathrm{pair}}$ & Rank $\rho$ & Top-2 Jaccard & Coverage \\",
+        r"Dataset & Model & $M_{\mathrm{pair}}$ & $T$ & Rank & Jaccard & Rank-valid & Coverage \\",
         r"\midrule",
     ]
     for row in rows.itertuples(index=False):
         lines.append(
-            f"{row.dataset} & {row.model} & {int(row.permutations)} & "
+            f"{row.dataset} & {row.model} & {int(row.permutations)} & {2 * int(row.permutations)} & "
             f"{_tex_number(row.mean_rank_correlation_to_reference)} & "
             f"{_tex_number(row.mean_top2_jaccard)} & "
+            f"{_tex_number(100 * row.rank_valid_fraction, 1)}\% & "
             f"{_tex_number(100 * row.user_threshold_coverage, 1)}\% \\\\"
         )
     lines += [r"\bottomrule", r"\end{tabular}", r"\end{table}", ""]
@@ -1612,7 +1615,7 @@ def make_convergence_figure(frame: pd.DataFrame, figure_root: Path) -> None:
         axis.axhline(threshold, color="black", linestyle="--", linewidth=0.8)
         axis.set_xscale("log")
         axis.set_ylim(0, 1.02)
-        axis.set_xlabel("Permutation budget M")
+        axis.set_xlabel(r"Base permutations $M_{\mathrm{pair}}$")
         axis.set_title(title)
     axes[0].set_ylabel("Agreement with independent M=1000 reference")
     axes[1].legend(frameon=False, fontsize=7, loc="lower right")

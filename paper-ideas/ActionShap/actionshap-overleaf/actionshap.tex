@@ -148,14 +148,28 @@ Its item embeddings are trained once with a leave-one-out BPR-style objective an
 \subsection{Utilities and interventions}
 The primary characteristic function is the target-margin utility
 \begin{equation}
-v_u^{\mathrm{attr}}(S)=\sigma\left(s_y^S-\frac{1}{L}\sum_{i\in\operatorname{TopL}_{-y}}s_i^S\right),
+v_u^{\mathrm{attr}}(S)=\sigma\left(s_y^S-\frac{1}{L}\sum_{i\in\operatorname{TopL}_{-y}(S)}s_i^S\right),
 \end{equation}
-where $y$ is the temporal target, $L=10$, and $\sigma(t)=(1+e^{-t})^{-1}$ has unit temperature. The operational ranking outcome is
+where $s_i^S:=f_u^S(i)$, $y$ is the temporal target, $L=10$, and $\sigma(t)=(1+e^{-t})^{-1}$ has unit temperature. The competitor set $\operatorname{TopL}_{-y}(S)$ is recomputed from the current coalition scores for every coalition $S$; it contains the ten highest-scoring candidates other than $y$. Every retained positive interaction starts with inference-time weight $w_h=1$. No temporal decay or rating-dependent weight is used. An action changes only these inference-time weights and never retrains the model. The operational ranking outcome is
 \begin{equation}
 q_u(S)=\NDCG@10(f_u^S,y).
 \end{equation}
 All effects and regrets are stored separately for target margin and NDCG. The empty coalition has target-margin utility $0.5$ and deterministic catalogue ties.
 
+For an action $A\subseteq P_u$, let $P_u^{A,\rho}$ denote the same retained player window with weights
+\begin{equation}
+w_p^{A,\rho}=\begin{cases}\rho,&p\in A,\\1,&p\notin A,\end{cases}
+\end{equation}
+and define the signed intervention effect for either utility $z\in\{v_u^{\mathrm{attr}},q_u\}$ by
+\begin{equation}
+\Delta_u^z(A;\rho)=z_u(P_u^{A,\rho})-z_u(P_u).
+\end{equation}
+Deletion and bounded singleton effects are therefore
+\begin{equation}
+\Delta_{u,p}^{z,\mathrm{del}}=\Delta_u^z(\{p\};0),
+\qquad
+\Delta_{u,p}^{z,\mathrm{bnd}}=\Delta_u^z(\{p\};0.5).
+\end{equation}
 Deletion is the diagnostic $w_p\leftarrow0$. The primary feasible intervention is bounded downweighting,
 \begin{equation}
 \operatorname{do}(p;\rho):w_p\leftarrow\rho w_p,\qquad \rho=0.5,
@@ -392,9 +406,9 @@ On Amazon ItemKNN, NDCG effects are $0.0333$ for Shapley, $0.0331$ for LIME, and
 \end{figure}
 
 \subsection{Null calibration and convergence}
-The within-user AIA null is centred near zero for all primary ItemKNN conditions. Shapley, LIME, LOO, and greedy exceed the null for absolute AIA, while random attribution does not. This establishes that absolute alignment is not merely a consequence of the correlation statistic returning positive values.
+Table~\ref{tab:aia-null} reports the null calibration alongside the component table. The within-user AIA null is centred near zero for all primary ItemKNN conditions. Shapley, LIME, LOO, and greedy exceed the null for absolute AIA, while random attribution does not. This establishes that absolute alignment is not merely a consequence of the correlation statistic returning positive values.
 
-Target-margin convergence selects $M_{\mathrm{pair}}=50$ for Amazon ItemKNN, $M_{\mathrm{pair}}=100$ for Amazon profile, $M_{\mathrm{pair}}=250$ for MovieLens ItemKNN, and $M_{\mathrm{pair}}=50$ for MovieLens profile; the final suite retains the conservative floor $M_{\mathrm{pair}}=500$ ($T=1000$ evaluated orders). The NDCG attribution sensitivity remains unconverged at $M_{\mathrm{pair}}=1000$ and is reported only as a stress test.
+Target-margin convergence selects $M_{\mathrm{pair}}=50$ for Amazon ItemKNN, $M_{\mathrm{pair}}=100$ for Amazon profile, $M_{\mathrm{pair}}=250$ for MovieLens ItemKNN, and $M_{\mathrm{pair}}=50$ for MovieLens profile; the final suite retains the conservative floor $M_{\mathrm{pair}}=500$ ($T=1000$ evaluated orders). Rank-valid fraction is the fraction of users with finite rank comparisons, whereas threshold coverage is the fraction of rank-valid users satisfying both the rank and action-overlap thresholds; coverage is diagnostic and is not a replacement for the rank-validity criterion. The NDCG attribution sensitivity remains unconverged at $M_{\mathrm{pair}}=1000$ and is reported only as a stress test.
 
 \safeinput{tables/convergence.tex}
 \safeinput{tables/attribution_stability.tex}
@@ -504,7 +518,7 @@ Null/inference & $R=1000$ matched null draws; 10,000 bootstrap/permutation draws
 \end{tabular}}
 \end{table}
 
-The profile optimizer samples one positive item per user per epoch, excludes that positive from its temporary context, and samples a negative uniformly outside the user's complete training history. ItemKNN has no latent user embedding, shrinkage coefficient, minimum-support cutoff, or negative-similarity branch: the retained similarity matrix is non-negative by construction. AIA is Spearman rank correlation and is missing for constant or non-finite vectors. Normalized regret uses $\varepsilon=10^{-12}$ and is averaged only over positive-oracle users. The release archive records the exact dependency versions, source hashes, run durations, and selected users; complete per-user vectors remain in the compressed machine-readable asset rather than in the PDF.''
+The profile optimizer samples one positive item per user per epoch, excludes that positive from its temporary context, and samples a negative uniformly outside the user's complete training history. ItemKNN has no latent user embedding, shrinkage coefficient, minimum-support cutoff, or negative-similarity branch: the retained similarity matrix is non-negative by construction. AIA is Spearman rank correlation and is missing for constant or non-finite vectors. Normalized regret uses $\varepsilon=10^{-12}$ and is averaged only over positive-oracle users. The release archive records the exact dependency versions, source hashes, run durations, and selected users; complete per-user vectors remain in the compressed machine-readable asset rather than in the PDF.
 
 
 \section{Robustness results}\label{app:robustness}
@@ -549,6 +563,8 @@ The canonical artifact directory is \texttt{paper-ideas/ActionShap/paper-v3/}. T
 \begin{verbatim}
 python scripts/make_paper_assets.py --raw results/raw --out ../paper-v3
 \end{verbatim}
+The schema-v2 archive records total wall-clock duration for the 80 recommendation runs: the 60 ItemKNN runs range from approximately 29.8 to 2,851.6 seconds (mean 183.0 seconds), and the 20 profile runs range from approximately 26.9 to 299.6 seconds (mean 95.0 seconds). These are complete-pipeline durations rather than isolated explainer timings; the analytical call-budget table above is the comparable per-method cost measure. The archived runs record macOS-26.5.1-arm64, Python 3.12.13, NumPy 2.4.6, SciPy 1.17.1, pandas 2.3.3, scikit-learn 1.9.0, matplotlib 3.11.1, and PyYAML 6.0.3. Processor model, RAM, and peak RSS were not serialized in the historical schema-v2 files, so no unsupported hardware claim is inferred; the current runner records those fields for any regenerated release. The schema-v2 result archive SHA-256 is `ac4c7fb1993458b6b41054974ebff215710e7a8b5894c7aa6af828e94b2a5b0f`.
+
 All paths in generated manifests are repository-relative and all release archives are verified by SHA-256. The source repository URL is https://github.com/mouadlouhichi/next-paper; it must be made public or mirrored before submission. The exact source commit, dependency versions, input hashes, and generated-file hashes are recorded by the release manifest and the companion reproducibility note. No DOI is claimed for the local checkout; the immutable artifact identifier is the SHA-256 release archive until a DOI-backed deposit is made.
 
 \section{Additional limitations}\label{app:limitations}
