@@ -14,9 +14,10 @@
 \usepackage{manyfoot}
 \usepackage{booktabs}
 \usepackage{longtable}
+\usepackage{pdflscape}
 \usepackage{array}
 \usepackage{microtype}
-\hypersetup{pdftitle={ActionShap Supplementary Numerical Audit},pdfauthor={Mouad Louhichi; Redwane Nesmaoui; Mohamed Lazaar},pdfsubject={Supplementary numerical audit for ActionShap}}
+\hypersetup{pdftitle={ActionShap Supplementary Numerical Audit},pdfauthor={Mouad Louhichi; Redwane Nesmaoui; Mohamed Lazaar},pdfsubject={Supplementary numerical audit for ActionShap},pdfkeywords={ActionShap, intervention evaluation, Shapley value, recommender systems}}
 \graphicspath{{figures/}}
 \raggedbottom
 \begin{document}
@@ -36,19 +37,21 @@ compact manuscript tables. It is generated from the schema-v2 release and is
 not required for compiling the main manuscript. The CSV/JSON release remains
 the authoritative machine-readable source.
 
-\begin{appendices}
+\appendix
 \setcounter{section}{0}
 \renewcommand{\thesection}{S\arabic{section}}
+\renewcommand{\thetable}{S\arabic{table}}
 \section{Alignment matrix (Table S1)}
 \input{tables/appendix_aia_full.tex}
 \section{Joint outcomes (Table S2)}
+\begin{landscape}
 \input{tables/appendix_intervention_full.tex}
+\end{landscape}
 \section{Paired comparisons (Table S3)}
 \input{tables/appendix_paired_tests.tex}
 \section{Convergence matrix (Table S4)}
 \input{tables/appendix_convergence_full.tex}
+\clearpage
 \section{Executable contract (Table S5)}
 \input{tables/appendix_contract_supp.tex}
-\end{appendices}
-
 \end{document}

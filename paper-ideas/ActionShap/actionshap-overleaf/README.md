@@ -14,9 +14,9 @@ as the working `signalshap-overleaf.zip` package.
 - Compact manuscript tables: `tables/`
 
 The main manuscript has the six-section SignalShap-style organization,
-explicit Appendix A--F lettering, a recommendation-quality Table 2, compact
-robustness tables, a computational-cost table, and no internal submission
-checklist.
+explicit Appendices A--B in the main paper, a recommendation-quality Table 2,
+a computational-cost table, and no internal submission checklist. Robustness and
+statistical audit matrices are supplied only in the separate supplementary PDF.
 
 ## Supplementary audit
 
@@ -33,7 +33,10 @@ use BibTeX. Recompile from scratch once. The package contains 42 cited entries
 and 42 matching bibliography records; no citation key is left unresolved.
 
 The expanded supplementary PDF is intentionally long and preserves the audit
-rows. The main manuscript retains only compact, reader-facing tables.
+rows. The main manuscript retains only compact, reader-facing tables. For final
+submission, rename the downloaded outputs to `ActionShap_Manuscript.pdf` and
+`ActionShap_Supplementary_Audit.pdf` rather than leaving browser-generated
+`(1)` or `__2_` suffixes.
 
 ## Reproducibility
 

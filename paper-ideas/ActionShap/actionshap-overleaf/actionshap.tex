@@ -364,7 +364,7 @@ LIME uses 512 binary masks including the full, empty, and all leave-one-out mask
 For each seed we compute user-level quantities first; repeated seed values are then averaged within distinct user before bootstrap resampling. User bootstrap intervals use 10,000 draws, paired plus-one sign permutations use 10,000 draws, and the AIA null uses $R=1,000$ within-seed draws whose matched null values are averaged across seeds within user. Holm correction is applied within each experiment--metric comparison family. We report missing correlations, active-oracle counts, and conditional normalized regret. No coalition evaluation is an independent statistical observation.
 
 \subsection{Reproducibility}
-The real result archive contains 80 recommendation runs plus five convergence studies. All assets in this manuscript are generated from schema-v2 raw results with repository-relative paths and content hashes. The primary ItemKNN target-margin analysis uses $M_{\mathrm{pair}}=500$ base permutations and $T=1000$ evaluated orders; the independent convergence study selects lower diagnostic values for some conditions, while the conservative final floor is retained.
+The real result archive contains 80 recommendation runs plus five convergence studies. All assets in this manuscript are generated from schema-v2 raw results with repository-relative paths and content hashes. The primary ItemKNN target-margin analysis uses $M_{\mathrm{pair}}=500$ base permutations and $T=1000$ evaluated orders; the independent convergence study selects lower diagnostic values for some conditions, while the conservative final floor is retained. The archived runs record macOS-26.5.1-arm64, Python 3.12.13, NumPy 2.4.6, SciPy 1.17.1, pandas 2.3.3, scikit-learn 1.9.0, matplotlib 3.11.1, and PyYAML 6.0.3. Historical processor model, RAM, and peak RSS were not serialized.
 
 \section{Results}
 All numerical claims below are generated only when \texttt{validation\_report.json} reports PASS. The legacy pilot is excluded from the canonical package.
@@ -406,7 +406,7 @@ On Amazon ItemKNN, NDCG effects are $0.0333$ for Shapley, $0.0331$ for LIME, and
 \end{figure}
 
 \subsection{Null calibration and convergence}
-Table~\ref{tab:aia-null} reports the null calibration alongside the component table. The within-user AIA null is centred near zero for all primary ItemKNN conditions. Shapley, LIME, LOO, and greedy exceed the null for absolute AIA, while random attribution does not. This establishes that absolute alignment is not merely a consequence of the correlation statistic returning positive values.
+The null-calibration table below reports the complete within-user null alongside the component table. The within-user AIA null is centred near zero for all primary ItemKNN conditions. Shapley, LIME, LOO, and greedy exceed the null for absolute AIA, while random attribution does not. This establishes that absolute alignment is not merely a consequence of the correlation statistic returning positive values.
 
 Target-margin convergence selects $M_{\mathrm{pair}}=50$ for Amazon ItemKNN, $M_{\mathrm{pair}}=100$ for Amazon profile, $M_{\mathrm{pair}}=250$ for MovieLens ItemKNN, and $M_{\mathrm{pair}}=50$ for MovieLens profile; the final suite retains the conservative floor $M_{\mathrm{pair}}=500$ ($T=1000$ evaluated orders). Rank-valid fraction is the fraction of users with finite rank comparisons, whereas threshold coverage is the fraction of rank-valid users satisfying both the rank and action-overlap thresholds; coverage is diagnostic and is not a replacement for the rank-validity criterion. The NDCG attribution sensitivity remains unconverged at $M_{\mathrm{pair}}=1000$ and is reported only as a stress test.
 
@@ -424,6 +424,35 @@ Target-margin convergence selects $M_{\mathrm{pair}}=50$ for Amazon ItemKNN, $M_
 The positive Shapley gap persists across the primary ItemKNN candidate, history, intervention-strength, and full-catalogue conditions, but the absolute values vary. For Amazon full catalogue, the positive difference reflects reduced anti-alignment rather than positive bounded-intervention alignment: deletion AIA is $-0.2875$ and bounded AIA is $-0.1186$, so both absolute AIA values remain negative. Full-catalogue NDCG alignment is sparse and is treated descriptively. The longer-history conditions also show reduced masking sensitivity, supporting the use of $n_{\max}=20$ as a declared operating boundary rather than an arbitrary computational cap.
 
 The profile model supplies a useful negative boundary: it can change rankings while underperforming popularity, and one MovieLens seed fails the NDCG masking threshold. This demonstrates why a non-degenerate masking gate and recommendation-quality audit are necessary before interpreting attribution results.
+
+
+\subsection{Computational cost and release provenance}
+Table~\ref{tab:computational-cost} reports the allocation-stage computational budgets. These are analytical scorer-call counts, not claims that every call has identical wall-clock cost; the exact ItemKNN batch implementation reuses cached similarity blocks, while the joint-action oracle is evaluated once per user and shared across methods.
+
+\begin{table}[t]
+\centering\small
+\caption{Attribution-stage computational cost for a user with $n_u\le20$ players. Joint-action selection and the common exact oracle are excluded because they are shared outcome evaluations.}
+\label{tab:computational-cost}
+\begin{tabular}{@{}p{.22\textwidth}p{.23\textwidth}p{.43\textwidth}@{}}
+\toprule
+Method & Allocation-stage score budget & Reproducible definition \\
+\midrule
+Monte Carlo Shapley & $T(n_u+1)\le21{,}000$ prefix states before cache reuse & $M_{\mathrm{pair}}=500$ base orders plus reverses; coalition states cached and batched. \\
+LIME & 512 binary masks & Full, empty, all leave-one-out masks, then seeded random masks; weighted ridge with Hamming kernel. \\
+LOO & $n_u+1\le21$ states & Full coalition and every one-deletion coalition; exact deletion diagnostic. \\
+Greedy deletion & $1+n_u(n_u+1)/2\le211$ states & Every remaining deletion is recomputed at every step; lower-index ties win. \\
+Random control & 0 attribution utility calls & IID $\mathcal{N}(0,1)$ scores; the common action/effect evaluation is still applied after selection. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The canonical artifact directory is \texttt{paper-ideas/ActionShap/paper-v3/}. The reproducibility command is:
+\begin{verbatim}
+python scripts/make_paper_assets.py --raw results/raw --out ../paper-v3
+\end{verbatim}
+The schema-v2 archive records total wall-clock duration for the 80 recommendation runs: the 60 ItemKNN runs range from approximately 29.8 to 2,851.6 seconds (mean 183.0 seconds), and the 20 profile runs range from approximately 26.9 to 299.6 seconds (mean 95.0 seconds). These are complete-pipeline durations rather than isolated explainer timings; the analytical call-budget table above is the comparable per-method cost measure. The archived runs record macOS-26.5.1-arm64, Python 3.12.13, NumPy 2.4.6, SciPy 1.17.1, pandas 2.3.3, scikit-learn 1.9.0, matplotlib 3.11.1, and PyYAML 6.0.3. Processor model, RAM, and peak RSS were not serialized in the historical schema-v2 files, so no unsupported hardware claim is inferred; the current runner records those fields for any regenerated release. The schema-v2 result archive SHA-256 is `ac4c7fb1993458b6b41054974ebff215710e7a8b5894c7aa6af828e94b2a5b0f`.
+
+All paths in generated manifests are repository-relative and all release archives are verified by SHA-256. This manuscript package is versioned from source commit \texttt{1fd0340}; the schema-v2 result archive has SHA-256 \texttt{ac4c7fb1993458b6b41054974ebff215710e7a8b5894c7aa6af828e94b2a5b0f}. The source repository URL is https://github.com/mouadlouhichi/next-paper; its public visibility and any DOI-backed deposit are release actions outside the LaTeX package.
 
 
 \section{Discussion and Broader Implications}
@@ -469,11 +498,12 @@ ActionShap provides a reproducible protocol for asking whether recommendation ex
 \textbf{Author contributions.} M.L.: conceptualization, methodology, software, formal analysis, investigation, and writing---original draft. R.N.: methodology, validation, and writing---review and editing. M.Laz.: supervision, methodology, and writing---review and editing. All authors approved the final manuscript.
 
 
-\begin{appendices}
-% Explicit alphabetic appendix lettering: A--F are the only manuscript appendices.
+\appendix
+% Explicit alphabetic appendix lettering: A--B are the only manuscript appendices.
 \setcounter{section}{0}
 \renewcommand{\thesection}{\Alph{section}}
 \renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
+\renewcommand{\thetable}{\thesection\arabic{table}}
 \section{Formal proofs and edge-case guarantees}\label{app:proofs}
 
 \subsection{Efficiency of the prefix-walk estimator}
@@ -519,59 +549,6 @@ Null/inference & $R=1000$ matched null draws; 10,000 bootstrap/permutation draws
 \end{table}
 
 The profile optimizer samples one positive item per user per epoch, excludes that positive from its temporary context, and samples a negative uniformly outside the user's complete training history. ItemKNN has no latent user embedding, shrinkage coefficient, minimum-support cutoff, or negative-similarity branch: the retained similarity matrix is non-negative by construction. AIA is Spearman rank correlation and is missing for constant or non-finite vectors. Normalized regret uses $\varepsilon=10^{-12}$ and is averaged only over positive-oracle users. The release archive records the exact dependency versions, source hashes, run durations, and selected users; complete per-user vectors remain in the compressed machine-readable asset rather than in the PDF.
-
-
-\section{Robustness results}\label{app:robustness}
-
-The primary ItemKNN result is intentionally complemented by a matrix of candidate-size, history-length, intervention-strength, and budget sensitivities. Candidate-size changes test whether the pointwise alignment is an artefact of a 200-item sampled pool. History-length changes test whether the declared $n_{\max}=20$ window is an operational boundary. The $\rho=0.25$ condition tests whether the bounded action remains separable from deletion. Budgets one and three are reported only for joint decision outcomes because they do not define new singleton gap estimands.
-
-\safeinput{tables/sensitivity_results.tex}
-\safeinput{tables/full_catalogue_results.tex}
-\safeinput{tables/actionability_gap_robustness.tex}
-The complete paired gap-advantage comparisons, including effect sizes and Holm-adjusted $p$-values, are supplied in
-\texttt{tables/actionability\_gap\_advantage.csv}; they are not duplicated as a dense PDF export.
-
-\section{Statistical reporting and null calibration}\label{app:statistics}
-
-The statistical unit is a distinct user. For a method metric $m$, seed-level values are averaged within user only after the matched seed computations are complete. Missing AIA values are retained as missing when a vector is constant or non-finite. Normalized regret is conditional on a positive oracle effect and is reported with the active-oracle count; the exact action-space invariant requires it to be non-negative up to numerical tolerance. The random control is a negative control for absolute alignment and action selection; its gap is not interpreted as a validity measure. Full user--seed metrics and paired comparisons are supplied as CSV/JSON supplementary assets rather than repeated as dense PDF tables.
-
-
-\section{Reproducibility and release manifest}\label{app:release}
-
-The result release contains 85 JSON files: 80 recommendation runs and five convergence studies. It records source hashes, configuration values, seed assignments, gate diagnostics, selected users, per-user effects, attributions, actions, and oracle outcomes. The raw archive is distributed separately because the datasets and raw user-level records are not ordinary manuscript assets. The final validation manifest is the gate for numerical claims; its notes, including one nonblocking MovieLens profile gate failure and NDCG stress-test non-convergence, are part of the evidence rather than suppressed warnings.
-
-Table~\ref{tab:computational-cost} reports the allocation-stage computational budgets. These are analytical scorer-call counts, not claims that every call has identical wall-clock cost; the exact ItemKNN batch implementation reuses cached similarity blocks, while the joint-action oracle is evaluated once per user and shared across methods.
-
-\begin{table}[t]
-\centering\small
-\caption{Attribution-stage computational cost for a user with $n_u\le20$ players. Joint-action selection and the common exact oracle are excluded because they are shared outcome evaluations.}
-\label{tab:computational-cost}
-\begin{tabular}{@{}p{.22\textwidth}p{.23\textwidth}p{.43\textwidth}@{}}
-\toprule
-Method & Allocation-stage score budget & Reproducible definition \\
-\midrule
-Monte Carlo Shapley & $T(n_u+1)\le21{,}000$ prefix states before cache reuse & $M_{\mathrm{pair}}=500$ base orders plus reverses; coalition states cached and batched. \\
-LIME & 512 binary masks & Full, empty, all leave-one-out masks, then seeded random masks; weighted ridge with Hamming kernel. \\
-LOO & $n_u+1\le21$ states & Full coalition and every one-deletion coalition; exact deletion diagnostic. \\
-Greedy deletion & $1+n_u(n_u+1)/2\le211$ states & Every remaining deletion is recomputed at every step; lower-index ties win. \\
-Random control & 0 attribution utility calls & IID $\mathcal{N}(0,1)$ scores; the common action/effect evaluation is still applied after selection. \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-The canonical artifact directory is \texttt{paper-ideas/ActionShap/paper-v3/}. The reproducibility command is:
-\begin{verbatim}
-python scripts/make_paper_assets.py --raw results/raw --out ../paper-v3
-\end{verbatim}
-The schema-v2 archive records total wall-clock duration for the 80 recommendation runs: the 60 ItemKNN runs range from approximately 29.8 to 2,851.6 seconds (mean 183.0 seconds), and the 20 profile runs range from approximately 26.9 to 299.6 seconds (mean 95.0 seconds). These are complete-pipeline durations rather than isolated explainer timings; the analytical call-budget table above is the comparable per-method cost measure. The archived runs record macOS-26.5.1-arm64, Python 3.12.13, NumPy 2.4.6, SciPy 1.17.1, pandas 2.3.3, scikit-learn 1.9.0, matplotlib 3.11.1, and PyYAML 6.0.3. Processor model, RAM, and peak RSS were not serialized in the historical schema-v2 files, so no unsupported hardware claim is inferred; the current runner records those fields for any regenerated release. The schema-v2 result archive SHA-256 is `ac4c7fb1993458b6b41054974ebff215710e7a8b5894c7aa6af828e94b2a5b0f`.
-
-All paths in generated manifests are repository-relative and all release archives are verified by SHA-256. The source repository URL is https://github.com/mouadlouhichi/next-paper; it must be made public or mirrored before submission. The exact source commit, dependency versions, input hashes, and generated-file hashes are recorded by the release manifest and the companion reproducibility note. No DOI is claimed for the local checkout; the immutable artifact identifier is the SHA-256 release archive until a DOI-backed deposit is made.
-
-\section{Additional limitations}\label{app:limitations}
-
-ActionShap evaluates a retrospective target-conditioned audit. The held-out target is used to define the labelled instance and ranking utility, so the protocol is not a prospective action policy. The bounded intervention changes inference-time profile influence without retraining; it is system-executable but not necessarily user-executable. Candidate target inclusion gives coverage one by construction, while full-catalogue results use a smaller subset. The profile model is deliberately retained as a quality and masking-sensitivity boundary. These restrictions define the scope of the conclusions and should accompany any reuse of the artifact.
-
-\end{appendices}
 
 
 \bibliography{actionshap-bibliography}
