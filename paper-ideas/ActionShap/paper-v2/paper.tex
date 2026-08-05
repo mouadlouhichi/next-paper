@@ -1,4 +1,4 @@
-\documentclass[pdflatex,sn-basic]{sn-jnl}
+\documentclass[pdflatex,sn-basic,Numbered]{sn-jnl}
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{amsmath,amssymb}
@@ -38,12 +38,12 @@ The distinction produces three estimands. First, deletion alignment evaluates a 
 \begin{figure}[t]
 \centering
 \begin{tikzpicture}[
-  actionblue/.style={draw=blue!70!black, fill=blue!6, rounded corners=2pt,
+  actionblue/.style={draw=black, fill=white, rounded corners=2pt,
     minimum width=7.0cm, minimum height=0.72cm, align=center,
     font=\small, line width=0.7pt},
-  arrow/.style={-{Latex[length=2.2mm]}, draw=blue!70!black,
+  arrow/.style={-{Latex[length=2.2mm]}, draw=black,
     line width=0.8pt},
-  note/.style={draw=blue!45!black, fill=blue!2, rounded corners=2pt,
+  note/.style={draw=black, fill=white, rounded corners=2pt,
     align=left, font=\scriptsize, inner sep=4pt}
 ]
 \node[actionblue] (data) {Temporal interactions\\$H_u^{\mathrm{train}}$ and held-out target $y_u$};
@@ -61,7 +61,7 @@ The distinction produces three estimands. First, deletion alignment evaluates a 
 \node[note, right=8mm of evaluate, text width=3.25cm] (decision) {\textbf{Decision controls}\\Signed benefit $-\phi$, no-action option, exact $B\le2$ oracle, and utility-specific regret.};
 \draw[arrow] (decision.west) -- ++(-4mm,0) |- (evaluate.east);
 \end{tikzpicture}
-\caption{ActionShap architecture. The protocol separates data and player construction, frozen recommendation scoring, attribution, intervention execution, and outcome measurement. Blue edges indicate the fixed evaluation path; side panels identify validity and decision controls that are held constant across methods.}
+\caption{ActionShap architecture. The protocol separates data and player construction, frozen recommendation scoring, attribution, intervention execution, and outcome measurement. Black edges indicate the fixed evaluation path; side panels identify validity and decision controls that are held constant across methods.}
 \label{fig:actionshap-architecture}
 \end{figure}
 
@@ -243,17 +243,25 @@ For utility $z$, let $A_u^{*,z}$ be the exact feasible oracle and $A_{u,g}$ the 
 where $\epsilon=10^{-12}$ in utility units. Values are averaged conditionally over active-oracle users; the active-oracle fraction is reported separately. NRegret need not lie in $[0,1]$: a harmful method can exceed one, and values are not clipped. Users with oracle effect at most $\epsilon$ contribute to the unconditional success and abstention analysis but not the conditional normalized-regret mean. We report effect, harm rate ($\Delta<0$), success, abstention, active-oracle fraction, and conditional regret together.
 
 \subsection{Executable algorithms and deterministic edge cases}
-The following compact pseudocode fixes the implementation details that matter for reproduction.
+To make the protocol executable rather than descriptive, we state the four procedures used by the release pipeline. All tie breaks use the seeded catalogue priority followed by the sorted item/player identifier.
 
 \begin{figure}[t]
 \small
-\begin{minipage}{0.97\linewidth}
-\textbf{Algorithm 1: paired Monte Carlo attribution.} For each user, seed an independent permutation generator; sample $M$ permutations and their reverses. For each order, evaluate the cached prefix walk from $\varnothing$ to $P_u$ and add the consecutive marginal to the corresponding player. Average over all orders. The empty coalition has zero scores and seeded catalogue tie priorities.\par\medskip
-\textbf{Algorithm 2: bounded action and exact $B\le2$ oracle.} Enumerate $\varnothing$, every singleton, and every pair. For each action apply $w_p\leftarrow0.5w_p$ simultaneously, evaluate target margin and NDCG, and retain the largest improving utility with lexicographic tie-break on sorted player indices. A method scores an action by $-\sum_{p\in A}\hat\phi_p$ and abstains when the best positive score is not greater than $10^{-12}$.\par\medskip
-\textbf{Algorithm 3: within-user inference.} For each distinct user, average the five experiment seeds before bootstrap and paired sign permutation. Shuffle effect magnitudes within user and seed for 1,000 AIA-null draws. Report finite-valid counts; never replace a constant-vector correlation by zero. Holm correction is applied within each predeclared comparison family.\par\medskip
-\textbf{Algorithm 4: convergence selection.} On fixed users and candidates, compare each $M\in\{25,50,100,250,500,1000\}$ with an independently seeded $M=1000$ reference. Select the smallest $M$ with mean Spearman rank agreement $\ge0.95$ and signed $B=2$ action Jaccard $\ge0.80$ for at least 95\% valid users; otherwise report non-convergence and retain $M=1000$ as the stress-test ceiling.
-\end{minipage}
-\caption{Executable algorithm specification used by the corrected suite.}
+\fbox{\begin{minipage}{0.96\linewidth}
+\textbf{Algorithm 1 — Paired Monte Carlo attribution.}
+\textit{Input:} user $u$, players $P_u$, utility $v$, permutation count $M$, attribution seed.\\
+(1) Draw $M$ permutations and append each reverse permutation. (2) For each order, evaluate the cached prefix walk from $\varnothing$ to $P_u$. (3) Add each consecutive marginal to its player and average over all orders. (4) Store the unnormalised vector, efficiency residual, and finite/constant-vector flags.\\[2pt]
+\textbf{Algorithm 2 — Signed action selection and exact $B\le2$ oracle.}
+\textit{Input:} signed attribution $\hat\phi$, profile weights, $\rho=0.5$, candidate set.\\
+(1) Enumerate $\varnothing$, all singletons, and all pairs. (2) Score every action under target margin and NDCG. (3) Select the positive-benefit action maximising $-\sum_{p\in A}\hat\phi_p$; use $\varnothing$ if the score is at most $10^{-12}$. (4) Use the same action space and lexicographic tie break for the exact oracle.\\[2pt]
+\textbf{Algorithm 3 — User-level inference and null.}
+\textit{Input:} five seed-level records per user.\\
+(1) Average repeated seeds within each distinct user. (2) Bootstrap users for 95\% intervals. (3) Shuffle effect magnitudes within user and seed for 1,000 AIA-null draws. (4) Apply paired plus-one sign permutations and Holm correction; preserve missing constant-vector correlations.\\[2pt]
+\textbf{Algorithm 4 — Convergence selection.}
+\textit{Input:} $M\in\{25,50,100,250,500,1000\}$ and an independent $M=1000$ reference.\\
+Select the smallest $M$ with mean rank agreement $\ge0.95$, mean signed-$B=2$ Jaccard $\ge0.80$, and at least 95\% rank-valid users. If no value qualifies, retain $M=1000$ as an explicitly unconverged stress test.
+\end{minipage}}
+\caption{Executable ActionShap algorithms. The same users, candidates, intervention policy, action space, and tie rules are shared by every method.}
 \label{fig:algorithms}
 \end{figure}
 
