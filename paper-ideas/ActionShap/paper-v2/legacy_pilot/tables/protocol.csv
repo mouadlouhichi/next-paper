@@ -1,0 +1,12 @@
+field,value
+dataset,MovieLens-1M
+evaluated_users,500
+items,3533
+target_coverage,1.0
+evaluation_size,200
+primary_action_rho,0.5
+n_max,20
+candidate_k,200
+MC_permutations,50
+primary_budget,B=2
+B=1,diagnostic LOO oracle
