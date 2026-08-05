@@ -56,9 +56,9 @@ The distinction produces three estimands. First, deletion alignment evaluates a 
 \node[actionblue, below=4mm of evaluate] (report) {Distinct-user inference and release\\AIA, nulls, regret, stability, convergence};
 \foreach \a/\b in {data/players,players/model,model/candidates,candidates/explain,explain/intervene,intervene/evaluate,evaluate/report}
   \draw[arrow] (\a) -- (\b);
-\node[note, right=8mm of candidates, text width=3.25cm] (validity) {\textbf{Validity controls}\nTemporal split; complete pre-test exclusion; independent candidate, user, tie, and model seeds; no test-driven tuning.};
+\node[note, right=8mm of candidates, text width=3.25cm] (validity) {\textbf{Validity controls}\\Temporal split; complete pre-test exclusion; independent candidate, user, tie, and model seeds; no test-driven tuning.};
 \draw[arrow] (validity.west) -- ++(-4mm,0) |- (candidates.east);
-\node[note, right=8mm of evaluate, text width=3.25cm] (decision) {\textbf{Decision controls}\nSigned benefit $-\phi$, no-action option, exact $B\le2$ oracle, and utility-specific regret.};
+\node[note, right=8mm of evaluate, text width=3.25cm] (decision) {\textbf{Decision controls}\\Signed benefit $-\phi$, no-action option, exact $B\le2$ oracle, and utility-specific regret.};
 \draw[arrow] (decision.west) -- ++(-4mm,0) |- (evaluate.east);
 \end{tikzpicture}
 \caption{ActionShap architecture. The protocol separates data and player construction, frozen recommendation scoring, attribution, intervention execution, and outcome measurement. Blue edges indicate the fixed evaluation path; side panels identify validity and decision controls that are held constant across methods.}
