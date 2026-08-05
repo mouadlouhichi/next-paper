@@ -25,6 +25,9 @@ dev = [
   "jupyterlab>=4,<5",
   "nbformat>=5.10,<6",
 ]
+torch = [
+  "torch>=2.2",
+]
 
 [project.scripts]
 cure-rec = "cure_rec.cli:main"

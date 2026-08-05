@@ -85,7 +85,7 @@ pytest                        # game, operator, audit, and end-to-end smoke test
 jupyterlab + nbformat         # validated quickstart notebook
 ```
 
-The first CPU-first milestone intentionally avoids SciPy, scikit-learn, PyTorch, and external tracking services. Add `cvxpy` only when the adversarial \(\Gamma\)-weight optimizer is implemented; add PyTorch only with a documented SASRec/learned-response-model milestone.
+The first CPU-first milestone intentionally avoids SciPy, scikit-learn, and external tracking services. The optional `torch` extra now provides an Adam/item-bias/hard-negative BPR-MF baseline on Apple Silicon MPS when available; NumPy BPR remains the portable fallback. Add `cvxpy` only when the adversarial \(\Gamma\)-weight optimizer is implemented; add SASRec only with its documented sequential-model milestone.
 
 Implementation principles:
 

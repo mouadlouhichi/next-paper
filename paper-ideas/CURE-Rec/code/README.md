@@ -41,6 +41,9 @@ python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
 python -m pip install -e '.[dev]'
+
+# Recommended for the Adam/item-bias/hard-negative BPR baseline on Apple Silicon.
+python -m pip install -e '.[dev,torch]'
 ```
 
 Run the quick synthetic experiment:

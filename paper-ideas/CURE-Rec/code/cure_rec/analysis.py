@@ -13,7 +13,7 @@ import numpy as np
 import pandas as pd
 
 from cure_rec.data import AuditResult, DatasetLoadResult, audit_interactions
-from cure_rec.models import BPRMFRecommender, PopularityRecommender, chronological_leave_one_out, evaluate_leave_one_out
+from cure_rec.models import BPRMFRecommender, PopularityHybrid, PopularityRecommender, chronological_leave_one_out, evaluate_leave_one_out
 
 
 @dataclass(frozen=True)
@@ -77,7 +77,8 @@ def analyze_dataset(
     *,
     output_root: str | Path,
     run_bpr: bool = True,
-    bpr_updates: int = 50_000,
+    bpr_updates: int = 500_000,
+    bpr_backend: str = "auto",
     max_eval_users: int = 1_000,
     seed: int = 42,
 ) -> DataAnalysisResult:
@@ -94,7 +95,8 @@ def analyze_dataset(
     _write_profile_assets(frame, run_dir, result.dataset)
 
     metrics_rows: list[dict] = []
-    bpr: BPRMFRecommender | None = None
+    bpr = None
+    selected_hybrid_alpha: float | None = None
     modeling_note = "Chronological model evaluation skipped: timestamps unavailable or insufficient positive history."
     if not frame["timestamp"].isna().all():
         try:
@@ -102,14 +104,44 @@ def analyze_dataset(
             popularity = PopularityRecommender().fit(split.train)
             metrics_rows.append(asdict(evaluate_leave_one_out(popularity, split, max_users=max_eval_users)))
             if run_bpr:
-                bpr = BPRMFRecommender(max_updates=bpr_updates, seed=seed).fit(split.train, validation=split.validation)
+                backend_used = "numpy"
+                if bpr_backend in {"auto", "torch"}:
+                    try:
+                        from cure_rec.torch_models import TorchBPRConfig, TorchBPRMFWithBias, torch_available
+                        if torch_available():
+                            bpr = TorchBPRMFWithBias(TorchBPRConfig(max_epochs=max(20, bpr_updates // max(len(split.train), 1)), seed=seed))
+                            bpr.fit(split.train, validation_split=split, max_eval_users=max_eval_users)
+                            backend_used = "torch_adam_bias"
+                    except ImportError:
+                        if bpr_backend == "torch":
+                            raise
+                if bpr is None:
+                    bpr = BPRMFRecommender(max_updates=bpr_updates, seed=seed).fit(split.train)
                 metrics_rows.append(asdict(evaluate_leave_one_out(bpr, split, max_users=max_eval_users)))
-                pd.DataFrame(bpr.loss_history).to_csv(run_dir / "tables" / "data_table_bpr_loss.csv", index=False)
-                pd.DataFrame(bpr.validation_history).to_csv(run_dir / "tables" / "data_table_bpr_validation.csv", index=False)
-            modeling_note = "Chronological leave-one-out ranking evaluation completed."
+                loss_frame = pd.DataFrame(bpr.loss_history)
+                validation_frame = pd.DataFrame(getattr(bpr, "validation_history", []))
+                loss_frame.to_csv(run_dir / "tables" / "data_table_bpr_loss.csv", index=False)
+                validation_frame.to_csv(run_dir / "tables" / "data_table_bpr_validation.csv", index=False)
+
+                # Tune BPR-popularity blending strictly on validation NDCG.
+                alpha_scores = []
+                for alpha in (0.25, 0.40, 0.55, 0.70, 0.85, 1.0):
+                    hybrid = PopularityHybrid(bpr, popularity, alpha)
+                    validation_metric = evaluate_leave_one_out(hybrid, split, max_users=max_eval_users, use_validation=True)
+                    alpha_scores.append({"alpha": alpha, **asdict(validation_metric)})
+                alpha_table = pd.DataFrame(alpha_scores)
+                selected_hybrid_alpha = float(alpha_table.loc[alpha_table["ndcg_at_k"].idxmax(), "alpha"])
+                alpha_table.to_csv(run_dir / "tables" / "data_table_hybrid_validation.csv", index=False)
+                hybrid = PopularityHybrid(bpr, popularity, selected_hybrid_alpha)
+                hybrid_metric = asdict(evaluate_leave_one_out(hybrid, split, max_users=max_eval_users))
+                hybrid_metric["model"] = f"bpr_popularity_hybrid_alpha_{selected_hybrid_alpha:.2f}"
+                metrics_rows.append(hybrid_metric)
+                modeling_note = f"Chronological evaluation completed with {backend_used} BPR backend and validation-tuned popularity blend."
+            else:
+                modeling_note = "Chronological popularity evaluation completed; BPR explicitly disabled."
         except ValueError as exc:
             modeling_note = f"Chronological model evaluation skipped: {exc}"
-    metrics = pd.DataFrame(metrics_rows, columns=["model", "evaluated_users", "recall_at_k", "ndcg_at_k", "hit_rate_at_k"])
+    metrics = pd.DataFrame(metrics_rows, columns=["model", "evaluated_users", "candidate_coverage", "cold_test_items", "recall_at_k", "ndcg_at_k", "hit_rate_at_k"])
     metrics.to_csv(run_dir / "tables" / "data_table_model_metrics.csv", index=False)
     if not metrics.empty:
         fig, ax = plt.subplots(figsize=(7, 4))
@@ -129,13 +161,15 @@ def analyze_dataset(
         loss = pd.DataFrame(bpr.loss_history)
         validation = pd.DataFrame(bpr.validation_history)
         fig, ax = plt.subplots(figsize=(7, 4))
-        ax.plot(loss["updates"], loss["bpr_loss"], color="#E76F51", label="BPR loss")
-        ax.set_xlabel("Triplet updates")
+        loss_x = "updates" if "updates" in loss.columns else "epoch"
+        ax.plot(loss[loss_x], loss["bpr_loss"], color="#E76F51", label="BPR loss")
+        ax.set_xlabel("Triplet updates" if loss_x == "updates" else "Epoch")
         ax.set_ylabel("BPR loss")
         ax.set_title(f"{result.dataset}: BPR-MF training diagnostics")
         if not validation.empty:
             twin = ax.twinx()
-            twin.plot(validation["updates"], validation["validation_ndcg_at_10"], color="#2A9D8F", marker="o", label="Validation NDCG@10")
+            validation_x = "updates" if "updates" in validation.columns else "epoch"
+            twin.plot(validation[validation_x], validation["validation_ndcg_at_10"], color="#2A9D8F", marker="o", label="Validation NDCG@10")
             twin.set_ylabel("Validation NDCG@10")
         fig.tight_layout()
         fig.savefig(run_dir / "figures" / "data_figure_bpr_training.png", dpi=180)
@@ -148,6 +182,8 @@ def analyze_dataset(
         "modeling_note": modeling_note,
         "run_bpr": run_bpr,
         "bpr_updates": bpr_updates,
+        "bpr_backend": bpr_backend,
+        "selected_hybrid_alpha": selected_hybrid_alpha,
         "max_eval_users": max_eval_users,
         "generated_tables": sorted(path.name for path in (run_dir / "tables").glob("*.csv")),
         "generated_figures": sorted(path.name for path in (run_dir / "figures").glob("*.png")),
