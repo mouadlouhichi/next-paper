@@ -240,7 +240,7 @@ The exact value for reference is
 \left[v_u^{\mathrm{attr}}(S\cup\{p\})-v_u^{\mathrm{attr}}(S)\right].
 \label{eq:exact-shapley}
 \end{equation}
-The reverse-paired estimator above is unbiased for this factorial-weighted value; it is used because $n_u$ can be too large for enumerating all $2^{n_u}$ coalitions. The reverse orders are antithetic variance-reduction partners and coalition states are cached. In the executable configuration, \texttt{permutations} denotes $M_{\mathrm{pair}}=500$, hence $T=1000$ evaluated orders. The comparison includes locally weighted binary-mask LIME, LOO, greedy sequential deletion, and random attribution. No method observes measured intervention effects, oracle actions, or aggregate test outcomes.
+The reverse-paired estimator above is unbiased for this factorial-weighted value; it is used because $n_u$ can be too large for enumerating all $2^{n_u}$ coalitions. The reverse orders are reverse-paired samples used as a variance-reduction heuristic, and coalition states are cached. In the executable configuration, \texttt{permutations} denotes $M_{\mathrm{pair}}=500$, hence $T=1000$ evaluated orders. The comparison includes locally weighted binary-mask LIME, LOO, greedy sequential deletion, and random attribution. No method observes measured intervention effects, oracle actions, or aggregate test outcomes.
 
 For LIME, a binary mask $m_b\in\{0,1\}^{n_u}$ defines coalition $S_b=\{p:m_{b,p}=1\}$ and response $y_b=v_u^{\mathrm{attr}}(S_b)$. With normalized Hamming distance $d_b=n_u^{-1}\sum_p(1-m_{b,p})$, kernel width $\kappa=.25$, and ridge coefficient $\lambda_{\mathrm{LIME}}=1$, the fitted local surrogate is
 \begin{equation}
@@ -395,7 +395,7 @@ Equal action scores use a deterministic common rule: maximize predicted benefit 
 \Require $M_{\mathrm{pair}}\in\{25,50,100,250,500,1000\}$ and an independent $M_{\mathrm{pair}}=1000$ reference
 \Ensure Selected $M_{\mathrm{pair}}$ or explicit unconverged status
 \For{each candidate $M_{\mathrm{pair}}$}
-\State Compare attribution ranks and signed-$B=2$ action Jaccard with the reference; each reported budget means twice as many evaluated orders
+\State For each candidate $M_{\mathrm{pair}}$, evaluate $T=2M_{\mathrm{pair}}$ forward/reverse orders and compare attribution ranks and signed-$B=2$ action Jaccard with the independent reference
 \State Record rank-valid fraction and threshold coverage
 \EndFor
 \State Select smallest $M_{\mathrm{pair}}$ with rank $\ge.95$, Jaccard $\ge.80$, rank validity $\ge.95$
@@ -420,7 +420,7 @@ For each seed we compute user-level quantities first; repeated seed values are t
 \subsection{Reproducibility}
 The real result archive contains 80 recommendation runs plus five convergence studies. All assets in this manuscript are generated from schema-v2 raw results with repository-relative paths and content hashes. The primary ItemKNN target-margin analysis uses $M_{\mathrm{pair}}=500$ base permutations and $T=1000$ evaluated orders; the independent convergence study selects lower diagnostic values for some conditions, while the conservative final floor is retained. The archived runs record macOS-26.5.1-arm64, Python 3.12.13, NumPy 2.4.6, SciPy 1.17.1, pandas 2.3.3, scikit-learn 1.9.0, matplotlib 3.11.1, and PyYAML 6.0.3. Historical processor model, RAM, and peak RSS were not serialized.
 
-\section{Results}
+\section{Results}\label{sec:results}
 All numerical claims below are generated only when \texttt{validation\_report.json} reports PASS. The legacy pilot is excluded from the canonical package.
 
 \subsection{Recommendation quality and protocol audit}
@@ -443,7 +443,6 @@ The contrast is in the change between perturbations. Shapley’s primary gap is 
 \end{figure}
 
 \safeinput{tables/aia_components.tex}
-\safeinput{tables/aia_permutation_null.tex}
 
 \subsection{Joint intervention decisions}
 The operational outcome is NDCG@10 under the exact $B=2$ action space. On MovieLens ItemKNN, LOO yields mean NDCG effect $0.0431$, LIME $0.0425$, and Shapley $0.0403$. Success is $28.9\%$, $28.8\%$, and $27.4\%$, respectively. Conditional normalized regret among 339 active-oracle users is $0.217$, $0.225$, and $0.268$. Local methods therefore retain a modest decision advantage on MovieLens.
@@ -451,6 +450,7 @@ The operational outcome is NDCG@10 under the exact $B=2$ action space. On MovieL
 On Amazon ItemKNN, NDCG effects are $0.0333$ for Shapley, $0.0331$ for LIME, and $0.0313$ for LOO. Conditional normalized regret among 196 active-oracle users is $0.206$, $0.197$, and $0.232$. The differences are small and do not support a universal winner. Random actions have negative mean NDCG effects on both datasets.
 
 \safeinput{tables/intervention_outcomes.tex}
+\safeinput{tables/aia_permutation_null.tex}
 
 \begin{figure}[t]
 \centering
@@ -465,7 +465,6 @@ The null-calibration table below reports the complete within-user null alongside
 Target-margin convergence selects $M_{\mathrm{pair}}=50$ for Amazon ItemKNN, $M_{\mathrm{pair}}=100$ for Amazon profile, $M_{\mathrm{pair}}=250$ for MovieLens ItemKNN, and $M_{\mathrm{pair}}=50$ for MovieLens profile; the final suite retains the conservative floor $M_{\mathrm{pair}}=500$ ($T=1000$ evaluated orders). Rank-valid fraction is the fraction of users with finite rank comparisons, whereas threshold coverage is the fraction of rank-valid users satisfying both the rank and action-overlap thresholds; coverage is diagnostic and is not a replacement for the rank-validity criterion. The NDCG attribution sensitivity remains unconverged at $M_{\mathrm{pair}}=1000$ and is reported only as a stress test.
 
 \safeinput{tables/convergence.tex}
-\safeinput{tables/attribution_stability.tex}
 
 \begin{figure}[t]
 \centering
@@ -494,7 +493,7 @@ Method & Allocation-stage score budget & Reproducible definition \\
 Monte Carlo Shapley & $T(n_u+1)\le21{,}000$ prefix states before cache reuse & $M_{\mathrm{pair}}=500$ base orders plus reverses; coalition states cached and batched. \\
 LIME & 512 binary masks & Full, empty, all leave-one-out masks, then seeded random masks; weighted ridge with Hamming kernel. \\
 LOO & $n_u+1\le21$ states & Full coalition and every one-deletion coalition; exact deletion diagnostic. \\
-Greedy deletion & $1+n_u(n_u+1)/2\le211$ states & Every remaining deletion is recomputed at every step; lower-index ties win. \\
+Greedy sequential deletion & $1+n_u(n_u+1)/2\le211$ states & Every remaining deletion is recomputed at every step; lower-index ties win. \\
 Random control & 0 attribution utility calls & IID $\mathcal{N}(0,1)$ scores; the common action/effect evaluation is still applied after selection. \\
 \bottomrule
 \end{tabular}
@@ -506,7 +505,7 @@ python scripts/make_paper_assets.py --raw results/raw --out ../paper-v3
 \end{verbatim}
 The schema-v2 archive records total wall-clock duration for the 80 recommendation runs: the 60 ItemKNN runs range from approximately 29.8 to 2,851.6 seconds (mean 183.0 seconds), and the 20 profile runs range from approximately 26.9 to 299.6 seconds (mean 95.0 seconds). These are complete-pipeline durations rather than isolated explainer timings; the analytical call-budget table above is the comparable per-method cost measure. The archived runs record macOS-26.5.1-arm64, Python 3.12.13, NumPy 2.4.6, SciPy 1.17.1, pandas 2.3.3, scikit-learn 1.9.0, matplotlib 3.11.1, and PyYAML 6.0.3. Processor model, RAM, and peak RSS were not serialized in the historical schema-v2 files, so no unsupported hardware claim is inferred; the current runner records those fields for any regenerated release. The schema-v2 result archive SHA-256 is \texttt{ac4c7fb1993458b6b41054974ebff215710e7a8b5894c7aa6af828e94b2a5b0f}.
 
-All paths in generated manifests are repository-relative and all release archives are verified by SHA-256. This manuscript package is versioned from source commit \texttt{c164a1a}; the schema-v2 result archive has SHA-256 \texttt{ac4c7fb1993458b6b41054974ebff215710e7a8b5894c7aa6af828e94b2a5b0f}. The source repository URL is https://github.com/mouadlouhichi/next-paper; its public visibility and any DOI-backed deposit are release actions outside the LaTeX package.
+All paths in generated manifests are repository-relative and all release archives are verified by SHA-256. Code, configuration files, validation reports, preprocessing/run scripts, and machine-readable result matrices are included in the package's \texttt{release/} directory and the repository release. This manuscript and supplement are generated from source commit \texttt{c164a1a}; the schema-v2 result archive has SHA-256 \texttt{ac4c7fb1993458b6b41054974ebff215710e7a8b5894c7aa6af828e94b2a5b0f}. The source repository URL is https://github.com/mouadlouhichi/next-paper; its public visibility and any DOI-backed deposit remain external release actions.
 
 
 \section{Discussion and Broader Implications}

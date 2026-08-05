@@ -6,22 +6,22 @@
 \toprule
 dataset & model & utility & method\_label & observed\_mean\_aia & null\_mean & null\_p95 & permutation\_p & n\_users \\
 \midrule
-Amazon-Digital-Music & itemknn & target\_margin & Greedy counterfactual & 0.131 & -0.0002415 & 0.01243 & 0.000999 & 993 \\
+Amazon-Digital-Music & itemknn & target\_margin & Greedy sequential deletion & 0.131 & -0.0002415 & 0.01243 & 0.000999 & 993 \\
 Amazon-Digital-Music & itemknn & target\_margin & LIME & 0.8271 & -0.0003679 & 0.01282 & 0.000999 & 993 \\
 Amazon-Digital-Music & itemknn & target\_margin & Leave-one-out & 0.8511 & 6.647e-05 & 0.01264 & 0.000999 & 993 \\
 Amazon-Digital-Music & itemknn & target\_margin & Random control & -0.01032 & 6.767e-05 & 0.01248 & 0.9091 & 993 \\
 Amazon-Digital-Music & itemknn & target\_margin & Monte Carlo Shapley & 0.4141 & -3.132e-05 & 0.01277 & 0.000999 & 993 \\
-Amazon-Digital-Music & profile & target\_margin & Greedy counterfactual & 0.4651 & 0.0001258 & 0.0122 & 0.000999 & 1000 \\
+Amazon-Digital-Music & profile & target\_margin & Greedy sequential deletion & 0.4651 & 0.0001258 & 0.0122 & 0.000999 & 1000 \\
 Amazon-Digital-Music & profile & target\_margin & LIME & 0.7552 & -0.000418 & 0.01226 & 0.000999 & 1000 \\
 Amazon-Digital-Music & profile & target\_margin & Leave-one-out & 0.7804 & 0.0001481 & 0.01234 & 0.000999 & 1000 \\
 Amazon-Digital-Music & profile & target\_margin & Random control & 0.004533 & -0.0001853 & 0.01204 & 0.2827 & 1000 \\
 Amazon-Digital-Music & profile & target\_margin & Monte Carlo Shapley & 0.3101 & -0.0005715 & 0.01146 & 0.000999 & 1000 \\
-MovieLens-1M & itemknn & target\_margin & Greedy counterfactual & 0.3183 & 0.0002422 & 0.006074 & 0.000999 & 1000 \\
+MovieLens-1M & itemknn & target\_margin & Greedy sequential deletion & 0.3183 & 0.0002422 & 0.006074 & 0.000999 & 1000 \\
 MovieLens-1M & itemknn & target\_margin & LIME & 0.9334 & 8.348e-05 & 0.005888 & 0.000999 & 1000 \\
 MovieLens-1M & itemknn & target\_margin & Leave-one-out & 0.978 & -0.0001123 & 0.005859 & 0.000999 & 1000 \\
 MovieLens-1M & itemknn & target\_margin & Random control & 0.0003468 & 1.462e-06 & 0.005776 & 0.4635 & 1000 \\
 MovieLens-1M & itemknn & target\_margin & Monte Carlo Shapley & 0.7786 & -7.987e-05 & 0.00545 & 0.000999 & 1000 \\
-MovieLens-1M & profile & target\_margin & Greedy counterfactual & 0.3165 & 5.999e-05 & 0.005663 & 0.000999 & 1000 \\
+MovieLens-1M & profile & target\_margin & Greedy sequential deletion & 0.3165 & 5.999e-05 & 0.005663 & 0.000999 & 1000 \\
 MovieLens-1M & profile & target\_margin & LIME & 0.9733 & -0.0001307 & 0.005357 & 0.000999 & 1000 \\
 MovieLens-1M & profile & target\_margin & Leave-one-out & 0.9936 & 0.0001349 & 0.005799 & 0.000999 & 1000 \\
 MovieLens-1M & profile & target\_margin & Random control & 0.000358 & -9.878e-05 & 0.005644 & 0.4356 & 1000 \\
