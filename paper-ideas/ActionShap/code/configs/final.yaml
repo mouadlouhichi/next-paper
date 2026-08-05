@@ -37,8 +37,8 @@ k: 10
 utility: target_margin          # attribution game; NDCG remains action outcome
 action_rho: 0.5
 budget: 2
-permutations: 500            # conservative floor; raise if convergence selects more
-lime_samples: 512
+permutations: 500            # M_pair: base permutations; antithetic walk evaluates T=1000 orders
+lime_samples: 512             # full, empty, all LOO masks, then random masks
 null_draws: 1000
 gate_users: 200
 oracle_users: 0              # exact B<=2 oracle for every sampled-ranking user
@@ -47,7 +47,17 @@ embedding_dim: 64
 profile_samples_per_user: 1
 profile_learning_rate: 0.03
 profile_regularization: 0.0001
-itemknn_neighbours: 200
+itemknn_neighbours: 200       # cosine co-occurrence; no shrinkage; top non-zero neighbours
+profile_optimizer: "leave-one-out BPR-style SGD"
+profile_negative_sampler: "uniform outside complete training history"
+profile_loss_samples: 1
+profile_l2: 0.0001
+lime_kernel_width: 0.25
+lime_ridge_alpha: 1.0
+target_margin_competitors: 10
+sigmoid_temperature: 1.0
+bootstrap_draws: 10000
+paired_permutation_draws: 10000
 convergence_users: 100
 convergence_budgets: [25, 50, 100, 250, 500, 1000]
 convergence_reference: 1000

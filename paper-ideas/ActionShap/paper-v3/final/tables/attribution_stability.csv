@@ -34,16 +34,6 @@ MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,1.0,1.0,1.0,1000
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,random,Random control,-0.0014256621268308569,-0.006155220866530271,0.0033708018615801086,1000
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,0.9854050923792408,0.9846853665522429,0.9860805232479724,1000
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,greedy_cf,Greedy counterfactual,1.0,1.0,1.0,250
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,lime,LIME,0.9780239257749475,0.9752294532255669,0.9806011975333747,250
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,loo,Leave-one-out,1.0,1.0,1.0,250
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,random,Random control,-0.00019137962141058161,-0.009236681910452807,0.00900769303709706,250
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,shapley_mc,Monte Carlo Shapley,0.9905135857537714,0.9895933258727856,0.9913722736824578,250
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,greedy_cf,Greedy counterfactual,1.0,1.0,1.0,250
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,lime,LIME,0.9780239257749475,0.9752707089504921,0.9806691049621171,250
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,loo,Leave-one-out,1.0,1.0,1.0,250
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,random,Random control,-0.00019137962141058161,-0.009285305718533272,0.008877228473796586,250
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,shapley_mc,Monte Carlo Shapley,0.9905135857537714,0.9895773676774721,0.991369076135165,250
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,greedy_cf,Greedy counterfactual,1.0,1.0,1.0,250
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,lime,LIME,0.977060588575511,0.9735141562114356,0.9801823333467357,250
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,loo,Leave-one-out,1.0,1.0,1.0,250

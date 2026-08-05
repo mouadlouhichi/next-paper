@@ -15,6 +15,7 @@ from actionshap.evaluation import (
     exhaustive_best_joint_multi,
     joint_effect,
     model_mc_shapley,
+    single_player_effects,
 )
 from actionshap.models.itemknn import fit_item_knn
 from actionshap.models.profile import ProfileAggregationModel
@@ -200,6 +201,21 @@ def test_target_margin_is_continuous_and_distinct_from_ndcg():
     assert np.isfinite(margin)
     assert 0.0 < margin < 1.0
     assert margin != ndcg
+
+
+def test_deletion_effects_use_same_coalition_path_as_loo():
+    model, game = _game()
+    full = frozenset(range(game.players.size))
+    utility = lambda coalition: target_margin_utility(model, game, coalition)
+    loo = np.array(
+        [utility(full) - utility(full - {player}) for player in range(game.players.size)]
+    )
+    deletion = single_player_effects(
+        model, game, rho=0.0, utility="target_margin"
+    )
+    assert np.allclose(deletion, -loo, atol=0.0, rtol=0.0)
+    assert np.ptp(np.abs(loo)) > 0
+    assert np.corrcoef(np.abs(loo), np.abs(deletion))[0, 1] == pytest.approx(1.0)
 
 
 def test_exact_oracle_includes_no_action_and_smaller_actions():

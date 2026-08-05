@@ -50,7 +50,7 @@ Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,
 Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,aia,0.7895246292120621,0.7443626134945387,0.8291258465358237,250,5,0
 Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,aia_ndcg,0.17183670529731918,-0.4278426632615669,0.7491869744869449,6,5,244
 Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,faithfulness_alignment,1.0,1.0,1.0,250,5,0
-Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,actionability_gap,-0.210475370787938,-0.25439140069162736,-0.17150636234870098,250,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,actionability_gap,-0.21047537078793802,-0.25439140069162736,-0.171506362348701,250,5,0
 Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,signed_alignment,0.9565633743734209,0.9382869301192004,0.9717185525179061,250,5,0
 Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,signed_alignment_ndcg,0.7102586625284845,0.39925442856441135,0.9330127018922193,6,5,244
 Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,direction_accuracy,0.8905973644003057,0.8724553451532128,0.9079477391562686,250,5,0
@@ -170,7 +170,7 @@ Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,
 Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,aia,0.8511143756608114,0.8347552304276057,0.8668142186969892,993,5,7
 Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,aia_ndcg,0.42693798059857335,0.3644860214704594,0.48819032429208453,233,5,767
 Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,faithfulness_alignment,1.0,1.0,1.0,993,5,7
-Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,actionability_gap,-0.14888562433918862,-0.16552769450381036,-0.132776994494451,993,5,7
+Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,actionability_gap,-0.14888562433918862,-0.16552769450381039,-0.132776994494451,993,5,7
 Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,signed_alignment,0.9662428124148413,0.9594838422562615,0.9722748929278647,993,5,7
 Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,signed_alignment_ndcg,0.7173625437185681,0.6852539653998021,0.7482037503138782,233,5,767
 Amazon-Digital-Music,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,direction_accuracy,0.9414733602176898,0.9342106562224937,0.9484207960031527,993,5,7
@@ -410,7 +410,7 @@ Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,aia,0.7804006491135284,0.7700984142163309,0.7904240810393166,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,aia_ndcg,0.28465934100421203,0.23374631869486248,0.33443134609746683,383,5,617
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,faithfulness_alignment,1.0,1.0,1.0,1000,5,0
-Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,actionability_gap,-0.21959935088647162,-0.22997137080798458,-0.20934628892559967,1000,5,0
+Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,actionability_gap,-0.21959935088647164,-0.2299713708079846,-0.20934628892559973,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,signed_alignment,0.9627679233460039,0.9592518991525761,0.96610797298741,1000,5,0
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,signed_alignment_ndcg,0.7965973158666015,0.773543399766033,0.8179482920385116,383,5,617
 Amazon-Digital-Music,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,direction_accuracy,0.9212954498872301,0.9173153427922268,0.9251089191933584,1000,5,0
@@ -529,8 +529,8 @@ MovieLens-1M,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_cat
 MovieLens-1M,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,aia_permutation_p,0.013980198019801982,0.01043168316831683,0.01943841584158415,250,5,0
 MovieLens-1M,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,aia,0.9579583462964725,0.9491020391108744,0.9657806496404695,250,5,0
 MovieLens-1M,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,aia_ndcg,0.5302899317106354,0.42180322586029007,0.6386030871599427,18,5,232
-MovieLens-1M,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,faithfulness_alignment,0.999631830539654,0.9992195240965741,0.999897017905623,250,5,0
-MovieLens-1M,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,actionability_gap,-0.041673484243181506,-0.05053428474393141,-0.033941360361807366,250,5,0
+MovieLens-1M,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,faithfulness_alignment,1.0,1.0,1.0,250,5,0
+MovieLens-1M,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,actionability_gap,-0.042041653703527616,-0.05096534219393181,-0.03425877926648396,250,5,0
 MovieLens-1M,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,signed_alignment,0.9879856795853882,0.9828407284513508,0.9917306698410935,250,5,0
 MovieLens-1M,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,signed_alignment_ndcg,0.7102776444936472,0.6244718922900614,0.7922751616830522,18,5,232
 MovieLens-1M,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,direction_accuracy,0.9802809548380755,0.9753039334856749,0.9846957177871148,250,5,0
@@ -650,7 +650,7 @@ MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,ndcg,sensitivity,utili
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,ndcg,sensitivity,utility-ndcg,loo,Leave-one-out,aia,0.6984502425619137,0.6474425996375068,0.7478925568381312,86,5,164
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,ndcg,sensitivity,utility-ndcg,loo,Leave-one-out,aia_ndcg,0.6984502425619137,0.6464726255410355,0.7478820441629976,86,5,164
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,ndcg,sensitivity,utility-ndcg,loo,Leave-one-out,faithfulness_alignment,1.0,1.0,1.0,107,5,143
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,ndcg,sensitivity,utility-ndcg,loo,Leave-one-out,actionability_gap,-0.3015497574380864,-0.3537188818457674,-0.25336736934114495,86,5,164
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,ndcg,sensitivity,utility-ndcg,loo,Leave-one-out,actionability_gap,-0.3015497574380864,-0.3537188818457674,-0.253367369341145,86,5,164
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,ndcg,sensitivity,utility-ndcg,loo,Leave-one-out,signed_alignment,0.7705162032113564,0.720731512890671,0.8159266202464857,86,5,164
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,ndcg,sensitivity,utility-ndcg,loo,Leave-one-out,signed_alignment_ndcg,0.7705162032113564,0.7208772194255701,0.8150558035334418,86,5,164
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,ndcg,sensitivity,utility-ndcg,loo,Leave-one-out,direction_accuracy,0.9650231551394342,0.9339322208798952,0.9876145172656801,86,5,164
@@ -769,8 +769,8 @@ MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,lime,LIME,aia_permutation_p,0.00316983016983017,0.0017352297702297704,0.005403811188811188,1000,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,aia,0.9779660211244914,0.9738489990768497,0.9810859903197158,1000,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,aia_ndcg,0.41300244986691664,0.3833229050996171,0.4416460634842602,349,5,651
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,faithfulness_alignment,0.9999237021107792,0.999814384759572,0.9999877937863086,1000,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,actionability_gap,-0.02195768098628794,-0.02602551195687889,-0.018828323396255817,1000,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,faithfulness_alignment,1.0,1.0,1.0,1000,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,actionability_gap,-0.02203397887550873,-0.026115558312003857,-0.018905071792982394,1000,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,signed_alignment,0.9941154795751208,0.9930726579213272,0.9950026705826736,1000,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,signed_alignment_ndcg,0.6097250032619076,0.5863465670313529,0.6325512283291058,349,5,651
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,direction_accuracy,0.9889387622611306,0.9872364943426457,0.9906039565113248,1000,5,0
@@ -839,17 +839,6 @@ MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,aia_null_mean,-1.0688558020905195e-05,-0.000220049698901649,0.00020351381558057205,1000,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,aia_null_p95,0.39914624427404183,0.3950421511366331,0.40359689298408147,1000,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,primary,primary,shapley_mc,Monte Carlo Shapley,aia_permutation_p,0.010549050949050948,0.007916053946053946,0.013528076923076922,1000,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,greedy_cf,Greedy counterfactual,aia,0.3704932751060723,0.34041467667412195,0.39931590414539514,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,greedy_cf,Greedy counterfactual,aia_ndcg,0.16788729769814667,0.1097978851324377,0.22588521531483102,86,5,164
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,greedy_cf,Greedy counterfactual,faithfulness_alignment,0.37797964313034527,0.3470453890760554,0.40771821279699405,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,greedy_cf,Greedy counterfactual,actionability_gap,-0.007486368024273004,-0.014396697038040642,-0.0012721278677403512,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,greedy_cf,Greedy counterfactual,signed_alignment,0.35694023781308204,0.3167163357360264,0.396748398537499,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,greedy_cf,Greedy counterfactual,signed_alignment_ndcg,0.29515405443115383,0.23665169783019047,0.3521577868304863,86,5,164
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,greedy_cf,Greedy counterfactual,direction_accuracy,0.6067108199506033,0.5919988026747934,0.6215493358065224,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,greedy_cf,Greedy counterfactual,direction_accuracy_ndcg,0.7541645047459,0.6932022047719721,0.8112281452397732,86,5,164
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,greedy_cf,Greedy counterfactual,top1_precision,0.128,0.088,0.172,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,greedy_cf,Greedy counterfactual,top3_precision,0.3066666666666667,0.2706666666666666,0.3426666666666666,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,greedy_cf,Greedy counterfactual,top5_precision,0.4072,0.37520000000000003,0.4384,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,greedy_cf,Greedy counterfactual,joint_effect_primary,-0.0002276121812014571,-0.00036035682113007067,-9.302652341088667e-05,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,greedy_cf,Greedy counterfactual,joint_effect_ndcg,-0.0015921758701801364,-0.009166841682430924,0.0057464346843785815,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,greedy_cf,Greedy counterfactual,joint_effect_target_margin,-0.0002276121812014571,-0.00036033409050813524,-9.160682162830236e-05,250,5,0
@@ -860,20 +849,6 @@ MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitiv
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,greedy_cf,Greedy counterfactual,joint_regret_ndcg,0.03952759663178177,0.02764548278631302,0.052771701942855305,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,greedy_cf,Greedy counterfactual,normalized_regret_ndcg,0.943737817049829,0.7773999491991516,1.134309434449231,60,5,190
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,greedy_cf,Greedy counterfactual,intervention_success_ndcg,0.064,0.036,0.096,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,greedy_cf,Greedy counterfactual,aia_null_mean,0.0002159145062998001,-0.0011641614337541688,0.0016024161455675202,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,greedy_cf,Greedy counterfactual,aia_null_p95,0.3823334921089382,0.3742670029585254,0.3912884366173061,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,greedy_cf,Greedy counterfactual,aia_permutation_p,0.15118415841584157,0.12689841584158415,0.17729940594059404,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,lime,LIME,aia,0.9366484204675106,0.9286144708554072,0.9439738541353568,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,lime,LIME,aia_ndcg,0.3576620044836662,0.30191607074839344,0.4091593468824481,86,5,164
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,lime,LIME,faithfulness_alignment,0.9551124777071788,0.9505767148784213,0.9592980905870185,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,lime,LIME,actionability_gap,-0.018464057239668097,-0.024678757986040495,-0.013148041979842717,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,lime,LIME,signed_alignment,0.9765883547486744,0.9731323765014139,0.979641041086194,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,lime,LIME,signed_alignment_ndcg,0.5932334423681054,0.5452892157408663,0.6385648842960476,86,5,164
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,lime,LIME,direction_accuracy,0.9630172178183014,0.9568502723919527,0.9687273073520907,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,lime,LIME,direction_accuracy_ndcg,0.9586619517433471,0.9336055299674485,0.9802821340481225,86,5,164
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,lime,LIME,top1_precision,0.864,0.8288,0.8984,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,lime,LIME,top3_precision,0.9066666666666666,0.8888,0.9237399999999999,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,lime,LIME,top5_precision,0.9072,0.8916759999999999,0.92144,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,lime,LIME,joint_effect_primary,0.0013090041308782552,0.0012496190246161578,0.001371024021863476,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,lime,LIME,joint_effect_ndcg,0.026022112780217783,0.017258495999662737,0.03608188899494712,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,lime,LIME,joint_effect_target_margin,0.0013090041308782552,0.0012485786620093098,0.0013713110741301869,250,5,0
@@ -884,20 +859,6 @@ MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitiv
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,lime,LIME,joint_regret_ndcg,0.011913307981383852,0.005752728729259009,0.019273813491529356,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,lime,LIME,normalized_regret_ndcg,0.29658541084393314,0.19257122682964192,0.4082127840397176,60,5,190
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,lime,LIME,intervention_success_ndcg,0.18159999999999998,0.136,0.2304,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,lime,LIME,aia_null_mean,3.043782815200244e-05,-0.0011725977711681272,0.0012053833530621502,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,lime,LIME,aia_null_p95,0.3852566013095262,0.37749507584219133,0.3945292408580371,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,lime,LIME,aia_permutation_p,0.012768316831683169,0.010019801980198018,0.017497029702970297,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,loo,Leave-one-out,aia,0.977987826565173,0.971965613454591,0.982784016931324,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,loo,Leave-one-out,aia_ndcg,0.3758345498261242,0.3182417397644003,0.4292211037677533,86,5,164
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,loo,Leave-one-out,faithfulness_alignment,0.99994049189902,0.9998628936511615,0.9999954853273137,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,loo,Leave-one-out,actionability_gap,-0.021952665333847137,-0.02795085145883599,-0.01720066569365532,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,loo,Leave-one-out,signed_alignment,0.9942758963749031,0.9923730688188743,0.9958289226888761,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,loo,Leave-one-out,signed_alignment_ndcg,0.6010024865028878,0.5541491958407322,0.6466955463063394,86,5,164
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,loo,Leave-one-out,direction_accuracy,0.9856305028305028,0.9804970712620713,0.9902513419913419,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,loo,Leave-one-out,direction_accuracy_ndcg,0.9580002684653848,0.93461338887211,0.9779616346186114,86,5,164
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,loo,Leave-one-out,top1_precision,0.94,0.908,0.968,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,loo,Leave-one-out,top3_precision,0.9586666666666668,0.9426666666666667,0.9733333333333333,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,loo,Leave-one-out,top5_precision,0.9552,0.94,0.9688,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,loo,Leave-one-out,joint_effect_primary,0.0013146980729365919,0.0012554431834344004,0.001374817807721639,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,loo,Leave-one-out,joint_effect_ndcg,0.026847447718176928,0.01797599676715288,0.036735201767509114,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,loo,Leave-one-out,joint_effect_target_margin,0.0013146980729365919,0.001254075251882078,0.0013763131407120916,250,5,0
@@ -908,20 +869,6 @@ MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitiv
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,loo,Leave-one-out,joint_regret_ndcg,0.011087973043424704,0.005043870705393215,0.01830218025121085,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,loo,Leave-one-out,normalized_regret_ndcg,0.2600738381219016,0.15570951300285304,0.36943119777482053,60,5,190
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,loo,Leave-one-out,intervention_success_ndcg,0.188,0.14,0.236,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,loo,Leave-one-out,aia_null_mean,0.00011935151705311737,-0.0010479848931099196,0.001308060320554907,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,loo,Leave-one-out,aia_null_p95,0.38504207729503537,0.3772323057240321,0.3937745287038742,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,loo,Leave-one-out,aia_permutation_p,0.01257029702970297,0.009916831683168316,0.017584158415841586,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,random,Random control,aia,-0.0030134042128183644,-0.016023281752284603,0.010050656510005317,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,random,Random control,aia_ndcg,-0.0036953583503652495,-0.02740912841584969,0.01977177596064345,86,5,164
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,random,Random control,faithfulness_alignment,-0.003811189165067023,-0.018388996192276193,0.01022871135829318,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,random,Random control,actionability_gap,0.0007977849522486591,-0.003669071580233956,0.0057493772695820415,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,random,Random control,signed_alignment,0.0006695892651806839,-0.012640135086133535,0.01394085476175156,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,random,Random control,signed_alignment_ndcg,0.004755740711140608,-0.015376071599639963,0.024261666616779816,86,5,164
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,random,Random control,direction_accuracy,0.5006730401383962,0.4944202725367169,0.5068040016178352,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,random,Random control,direction_accuracy_ndcg,0.48868761729226845,0.46333588149576516,0.5134347796905935,86,5,164
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,random,Random control,top1_precision,0.052000000000000005,0.039200000000000006,0.06559999999999999,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,random,Random control,top3_precision,0.15493333333333334,0.14320000000000002,0.16693333333333335,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,random,Random control,top5_precision,0.26378666666666667,0.25306666666666666,0.2745066666666667,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,random,Random control,joint_effect_primary,-7.028483455528606e-05,-0.00011813894569243751,-2.3946546226357145e-05,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,random,Random control,joint_effect_ndcg,0.0009184171844546546,-0.0029619523980562203,0.004720845011847104,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,random,Random control,joint_effect_target_margin,-7.028483455528606e-05,-0.00011868865903181972,-2.2880141295141665e-05,250,5,0
@@ -932,20 +879,6 @@ MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitiv
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,random,Random control,joint_regret_ndcg,0.03701700357714698,0.026849180775904848,0.047850326994457515,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,random,Random control,normalized_regret_ndcg,0.9597771131706602,0.878947925591375,1.0585818830817018,60,5,190
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,random,Random control,intervention_success_ndcg,0.0456,0.0312,0.06081999999999972,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,random,Random control,aia_null_mean,0.0001584615933011957,-0.001202773902042118,0.001495123921248873,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,random,Random control,aia_null_p95,0.38559317367995677,0.37783079844225703,0.39474979232521207,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,random,Random control,aia_permutation_p,0.5077623762376238,0.492950495049505,0.5227809900990098,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,shapley_mc,Monte Carlo Shapley,aia,0.775678868021652,0.7527437321716061,0.7973006542384127,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,shapley_mc,Monte Carlo Shapley,aia_ndcg,0.3568989610130986,0.302455895274775,0.409945338327332,86,5,164
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,shapley_mc,Monte Carlo Shapley,faithfulness_alignment,0.7595773633091032,0.7321815561964589,0.7839532487405391,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,shapley_mc,Monte Carlo Shapley,actionability_gap,0.016101504712548696,0.009509001806955594,0.023383751725769588,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,shapley_mc,Monte Carlo Shapley,signed_alignment,0.9342593788708337,0.9264983570245321,0.9414804910421132,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,shapley_mc,Monte Carlo Shapley,signed_alignment_ndcg,0.586830143728571,0.5398815066250716,0.6313077460103746,86,5,164
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,shapley_mc,Monte Carlo Shapley,direction_accuracy,0.887948003946518,0.8775839160571111,0.8981013986550086,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,shapley_mc,Monte Carlo Shapley,direction_accuracy_ndcg,0.95782635323333,0.9311371942011476,0.9800983380314775,86,5,164
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,shapley_mc,Monte Carlo Shapley,top1_precision,0.7288000000000001,0.6776,0.7784,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,shapley_mc,Monte Carlo Shapley,top3_precision,0.8103999999999999,0.7882666666666667,0.8325333333333333,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,shapley_mc,Monte Carlo Shapley,top5_precision,0.8403733333333333,0.8225066666666666,0.85824,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,shapley_mc,Monte Carlo Shapley,joint_effect_primary,0.0012869909308830323,0.0012239813013042212,0.0013519368213597315,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,shapley_mc,Monte Carlo Shapley,joint_effect_ndcg,0.02641776490417747,0.017320375626992447,0.03618703245702532,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,shapley_mc,Monte Carlo Shapley,joint_effect_target_margin,0.0012869909308830323,0.0012236658958682729,0.0013515658310391165,250,5,0
@@ -956,20 +889,6 @@ MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitiv
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,shapley_mc,Monte Carlo Shapley,joint_regret_ndcg,0.011517655857424166,0.005428877587813279,0.018735857905061756,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,shapley_mc,Monte Carlo Shapley,normalized_regret_ndcg,0.2738221467441612,0.17713067302553076,0.3784104880231663,60,5,190
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,shapley_mc,Monte Carlo Shapley,intervention_success_ndcg,0.1944,0.14639999999999997,0.244,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,shapley_mc,Monte Carlo Shapley,aia_null_mean,0.000994345666522743,-0.0002483957028318021,0.0022314880410724716,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,shapley_mc,Monte Carlo Shapley,aia_null_p95,0.38711482615450155,0.3791981577297637,0.3967231943290358,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget1,shapley_mc,Monte Carlo Shapley,aia_permutation_p,0.022510891089108913,0.014685148514851488,0.0329190099009901,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,greedy_cf,Greedy counterfactual,aia,0.3704932751060723,0.34010541764712343,0.4000492970061813,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,greedy_cf,Greedy counterfactual,aia_ndcg,0.16788729769814667,0.10943731401991263,0.22579016963117643,86,5,164
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,greedy_cf,Greedy counterfactual,faithfulness_alignment,0.37797964313034527,0.3478118211352375,0.4082166403992579,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,greedy_cf,Greedy counterfactual,actionability_gap,-0.007486368024273004,-0.01418725123951595,-0.0013224482053452548,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,greedy_cf,Greedy counterfactual,signed_alignment,0.35694023781308204,0.3152716711950267,0.39693351724279136,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,greedy_cf,Greedy counterfactual,signed_alignment_ndcg,0.29515405443115383,0.23608037192926468,0.3526681844293903,86,5,164
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,greedy_cf,Greedy counterfactual,direction_accuracy,0.6067108199506033,0.5922504495599,0.6212842941827695,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,greedy_cf,Greedy counterfactual,direction_accuracy_ndcg,0.7541645047459,0.6914128555552975,0.812635575019296,86,5,164
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,greedy_cf,Greedy counterfactual,top1_precision,0.128,0.088,0.172,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,greedy_cf,Greedy counterfactual,top3_precision,0.3066666666666667,0.2706666666666666,0.344,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,greedy_cf,Greedy counterfactual,top5_precision,0.4072,0.37520000000000003,0.43839999999999996,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,greedy_cf,Greedy counterfactual,joint_effect_primary,0.0006803862796594984,0.00042935290249805364,0.0009355169837882121,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,greedy_cf,Greedy counterfactual,joint_effect_ndcg,0.009682361723187639,-0.002706852574517227,0.02248032008208909,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,greedy_cf,Greedy counterfactual,joint_effect_target_margin,0.0006803862796594984,0.00042805793414798837,0.0009434966611261889,250,5,0
@@ -980,20 +899,6 @@ MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitiv
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,greedy_cf,Greedy counterfactual,joint_regret_ndcg,0.047789374392494526,0.02490539802228038,0.0743195695685838,100,5,150
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,greedy_cf,Greedy counterfactual,normalized_regret_ndcg,0.7525083736321452,0.43368829641116546,1.1515943243763476,25,5,225
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,greedy_cf,Greedy counterfactual,intervention_success_ndcg,0.152,0.108,0.2,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,greedy_cf,Greedy counterfactual,aia_null_mean,0.0002159145062998001,-0.0011473746081054543,0.0015980340787798964,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,greedy_cf,Greedy counterfactual,aia_null_p95,0.3823334921089382,0.37425776798496463,0.39153355808819856,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,greedy_cf,Greedy counterfactual,aia_permutation_p,0.15118415841584157,0.12666851485148517,0.17764871287128714,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,lime,LIME,aia,0.9366484204675106,0.9286449928327041,0.9437906824193357,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,lime,LIME,aia_ndcg,0.3576620044836662,0.30152605079101397,0.4106113242819318,86,5,164
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,lime,LIME,faithfulness_alignment,0.9551124777071788,0.9507122743494454,0.9594093730100101,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,lime,LIME,actionability_gap,-0.018464057239668097,-0.02468035050332063,-0.013160143537859652,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,lime,LIME,signed_alignment,0.9765883547486744,0.9731702223430936,0.9796372609954596,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,lime,LIME,signed_alignment_ndcg,0.5932334423681054,0.5465921893427664,0.6380888281221104,86,5,164
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,lime,LIME,direction_accuracy,0.9630172178183014,0.9565901877459485,0.96893525907529,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,lime,LIME,direction_accuracy_ndcg,0.9586619517433471,0.9337961697540185,0.9799418604651163,86,5,164
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,lime,LIME,top1_precision,0.864,0.828,0.8976000000000001,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,lime,LIME,top3_precision,0.9066666666666666,0.8893266666666666,0.9229333333333333,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,lime,LIME,top5_precision,0.9072,0.891836,0.9214399999999999,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,lime,LIME,joint_effect_primary,0.0032631314677339985,0.0031130160999010537,0.0034171735540063685,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,lime,LIME,joint_effect_ndcg,0.062037364707879517,0.047089465657658994,0.07773642018900766,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,lime,LIME,joint_effect_target_margin,0.0032631314677339985,0.003113339696817176,0.0034242628266695353,250,5,0
@@ -1004,20 +909,6 @@ MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitiv
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,lime,LIME,joint_regret_ndcg,0.0088350512755029,0.00014434881121747566,0.021072107392856275,100,5,150
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,lime,LIME,normalized_regret_ndcg,0.08921787146414167,0.0018302996224270102,0.19779133320341027,25,5,225
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,lime,LIME,intervention_success_ndcg,0.34,0.28390000000000004,0.4,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,lime,LIME,aia_null_mean,3.043782815200244e-05,-0.001176833595877315,0.0012021664410883381,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,lime,LIME,aia_null_p95,0.3852566013095262,0.3774627627786158,0.3944438871693484,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,lime,LIME,aia_permutation_p,0.012768316831683169,0.010011881188118812,0.017513069306930695,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,loo,Leave-one-out,aia,0.977987826565173,0.9720057966877651,0.982790909163696,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,loo,Leave-one-out,aia_ndcg,0.3758345498261242,0.32041273813709487,0.43046362458343124,86,5,164
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,loo,Leave-one-out,faithfulness_alignment,0.99994049189902,0.9998670464464073,0.9999954853273137,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,loo,Leave-one-out,actionability_gap,-0.021952665333847137,-0.02800846340999198,-0.017134991118571898,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,loo,Leave-one-out,signed_alignment,0.9942758963749031,0.9924471268246724,0.9958669862320835,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,loo,Leave-one-out,signed_alignment_ndcg,0.6010024865028878,0.5544859001568163,0.645886934545506,86,5,164
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,loo,Leave-one-out,direction_accuracy,0.9856305028305028,0.9804921478521479,0.9900901698301698,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,loo,Leave-one-out,direction_accuracy_ndcg,0.9580002684653848,0.9338621472197054,0.9783952481626901,86,5,164
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,loo,Leave-one-out,top1_precision,0.94,0.908,0.968,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,loo,Leave-one-out,top3_precision,0.9586666666666668,0.9426666666666667,0.9733333333333333,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,loo,Leave-one-out,top5_precision,0.9552,0.9392,0.9688,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,loo,Leave-one-out,joint_effect_primary,0.0032714526519574435,0.0031198250341739377,0.0034241488267968763,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,loo,Leave-one-out,joint_effect_ndcg,0.06146128247234229,0.04685836108925325,0.07656545872013204,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,loo,Leave-one-out,joint_effect_target_margin,0.0032714526519574435,0.0031246054536770177,0.003432317304078407,250,5,0
@@ -1028,20 +919,6 @@ MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitiv
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,loo,Leave-one-out,joint_regret_ndcg,0.0088350512755029,0.00014434881121747566,0.02107210739285627,100,5,150
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,loo,Leave-one-out,normalized_regret_ndcg,0.08921787146414167,0.0018302996224270102,0.19358925378587544,25,5,225
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,loo,Leave-one-out,intervention_success_ndcg,0.34,0.284,0.4,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,loo,Leave-one-out,aia_null_mean,0.00011935151705311737,-0.0010683114358134077,0.0012764703197868904,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,loo,Leave-one-out,aia_null_p95,0.38504207729503537,0.37719860857412946,0.3938198759540656,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,loo,Leave-one-out,aia_permutation_p,0.01257029702970297,0.009916831683168316,0.017576435643564352,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,random,Random control,aia,-0.0030134042128183644,-0.01615348031844035,0.009918286383997846,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,random,Random control,aia_ndcg,-0.0036953583503652495,-0.02744174672323058,0.020139368604372383,86,5,164
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,random,Random control,faithfulness_alignment,-0.003811189165067023,-0.018323647163056237,0.010162102459523334,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,random,Random control,actionability_gap,0.0007977849522486591,-0.0035830578805242487,0.005852515841221194,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,random,Random control,signed_alignment,0.0006695892651806839,-0.012767555375242679,0.014238787633330956,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,random,Random control,signed_alignment_ndcg,0.004755740711140608,-0.01469430838864623,0.024265172493972018,86,5,164
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,random,Random control,direction_accuracy,0.5006730401383962,0.49452052700507265,0.5068515897986603,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,random,Random control,direction_accuracy_ndcg,0.48868761729226845,0.4627872160139603,0.5136039819353774,86,5,164
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,random,Random control,top1_precision,0.052000000000000005,0.039200000000000006,0.06559999999999999,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,random,Random control,top3_precision,0.15493333333333334,0.14293333333333333,0.16666666666666666,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,random,Random control,top5_precision,0.26378666666666667,0.25301199999999996,0.275148,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,random,Random control,joint_effect_primary,-8.916008099823172e-05,-0.0001681237403785308,-1.2532029490855927e-05,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,random,Random control,joint_effect_ndcg,0.0019053289309760673,-0.003924059829627415,0.007773810830308102,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,random,Random control,joint_effect_target_margin,-8.916008099823172e-05,-0.00016815308225145553,-9.088776321285482e-06,250,5,0
@@ -1052,20 +929,6 @@ MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitiv
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,random,Random control,joint_regret_ndcg,0.05266309538624757,0.03207994670727733,0.07639371495980914,100,5,150
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,random,Random control,normalized_regret_ndcg,0.9458988088288036,0.7251738817751179,1.2481650169912368,25,5,225
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,random,Random control,intervention_success_ndcg,0.0952,0.0712,0.12079999999999999,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,random,Random control,aia_null_mean,0.0001584615933011957,-0.001200383297845347,0.0014728069199251858,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,random,Random control,aia_null_p95,0.38559317367995677,0.37781552885632996,0.3947570132934186,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,random,Random control,aia_permutation_p,0.5077623762376238,0.49302079207920796,0.5227881188118811,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,shapley_mc,Monte Carlo Shapley,aia,0.775678868021652,0.7521334858655027,0.7972226387422751,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,shapley_mc,Monte Carlo Shapley,aia_ndcg,0.3568989610130986,0.3026218101878258,0.40839825186252515,86,5,164
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,shapley_mc,Monte Carlo Shapley,faithfulness_alignment,0.7595773633091032,0.7315295170251057,0.7839423844561632,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,shapley_mc,Monte Carlo Shapley,actionability_gap,0.016101504712548696,0.009503086991462033,0.02346402972304794,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,shapley_mc,Monte Carlo Shapley,signed_alignment,0.9342593788708337,0.9266042490246399,0.9414042908116528,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,shapley_mc,Monte Carlo Shapley,signed_alignment_ndcg,0.586830143728571,0.5402441398837999,0.6324063508445881,86,5,164
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,shapley_mc,Monte Carlo Shapley,direction_accuracy,0.887948003946518,0.8776777064720624,0.8982676913097222,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,shapley_mc,Monte Carlo Shapley,direction_accuracy_ndcg,0.95782635323333,0.9311186386288131,0.9795985330883586,86,5,164
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,shapley_mc,Monte Carlo Shapley,top1_precision,0.7288000000000001,0.6784,0.7776,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,shapley_mc,Monte Carlo Shapley,top3_precision,0.8103999999999999,0.7879999999999999,0.8325333333333333,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,shapley_mc,Monte Carlo Shapley,top5_precision,0.8403733333333333,0.8221866666666667,0.8579213333333334,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,shapley_mc,Monte Carlo Shapley,joint_effect_primary,0.0031881112636224663,0.003038166447304423,0.0033448107699797242,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,shapley_mc,Monte Carlo Shapley,joint_effect_ndcg,0.062201802905726675,0.04758977676928969,0.07787482636616942,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,shapley_mc,Monte Carlo Shapley,joint_effect_target_margin,0.0031881112636224663,0.003039208968491097,0.003345294903556918,250,5,0
@@ -1076,9 +939,6 @@ MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitiv
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,shapley_mc,Monte Carlo Shapley,joint_regret_ndcg,0.007514158896344872,0.0010021409975354935,0.016900031297996845,100,5,150
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,shapley_mc,Monte Carlo Shapley,normalized_regret_ndcg,0.08222975436435505,0.010801020717597214,0.18522917697007868,25,5,225
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,shapley_mc,Monte Carlo Shapley,intervention_success_ndcg,0.34,0.2824,0.3992,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,shapley_mc,Monte Carlo Shapley,aia_null_mean,0.000994345666522743,-0.00022510338287809348,0.002225304146926115,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,shapley_mc,Monte Carlo Shapley,aia_null_p95,0.38711482615450155,0.3790856979398491,0.39662418325707,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,budget3,shapley_mc,Monte Carlo Shapley,aia_permutation_p,0.022510891089108913,0.014605742574257428,0.03287168316831683,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,greedy_cf,Greedy counterfactual,aia,0.2605189067804962,0.2237178909186144,0.2965273581967263,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,greedy_cf,Greedy counterfactual,aia_ndcg,0.13953582738040035,0.087303243142775,0.19236144838071545,106,5,144
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,greedy_cf,Greedy counterfactual,faithfulness_alignment,0.26321421011690854,0.2257126521340488,0.2987213717063633,250,5,0
@@ -1129,8 +989,8 @@ MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitiv
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,lime,LIME,aia_permutation_p,0.012744554455445546,0.009940594059405939,0.017552475247524756,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,loo,Leave-one-out,aia,0.9823701348901516,0.9761618666868475,0.9874038410141722,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,loo,Leave-one-out,aia_ndcg,0.37770159237706613,0.32540323863146564,0.4290402622281977,106,5,144
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,loo,Leave-one-out,faithfulness_alignment,0.9999308767388911,0.9998212019323826,1.0,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,loo,Leave-one-out,actionability_gap,-0.01756074184873954,-0.023957671929844288,-0.012531377919837878,250,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,loo,Leave-one-out,faithfulness_alignment,1.0,1.0,1.0,250,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,loo,Leave-one-out,actionability_gap,-0.01762986510984844,-0.02399916971775436,-0.012606327078807477,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,loo,Leave-one-out,signed_alignment,0.9960955238560828,0.9949335550784187,0.99700999538984,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,loo,Leave-one-out,signed_alignment_ndcg,0.5785059531858293,0.5350665641721056,0.6205457303824887,106,5,144
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates100,loo,Leave-one-out,direction_accuracy,0.9910878863826234,0.9878126733500417,0.9940698412698413,250,5,0
@@ -1249,8 +1109,8 @@ MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitiv
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,lime,LIME,aia_permutation_p,0.011952475247524753,0.0102019801980198,0.014392079207920794,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,loo,Leave-one-out,aia,0.9709892300616286,0.9648952411854659,0.9763932156296017,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,loo,Leave-one-out,aia_ndcg,0.38826965506931765,0.30987100615213337,0.46313151489620674,57,5,193
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,loo,Leave-one-out,faithfulness_alignment,0.9999149222899257,0.9998262374297832,0.9999819148926478,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,loo,Leave-one-out,actionability_gap,-0.028925692228297058,-0.03492845386526373,-0.023604652514887775,250,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,loo,Leave-one-out,faithfulness_alignment,1.0,1.0,1.0,250,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,loo,Leave-one-out,actionability_gap,-0.029010769938371376,-0.03498878807614086,-0.023683147837263562,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,loo,Leave-one-out,signed_alignment,0.992541708667286,0.9909091141316522,0.9940245382440802,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,loo,Leave-one-out,signed_alignment_ndcg,0.6166107455254913,0.548290445700581,0.6774189535836354,57,5,193
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,candidates500,loo,Leave-one-out,direction_accuracy,0.9859037593984963,0.9812179657477026,0.9900371720969091,250,5,0
@@ -1369,8 +1229,8 @@ MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitiv
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,lime,LIME,aia_permutation_p,0.012768316831683169,0.01001188118811881,0.017592079207920795,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,loo,Leave-one-out,aia,0.9872307884870873,0.9813644210495261,0.9917550645027416,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,loo,Leave-one-out,aia_ndcg,0.33771408361968797,0.26158907005809134,0.4095773475949479,54,5,196
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,loo,Leave-one-out,faithfulness_alignment,0.9997562972776661,0.9995286722394882,0.9999278883010054,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,loo,Leave-one-out,actionability_gap,-0.0125255087905787,-0.018366174299079656,-0.0079802726444551,250,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,loo,Leave-one-out,faithfulness_alignment,1.0,1.0,1.0,250,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,loo,Leave-one-out,actionability_gap,-0.012769211512912621,-0.01859916277844574,-0.008244961483630872,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,loo,Leave-one-out,signed_alignment,0.9970311649035161,0.9957095438336443,0.9981199880313387,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,loo,Leave-one-out,signed_alignment_ndcg,0.5100909632355197,0.45203697038827345,0.5661864531694859,54,5,196
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax100,loo,Leave-one-out,direction_accuracy,0.9914958180406499,0.9873983464754986,0.9949487591838516,250,5,0
@@ -1489,8 +1349,8 @@ MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitiv
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,lime,LIME,aia_permutation_p,0.012768316831683169,0.01001188118811881,0.01760792079207921,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,loo,Leave-one-out,aia,0.9866601668760252,0.9807363472959831,0.9912212590077301,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,loo,Leave-one-out,aia_ndcg,0.3621518404012816,0.2893282559525151,0.43095187994234097,62,5,188
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,loo,Leave-one-out,faithfulness_alignment,0.9997410150081277,0.9994818793944208,0.9999444588142482,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,loo,Leave-one-out,actionability_gap,-0.013080848132102568,-0.019079278009867934,-0.008498417188725411,250,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,loo,Leave-one-out,faithfulness_alignment,1.0,1.0,1.0,250,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,loo,Leave-one-out,actionability_gap,-0.013339833123974779,-0.019353413058081585,-0.00877311201528565,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,loo,Leave-one-out,signed_alignment,0.9971108244205812,0.9957864772263094,0.9981998853284101,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,loo,Leave-one-out,signed_alignment_ndcg,0.5588823265681886,0.5091827373955575,0.6075591708604609,62,5,188
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,nmax50,loo,Leave-one-out,direction_accuracy,0.9912469940467853,0.9871588547355554,0.9946904973997646,250,5,0
@@ -1609,8 +1469,8 @@ MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitiv
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,lime,LIME,aia_permutation_p,0.011041584158415843,0.009996039603960396,0.012752475247524753,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,loo,Leave-one-out,aia,0.9922215410037751,0.9900894230954252,0.9939267965677684,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,loo,Leave-one-out,aia_ndcg,0.4358183786377114,0.3840171621465199,0.48463634929829563,99,5,151
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,loo,Leave-one-out,faithfulness_alignment,0.99994049189902,0.9998628629622508,0.9999954853273137,250,5,0
-MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,loo,Leave-one-out,actionability_gap,-0.00771895089524493,-0.009824840200383553,-0.006011060584540711,250,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,loo,Leave-one-out,faithfulness_alignment,1.0,1.0,1.0,250,5,0
+MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,loo,Leave-one-out,actionability_gap,-0.007778458996224897,-0.00988271406787372,-0.006065538332378037,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,loo,Leave-one-out,signed_alignment,0.9977352385376096,0.9969217318949484,0.9983554955199715,250,5,0
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,loo,Leave-one-out,signed_alignment_ndcg,0.652404500305886,0.6108239964717258,0.6915151840636653,99,5,151
 MovieLens-1M,itemknn,sampled_unseen_negatives_with_target,target_margin,sensitivity,rho025,loo,Leave-one-out,direction_accuracy,0.9912305028305027,0.9868904595404596,0.9948351648351649,250,5,0
@@ -1730,7 +1590,7 @@ MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_cat
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,aia,0.9962737891210957,0.9939566916587026,0.9981734755894262,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,aia_ndcg,0.1735999800757042,0.05676567244564473,0.2904342877057636,4,5,246
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,faithfulness_alignment,1.0,1.0,1.0,250,5,0
-MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,actionability_gap,-0.0037262108789043826,-0.006051081797974994,-0.0017966891648083648,250,5,0
+MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,actionability_gap,-0.0037262108789043857,-0.006051081797974997,-0.001796689164808368,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,signed_alignment,0.9991341478129714,0.9983660838124724,0.9996482219689496,250,5,0
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,signed_alignment_ndcg,0.472231633476046,0.22227304916689133,0.7460951143087005,4,5,246
 MovieLens-1M,profile,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,direction_accuracy,0.9971955555555555,0.9955866666666667,0.9985555555555554,250,5,0
@@ -1850,7 +1710,7 @@ MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,aia,0.9936215611426756,0.9924858239112538,0.9945963716385523,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,aia_ndcg,0.1406096628190106,0.11246158636691232,0.16781218844018939,281,5,719
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,faithfulness_alignment,1.0,1.0,1.0,1000,5,0
-MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,actionability_gap,-0.006378438857324328,-0.007542806642918508,-0.005370161958526532,1000,5,0
+MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,actionability_gap,-0.00637843885732433,-0.00754280664291851,-0.0053701619585265325,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,signed_alignment,0.9984097311821307,0.9980878727433559,0.9986469841598031,1000,5,0
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,signed_alignment_ndcg,0.36315783437944554,0.3324701560891494,0.3942158793239983,281,5,719
 MovieLens-1M,profile,sampled_unseen_negatives_with_target,target_margin,primary,primary,loo,Leave-one-out,direction_accuracy,0.9952214391370584,0.9944419697743132,0.9959581745478895,1000,5,0

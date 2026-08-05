@@ -128,7 +128,12 @@ def model_mc_shapley(
     antithetic: bool = True,
     permutation_batch_size: int = 16,
 ) -> tuple[np.ndarray, float]:
-    """Batched prefix-walk Shapley estimator for supported recommendation models."""
+    """Batched prefix-walk Shapley estimator.
+
+    ``permutations`` is the number of base permutations.  With the default
+    antithetic reverse walk, the estimator evaluates twice that many orders;
+    callers should report both values rather than using one ambiguous ``M``.
+    """
     n_players = game.players.size
     if permutations < 1 or permutation_batch_size < 1:
         raise ValueError("permutation counts and batch size must be positive")
@@ -180,7 +185,24 @@ def single_player_effects(
     """Signed effects of downweighting each retained history interaction."""
     if not 0.0 <= rho <= 1.0:
         raise ValueError("rho must be in [0, 1]")
-    base = _value(model, game, frozenset(range(game.players.size)), k, utility)
+    full = frozenset(range(game.players.size))
+    base = _value(model, game, full, k, utility)
+
+    # Keep the deletion diagnostic on the exact same coalition-evaluation path
+    # as LOO.  The weighted-zero implementation is mathematically equivalent,
+    # but it can differ by a few ulps because it multiplies by zero and sums a
+    # different sparse block.  Those ulps can reorder tied magnitudes and make
+    # the formally identical LOO/deletion AIA appear as 0.9999 instead of 1.
+    # rho=0 is therefore evaluated as v(P\{p}) - v(P) directly.
+    if rho == 0.0:
+        return np.array(
+            [
+                _value(model, game, full - {player}, k, utility) - base
+                for player in range(game.players.size)
+            ],
+            dtype=float,
+        )
+
     weights = np.ones((game.players.size, game.players.size), dtype=float)
     weights[np.arange(game.players.size), np.arange(game.players.size)] = rho
     if hasattr(model, "score_downweighted_batch"):

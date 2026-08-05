@@ -38,6 +38,8 @@
     "('MovieLens-1M', 'profile', 'full_unseen_catalogue', 'target_margin', 'full_catalogue', 'full_catalogue'): M=50 reaches both per-user thresholds for 56.0% of rank-valid users",
     "('MovieLens-1M', 'profile', 'sampled_unseen_negatives_with_target', 'target_margin', 'primary', 'primary'): M=50 reaches both per-user thresholds for 56.0% of rank-valid users"
   ],
+  "loo_identity_max_abs_error": 2.220446049250313e-16,
+  "normalized_regret_min": 0.0,
   "experiment_groups": [
     [
       "Amazon-Digital-Music",

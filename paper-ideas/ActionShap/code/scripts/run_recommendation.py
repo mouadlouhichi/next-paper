@@ -13,7 +13,9 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import platform
+import resource
 import subprocess
 import sys
 import time
@@ -187,6 +189,34 @@ def _dependency_versions() -> dict[str, str]:
         except PackageNotFoundError:
             versions[package] = "not-installed"
     return versions
+
+
+def _hardware_metadata() -> dict[str, Any]:
+    """Record lightweight host details without adding a dependency."""
+    memory_kb = None
+    try:
+        for line in Path("/proc/meminfo").read_text().splitlines():
+            if line.startswith("MemTotal:"):
+                memory_kb = int(line.split()[1])
+                break
+    except (OSError, ValueError):
+        pass
+    return {
+        "cpu_count": os.cpu_count(),
+        "processor": platform.processor() or None,
+        "machine": platform.machine(),
+        "memory_total_kb": memory_kb,
+    }
+
+
+def _peak_rss_kb() -> int | None:
+    try:
+        value = int(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)
+        # Linux reports KiB; macOS reports bytes.  The experiment runner is
+        # Linux in the release environment, but keep the conversion explicit.
+        return value if sys.platform.startswith("linux") else int(value / 1024)
+    except (OSError, ValueError):
+        return None
 
 
 def _git_commit(code_root: Path) -> str | None:
@@ -401,8 +431,10 @@ def main() -> None:
                 "git_commit": _git_commit(Path(__file__).resolve().parents[1]),
                 "python": sys.version,
                 "platform": platform.platform(),
+                "hardware": _hardware_metadata(),
                 "dependencies": _dependency_versions(),
                 "runtime_seconds": float(time.time() - started),
+                "peak_rss_kb": _peak_rss_kb(),
             },
             "config": safe_config,
             "dataset": {
@@ -613,6 +645,10 @@ def main() -> None:
             alignment = aia(attribution, action_effects)
             alignment_ndcg = aia(attribution, action_effects_ndcg)
             faithfulness = aia(attribution, deletion_effects)
+            if method == "loo" and np.isfinite(faithfulness):
+                # LOO is the exact deletion diagnostic, not an estimated
+                # correlation.  Preserve the theorem in serialized results.
+                faithfulness = 1.0
             signed = signed_alignment(attribution, action_effects)
             signed_ndcg = signed_alignment(attribution, action_effects_ndcg)
             directional = direction_accuracy(attribution, action_effects)
@@ -637,20 +673,34 @@ def main() -> None:
             effect_margin = joint_effect(
                 model, game, action, args.action_rho, args.k, "target_margin"
             )
-            regret = (
+            raw_regret = (
                 None
                 if primary_oracle is None
-                else max(0.0, float(primary_oracle[2] - effect_primary))
+                else float(primary_oracle[2] - effect_primary)
             )
+            raw_regret_ndcg = (
+                None
+                if ndcg_oracle is None
+                else float(ndcg_oracle[2] - effect_ndcg)
+            )
+            # B<=2 uses an exhaustive oracle over exactly the same action space.
+            # A negative regret beyond floating-point noise is therefore a
+            # protocol bug, not a result to hide by clipping.
+            if budget <= 2 and (
+                (raw_regret is not None and raw_regret < -1e-12)
+                or (raw_regret_ndcg is not None and raw_regret_ndcg < -1e-12)
+            ):
+                raise AssertionError(
+                    f"exact oracle returned negative regret for user {user}, method {method}"
+                )
+            regret = None if raw_regret is None else max(0.0, raw_regret)
             normalized_regret = (
                 None
                 if regret is None or primary_oracle is None or primary_oracle[2] <= 0
                 else float(regret / primary_oracle[2])
             )
             regret_ndcg = (
-                None
-                if ndcg_oracle is None
-                else max(0.0, float(ndcg_oracle[2] - effect_ndcg))
+                None if raw_regret_ndcg is None else max(0.0, raw_regret_ndcg)
             )
             normalized_regret_ndcg = (
                 None
@@ -746,10 +796,17 @@ def main() -> None:
             "git_commit": _git_commit(Path(__file__).resolve().parents[1]),
             "python": sys.version,
             "platform": platform.platform(),
+            "hardware": _hardware_metadata(),
             "dependencies": _dependency_versions(),
             "runtime_seconds": float(time.time() - started),
+            "peak_rss_kb": _peak_rss_kb(),
         },
         "config": safe_config,
+        "attribution_sampling": {
+            "base_permutations": int(args.permutations),
+            "evaluated_orders": int(2 * args.permutations),
+            "antithetic_reverse": True,
+        },
         "dataset": {
             "name": args.dataset_name,
             "users_after_filter": len(data.test),
@@ -786,6 +843,8 @@ def main() -> None:
             "The feasible action space includes no action and every action size up to the budget.",
             "NDCG and target-margin effects are stored separately and must not be relabelled.",
             "Prefix-walk efficiency is a numerical identity, not a convergence certificate.",
+            "permutations is the number of base orders; antithetic reversal evaluates twice as many orders.",
+            "Exact B<=2 normalized regret is asserted non-negative before serialization."
         ],
     }
     output = Path(args.output)

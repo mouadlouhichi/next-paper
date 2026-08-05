@@ -1,4 +1,6 @@
-# ActionShap revision 4 — Q1 audit resolution
+# ActionShap revision 4 — Q1 audit resolution (historical audit trail)
+
+> The 11-condition/22-comparison paragraph below is superseded by the current schema-v2 `paper-v3/final/RESULTS_SUMMARY.md`. It is retained only to document the revision history; do not use it as a current claim.
 
 This document records how the schema-v1 pilot was corrected. The complete
 schema-v2 matrix has now run and passed the frozen validator; numerical assets
@@ -36,12 +38,7 @@ live under `paper/final/`, while this file remains the design audit trail.
 
 ## Validated headline result
 
-Across all 11 predeclared target-margin ItemKNN conditions, Shapley has a
-positive Actionability Gap, while LIME and LOO have negative gaps. Shapley's
-paired gap advantage is positive and Holm-significant in all 22 comparisons
-(`p <= .001`, paired `d_z = 0.19--0.65`). This establishes intervention
-robustness, not universal method superiority: local baselines retain higher
-absolute AIA and slightly better MovieLens NDCG decisions.
+Historical pilot headline (retired): the current release does not use the 11-condition/22-comparison claim. The schema-v2 paper-v3 assets instead report nine singleton conditions, all five methods, the LOO identity, null calibration, and decision outcomes. A positive Actionability Gap remains descriptive and is not evidence of universal method superiority; local baselines retain higher absolute AIA and slightly better MovieLens NDCG decisions.
 
 ## Claim boundary
 

@@ -193,10 +193,11 @@ def mc_shapley(
 ) -> tuple[np.ndarray, float]:
     """Estimate Shapley values with cached antithetic permutation prefix walks.
 
-    ``permutations`` is the number of independently sampled orders.  When
-    ``antithetic`` is true, each order and its reverse are evaluated, so the
-    effective number of walks is twice that value.  Prefix-walk efficiency
-    telescopes exactly and is returned only as a numerical-stability check.
+    ``permutations`` is explicitly the number of sampled *base* orders,
+    denoted :math:`M_{pair}` in the manuscript.  When ``antithetic`` is true,
+    each base order and its reverse are evaluated, so the total number of
+    prefix walks is ``T = 2 * M_pair``.  Prefix-walk efficiency telescopes
+    exactly and is returned only as a numerical-stability check.
     """
     if n_players < 0 or permutations < 1:
         raise ValueError(

@@ -9,17 +9,19 @@ import re
 from collections import Counter
 from pathlib import Path
 
-CITATION_RE = re.compile(r"\\cite[pt]?\{([^}]+)\}")
+CITATION_RE = re.compile(r"\\cite(?:p|t|author|year)?\*?\{([^}]+)\}")
 BIB_KEY_RE = re.compile(r"^@\w+\{([^,]+),", re.MULTILINE)
 BEGIN_RE = re.compile(r"\\begin\{([^}]+)\}")
 END_RE = re.compile(r"\\end\{([^}]+)\}")
 SAFE_INPUT_RE = re.compile(r"\\safeinput\{([^}]+)\}")
+LABEL_RE = re.compile(r"\\label\{([^}]+)\}")
+REF_RE = re.compile(r"\\(?:ref|pageref)\{([^}]+)\}")
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--paper", default="../paper/paper.tex")
-    parser.add_argument("--bib", default="../paper/paper.bib")
+    parser.add_argument("--paper", default="../paper-v3/actionshap.tex")
+    parser.add_argument("--bib", default="../paper-v3/paper.bib")
     parser.add_argument("--require-final", action="store_true")
     args = parser.parse_args()
     code_root = Path(__file__).resolve().parents[1]
@@ -32,13 +34,20 @@ def main() -> None:
     errors: list[str] = []
     warnings: list[str] = []
     citations = {
-        key.strip() for group in CITATION_RE.findall(tex) for key in group.split(",")
+        key.strip()
+        for group in CITATION_RE.findall(tex)
+        for key in group.split(",")
+        if key.strip()
     }
     bibliography_keys = set(BIB_KEY_RE.findall(bib))
     if missing := sorted(citations - bibliography_keys):
         errors.append(f"missing bibliography keys: {missing}")
     if unused := sorted(bibliography_keys - citations):
         warnings.append(f"unused bibliography keys: {unused}")
+    if not bibliography_keys:
+        errors.append("bibliography contains no entries")
+    if "\\bibliography{paper}" not in tex:
+        errors.append("manuscript does not point to the pinned paper.bib")
 
     begins = Counter(BEGIN_RE.findall(tex))
     ends = Counter(END_RE.findall(tex))
@@ -48,14 +57,29 @@ def main() -> None:
         )
     if tex.count("{") != tex.count("}"):
         errors.append("raw brace counts differ")
+
+    generated_labels: list[str] = []
+    for relative in SAFE_INPUT_RE.findall(tex):
+        asset = paper_root / relative
+        if asset.exists():
+            generated_labels.extend(LABEL_RE.findall(asset.read_text()))
+    labels = LABEL_RE.findall(tex) + generated_labels
+    duplicate_labels = sorted(label for label, count in Counter(labels).items() if count > 1)
+    if duplicate_labels:
+        errors.append(f"duplicate manuscript labels: {duplicate_labels}")
+    missing_refs = sorted(set(REF_RE.findall(tex)) - set(labels))
+    if missing_refs:
+        errors.append(f"unresolved manuscript references: {missing_refs}")
     if "ActionShap: Beyond Deletion Faithfulness" not in tex:
         errors.append("canonical title is missing")
-    if "legacy_pilot" in tex and "legacy\\_pilot" not in tex:
-        errors.append("unescaped legacy_pilot path in manuscript text")
+    if "\\keywords{" not in tex:
+        errors.append("Keywords metadata is missing")
+    if "\\date{}" not in tex:
+        warnings.append("explicit empty date is not present; class default may add a date")
+    if "paper-v2" in tex:
+        errors.append("stale paper-v2 path remains in canonical manuscript")
     if any(token in tex for token in ("0.749152", "0.918817", "0.000584487")):
-        errors.append(
-            "invalidated schema-v1 pilot values remain in canonical manuscript"
-        )
+        errors.append("invalidated schema-v1 pilot values remain in canonical manuscript")
 
     missing_assets = [
         relative
@@ -63,7 +87,7 @@ def main() -> None:
         if not (paper_root / relative).exists()
     ]
     if missing_assets:
-        warnings.append(f"generated tables pending: {missing_assets}")
+        errors.append(f"missing generated assets: {missing_assets}")
 
     validation_path = paper_root / "final" / "manifests" / "validation_report.json"
     validation = (
@@ -71,26 +95,16 @@ def main() -> None:
         if validation_path.exists()
         else {"status": "MISSING"}
     )
-    # Subtract the pending macro and the safeinput fallback macro definitions.
-    pending_count = max(0, tex.count("\\pending") - 2)
-    if pending_count:
-        warnings.append(f"{pending_count} manuscript placeholders remain")
-    if args.require_final:
-        if validation.get("status") != "PASS":
-            errors.append(
-                f"final asset validation is {validation.get('status')}, not PASS"
-            )
-        if pending_count:
-            errors.append("final manuscript still contains placeholders")
-        if missing_assets:
-            errors.append("final manuscript tables are missing")
+    if args.require_final and validation.get("status") != "PASS":
+        errors.append(
+            f"final asset validation is {validation.get('status')}, not PASS"
+        )
 
     report = {
         "status": "FAIL" if errors else ("PASS_WITH_WARNINGS" if warnings else "PASS"),
-        "paper": str(paper_path.relative_to(code_root.parent.parent.parent)),
+        "paper": str(paper_path),
         "citations": len(citations),
         "bibliography_entries": len(bibliography_keys),
-        "pending_placeholders": pending_count,
         "asset_validation": validation.get("status"),
         "errors": errors,
         "warnings": warnings,

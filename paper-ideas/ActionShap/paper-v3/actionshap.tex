@@ -40,16 +40,17 @@
 \newcommand{\MRR}{\operatorname{MRR}}
 \newcommand{\safeinput}[1]{\IfFileExists{#1}{\input{#1}}{}}
 
-\title[ActionShap]{ActionShap: Beyond Deletion Faithfulness toward Intervention-Robust Recommendation Explanations}
+\title{ActionShap: Beyond Deletion Faithfulness toward Intervention-Robust Recommendation Explanations}
 
-\author*[1]{\fnm{Mouad} \sur{Louhichi}}\email{mouad.louhichi@um5.ac.ma}
-\author[1]{\fnm{Redwane} \sur{Nesmaoui}}
-\author[1]{\fnm{Mohamed} \sur{Lazaar}}
-\affil*[1]{\orgdiv{National Higher School of Computer Science and Systems Analysis (ENSIAS)}, \orgname{Mohammed V University in Rabat}, \orgaddress{\city{Rabat}, \country{Morocco}}}
+\author*[1]{Mouad~Louhichi}\email{mouad.louhichi@um5.ac.ma}
+\author[1]{Redwane~Nesmaoui}
+\author[1]{Mohamed~Lazaar}
+\affil*[1]{National Higher School of Computer Science and Systems Analysis (ENSIAS), Mohammed V University in Rabat, Rabat, Morocco}
+\date{}
 
 \begin{document}
 
-\abstract{Recommendation explanations are commonly evaluated by deleting historical interactions, although deployed recommendation systems act through bounded changes to the influence of observed evidence. Deletion and feasible intervention therefore measure different properties. We introduce \textbf{ActionShap}, a model-agnostic protocol for evaluating whether user-specific explanation rankings predict the effects of declared, system-executable interventions. ActionShap separates deletion alignment, bounded-intervention alignment, and the quality of the joint action selected under a fixed budget. It fixes temporal splits, complete pre-test-history exclusion, target-plus-unseen-negative candidate sets, global tie priorities, signed action selection, abstention, convergence, and inference over distinct users. We evaluate Monte Carlo Shapley, locally weighted LIME, leave-one-out, greedy sequential deletion, and a random control on MovieLens-1M and Amazon Digital Music. The primary analysis uses a history-conditioned ItemKNN recommender, 1,000 users, five common seeds, and exact budget-two oracles; a latent profile model and full-unseen-catalogue subset provide robustness evidence. Shapley improves from deletion to bounded target-margin alignment in the primary ItemKNN conditions, with gaps of $+0.0169$ on MovieLens and $+0.1285$ on Amazon, but local methods retain higher absolute alignment and slightly better MovieLens NDCG decisions. The random control remains near its within-user null, showing that a positive gap alone is not evidence of explanation validity. ActionShap contributes an auditable evaluation instrument for separating perturbation sensitivity, absolute alignment, and intervention decision quality rather than claiming universal superiority for any explainer.}
+\abstract{Recommendation explanations are commonly evaluated by deleting historical interactions, although deployed recommendation systems act through bounded changes to the influence of observed evidence. Deletion and feasible intervention therefore measure different properties. We introduce \textbf{ActionShap}, an architecture-agnostic protocol for history-conditioned recommenders with inference-time profile interventions; it evaluates whether user-specific explanation rankings predict the effects of declared, system-executable interventions. ActionShap separates deletion alignment, bounded-intervention alignment, and the quality of the joint action selected under a fixed budget. It fixes temporal splits, complete pre-test-history exclusion, target-plus-unseen-negative candidate sets, global tie priorities, signed action selection, abstention, convergence, and inference over distinct users. We evaluate Monte Carlo Shapley, locally weighted LIME, leave-one-out, greedy sequential deletion, and a random control on MovieLens-1M and Amazon Digital Music. The primary analysis uses a history-conditioned ItemKNN recommender, 1,000 users, five common seeds, and exact budget-two oracles; a latent profile model and full-unseen-catalogue subset provide robustness evidence. Shapley improves from deletion to bounded target-margin alignment in the primary ItemKNN conditions, with gaps of $+0.0169$ on MovieLens and $+0.1285$ on Amazon, but local methods retain higher absolute alignment and slightly better MovieLens NDCG decisions. The random control remains near its within-user null, showing that a positive gap alone is not evidence of explanation validity. ActionShap contributes an auditable evaluation instrument for separating perturbation sensitivity, absolute alignment, and intervention decision quality rather than claiming universal superiority for any explainer.}
 
 \keywords{explainable recommendation \and intervention evaluation \and faithfulness \and actionability \and Shapley value \and LIME \and counterfactual recommendation}
 \maketitle
@@ -132,11 +133,11 @@ ActionShap & Yes & Yes & Yes & Yes\\
 
 \section{Problem Formulation}
 \subsection{Temporal user-specific game}
-For user $u$, let $H_u^{\mathrm{train}}$ contain interactions before validation and test. The player set is the most recent training window,
+For user $u$, let $H_u^{\mathrm{train}}$ contain all interactions before validation and test. The player set is the most recent training window,
 \begin{equation}
-P_u=\{p_{u1},\ldots,p_{un_u}\},\qquad n_u\le n_{\max}=20.
+P_u=\{p_{u1},\ldots,p_{un_u}\},\qquad n_u\le n_{\max}=20,
 \end{equation}
-Interactions are ordered by $(\mathrm{timestamp},\mathrm{original\_record\_index})$; the last event is test and the preceding event is validation. Validation and test events are never players. Models are fitted using complete training histories; the cap limits only the explanation game.
+and define the older training context $B_u=H_u^{\mathrm{train}}\setminus P_u$. Interactions are ordered by $(\mathrm{timestamp},\mathrm{original\_record\_index})$; the last event is test and the preceding event is validation. Validation and test events are never players. Models are fitted using the complete training histories $H_u^{\mathrm{train}}$, but the released scoring implementation uses the second semantics: the profile score $f_u(i;S)$ is computed from $S$ alone, with no $B_u$ term. Thus $B_u$ is not silently added as fixed scoring context. Consequently, $n_{\max}$ is both the operating profile boundary and the player-game boundary; the $n_{\max}\in\{50,100\}$ runs are sensitivity analyses of that boundary, not experiments that hold the recommender input fixed.
 
 Every user has a fixed candidate set $E_u$ containing the held-out target and sampled negatives. Negatives exclude the complete pre-test history, including validation. The user seed, candidate seed, tie seed, model seed, and attribution seed are independent. Full-catalogue robustness uses the target plus all unseen items. Target coverage is one by construction and is not called retrieval recall.
 
@@ -165,7 +166,7 @@ The primary characteristic function is the target-margin utility
 \begin{equation}
 v_u^{\mathrm{attr}}(S)=\sigma\left(s_y^S-\frac{1}{L}\sum_{i\in\operatorname{TopL}_{-y}}s_i^S\right),
 \end{equation}
-where $y$ is the temporal target. The operational ranking outcome is
+where $y$ is the temporal target, $L=10$, and $\sigma(t)=(1+e^{-t})^{-1}$ has unit temperature. The operational ranking outcome is
 \begin{equation}
 q_u(S)=\NDCG@10(f_u^S,y).
 \end{equation}
@@ -185,11 +186,11 @@ including no action. The primary scientific budget is $B=2$. A signed attributio
 
 \section{ActionShap Protocol}
 \subsection{Attribution methods}
-For permutation $\pi$, let $S_{p,\pi}$ be the predecessor coalition of player $p$. The Monte Carlo Shapley estimate is
+For a sampled base permutation $\pi_m$, let $S_{p,\pi_m}$ be the predecessor coalition of player $p$. We use $M_{\mathrm{pair}}$ base permutations and also evaluate each reverse order, giving $T=2M_{\mathrm{pair}}$ total prefix walks. The estimator is
 \begin{equation}
-\widehat\phi_{u,p}=\frac{1}{M}\sum_{m=1}^{M}\left[v(S_{p,\pi_m}\cup\{p\})-v(S_{p,\pi_m})\right].
+\widehat\phi_{u,p}=\frac{1}{T}\sum_{t=1}^{T}\left[v(S_{p,\pi_t}\cup\{p\})-v(S_{p,\pi_t})\right].
 \end{equation}
-Reverse orders are paired and coalition states are cached. The comparison includes locally weighted binary-mask LIME, LOO, greedy sequential deletion, and random attribution. No method observes measured intervention effects, oracle actions, or aggregate test outcomes.
+The reverse orders are antithetic variance-reduction partners and coalition states are cached. In the executable configuration, `permutations' denotes $M_{\mathrm{pair}}=500$, hence $T=1000$ evaluated orders. The comparison includes locally weighted binary-mask LIME, LOO, greedy sequential deletion, and random attribution. No method observes measured intervention effects, oracle actions, or aggregate test outcomes.
 
 \subsection{Metrics}
 Magnitude AIA is
@@ -198,7 +199,7 @@ Magnitude AIA is
 \end{equation}
 Deletion AIA and bounded AIA are reported separately; their difference is the Actionability Gap. Signed alignment compares $-\phi$ with signed intervention effects. We also report direction accuracy, top-$k$ precision, realized effect, success, harm, abstention, and stability.
 
-For each user and seed, 1,000 within-user permutations shuffle effect magnitudes across players. We report null means, null 95th percentiles, plus-one permutation $p$-values, and valid-user counts. Constant vectors are missing, not imputed.
+For each user and seed, $R=1{,}000$ within-seed permutations shuffle effect magnitudes across players. We first compute the observed AIA and its $R$ null draws within each seed; then we average the observed value and each matched null draw across the five seeds within user. Bootstrap and paired inference operate on these distinct-user summaries. We report null means, null 95th percentiles, plus-one permutation $p$-values, and valid-user counts. Constant vectors are missing, not imputed.
 
 \subsection{Decision quality and regret}
 For utility $z$, the exact budget-two oracle is
@@ -209,22 +210,30 @@ and the method action is $\widehat A_{u,g}$. Regret is
 \begin{equation}
 \operatorname{Regret}_u^z(g)=\Delta_u^z(A_u^{*,z})-\Delta_u^z(\widehat A_{u,g}).
 \end{equation}
-Normalized regret is reported only when $\Delta_u^z(A_u^{*,z})>10^{-12}$ and is averaged conditionally over active-oracle users. It is not clipped; harmful actions may exceed one.
+For utility $z$, normalized regret is
+\begin{equation}
+\operatorname{NRegret}_u^z(g)=
+\frac{\Delta_u^z(A_u^{*,z})-\Delta_u^z(\widehat A_{u,g})}
+{\Delta_u^z(A_u^{*,z})},
+\qquad \Delta_u^z(A_u^{*,z})>\varepsilon,
+\quad \varepsilon=10^{-12}.
+\end{equation}
+It is averaged only over active-oracle users. Zero means an oracle-equivalent action; one means that the oracle improves the utility but the selected action achieves no improvement; values above one mean that the selected action is harmful. Values below zero are rejected by validation for the exact shared action space (up to floating-point tolerance); they would indicate an oracle or action-space inconsistency. The quantity is not clipped to one.
 
 \begin{algorithm}[t]
 \caption{Paired Monte Carlo attribution}
 \label{alg:shapley}
 \begin{algorithmic}[1]
-\Require $u,P_u,v,M$, attribution seed
+\Require $u,P_u,v,M_{\mathrm{pair}}$, attribution seed
 \Ensure $\widehat{\boldsymbol\phi}_u$
 \State Initialise $\hat\phi_{u,p}\gets0$ for all $p\in P_u$
-\For{$m=1$ to $M$}
-\State Draw $\pi_m$ and its reverse; evaluate the cached prefix walk
+\For{$m=1$ to $M_{\mathrm{pair}}$}
+\State Draw base order $\pi_m$ and its reverse; evaluate both cached prefix walks
 \For{each consecutive pair $(S,S\cup\{p\})$}
 \State $\hat\phi_{u,p}\gets\hat\phi_{u,p}+v(S\cup\{p\})-v(S)$
 \EndFor
 \EndFor
-\State Average over orders and record finite/constant-vector flags
+\State Divide by $T=2M_{\mathrm{pair}}$ and record finite/constant-vector flags
 \end{algorithmic}
 \end{algorithm}
 
@@ -249,14 +258,16 @@ Normalized regret is reported only when $\Delta_u^z(A_u^{*,z})>10^{-12}$ and is 
 \caption{Distinct-user inference and AIA null}
 \label{alg:inference}
 \begin{algorithmic}[1]
-\Require Five seed records per user and $R=1000$ null draws
+\Require Five seed records per user and $R=1000$ null draws per seed
 \Ensure User-level estimates and corrected comparisons
-\For{each distinct user $u$}
-\State Average repeated seeds within $u$
-\State Compute AIA only for finite, nonconstant vectors
+\For{each distinct user $u$ and seed $s$}
+\State Compute seed-level AIA only for finite, nonconstant vectors
 \For{$r=1$ to $R$}
-\State Shuffle effect magnitudes within $u$ and seed; recompute AIA
+\State Shuffle effect magnitudes within $(u,s)$; recompute the null AIA
 \EndFor
+\EndFor
+\For{each distinct user $u$}
+\State Average the observed AIA and each matched null draw across seeds
 \EndFor
 \State Bootstrap users; apply paired plus-one tests and Holm correction
 \end{algorithmic}
@@ -266,14 +277,14 @@ Normalized regret is reported only when $\Delta_u^z(A_u^{*,z})>10^{-12}$ and is 
 \caption{Independent convergence selection}
 \label{alg:convergence}
 \begin{algorithmic}[1]
-\Require $M\in\{25,50,100,250,500,1000\}$ and independent $M=1000$ reference
-\Ensure Selected $M$ or explicit unconverged status
-\For{each candidate $M$}
-\State Compare attribution ranks and signed-$B=2$ action Jaccard with reference
+\Require $M_{\mathrm{pair}}\in\{25,50,100,250,500,1000\}$ and an independent $M_{\mathrm{pair}}=1000$ reference
+\Ensure Selected $M_{\mathrm{pair}}$ or explicit unconverged status
+\For{each candidate $M_{\mathrm{pair}}$}
+\State Compare attribution ranks and signed-$B=2$ action Jaccard with the reference; each reported budget means twice as many evaluated orders
 \State Record rank-valid fraction and threshold coverage
 \EndFor
-\State Select smallest $M$ with rank $\ge.95$, Jaccard $\ge.80$, rank validity $\ge.95$
-\If{no candidate qualifies}\State Retain $M=1000$ as unconverged stress test\EndIf
+\State Select smallest $M_{\mathrm{pair}}$ with rank $\ge.95$, Jaccard $\ge.80$, rank validity $\ge.95$
+\If{no candidate qualifies}\State Retain $M_{\mathrm{pair}}=1000$ as an unconverged stress test\EndIf
 \end{algorithmic}
 \end{algorithm}
 
@@ -282,13 +293,17 @@ Normalized regret is reported only when $\Delta_u^z(A_u^{*,z})>10^{-12}$ and is 
 We use MovieLens-1M \citep{harper2016,ni2019} and Amazon Digital Music reconstructed from the Amazon Reviews 2018 release. Positive feedback is rating $\ge4$; Amazon duplicate user--item records retain the latest deterministic event and iterative 5-core filtering is reapplied after thresholding. MovieLens retains 6,035 users, 3,533 items, and 575,276 positive interactions. Amazon retains 10,623 users, 8,582 items, and 104,431 interactions. Source and processed hashes are recorded in the final manifest.
 
 \subsection{Models, candidates, and gates}
-The matrix includes ItemKNN and profile aggregation, five seeds, primary 1,000-user sampled ranking, 250-user full-catalogue subsets, and predeclared history, candidate, intervention-strength, budget, and utility sensitivities. ItemKNN passes all blocking masking gates. The profile model fails the NDCG masking threshold for one MovieLens seed (mean absolute change $0.000682$ versus $0.001$) and is retained as a nonblocking robustness boundary.
+The matrix includes ItemKNN and profile aggregation, five seeds, primary 1,000-user sampled ranking, 250-user full-catalogue subsets, and predeclared history, candidate, intervention-strength, budget, and utility sensitivities. ItemKNN uses cosine item--item similarities from binary training histories, removes self-similarity, retains the 200 largest non-zero neighbours per item, and applies no shrinkage or minimum-support threshold beyond the observed co-occurrence counts; all retained similarities are non-negative. The profile robustness model uses 64-dimensional item embeddings, ten leave-one-out BPR-style epochs, one sampled positive per user per epoch, uniform negatives outside the complete training history, learning rate $0.03$, and $L_2$ coefficient $10^{-4}$. Both models recompute the profile from the retained player window at inference time and are not retrained under an intervention.
+
+The primary candidate set contains the target and 199 uniformly sampled unseen negatives. Candidate seed $1729$, user seed $2718$, tie seed $31415$, and model/attribution seeds $42$--$46$ are independent. The gate uses 200 users and a fixed 200-item sampled candidate set. ItemKNN passes all blocking masking gates. The profile model fails the NDCG masking threshold for one MovieLens seed (mean absolute change $0.000682$ versus $0.001$) and is retained as a nonblocking robustness boundary.
+
+LIME uses 512 binary masks including the full, empty, and all leave-one-out masks, a normalized Hamming-distance kernel with width $0.25$, and ridge coefficient $1.0$. The target-margin competitor count is $L=10$ and the sigmoid temperature is one. The primary intervention is $\rho=0.5$; $\rho=0.25$ is sensitivity-only. The exact budget-two action space includes no action, all singletons, and all pairs.
 
 \subsection{Statistical analysis}
-Seeds are averaged within distinct users before inference. We use user bootstrap intervals, paired plus-one sign permutations, effect sizes, and Holm correction within comparison families. We report missing correlations, active-oracle counts, and conditional normalized regret. No coalition evaluation is an independent statistical observation.
+For each seed we compute user-level quantities first; repeated seed values are then averaged within distinct user before bootstrap resampling. User bootstrap intervals use 10,000 draws, paired plus-one sign permutations use 10,000 draws, and the AIA null uses $R=1,000$ within-seed draws whose matched null values are averaged across seeds within user. Holm correction is applied within each experiment--metric comparison family. We report missing correlations, active-oracle counts, and conditional normalized regret. No coalition evaluation is an independent statistical observation.
 
 \subsection{Reproducibility}
-The real result archive contains 80 recommendation runs plus five convergence studies. All assets in this manuscript are generated from schema-v2 raw results with repository-relative paths and content hashes. The primary ItemKNN target-margin analysis uses at least $M=500$ permutations; the independent convergence study selects lower diagnostic values for some conditions, while the conservative final floor is retained.
+The real result archive contains 80 recommendation runs plus five convergence studies. All assets in this manuscript are generated from schema-v2 raw results with repository-relative paths and content hashes. The primary ItemKNN target-margin analysis uses $M_{\mathrm{pair}}=500$ base permutations and $T=1000$ evaluated orders; the independent convergence study selects lower diagnostic values for some conditions, while the conservative final floor is retained.
 
 \section{Results}
 All numerical claims below are generated only when `final/manifests/validation_report.json` reports PASS. The legacy pilot is excluded from the canonical package.
@@ -319,7 +334,6 @@ The operational outcome is NDCG@10 under the exact $B=2$ action space. On MovieL
 On Amazon ItemKNN, NDCG effects are $0.0333$ for Shapley, $0.0331$ for LIME, and $0.0313$ for LOO. Conditional normalized regret among 196 active-oracle users is $0.206$, $0.197$, and $0.232$. The differences are small and do not support a universal winner. Random actions have negative mean NDCG effects on both datasets.
 
 \safeinput{final/tables/intervention_outcomes.tex}
-\safeinput{final/tables/paired_tests.tex}
 
 \begin{figure}[t]
 \centering
@@ -331,7 +345,7 @@ On Amazon ItemKNN, NDCG effects are $0.0333$ for Shapley, $0.0331$ for LIME, and
 \subsection{Null calibration and convergence}
 The within-user AIA null is centred near zero for all primary ItemKNN conditions. Shapley, LIME, LOO, and greedy exceed the null for absolute AIA, while random attribution does not. This establishes that absolute alignment is not merely a consequence of the correlation statistic returning positive values.
 
-Target-margin convergence selects $M=50$ for Amazon ItemKNN, $M=100$ for Amazon profile, $M=250$ for MovieLens ItemKNN, and $M=50$ for MovieLens profile; the final suite retains the conservative floor $M=500$. The NDCG attribution sensitivity remains unconverged at $M=1000$ and is reported only as a stress test.
+Target-margin convergence selects $M_{\mathrm{pair}}=50$ for Amazon ItemKNN, $M_{\mathrm{pair}}=100$ for Amazon profile, $M_{\mathrm{pair}}=250$ for MovieLens ItemKNN, and $M_{\mathrm{pair}}=50$ for MovieLens profile; the final suite retains the conservative floor $M_{\mathrm{pair}}=500$ ($T=1000$ evaluated orders). The NDCG attribution sensitivity remains unconverged at $M_{\mathrm{pair}}=1000$ and is reported only as a stress test.
 
 \safeinput{final/tables/convergence.tex}
 \safeinput{final/tables/attribution_stability.tex}
@@ -339,7 +353,7 @@ Target-margin convergence selects $M=50$ for Amazon ItemKNN, $M=100$ for Amazon 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{convergence.pdf}
-\caption{Independent Monte Carlo convergence against an $M=1000$ reference. Efficiency is not used as a convergence criterion because the prefix walk telescopes.}
+\caption{Independent Monte Carlo convergence against an $M_{\mathrm{pair}}=1000$ ($T=2000$ orders) reference. Efficiency is not used as a convergence criterion because the prefix walk telescopes.}
 \label{fig:convergence}
 \end{figure}
 
@@ -348,8 +362,6 @@ The positive Shapley gap persists across the primary ItemKNN candidate, history,
 
 The profile model supplies a useful negative boundary: it can change rankings while underperforming popularity, and one MovieLens seed fails the NDCG masking threshold. This demonstrates why a non-degenerate masking gate and recommendation-quality audit are necessary before interpreting attribution results.
 
-\safeinput{final/tables/sensitivity_results.tex}
-\safeinput{final/tables/full_catalogue_results.tex}
 
 \section{Discussion}
 The results support a three-axis interpretation. LIME and LOO are strongest on absolute pointwise alignment because their constructions are local to deletion or the full profile. Shapley has lower absolute alignment but a larger positive change when the evaluation moves from deletion to bounded downweighting. This is consistent with coalition-context averaging, but the experiment does not establish a causal mechanism and the random control prevents interpreting the gap as standalone validity.
@@ -394,34 +406,34 @@ With $n_u\le20$, the exact action space contains $1+n_u+\binom{n_u}{2}\le211$ ac
 \section{Complete experimental contract}\label{app:contract}
 
 \begin{table}[t]
-\centering\small
-\caption{Frozen experimental contract used for every paper-eligible run.}
+\centering\scriptsize
+\caption{Frozen experimental contract used for every paper-eligible run. The executable YAML and scripts are the source of truth; this table records every parameter that changes the estimand or reported uncertainty.}
 \label{tab:contract}
 \resizebox{\linewidth}{!}{%
 \begin{tabular}{lll}
 \toprule
 Element & Primary setting & Robustness/sensitivity settings\\
 \midrule
-Datasets & MovieLens-1M; Amazon Digital Music & same\\
-Models & ItemKNN; profile aggregator & full catalogue and profile boundary\\
-Temporal split & last test, penultimate validation & deterministic record-index ties\\
-Primary users & 1,000 distinct users & 250 matched users\\
-Players & most recent 20 training interactions & 50 and 100 history caps\\
-Candidates & target + 199 unseen negatives & 100, 500, full unseen catalogue\\
-Attribution utility & target margin & NDCG stress test\\
-Intervention & downweight $\rho=0.5$ & deletion and $\rho=0.25$\\
-Budget & exact $B=2$ & $B=1$ diagnostic, $B=3$ sensitivity\\
-Seeds & 42,43,44,45,46 & candidate/user/tie seeds independent\\
-Inference & seed-average within user & user bootstrap and paired tests\\
+Datasets & MovieLens-1M; Amazon Digital Music, rating $\ge4$ & same\\
+Temporal split & last test, penultimate validation; timestamp/index ties & complete pre-test exclusion\\
+Model fitting & complete training histories & no retraining under intervention\\
+Player/scoring history & most recent $n_{\max}=20$; older $B_u$ not scored & $n_{\max}\in\{50,100\}$\\
+ItemKNN & cosine co-occurrence; top 200 non-zero neighbours; no shrinkage & same\\
+Profile model & 64 dimensions; 10 BPR-style epochs; $\eta=.03$; $L_2=10^{-4}$ & robustness-only\\
+Candidates & target + 199 uniform unseen negatives & 100, 500, full unseen catalogue\\
+Tie/candidate/user seeds & 31415 / 1729 / 2718 & fixed across methods and five model seeds\\
+Attribution utility & target margin, $L=10$, unit-temperature sigmoid & NDCG stress test\\
+Shapley sampling & $M_{\mathrm{pair}}=500$, $T=1000$ reverse-paired orders & convergence $M_{\mathrm{pair}}\in\{25,50,100,250,500,1000\}$\\
+LIME & 512 masks; Hamming kernel width .25; ridge $\alpha=1$ & same\\
+Intervention & simultaneous downweight $w_p\leftarrow.5w_p$ & deletion and $\rho=.25$\\
+Budget/oracle & exact all actions up to $B=2$, including no action & $B=1$ and $B=3$ joint decisions\\
+Null/inference & $R=1000$ matched null draws; 10,000 bootstrap/permutation draws & Holm correction\\
 \bottomrule
 \end{tabular}}
 \end{table}
 
-\safeinput{final/tables/protocol_audit.tex}
-\safeinput{final/tables/convergence.tex}
-\safeinput{final/tables/aia_permutation_null.tex}
-\safeinput{final/tables/attribution_stability.tex}
-\safeinput{final/tables/intervention_outcomes.tex}
+The profile optimizer samples one positive item per user per epoch, excludes that positive from its temporary context, and samples a negative uniformly outside the user's complete training history. ItemKNN has no latent user embedding, shrinkage coefficient, minimum-support cutoff, or negative-similarity branch: the retained similarity matrix is non-negative by construction. AIA is Spearman rank correlation and is missing for constant or non-finite vectors. Normalized regret uses $\varepsilon=10^{-12}$ and is averaged only over positive-oracle users. The release archive records the exact dependency versions, source hashes, run durations, and selected users; complete per-user vectors remain in the compressed machine-readable asset rather than in the PDF.''
+
 
 \section{Expanded robustness results}\label{app:robustness}
 
@@ -430,24 +442,23 @@ The primary ItemKNN result is intentionally complemented by a matrix of candidat
 \safeinput{final/tables/sensitivity_results.tex}
 \safeinput{final/tables/full_catalogue_results.tex}
 \safeinput{final/tables/actionability_gap_robustness.tex}
-\safeinput{final/tables/actionability_gap_advantage.tex}
+The complete paired gap-advantage comparisons, including effect sizes and Holm-adjusted $p$-values, are supplied in
+\texttt{final/tables/actionability_gap_advantage.csv}; they are not duplicated as a dense PDF export.
 
 \section{Statistical reporting and null calibration}\label{app:statistics}
 
-The statistical unit is a distinct user. For a method metric $m$, repeated seed values are averaged within user before bootstrap resampling. Missing AIA values are retained as missing when a vector is constant or non-finite. Normalized regret is conditional on a positive oracle effect and is reported with the active-oracle count. The random control is a negative control for absolute alignment and action selection; its gap is not interpreted as a validity measure.
+The statistical unit is a distinct user. For a method metric $m$, seed-level values are averaged within user only after the matched seed computations are complete. Missing AIA values are retained as missing when a vector is constant or non-finite. Normalized regret is conditional on a positive oracle effect and is reported with the active-oracle count; the exact action-space invariant requires it to be non-negative up to numerical tolerance. The random control is a negative control for absolute alignment and action selection; its gap is not interpreted as a validity measure. Full user--seed metrics and paired comparisons are supplied as CSV/JSON supplementary assets rather than repeated as dense PDF tables.
 
-\safeinput{final/tables/paired_tests.tex}
-\safeinput{final/tables/aia_components.tex}
 
 \section{Reproducibility and release manifest}\label{app:release}
 
 The result release contains 85 JSON files: 80 recommendation runs and five convergence studies. It records source hashes, configuration values, seed assignments, gate diagnostics, selected users, per-user effects, attributions, actions, and oracle outcomes. The raw archive is distributed separately because the datasets and raw user-level records are not ordinary manuscript assets. The final validation manifest is the gate for numerical claims; its notes, including one nonblocking MovieLens profile gate failure and NDCG stress-test non-convergence, are part of the evidence rather than suppressed warnings.
 
-The canonical artifact directory is \texttt{paper-ideas/ActionShap/paper-v2/}. The reproducibility command is:
+The canonical artifact directory is \texttt{paper-ideas/ActionShap/paper-v3/}. The reproducibility command is:
 \begin{verbatim}
-python scripts/make_paper_assets.py --raw results/raw --out ../paper-v2
+python scripts/make_paper_assets.py --raw results/raw --out ../paper-v3
 \end{verbatim}
-All paths in generated manifests are repository-relative and all release archives are verified by SHA-256.
+All paths in generated manifests are repository-relative and all release archives are verified by SHA-256. The source repository URL is https://github.com/mouadlouhichi/next-paper; it must be made public or mirrored before submission. The exact source commit, dependency versions, input hashes, and generated-file hashes are recorded by the release manifest and the companion reproducibility note. No DOI is claimed for the local checkout; the immutable artifact identifier is the SHA-256 release archive until a DOI-backed deposit is made.
 
 \section{Additional limitations}\label{app:limitations}
 
@@ -466,7 +477,7 @@ ActionShap evaluates a retrospective target-conditioned audit. The held-out targ
 
 \textbf{Data availability.} MovieLens-1M was obtained from the GroupLens public release, and Amazon Digital Music was reconstructed from the Amazon Reviews 2018 public release after the documented rating threshold, deterministic deduplication, and iterative 5-core filtering. Source and processed-data SHA-256 values, split rules, and candidate construction are recorded in the final provenance manifest. The datasets are subject to their respective maintainers' terms and are not redistributed in this repository.
 
-\textbf{Code and materials availability.} The canonical submission package is \texttt{paper-ideas/ActionShap/paper-v2/}. The raw experiment archive is distributed separately through the content-addressed release workflow because source datasets and raw JSON files are not ordinary manuscript assets.
+\textbf{Code and materials availability.} The canonical submission package is \texttt{paper-ideas/ActionShap/paper-v3/}. The raw experiment archive is distributed separately through the content-addressed release workflow because source datasets and raw JSON files are not ordinary manuscript assets.
 
 \textbf{Author contributions.} M.L.: conceptualization, methodology, software, formal analysis, investigation, and writing---original draft. R.N.: methodology, validation, and writing---review and editing. M.Laz.: supervision, methodology, and writing---review and editing. All authors approved the final manuscript.
 

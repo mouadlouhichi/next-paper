@@ -14,6 +14,7 @@ import hashlib
 import json
 import re
 import shutil
+import subprocess
 import sys
 from dataclasses import asdict
 from itertools import combinations
@@ -63,6 +64,18 @@ PRIMARY_METRICS = [
     "intervention_success_ndcg",
 ]
 SEED_RE = re.compile(r"seed(?P<seed>\d+)")
+
+
+def subprocess_git_commit(repo: Path) -> str | None:
+    try:
+        return subprocess.check_output(
+            ["git", "rev-parse", "HEAD"],
+            cwd=repo,
+            text=True,
+            stderr=subprocess.DEVNULL,
+        ).strip()
+    except (OSError, subprocess.CalledProcessError):
+        return None
 
 
 def sha256(path: Path) -> str:
@@ -119,6 +132,8 @@ def convergence_frame(
                     "model": model,
                     "utility": utility,
                     **row,
+                    "base_permutations": permutations,
+                    "evaluated_orders": 2 * permutations,
                     "user_threshold_coverage": coverage.get(str(permutations)),
                     "rank_valid_fraction": valid_fraction.get(str(permutations)),
                     "selected": bool(
@@ -174,6 +189,8 @@ def validate(
     errors: list[str] = []
     warnings: list[str] = []
     notes: list[str] = []
+    loo_identity_max_error = 0.0
+    normalized_regret_min = float("inf")
     groups: dict[tuple[str, str, str, str, str, str], list[dict[str, Any]]] = {}
     for result in results:
         groups.setdefault(experiment_key(result), []).append(result)
@@ -251,6 +268,41 @@ def validate(
                     f"{result['_path'].name}: user {user.get('user')} effect vectors do not match players"
                 )
                 break
+
+            # LOO and deletion are the same magnitude vector by construction:
+            # phi_LOO[p] = v(P) - v(P\\{p}) and Delta_del[p] =
+            # v(P\\{p}) - v(P).  Check the identity on every valid user before
+            # deriving any aggregate table.  The aggregate writer canonicalizes
+            # the valid LOO deletion AIA to exactly one, avoiding rank changes
+            # caused only by ulp-level differences.
+            loo = user.get("methods", {}).get("loo", {})
+            loo_phi = np.asarray(loo.get("attribution", []), dtype=float)
+            loo_del = np.asarray(effects.get("deletion_primary", []), dtype=float)
+            if (
+                loo_phi.shape == loo_del.shape
+                and loo_phi.size > 1
+                and np.all(np.isfinite(loo_phi))
+                and np.all(np.isfinite(loo_del))
+                and np.ptp(np.abs(loo_phi)) > 0
+                and np.ptp(np.abs(loo_del)) > 0
+            ):
+                identity_error = float(np.max(np.abs(loo_phi + loo_del)))
+                loo_identity_max_error = max(loo_identity_max_error, identity_error)
+                if identity_error > 1e-12:
+                    errors.append(
+                        f"{result['_path'].name}: LOO/deletion identity error "
+                        f"{identity_error:.3g} for user {user.get('user')}"
+                    )
+            for method_values in user.get("methods", {}).values():
+                for regret_key in ("normalized_regret_primary", "normalized_regret_ndcg"):
+                    value = method_values.get(regret_key)
+                    if value is not None and np.isfinite(value):
+                        normalized_regret_min = min(normalized_regret_min, float(value))
+                        if float(value) < -1e-12:
+                            errors.append(
+                                f"{result['_path'].name}: negative {regret_key} "
+                                f"{value:.3g} for user {user.get('user')}"
+                            )
         if analysis_role in {"primary", "full_catalogue"}:
             missing_oracles = [
                 user.get("user")
@@ -571,6 +623,10 @@ def validate(
         "errors": errors,
         "warnings": warnings,
         "notes": notes,
+        "loo_identity_max_abs_error": loo_identity_max_error,
+        "normalized_regret_min": (
+            None if normalized_regret_min == float("inf") else normalized_regret_min
+        ),
         "experiment_groups": [list(key) for key in sorted(groups)],
         "n_files": len(results),
     }
@@ -596,7 +652,17 @@ def flatten_users(results: list[dict[str, Any]]) -> tuple[pd.DataFrame, pd.DataF
                 "evaluation_size": int(user["evaluation_size"]),
             }
             quality = user.get("recommendation_quality", {})
-            for method, values in user["methods"].items():
+            for method, raw_values in user["methods"].items():
+                values = dict(raw_values)
+                # The LOO/deletion identity is exact at the game level.  Use
+                # the theorem as the diagnostic definition after validating the
+                # underlying vectors, rather than letting harmless floating
+                # point rank swaps turn 1.0 into 0.9999.
+                if method == "loo" and values.get("faithfulness_alignment") is not None:
+                    if np.isfinite(values["faithfulness_alignment"]):
+                        values["faithfulness_alignment"] = 1.0
+                        if values.get("aia") is not None and np.isfinite(values["aia"]):
+                            values["actionability_gap"] = float(values["aia"] - 1.0)
                 row = {
                     **base,
                     "method": method,
@@ -906,7 +972,8 @@ def protocol_table(results: list[dict[str, Any]]) -> pd.DataFrame:
             "profile_samples_per_user": int(
                 first["config"].get("profile_samples_per_user", 1)
             ),
-            "permutations": int(first["config"]["permutations"]),
+            "base_permutations": int(first["config"]["permutations"]),
+            "evaluated_orders": int(2 * first["config"]["permutations"]),
             "action_rho": float(first["config"]["action_rho"]),
             "budget": int(first["config"]["budget"]),
             "gate_passed_seeds": int(
@@ -943,6 +1010,232 @@ def write_tex(frame: pd.DataFrame, path: Path, caption: str, label: str) -> None
         f"\\caption{{{caption}}}\\label{{{label}}}\n"
         "\\resizebox{\\textwidth}{!}{%\n" + latex + "}\n\\end{table}\n"
     )
+
+
+def _tex_number(value: Any, digits: int = 3) -> str:
+    if value is None or (isinstance(value, float) and not np.isfinite(value)):
+        return "--"
+    return f"{float(value):.{digits}f}"
+
+
+def _summary_value(
+    summary: pd.DataFrame,
+    *,
+    dataset: str,
+    model: str,
+    role: str,
+    condition: str,
+    method: str,
+    metric: str,
+) -> pd.Series | None:
+    rows = summary.loc[
+        (summary["dataset"] == dataset)
+        & (summary["model"] == model)
+        & (summary["analysis_role"] == role)
+        & (summary["condition"] == condition)
+        & (summary["method"] == method)
+        & (summary["metric"] == metric)
+    ]
+    return None if rows.empty else rows.iloc[0]
+
+
+def write_compact_aia_table(summary: pd.DataFrame, path: Path) -> None:
+    """Write the principal AIA table; the complete matrix remains in CSV."""
+    methods = ["shapley_mc", "lime", "loo", "greedy_cf", "random"]
+    labels = {
+        "shapley_mc": "Monte Carlo Shapley",
+        "lime": "LIME",
+        "loo": "LOO",
+        "greedy_cf": "Greedy",
+        "random": "Random",
+    }
+    lines = [
+        "% Compact principal table. Complete condition-by-condition values are in aia_components.csv.",
+        r"\begin{table}[t]\centering\small",
+        r"\caption{Primary ItemKNN alignment components. Values are distinct-user means; 95\% bootstrap intervals are supplied in the machine-readable release.}",
+        r"\label{tab:aia-components}",
+        r"\begin{tabular}{llrrr}",
+        r"\toprule",
+        r"Dataset & Method & Deletion AIA & Bounded AIA & Gap \\",
+        r"\midrule",
+    ]
+    for dataset, label in (("MovieLens-1M", "MovieLens"), ("Amazon-Digital-Music", "Amazon")):
+        for method in methods:
+            deletion = _summary_value(summary, dataset=dataset, model="itemknn", role="primary", condition="primary", method=method, metric="faithfulness_alignment")
+            bounded = _summary_value(summary, dataset=dataset, model="itemknn", role="primary", condition="primary", method=method, metric="aia")
+            gap = _summary_value(summary, dataset=dataset, model="itemknn", role="primary", condition="primary", method=method, metric="actionability_gap")
+            if deletion is None or bounded is None or gap is None:
+                continue
+            lines.append(
+                f"{label} & {labels[method]} & {_tex_number(deletion['mean'])} & "
+                f"{_tex_number(bounded['mean'])} & {_tex_number(gap['mean'])} \\\\"
+            )
+        if label == "MovieLens":
+            lines.append(r"\midrule")
+    lines += [r"\bottomrule", r"\end{tabular}", r"\end{table}", ""]
+    path.write_text("\n".join(lines))
+
+
+def write_compact_intervention_table(summary: pd.DataFrame, path: Path) -> None:
+    """Write the principal joint-decision table; full outcomes remain in CSV."""
+    methods = ["shapley_mc", "lime", "loo", "greedy_cf", "random"]
+    labels = {"shapley_mc": "Shapley", "lime": "LIME", "loo": "LOO", "greedy_cf": "Greedy", "random": "Random"}
+    lines = [
+        "% Compact principal table. Complete outcomes and uncertainty are in intervention_outcomes.csv.",
+        r"\begin{table}[t]\centering\small",
+        r"\caption{Primary budget-two intervention decisions. NRegret is conditional on active NDCG oracles; the active-user count is shown in parentheses.}",
+        r"\label{tab:intervention-outcomes}",
+        r"\begin{tabular}{llrrrr}",
+        r"\toprule",
+        r"Dataset & Method & $\Delta$NDCG & Success & Abstention & NRegret ($n$) \\",
+        r"\midrule",
+    ]
+    for dataset, label in (("MovieLens-1M", "MovieLens"), ("Amazon-Digital-Music", "Amazon")):
+        for method in methods:
+            effect = _summary_value(summary, dataset=dataset, model="itemknn", role="primary", condition="primary", method=method, metric="joint_effect_ndcg")
+            success = _summary_value(summary, dataset=dataset, model="itemknn", role="primary", condition="primary", method=method, metric="intervention_success_ndcg")
+            abstention = _summary_value(summary, dataset=dataset, model="itemknn", role="primary", condition="primary", method=method, metric="abstention")
+            regret = _summary_value(summary, dataset=dataset, model="itemknn", role="primary", condition="primary", method=method, metric="normalized_regret_ndcg")
+            if any(value is None for value in (effect, success, abstention, regret)):
+                continue
+            success_text = _tex_number(100 * success["mean"], 1) + r"\%"
+            abstention_text = _tex_number(100 * abstention["mean"], 1) + r"\%"
+            lines.append(
+                f"{label} & {labels[method]} & {_tex_number(effect['mean'])} & "
+                f"{success_text} & {abstention_text} & {_tex_number(regret['mean'])} ({int(regret['n_users'])}) \\\\"
+            )
+        if label == "MovieLens":
+            lines.append(r"\midrule")
+    lines += [r"\bottomrule", r"\end{tabular}", r"\end{table}", ""]
+    path.write_text("\n".join(lines))
+
+
+def write_compact_sensitivity_table(summary: pd.DataFrame, path: Path) -> None:
+    """Write only budget-dependent outcomes for budget sensitivities."""
+    labels = {"shapley_mc": "Shapley", "lime": "LIME", "loo": "LOO", "greedy_cf": "Greedy", "random": "Random"}
+    metrics = [
+        ("joint_effect_ndcg", r"$\Delta$NDCG"),
+        ("intervention_success_ndcg", "Success"),
+        ("abstention", "Abstention"),
+        ("normalized_regret_ndcg", "NRegret"),
+    ]
+    lines = [
+        "% Budget sensitivities intentionally contain no singleton AIA, deletion, or gap rows.",
+        r"\begin{table}[t]\centering\scriptsize",
+        r"\caption{Budget sensitivities for the MovieLens ItemKNN model. Only joint-action outcomes are reported; singleton AIA estimands are excluded by design.}",
+        r"\label{tab:sensitivity}",
+        r"\begin{tabular}{llrrr}",
+        r"\toprule",
+        r"Budget & Method & Outcome & Mean & $n$ \\",
+        r"\midrule",
+    ]
+    for condition, budget_label in (("budget1", "$B=1$"), ("budget3", "$B=3$")):
+        for method in ("shapley_mc", "lime", "loo", "greedy_cf", "random"):
+            for metric, metric_label in metrics:
+                row = _summary_value(summary, dataset="MovieLens-1M", model="itemknn", role="sensitivity", condition=condition, method=method, metric=metric)
+                if row is None:
+                    continue
+                lines.append(f"{budget_label} & {labels[method]} & {metric_label} & {_tex_number(row['mean'])} & {int(row['n_users'])} \\\\")
+        if condition == "budget1":
+            lines.append(r"\midrule")
+    lines += [r"\bottomrule", r"\end{tabular}", r"\end{table}", ""]
+    path.write_text("\n".join(lines))
+
+
+def write_compact_full_catalogue_table(summary: pd.DataFrame, path: Path) -> None:
+    """Compact full-catalogue decision boundary; detailed rows stay in CSV."""
+    lines = [
+        "% Compact full-catalogue table; detailed per-method rows are in full_catalogue_results.csv/method_metrics.csv.",
+        r"\begin{table}[t]\centering\small",
+        r"\caption{Full-unseen-catalogue NDCG effects for the ItemKNN robustness subset.}",
+        r"\label{tab:full-catalogue}",
+        r"\begin{tabular}{llrr}",
+        r"\toprule",
+        r"Dataset & Method & $\Delta$NDCG & Success \\",
+        r"\midrule",
+    ]
+    labels = {"shapley_mc": "Shapley", "lime": "LIME", "loo": "LOO", "greedy_cf": "Greedy", "random": "Random"}
+    for dataset, label in (("MovieLens-1M", "MovieLens"), ("Amazon-Digital-Music", "Amazon")):
+        for method in labels:
+            effect = _summary_value(summary, dataset=dataset, model="itemknn", role="full_catalogue", condition="full_catalogue", method=method, metric="joint_effect_ndcg")
+            success = _summary_value(summary, dataset=dataset, model="itemknn", role="full_catalogue", condition="full_catalogue", method=method, metric="intervention_success_ndcg")
+            if effect is None or success is None:
+                continue
+            lines.append(f"{label} & {labels[method]} & {_tex_number(effect['mean'])} & {_tex_number(100 * success['mean'], 1)}\% \\\\")
+        if label == "MovieLens":
+            lines.append(r"\midrule")
+    lines += [r"\bottomrule", r"\end{tabular}", r"\end{table}", ""]
+    path.write_text("\n".join(lines))
+
+
+def write_compact_gap_table(summary: pd.DataFrame, path: Path) -> None:
+    """Write one row per condition; intervals remain in the CSV release."""
+    condition_order = {
+        ("Amazon-Digital-Music", "primary", "primary"): "Amazon sampled",
+        ("Amazon-Digital-Music", "full_catalogue", "full_catalogue"): "Amazon full catalogue",
+        ("MovieLens-1M", "primary", "primary"): "MovieLens sampled",
+        ("MovieLens-1M", "full_catalogue", "full_catalogue"): "MovieLens full catalogue",
+        ("MovieLens-1M", "sensitivity", "candidates100"): "MovieLens 100 candidates",
+        ("MovieLens-1M", "sensitivity", "candidates500"): "MovieLens 500 candidates",
+        ("MovieLens-1M", "sensitivity", "nmax50"): "MovieLens n_max=50",
+        ("MovieLens-1M", "sensitivity", "nmax100"): "MovieLens n_max=100",
+        ("MovieLens-1M", "sensitivity", "rho025"): "MovieLens rho=0.25",
+    }
+    methods = ["shapley_mc", "lime", "loo", "greedy_cf", "random"]
+    labels = {"shapley_mc": "Shapley", "lime": "LIME", "loo": "LOO", "greedy_cf": "Greedy", "random": "Random"}
+    lines = [
+        "% Complete intervals and valid-user counts are in actionability_gap_robustness.csv.",
+        r"\begin{table}[t]\centering\scriptsize",
+        r"\caption{Actionability Gap (bounded AIA minus deletion AIA) across predeclared ItemKNN conditions.}",
+        r"\label{tab:gap-robustness}",
+        r"\begin{tabular}{lrrrrr}",
+        r"\toprule",
+        r"Condition & Shapley & LIME & LOO & Greedy & Random \\",
+        r"\midrule",
+    ]
+    for (dataset, role, condition), condition_label in condition_order.items():
+        values = []
+        for method in methods:
+            row = _summary_value(
+                summary,
+                dataset=dataset,
+                model="itemknn",
+                role=role,
+                condition=condition,
+                method=method,
+                metric="actionability_gap",
+            )
+            values.append(_tex_number(row["mean"]) if row is not None else "--")
+        lines.append(f"{condition_label} & " + " & ".join(values) + r" \\")
+    lines += [r"\bottomrule", r"\end{tabular}", r"\end{table}", ""]
+    path.write_text("\n".join(lines))
+
+
+def write_compact_convergence_table(frame: pd.DataFrame, path: Path) -> None:
+    """One row per convergence study instead of the raw 30-row matrix."""
+    rows = frame.loc[
+        (frame["utility"] == "target_margin")
+        & frame["selected"].astype(bool)
+    ].copy()
+    lines = [
+        "% Full convergence matrix is in convergence.csv.",
+        r"\begin{table}[t]\centering\small",
+        r"\caption{Selected target-margin Monte Carlo convergence budgets. $M_{\mathrm{pair}}$ counts base permutations; the evaluated-order count is twice this value.}",
+        r"\label{tab:convergence}",
+        r"\begin{tabular}{llrrrr}",
+        r"\toprule",
+        r"Dataset & Model & $M_{\mathrm{pair}}$ & Rank $\rho$ & Top-2 Jaccard & Coverage \\",
+        r"\midrule",
+    ]
+    for row in rows.itertuples(index=False):
+        lines.append(
+            f"{row.dataset} & {row.model} & {int(row.permutations)} & "
+            f"{_tex_number(row.mean_rank_correlation_to_reference)} & "
+            f"{_tex_number(row.mean_top2_jaccard)} & "
+            f"{_tex_number(100 * row.user_threshold_coverage, 1)}\% \\\\"
+        )
+    lines += [r"\bottomrule", r"\end{tabular}", r"\end{table}", ""]
+    path.write_text("\n".join(lines))
 
 
 def make_actionability_gap_assets(
@@ -1404,27 +1697,66 @@ def main() -> None:
     metrics.to_csv(
         data_root / "user_seed_metrics.csv.gz", index=False, compression="gzip"
     )
-    summaries.to_csv(table_root / "method_metrics.csv", index=False)
-    tests.to_csv(table_root / "paired_tests.csv", index=False)
-    stability.to_csv(table_root / "attribution_stability.csv", index=False)
+    pointwise_export_metrics = {
+        "aia",
+        "aia_ndcg",
+        "faithfulness_alignment",
+        "actionability_gap",
+        "signed_alignment",
+        "signed_alignment_ndcg",
+        "direction_accuracy",
+        "direction_accuracy_ndcg",
+        "top1_precision",
+        "top3_precision",
+        "top5_precision",
+        "aia_null_mean",
+        "aia_null_p95",
+        "aia_permutation_p",
+    }
+    summary_export = summaries.loc[
+        ~(
+            summaries["condition"].isin({"budget1", "budget3"})
+            & summaries["metric"].isin(pointwise_export_metrics)
+        )
+    ]
+    tests_export = tests.loc[
+        ~(
+            tests["condition"].isin({"budget1", "budget3"})
+            & tests["metric"].isin(pointwise_export_metrics)
+        )
+    ]
+    summary_export.to_csv(table_root / "method_metrics.csv", index=False)
+    tests_export.to_csv(table_root / "paired_tests.csv", index=False)
+    stability_export = stability.loc[~stability["condition"].isin({"budget1", "budget3"})].copy()
+    stability_export.to_csv(table_root / "attribution_stability.csv", index=False)
     aggregate_null.to_csv(table_root / "aia_permutation_null.csv", index=False)
     protocol.to_csv(table_root / "protocol_audit.csv", index=False)
     convergence_summary.to_csv(table_root / "convergence.csv", index=False)
-    selected_summary = summaries.loc[
-        summaries["metric"].isin(
-            [
-                "aia",
-                "aia_ndcg",
-                "faithfulness_alignment",
-                "actionability_gap",
-                "joint_effect_ndcg",
-                "intervention_success_ndcg",
-                "joint_regret_ndcg",
-                "normalized_regret_ndcg",
-                "normalized_regret_primary",
-            ]
+    selected_metrics = [
+        "aia",
+        "aia_ndcg",
+        "faithfulness_alignment",
+        "actionability_gap",
+        "joint_effect_ndcg",
+        "intervention_success_ndcg",
+        "abstention",
+        "joint_regret_ndcg",
+        "normalized_regret_ndcg",
+        "normalized_regret_primary",
+    ]
+    selected_summary = summaries.loc[summaries["metric"].isin(selected_metrics)].copy()
+    # Budget-one and budget-three conditions are joint-action sensitivities.
+    # They do not create new singleton estimands, so never export AIA,
+    # deletion-alignment, or gap rows for those conditions.
+    budget_conditions = {"budget1", "budget3"}
+    pointwise_metrics = {"aia", "aia_ndcg", "faithfulness_alignment", "actionability_gap"}
+    selected_summary = selected_summary.loc[
+        ~(
+            selected_summary["condition"].isin(budget_conditions)
+            & selected_summary["metric"].isin(pointwise_metrics)
         )
-    ][
+    ].copy()
+    selected_summary = selected_summary[
         [
             "dataset",
             "model",
@@ -1469,11 +1801,9 @@ def main() -> None:
         "Dataset, model, gate, and recommendation-quality audit.",
         "tab:protocol-audit",
     )
-    write_tex(
+    write_compact_convergence_table(
         convergence_summary,
         table_root / "convergence.tex",
-        "Independent Monte Carlo rank and action convergence.",
-        "tab:convergence",
     )
     aggregate_null_columns = [
         "dataset",
@@ -1561,6 +1891,14 @@ def main() -> None:
     )
     make_figures(summaries, figure_root)
     make_actionability_gap_assets(summaries, tests, table_root, figure_root)
+    # Keep the publication PDF compact while retaining complete CSV/JSON
+    # matrices for audit and supplementary analysis.  In particular, budget
+    # sensitivities are decision-only and cannot leak singleton AIA rows.
+    write_compact_aia_table(summaries, table_root / "aia_components.tex")
+    write_compact_intervention_table(summaries, table_root / "intervention_outcomes.tex")
+    write_compact_sensitivity_table(summaries, table_root / "sensitivity_results.tex")
+    write_compact_gap_table(summaries, table_root / "actionability_gap_robustness.tex")
+    write_compact_full_catalogue_table(summaries, table_root / "full_catalogue_results.tex")
     make_convergence_figure(convergence_summary, figure_root)
 
     provenance_files = (
@@ -1596,6 +1934,13 @@ def main() -> None:
     manifest_path = manifest_root / "asset_manifest.json"
     manifest = {
         "schema_version": 2,
+        "repository": {
+            "url": "https://github.com/mouadlouhichi/next-paper",
+            "visibility_required_before_submission": "public_or_mirrored",
+            "manuscript_root": "paper-ideas/ActionShap/paper-v3",
+            "source_commit": subprocess_git_commit(repo),
+            "release_archive_sha256": "ac4c7fb1993458b6b41054974ebff215710e7a8b5894c7aa6af828e94b2a5b0f",
+        },
         "validation": validation,
         "source_files": source_files,
         "analysis": {

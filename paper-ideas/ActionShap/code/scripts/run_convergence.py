@@ -6,7 +6,11 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
+import platform
+import resource
 import sys
+import time
 from pathlib import Path
 
 import pandas as pd
@@ -54,7 +58,33 @@ def _parse_budgets(value: str) -> tuple[int, ...]:
     return budgets
 
 
+def _runtime_metadata(started: float) -> dict[str, object]:
+    memory_kb = None
+    try:
+        for line in Path("/proc/meminfo").read_text().splitlines():
+            if line.startswith("MemTotal:"):
+                memory_kb = int(line.split()[1])
+                break
+    except (OSError, ValueError):
+        pass
+    rss = int(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)
+    if not sys.platform.startswith("linux"):
+        rss = int(rss / 1024)
+    return {
+        "platform": platform.platform(),
+        "hardware": {
+            "cpu_count": os.cpu_count(),
+            "processor": platform.processor() or None,
+            "machine": platform.machine(),
+            "memory_total_kb": memory_kb,
+        },
+        "runtime_seconds": float(time.time() - started),
+        "peak_rss_kb": rss,
+    }
+
+
 def main() -> None:
+    started = time.time()
     parser = argparse.ArgumentParser()
     parser.add_argument("--ratings", required=True)
     parser.add_argument("--output", default="results/raw/convergence_seed42.json")
@@ -175,6 +205,9 @@ def main() -> None:
     aggregate = frame.groupby(
         ["permutations", "reference_permutations"], as_index=False
     )[metric_columns].mean()
+    aggregate["base_permutations"] = aggregate["permutations"]
+    aggregate["evaluated_orders"] = 2 * aggregate["permutations"]
+    aggregate["reference_evaluated_orders"] = 2 * aggregate["reference_permutations"]
     # The final budget must satisfy the thresholds at the aggregate level and
     # for at least 95% of users, rather than only on an easy average user.
     aggregate_rows = (
@@ -210,9 +243,14 @@ def main() -> None:
     payload = {
         "schema_version": 2,
         "config": {**vars(args), "ratings": ratings_path.name},
+        "attribution_sampling": {
+            "budget_name": "base_permutations",
+            "evaluated_orders": "2 * base_permutations (antithetic reverse walk)",
+        },
         "provenance": {
             "input_file": ratings_path.name,
             "input_sha256": _file_sha256(ratings_path),
+            **_runtime_metadata(started),
         },
         "rows": aggregate_rows,
         "per_user_rows": rows,

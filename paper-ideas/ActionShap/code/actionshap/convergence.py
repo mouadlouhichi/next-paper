@@ -81,7 +81,10 @@ def convergence_table(
         rows.append(
             {
                 "permutations": int(permutations),
+                "base_permutations": int(permutations),
+                "evaluated_orders": int(2 * permutations),
                 "reference_permutations": int(reference),
+                "reference_evaluated_orders": int(2 * reference),
                 "mean_rank_correlation_to_reference": (
                     float(valid_correlations.mean())
                     if valid_correlations.size

@@ -6,7 +6,7 @@ This revision addresses the rejection-risk issues identified in the revision-4 a
 
 - **Scope and claim inflation:** the manuscript is recommendation-only and no longer claims a cross-domain or causal contribution.
 - **Non-responsive models:** ItemKNN and profile aggregation consume the retained history at scoring time; the real-data masking gate and inert static control are required.
-- **Data leakage:** models use complete training histories; players are truncated only for attribution; validation and complete pre-test histories are excluded from negatives.
+- **Data leakage:** models are fit on complete training histories, while the released scoring game deliberately evaluates only the retained player window; validation and complete pre-test histories are excluded from negatives.
 - **Metric conflation:** target margin is the attribution utility; NDCG, Recall, and MRR are separate operational outcomes. NDCG-attribution convergence failure is reported as a limitation, not hidden.
 - **Circular B=1 comparison:** LOO is retained as the deletion identity/oracle; the scientific comparison is exact joint action selection for all actions up to B=2.
 - **Forced harmful actions:** signed benefit selection includes no action and permits abstention.

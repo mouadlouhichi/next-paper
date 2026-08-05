@@ -136,7 +136,7 @@ Use `--dry-run` to inspect every command without executing it.
 The suite performs the operations in a fixed order:
 
 1. independent convergence studies for every dataset--model pair using an
-   `M=1000` reference;
+   independent `M_pair=1000` reference (`T=2000` antithetic orders);
 2. automatic selection of the minimum usable Monte Carlo budget;
 3. five seeded sampled-ranking runs for the profile and ItemKNN models;
 4. five seeded full-unseen-catalogue robustness runs;
@@ -179,7 +179,7 @@ training or validation items are never inserted as negatives.
 The primary attribution utility is continuous target margin, selected by the
 archived convergence preflight. NDCG@10 remains the operational action outcome:
 every action receives separate target-margin and NDCG effects, exact oracles,
-and regrets. An NDCG-attribution sensitivity is run at `M=1000` even when its
+and regrets. An NDCG-attribution sensitivity is run at `M_pair=1000` base permutations (`T=2000` evaluated orders) even when its
 rank/action convergence thresholds fail. Target-margin values must never be
 called NDCG.
 
