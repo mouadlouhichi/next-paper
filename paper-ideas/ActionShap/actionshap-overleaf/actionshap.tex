@@ -504,6 +504,7 @@ ActionShap provides a reproducible protocol for asking whether recommendation ex
 \renewcommand{\thesection}{\Alph{section}}
 \renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
 \renewcommand{\thetable}{\thesection\arabic{table}}
+\setcounter{table}{0}
 \section{Formal proofs and edge-case guarantees}\label{app:proofs}
 
 \subsection{Efficiency of the prefix-walk estimator}
@@ -520,6 +521,7 @@ For deletion at $\rho=0$, $\Delta^{\mathrm{del}}_{u,p}=v(P_u\setminus\{p\})-v(P_
 With $n_u\le20$, the exact action space contains $1+n_u+\binom{n_u}{2}\le211$ actions, including no action. Each action is evaluated against target margin and NDCG using the same cached candidate scores. The oracle is therefore exact for every primary user and does not rely on a sampled action subset.
 
 \section{Complete experimental contract}\label{app:contract}
+\setcounter{table}{0}
 
 \begin{table}[t]
 \centering\scriptsize
