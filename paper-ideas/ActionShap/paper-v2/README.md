@@ -1,26 +1,38 @@
-# ActionShap paper-v2: submission manuscript and evidence package
+# ActionShap paper-v2: canonical Q1 manuscript and result package
 
-This is the enhanced, recommendation-only manuscript package for the ActionShap study. It is written against the canonical plan in `ActionShap_Recommendation_Paper_Structure.md` and uses the Springer Nature `sn-jnl` template.
+This is the only retained ActionShap manuscript/result package. Superseded
+paper, paper-enhanced, overleaf-springer, schema-v1, demo, and duplicate result
+folders have been removed so that stale assets cannot be mistaken for evidence.
 
 ## Submission source
 
-- `paper.tex`: revised Q1-style manuscript, with a restrained evaluation-framework contribution rather than a universal Shapley claim.
-- `paper.bib`: validated bibliography used by the manuscript.
-- `sn-jnl.cls`, `sn-basic.bst`: Springer Nature journal template files.
+- `paper.tex`: Springer Nature manuscript source.
+- `paper.bib`: validated bibliography.
+- `sn-jnl.cls`, `sn-basic.bst`: Springer Nature LaTeX template files.
 
 ## Evidence package
 
-`final/` contains the generated assets for the real schema-v2 matrix: five seeds, two timestamped datasets, two history-conditioned models, primary 1,000-user cohorts, 250-user robustness/sensitivity cohorts, exact budget-two outcomes, convergence diagnostics, component AIA tables, decision outcomes, and provenance manifests.
+`final/` contains the generated schema-v2 assets for the real experiment:
+figures, tables, compressed user-seed metrics, validation/provenance manifests,
+and the generated results summary. The package includes primary 1,000-user
+cohorts, 250-user robustness/sensitivity cohorts, five common seeds, two
+timestamped datasets, two history-conditioned models, and exact budget-two
+outcomes.
 
-The primary ItemKNN results exceed popularity on sampled NDCG and Recall for both datasets. The profile model and one MovieLens profile seed are retained as explicitly reported robustness boundaries. The NDCG-attribution sensitivity is unconverged at `M=1000` and is not used for headline claims.
+The latent-profile MovieLens seed-46 masking failure and NDCG-attribution
+non-convergence are retained as limitations in the manuscript and manifests.
+The primary ItemKNN gates pass. The raw JSON archive is distributed separately
+through the content-addressed release workflow; verify its checksum before
+submission. Dataset source files are intentionally excluded.
 
-## Reproduction gate
+## Reproduction
 
-Run from `code/`:
+From `code/`, with the raw release archive unpacked into `results/raw/`:
 
 ```bash
 python scripts/make_paper_assets.py --raw results/raw --out ../paper-v2
-python scripts/validate_manuscript.py --paper ../paper-v2/paper.tex --bib ../paper-v2/paper.bib --require-final
+python scripts/validate_manuscript.py \
+  --paper ../paper-v2/paper.tex \
+  --bib ../paper-v2/paper.bib \
+  --require-final
 ```
-
-The raw archive is distributed separately through the content-addressed release workflow. Verify its checksum against the release manifest before submission. Dataset source files are not included in this paper package.
