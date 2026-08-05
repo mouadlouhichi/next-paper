@@ -29,6 +29,7 @@ class TorchBPRConfig:
     evaluation_every: int = 2
     early_stopping_patience: int = 15
     hard_candidates: int = 20
+    negative_strategy: str = "hard_mixture"  # uniform | popularity_mixture | hard_mixture
     seed: int = 42
 
 
@@ -117,8 +118,16 @@ class TorchBPRMFWithBias:
                 users_np, pos_np = batch[:, 0], batch[:, 1]
                 mix = np_rng.random(len(batch))
                 neg_np = sample_unseen(users_np, "uniform")
-                neg_np[mix >= 0.3] = sample_unseen(users_np[mix >= 0.3], "pop")
-                hard_mask = mix >= 0.7
+                hard_mask = np.zeros(len(batch), dtype=bool)
+                if self.config.negative_strategy == "popularity_mixture":
+                    pop_mask = mix >= 0.3
+                    neg_np[pop_mask] = sample_unseen(users_np[pop_mask], "pop")
+                elif self.config.negative_strategy == "hard_mixture":
+                    pop_mask = (mix >= 0.3) & (mix < 0.7)
+                    neg_np[pop_mask] = sample_unseen(users_np[pop_mask], "pop")
+                    hard_mask = mix >= 0.7
+                elif self.config.negative_strategy != "uniform":
+                    raise ValueError(f"Unknown negative strategy: {self.config.negative_strategy}")
                 if hard_mask.any():
                     hard_users = users_np[hard_mask]
                     candidate_matrix = np.stack([sample_unseen(hard_users, "uniform") for _ in range(self.config.hard_candidates)], axis=1)
@@ -158,6 +167,10 @@ class TorchBPRMFWithBias:
                         break
         if best_state is not None:
             self.model.load_state_dict(best_state)
+            self.restored_checkpoint_epoch = self.best_validation_epoch
+        else:
+            self.best_validation_epoch = None
+            self.restored_checkpoint_epoch = None
         self.updates_completed = updates
         return self
 

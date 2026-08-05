@@ -90,6 +90,14 @@ cure-rec analyze-data \
   --source data/raw/movielens_1m \
   --bpr-updates 50000
 
+# Staged validation-only Torch BPR search; requires .[dev,torch].
+cure-rec search-bpr \
+  --dataset movielens_1m \
+  --source data/raw/movielens_1m \
+  --output-root runs/bpr-search-movielens \
+  --stage-epochs 40 \
+  --final-epochs 200
+
 # Controlled known-structure benchmark; run before large behavioural sweeps.
 cure-rec regimes \
   --config configs/curesim_quickstart.yaml

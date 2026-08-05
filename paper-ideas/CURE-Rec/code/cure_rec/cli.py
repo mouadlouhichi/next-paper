@@ -13,6 +13,8 @@ from cure_rec.experiments import postprocess_seed_sweep, run_seed_sweep
 from cure_rec.observability import RunLogger
 from cure_rec.pipeline import run_experiment
 from cure_rec.regimes import run_regime_suite
+from cure_rec.search import SearchConfig, run_staged_bpr_search
+from cure_rec.models import chronological_leave_one_out
 from cure_rec.workflow import run_full_workflow
 
 
@@ -69,6 +71,18 @@ def _analyze_data(args: argparse.Namespace) -> int:
         "permitted_claim": analysis.audit.permitted_claim,
         "model_metrics": analysis.model_metrics.to_dict(orient="records"),
     }, indent=2, default=str))
+    return 0
+
+
+def _search_bpr(args: argparse.Namespace) -> int:
+    result = load_dataset(args.dataset, args.source, download=args.download)
+    split = chronological_leave_one_out(result.interactions)
+    summary = run_staged_bpr_search(
+        split,
+        args.output_root,
+        SearchConfig(stage_epochs=args.stage_epochs, final_epochs=args.final_epochs, max_eval_users=args.max_eval_users, top_k_stage_a=args.top_k, seed=args.seed),
+    )
+    print(json.dumps({"search_run": str(args.output_root), "final_test": summary.to_dict(orient="records")}, indent=2, default=str))
     return 0
 
 
@@ -171,6 +185,18 @@ def main(argv: list[str] | None = None) -> int:
     analyzer.add_argument("--max-eval-users", type=int, default=1_000)
     analyzer.add_argument("--seed", type=int, default=42)
     analyzer.set_defaults(handler=_analyze_data)
+
+    search = subparsers.add_parser("search-bpr", help="Run staged validation-only Torch BPR and hybrid search")
+    search.add_argument("--dataset", choices=(*PUBLIC_DATASETS, "csv"), required=True)
+    search.add_argument("--source", type=Path, required=True)
+    search.add_argument("--download", action="store_true")
+    search.add_argument("--output-root", type=Path, required=True)
+    search.add_argument("--stage-epochs", type=int, default=40)
+    search.add_argument("--final-epochs", type=int, default=200)
+    search.add_argument("--top-k", type=int, default=3)
+    search.add_argument("--max-eval-users", type=int, default=1_000)
+    search.add_argument("--seed", type=int, default=42)
+    search.set_defaults(handler=_search_bpr)
 
     regimes = subparsers.add_parser("regimes", help="Run controlled additive/complementary/redundant/repair benchmark regimes")
     regimes.add_argument("--config", type=Path, required=True)

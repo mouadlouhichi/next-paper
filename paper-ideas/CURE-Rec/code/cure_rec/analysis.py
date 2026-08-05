@@ -13,6 +13,7 @@ import numpy as np
 import pandas as pd
 
 from cure_rec.data import AuditResult, DatasetLoadResult, audit_interactions
+from cure_rec.evaluation_audit import audit_evaluation
 from cure_rec.models import BPRMFRecommender, PopularityHybrid, PopularityRecommender, chronological_leave_one_out, evaluate_leave_one_out
 
 
@@ -96,6 +97,7 @@ def analyze_dataset(
     _write_profile_assets(frame, run_dir, result.dataset)
 
     metrics_rows: list[dict] = []
+    models_for_audit: list = []
     bpr = None
     selected_hybrid_alpha: float | None = None
     modeling_note = "Chronological model evaluation skipped: timestamps unavailable or insufficient positive history."
@@ -104,6 +106,7 @@ def analyze_dataset(
             split = chronological_leave_one_out(frame)
             popularity = PopularityRecommender().fit(split.train)
             metrics_rows.append(asdict(evaluate_leave_one_out(popularity, split, max_users=max_eval_users)))
+            models_for_audit.append(popularity)
             if run_bpr:
                 backend_used = "numpy"
                 if bpr_backend in {"auto", "torch"}:
@@ -119,6 +122,7 @@ def analyze_dataset(
                 if bpr is None:
                     bpr = BPRMFRecommender(max_updates=bpr_updates, seed=seed).fit(split.train)
                 metrics_rows.append(asdict(evaluate_leave_one_out(bpr, split, max_users=max_eval_users)))
+                models_for_audit.append(bpr)
                 loss_frame = pd.DataFrame(bpr.loss_history)
                 validation_frame = pd.DataFrame(getattr(bpr, "validation_history", []))
                 loss_frame.to_csv(run_dir / "tables" / "data_table_bpr_loss.csv", index=False)
@@ -137,6 +141,7 @@ def analyze_dataset(
                 hybrid_metric = asdict(evaluate_leave_one_out(hybrid, split, max_users=max_eval_users))
                 hybrid_metric["model"] = f"bpr_popularity_hybrid_alpha_{selected_hybrid_alpha:.2f}"
                 metrics_rows.append(hybrid_metric)
+                models_for_audit.append(hybrid)
                 modeling_note = f"Chronological evaluation completed with {backend_used} BPR backend and validation-tuned popularity blend."
             else:
                 modeling_note = "Chronological popularity evaluation completed; BPR explicitly disabled."
@@ -144,6 +149,12 @@ def analyze_dataset(
             modeling_note = f"Chronological model evaluation skipped: {exc}"
     metrics = pd.DataFrame(metrics_rows, columns=["model", "evaluated_users", "candidate_coverage", "cold_test_items", "recall_at_k", "ndcg_at_k", "hit_rate_at_k"])
     metrics.to_csv(run_dir / "tables" / "data_table_model_metrics.csv", index=False)
+    evaluation_audit = pd.DataFrame()
+    pairwise_audit = pd.DataFrame()
+    if models_for_audit:
+        evaluation_audit, pairwise_audit = audit_evaluation(models_for_audit, split, max_users=max_eval_users, seed=seed)
+        evaluation_audit.to_csv(run_dir / "tables" / "data_table_evaluation_audit.csv", index=False)
+        pairwise_audit.to_csv(run_dir / "tables" / "data_table_pairwise_accuracy.csv", index=False)
     if not metrics.empty:
         fig, ax = plt.subplots(figsize=(7, 4))
         x = np.arange(len(metrics))
@@ -187,6 +198,8 @@ def analyze_dataset(
         "bpr_backend": bpr_backend,
         "selected_hybrid_alpha": selected_hybrid_alpha,
         "max_eval_users": max_eval_users,
+        "evaluation_audit_rows": len(evaluation_audit),
+        "pairwise_audit_rows": len(pairwise_audit),
         "generated_tables": sorted(path.name for path in (run_dir / "tables").glob("*.csv")),
         "generated_figures": sorted(path.name for path in (run_dir / "figures").glob("*.png")),
     }
