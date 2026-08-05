@@ -1,0 +1,17 @@
+{
+  "search": {
+    "stage_epochs": 40,
+    "final_epochs": 200,
+    "max_eval_users": 1000,
+    "top_k_stage_a": 3,
+    "seed": 42
+  },
+  "best_config": {
+    "embedding_dim": 128,
+    "batch_size": 8192,
+    "learning_rate": 0.003,
+    "weight_decay": 1e-05,
+    "negative_strategy": "popularity_mixture"
+  },
+  "alpha": 1.0
+}
