@@ -143,17 +143,30 @@ p_u(S)=
 \end{cases}
 \qquad f_u^S(i)=q_i^\top p_u(S).
 \end{equation}
-Its item embeddings are trained once with a leave-one-out BPR-style objective and then frozen. Static user embeddings are excluded from attribution because post-training history masking cannot change their scores.
+Its item embeddings are trained once with the leave-one-out BPR-style objective
+\begin{equation}
+\mathcal{L}_{\mathrm{BPR}}=-\sum_{(u,i,j)}\log\sigma\left(p_{u,-i}^{\top}(q_i-q_j)\right)
++\frac{\lambda}{2}\left(\lVert q_i\rVert_2^2+\lVert q_j\rVert_2^2+\sum_{h\in H_u^{\mathrm{train}}\setminus\{i\}}\lVert q_h\rVert_2^2\right),
+\label{eq:bpr}
+\end{equation}
+where $p_{u,-i}$ is the mean of the other complete-training-history embeddings, $j$ is sampled uniformly outside that history, $\lambda=10^{-4}$, the embedding dimension is 64, and ten epochs with one sampled positive per user per epoch are used. Static user embeddings are excluded from attribution because post-training history masking cannot change their scores.
 
 \subsection{Utilities and interventions}
 The primary characteristic function is the target-margin utility
 \begin{equation}
 v_u^{\mathrm{attr}}(S)=\sigma\left(s_y^S-\frac{1}{L}\sum_{i\in\operatorname{TopL}_{-y}(S)}s_i^S\right),
 \end{equation}
-where $s_i^S:=f_u^S(i)$, $y$ is the temporal target, $L=10$, and $\sigma(t)=(1+e^{-t})^{-1}$ has unit temperature. The competitor set $\operatorname{TopL}_{-y}(S)$ is recomputed from the current coalition scores for every coalition $S$; it contains the ten highest-scoring candidates other than $y$. Every retained positive interaction starts with inference-time weight $w_h=1$. No temporal decay or rating-dependent weight is used. An action changes only these inference-time weights and never retrains the model. The operational ranking outcome is
+where $s_i^S:=f_u^S(i)$, $y$ is the temporal target, $L=10$, and $\sigma(t)=(1+e^{-t})^{-1}$ has unit temperature. The competitor set $\operatorname{TopL}_{-y}(S)$ is recomputed from the current coalition scores for every coalition $S$; it contains the ten highest-scoring candidates other than $y$. Every retained positive interaction starts with inference-time weight $w_h=1$. No temporal decay or rating-dependent weight is used. An action changes only these inference-time weights and never retrains the model. For the fixed candidate set $E_u$, let $\tau_i$ be the global tie priority and define the one-indexed target rank
 \begin{equation}
-q_u(S)=\NDCG@10(f_u^S,y).
+r_u^S(y)=1+\sum_{i\in E_u\setminus\{y\}}\mathbf{1}[s_i^S>s_y^S]
++\sum_{i\in E_u\setminus\{y\}}\mathbf{1}[s_i^S=s_y^S\ \wedge\ \tau_i<\tau_y].
 \end{equation}
+With one relevant target, $IDCG@10=1$ and the operational ranking outcome is
+\begin{equation}
+q_u(S)=\NDCG@10(f_u^S,y)=\mathbf{1}[r_u^S(y)\le10]\,\frac{1}{\log_2(r_u^S(y)+1)}.
+\label{eq:ndcg-one-target}
+\end{equation}
+Thus HitRate@10 is the one-target hit indicator, not catalogue retrieval recall.
 All effects and regrets are stored separately for target margin and NDCG. The empty coalition has target-margin utility $0.5$ and deterministic catalogue ties.
 
 For an action $A\subseteq P_u$, let $P_u^{A,\rho}$ denote the same retained player window with weights
@@ -216,7 +229,24 @@ For a sampled base permutation $\pi_m$, let $S_{p,\pi_m}$ be the predecessor coa
 \begin{equation}
 \widehat\phi_{u,p}=\frac{1}{T}\sum_{t=1}^{T}\left[v(S_{p,\pi_t}\cup\{p\})-v(S_{p,\pi_t})\right].
 \end{equation}
-The reverse orders are antithetic variance-reduction partners and coalition states are cached. In the executable configuration, \texttt{permutations} denotes $M_{\mathrm{pair}}=500$, hence $T=1000$ evaluated orders. The comparison includes locally weighted binary-mask LIME, LOO, greedy sequential deletion, and random attribution. No method observes measured intervention effects, oracle actions, or aggregate test outcomes.
+The exact value for reference is
+\begin{equation}
+\phi^{\mathrm{exact}}_{u,p}=
+\sum_{S\subseteq P_u\setminus\{p\}}
+\frac{|S|!\,(n_u-|S|-1)!}{n_u!}
+\left[v_u^{\mathrm{attr}}(S\cup\{p\})-v_u^{\mathrm{attr}}(S)\right].
+\label{eq:exact-shapley}
+\end{equation}
+The reverse-paired estimator above is unbiased for this factorial-weighted value; it is used because $n_u$ can be too large for enumerating all $2^{n_u}$ coalitions. The reverse orders are antithetic variance-reduction partners and coalition states are cached. In the executable configuration, \texttt{permutations} denotes $M_{\mathrm{pair}}=500$, hence $T=1000$ evaluated orders. The comparison includes locally weighted binary-mask LIME, LOO, greedy sequential deletion, and random attribution. No method observes measured intervention effects, oracle actions, or aggregate test outcomes.
+
+For LIME, a binary mask $m_b\in\{0,1\}^{n_u}$ defines coalition $S_b=\{p:m_{b,p}=1\}$ and response $y_b=v_u^{\mathrm{attr}}(S_b)$. With normalized Hamming distance $d_b=n_u^{-1}\sum_p(1-m_{b,p})$, kernel width $\kappa=.25$, and ridge coefficient $\lambda_{\mathrm{LIME}}=1$, the fitted local surrogate is
+\begin{equation}
+(\hat\beta_0,\hat{\boldsymbol\beta})=\arg\min_{\beta_0,\boldsymbol\beta}
+\sum_{b=1}^{512}e^{-d_b^2/\kappa^2}\left(y_b-\beta_0-m_b^{\top}\boldsymbol\beta\right)^2
++\lambda_{\mathrm{LIME}}\lVert\boldsymbol\beta\rVert_2^2.
+\label{eq:lime}
+\end{equation}
+The intercept is unpenalized and $\hat{\boldsymbol\beta}$ is the LIME attribution. The mask design contains the full, empty, and every leave-one-out mask before seeded random masks fill the remaining rows.
 
 For completeness, the greedy and random controls are defined operationally. Greedy sequential deletion starts at $S_0=P_u$. At step $t$ it evaluates $v_u^{\mathrm{attr}}(S_{t-1}\setminus\{p\})-v_u^{\mathrm{attr}}(S_{t-1})$ for every remaining player, selects the largest benefit, breaks ties by the lowest player index, records the signed value under the convention that $-\phi$ predicts downweight benefit, and recomputes the next step from the reduced coalition. It repeats until every player is ordered; it does not inspect bounded effects or the oracle, and the later signed action rule may abstain. Random attribution draws independent scores $r_{u,p}\sim\mathcal{N}(0,1)$ for every user and experiment seed using NumPy's seeded generator. The random vector is passed through the same signed action-selection rule as every explainer, including the same budget and abstention option. Its seed is independently offset from the model/attribution seed by $1{,}000{,}000+u$, so it is redrawn per user and seed.
 
@@ -248,11 +278,24 @@ For completeness, the greedy and random controls are defined operationally. Gree
 \end{algorithm}
 
 \subsection{Metrics}
-Magnitude AIA is
+Let $\rho_S(\cdot,\cdot)$ denote Spearman rank correlation. Magnitude AIA is
 \begin{equation}
-\AIA_u(g)=\operatorname{Spearman}(|\phi^g_{u,p}|,|\Delta^{\mathrm{attr}}_{u,p}|).
+\AIA_u^z(g)=\rho_S(|\phi^g_{u,p}|,|\Delta_{u,p}^{z,\mathrm{bnd}}|),\qquad z\in\{\mathrm{attr},\mathrm{NDCG}\}.
+\label{eq:aia}
 \end{equation}
-Deletion AIA and bounded AIA are reported separately; their difference is the Actionability Gap. Signed alignment compares $-\phi$ with signed intervention effects. We also report direction accuracy, top-$k$ precision, realized effect, success, harm, abstention, and stability.
+Deletion AIA substitutes $\Delta_{u,p}^{z,\mathrm{del}}$; bounded AIA uses $\Delta_{u,p}^{z,\mathrm{bnd}}$, and their difference is the Actionability Gap. Signed alignment is $\rho_S(-\phi^g_{u,p},\Delta_{u,p}^z)$. For informative non-zero effects $I_u^z=\{p:\Delta_{u,p}^z\ne0\}$, direction accuracy is
+\begin{equation}
+\mathrm{DirAcc}_u^z(g)=|I_u^z|^{-1}\sum_{p\in I_u^z}\mathbf{1}\left[\operatorname{sign}(-\phi^g_{u,p})=\operatorname{sign}(\Delta_{u,p}^z)\right].
+\end{equation}
+Let $T_{u,k}^g$ be the $k$ players with largest predicted benefit $-\phi^g$; top-$k$ intervention precision is
+\begin{equation}
+\mathrm{Prec}@k_u^z(g)=k^{-1}\sum_{p\in T_{u,k}^g}\mathbf{1}\left[\Delta_{u,p}^z>0\ \wedge\ \operatorname{sign}(-\phi^g_{u,p})=\operatorname{sign}(\Delta_{u,p}^z)\right].
+\end{equation}
+For a selected joint action $\widehat A_{u,g}$, success and harm are $\mathbf{1}[\Delta_u^z(\widehat A_{u,g})>0]$ and $\mathbf{1}[\Delta_u^z(\widehat A_{u,g})<0]$, while abstention is $\mathbf{1}[\widehat A_{u,g}=\varnothing]$. Rank stability over $R$ seed runs is
+\begin{equation}
+\mathrm{Stab}_u(g)=\frac{2}{R(R-1)}\sum_{r<s}\rho_S(\boldsymbol\phi_{u}^{g,r},\boldsymbol\phi_{u}^{g,s}),
+\end{equation}
+computed only over finite nonconstant pairs.
 
 For each user and seed, $R=1{,}000$ within-seed permutations shuffle effect magnitudes across players. We first compute the observed AIA and its $R$ null draws within each seed; then we average the observed value and each matched null draw across the five seeds within user. Bootstrap and paired inference operate on these distinct-user summaries. We report null means, null 95th percentiles, plus-one permutation $p$-values, and valid-user counts. Constant vectors are missing, not imputed.
 
@@ -315,6 +358,8 @@ It is averaged only over active-oracle users. Zero means an oracle-equivalent ac
 \end{algorithmic}
 \end{algorithm}
 
+Equal action scores use a deterministic common rule: maximize predicted benefit first; among ties choose the smaller action cardinality; among equal-cardinality ties choose the lexicographically lower sorted player-index tuple. An abstention action wins when the best predicted benefit is at most $10^{-12}$. The exact oracle uses the same cardinality and lexicographic rule after maximizing realized utility.
+
 \begin{algorithm}[t]
 \caption{Distinct-user inference and AIA null}
 \label{alg:inference}
@@ -361,7 +406,7 @@ The primary candidate set contains the target and 199 uniformly sampled unseen n
 LIME uses 512 binary masks including the full, empty, and all leave-one-out masks, a normalized Hamming-distance kernel with width $0.25$, and ridge coefficient $1.0$. The target-margin competitor count is $L=10$ and the sigmoid temperature is one. The primary intervention is $\rho=0.5$; $\rho=0.25$ is sensitivity-only. The exact budget-two action space includes no action, all singletons, and all pairs.
 
 \subsection{Statistical analysis}
-For each seed we compute user-level quantities first; repeated seed values are then averaged within distinct user before bootstrap resampling. User bootstrap intervals use 10,000 draws, paired plus-one sign permutations use 10,000 draws, and the AIA null uses $R=1,000$ within-seed draws whose matched null values are averaged across seeds within user. Holm correction is applied within each experiment--metric comparison family. We report missing correlations, active-oracle counts, and conditional normalized regret. No coalition evaluation is an independent statistical observation.
+For each seed we compute user-level quantities first; repeated seed values are then averaged within distinct user before bootstrap resampling. User bootstrap intervals are two-sided percentile intervals from 10,000 user resamples. Paired plus-one sign permutations use 10,000 two-sided sign flips of the user-level differences, with $p=(1+\#\{|T^*|\ge|T_{\mathrm{obs}}|\})/(R+1)$. Holm correction is applied separately within each dataset--model--condition--metric family across the declared method-pair comparisons. Paired Cohen's $d_z$ is $\bar d/s_d$, where $d_u$ is the user-level paired difference and $s_d$ its sample standard deviation. The paired comparison uses the intersection of users with finite values for both methods; missing correlations are retained as missing. Active-oracle counts define the denominator for normalized regret. No coalition evaluation is an independent statistical observation.
 
 \subsection{Reproducibility}
 The real result archive contains 80 recommendation runs plus five convergence studies. All assets in this manuscript are generated from schema-v2 raw results with repository-relative paths and content hashes. The primary ItemKNN target-margin analysis uses $M_{\mathrm{pair}}=500$ base permutations and $T=1000$ evaluated orders; the independent convergence study selects lower diagnostic values for some conditions, while the conservative final floor is retained. The archived runs record macOS-26.5.1-arm64, Python 3.12.13, NumPy 2.4.6, SciPy 1.17.1, pandas 2.3.3, scikit-learn 1.9.0, matplotlib 3.11.1, and PyYAML 6.0.3. Historical processor model, RAM, and peak RSS were not serialized.
@@ -457,6 +502,26 @@ All paths in generated manifests are repository-relative and all release archive
 
 \section{Discussion and Broader Implications}
 The results support a three-axis interpretation. LIME and LOO are strongest on absolute pointwise alignment because their constructions are local to deletion or the full profile. Shapley has lower absolute alignment but a larger positive change when the evaluation moves from deletion to bounded downweighting. This is consistent with coalition-context averaging, but the experiment does not establish a causal mechanism and the random control prevents interpreting the gap as standalone validity.
+
+Table~\ref{tab:related-work-comparison} compares the protocol dimensions most relevant to the closest counterfactual and explanation-evaluation studies. ActionShap differs not by claiming a new causal estimator, but by combining interaction-player attribution, a declared bounded profile policy, a utility-specific joint oracle, abstention, and distinct-user inference.
+
+\begin{table}[t]
+\centering\scriptsize
+\caption{Component-level positioning against the closest related evaluation and counterfactual recommendation work.}
+\label{tab:related-work-comparison}
+\begin{tabular}{@{}p{.16\textwidth}p{.18\textwidth}p{.18\textwidth}p{.16\textwidth}p{.14\textwidth}p{.10\textwidth}@{}}
+\toprule
+Work & Players & Intervention/policy & Outcome & Joint oracle & Inference \\
+\midrule
+PRINCE \cite{ghazimatin2020} & Provider/profile & Counterfactual generation & Recommendation change & Method-specific & Method-specific \\
+ACCENT \cite{tran2021} & User factors & Counterfactual masking & Top-$K$ explanation & No common budget oracle & Method-specific \\
+Tan et al. \cite{tan2021} & Recommendation factors & Counterfactual explanation & Ranking change & Method-specific & User/item evaluation \\
+CEERS \cite{baklanov2024} & Explanation factors & Counterfactual evaluation & Explanation quality & Benchmark-specific & Reproducibility protocol \\
+LXR \cite{barkan2024,gurevitch2025} & Learned masks & Model-specific counterfactual & Explanation quality & Learned objective & Method-specific \\
+ActionShap & History interactions & $w_p\leftarrow\rho w_p$ & AIA, NDCG, regret & Exact $B=2$; abstention & Distinct-user paired inference \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 The decision results reinforce this distinction. On MovieLens, local methods select slightly better NDCG actions. On Amazon, Shapley and LIME are close, with modest differences in conditional regret. A method can therefore be more stable across perturbation semantics without selecting the best action for every operational utility. This is precisely why ActionShap reports pointwise alignment, signed direction, success, abstention, and regret together.
 
