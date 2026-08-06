@@ -20,9 +20,10 @@ any numerical claim is copied into the manuscript.
 - `manifest_generation_commit = d4c55b2…` — the commit at which
   `asset_manifest.json` was (re)generated from the raw archive. It describes
   the archive, not the manuscript.
-- `packaging_tag = actionshap-v1` — a moving release tag on the release branch
-  that packages the manuscript sources, this release directory, and the
-  manifest. The exact packaging commit is identified via the tag history.
+- manuscript packaging commit (submission): `f3fc0df64a51f4746b766bc42ece95183b7753f8`.
+- `packaging_tag = actionshap-v1` — release tag frozen at the submission
+  packaging commit (immutable from submission onward); it packages the
+  manuscript sources, this release directory, and the manifest.
 
 These identifiers refer to different artifacts by design and are not expected
 to be equal. The Overleaf ZIP SHA-256 (`43228a19…2001df`) identifies the

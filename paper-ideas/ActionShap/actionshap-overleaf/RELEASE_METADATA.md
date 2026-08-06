@@ -3,7 +3,8 @@
 - Source repository: `https://github.com/mouadlouhichi/next-paper`
 - Core (numeric) source commit: `0673378` (generation/validation of the schema-v2 numbers)
 - Manifest-generation commit: `d4c55b21010d56e43a181628b459c5fed02709b8` (describes the archive, not the manuscript)
-- Packaging tag: `actionshap-v1` (moving release tag; exact packaging commit via tag history)
+- Manuscript packaging commit (submission): `f3fc0df64a51f4746b766bc42ece95183b7753f8`
+- Packaging tag: `actionshap-v1`, frozen at the submission packaging commit (immutable from submission onward)
 - Source visibility: public repository release `actionshap-v1` (https://github.com/mouadlouhichi/next-paper/releases/tag/actionshap-v1); the submission package additionally ships the identical materials under `release/`.
 - Manuscript entry point: `actionshap.tex`
 - Supplementary entry point: `supplementary.tex`
