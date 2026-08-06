@@ -1,0 +1,42 @@
+{
+  "shapley-mc_vs_additive-pref_HitRate@20": {
+    "holm_threshold": 0.01,
+    "p": 0.0,
+    "reject_0.05": true
+  },
+  "shapley-mc_vs_additive-pref_NDCG@20": {
+    "holm_threshold": 0.008333333333333333,
+    "p": 0.0,
+    "reject_0.05": true
+  },
+  "shapley-mc_vs_attention_HitRate@20": {
+    "holm_threshold": 0.016666666666666666,
+    "p": 0.0,
+    "reject_0.05": true
+  },
+  "shapley-mc_vs_attention_NDCG@20": {
+    "holm_threshold": 0.0125,
+    "p": 0.0,
+    "reject_0.05": true
+  },
+  "shapley-mc_vs_loo-marginal_HitRate@20": {
+    "holm_threshold": 0.05,
+    "p": 0.869,
+    "reject_0.05": false
+  },
+  "shapley-mc_vs_loo-marginal_NDCG@20": {
+    "holm_threshold": 0.025,
+    "p": 0.0,
+    "reject_0.05": true
+  },
+  "shapley-mc_vs_uniform_HitRate@20": {
+    "holm_threshold": 0.0071428571428571435,
+    "p": 0.0,
+    "reject_0.05": true
+  },
+  "shapley-mc_vs_uniform_NDCG@20": {
+    "holm_threshold": 0.00625,
+    "p": 0.0,
+    "reject_0.05": true
+  }
+}

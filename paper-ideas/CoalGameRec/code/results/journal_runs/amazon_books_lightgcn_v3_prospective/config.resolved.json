@@ -1,0 +1,89 @@
+{
+  "analysis": {
+    "bootstrap_samples": 2000,
+    "bootstrap_seed": 20260804,
+    "controls": [
+      "uniform",
+      "additive-pref",
+      "attention",
+      "loo-marginal"
+    ]
+  },
+  "attribution": {
+    "alpha": 1.0,
+    "antithetic": true,
+    "beta": 0.0,
+    "exact_threshold": 8,
+    "lambda_attr_value": 0.1,
+    "lambda_pref": 0.0,
+    "m_permutations": 64,
+    "max_players_per_user": 24,
+    "n_val_negatives": 100,
+    "player_selection": "stratified",
+    "save_every": 10,
+    "shapley_users": null,
+    "value_mode": "pairwise_logsigmoid"
+  },
+  "backbone": {
+    "batch_size": 4096,
+    "chunk_items": 4096,
+    "dim": 64,
+    "epochs": 15,
+    "lr": 0.002,
+    "n_layers": 2,
+    "n_neg": 2,
+    "name": "lightgcn",
+    "score_batch_size": 128,
+    "weight_decay": 1e-05
+  },
+  "dataset": {
+    "books_5_json_gz": "data/raw/Books_5.json.gz",
+    "max_rows": null,
+    "min_item_core": 5,
+    "min_user_core": 5,
+    "name": "amazon_books_2018_custom",
+    "rating_threshold": 4.0,
+    "raw_dir": "data/raw",
+    "sample_seed": 20260803,
+    "sample_users": 50000
+  },
+  "reranking": {
+    "intervention": "native",
+    "lambda_attr": 0.1,
+    "lambda_attr_sensitivity": [
+      0.0,
+      0.05,
+      0.1,
+      0.2,
+      0.4
+    ],
+    "primary_families": [
+      "uniform",
+      "additive-pref",
+      "shapley-mc"
+    ],
+    "secondary_families": [
+      "attention",
+      "heuristic-pop",
+      "loo-marginal"
+    ],
+    "tau_att": 0.1
+  },
+  "run": {
+    "device": "auto",
+    "id": "amazon_books_lightgcn_v3_prospective",
+    "ks": [
+      5,
+      10,
+      20
+    ],
+    "output_dir": "results/journal_runs/amazon_books_lightgcn_v3_prospective",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ]
+  }
+}
