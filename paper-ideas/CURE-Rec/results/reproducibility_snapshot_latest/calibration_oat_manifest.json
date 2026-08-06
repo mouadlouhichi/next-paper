@@ -1,0 +1,277 @@
+{
+  "purpose": "Behavioral sensitivity analysis of disclosed CURE-Sim assumptions; not empirical calibration to an observational ratings dataset.",
+  "design": "oat",
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "lhs_samples": null,
+  "lhs_seed": null,
+  "base_config_hash": "41b09c43d0bc6c0e",
+  "parameters": [
+    "fatigue_strength",
+    "repeat_threshold",
+    "horizon",
+    "provider_threshold",
+    "provider_balance_strength",
+    "novelty_delayed_benefit",
+    "exploration_cost"
+  ],
+  "points": [
+    {
+      "point_id": "baseline",
+      "values": {
+        "fatigue_strength": 1.0,
+        "repeat_threshold": 3,
+        "horizon": 12,
+        "provider_threshold": 0.28,
+        "provider_balance_strength": 0.35,
+        "novelty_delayed_benefit": 0.0,
+        "exploration_cost": 0.1
+      },
+      "varied_parameter": "baseline",
+      "varied_value": null,
+      "is_baseline": true
+    },
+    {
+      "point_id": "oat-fatigue_strength-0p7500",
+      "values": {
+        "fatigue_strength": 0.75,
+        "repeat_threshold": 3,
+        "horizon": 12,
+        "provider_threshold": 0.28,
+        "provider_balance_strength": 0.35,
+        "novelty_delayed_benefit": 0.0,
+        "exploration_cost": 0.1
+      },
+      "varied_parameter": "fatigue_strength",
+      "varied_value": 0.75,
+      "is_baseline": false
+    },
+    {
+      "point_id": "oat-fatigue_strength-1p2500",
+      "values": {
+        "fatigue_strength": 1.25,
+        "repeat_threshold": 3,
+        "horizon": 12,
+        "provider_threshold": 0.28,
+        "provider_balance_strength": 0.35,
+        "novelty_delayed_benefit": 0.0,
+        "exploration_cost": 0.1
+      },
+      "varied_parameter": "fatigue_strength",
+      "varied_value": 1.25,
+      "is_baseline": false
+    },
+    {
+      "point_id": "oat-repeat_threshold-2",
+      "values": {
+        "fatigue_strength": 1.0,
+        "repeat_threshold": 2,
+        "horizon": 12,
+        "provider_threshold": 0.28,
+        "provider_balance_strength": 0.35,
+        "novelty_delayed_benefit": 0.0,
+        "exploration_cost": 0.1
+      },
+      "varied_parameter": "repeat_threshold",
+      "varied_value": 2,
+      "is_baseline": false
+    },
+    {
+      "point_id": "oat-repeat_threshold-4",
+      "values": {
+        "fatigue_strength": 1.0,
+        "repeat_threshold": 4,
+        "horizon": 12,
+        "provider_threshold": 0.28,
+        "provider_balance_strength": 0.35,
+        "novelty_delayed_benefit": 0.0,
+        "exploration_cost": 0.1
+      },
+      "varied_parameter": "repeat_threshold",
+      "varied_value": 4,
+      "is_baseline": false
+    },
+    {
+      "point_id": "oat-horizon-8",
+      "values": {
+        "fatigue_strength": 1.0,
+        "repeat_threshold": 3,
+        "horizon": 8,
+        "provider_threshold": 0.28,
+        "provider_balance_strength": 0.35,
+        "novelty_delayed_benefit": 0.0,
+        "exploration_cost": 0.1
+      },
+      "varied_parameter": "horizon",
+      "varied_value": 8,
+      "is_baseline": false
+    },
+    {
+      "point_id": "oat-horizon-16",
+      "values": {
+        "fatigue_strength": 1.0,
+        "repeat_threshold": 3,
+        "horizon": 16,
+        "provider_threshold": 0.28,
+        "provider_balance_strength": 0.35,
+        "novelty_delayed_benefit": 0.0,
+        "exploration_cost": 0.1
+      },
+      "varied_parameter": "horizon",
+      "varied_value": 16,
+      "is_baseline": false
+    },
+    {
+      "point_id": "oat-provider_threshold-0p2400",
+      "values": {
+        "fatigue_strength": 1.0,
+        "repeat_threshold": 3,
+        "horizon": 12,
+        "provider_threshold": 0.24000000000000002,
+        "provider_balance_strength": 0.35,
+        "novelty_delayed_benefit": 0.0,
+        "exploration_cost": 0.1
+      },
+      "varied_parameter": "provider_threshold",
+      "varied_value": 0.24000000000000002,
+      "is_baseline": false
+    },
+    {
+      "point_id": "oat-provider_threshold-0p3200",
+      "values": {
+        "fatigue_strength": 1.0,
+        "repeat_threshold": 3,
+        "horizon": 12,
+        "provider_threshold": 0.32,
+        "provider_balance_strength": 0.35,
+        "novelty_delayed_benefit": 0.0,
+        "exploration_cost": 0.1
+      },
+      "varied_parameter": "provider_threshold",
+      "varied_value": 0.32,
+      "is_baseline": false
+    },
+    {
+      "point_id": "oat-provider_balance_strength-0p1500",
+      "values": {
+        "fatigue_strength": 1.0,
+        "repeat_threshold": 3,
+        "horizon": 12,
+        "provider_threshold": 0.28,
+        "provider_balance_strength": 0.14999999999999997,
+        "novelty_delayed_benefit": 0.0,
+        "exploration_cost": 0.1
+      },
+      "varied_parameter": "provider_balance_strength",
+      "varied_value": 0.14999999999999997,
+      "is_baseline": false
+    },
+    {
+      "point_id": "oat-provider_balance_strength-0p5500",
+      "values": {
+        "fatigue_strength": 1.0,
+        "repeat_threshold": 3,
+        "horizon": 12,
+        "provider_threshold": 0.28,
+        "provider_balance_strength": 0.55,
+        "novelty_delayed_benefit": 0.0,
+        "exploration_cost": 0.1
+      },
+      "varied_parameter": "provider_balance_strength",
+      "varied_value": 0.55,
+      "is_baseline": false
+    },
+    {
+      "point_id": "oat-novelty_delayed_benefit-0p0300",
+      "values": {
+        "fatigue_strength": 1.0,
+        "repeat_threshold": 3,
+        "horizon": 12,
+        "provider_threshold": 0.28,
+        "provider_balance_strength": 0.35,
+        "novelty_delayed_benefit": 0.03,
+        "exploration_cost": 0.1
+      },
+      "varied_parameter": "novelty_delayed_benefit",
+      "varied_value": 0.03,
+      "is_baseline": false
+    },
+    {
+      "point_id": "oat-novelty_delayed_benefit-0p0600",
+      "values": {
+        "fatigue_strength": 1.0,
+        "repeat_threshold": 3,
+        "horizon": 12,
+        "provider_threshold": 0.28,
+        "provider_balance_strength": 0.35,
+        "novelty_delayed_benefit": 0.06,
+        "exploration_cost": 0.1
+      },
+      "varied_parameter": "novelty_delayed_benefit",
+      "varied_value": 0.06,
+      "is_baseline": false
+    },
+    {
+      "point_id": "oat-exploration_cost-0p0500",
+      "values": {
+        "fatigue_strength": 1.0,
+        "repeat_threshold": 3,
+        "horizon": 12,
+        "provider_threshold": 0.28,
+        "provider_balance_strength": 0.35,
+        "novelty_delayed_benefit": 0.0,
+        "exploration_cost": 0.05
+      },
+      "varied_parameter": "exploration_cost",
+      "varied_value": 0.05,
+      "is_baseline": false
+    },
+    {
+      "point_id": "oat-exploration_cost-0p1500",
+      "values": {
+        "fatigue_strength": 1.0,
+        "repeat_threshold": 3,
+        "horizon": 12,
+        "provider_threshold": 0.28,
+        "provider_balance_strength": 0.35,
+        "novelty_delayed_benefit": 0.0,
+        "exploration_cost": 0.15000000000000002
+      },
+      "varied_parameter": "exploration_cost",
+      "varied_value": 0.15000000000000002,
+      "is_baseline": false
+    }
+  ],
+  "resume_dir": "/Users/mlouhichi/Desktop/CURE-Rec/next-paper/paper-ideas/CURE-Rec/code/runs/calibration-oat-20260805T184133Z",
+  "status": "completed",
+  "completed_point_ids": [
+    "baseline",
+    "oat-fatigue_strength-0p7500",
+    "oat-fatigue_strength-1p2500",
+    "oat-repeat_threshold-2",
+    "oat-repeat_threshold-4",
+    "oat-horizon-8",
+    "oat-horizon-16",
+    "oat-provider_threshold-0p2400",
+    "oat-provider_threshold-0p3200",
+    "oat-provider_balance_strength-0p1500",
+    "oat-provider_balance_strength-0p5500",
+    "oat-novelty_delayed_benefit-0p0300",
+    "oat-novelty_delayed_benefit-0p0600",
+    "oat-exploration_cost-0p0500",
+    "oat-exploration_cost-0p1500"
+  ],
+  "generated_files": [
+    "calibration_attributions.csv",
+    "calibration_configurations.csv",
+    "calibration_interactions.csv",
+    "calibration_manifest.json",
+    "calibration_seed_decisions.csv",
+    "calibration_summary.csv"
+  ]
+}
