@@ -114,7 +114,27 @@ def train_bprmf(train_df: pd.DataFrame, n_users: int, n_items: int, cfg: TrainCo
     return model
 
 
-def cache_full_scores(model: BPRMF, n_users: int, batch_size: int = 512, chunk_items: int | None = None) -> np.ndarray:
+def cache_full_scores(model, n_users: int, batch_size: int = 512, chunk_items: int | None = None) -> np.ndarray:
+    """Cache full-catalogue scores without repeated graph propagation.
+
+    LightGCN propagation is expensive. If the model exposes final_embeddings(),
+    compute propagated embeddings once and score batches from the cached arrays.
+    Simpler embedding models fall back to their full_scores method.
+    """
+    if hasattr(model, "final_embeddings"):
+        U_all, I_all = model.final_embeddings()
+        outs = []
+        for start in tqdm(range(0, n_users, batch_size), desc="cache base scores"):
+            users = np.arange(start, min(n_users, start + batch_size), dtype=np.int64)
+            U = U_all[users]
+            if chunk_items is None:
+                outs.append(U @ I_all.T)
+            else:
+                parts = []
+                for s in range(0, I_all.shape[0], int(chunk_items)):
+                    parts.append(U @ I_all[s : s + int(chunk_items)].T)
+                outs.append(np.concatenate(parts, axis=1))
+        return np.vstack(outs).astype(np.float32)
     device = next(model.parameters()).device
     outs = []
     for start in tqdm(range(0, n_users, batch_size), desc="cache base scores"):
@@ -186,7 +206,10 @@ def build_lightgcn_graph(train_df: pd.DataFrame, n_users: int, n_items: int, dev
     items = train_df.item.values.astype(np.int64) + int(n_users)
     src = np.concatenate([users, items])
     dst = np.concatenate([items, users])
-    deg = np.bincount(np.concatenate([src, dst]), minlength=n_users + n_items).astype(np.float32)
+    # For symmetric directed edges, out-degree of src equals the undirected
+    # bipartite degree. Counting both src and dst would double all degrees and
+    # incorrectly halve normalized messages.
+    deg = np.bincount(src, minlength=n_users + n_items).astype(np.float32)
     deg[deg == 0] = 1.0
     w = 1.0 / np.sqrt(deg[src] * deg[dst])
     edge_index = torch.as_tensor(np.vstack([src, dst]), dtype=torch.long, device=device)
