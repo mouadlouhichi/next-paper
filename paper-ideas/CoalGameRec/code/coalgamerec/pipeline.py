@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import platform
 import time
@@ -19,6 +20,18 @@ from .explanation import attribution_concentration, deletion_comprehensiveness, 
 from .rerank import rerank_all
 from .utils import sparse_fingerprint, write_json
 from .validation import assert_item_vector_isolation, assert_rerank_nonzero, assert_shapley_shapes
+
+
+def _hash_array(arr: np.ndarray) -> str:
+    h = hashlib.sha256()
+    h.update(str(arr.shape).encode())
+    h.update(str(arr.dtype).encode())
+    h.update(np.ascontiguousarray(arr).view(np.uint8))
+    return h.hexdigest()
+
+
+def _hash_dict(obj: dict[str, Any]) -> str:
+    return hashlib.sha256(json.dumps(obj, sort_keys=True, default=str).encode()).hexdigest()
 
 
 def load_config(path: str | Path) -> dict[str, Any]:
@@ -97,6 +110,23 @@ def run_seed(split, item_vectors, cfg: dict[str, Any], seed: int, out_dir: Path)
     write_json(seed_dir / "base_summary.json", base_summary)
 
     a = cfg["attribution"]
+    base_scores_hash = _hash_array(base_scores)
+    attribution_hash = _hash_dict({
+        "seed": int(seed),
+        "backbone": cfg.get("backbone", {}),
+        "attribution": a,
+        "dataset": cfg.get("dataset", {}),
+        "base_scores_hash": base_scores_hash,
+        "cache_version": "v2-base-score-aware",
+    })
+    cache_tag = attribution_hash[:16]
+    write_json(seed_dir / "attribution_cache_manifest.json", {
+        "cache_tag": cache_tag,
+        "base_scores_hash": base_scores_hash,
+        "attribution_hash": attribution_hash,
+        "note": "Checkpoint filenames include this tag. Old untagged checkpoints are intentionally ignored to prevent stale attribution reuse after backbone/config changes.",
+    })
+
     t_stage = time.time()
     shapley = compute_shapley_for_users(
         split,
@@ -108,7 +138,7 @@ def run_seed(split, item_vectors, cfg: dict[str, Any], seed: int, out_dir: Path)
         seed=int(seed),
         max_players_per_user=a.get("max_players_per_user"),
         player_selection=a.get("player_selection", "similarity"),
-        checkpoint_path=seed_dir / "shapley_checkpoint.npz",
+        checkpoint_path=seed_dir / f"shapley_checkpoint_{cache_tag}.npz",
         save_every=int(a.get("save_every", 25)),
         alpha=float(a.get("alpha", 1.0)),
         beta=float(a.get("beta", 0.0)),
@@ -138,7 +168,7 @@ def run_seed(split, item_vectors, cfg: dict[str, Any], seed: int, out_dir: Path)
             seed=int(seed),
             max_players_per_user=a.get("max_players_per_user"),
             player_selection=a.get("player_selection", "stratified"),
-            checkpoint_path=seed_dir / "loo_checkpoint.npz",
+            checkpoint_path=seed_dir / f"loo_checkpoint_{cache_tag}.npz",
             save_every=int(a.get("save_every", 25)),
             alpha=float(a.get("alpha", 1.0)), beta=float(a.get("beta", 0.0)),
             lambda_pref=float(a.get("lambda_pref", 0.0)),

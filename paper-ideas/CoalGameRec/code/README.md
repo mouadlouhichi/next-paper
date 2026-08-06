@@ -210,3 +210,21 @@ python scripts/run_q1_pipeline.py --config configs/q1_lightgcn_amazon_template.y
 A Q1 main empirical claim should not be made until the LightGCN/HCCF and Amazon
 runs are complete, paired strong-baseline contrasts are positive or properly
 qualified, and ethics/preregistration artifacts exist.
+
+## Checkpoint safety warning
+
+Older versions wrote attribution checkpoints as `shapley_checkpoint.npz` and
+`loo_checkpoint.npz`. Those files can become stale if the backbone implementation,
+base scores, dataset split, or attribution config changes. The pipeline now writes
+base-score-aware checkpoint names:
+
+```text
+shapley_checkpoint_<cache_tag>.npz
+loo_checkpoint_<cache_tag>.npz
+attribution_cache_manifest.json
+```
+
+If you rerun an old output directory after changing model code, delete or ignore
+old untagged checkpoint files. Runs where `shapley_seconds` or `loo_seconds` is
+near zero after a backbone change should be considered invalid and rerun with the
+new cache-tagged checkpointing.
