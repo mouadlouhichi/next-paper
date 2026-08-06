@@ -54,3 +54,32 @@ def test_calibration_aggregates_seed_decisions_without_rerunning_test_models(set
     assert (result.summary["repair_rate"] == 1.0).all()
     assert (result.run_dir / "calibration_manifest.json").exists()
     assert (result.run_dir / "figures" / "calibration_figure_oat_lower_improvement.png").exists()
+
+
+def test_calibration_recovers_completed_child_artifact(settings, tmp_path):
+    """A shutdown after a child run must not force its exact game to rerun."""
+    import json
+    from cure_rec.calibration import _recover_completed_point_runs
+
+    point_root = tmp_path / "baseline"
+    run_dir = point_root / "seed-sweep-old" / "runs" / "calibration-baseline-seed-42-old"
+    (run_dir / "artifacts").mkdir(parents=True)
+    (run_dir / "tables").mkdir()
+    (run_dir / "manifest.json").write_text(json.dumps({"settings": {"run": {"seed": 42}}}))
+    decision = {
+        "mode": "repair", "status": "repair_selected", "base_feasible": False,
+        "selected_mask": 1, "selected_interventions": ["repeat_cap"],
+        "lower_improvement": 0.2, "upper_improvement": 0.3, "cost": 0.05,
+        "relevance_delta_lower": -0.01, "provider_disparity_upper": 0.2,
+        "fatigue_upper": 0.1, "feasible": True, "reason": "fixture", "action": "repair_selected",
+    }
+    (run_dir / "artifacts" / "run_summary.json").write_text(json.dumps({"decision": decision}))
+    pd.DataFrame([{"intervention": "repeat_cap", "phi_mean": 0.1}]).to_csv(run_dir / "tables" / "table_03_attribution_regions.csv", index=False)
+    pd.DataFrame([{"intervention_i": "repeat_cap", "intervention_j": "explore_slot", "interaction_mean": 0.0}]).to_csv(run_dir / "tables" / "interaction_regions.csv", index=False)
+    pd.DataFrame([{"mask": 0, "provider_disparity": 0.35, "fatigue": 0.2}]).to_csv(run_dir / "tables" / "coalition_values.csv", index=False)
+
+    result, completed = _recover_completed_point_runs(point_root, settings, [42, 43])
+    assert completed == {42}
+    assert result.decisions["seed"].tolist() == [42]
+    assert result.decisions.loc[0, "selected_interventions"] == ("repeat_cap",)
+    assert result.attributions["seed"].tolist() == [42]

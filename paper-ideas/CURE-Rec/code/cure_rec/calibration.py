@@ -279,6 +279,126 @@ def _value_from_row(row: pd.Series, parameter: str) -> float | int:
     return int(value) if parameter in {"repeat_threshold", "horizon"} else float(value)
 
 
+def _recover_completed_point_runs(
+    point_root: Path,
+    settings: Settings,
+    seeds: list[int],
+) -> tuple[SeedSweepResult, set[int]]:
+    """Recover completed child runs after a notebook/kernel/laptop interruption.
+
+    A CURE-Sim child writes its decision and exact attribution tables before the
+    final sweep-level aggregation occurs. This lets calibration resume from an
+    interrupted point without repeating completed 64-coalition games.
+    """
+    recovered: dict[int, tuple[Path, dict, pd.DataFrame, pd.DataFrame, dict]] = {}
+    for summary_path in sorted(point_root.glob("seed-sweep-*/runs/*/artifacts/run_summary.json")):
+        run_dir = summary_path.parents[1]
+        manifest_path = run_dir / "manifest.json"
+        region_path = run_dir / "tables" / "table_03_attribution_regions.csv"
+        if not region_path.exists():
+            region_path = run_dir / "tables" / "shapley_regions.csv"
+        interaction_path = run_dir / "tables" / "interaction_regions.csv"
+        coalition_path = run_dir / "tables" / "coalition_values.csv"
+        if not all(path.exists() for path in (manifest_path, region_path, interaction_path, coalition_path)):
+            continue
+        try:
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            seed = int(manifest["settings"]["run"]["seed"])
+            payload = json.loads(summary_path.read_text(encoding="utf-8"))
+            decision = dict(payload["decision"])
+            regions = pd.read_csv(region_path)
+            interactions = pd.read_csv(interaction_path)
+            coalitions = pd.read_csv(coalition_path)
+        except (KeyError, TypeError, ValueError, json.JSONDecodeError, pd.errors.EmptyDataError):
+            continue
+        if seed not in seeds:
+            continue
+        base = coalitions[coalitions["mask"] == 0]
+        if base.empty:
+            continue
+        # A later successfully written run for a seed supersedes an earlier
+        # interrupted/duplicate attempt. Sorting paths makes this deterministic.
+        recovered[seed] = (run_dir, decision, regions, interactions, {
+            "seed": seed,
+            "base_feasible": bool(decision["base_feasible"]),
+            "provider_disparity_upper": float(base["provider_disparity"].max()),
+            "provider_margin": float(settings.constraints.max_provider_disparity - base["provider_disparity"].max()),
+            "fatigue_upper": float(base["fatigue"].max()),
+            "fatigue_margin": float(settings.constraints.max_fatigue - base["fatigue"].max()),
+            "relevance_margin": float(-settings.constraints.min_relevance_delta),
+            "budget_margin": float(settings.constraints.budget),
+            "provider_failure": bool(base["provider_disparity"].max() > settings.constraints.max_provider_disparity),
+            "fatigue_failure": bool(base["fatigue"].max() > settings.constraints.max_fatigue),
+        })
+
+    decision_rows: list[dict] = []
+    attribution_frames: list[pd.DataFrame] = []
+    interaction_frames: list[pd.DataFrame] = []
+    base_rows: list[dict] = []
+    for seed in seeds:
+        if seed not in recovered:
+            continue
+        run_dir, decision, regions, interactions, base = recovered[seed]
+        if isinstance(decision.get("selected_interventions"), list):
+            decision["selected_interventions"] = tuple(decision["selected_interventions"])
+        decision_rows.append({"seed": seed, "cure_run_dir": str(run_dir), **decision})
+        regions = regions.copy(); regions.insert(0, "seed", seed); attribution_frames.append(regions)
+        interactions = interactions.copy(); interactions.insert(0, "seed", seed); interaction_frames.append(interactions)
+        base_rows.append(base)
+    decisions = pd.DataFrame(decision_rows)
+    attributions = pd.concat(attribution_frames, ignore_index=True) if attribution_frames else pd.DataFrame()
+    interactions = pd.concat(interaction_frames, ignore_index=True) if interaction_frames else pd.DataFrame()
+    base_feasibility = pd.DataFrame(base_rows)
+    return SeedSweepResult(point_root, decisions, attributions, interactions, base_feasibility), set(recovered)
+
+
+def _combine_seed_sweeps(existing: SeedSweepResult, fresh: SeedSweepResult) -> SeedSweepResult:
+    """Combine recovered and newly computed seed rows, preferring fresh duplicates."""
+    def combine(left: pd.DataFrame, right: pd.DataFrame) -> pd.DataFrame:
+        if left.empty:
+            return right.copy()
+        if right.empty:
+            return left.copy()
+        joined = pd.concat([left, right], ignore_index=True)
+        return joined.drop_duplicates(subset=["seed"], keep="last").sort_values("seed", kind="stable").reset_index(drop=True)
+
+    # Attribution/interaction tables have multiple rows per seed, unlike decisions.
+    def combine_detail(left: pd.DataFrame, right: pd.DataFrame) -> pd.DataFrame:
+        if left.empty:
+            return right.copy()
+        if right.empty:
+            return left.copy()
+        overlapping = set(right["seed"].unique())
+        return pd.concat([left[~left["seed"].isin(overlapping)], right], ignore_index=True)
+
+    return SeedSweepResult(
+        fresh.run_dir,
+        combine(existing.decisions, fresh.decisions),
+        combine_detail(existing.attributions, fresh.attributions),
+        combine_detail(existing.interactions, fresh.interactions),
+        combine(existing.base_feasibility, fresh.base_feasibility),
+    )
+
+
+def _write_calibration_checkpoint(
+    root: Path,
+    *,
+    configurations: pd.DataFrame,
+    seed_decisions: pd.DataFrame,
+    summary: pd.DataFrame,
+    attributions: pd.DataFrame,
+    interactions: pd.DataFrame,
+    manifest: dict,
+) -> None:
+    """Persist aggregation state after every completed point, not only at the end."""
+    configurations.to_csv(root / "calibration_configurations.csv", index=False)
+    seed_decisions.to_csv(root / "calibration_seed_decisions.csv", index=False)
+    summary.to_csv(root / "calibration_summary.csv", index=False)
+    attributions.to_csv(root / "calibration_attributions.csv", index=False)
+    interactions.to_csv(root / "calibration_interactions.csv", index=False)
+    (root / "calibration_manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+
+
 def run_calibration_sweep(
     settings: Settings,
     seeds: Iterable[int],
@@ -286,12 +406,13 @@ def run_calibration_sweep(
     design: CalibrationDesign = "oat",
     lhs_samples: int = 16,
     lhs_seed: int = 20260805,
+    resume_dir: str | Path | None = None,
 ) -> CalibrationResult:
-    """Run a pre-specified OAT or Latin-hypercube exact-game calibration sweep.
+    """Run or resume a pre-specified exact-game calibration sweep.
 
-    This can be computationally expensive for a full CURE-Sim configuration.  It
-    intentionally does no hyperparameter selection: every design point and seed
-    is retained and summarized, including infeasible-base repair decisions.
+    Supplying ``resume_dir`` rehydrates all completed child seed runs under that
+    directory and evaluates only missing seeds/points. It is safe after a laptop
+    restart and does not re-run a completed exact coalition game.
     """
     seed_list = [int(seed) for seed in seeds]
     if not seed_list:
@@ -299,9 +420,28 @@ def run_calibration_sweep(
     if design not in {"oat", "lhs"}:
         raise ValueError(f"Unknown calibration design: {design}")
     points = default_oat_points(settings) if design == "oat" else latin_hypercube_points(settings, lhs_samples, seed=lhs_seed)
-    stamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
-    root = Path(settings.run.output_root) / f"calibration-{design}-{stamp}"
-    root.mkdir(parents=True, exist_ok=False)
+    if resume_dir is None:
+        stamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
+        root = Path(settings.run.output_root) / f"calibration-{design}-{stamp}"
+        root.mkdir(parents=True, exist_ok=False)
+    else:
+        root = Path(resume_dir)
+        if not root.is_dir():
+            raise FileNotFoundError(f"Calibration resume directory does not exist: {root}")
+        if not root.name.startswith(f"calibration-{design}-"):
+            raise ValueError(f"Resume directory {root.name!r} does not match design {design!r}")
+
+    base_manifest = {
+        "purpose": "Behavioral sensitivity analysis of disclosed CURE-Sim assumptions; not empirical calibration to an observational ratings dataset.",
+        "design": design,
+        "seeds": seed_list,
+        "lhs_samples": lhs_samples if design == "lhs" else None,
+        "lhs_seed": lhs_seed if design == "lhs" else None,
+        "base_config_hash": settings.config_hash(),
+        "parameters": list(_PARAMETER_PATHS),
+        "points": [asdict(point) for point in points],
+        "resume_dir": str(root) if resume_dir is not None else None,
+    }
 
     configuration_rows: list[dict] = []
     decision_frames: list[pd.DataFrame] = []
@@ -310,14 +450,29 @@ def run_calibration_sweep(
     summaries: list[dict] = []
     for point in points:
         configured = _settings_for_point(settings, point, root)
-        result: SeedSweepResult = run_seed_sweep(configured, seed_list)
+        point_root = root / point.point_id
+        point_root.mkdir(parents=True, exist_ok=True)
+        recovered, completed_seeds = _recover_completed_point_runs(point_root, configured, seed_list)
+        missing = [seed for seed in seed_list if seed not in completed_seeds]
+        if missing:
+            # New work is isolated in a fresh child sweep directory. Existing child
+            # artifacts remain untouched; the returned rows are combined now and
+            # are independently discoverable from child artifacts on a later resume.
+            fresh = run_seed_sweep(configured, missing)
+            recovered = _combine_seed_sweeps(recovered, fresh)
+            completed_seeds = set(recovered.decisions["seed"].astype(int).tolist())
+        if completed_seeds != set(seed_list):
+            absent = sorted(set(seed_list).difference(completed_seeds))
+            raise RuntimeError(f"Calibration point {point.point_id} is missing recovered seeds {absent}")
+        result = recovered
         configuration_rows.append({
             "point_id": point.point_id,
             "varied_parameter": point.varied_parameter,
             "varied_value": point.varied_value,
             "is_baseline": point.is_baseline,
             "config_hash": configured.config_hash(),
-            "sweep_run_dir": str(result.run_dir),
+            "sweep_run_dir": str(point_root),
+            "recovered_seed_count": int(len(completed_seeds)),
             **{f"parameter_{name}": value for name, value in point.values.items()},
         })
         decisions = result.decisions.copy()
@@ -331,30 +486,25 @@ def run_calibration_sweep(
         interaction_frames.append(interactions)
         summaries.append(_decision_summary(decisions, point))
 
-    configurations = pd.DataFrame(configuration_rows)
-    summary = pd.DataFrame(summaries).merge(
-        configurations.drop(columns=["varied_parameter", "varied_value", "is_baseline", "sweep_run_dir"]),
-        on="point_id", how="left", validate="one_to_one",
-    )
-    seed_decisions = pd.concat(decision_frames, ignore_index=True)
-    attributions = pd.concat(attribution_frames, ignore_index=True)
-    interactions = pd.concat(interaction_frames, ignore_index=True)
-    configurations.to_csv(root / "calibration_configurations.csv", index=False)
-    seed_decisions.to_csv(root / "calibration_seed_decisions.csv", index=False)
-    summary.to_csv(root / "calibration_summary.csv", index=False)
-    attributions.to_csv(root / "calibration_attributions.csv", index=False)
-    interactions.to_csv(root / "calibration_interactions.csv", index=False)
-    _emit_calibration_figures(root, summary, attributions, design)
-    manifest = {
-        "purpose": "Behavioral sensitivity analysis of disclosed CURE-Sim assumptions; not empirical calibration to an observational ratings dataset.",
-        "design": design,
-        "seeds": seed_list,
-        "lhs_samples": lhs_samples if design == "lhs" else None,
-        "lhs_seed": lhs_seed if design == "lhs" else None,
-        "base_config_hash": settings.config_hash(),
-        "parameters": list(_PARAMETER_PATHS),
-        "points": [asdict(point) for point in points],
+        # A power loss after this point now leaves root-level aggregate tables that
+        # document progress; a later resume still verifies child-run completeness.
+        configurations = pd.DataFrame(configuration_rows)
+        seed_decisions = pd.concat(decision_frames, ignore_index=True)
+        all_attributions = pd.concat(attribution_frames, ignore_index=True)
+        all_interactions = pd.concat(interaction_frames, ignore_index=True)
+        summary = pd.DataFrame(summaries).merge(
+            configurations.drop(columns=["varied_parameter", "varied_value", "is_baseline", "sweep_run_dir"]),
+            on="point_id", how="left", validate="one_to_one",
+        )
+        checkpoint_manifest = {**base_manifest, "status": "running", "completed_point_ids": configurations["point_id"].tolist()}
+        _write_calibration_checkpoint(root, configurations=configurations, seed_decisions=seed_decisions, summary=summary, attributions=all_attributions, interactions=all_interactions, manifest=checkpoint_manifest)
+
+    _emit_calibration_figures(root, summary, all_attributions, design)
+    final_manifest = {
+        **base_manifest,
+        "status": "completed",
+        "completed_point_ids": configurations["point_id"].tolist(),
         "generated_files": sorted(path.name for path in root.iterdir() if path.is_file()),
     }
-    (root / "calibration_manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
-    return CalibrationResult(root, configurations, seed_decisions, summary, attributions, interactions)
+    _write_calibration_checkpoint(root, configurations=configurations, seed_decisions=seed_decisions, summary=summary, attributions=all_attributions, interactions=all_interactions, manifest=final_manifest)
+    return CalibrationResult(root, configurations, seed_decisions, summary, all_attributions, all_interactions)

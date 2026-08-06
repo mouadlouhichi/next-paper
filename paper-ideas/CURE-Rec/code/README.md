@@ -141,6 +141,14 @@ cure-rec calibrate \
   --seeds 42,43,44,45,46 \
   --design oat
 
+# Resume an interrupted calibration directory. Completed child seed runs are
+# recovered from their manifests/tables; only missing seeds are evaluated.
+cure-rec calibrate \
+  --config configs/curesim_full.yaml \
+  --seeds 42,43,44,45,46 \
+  --design oat \
+  --resume-dir runs/calibration-oat-20260805T184133Z
+
 # Joint robustness probe. It adds one baseline plus the requested number of
 # Latin-hypercube settings, each evaluated for every listed seed.
 cure-rec calibrate \

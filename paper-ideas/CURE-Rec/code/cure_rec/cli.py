@@ -178,6 +178,7 @@ def _calibrate(args: argparse.Namespace) -> int:
         design=args.design,
         lhs_samples=args.lhs_samples,
         lhs_seed=args.lhs_seed,
+        resume_dir=args.resume_dir,
     )
     print(json.dumps({
         "calibration_run": str(result.run_dir),
@@ -339,6 +340,7 @@ def main(argv: list[str] | None = None) -> int:
     calibration.add_argument("--design", choices=("oat", "lhs"), default="oat")
     calibration.add_argument("--lhs-samples", type=int, default=16, help="Joint configurations for --design lhs")
     calibration.add_argument("--lhs-seed", type=int, default=20260805)
+    calibration.add_argument("--resume-dir", type=Path, help="Existing calibration-{design}-<timestamp> directory to resume without rerunning completed child seeds")
     calibration.set_defaults(handler=_calibrate)
 
     postprocess = subparsers.add_parser("postprocess-sweep", help="Regenerate aggregate seed assets from an existing completed sweep")
