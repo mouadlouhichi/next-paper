@@ -477,7 +477,7 @@ Inference uses paired user-level differences within each seed and a seed-cluster
 \begin{figure*}[t]
 \centering
 \includegraphics[width=0.95\textwidth]{assets/figures/ndcg_results.png}
-\caption{NDCG@20 by attribution family for LightGCN on MovieLens-1M and Amazon-Book (mean$\pm$SD over 5 seeds; full-catalog ranking). Error bars are SD across seeds; significance vs.\ LOO is in Table~\ref{tab:paired}. Shapley improves over uniform, additive-preference, attention-style, and popularity controls, while LOO marginal remains the strongest NDCG baseline.}
+\caption{NDCG@20 by attribution family for LightGCN on MovieLens-1M and Amazon-Book (mean$\pm$SD over 5 seeds; full-catalog ranking). Error bars are SD across seeds; significance vs.\ LOO is in Table~\ref{tab:paired}. Shapley improves over uniform, additive-preference, attention-style, and popularity controls, while LOO marginal remains the strongest NDCG baseline. The comparison with the popularity control is descriptive (it is not in the Holm family).}
 \label{fig:ndcg_results}
 \end{figure*}
 
@@ -633,7 +633,7 @@ Three caveats bound the claim. First, the proxy masks candidates rather than re-
 
 The case study yields three main findings.
 
-First, validation-guided interaction attribution is useful. Shapley consistently improves over uniform, additive-preference, attention-style, and popularity controls on ranking metrics across MovieLens-1M and Amazon-Book. This supports the broader claim that explicitly attributing historical interactions can improve graph-based recommendation beyond simple similarity or attention-style weighting.
+First, validation-guided interaction attribution is useful. Shapley consistently improves over uniform, additive-preference, and attention-style controls on ranking metrics across MovieLens-1M and Amazon-Book (Holm family), and also leads the popularity control descriptively (heuristic-pop is not part of the Holm family). This supports the broader claim that explicitly attributing historical interactions can improve graph-based recommendation beyond simple similarity or attention-style weighting.
 
 Second, the distinctive contribution of full Shapley averaging is limited for ranking utility. The LOO marginal baseline is stronger than Shapley on NDCG@20 in both datasets, ties or beats Shapley on HitRate@20, and is much cheaper. This suggests that much of the useful signal comes from validation-guided marginal attribution rather than from averaging marginal contributions over many coalition contexts.
 
@@ -646,7 +646,7 @@ These findings support the paper's thesis: game-theoretic language is valuable w
 
 A common weakness of empirical XAI papers is that the explanation method is evaluated only against very weak baselines. If Shapley is compared only with uniform weighting or random attribution, a positive result tells us little about the value of the Shapley solution concept. It may show only that some validation-guided reweighting is useful. The present case study avoids that weakness by including LOO marginal attribution.
 
-The result is challenging for a simple Shapley narrative. LOO marginal attribution is not axiomatic in the Shapley sense, but it is directly tied to the same value function. It asks a simple question: how much value is lost if this interaction is removed from the full selected history? This is often the first baseline a reviewer will imagine. It is cheap, intuitive, and easy to explain. In our results, it captures most of the benefit and often exceeds Shapley on NDCG, coverage, and diversity. That means the empirical case for Shapley cannot rest on ranking utility alone.
+The result is challenging for a simple Shapley narrative. LOO marginal attribution is not axiomatic in the Shapley sense, but it is directly tied to the same value function. It asks a simple question: how much value is lost if this interaction is removed from the full selected history? This is often the first baseline a reviewer will imagine. It is cheap, intuitive, and easy to explain. In our results, it captures most of the benefit and often exceeds Shapley on NDCG, coverage, and diversity (on Amazon-Book ILD, Shapley is marginally higher: $0.92071$ vs $0.92038$). That means the empirical case for Shapley cannot rest on ranking utility alone.
 
 This does not invalidate cooperative-game attribution. Instead, it clarifies what must be shown. Shapley averaging is designed to handle contexts. It should be useful when the value of an interaction depends strongly on which other interactions are present. Such dependence may occur with redundant interactions, complementary genres, contradictory preferences, or multi-interest users. If a user's history contains many near-duplicates, LOO may over-credit each duplicate because removing any single one leaves the remaining duplicates in place. Shapley can distribute credit across redundant players. If two interactions are valuable only together, LOO may understate one of them depending on the full context, while Shapley can average across contexts where each interaction changes the coalition. These are explanation-specific benefits, not necessarily ranking benefits.
 
