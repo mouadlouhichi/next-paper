@@ -1,0 +1,437 @@
+{
+  "purpose": "Behavioral sensitivity analysis of disclosed CURE-Sim assumptions; not empirical calibration to an observational ratings dataset.",
+  "design": "lhs",
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "lhs_samples": 24,
+  "lhs_seed": 20260805,
+  "base_config_hash": "5e7f1e49edc74b1f",
+  "parameters": [
+    "fatigue_strength",
+    "repeat_threshold",
+    "horizon",
+    "provider_threshold",
+    "provider_balance_strength",
+    "novelty_delayed_benefit",
+    "exploration_cost"
+  ],
+  "points": [
+    {
+      "point_id": "baseline",
+      "values": {
+        "fatigue_strength": 1.0,
+        "repeat_threshold": 3,
+        "horizon": 12,
+        "provider_threshold": 0.28,
+        "provider_balance_strength": 0.35,
+        "novelty_delayed_benefit": 0.0,
+        "exploration_cost": 0.1
+      },
+      "varied_parameter": "baseline",
+      "varied_value": null,
+      "is_baseline": true
+    },
+    {
+      "point_id": "lhs-001",
+      "values": {
+        "fatigue_strength": 1.0767054846988626,
+        "repeat_threshold": 1,
+        "horizon": 17,
+        "provider_threshold": 0.32417850489719147,
+        "provider_balance_strength": 0.46834504485640793,
+        "novelty_delayed_benefit": 0.06085918163882464,
+        "exploration_cost": 0.16087461323011945
+      },
+      "varied_parameter": "joint_lhs",
+      "varied_value": null,
+      "is_baseline": false
+    },
+    {
+      "point_id": "lhs-002",
+      "values": {
+        "fatigue_strength": 1.3679438490749865,
+        "repeat_threshold": 2,
+        "horizon": 10,
+        "provider_threshold": 0.26203555417311464,
+        "provider_balance_strength": 0.38688279378172813,
+        "novelty_delayed_benefit": 0.07020840920062082,
+        "exploration_cost": 0.06465633356925618
+      },
+      "varied_parameter": "joint_lhs",
+      "varied_value": null,
+      "is_baseline": false
+    },
+    {
+      "point_id": "lhs-003",
+      "values": {
+        "fatigue_strength": 1.0477723672374784,
+        "repeat_threshold": 1,
+        "horizon": 10,
+        "provider_threshold": 0.25242925994820736,
+        "provider_balance_strength": 0.3278196611807248,
+        "novelty_delayed_benefit": 0.05829812368051649,
+        "exploration_cost": 0.025139464610827278
+      },
+      "varied_parameter": "joint_lhs",
+      "varied_value": null,
+      "is_baseline": false
+    },
+    {
+      "point_id": "lhs-004",
+      "values": {
+        "fatigue_strength": 0.7611712447073558,
+        "repeat_threshold": 5,
+        "horizon": 17,
+        "provider_threshold": 0.27781892513683953,
+        "provider_balance_strength": 0.4239060627437227,
+        "novelty_delayed_benefit": 0.011494968215689787,
+        "exploration_cost": 0.07957314249867414
+      },
+      "varied_parameter": "joint_lhs",
+      "varied_value": null,
+      "is_baseline": false
+    },
+    {
+      "point_id": "lhs-005",
+      "values": {
+        "fatigue_strength": 1.1293462760669273,
+        "repeat_threshold": 3,
+        "horizon": 9,
+        "provider_threshold": 0.2673166933264647,
+        "provider_balance_strength": 0.29729946938847135,
+        "novelty_delayed_benefit": 0.031856730124560514,
+        "exploration_cost": 0.06705151264957251
+      },
+      "varied_parameter": "joint_lhs",
+      "varied_value": null,
+      "is_baseline": false
+    },
+    {
+      "point_id": "lhs-006",
+      "values": {
+        "fatigue_strength": 0.870286711507075,
+        "repeat_threshold": 2,
+        "horizon": 11,
+        "provider_threshold": 0.34042086600560323,
+        "provider_balance_strength": 0.7955917736417697,
+        "novelty_delayed_benefit": 0.005958146789433329,
+        "exploration_cost": 0.03744576546763297
+      },
+      "varied_parameter": "joint_lhs",
+      "varied_value": null,
+      "is_baseline": false
+    },
+    {
+      "point_id": "lhs-007",
+      "values": {
+        "fatigue_strength": 1.2420461621899486,
+        "repeat_threshold": 5,
+        "horizon": 8,
+        "provider_threshold": 0.34814340248798503,
+        "provider_balance_strength": 0.7375056328674494,
+        "novelty_delayed_benefit": 0.007592606300867563,
+        "exploration_cost": 0.10011892969008113
+      },
+      "varied_parameter": "joint_lhs",
+      "varied_value": null,
+      "is_baseline": false
+    },
+    {
+      "point_id": "lhs-008",
+      "values": {
+        "fatigue_strength": 1.1848497571914287,
+        "repeat_threshold": 4,
+        "horizon": 6,
+        "provider_threshold": 0.25734256495643293,
+        "provider_balance_strength": 0.020907432007956098,
+        "novelty_delayed_benefit": 0.0770121823452736,
+        "exploration_cost": 0.03388452232203537
+      },
+      "varied_parameter": "joint_lhs",
+      "varied_value": null,
+      "is_baseline": false
+    },
+    {
+      "point_id": "lhs-009",
+      "values": {
+        "fatigue_strength": 1.094093993168786,
+        "repeat_threshold": 3,
+        "horizon": 11,
+        "provider_threshold": 0.21337928759464633,
+        "provider_balance_strength": 0.3486192436263067,
+        "novelty_delayed_benefit": 0.018867154420998483,
+        "exploration_cost": 0.1889309178986963
+      },
+      "varied_parameter": "joint_lhs",
+      "varied_value": null,
+      "is_baseline": false
+    },
+    {
+      "point_id": "lhs-010",
+      "values": {
+        "fatigue_strength": 0.8967804554867953,
+        "repeat_threshold": 2,
+        "horizon": 15,
+        "provider_threshold": 0.20217483190085245,
+        "provider_balance_strength": 0.5269259187237295,
+        "novelty_delayed_benefit": 0.02226219953668277,
+        "exploration_cost": 0.13345871002630022
+      },
+      "varied_parameter": "joint_lhs",
+      "varied_value": null,
+      "is_baseline": false
+    },
+    {
+      "point_id": "lhs-011",
+      "values": {
+        "fatigue_strength": 1.3353996090304954,
+        "repeat_threshold": 2,
+        "horizon": 8,
+        "provider_threshold": 0.3061999490856631,
+        "provider_balance_strength": 0.18826727665850077,
+        "novelty_delayed_benefit": 0.01523098168186292,
+        "exploration_cost": 0.0806165710201692
+      },
+      "varied_parameter": "joint_lhs",
+      "varied_value": null,
+      "is_baseline": false
+    },
+    {
+      "point_id": "lhs-012",
+      "values": {
+        "fatigue_strength": 1.3899774786498535,
+        "repeat_threshold": 5,
+        "horizon": 4,
+        "provider_threshold": 0.22462356872774344,
+        "provider_balance_strength": 0.6132510428054819,
+        "novelty_delayed_benefit": 0.039027800231657736,
+        "exploration_cost": 0.17101464468590213
+      },
+      "varied_parameter": "joint_lhs",
+      "varied_value": null,
+      "is_baseline": false
+    },
+    {
+      "point_id": "lhs-013",
+      "values": {
+        "fatigue_strength": 1.2997391380509549,
+        "repeat_threshold": 4,
+        "horizon": 12,
+        "provider_threshold": 0.35610229330517396,
+        "provider_balance_strength": 0.21258069737067592,
+        "novelty_delayed_benefit": 0.000655786893977524,
+        "exploration_cost": 0.04314189752724214
+      },
+      "varied_parameter": "joint_lhs",
+      "varied_value": null,
+      "is_baseline": false
+    },
+    {
+      "point_id": "lhs-014",
+      "values": {
+        "fatigue_strength": 0.717609742497244,
+        "repeat_threshold": 4,
+        "horizon": 5,
+        "provider_threshold": 0.208166626412772,
+        "provider_balance_strength": 0.4455066122142832,
+        "novelty_delayed_benefit": 0.04491075694793521,
+        "exploration_cost": 0.14159373812997958
+      },
+      "varied_parameter": "joint_lhs",
+      "varied_value": null,
+      "is_baseline": false
+    },
+    {
+      "point_id": "lhs-015",
+      "values": {
+        "fatigue_strength": 0.844031513064585,
+        "repeat_threshold": 3,
+        "horizon": 7,
+        "provider_threshold": 0.31745645189812155,
+        "provider_balance_strength": 0.07138127972691505,
+        "novelty_delayed_benefit": 0.029056561088482417,
+        "exploration_cost": 0.12584087125112206
+      },
+      "varied_parameter": "joint_lhs",
+      "varied_value": null,
+      "is_baseline": false
+    },
+    {
+      "point_id": "lhs-016",
+      "values": {
+        "fatigue_strength": 0.7919263954171023,
+        "repeat_threshold": 2,
+        "horizon": 18,
+        "provider_threshold": 0.2423265503069713,
+        "provider_balance_strength": 0.11487422557245996,
+        "novelty_delayed_benefit": 0.07625014625631256,
+        "exploration_cost": 0.16474978644386046
+      },
+      "varied_parameter": "joint_lhs",
+      "varied_value": null,
+      "is_baseline": false
+    },
+    {
+      "point_id": "lhs-017",
+      "values": {
+        "fatigue_strength": 1.1476422263841983,
+        "repeat_threshold": 3,
+        "horizon": 14,
+        "provider_threshold": 0.22817375542273644,
+        "provider_balance_strength": 0.7084705348365667,
+        "novelty_delayed_benefit": 0.05533827431297006,
+        "exploration_cost": 0.09302482757383762
+      },
+      "varied_parameter": "joint_lhs",
+      "varied_value": null,
+      "is_baseline": false
+    },
+    {
+      "point_id": "lhs-018",
+      "values": {
+        "fatigue_strength": 0.9106019014506977,
+        "repeat_threshold": 3,
+        "horizon": 20,
+        "provider_threshold": 0.23383295081049627,
+        "provider_balance_strength": 0.16069366077499958,
+        "novelty_delayed_benefit": 0.06871263848791041,
+        "exploration_cost": 0.10968163267578765
+      },
+      "varied_parameter": "joint_lhs",
+      "varied_value": null,
+      "is_baseline": false
+    },
+    {
+      "point_id": "lhs-019",
+      "values": {
+        "fatigue_strength": 0.9445325685668375,
+        "repeat_threshold": 1,
+        "horizon": 6,
+        "provider_threshold": 0.3335367532846225,
+        "provider_balance_strength": 0.05479740266989178,
+        "novelty_delayed_benefit": 0.02429315131769315,
+        "exploration_cost": 0.12451181274192388
+      },
+      "varied_parameter": "joint_lhs",
+      "varied_value": null,
+      "is_baseline": false
+    },
+    {
+      "point_id": "lhs-020",
+      "values": {
+        "fatigue_strength": 0.7300548466355924,
+        "repeat_threshold": 3,
+        "horizon": 14,
+        "provider_threshold": 0.2991026938065925,
+        "provider_balance_strength": 0.6951541512938912,
+        "novelty_delayed_benefit": 0.036628650597827044,
+        "exploration_cost": 0.19566505013294083
+      },
+      "varied_parameter": "joint_lhs",
+      "varied_value": null,
+      "is_baseline": false
+    },
+    {
+      "point_id": "lhs-021",
+      "values": {
+        "fatigue_strength": 1.0134252749428017,
+        "repeat_threshold": 4,
+        "horizon": 19,
+        "provider_threshold": 0.3083599575797106,
+        "provider_balance_strength": 0.5501515958653262,
+        "novelty_delayed_benefit": 0.04202731869008058,
+        "exploration_cost": 0.05256665434811711
+      },
+      "varied_parameter": "joint_lhs",
+      "varied_value": null,
+      "is_baseline": false
+    },
+    {
+      "point_id": "lhs-022",
+      "values": {
+        "fatigue_strength": 1.2608272843519737,
+        "repeat_threshold": 2,
+        "horizon": 16,
+        "provider_threshold": 0.33039821695353566,
+        "provider_balance_strength": 0.25355220402714795,
+        "novelty_delayed_benefit": 0.051853731685185867,
+        "exploration_cost": 0.1788802811592446
+      },
+      "varied_parameter": "joint_lhs",
+      "varied_value": null,
+      "is_baseline": false
+    },
+    {
+      "point_id": "lhs-023",
+      "values": {
+        "fatigue_strength": 0.9901668166516082,
+        "repeat_threshold": 4,
+        "horizon": 16,
+        "provider_threshold": 0.2859647041657989,
+        "provider_balance_strength": 0.577441771702555,
+        "novelty_delayed_benefit": 0.049087360563283056,
+        "exploration_cost": 0.15496439962736738
+      },
+      "varied_parameter": "joint_lhs",
+      "varied_value": null,
+      "is_baseline": false
+    },
+    {
+      "point_id": "lhs-024",
+      "values": {
+        "fatigue_strength": 1.217156765943167,
+        "repeat_threshold": 4,
+        "horizon": 13,
+        "provider_threshold": 0.288332771369031,
+        "provider_balance_strength": 0.6387611888954383,
+        "novelty_delayed_benefit": 0.06438571768421217,
+        "exploration_cost": 0.1127488735003583
+      },
+      "varied_parameter": "joint_lhs",
+      "varied_value": null,
+      "is_baseline": false
+    }
+  ],
+  "resume_dir": null,
+  "status": "completed",
+  "completed_point_ids": [
+    "baseline",
+    "lhs-001",
+    "lhs-002",
+    "lhs-003",
+    "lhs-004",
+    "lhs-005",
+    "lhs-006",
+    "lhs-007",
+    "lhs-008",
+    "lhs-009",
+    "lhs-010",
+    "lhs-011",
+    "lhs-012",
+    "lhs-013",
+    "lhs-014",
+    "lhs-015",
+    "lhs-016",
+    "lhs-017",
+    "lhs-018",
+    "lhs-019",
+    "lhs-020",
+    "lhs-021",
+    "lhs-022",
+    "lhs-023",
+    "lhs-024"
+  ],
+  "generated_files": [
+    "calibration_attributions.csv",
+    "calibration_configurations.csv",
+    "calibration_interactions.csv",
+    "calibration_manifest.json",
+    "calibration_seed_decisions.csv",
+    "calibration_summary.csv"
+  ]
+}
