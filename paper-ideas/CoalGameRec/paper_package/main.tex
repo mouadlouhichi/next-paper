@@ -181,34 +181,7 @@ This critical position is closer to the standards of a high-level review article
 
 \begin{figure*}[t]
 \centering
-\begin{tikzpicture}[
-  font=\small,
-  node distance=1.2cm and 1.0cm,
-  box/.style={draw, rounded corners, align=center, minimum height=8mm, minimum width=28mm, fill=blue!5},
-  game/.style={draw, rounded corners, align=center, minimum height=8mm, minimum width=28mm, fill=orange!12},
-  out/.style={draw, rounded corners, align=center, minimum height=8mm, minimum width=28mm, fill=green!10},
-  arr/.style={-{Latex[length=2mm]}, thick}
-]
-\node[box] (hist) {User history\\training interactions};
-\node[box, right=of hist] (graph) {LightGCN\\graph backbone};
-\node[box, right=of graph] (base) {Cached full-graph\\base scores};
-\node[game, below=of hist] (players) {Bounded players\\stratified 24 interactions};
-\node[game, right=of players] (value) {Validation game\\pairwise log-sigmoid};
-\node[game, right=of value] (alloc) {Credit allocation\\Shapley or LOO};
-\node[out, right=of alloc] (rerank) {Native embedding\\reranking};
-\node[out, above=of rerank] (eval) {Full-catalogue\\test ranking};
-\node[out, below=of rerank] (audit) {Diagnostics\\cost and explanation};
-\draw[arr] (hist) -- (graph);
-\draw[arr] (graph) -- (base);
-\draw[arr] (hist) -- (players);
-\draw[arr] (players) -- (value);
-\draw[arr] (value) -- (alloc);
-\draw[arr] (alloc) -- (rerank);
-\draw[arr] (base) -- (rerank);
-\draw[arr] (rerank) -- (eval);
-\draw[arr] (rerank) -- (audit);
-\node[draw, dashed, rounded corners, fit=(players)(value)(alloc), inner sep=5pt, label={[font=\small]below:cooperative-game attribution layer}] {};
-\end{tikzpicture}
+\includegraphics[width=0.95\textwidth]{assets/figures/architecture.png}
 \caption{Architecture of the cooperative-game explanation pipeline. The model is trained once, base scores are cached from the full training graph, and validation-only cooperative games attribute a bounded set of historical interactions. Attribution weights are then injected through the native LightGCN item-embedding space for post-hoc reranking and diagnostics.}
 \label{fig:architecture}
 \end{figure*}
@@ -342,6 +315,20 @@ Final test metrics are HitRate@K and NDCG@K for $K\in\{5,10,20\}$. Since each us
 Inference uses paired user-level differences within each seed and a seed-clustered user bootstrap. The estimand is conditional on the five trained models. We report mean paired differences, 95\% bootstrap intervals, user-conditional descriptive $d_z$, and proportions of improved, harmed, and unchanged users.
 
 \section{Results}\label{sec:results}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.95\textwidth]{assets/figures/ndcg_results.png}
+\caption{NDCG@20 by attribution family for LightGCN on MovieLens-1M and Amazon-Book. Shapley improves over uniform, additive-preference, attention-style, and popularity controls, while leave-one-out marginal attribution remains the strongest NDCG baseline.}
+\label{fig:ndcg_results}
+\end{figure*}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.85\textwidth]{assets/figures/cost_effectiveness.png}
+\caption{Cost-effectiveness of Shapley and leave-one-out marginal attribution. The figure summarizes the central boundary condition: Shapley is useful relative to weak and similarity-based controls, but leave-one-out marginal attribution gives stronger NDCG gain per attribution hour.}
+\label{fig:cost_schematic}
+\end{figure*}
 
 \subsection{Main LightGCN results}\label{subsec:main_results}
 
