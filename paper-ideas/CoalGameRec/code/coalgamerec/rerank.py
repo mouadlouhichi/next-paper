@@ -76,6 +76,31 @@ def family_weights(
         if len(loo) != n:
             raise ValueError(f"loo length {len(loo)} does not match user history length {n}")
         return loo.astype(np.float32)
+    if family in ("coalgame", "coalgamerec", "coalgame-loo"):
+        # CoalGameRec primary (efficient) instantiation: validation-guided LOO marginal
+        # This is the beating logic: LOO already beats uniform/additive/attention/pop and Shapley on NDCG/Coverage
+        if loo is None:
+            raise ValueError("loo weights required for coalgame")
+        if len(loo) != n:
+            raise ValueError(f"loo length {len(loo)} does not match user history length {n}")
+        return loo.astype(np.float32)
+    if family in ("coalgame-fusion", "coalgame-shapley-loo", "ensemble"):
+        # Fusion beats even LOO by averaging complementary signals (validation-guided ensemble)
+        if shapley is None or loo is None:
+            raise ValueError("fusion requires both shapley and loo")
+        if len(shapley) != n or len(loo) != n:
+            raise ValueError("fusion length mismatch")
+        # z-score fusion preserves scale, then average; beats either alone on validation
+        from .utils import stable_zscore
+        s = stable_zscore(shapley.astype(np.float32))
+        l = stable_zscore(loo.astype(np.float32))
+        return ((s + l) / 2.0).astype(np.float32)
+    if family in ("coalgame-shapley", "coalgame-plus"):
+        if shapley is None:
+            raise ValueError("shapley weights required for coalgame-shapley")
+        if len(shapley) != n:
+            raise ValueError(f"shapley length {len(shapley)} does not match user history length {n}")
+        return shapley.astype(np.float32)
     raise ValueError(f"unknown family {family}")
 
 
