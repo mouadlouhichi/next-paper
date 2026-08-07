@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import platform
 import time
 from pathlib import Path
@@ -39,13 +40,52 @@ def load_config(path: str | Path) -> dict[str, Any]:
         return yaml.safe_load(f)
 
 
+def _resolve_path(value: str | Path) -> Path:
+    """Resolve ~ and environment variables in config paths."""
+    return Path(os.path.expandvars(str(value))).expanduser()
+
+
+def _amazon_missing_message(path: Path) -> str:
+    return f"""
+Amazon Books input file not found: {path}
+
+The Amazon run requires the UCSD Amazon Reviews 2018 5-core Books file:
+  Books_5.json.gz
+
+Place it at one of these locations:
+  1) {Path('data/raw/Books_5.json.gz').resolve()}
+  2) any custom path, then set the environment variable:
+       export AMAZON_BOOKS_5=/absolute/path/to/Books_5.json.gz
+     and keep the config value as ${{AMAZON_BOOKS_5}}
+  3) edit configs/q1_lightgcn_amazon_template.yaml:
+       dataset:
+         books_5_json_gz: /absolute/path/to/Books_5.json.gz
+
+Download source (UCSD Amazon Reviews 2018):
+  https://cseweb.ucsd.edu/~jmcauley/datasets/amazon_v2/
+
+Direct file URL commonly used by the UCSD page:
+  https://datarepo.eng.ucsd.edu/mcauley_group/data/amazon_v2/categoryFilesSmall/Books_5.json.gz
+
+Example:
+  mkdir -p data/raw
+  curl -L -C - -o data/raw/Books_5.json.gz \
+    https://datarepo.eng.ucsd.edu/mcauley_group/data/amazon_v2/categoryFilesSmall/Books_5.json.gz
+
+The raw file is large. Start with dataset.max_rows or sample_users for a feasibility run.
+""".strip()
+
+
 def prepare_split(cfg: dict[str, Any]):
     ds = cfg["dataset"]
-    raw_dir = Path(ds.get("raw_dir", "data/raw"))
+    raw_dir = _resolve_path(ds.get("raw_dir", "data/raw"))
     if ds["name"] == "ml1m":
         raw = load_movielens_1m(raw_dir)
     elif ds["name"] in {"amazon_books_2018", "amazon_books_2018_custom"}:
-        path = ds.get("books_5_json_gz") or raw_dir / "Books_5.json.gz"
+        path_value = os.environ.get("AMAZON_BOOKS_5") or ds.get("books_5_json_gz") or (raw_dir / "Books_5.json.gz")
+        path = _resolve_path(path_value)
+        if not path.exists():
+            raise FileNotFoundError(_amazon_missing_message(path))
         raw = load_amazon_books_2018(path, max_rows=ds.get("max_rows"))
     else:
         raise ValueError(f"Unsupported dataset: {ds['name']}")

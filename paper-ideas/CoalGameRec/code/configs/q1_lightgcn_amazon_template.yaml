@@ -11,7 +11,7 @@ run:
 dataset:
   name: amazon_books_2018_custom
   raw_dir: data/raw
-  books_5_json_gz: data/raw/Books_5.json.gz
+  books_5_json_gz: data/raw/Books_5.json.gz  # or set AMAZON_BOOKS_5=/absolute/path/to/Books_5.json.gz
   max_rows: null
   sample_users: 50000
   sample_seed: 20260803

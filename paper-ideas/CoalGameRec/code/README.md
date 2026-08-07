@@ -228,3 +228,32 @@ If you rerun an old output directory after changing model code, delete or ignore
 old untagged checkpoint files. Runs where `shapley_seconds` or `loo_seconds` is
 near zero after a backbone change should be considered invalid and rerun with the
 new cache-tagged checkpointing.
+
+## Amazon Books data preparation
+
+The Amazon config expects the UCSD Amazon Reviews 2018 5-core Books file:
+
+```text
+Books_5.json.gz
+```
+
+It is not committed to the repository. Prepare it with either:
+
+```bash
+# Option A: helper script
+python scripts/prepare_amazon_books.py --dest data/raw/Books_5.json.gz
+
+# Option B: resumable curl
+mkdir -p data/raw
+curl -L -C - -o data/raw/Books_5.json.gz \
+  https://datarepo.eng.ucsd.edu/mcauley_group/data/amazon_v2/categoryFilesSmall/Books_5.json.gz
+```
+
+If the file is elsewhere, set:
+
+```bash
+export AMAZON_BOOKS_5=/absolute/path/to/Books_5.json.gz
+python scripts/run_q1_pipeline.py --config configs/q1_lightgcn_amazon_template.yaml
+```
+
+The pipeline now raises a detailed error with these instructions if the file is missing.
