@@ -271,3 +271,20 @@ You can verify a valid gzip quickly:
 ```bash
 python scripts/prepare_amazon_books.py --validate-only --dest data/raw/Books_5.json.gz
 ```
+
+### Resuming interrupted Amazon downloads
+
+If the Python downloader stops with `BrokenPipeError`, **do not delete the partial gzip**. Rerun the same command; it now resumes automatically using HTTP Range requests:
+
+```bash
+python scripts/prepare_amazon_books.py --dest data/raw/Books_5.json.gz --retries 20
+```
+
+You can also resume with curl:
+
+```bash
+curl -L -C - -o data/raw/Books_5.json.gz \
+  https://mcauleylab.ucsd.edu/public_datasets/data/amazon_v2/categoryFilesSmall/Books_5.json.gz
+```
+
+If validation says the file is not gzip and shows HTML (`'<!...'`), then delete it and restart because that file is an error page, not a partial dataset.
