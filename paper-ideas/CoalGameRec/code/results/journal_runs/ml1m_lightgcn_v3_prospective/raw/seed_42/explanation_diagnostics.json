@@ -1,8 +1,8 @@
 {
-  "AttributionEntropy_mean": 2.7526591343522195,
-  "AttributionTop20Mass_mean": 0.7668844652423835,
-  "DeletionDelta_HitRate@20": 0.0179551113396883,
-  "DeletionDelta_NDCG@20": 0.010823125950992107,
+  "AttributionEntropy_mean": 2.7530928796393574,
+  "AttributionTop20Mass_mean": 0.7667671780305555,
+  "DeletionDelta_HitRate@20": 0.017788860946893692,
+  "DeletionDelta_NDCG@20": 0.010758035816252232,
   "Insertion_HitRate@20": 0.07431421428918839,
-  "Insertion_NDCG@20": 0.026485774666070938
+  "Insertion_NDCG@20": 0.026467304676771164
 }

@@ -1,10 +1,10 @@
 {
-  "seconds": 10196.311625242233,
+  "seconds": 7357.8854241371155,
   "seed": 43,
   "stages": {
-    "loo_seconds": 0.3461580276489258,
-    "rerank_eval_sensitivity_seconds": 119.27294301986694,
-    "shapley_seconds": 0.3890039920806885,
-    "train_and_score_seconds": 9880.826495409012
+    "loo_seconds": 396.62698793411255,
+    "rerank_eval_sensitivity_seconds": 107.05213594436646,
+    "shapley_seconds": 5318.949577093124,
+    "train_and_score_seconds": 1360.5769212245941
   }
 }

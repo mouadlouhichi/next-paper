@@ -29,7 +29,7 @@
   },
   "device": "mps",
   "note": "Executable journal-style pipeline output. Confirmatory only if config uses validated HCCF and preregistered artifacts exist.",
-  "platform": "macOS-26.5.1-arm64-arm-64bit",
+  "platform": "macOS-26.6-arm64-arm-64bit",
   "python": "3.12.13",
   "torch": "2.3.1"
 }

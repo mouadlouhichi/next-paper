@@ -78018,7 +78018,7 @@ seed,family,metric,user,value
 44,shapley-mc,HitRate@5,5836,0.0
 44,shapley-mc,HitRate@5,5837,0.0
 44,shapley-mc,HitRate@5,5838,0.0
-44,shapley-mc,HitRate@5,5839,1.0
+44,shapley-mc,HitRate@5,5839,0.0
 44,shapley-mc,HitRate@5,5840,0.0
 44,shapley-mc,HitRate@5,5841,0.0
 44,shapley-mc,HitRate@5,5842,0.0
@@ -81979,7 +81979,7 @@ seed,family,metric,user,value
 44,shapley-mc,NDCG@5,3782,0.0
 44,shapley-mc,NDCG@5,3783,0.0
 44,shapley-mc,NDCG@5,3784,0.0
-44,shapley-mc,NDCG@5,3785,0.43067655
+44,shapley-mc,NDCG@5,3785,0.5
 44,shapley-mc,NDCG@5,3786,0.0
 44,shapley-mc,NDCG@5,3787,1.0
 44,shapley-mc,NDCG@5,3788,0.0
@@ -82422,7 +82422,7 @@ seed,family,metric,user,value
 44,shapley-mc,NDCG@5,4225,0.0
 44,shapley-mc,NDCG@5,4226,0.0
 44,shapley-mc,NDCG@5,4227,0.0
-44,shapley-mc,NDCG@5,4228,0.43067655
+44,shapley-mc,NDCG@5,4228,0.3868528
 44,shapley-mc,NDCG@5,4229,0.0
 44,shapley-mc,NDCG@5,4230,1.0
 44,shapley-mc,NDCG@5,4231,0.0
@@ -84033,7 +84033,7 @@ seed,family,metric,user,value
 44,shapley-mc,NDCG@5,5836,0.0
 44,shapley-mc,NDCG@5,5837,0.0
 44,shapley-mc,NDCG@5,5838,0.0
-44,shapley-mc,NDCG@5,5839,0.3868528
+44,shapley-mc,NDCG@5,5839,0.0
 44,shapley-mc,NDCG@5,5840,0.0
 44,shapley-mc,NDCG@5,5841,0.0
 44,shapley-mc,NDCG@5,5842,0.0
@@ -87130,7 +87130,7 @@ seed,family,metric,user,value
 44,shapley-mc,HitRate@10,2918,1.0
 44,shapley-mc,HitRate@10,2919,1.0
 44,shapley-mc,HitRate@10,2920,0.0
-44,shapley-mc,HitRate@10,2921,1.0
+44,shapley-mc,HitRate@10,2921,0.0
 44,shapley-mc,HitRate@10,2922,0.0
 44,shapley-mc,HitRate@10,2923,0.0
 44,shapley-mc,HitRate@10,2924,0.0
@@ -90687,7 +90687,7 @@ seed,family,metric,user,value
 44,shapley-mc,NDCG@10,460,0.0
 44,shapley-mc,NDCG@10,461,0.0
 44,shapley-mc,NDCG@10,462,0.33333334
-44,shapley-mc,NDCG@10,463,0.28906482
+44,shapley-mc,NDCG@10,463,0.30103
 44,shapley-mc,NDCG@10,464,0.0
 44,shapley-mc,NDCG@10,465,0.0
 44,shapley-mc,NDCG@10,466,0.28906482
@@ -92559,7 +92559,7 @@ seed,family,metric,user,value
 44,shapley-mc,NDCG@10,2332,0.0
 44,shapley-mc,NDCG@10,2333,1.0
 44,shapley-mc,NDCG@10,2334,0.3868528
-44,shapley-mc,NDCG@10,2335,0.33333334
+44,shapley-mc,NDCG@10,2335,0.3562072
 44,shapley-mc,NDCG@10,2336,0.0
 44,shapley-mc,NDCG@10,2337,0.0
 44,shapley-mc,NDCG@10,2338,0.0
@@ -93145,7 +93145,7 @@ seed,family,metric,user,value
 44,shapley-mc,NDCG@10,2918,0.63092977
 44,shapley-mc,NDCG@10,2919,0.5
 44,shapley-mc,NDCG@10,2920,0.0
-44,shapley-mc,NDCG@10,2921,0.28906482
+44,shapley-mc,NDCG@10,2921,0.0
 44,shapley-mc,NDCG@10,2922,0.0
 44,shapley-mc,NDCG@10,2923,0.0
 44,shapley-mc,NDCG@10,2924,0.0
@@ -93243,7 +93243,7 @@ seed,family,metric,user,value
 44,shapley-mc,NDCG@10,3016,0.0
 44,shapley-mc,NDCG@10,3017,0.0
 44,shapley-mc,NDCG@10,3018,0.0
-44,shapley-mc,NDCG@10,3019,0.31546488
+44,shapley-mc,NDCG@10,3019,0.28906482
 44,shapley-mc,NDCG@10,3020,0.0
 44,shapley-mc,NDCG@10,3021,0.0
 44,shapley-mc,NDCG@10,3022,0.0
@@ -93357,7 +93357,7 @@ seed,family,metric,user,value
 44,shapley-mc,NDCG@10,3130,0.0
 44,shapley-mc,NDCG@10,3131,0.0
 44,shapley-mc,NDCG@10,3132,0.0
-44,shapley-mc,NDCG@10,3133,0.30103
+44,shapley-mc,NDCG@10,3133,0.28906482
 44,shapley-mc,NDCG@10,3134,0.0
 44,shapley-mc,NDCG@10,3135,0.0
 44,shapley-mc,NDCG@10,3136,0.0
@@ -94009,7 +94009,7 @@ seed,family,metric,user,value
 44,shapley-mc,NDCG@10,3782,0.0
 44,shapley-mc,NDCG@10,3783,0.0
 44,shapley-mc,NDCG@10,3784,0.0
-44,shapley-mc,NDCG@10,3785,0.43067655
+44,shapley-mc,NDCG@10,3785,0.5
 44,shapley-mc,NDCG@10,3786,0.0
 44,shapley-mc,NDCG@10,3787,1.0
 44,shapley-mc,NDCG@10,3788,0.0
@@ -94452,7 +94452,7 @@ seed,family,metric,user,value
 44,shapley-mc,NDCG@10,4225,0.0
 44,shapley-mc,NDCG@10,4226,0.0
 44,shapley-mc,NDCG@10,4227,0.0
-44,shapley-mc,NDCG@10,4228,0.43067655
+44,shapley-mc,NDCG@10,4228,0.3868528
 44,shapley-mc,NDCG@10,4229,0.0
 44,shapley-mc,NDCG@10,4230,1.0
 44,shapley-mc,NDCG@10,4231,0.0
@@ -96063,7 +96063,7 @@ seed,family,metric,user,value
 44,shapley-mc,NDCG@10,5836,0.0
 44,shapley-mc,NDCG@10,5837,0.3562072
 44,shapley-mc,NDCG@10,5838,0.0
-44,shapley-mc,NDCG@10,5839,0.3868528
+44,shapley-mc,NDCG@10,5839,0.3562072
 44,shapley-mc,NDCG@10,5840,0.0
 44,shapley-mc,NDCG@10,5841,0.30103
 44,shapley-mc,NDCG@10,5842,0.0
@@ -102148,7 +102148,7 @@ seed,family,metric,user,value
 44,shapley-mc,HitRate@20,5906,0.0
 44,shapley-mc,HitRate@20,5907,0.0
 44,shapley-mc,HitRate@20,5908,0.0
-44,shapley-mc,HitRate@20,5909,1.0
+44,shapley-mc,HitRate@20,5909,0.0
 44,shapley-mc,HitRate@20,5910,1.0
 44,shapley-mc,HitRate@20,5911,0.0
 44,shapley-mc,HitRate@20,5912,0.0
@@ -102717,7 +102717,7 @@ seed,family,metric,user,value
 44,shapley-mc,NDCG@20,460,0.0
 44,shapley-mc,NDCG@20,461,0.0
 44,shapley-mc,NDCG@20,462,0.33333334
-44,shapley-mc,NDCG@20,463,0.28906482
+44,shapley-mc,NDCG@20,463,0.30103
 44,shapley-mc,NDCG@20,464,0.0
 44,shapley-mc,NDCG@20,465,0.0
 44,shapley-mc,NDCG@20,466,0.28906482
@@ -102825,7 +102825,7 @@ seed,family,metric,user,value
 44,shapley-mc,NDCG@20,568,0.0
 44,shapley-mc,NDCG@20,569,0.0
 44,shapley-mc,NDCG@20,570,0.0
-44,shapley-mc,NDCG@20,571,0.23540892
+44,shapley-mc,NDCG@20,571,0.23137821
 44,shapley-mc,NDCG@20,572,0.0
 44,shapley-mc,NDCG@20,573,0.0
 44,shapley-mc,NDCG@20,574,0.0
@@ -103934,7 +103934,7 @@ seed,family,metric,user,value
 44,shapley-mc,NDCG@20,1677,0.0
 44,shapley-mc,NDCG@20,1678,0.0
 44,shapley-mc,NDCG@20,1679,0.0
-44,shapley-mc,NDCG@20,1680,0.25595802
+44,shapley-mc,NDCG@20,1680,0.25
 44,shapley-mc,NDCG@20,1681,0.0
 44,shapley-mc,NDCG@20,1682,0.0
 44,shapley-mc,NDCG@20,1683,0.0
@@ -104431,7 +104431,7 @@ seed,family,metric,user,value
 44,shapley-mc,NDCG@20,2174,0.0
 44,shapley-mc,NDCG@20,2175,0.0
 44,shapley-mc,NDCG@20,2176,0.0
-44,shapley-mc,NDCG@20,2177,0.24465054
+44,shapley-mc,NDCG@20,2177,0.25
 44,shapley-mc,NDCG@20,2178,0.0
 44,shapley-mc,NDCG@20,2179,0.0
 44,shapley-mc,NDCG@20,2180,0.0
@@ -104589,7 +104589,7 @@ seed,family,metric,user,value
 44,shapley-mc,NDCG@20,2332,0.0
 44,shapley-mc,NDCG@20,2333,1.0
 44,shapley-mc,NDCG@20,2334,0.3868528
-44,shapley-mc,NDCG@20,2335,0.33333334
+44,shapley-mc,NDCG@20,2335,0.3562072
 44,shapley-mc,NDCG@20,2336,0.0
 44,shapley-mc,NDCG@20,2337,0.0
 44,shapley-mc,NDCG@20,2338,0.0
@@ -105175,7 +105175,7 @@ seed,family,metric,user,value
 44,shapley-mc,NDCG@20,2918,0.63092977
 44,shapley-mc,NDCG@20,2919,0.5
 44,shapley-mc,NDCG@20,2920,0.0
-44,shapley-mc,NDCG@20,2921,0.28906482
+44,shapley-mc,NDCG@20,2921,0.27894294
 44,shapley-mc,NDCG@20,2922,0.0
 44,shapley-mc,NDCG@20,2923,0.0
 44,shapley-mc,NDCG@20,2924,0.0
@@ -105273,7 +105273,7 @@ seed,family,metric,user,value
 44,shapley-mc,NDCG@20,3016,0.0
 44,shapley-mc,NDCG@20,3017,0.0
 44,shapley-mc,NDCG@20,3018,0.0
-44,shapley-mc,NDCG@20,3019,0.31546488
+44,shapley-mc,NDCG@20,3019,0.28906482
 44,shapley-mc,NDCG@20,3020,0.0
 44,shapley-mc,NDCG@20,3021,0.0
 44,shapley-mc,NDCG@20,3022,0.0
@@ -105387,7 +105387,7 @@ seed,family,metric,user,value
 44,shapley-mc,NDCG@20,3130,0.0
 44,shapley-mc,NDCG@20,3131,0.0
 44,shapley-mc,NDCG@20,3132,0.23137821
-44,shapley-mc,NDCG@20,3133,0.30103
+44,shapley-mc,NDCG@20,3133,0.28906482
 44,shapley-mc,NDCG@20,3134,0.0
 44,shapley-mc,NDCG@20,3135,0.0
 44,shapley-mc,NDCG@20,3136,0.0
@@ -105719,7 +105719,7 @@ seed,family,metric,user,value
 44,shapley-mc,NDCG@20,3462,0.0
 44,shapley-mc,NDCG@20,3463,0.0
 44,shapley-mc,NDCG@20,3464,0.0
-44,shapley-mc,NDCG@20,3465,0.27894294
+44,shapley-mc,NDCG@20,3465,0.27023816
 44,shapley-mc,NDCG@20,3466,0.0
 44,shapley-mc,NDCG@20,3467,0.0
 44,shapley-mc,NDCG@20,3468,0.0
@@ -106039,7 +106039,7 @@ seed,family,metric,user,value
 44,shapley-mc,NDCG@20,3782,0.0
 44,shapley-mc,NDCG@20,3783,0.0
 44,shapley-mc,NDCG@20,3784,0.0
-44,shapley-mc,NDCG@20,3785,0.43067655
+44,shapley-mc,NDCG@20,3785,0.5
 44,shapley-mc,NDCG@20,3786,0.0
 44,shapley-mc,NDCG@20,3787,1.0
 44,shapley-mc,NDCG@20,3788,0.0
@@ -106174,7 +106174,7 @@ seed,family,metric,user,value
 44,shapley-mc,NDCG@20,3917,0.0
 44,shapley-mc,NDCG@20,3918,0.0
 44,shapley-mc,NDCG@20,3919,0.0
-44,shapley-mc,NDCG@20,3920,0.25
+44,shapley-mc,NDCG@20,3920,0.25595802
 44,shapley-mc,NDCG@20,3921,0.0
 44,shapley-mc,NDCG@20,3922,0.0
 44,shapley-mc,NDCG@20,3923,0.0
@@ -106225,7 +106225,7 @@ seed,family,metric,user,value
 44,shapley-mc,NDCG@20,3968,0.0
 44,shapley-mc,NDCG@20,3969,0.0
 44,shapley-mc,NDCG@20,3970,0.0
-44,shapley-mc,NDCG@20,3971,0.23137821
+44,shapley-mc,NDCG@20,3971,0.23540892
 44,shapley-mc,NDCG@20,3972,0.0
 44,shapley-mc,NDCG@20,3973,0.0
 44,shapley-mc,NDCG@20,3974,0.3868528
@@ -106482,7 +106482,7 @@ seed,family,metric,user,value
 44,shapley-mc,NDCG@20,4225,0.0
 44,shapley-mc,NDCG@20,4226,0.0
 44,shapley-mc,NDCG@20,4227,0.0
-44,shapley-mc,NDCG@20,4228,0.43067655
+44,shapley-mc,NDCG@20,4228,0.3868528
 44,shapley-mc,NDCG@20,4229,0.0
 44,shapley-mc,NDCG@20,4230,1.0
 44,shapley-mc,NDCG@20,4231,0.0
@@ -106590,7 +106590,7 @@ seed,family,metric,user,value
 44,shapley-mc,NDCG@20,4333,0.0
 44,shapley-mc,NDCG@20,4334,0.0
 44,shapley-mc,NDCG@20,4335,0.26264954
-44,shapley-mc,NDCG@20,4336,0.23137821
+44,shapley-mc,NDCG@20,4336,0.23981246
 44,shapley-mc,NDCG@20,4337,0.0
 44,shapley-mc,NDCG@20,4338,0.0
 44,shapley-mc,NDCG@20,4339,0.0
@@ -106839,7 +106839,7 @@ seed,family,metric,user,value
 44,shapley-mc,NDCG@20,4582,0.0
 44,shapley-mc,NDCG@20,4583,0.0
 44,shapley-mc,NDCG@20,4584,0.0
-44,shapley-mc,NDCG@20,4585,0.25595802
+44,shapley-mc,NDCG@20,4585,0.25
 44,shapley-mc,NDCG@20,4586,0.0
 44,shapley-mc,NDCG@20,4587,0.0
 44,shapley-mc,NDCG@20,4588,0.0
@@ -107176,7 +107176,7 @@ seed,family,metric,user,value
 44,shapley-mc,NDCG@20,4919,0.0
 44,shapley-mc,NDCG@20,4920,0.0
 44,shapley-mc,NDCG@20,4921,0.0
-44,shapley-mc,NDCG@20,4922,0.24465054
+44,shapley-mc,NDCG@20,4922,0.23981246
 44,shapley-mc,NDCG@20,4923,0.0
 44,shapley-mc,NDCG@20,4924,0.0
 44,shapley-mc,NDCG@20,4925,0.0
@@ -107581,7 +107581,7 @@ seed,family,metric,user,value
 44,shapley-mc,NDCG@20,5324,0.0
 44,shapley-mc,NDCG@20,5325,0.0
 44,shapley-mc,NDCG@20,5326,0.0
-44,shapley-mc,NDCG@20,5327,0.23137821
+44,shapley-mc,NDCG@20,5327,0.22767025
 44,shapley-mc,NDCG@20,5328,0.0
 44,shapley-mc,NDCG@20,5329,0.0
 44,shapley-mc,NDCG@20,5330,0.3868528
@@ -107589,7 +107589,7 @@ seed,family,metric,user,value
 44,shapley-mc,NDCG@20,5332,0.3562072
 44,shapley-mc,NDCG@20,5333,0.0
 44,shapley-mc,NDCG@20,5334,0.0
-44,shapley-mc,NDCG@20,5335,0.24465054
+44,shapley-mc,NDCG@20,5335,0.23981246
 44,shapley-mc,NDCG@20,5336,0.0
 44,shapley-mc,NDCG@20,5337,0.0
 44,shapley-mc,NDCG@20,5338,0.0
@@ -107921,7 +107921,7 @@ seed,family,metric,user,value
 44,shapley-mc,NDCG@20,5664,0.0
 44,shapley-mc,NDCG@20,5665,0.0
 44,shapley-mc,NDCG@20,5666,0.0
-44,shapley-mc,NDCG@20,5667,0.25595802
+44,shapley-mc,NDCG@20,5667,0.25
 44,shapley-mc,NDCG@20,5668,0.0
 44,shapley-mc,NDCG@20,5669,0.0
 44,shapley-mc,NDCG@20,5670,0.0
@@ -108015,7 +108015,7 @@ seed,family,metric,user,value
 44,shapley-mc,NDCG@20,5758,0.0
 44,shapley-mc,NDCG@20,5759,0.0
 44,shapley-mc,NDCG@20,5760,0.43067655
-44,shapley-mc,NDCG@20,5761,0.26264954
+44,shapley-mc,NDCG@20,5761,0.25595802
 44,shapley-mc,NDCG@20,5762,0.0
 44,shapley-mc,NDCG@20,5763,0.30103
 44,shapley-mc,NDCG@20,5764,0.0
@@ -108093,7 +108093,7 @@ seed,family,metric,user,value
 44,shapley-mc,NDCG@20,5836,0.0
 44,shapley-mc,NDCG@20,5837,0.3562072
 44,shapley-mc,NDCG@20,5838,0.0
-44,shapley-mc,NDCG@20,5839,0.3868528
+44,shapley-mc,NDCG@20,5839,0.3562072
 44,shapley-mc,NDCG@20,5840,0.0
 44,shapley-mc,NDCG@20,5841,0.30103
 44,shapley-mc,NDCG@20,5842,0.0
@@ -108163,7 +108163,7 @@ seed,family,metric,user,value
 44,shapley-mc,NDCG@20,5906,0.0
 44,shapley-mc,NDCG@20,5907,0.0
 44,shapley-mc,NDCG@20,5908,0.0
-44,shapley-mc,NDCG@20,5909,0.22767025
+44,shapley-mc,NDCG@20,5909,0.0
 44,shapley-mc,NDCG@20,5910,0.22767025
 44,shapley-mc,NDCG@20,5911,0.0
 44,shapley-mc,NDCG@20,5912,0.0
@@ -180658,7 +180658,7 @@ seed,family,metric,user,value
 44,loo-marginal,HitRate@5,206,0.0
 44,loo-marginal,HitRate@5,207,1.0
 44,loo-marginal,HitRate@5,208,0.0
-44,loo-marginal,HitRate@5,209,0.0
+44,loo-marginal,HitRate@5,209,1.0
 44,loo-marginal,HitRate@5,210,0.0
 44,loo-marginal,HitRate@5,211,0.0
 44,loo-marginal,HitRate@5,212,0.0
@@ -182078,7 +182078,7 @@ seed,family,metric,user,value
 44,loo-marginal,HitRate@5,1626,0.0
 44,loo-marginal,HitRate@5,1627,0.0
 44,loo-marginal,HitRate@5,1628,0.0
-44,loo-marginal,HitRate@5,1629,0.0
+44,loo-marginal,HitRate@5,1629,1.0
 44,loo-marginal,HitRate@5,1630,0.0
 44,loo-marginal,HitRate@5,1631,0.0
 44,loo-marginal,HitRate@5,1632,0.0
@@ -186673,7 +186673,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@5,206,0.0
 44,loo-marginal,NDCG@5,207,0.63092977
 44,loo-marginal,NDCG@5,208,0.0
-44,loo-marginal,NDCG@5,209,0.0
+44,loo-marginal,NDCG@5,209,0.3868528
 44,loo-marginal,NDCG@5,210,0.0
 44,loo-marginal,NDCG@5,211,0.0
 44,loo-marginal,NDCG@5,212,0.0
@@ -188093,7 +188093,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@5,1626,0.0
 44,loo-marginal,NDCG@5,1627,0.0
 44,loo-marginal,NDCG@5,1628,0.0
-44,loo-marginal,NDCG@5,1629,0.0
+44,loo-marginal,NDCG@5,1629,0.3868528
 44,loo-marginal,NDCG@5,1630,0.0
 44,loo-marginal,NDCG@5,1631,0.0
 44,loo-marginal,NDCG@5,1632,0.0
@@ -189797,7 +189797,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@5,3330,0.0
 44,loo-marginal,NDCG@5,3331,0.0
 44,loo-marginal,NDCG@5,3332,0.0
-44,loo-marginal,NDCG@5,3333,0.3868528
+44,loo-marginal,NDCG@5,3333,0.43067655
 44,loo-marginal,NDCG@5,3334,0.0
 44,loo-marginal,NDCG@5,3335,0.0
 44,loo-marginal,NDCG@5,3336,0.0
@@ -191128,7 +191128,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@5,4661,0.0
 44,loo-marginal,NDCG@5,4662,0.0
 44,loo-marginal,NDCG@5,4663,0.0
-44,loo-marginal,NDCG@5,4664,0.3868528
+44,loo-marginal,NDCG@5,4664,0.43067655
 44,loo-marginal,NDCG@5,4665,0.0
 44,loo-marginal,NDCG@5,4666,0.0
 44,loo-marginal,NDCG@5,4667,0.0
@@ -191596,7 +191596,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@5,5129,0.0
 44,loo-marginal,NDCG@5,5130,0.0
 44,loo-marginal,NDCG@5,5131,0.0
-44,loo-marginal,NDCG@5,5132,0.3868528
+44,loo-marginal,NDCG@5,5132,0.43067655
 44,loo-marginal,NDCG@5,5133,0.0
 44,loo-marginal,NDCG@5,5134,0.0
 44,loo-marginal,NDCG@5,5135,0.0
@@ -191865,7 +191865,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@5,5398,0.0
 44,loo-marginal,NDCG@5,5399,0.0
 44,loo-marginal,NDCG@5,5400,0.0
-44,loo-marginal,NDCG@5,5401,0.63092977
+44,loo-marginal,NDCG@5,5401,0.5
 44,loo-marginal,NDCG@5,5402,0.0
 44,loo-marginal,NDCG@5,5403,0.0
 44,loo-marginal,NDCG@5,5404,1.0
@@ -198703,7 +198703,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@10,206,0.0
 44,loo-marginal,NDCG@10,207,0.63092977
 44,loo-marginal,NDCG@10,208,0.0
-44,loo-marginal,NDCG@10,209,0.3562072
+44,loo-marginal,NDCG@10,209,0.3868528
 44,loo-marginal,NDCG@10,210,0.3562072
 44,loo-marginal,NDCG@10,211,0.0
 44,loo-marginal,NDCG@10,212,0.0
@@ -199070,7 +199070,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@10,573,0.0
 44,loo-marginal,NDCG@10,574,0.0
 44,loo-marginal,NDCG@10,575,0.0
-44,loo-marginal,NDCG@10,576,0.33333334
+44,loo-marginal,NDCG@10,576,0.3562072
 44,loo-marginal,NDCG@10,577,0.0
 44,loo-marginal,NDCG@10,578,0.0
 44,loo-marginal,NDCG@10,579,0.0
@@ -199707,7 +199707,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@10,1210,0.0
 44,loo-marginal,NDCG@10,1211,0.30103
 44,loo-marginal,NDCG@10,1212,0.0
-44,loo-marginal,NDCG@10,1213,0.33333334
+44,loo-marginal,NDCG@10,1213,0.31546488
 44,loo-marginal,NDCG@10,1214,0.0
 44,loo-marginal,NDCG@10,1215,0.0
 44,loo-marginal,NDCG@10,1216,0.0
@@ -200123,7 +200123,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@10,1626,0.0
 44,loo-marginal,NDCG@10,1627,0.0
 44,loo-marginal,NDCG@10,1628,0.0
-44,loo-marginal,NDCG@10,1629,0.3562072
+44,loo-marginal,NDCG@10,1629,0.3868528
 44,loo-marginal,NDCG@10,1630,0.0
 44,loo-marginal,NDCG@10,1631,0.0
 44,loo-marginal,NDCG@10,1632,0.0
@@ -200488,7 +200488,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@10,1991,0.0
 44,loo-marginal,NDCG@10,1992,0.0
 44,loo-marginal,NDCG@10,1993,0.0
-44,loo-marginal,NDCG@10,1994,0.31546488
+44,loo-marginal,NDCG@10,1994,0.30103
 44,loo-marginal,NDCG@10,1995,0.0
 44,loo-marginal,NDCG@10,1996,0.0
 44,loo-marginal,NDCG@10,1997,0.0
@@ -201827,7 +201827,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@10,3330,0.0
 44,loo-marginal,NDCG@10,3331,0.0
 44,loo-marginal,NDCG@10,3332,0.0
-44,loo-marginal,NDCG@10,3333,0.3868528
+44,loo-marginal,NDCG@10,3333,0.43067655
 44,loo-marginal,NDCG@10,3334,0.0
 44,loo-marginal,NDCG@10,3335,0.0
 44,loo-marginal,NDCG@10,3336,0.0
@@ -202020,7 +202020,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@10,3523,0.0
 44,loo-marginal,NDCG@10,3524,0.0
 44,loo-marginal,NDCG@10,3525,0.0
-44,loo-marginal,NDCG@10,3526,0.31546488
+44,loo-marginal,NDCG@10,3526,0.33333334
 44,loo-marginal,NDCG@10,3527,0.0
 44,loo-marginal,NDCG@10,3528,0.0
 44,loo-marginal,NDCG@10,3529,0.0
@@ -202259,7 +202259,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@10,3762,0.0
 44,loo-marginal,NDCG@10,3763,0.0
 44,loo-marginal,NDCG@10,3764,0.0
-44,loo-marginal,NDCG@10,3765,0.33333334
+44,loo-marginal,NDCG@10,3765,0.3562072
 44,loo-marginal,NDCG@10,3766,0.0
 44,loo-marginal,NDCG@10,3767,0.0
 44,loo-marginal,NDCG@10,3768,0.0
@@ -202331,7 +202331,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@10,3834,0.0
 44,loo-marginal,NDCG@10,3835,0.33333334
 44,loo-marginal,NDCG@10,3836,0.0
-44,loo-marginal,NDCG@10,3837,0.30103
+44,loo-marginal,NDCG@10,3837,0.28906482
 44,loo-marginal,NDCG@10,3838,0.0
 44,loo-marginal,NDCG@10,3839,0.0
 44,loo-marginal,NDCG@10,3840,0.0
@@ -203158,7 +203158,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@10,4661,0.0
 44,loo-marginal,NDCG@10,4662,0.31546488
 44,loo-marginal,NDCG@10,4663,0.0
-44,loo-marginal,NDCG@10,4664,0.3868528
+44,loo-marginal,NDCG@10,4664,0.43067655
 44,loo-marginal,NDCG@10,4665,0.0
 44,loo-marginal,NDCG@10,4666,0.0
 44,loo-marginal,NDCG@10,4667,0.0
@@ -203626,7 +203626,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@10,5129,0.0
 44,loo-marginal,NDCG@10,5130,0.0
 44,loo-marginal,NDCG@10,5131,0.0
-44,loo-marginal,NDCG@10,5132,0.3868528
+44,loo-marginal,NDCG@10,5132,0.43067655
 44,loo-marginal,NDCG@10,5133,0.0
 44,loo-marginal,NDCG@10,5134,0.0
 44,loo-marginal,NDCG@10,5135,0.0
@@ -203895,7 +203895,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@10,5398,0.0
 44,loo-marginal,NDCG@10,5399,0.0
 44,loo-marginal,NDCG@10,5400,0.0
-44,loo-marginal,NDCG@10,5401,0.63092977
+44,loo-marginal,NDCG@10,5401,0.5
 44,loo-marginal,NDCG@10,5402,0.0
 44,loo-marginal,NDCG@10,5403,0.0
 44,loo-marginal,NDCG@10,5404,1.0
@@ -204062,7 +204062,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@10,5565,0.0
 44,loo-marginal,NDCG@10,5566,0.0
 44,loo-marginal,NDCG@10,5567,0.0
-44,loo-marginal,NDCG@10,5568,0.33333334
+44,loo-marginal,NDCG@10,5568,0.3562072
 44,loo-marginal,NDCG@10,5569,0.0
 44,loo-marginal,NDCG@10,5570,0.0
 44,loo-marginal,NDCG@10,5571,0.0
@@ -205751,7 +205751,7 @@ seed,family,metric,user,value
 44,loo-marginal,HitRate@20,1239,0.0
 44,loo-marginal,HitRate@20,1240,0.0
 44,loo-marginal,HitRate@20,1241,0.0
-44,loo-marginal,HitRate@20,1242,1.0
+44,loo-marginal,HitRate@20,1242,0.0
 44,loo-marginal,HitRate@20,1243,0.0
 44,loo-marginal,HitRate@20,1244,0.0
 44,loo-marginal,HitRate@20,1245,1.0
@@ -208284,7 +208284,7 @@ seed,family,metric,user,value
 44,loo-marginal,HitRate@20,3772,0.0
 44,loo-marginal,HitRate@20,3773,0.0
 44,loo-marginal,HitRate@20,3774,0.0
-44,loo-marginal,HitRate@20,3775,0.0
+44,loo-marginal,HitRate@20,3775,1.0
 44,loo-marginal,HitRate@20,3776,0.0
 44,loo-marginal,HitRate@20,3777,0.0
 44,loo-marginal,HitRate@20,3778,0.0
@@ -208375,7 +208375,7 @@ seed,family,metric,user,value
 44,loo-marginal,HitRate@20,3863,0.0
 44,loo-marginal,HitRate@20,3864,1.0
 44,loo-marginal,HitRate@20,3865,0.0
-44,loo-marginal,HitRate@20,3866,0.0
+44,loo-marginal,HitRate@20,3866,1.0
 44,loo-marginal,HitRate@20,3867,0.0
 44,loo-marginal,HitRate@20,3868,0.0
 44,loo-marginal,HitRate@20,3869,0.0
@@ -210608,7 +210608,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@20,81,0.0
 44,loo-marginal,NDCG@20,82,0.0
 44,loo-marginal,NDCG@20,83,0.0
-44,loo-marginal,NDCG@20,84,0.24465054
+44,loo-marginal,NDCG@20,84,0.25
 44,loo-marginal,NDCG@20,85,0.0
 44,loo-marginal,NDCG@20,86,0.0
 44,loo-marginal,NDCG@20,87,0.0
@@ -210733,7 +210733,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@20,206,0.0
 44,loo-marginal,NDCG@20,207,0.63092977
 44,loo-marginal,NDCG@20,208,0.0
-44,loo-marginal,NDCG@20,209,0.3562072
+44,loo-marginal,NDCG@20,209,0.3868528
 44,loo-marginal,NDCG@20,210,0.3562072
 44,loo-marginal,NDCG@20,211,0.0
 44,loo-marginal,NDCG@20,212,0.0
@@ -210746,7 +210746,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@20,219,0.0
 44,loo-marginal,NDCG@20,220,0.0
 44,loo-marginal,NDCG@20,221,0.0
-44,loo-marginal,NDCG@20,222,0.22767025
+44,loo-marginal,NDCG@20,222,0.23137821
 44,loo-marginal,NDCG@20,223,0.5
 44,loo-marginal,NDCG@20,224,0.0
 44,loo-marginal,NDCG@20,225,0.0
@@ -210836,7 +210836,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@20,309,0.0
 44,loo-marginal,NDCG@20,310,0.0
 44,loo-marginal,NDCG@20,311,0.0
-44,loo-marginal,NDCG@20,312,0.23981246
+44,loo-marginal,NDCG@20,312,0.23540892
 44,loo-marginal,NDCG@20,313,0.0
 44,loo-marginal,NDCG@20,314,0.0
 44,loo-marginal,NDCG@20,315,0.0
@@ -211021,7 +211021,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@20,494,0.0
 44,loo-marginal,NDCG@20,495,0.0
 44,loo-marginal,NDCG@20,496,0.0
-44,loo-marginal,NDCG@20,497,0.27023816
+44,loo-marginal,NDCG@20,497,0.27894294
 44,loo-marginal,NDCG@20,498,0.0
 44,loo-marginal,NDCG@20,499,0.23981246
 44,loo-marginal,NDCG@20,500,0.27894294
@@ -211095,12 +211095,12 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@20,568,0.0
 44,loo-marginal,NDCG@20,569,0.0
 44,loo-marginal,NDCG@20,570,0.0
-44,loo-marginal,NDCG@20,571,0.25
+44,loo-marginal,NDCG@20,571,0.24465054
 44,loo-marginal,NDCG@20,572,0.0
 44,loo-marginal,NDCG@20,573,0.0
 44,loo-marginal,NDCG@20,574,0.0
 44,loo-marginal,NDCG@20,575,0.0
-44,loo-marginal,NDCG@20,576,0.33333334
+44,loo-marginal,NDCG@20,576,0.3562072
 44,loo-marginal,NDCG@20,577,0.0
 44,loo-marginal,NDCG@20,578,0.0
 44,loo-marginal,NDCG@20,579,0.0
@@ -211678,7 +211678,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@20,1151,0.0
 44,loo-marginal,NDCG@20,1152,0.0
 44,loo-marginal,NDCG@20,1153,0.0
-44,loo-marginal,NDCG@20,1154,0.25595802
+44,loo-marginal,NDCG@20,1154,0.26264954
 44,loo-marginal,NDCG@20,1155,0.0
 44,loo-marginal,NDCG@20,1156,0.0
 44,loo-marginal,NDCG@20,1157,0.0
@@ -211737,7 +211737,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@20,1210,0.0
 44,loo-marginal,NDCG@20,1211,0.30103
 44,loo-marginal,NDCG@20,1212,0.0
-44,loo-marginal,NDCG@20,1213,0.33333334
+44,loo-marginal,NDCG@20,1213,0.31546488
 44,loo-marginal,NDCG@20,1214,0.0
 44,loo-marginal,NDCG@20,1215,0.23981246
 44,loo-marginal,NDCG@20,1216,0.0
@@ -211766,7 +211766,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@20,1239,0.0
 44,loo-marginal,NDCG@20,1240,0.0
 44,loo-marginal,NDCG@20,1241,0.0
-44,loo-marginal,NDCG@20,1242,0.22767025
+44,loo-marginal,NDCG@20,1242,0.0
 44,loo-marginal,NDCG@20,1243,0.0
 44,loo-marginal,NDCG@20,1244,0.0
 44,loo-marginal,NDCG@20,1245,0.3868528
@@ -211842,7 +211842,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@20,1315,0.0
 44,loo-marginal,NDCG@20,1316,0.0
 44,loo-marginal,NDCG@20,1317,0.0
-44,loo-marginal,NDCG@20,1318,0.23981246
+44,loo-marginal,NDCG@20,1318,0.24465054
 44,loo-marginal,NDCG@20,1319,0.23981246
 44,loo-marginal,NDCG@20,1320,0.26264954
 44,loo-marginal,NDCG@20,1321,0.0
@@ -212001,7 +212001,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@20,1474,0.0
 44,loo-marginal,NDCG@20,1475,0.0
 44,loo-marginal,NDCG@20,1476,0.0
-44,loo-marginal,NDCG@20,1477,0.23540892
+44,loo-marginal,NDCG@20,1477,0.23981246
 44,loo-marginal,NDCG@20,1478,0.0
 44,loo-marginal,NDCG@20,1479,0.0
 44,loo-marginal,NDCG@20,1480,0.0
@@ -212153,7 +212153,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@20,1626,0.0
 44,loo-marginal,NDCG@20,1627,0.24465054
 44,loo-marginal,NDCG@20,1628,0.0
-44,loo-marginal,NDCG@20,1629,0.3562072
+44,loo-marginal,NDCG@20,1629,0.3868528
 44,loo-marginal,NDCG@20,1630,0.0
 44,loo-marginal,NDCG@20,1631,0.0
 44,loo-marginal,NDCG@20,1632,0.0
@@ -212518,7 +212518,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@20,1991,0.0
 44,loo-marginal,NDCG@20,1992,0.0
 44,loo-marginal,NDCG@20,1993,0.0
-44,loo-marginal,NDCG@20,1994,0.31546488
+44,loo-marginal,NDCG@20,1994,0.30103
 44,loo-marginal,NDCG@20,1995,0.0
 44,loo-marginal,NDCG@20,1996,0.0
 44,loo-marginal,NDCG@20,1997,0.0
@@ -212725,7 +212725,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@20,2198,0.0
 44,loo-marginal,NDCG@20,2199,0.0
 44,loo-marginal,NDCG@20,2200,0.0
-44,loo-marginal,NDCG@20,2201,0.23540892
+44,loo-marginal,NDCG@20,2201,0.23137821
 44,loo-marginal,NDCG@20,2202,0.0
 44,loo-marginal,NDCG@20,2203,0.0
 44,loo-marginal,NDCG@20,2204,0.3562072
@@ -213488,7 +213488,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@20,2961,0.0
 44,loo-marginal,NDCG@20,2962,0.25595802
 44,loo-marginal,NDCG@20,2963,0.0
-44,loo-marginal,NDCG@20,2964,0.26264954
+44,loo-marginal,NDCG@20,2964,0.25595802
 44,loo-marginal,NDCG@20,2965,0.0
 44,loo-marginal,NDCG@20,2966,0.0
 44,loo-marginal,NDCG@20,2967,0.0
@@ -213857,7 +213857,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@20,3330,0.0
 44,loo-marginal,NDCG@20,3331,0.0
 44,loo-marginal,NDCG@20,3332,0.0
-44,loo-marginal,NDCG@20,3333,0.3868528
+44,loo-marginal,NDCG@20,3333,0.43067655
 44,loo-marginal,NDCG@20,3334,0.0
 44,loo-marginal,NDCG@20,3335,0.0
 44,loo-marginal,NDCG@20,3336,0.0
@@ -214050,7 +214050,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@20,3523,0.0
 44,loo-marginal,NDCG@20,3524,0.0
 44,loo-marginal,NDCG@20,3525,0.0
-44,loo-marginal,NDCG@20,3526,0.31546488
+44,loo-marginal,NDCG@20,3526,0.33333334
 44,loo-marginal,NDCG@20,3527,0.0
 44,loo-marginal,NDCG@20,3528,0.0
 44,loo-marginal,NDCG@20,3529,0.0
@@ -214289,7 +214289,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@20,3762,0.0
 44,loo-marginal,NDCG@20,3763,0.0
 44,loo-marginal,NDCG@20,3764,0.0
-44,loo-marginal,NDCG@20,3765,0.33333334
+44,loo-marginal,NDCG@20,3765,0.3562072
 44,loo-marginal,NDCG@20,3766,0.0
 44,loo-marginal,NDCG@20,3767,0.0
 44,loo-marginal,NDCG@20,3768,0.0
@@ -214299,11 +214299,11 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@20,3772,0.0
 44,loo-marginal,NDCG@20,3773,0.0
 44,loo-marginal,NDCG@20,3774,0.0
-44,loo-marginal,NDCG@20,3775,0.0
+44,loo-marginal,NDCG@20,3775,0.22767025
 44,loo-marginal,NDCG@20,3776,0.0
 44,loo-marginal,NDCG@20,3777,0.0
 44,loo-marginal,NDCG@20,3778,0.0
-44,loo-marginal,NDCG@20,3779,0.24465054
+44,loo-marginal,NDCG@20,3779,0.23981246
 44,loo-marginal,NDCG@20,3780,0.0
 44,loo-marginal,NDCG@20,3781,0.0
 44,loo-marginal,NDCG@20,3782,0.0
@@ -214333,7 +214333,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@20,3806,0.0
 44,loo-marginal,NDCG@20,3807,0.0
 44,loo-marginal,NDCG@20,3808,0.0
-44,loo-marginal,NDCG@20,3809,0.22767025
+44,loo-marginal,NDCG@20,3809,0.23137821
 44,loo-marginal,NDCG@20,3810,0.0
 44,loo-marginal,NDCG@20,3811,0.0
 44,loo-marginal,NDCG@20,3812,0.0
@@ -214361,7 +214361,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@20,3834,0.0
 44,loo-marginal,NDCG@20,3835,0.33333334
 44,loo-marginal,NDCG@20,3836,0.0
-44,loo-marginal,NDCG@20,3837,0.30103
+44,loo-marginal,NDCG@20,3837,0.28906482
 44,loo-marginal,NDCG@20,3838,0.0
 44,loo-marginal,NDCG@20,3839,0.0
 44,loo-marginal,NDCG@20,3840,0.0
@@ -214390,7 +214390,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@20,3863,0.0
 44,loo-marginal,NDCG@20,3864,0.25
 44,loo-marginal,NDCG@20,3865,0.0
-44,loo-marginal,NDCG@20,3866,0.0
+44,loo-marginal,NDCG@20,3866,0.22767025
 44,loo-marginal,NDCG@20,3867,0.0
 44,loo-marginal,NDCG@20,3868,0.0
 44,loo-marginal,NDCG@20,3869,0.0
@@ -214495,7 +214495,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@20,3968,0.0
 44,loo-marginal,NDCG@20,3969,0.0
 44,loo-marginal,NDCG@20,3970,0.0
-44,loo-marginal,NDCG@20,3971,0.23540892
+44,loo-marginal,NDCG@20,3971,0.24465054
 44,loo-marginal,NDCG@20,3972,0.0
 44,loo-marginal,NDCG@20,3973,0.0
 44,loo-marginal,NDCG@20,3974,0.24465054
@@ -214538,7 +214538,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@20,4011,0.0
 44,loo-marginal,NDCG@20,4012,0.0
 44,loo-marginal,NDCG@20,4013,0.0
-44,loo-marginal,NDCG@20,4014,0.23137821
+44,loo-marginal,NDCG@20,4014,0.23540892
 44,loo-marginal,NDCG@20,4015,0.0
 44,loo-marginal,NDCG@20,4016,0.0
 44,loo-marginal,NDCG@20,4017,0.0
@@ -214860,7 +214860,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@20,4333,0.0
 44,loo-marginal,NDCG@20,4334,0.0
 44,loo-marginal,NDCG@20,4335,0.28906482
-44,loo-marginal,NDCG@20,4336,0.24465054
+44,loo-marginal,NDCG@20,4336,0.25
 44,loo-marginal,NDCG@20,4337,0.0
 44,loo-marginal,NDCG@20,4338,0.0
 44,loo-marginal,NDCG@20,4339,0.0
@@ -215188,7 +215188,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@20,4661,0.0
 44,loo-marginal,NDCG@20,4662,0.31546488
 44,loo-marginal,NDCG@20,4663,0.22767025
-44,loo-marginal,NDCG@20,4664,0.3868528
+44,loo-marginal,NDCG@20,4664,0.43067655
 44,loo-marginal,NDCG@20,4665,0.0
 44,loo-marginal,NDCG@20,4666,0.0
 44,loo-marginal,NDCG@20,4667,0.0
@@ -215259,7 +215259,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@20,4732,0.0
 44,loo-marginal,NDCG@20,4733,0.0
 44,loo-marginal,NDCG@20,4734,0.0
-44,loo-marginal,NDCG@20,4735,0.24465054
+44,loo-marginal,NDCG@20,4735,0.25
 44,loo-marginal,NDCG@20,4736,0.0
 44,loo-marginal,NDCG@20,4737,0.0
 44,loo-marginal,NDCG@20,4738,0.0
@@ -215656,7 +215656,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@20,5129,0.0
 44,loo-marginal,NDCG@20,5130,0.0
 44,loo-marginal,NDCG@20,5131,0.0
-44,loo-marginal,NDCG@20,5132,0.3868528
+44,loo-marginal,NDCG@20,5132,0.43067655
 44,loo-marginal,NDCG@20,5133,0.0
 44,loo-marginal,NDCG@20,5134,0.0
 44,loo-marginal,NDCG@20,5135,0.0
@@ -215795,7 +215795,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@20,5268,0.0
 44,loo-marginal,NDCG@20,5269,0.0
 44,loo-marginal,NDCG@20,5270,0.0
-44,loo-marginal,NDCG@20,5271,0.24465054
+44,loo-marginal,NDCG@20,5271,0.25
 44,loo-marginal,NDCG@20,5272,0.0
 44,loo-marginal,NDCG@20,5273,0.0
 44,loo-marginal,NDCG@20,5274,0.0
@@ -215915,7 +215915,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@20,5388,0.0
 44,loo-marginal,NDCG@20,5389,0.0
 44,loo-marginal,NDCG@20,5390,0.0
-44,loo-marginal,NDCG@20,5391,0.25595802
+44,loo-marginal,NDCG@20,5391,0.25
 44,loo-marginal,NDCG@20,5392,0.0
 44,loo-marginal,NDCG@20,5393,0.0
 44,loo-marginal,NDCG@20,5394,1.0
@@ -215925,7 +215925,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@20,5398,0.0
 44,loo-marginal,NDCG@20,5399,0.0
 44,loo-marginal,NDCG@20,5400,0.0
-44,loo-marginal,NDCG@20,5401,0.63092977
+44,loo-marginal,NDCG@20,5401,0.5
 44,loo-marginal,NDCG@20,5402,0.0
 44,loo-marginal,NDCG@20,5403,0.0
 44,loo-marginal,NDCG@20,5404,1.0
@@ -216092,7 +216092,7 @@ seed,family,metric,user,value
 44,loo-marginal,NDCG@20,5565,0.0
 44,loo-marginal,NDCG@20,5566,0.0
 44,loo-marginal,NDCG@20,5567,0.0
-44,loo-marginal,NDCG@20,5568,0.33333334
+44,loo-marginal,NDCG@20,5568,0.3562072
 44,loo-marginal,NDCG@20,5569,0.0
 44,loo-marginal,NDCG@20,5570,0.0
 44,loo-marginal,NDCG@20,5571,0.0
