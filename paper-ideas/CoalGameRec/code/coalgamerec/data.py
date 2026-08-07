@@ -65,6 +65,25 @@ def load_movielens_1m(root: str | Path = "data/raw") -> pd.DataFrame:
     return df
 
 
+def _assert_gzip_file(path: str | Path) -> None:
+    path = Path(path)
+    if not path.exists():
+        raise FileNotFoundError(path)
+    with path.open("rb") as f:
+        magic = f.read(2)
+        head = magic + f.read(80)
+    if magic != b"\x1f\x8b":
+        preview = head[:80].decode("utf-8", errors="replace")
+        raise ValueError(
+            f"Amazon file is not a gzip stream: {path}\n"
+            f"First bytes: {head[:20]!r}\n"
+            f"Preview: {preview!r}\n\n"
+            "This usually means an HTML error page was saved instead of Books_5.json.gz. "
+            "Delete the file and rerun scripts/prepare_amazon_books.py, or set "
+            "AMAZON_BOOKS_5 to a valid local Books_5.json.gz downloaded from the UCSD page."
+        )
+
+
 def load_amazon_books_2018(books_5_json_gz: str | Path, max_rows: Optional[int] = None) -> pd.DataFrame:
     """Load Amazon Reviews 2018 Books_5.json.gz.
 
@@ -72,6 +91,7 @@ def load_amazon_books_2018(books_5_json_gz: str | Path, max_rows: Optional[int] 
     max_rows for a feasibility spike. The loader uses only reviewerID, asin,
     overall, unixReviewTime, and an original line index.
     """
+    _assert_gzip_file(books_5_json_gz)
     rows = []
     with gzip.open(books_5_json_gz, "rt", encoding="utf-8") as f:
         for idx, line in enumerate(f):

@@ -7,14 +7,29 @@ from pathlib import Path
 import sys
 import urllib.request
 
-DEFAULT_URL = "https://datarepo.eng.ucsd.edu/mcauley_group/data/amazon_v2/categoryFilesSmall/Books_5.json.gz"
+DEFAULT_URL = "https://mcauleylab.ucsd.edu/public_datasets/data/amazon_v2/categoryFilesSmall/Books_5.json.gz"
+
+
+def is_gzip(path: Path) -> bool:
+    if not path.exists() or path.stat().st_size < 2:
+        return False
+    with path.open("rb") as f:
+        return f.read(2) == b"\x1f\x8b"
 
 
 def download(url: str, dest: Path, force: bool = False) -> None:
     dest.parent.mkdir(parents=True, exist_ok=True)
     if dest.exists() and dest.stat().st_size > 0 and not force:
-        print(f"Already exists: {dest} ({dest.stat().st_size / 1e9:.2f} GB)")
-        return
+        if is_gzip(dest):
+            print(f"Already exists and looks like gzip: {dest} ({dest.stat().st_size / 1e9:.2f} GB)")
+            return
+        with dest.open("rb") as f:
+            preview = f.read(120).decode("utf-8", errors="replace")
+        raise RuntimeError(
+            f"Existing file is not gzip: {dest}\n"
+            f"Preview: {preview!r}\n"
+            "It is likely an HTML error page from a failed download. Delete it or rerun with --force."
+        )
     print(f"Downloading:\n  {url}\n-> {dest}")
     print("This file is large. If the download is interrupted, rerun with curl -C - as shown in README.")
     with urllib.request.urlopen(url) as r, dest.open("wb") as f:
@@ -32,6 +47,15 @@ def download(url: str, dest: Path, force: bool = False) -> None:
             else:
                 print(f"\r{seen / 1e9:.2f} GB", end="")
     print("\nDone.")
+    if not is_gzip(dest):
+        with dest.open("rb") as f:
+            preview = f.read(200).decode("utf-8", errors="replace")
+        raise RuntimeError(
+            f"Downloaded file is not gzip: {dest}\n"
+            f"Preview: {preview!r}\n"
+            "The server likely returned an HTML error page. Try the cseweb UCSD page manually "
+            "and set AMAZON_BOOKS_5 to the valid downloaded file."
+        )
 
 
 def validate(path: Path, n: int = 3) -> None:

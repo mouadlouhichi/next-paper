@@ -246,7 +246,7 @@ python scripts/prepare_amazon_books.py --dest data/raw/Books_5.json.gz
 # Option B: resumable curl
 mkdir -p data/raw
 curl -L -C - -o data/raw/Books_5.json.gz \
-  https://datarepo.eng.ucsd.edu/mcauley_group/data/amazon_v2/categoryFilesSmall/Books_5.json.gz
+  https://mcauleylab.ucsd.edu/public_datasets/data/amazon_v2/categoryFilesSmall/Books_5.json.gz
 ```
 
 If the file is elsewhere, set:
@@ -257,3 +257,17 @@ python scripts/run_q1_pipeline.py --config configs/q1_lightgcn_amazon_template.y
 ```
 
 The pipeline now raises a detailed error with these instructions if the file is missing.
+
+
+If you see `gzip.BadGzipFile: Not a gzipped file (b'<!')`, your local file is an HTML page, not the dataset. Delete it and redownload:
+
+```bash
+rm -f data/raw/Books_5.json.gz
+python scripts/prepare_amazon_books.py --dest data/raw/Books_5.json.gz
+```
+
+You can verify a valid gzip quickly:
+
+```bash
+python scripts/prepare_amazon_books.py --validate-only --dest data/raw/Books_5.json.gz
+```
