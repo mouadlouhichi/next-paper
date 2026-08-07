@@ -120,6 +120,128 @@ Attribution can be used for post-hoc explanation, model debugging, data valuatio
 
 Graph structures include bipartite user-item graphs, knowledge graphs, heterogeneous graphs, hypergraphs, and dynamic graphs. The empirical case study uses a bipartite LightGCN graph. Hypergraph methods are treated in the survey and future-work sections unless a validated HCCF artifact is added.
 
+\section{Related work and positioning}\label{sec:related_work}
+
+\subsection{Feature attribution and the classical XAI view}\label{subsec:feature_xai}
+
+Much of the early practical success of cooperative-game attribution in explainable AI came from feature attribution. In that setting, the players are input features and the value function is derived from a model output, loss, or conditional expectation. This framing is attractive because it offers a direct answer to the question of which features influenced a prediction. Yet recommendation rarely reduces cleanly to independent feature contribution. A user-item graph contains repeated interactions, redundant signals, long-tail behavior, and correlated neighborhoods. If a Shapley explanation treats each metadata attribute independently while the model actually exploits graph propagation, the explanation may be formally coherent but operationally off-target.
+
+This distinction motivates the present paper. We do not treat Shapley values as a single method. Instead, we treat them as a family of allocation rules whose meaning changes with the player set, coalition semantics, and value function. A feature Shapley value for a recommender model is not equivalent to an interaction Shapley value, and neither is equivalent to a data valuation Shapley score. A high-quality review must therefore classify methods by the game they define, not only by whether the word Shapley appears in the title.
+
+\subsection{Graph explanation and its relation to recommendation}\label{subsec:graph_explainers}
+
+Graph neural network explanation has produced many methods that identify important nodes, edges, motifs, or subgraphs. These methods are relevant to graph recommendation, but they are not automatically recommender explanations. Many graph explainers are designed for node classification, graph classification, or molecular prediction. Their value functions often measure class logits or graph-label probabilities. Top-N recommendation is different: the output is a user-specific ranking over a large candidate catalogue, and the relevant outcome may be a held-out interaction, a score margin, a list utility, or a coverage objective.
+
+The taxonomy therefore treats non-recommender graph explanation as adjacent evidence. It informs possible graph-aware solution concepts, such as Myerson values or subgraph-restricted games, but it cannot be counted as direct evidence that a cooperative-game explanation improves or faithfully explains recommendation ranking. This separation is important for Q1-level review standards because it prevents the core corpus from being inflated by loosely related graph-XAI work.
+
+\subsection{Game-theoretic recommendation and mechanism design}\label{subsec:mechanism_design}
+
+A second adjacent literature uses game theory in recommendation for provider incentives, creator collaboration, exposure allocation, or strategic behavior. These works may use cooperative games and may even use Shapley-like allocations, but their goal is often economic or institutional rather than explanatory. A provider-incentive game allocates reward among content providers. A data-valuation game prices training examples. A recommender explanation game attributes a recommendation or ranking behavior to components of the model or user history. These are related but distinct tasks.
+
+The survey component of this paper will record such work as adjacent unless it directly attributes recommendation-relevant model behavior. This distinction matters because the empirical validity criteria differ. A provider game may be evaluated by stability or fairness of reward allocation. A recommendation explanation must be evaluated by faithfulness, stability, user relevance, or effect on ranking when used as an intervention.
+
+\subsection{Positioning of this paper}\label{subsec:positioning}
+
+The present paper occupies the intersection between cooperative-game theory, explainable AI, and graph-based recommendation. Its central claim is not that Shapley values are universally superior. The empirical results show that this claim would be false or at least unsupported. Instead, the paper argues that cooperative-game attribution is valuable because it forces explicit specification of the explanation game. Once specified, the game can be tested against simpler alternatives. In our case study, Shapley is useful relative to similarity and attention-style controls, but leave-one-out marginal attribution is a stronger cost-performance baseline for ranking.
+
+This critical position is closer to the standards of a high-level review article than a method paper. A method paper often seeks to establish a new algorithm as superior. A review and taxonomy should clarify when an approach works, when it does not, and which assumptions drive the difference. The empirical case study is therefore designed to expose a boundary condition rather than to hide it.
+
+\section{Detailed taxonomy and coding dimensions}\label{sec:detailed_taxonomy}
+
+\subsection{Axis 1: player granularity}\label{subsec:axis_player}
+
+Player granularity is the first and most visible design choice. In recommender explanation, the natural player candidates are numerous. Features can represent item genres, textual aspects, price, author, or metadata attributes. Historical interactions represent a user's observed behavior. Items can be players when the question is which catalog objects support a recommendation. Users can be players in social or neighborhood-based systems. Providers can be players in exposure or marketplace settings. Agents can be players in multi-agent or LLM-mediated recommendation workflows.
+
+The player choice determines what kind of explanation is produced. Interaction players answer questions like which past actions led to a recommendation. Provider players answer which providers contributed to exposure allocation. Feature players answer which item attributes matter. These questions should not be mixed. A method that explains a feature contribution cannot be cited as evidence that historical interaction attribution is faithful.
+
+Our case study uses historical interactions as players because interaction-level explanation is close to how users understand collaborative recommendation. A user can inspect a recommendation and ask which previous watched movies or reviewed books contributed. This is also a natural unit for graph recommendation because user-item edges are the observed graph structure. However, a full user history may contain hundreds of interactions, so exact Shapley enumeration is infeasible. We use a bounded stratified player set of 24 interactions and record this as part of the estimator definition.
+
+\subsection{Axis 2: coalition semantics}\label{subsec:axis_coalition}
+
+Coalition semantics define what it means for a subset of players to be present. Three semantics appear frequently in machine learning explanations. A retraining game trains a model on a coalition of data points or features. A masking game keeps the trained model fixed but masks selected inputs, edges, or features. A score-composition game constructs a surrogate score from the coalition without reusing the full model. These semantics lead to different interpretations.
+
+The case study uses a frozen post-hoc intervention. The backbone is trained once. Full-catalogue base scores are computed from the trained graph model. Coalition values are computed on validation utility under a deterministic attribution intervention. This is not a retraining data-valuation game. It is also not a claim that the user would behave differently. The resulting attribution is a model- and protocol-specific credit assignment for historical interactions.
+
+\subsection{Axis 3: value function}\label{subsec:axis_value}
+
+The value function is the most consequential and most underreported design choice. It defines what the explanation is about. A score-margin value explains why a validation item receives a higher score than negatives. A HitRate or NDCG value explains top-K success. A diversity value explains list heterogeneity. An exposure value explains distribution of attention across providers or items. A fairness value explains disparity or correction.
+
+Hard ranking metrics are often intuitive but may be poor attribution utilities. With one validation item, top-K NDCG is flat for many coalitions. A coalition that moves the validation item from rank 200 to rank 30 receives the same zero utility as one that moves it from rank 200 to rank 2,000 if K equals 20. A smooth pairwise value avoids this problem by rewarding any increase in score margin between the validation positive and fixed validation negatives. This is why the final case study uses pairwise log-sigmoid utility for attribution but reserves HitRate and NDCG for final test evaluation.
+
+\subsection{Axis 4: solution concept}\label{subsec:axis_solution}
+
+The Shapley value is only one cooperative-game solution concept. It is attractive because of its axioms, but it is computationally expensive. Leave-one-out marginal attribution is not a Shapley value, yet it is often a compelling baseline because it measures a direct removal effect. Banzhaf values, interaction indices, and Myerson values can be more appropriate when the game requires different coalition distributions or graph-constrained feasibility. A serious empirical paper must compare Shapley against at least one simpler marginal baseline; otherwise it cannot show that coalition-context averaging is necessary.
+
+The empirical case study confirms this point. Shapley beats uniform and similarity-style baselines, but leave-one-out marginal attribution remains more cost-effective and obtains better NDCG. This does not mean Shapley is useless. It means that Shapley averaging should be justified by benefits that leave-one-out cannot provide, such as interaction sensitivity, redundancy handling, or stability under coalition contexts.
+
+\subsection{Axis 5: attribution role}\label{subsec:axis_role}
+
+Attribution can play at least four roles. First, it can be a post-hoc explanation. Second, it can be a debugging tool for model developers. Third, it can be an intervention signal for reranking or reweighting. Fourth, it can be an allocation mechanism for data, providers, or agents. Each role has different evidence requirements. A reranking intervention is validated by held-out ranking utility. An explanation must also be faithful to the model, stable, sparse enough to inspect, and meaningful to a user or domain expert.
+
+The case study primarily validates intervention utility. It shows that attribution-derived weights can improve ranking relative to weak and similarity-based controls. It does not prove human interpretability. Preliminary deletion, insertion, and concentration diagnostics are reported as supporting artifacts, but final explanation-quality claims require more complete masked-forward and stability tests.
+
+\section{Design rationale for the empirical case study}\label{sec:design_rationale}
+
+\subsection{Why the first design was not enough}\label{subsec:first_design}
+
+The first pilot used a preference-aware Shapley game with an additive similarity term. By Shapley linearity, any additive term passes directly into the final attribution. If
+\begin{equation}
+v_{pref}(S)=v(S)+\lambda\sum_{j\in S}\mathrm{sim}(u,j),
+\end{equation}
+then
+\begin{equation}
+\phi_j(v_{pref})=\phi_j(v)+\lambda\mathrm{sim}(u,j).
+\end{equation}
+This makes the Shapley value partially equivalent to a similarity baseline. The first pilot confirmed the danger: attention-style similarity weighting was competitive or stronger than Shapley.
+
+The redesigned case study removes this additive preference term from the primary game. Preference similarity remains as a baseline, not as a hidden component of the Shapley value. This allows the comparison to test whether coalition-based attribution adds information beyond direct similarity.
+
+\subsection{Why pairwise validation utility is used}\label{subsec:pairwise_design}
+
+The second change is the use of a smooth validation utility. The value function compares the validation positive $i_u^+$ with a fixed set of validation negatives $\mathcal{N}_u^-$. For coalition $S$, the value is
+\begin{equation}
+v_u(S)=\frac{1}{|\mathcal{N}_u^-|}\sum_{i^-\in\mathcal{N}_u^-}\log\sigma(s_S(u,i_u^+)-s_S(u,i^-)).
+\end{equation}
+This value is validation-only. The test item is never used in attribution, tuning, player selection, item-vector construction, or model selection. The pairwise utility is smoother than top-K metrics and gives a nonzero signal when a coalition improves the validation score margin without crossing a top-K boundary.
+
+\subsection{Why bounded stratified players are used}\label{subsec:bounded_players}
+
+Full-history Shapley is infeasible for many users. Exact enumeration is exponential, and permutation Monte Carlo scales with the number of selected players, number of permutations, and cost of the value function. The empirical design uses a bounded set of 24 players selected by a stratified deterministic rule. The rule includes profile-similar, validation-similar, and diverse historical interactions. This avoids the earlier pure similarity selection that advantaged the attention baseline.
+
+This design choice is a limitation. It means the estimator is bounded interaction Shapley, not full-history Shapley. The benefit is feasibility and reproducibility. The final manuscript should report this explicitly and treat player-count sensitivity as an important robustness check.
+
+\subsection{Why native intervention is used}\label{subsec:native_intervention}
+
+The intervention maps attribution weights into the native LightGCN item embedding space. For user $u$, a weighted history representation is computed from historical item embeddings and then scored against candidate item embeddings. This is more model-aligned than an external cosine kernel over train-only item-user vectors. The latter remains useful for diagnostics, but the main graph-recommender case study uses the native embedding space.
+
+\section{Empirical protocol details}\label{sec:protocol_details}
+
+\subsection{Preprocessing and leakage control}\label{subsec:leakage}
+
+All preprocessing is designed to avoid future-information leakage. Ratings are first converted to positives using the threshold $\mathrm{rating}\geq 4$. A preliminary temporal order is constructed using timestamps and a stable line-index tie breaker. The training-period positive graph is then filtered using an iterative 5-core rule. Validation and test interactions are selected after filtering. Item representations for similarity and player selection use training interactions only.
+
+Coalition values use the validation item only. The test item is reserved for final evaluation. This separation is essential. If test relevance were used inside the value function, the attribution would be optimized toward the final test target, invalidating the evaluation.
+
+\subsection{Evaluation protocol}\label{subsec:evaluation_protocol}
+
+For each evaluated user, all training items are excluded from the candidate list. The held-out test item remains in the candidate set. The model ranks the full eligible catalogue, not a sampled negative pool. HitRate@K equals one if the held-out test item is in the top K and zero otherwise. NDCG@K is the reciprocal log discount of the held-out item's rank when it appears in the top K. Coverage@20 is the fraction of the global eligible item catalogue appearing in at least one user's top-20 list. ILD@20 is computed from the train-only item similarity representation.
+
+\subsection{Statistical estimand}\label{subsec:stat_estimand}
+
+The primary inferential target is the conditional user-population effect given the five trained models. Users are resampled within each seed, seed-specific estimates are aggregated, and confidence intervals are computed by bootstrap. This estimand does not claim to represent uncertainty over all possible model initializations. Seed variability is reported descriptively through mean and standard deviation over the five seeds.
+
+\section{Additional empirical diagnostics}\label{sec:diagnostics}
+
+The pipeline also produces preliminary explanation diagnostics. Attribution concentration measures the entropy and top-20 percent mass of absolute attribution weights. Deletion diagnostics remove top-attributed historical interactions and measure rank degradation. Insertion diagnostics keep only top-attributed interactions and measure retained ranking performance. These diagnostics are useful, but they remain proxies. A final explanation claim should use true masked-forward deletion and insertion under the graph backbone, perturbation stability, and model-randomization tests.
+
+The current ranking results make these diagnostics more important. Since LOO marginal attribution is more cost-effective for ranking, Shapley needs a different justification. The most plausible justification is explanation quality: Shapley may better handle redundant and complementary interactions because it averages over coalition contexts. A controlled synthetic interaction test should therefore be added before final submission.
+
+\section{Implications for the systematic review}\label{sec:review_implications}
+
+The empirical results inform the review in three ways. First, they show that weak baselines are insufficient. A paper comparing Shapley only to uniform weighting can overstate the importance of the Shapley solution concept. Second, they show that value-function design matters. The first pilot, which included additive preference and hard ranking utility, produced weak and ambiguous results. The redesigned pairwise game produced stronger improvements over similarity baselines. Third, they show that Shapley must be compared to non-Shapley marginal attribution. LOO is simple, cheap, and strong.
+
+These lessons should guide the coding of the survey corpus. Each reviewed paper should be coded for whether it includes strong non-game baselines, whether it includes a leave-one-out or ablation baseline, whether its value function contains additive components, whether its coalition utility is smooth or discontinuous, and whether explanation quality is evaluated separately from ranking utility.
+
 \section{Empirical case study}\label{sec:case_study}
 
 \subsection{Scope}\label{subsec:case_scope}
@@ -246,6 +368,45 @@ Third, ranking utility alone may be the wrong place to expect Shapley to dominat
 
 These findings align with the paper's critical survey thesis: cooperative-game attribution offers a disciplined language for specifying players, values, and allocations, but its empirical value depends on the full design of the game and intervention. A Shapley value is not automatically better than simpler marginal attribution.
 
+
+\section{Why the negative Shapley-versus-LOO result matters}\label{sec:negative_result}
+
+A common weakness of empirical XAI papers is that the explanation method is evaluated only against very weak baselines. If Shapley is compared only with uniform weighting or random attribution, a positive result tells us little about the value of the Shapley solution concept. It may show only that some validation-guided reweighting is useful. The present case study avoids that weakness by including LOO marginal attribution.
+
+The result is challenging for a simple Shapley narrative. LOO marginal attribution is not axiomatic in the Shapley sense, but it is directly tied to the same value function. It asks a simple question: how much value is lost if this interaction is removed from the full selected history? This is often the first baseline a reviewer will imagine. It is cheap, intuitive, and easy to explain. In our results, it captures most of the benefit and often exceeds Shapley on NDCG, coverage, and diversity. That means the empirical case for Shapley cannot rest on ranking utility alone.
+
+This does not invalidate cooperative-game attribution. Instead, it clarifies what must be shown. Shapley averaging is designed to handle contexts. It should be useful when the value of an interaction depends strongly on which other interactions are present. Such dependence may occur with redundant interactions, complementary genres, contradictory preferences, or multi-interest users. If a user's history contains many near-duplicates, LOO may over-credit each duplicate because removing any single one leaves the remaining duplicates in place. Shapley can distribute credit across redundant players. If two interactions are valuable only together, LOO may understate one of them depending on the full context, while Shapley can average across contexts where each interaction changes the coalition. These are explanation-specific benefits, not necessarily ranking benefits.
+
+Therefore, a high-level paper should treat the LOO result as a discovery rather than an embarrassment. It identifies a boundary between marginal attribution and coalition averaging. It also creates a sharper research agenda: future Shapley recommender explanations must demonstrate value in interaction-sensitive settings, not merely in aggregate ranking. This is precisely the type of critical insight that a systematic review and taxonomy can contribute.
+
+\section{How to read the empirical results}\label{sec:how_to_read}
+
+The empirical tables should be interpreted at three levels. The first level is intervention utility relative to weak baselines. On both datasets, Shapley improves over uniform, additive-preference, and attention-style controls. This suggests that the redesigned game produces a useful signal. The improvement is not simply due to a direct similarity term because the primary Shapley game sets the additive preference coefficient to zero.
+
+The second level is distinctiveness relative to marginal ablation. Here the result is not favorable to Shapley. LOO marginal attribution is stronger or equivalent, especially on NDCG@20 and cost-effectiveness. This means that the distinctive averaging operation of Shapley is not necessary for ranking in the present LightGCN setting. A method paper that tried to sell Shapley as the best ranking intervention would be overclaiming.
+
+The third level is explanation potential. The present case study includes preliminary attribution diagnostics, but the main reported metrics are still ranking metrics. Ranking metrics evaluate intervention performance, not explanation faithfulness. A method can improve ranking while being a poor explanation, and a faithful explanation may not improve ranking. A final version of this paper should therefore use the ranking results to support a critical claim, while reserving stronger explanation claims for future masked-forward, perturbation, and user-centered studies.
+
+\section{Recommended final framing for a high-impact submission}\label{sec:final_framing}
+
+The strongest final framing is not that Shapley wins. The strongest framing is that cooperative-game attribution provides a rigorous design language for explainable graph recommendation, and that this language reveals when Shapley-style reasoning is and is not useful. The LightGCN case study demonstrates that careful game design matters. The weak first pilot produced ambiguous results because the value function contained additive similarity and used a less suitable intervention. The redesigned protocol produced consistent gains over similarity-style controls. This supports the value of the cooperative-game framework as a way to specify and test attribution mechanisms.
+
+At the same time, the LOO result prevents an unqualified Shapley claim. This is a strength of the paper if handled honestly. Q1 reviewers often distrust papers that report only favorable baselines. A paper that includes a strong baseline, shows that it is difficult to beat, and explains what this means for the theory can be more credible than a paper that reports a narrow victory against weak alternatives.
+
+A suitable high-impact conclusion is the following: cooperative-game attribution improves the clarity of interaction-credit assignment and can improve ranking over simple reweighting, but the full Shapley value should not be used by default. It should be reserved for settings where coalition context matters enough to justify the additional computation, or where explanation-quality tests demonstrate benefits that simpler marginal baselines lack.
+
+\section{Future work}\label{sec:future_work}
+
+The first direction is full systematic evidence collection. The taxonomy in this draft must be populated by a registered search and coded corpus. The review should not assume that all cooperative-game methods are comparable. It should separate feature attribution, graph explanation, recommendation ranking, data valuation, and provider mechanisms.
+
+The second direction is a stronger explanation evaluation. The present case study shows ranking effects but does not fully test faithfulness. Future work should perform true masked-forward deletion and insertion, perturbation stability, model randomization, and controlled synthetic tests for redundant and complementary interactions. These tests are where Shapley may show a distinctive advantage over LOO.
+
+The third direction is graph and hypergraph generalization. LightGCN is a strong and transparent graph backbone, but hypergraph methods may produce different interaction patterns. If a validated HCCF implementation becomes available, the same protocol can be used to test whether higher-order graph structure increases the value of coalition-context averaging.
+
+The fourth direction is cost-aware approximation. If Shapley remains expensive, approximate estimators must report their error, stability, and cost-effectiveness. Adaptive permutation stopping, antithetic sampling, stratified player selection, and learned proposal distributions may reduce cost. However, approximations should be compared against LOO and other cheap marginal baselines, not only against uniform weighting.
+
+The fifth direction is user-facing explanation. Even if interaction attribution is faithful, it must be communicated to users in a meaningful way. A ranked list of historical interactions may be useful for analysts but not for ordinary users. Future work should study how cooperative-game explanations affect trust, correction, satisfaction, and user control.
+
 \section{Limitations}\label{sec:limitations}
 
 The empirical case study has several limitations. First, although LightGCN is a graph recommender, the HCCF hypergraph port remains unavailable. Hypergraph-specific empirical claims should therefore remain outside the present case study. Second, the results were produced during design development and were not externally preregistered before execution. Third, the Amazon split is custom and temporally reconstructed, so it is not directly comparable to canonical random-split Amazon-Book numbers. Fourth, the Shapley estimator is bounded to 24 selected historical interactions per user. This makes the experiment feasible and auditable, but it is not full-history Shapley. Fifth, explanation diagnostics remain preliminary and do not yet establish human usefulness or full explanation faithfulness.
@@ -255,6 +416,73 @@ The empirical case study has several limitations. First, although LightGCN is a 
 This paper argues that cooperative-game attribution should be treated as a precise design language rather than a guaranteed performance enhancer. The LightGCN case study shows that a carefully specified bounded Shapley intervention improves ranking over uniform and similarity-based controls on MovieLens-1M and Amazon-Book. However, leave-one-out marginal attribution captures most or all of the ranking benefit at a fraction of the computational cost. This boundary condition is central: the axiomatic appeal of Shapley does not by itself justify its use unless coalition-context averaging adds measurable ranking, explanation, stability, or interaction-sensitive benefits beyond simpler marginal baselines.
 
 A Q1-ready final manuscript should therefore present these results as a critical empirical finding, not as a simple Shapley victory. The strongest claim is that cooperative-game attribution improves the clarity and structure of interaction-credit assignment, while the practical necessity of full Shapley averaging must be demonstrated against strong marginal baselines.
+
+
+\begin{appendices}
+
+\section{Operational review protocol to be completed before submission}\label{app:review_protocol}
+
+The systematic-review component of this manuscript must be finalized through a registered protocol before submission. The protocol should specify the information sources, search dates, database-specific queries, screening procedure, eligibility criteria, extraction codebook, and quality assessment. The goal is not simply to collect papers that mention Shapley values. The goal is to identify the subset of literature that defines a cooperative game, uses a cooperative-game solution concept, or studies an equivalent marginal-contribution allocation for recommendation-relevant outputs.
+
+The search should include at least ACM Digital Library, IEEE Xplore, Scopus, Web of Science, SpringerLink, ScienceDirect, and arXiv. Google Scholar can be used for backward and forward citation chasing from a frozen seed set, but it should not be treated as an uncontrolled primary database. Each database requires its own field syntax. A conceptual query such as cooperative game OR Shapley OR Banzhaf OR Myerson combined with recommender OR recommendation OR collaborative filtering and graph OR hypergraph OR knowledge graph is a useful start, but it is not sufficient as a reproducible database search. The final protocol should report the exact query strings, export formats, date restrictions, language restrictions, and deduplication keys.
+
+Screening should proceed in stages. Title and abstract screening should remove papers with no recommendation task, no cooperative-game component, or no graph or graph-like interaction structure. Full-text screening should then classify papers into core, adjacent, or background categories. A full-text exclusion log should provide one main exclusion reason per excluded paper. The author's own prior papers should be screened under the same rules as external papers. If blind screening is not possible because the authors know their own work, the conflict should be disclosed.
+
+The extraction form should include bibliographic fields, task type, graph type, player set, coalition semantics, value function, solution concept, attribution role, approximation method, candidate-generation protocol, train-validation-test split, leakage controls, baselines, metrics, uncertainty reporting, code availability, data availability, and limitations. Missing information should be coded as not reported rather than inferred. This distinction is essential because many methodological weaknesses in the literature are weaknesses of reporting rather than proof that a method lacks a component.
+
+Quality assessment should avoid a single arbitrary total score. Instead, each study should be assessed across domains: clarity of player definition, clarity of value function, candidate-set transparency, leakage control, baseline adequacy, approximation diagnostics, seed and uncertainty reporting, explanation-faithfulness evaluation, robustness analysis, and artifact availability. Ordinal 0/1/2 ratings can be used with written anchors, while not applicable and not reported should be tracked separately. Inter-coder agreement should be reported using weighted kappa for ordinal domains and a nominal agreement statistic for categorical taxonomy fields.
+
+The synthesis should be descriptive and critical. The field is unlikely to support a valid pooled meta-analysis because studies differ in datasets, ranking metrics, candidate generation, graph structures, and value functions. Instead, the final paper should use comparison tables, structured vote counts, and evidence-strength summaries. Claims should be qualified by whether they are supported by core studies, adjacent studies, or only conceptual argument.
+
+\section{Reproducibility package and artifact plan}\label{app:artifacts}
+
+A high-quality empirical paper requires a reproducibility package that separates source code, configuration, generated summaries, and large raw artifacts. The current repository contains executable scripts, YAML configurations, and summary tables. For submission, raw per-user metric files and split parquet files should be archived externally rather than stored directly in normal Git history. Zenodo, OSF, or institutional storage can be used. The manuscript should report archive DOI, file checksums, and a clear mapping between manuscript tables and artifact files.
+
+The minimal artifact package should contain: the exact code commit, environment file, YAML configurations, dataset preprocessing scripts, split-generation logs, dataset statistics, item-vector fingerprints, model-training logs, runtime files, per-seed summary tables, paired contrast tables, cost-effectiveness tables, and scripts that regenerate all manuscript tables. The raw MovieLens data should not be redistributed unless the dataset license allows it. Instead, the package should include download instructions and checksums. The Amazon review data should also not be redistributed unless permitted. The custom split generation code and final split hashes should be archived.
+
+For each run, the manifest should record the operating system, Python version, PyTorch version, device, dataset statistics, configuration path, and any deviations. For attribution checkpoints, the cache key should include the base-score hash, backbone configuration, attribution configuration, dataset configuration, and seed. This prevents stale Shapley or leave-one-out checkpoints from being reused after the backbone or value function changes.
+
+The paper should distinguish three artifact levels. Level 1 artifacts are manuscript-ready summary tables. Level 2 artifacts are per-seed and per-user raw metrics used for statistical analysis. Level 3 artifacts are large intermediate files such as splits, cached scores, checkpointed attributions, and model states. Level 1 can be kept in the repository. Level 2 and Level 3 should be compressed and externally archived.
+
+\section{Ethics, privacy, and data governance}\label{app:ethics}
+
+The case study uses MovieLens ratings and Amazon review metadata. These are public research datasets, but they are still human-generated behavioral data. The absence of direct user interaction does not automatically make ethics review irrelevant. Before submission, the authors should obtain an institutional determination that specifies whether the study is exempt, approved, or outside formal human-subjects review. The determination should identify the datasets, fields used, whether raw review text is processed, whether demographics are used, whether identifiers are retained, and whether raw data are redistributed.
+
+The current case study uses ratings, item identifiers, user identifiers internal to the dataset, and timestamps. It does not require review text, demographic variables, or free-text content. The custom Amazon split should be released as code and hashes rather than raw user-level data when possible. If split files are archived, they should use integer remapped identifiers and should not expose raw reviewer IDs unless allowed by dataset terms and approved by the institution.
+
+The manuscript should avoid implying that public data require no ethical consideration. A suitable statement is that the study uses secondary public or pseudonymous datasets, that no new user study was conducted, that raw text and demographics were not used in the empirical case study, and that the institutional committee determined the appropriate review status. Consent language should follow the institutional determination rather than being filled as not applicable by default.
+
+\section{Interpretation scenarios for the final paper}\label{app:interpretation_scenarios}
+
+The current LightGCN results support a nuanced interpretation. Shapley improves over uniform and similarity-style controls on two datasets. This supports the claim that validation-guided interaction attribution contains useful ranking information. However, leave-one-out marginal attribution is stronger or equivalent and cheaper. This supports the claim that full Shapley averaging is not automatically necessary for ranking utility.
+
+There are three possible final interpretations. The first is a strong Shapley interpretation. This would require additional evidence that Shapley beats LOO on at least one graph backbone and dataset under a preregistered protocol, or that it provides much better explanation faithfulness at acceptable cost. The current evidence does not support this interpretation.
+
+The second is a marginal-attribution interpretation. This states that the key benefit comes from validation-guided marginal attribution, while Shapley averaging contributes little additional ranking value. This interpretation is currently best supported by the evidence. It is not a weak result. It identifies a practical baseline that future cooperative-game methods must beat.
+
+The third is an explanation-quality interpretation. Shapley may be retained because it has theoretical properties that LOO lacks, especially for redundancy and complementarity. To support this interpretation, the paper must add controlled tests where interactions are redundant, complementary, or harmful, and show that Shapley assigns credit more appropriately than LOO or attention. Without those tests, the manuscript should not claim that Shapley is a superior explanation method.
+
+A Q1 paper can be built around the second interpretation. The title and abstract should avoid promising Shapley superiority. The results should be framed as a boundary condition for cooperative-game attribution. The discussion should explain why axiomatic allocation and predictive utility are different standards. This is a mature and defensible contribution.
+
+\section{Checklist before journal submission}\label{app:checklist}
+
+Before submission, the authors should complete the following checklist:
+\begin{enumerate}
+    \item Replace the fallback \texttt{sn-jnl.cls} with the official Springer Nature class file.
+    \item Complete the registered systematic-review search and PRISMA flow.
+    \item Fill all citation placeholders and verify the bibliography.
+    \item Obtain and report the institutional ethics determination.
+    \item Archive large raw artifacts externally and report checksums.
+    \item Regenerate all tables from scripts and compare against manuscript values.
+    \item Add at least one stronger explanation-faithfulness analysis or explicitly limit explanation claims.
+    \item Decide whether HCCF is future work or part of the empirical claim.
+    \item Remove internal planning language from the final manuscript.
+    \item Verify that the abstract fits the journal word limit.
+    \item Verify that the manuscript compiles with \texttt{pdflatex} and the official Springer files.
+\end{enumerate}
+
+\end{appendices}
+
 
 \section*{Declarations}
 
