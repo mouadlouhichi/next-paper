@@ -178,6 +178,41 @@ The present paper occupies the intersection between cooperative-game theory, exp
 
 This critical position is closer to the standards of a high-level review article than a method paper. A method paper often seeks to establish a new algorithm as superior. A review and taxonomy should clarify when an approach works, when it does not, and which assumptions drive the difference. The empirical case study is therefore designed to expose a boundary condition rather than to hide it.
 
+
+\begin{figure*}[t]
+\centering
+\begin{tikzpicture}[
+  font=\small,
+  node distance=1.2cm and 1.0cm,
+  box/.style={draw, rounded corners, align=center, minimum height=8mm, minimum width=28mm, fill=blue!5},
+  game/.style={draw, rounded corners, align=center, minimum height=8mm, minimum width=28mm, fill=orange!12},
+  out/.style={draw, rounded corners, align=center, minimum height=8mm, minimum width=28mm, fill=green!10},
+  arr/.style={-{Latex[length=2mm]}, thick}
+]
+\node[box] (hist) {User history\\training interactions};
+\node[box, right=of hist] (graph) {LightGCN\\graph backbone};
+\node[box, right=of graph] (base) {Cached full-graph\\base scores};
+\node[game, below=of hist] (players) {Bounded players\\stratified 24 interactions};
+\node[game, right=of players] (value) {Validation game\\pairwise log-sigmoid};
+\node[game, right=of value] (alloc) {Credit allocation\\Shapley or LOO};
+\node[out, right=of alloc] (rerank) {Native embedding\\reranking};
+\node[out, above=of rerank] (eval) {Full-catalogue\\test ranking};
+\node[out, below=of rerank] (audit) {Diagnostics\\cost and explanation};
+\draw[arr] (hist) -- (graph);
+\draw[arr] (graph) -- (base);
+\draw[arr] (hist) -- (players);
+\draw[arr] (players) -- (value);
+\draw[arr] (value) -- (alloc);
+\draw[arr] (alloc) -- (rerank);
+\draw[arr] (base) -- (rerank);
+\draw[arr] (rerank) -- (eval);
+\draw[arr] (rerank) -- (audit);
+\node[draw, dashed, rounded corners, fit=(players)(value)(alloc), inner sep=5pt, label={[font=\small]below:cooperative-game attribution layer}] {};
+\end{tikzpicture}
+\caption{Architecture of the cooperative-game explanation pipeline. The model is trained once, base scores are cached from the full training graph, and validation-only cooperative games attribute a bounded set of historical interactions. Attribution weights are then injected through the native LightGCN item-embedding space for post-hoc reranking and diagnostics.}
+\label{fig:architecture}
+\end{figure*}
+
 \section{Detailed taxonomy and coding dimensions}\label{sec:detailed_taxonomy}
 
 \subsection{Axis 1: player granularity}\label{subsec:axis_player}
@@ -539,6 +574,8 @@ To be completed using CRediT after final author approval.
 \subsection*{Use of AI tools}
 To be disclosed according to Springer Nature policy.
 
+
+\nocite{shapley1953value,myerson1977graphs,lundberg2017shap,ying2019gnnexplainer,wang2019ngcf,he2020lightgcn,rendle2009bpr,ni2019justifying,harper2015movielens,zhang2020explainable,page2021prisma,baldassarre2019explainability,yuan2021explainability,louhichi2023shapleyclustering,louhichi2024gametheoryxai,louhichi2025multilevel,louhichi2026dyhucog,louhichi2026thesis,ghorbani2019datashapley,jia2019efficient,chen2022shapr,vu2020pgmexplainer,luo2020pgexplainer,pope2019explainability,wu2022surveygnn,ricci2015recommender,adomavicius2005toward,koren2009matrix,wang2019kgat,xia2022hccf,feng2019hgnn}
 \bibliography{references}
 
 \end{document}
