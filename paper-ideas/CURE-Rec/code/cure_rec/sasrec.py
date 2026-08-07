@@ -56,7 +56,7 @@ if nn is not None:
     class _SASRec(nn.Module):
         def __init__(self, n_items: int, config: SASRecConfig):
             super().__init__()
-            # Index zero is reserved for left padding; real items start at one.
+            # Index zero is reserved for right padding; real items start at one.
             self.item_embedding = nn.Embedding(n_items + 1, config.embedding_dim, padding_idx=0)
             self.position_embedding = nn.Embedding(config.max_sequence_length, config.embedding_dim)
             self.item_bias = nn.Embedding(n_items + 1, 1, padding_idx=0)
@@ -71,7 +71,7 @@ if nn is not None:
                 activation="gelu",
                 norm_first=True,
             )
-            self.encoder = nn.TransformerEncoder(layer, num_layers=config.num_layers)
+            self.encoder = nn.TransformerEncoder(layer, num_layers=config.num_layers, enable_nested_tensor=False)
             nn.init.normal_(self.item_embedding.weight, std=0.02)
             nn.init.normal_(self.position_embedding.weight, std=0.02)
             nn.init.zeros_(self.item_bias.weight)
@@ -87,9 +87,15 @@ if nn is not None:
             # is used in training and full-catalog evaluation.
             causal = torch.triu(torch.ones((length, length), device=sequences.device, dtype=torch.bool), diagonal=1)
             padding = sequences.eq(0)
+            # Sequences are right padded. With left padding, an early padding
+            # query has no causal, non-padding key; some MPS attention kernels
+            # produce an all-masked softmax and NaNs in that situation.
             encoded = self.encoder(embedded, mask=causal, src_key_padding_mask=padding)
             valid_lengths = sequences.ne(0).sum(dim=1).clamp(min=1) - 1
-            return encoded[torch.arange(len(sequences), device=sequences.device), valid_lengths]
+            representation = encoded[torch.arange(len(sequences), device=sequences.device), valid_lengths]
+            if not torch.isfinite(representation).all():
+                raise RuntimeError("SASRec encoder emitted non-finite sequence representations")
+            return representation
 
         def score_items(self, representations, items):
             return representations @ self.item_embedding(items).T + self.item_bias(items).squeeze(-1)
@@ -131,7 +137,9 @@ class TorchSASRec:
             sequence_key, target_position = self.examples[int(example_index)]
             values = self.sequence_values[sequence_key]
             prefix = values[max(0, target_position - length):target_position]
-            sequences[destination, -len(prefix):] = prefix
+            # Right padding ensures every causal padding query has at least one
+            # valid prior key, avoiding all-masked attention rows on MPS.
+            sequences[destination, :len(prefix)] = prefix
             positive[destination] = values[target_position]
             users[destination] = sequence_key
         return sequences, positive, users
@@ -197,7 +205,9 @@ class TorchSASRec:
                 if not torch.isfinite(loss):
                     raise RuntimeError(f"Non-finite SASRec loss at epoch {epoch}")
                 optimizer.zero_grad(); loss.backward()
-                torch.nn.utils.clip_grad_norm_(self.model.parameters(), max_norm=5.0)
+                gradient_norm = torch.nn.utils.clip_grad_norm_(self.model.parameters(), max_norm=5.0)
+                if not torch.isfinite(gradient_norm):
+                    raise RuntimeError(f"Non-finite SASRec gradient norm at epoch {epoch}")
                 optimizer.step()
                 updates += len(sequence); losses.append(float(loss.detach().cpu()))
             self.loss_history.append({"epoch": float(epoch), "updates": float(updates), "bpr_loss": float(np.mean(losses))})
@@ -226,7 +236,7 @@ class TorchSASRec:
             return None
         sequence = np.zeros((1, self.config.max_sequence_length), dtype=np.int64)
         tail = values[-self.config.max_sequence_length:]
-        sequence[0, -len(tail):] = tail
+        sequence[0, :len(tail)] = tail
         return sequence
 
     def prepare_evaluation(self, user_ids: list[int]) -> None:
