@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="620" viewBox="0 0 1400 620">
+<style>.axis{stroke:#222;stroke-width:2}.grid{stroke:#ddd;stroke-width:1}.txt{font-family:Arial;font-size:18px;fill:#111}.title{font-family:Arial;font-size:28px;font-weight:bold;text-anchor:middle}.lab{font-family:Arial;font-size:15px;text-anchor:end}.u{fill:#9ecae1}.l{fill:#fdae6b}.s{fill:#74c476}</style>
+<text class="title" x="700" y="42">NDCG@20 by attribution family</text>
+<text class="txt" x="190" y="86">MovieLens-1M</text><text class="txt" x="870" y="86">Amazon-Book</text>
+<g transform="translate(90,110)">
+  <line class="axis" x1="0" y1="390" x2="560" y2="390"/><line class="axis" x1="0" y1="0" x2="0" y2="390"/>
+  <g><line class="grid" x1="0" y1="390" x2="560" y2="390"/><text class="lab" x="-8" y="395">0.000</text></g>
+  <g><line class="grid" x1="0" y1="234" x2="560" y2="234"/><text class="lab" x="-8" y="239">0.020</text></g>
+  <g><line class="grid" x1="0" y1="78" x2="560" y2="78"/><text class="lab" x="-8" y="83">0.040</text></g>
+  <rect class="u" x="35" y="31.2" width="55" height="358.8"/><rect class="u" x="120" y="30.5" width="55" height="359.5"/><rect class="u" x="205" y="27.4" width="55" height="362.6"/><rect class="u" x="290" y="30.2" width="55" height="359.8"/><rect class="l" x="375" y="2.2" width="55" height="387.8"/><rect class="s" x="460" y="6.1" width="55" height="383.9"/>
+  <g class="txt" font-size="14" text-anchor="end"><text transform="translate(65,425) rotate(-45)">uniform</text><text transform="translate(150,425) rotate(-45)">add-pref</text><text transform="translate(235,425) rotate(-45)">attention</text><text transform="translate(320,425) rotate(-45)">pop</text><text transform="translate(405,425) rotate(-45)">LOO</text><text transform="translate(490,425) rotate(-45)">Shapley</text></g>
+</g>
+<g transform="translate(770,110)">
+  <line class="axis" x1="0" y1="390" x2="560" y2="390"/><line class="axis" x1="0" y1="0" x2="0" y2="390"/>
+  <g><line class="grid" x1="0" y1="390" x2="560" y2="390"/><text class="lab" x="-8" y="395">0.000</text></g>
+  <g><line class="grid" x1="0" y1="260" x2="560" y2="260"/><text class="lab" x="-8" y="265">0.010</text></g>
+  <g><line class="grid" x1="0" y1="130" x2="560" y2="130"/><text class="lab" x="-8" y="135">0.020</text></g>
+  <rect class="u" x="35" y="2.9" width="55" height="387.1"/><rect class="u" x="120" y="4.2" width="55" height="385.8"/><rect class="u" x="205" y="6.1" width="55" height="383.9"/><rect class="u" x="290" y="0.6" width="55" height="389.4"/><rect class="l" x="375" y="-30.8" width="55" height="420.8"/><rect class="s" x="460" y="-24.3" width="55" height="414.3"/>
+  <g class="txt" font-size="14" text-anchor="end"><text transform="translate(65,425) rotate(-45)">uniform</text><text transform="translate(150,425) rotate(-45)">add-pref</text><text transform="translate(235,425) rotate(-45)">attention</text><text transform="translate(320,425) rotate(-45)">pop</text><text transform="translate(405,425) rotate(-45)">LOO</text><text transform="translate(490,425) rotate(-45)">Shapley</text></g>
+</g>
+<text class="txt" x="700" y="585" text-anchor="middle">LOO has highest NDCG@20 on both datasets. Shapley beats uniform, additive preference, attention and popularity controls.</text>
+</svg>

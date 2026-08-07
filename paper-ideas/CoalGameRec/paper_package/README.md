@@ -16,6 +16,10 @@ paper_package/
 │   │   ├── lightgcn_cost_effectiveness.csv
 │   │   ├── lightgcn_main_results.csv
 │   │   └── lightgcn_paired_contrasts.csv
+│   ├── figures/
+│   │   ├── architecture.svg
+│   │   ├── ndcg_results.svg
+│   │   └── cost_effectiveness.svg
 │   └── tables/
 │       ├── lightgcn_cost_effectiveness.md
 │       ├── lightgcn_main_results.md
@@ -75,3 +79,15 @@ This is a Q1-style draft, not a final submission. Before submission, complete:
 ## Style note
 
 The manuscript avoids em dash characters by request.
+
+## Figure assets
+
+The manuscript contains TikZ figures directly in `main.tex` for LaTeX compilation. For convenience, viewable SVG versions are also included in:
+
+```text
+assets/figures/architecture.svg
+assets/figures/ndcg_results.svg
+assets/figures/cost_effectiveness.svg
+```
+
+These SVG files are paper assets for inspection and conversion. The LaTeX source remains the authoritative version for submission.
