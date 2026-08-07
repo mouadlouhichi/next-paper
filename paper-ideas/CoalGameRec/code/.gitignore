@@ -15,7 +15,7 @@ __pycache__/
 /data/raw/
 /data/processed/
 /data/cache/
-
+/data/raw/
 # Large raw result dumps. Keep curated CSV summaries/manifests only if needed.
 /results/raw/
 /results/checkpoints/
@@ -23,3 +23,8 @@ __pycache__/
 *.pt
 *.pth
 *.npz
+.DS_Store
+**/.DS_Store
+paper-ideas/CoalGameRec/code/.DS_Store
+**.gz
+next-paper/**/.DS_Store

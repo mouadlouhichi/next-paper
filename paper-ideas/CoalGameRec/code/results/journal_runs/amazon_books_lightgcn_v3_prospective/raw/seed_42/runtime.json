@@ -1,0 +1,10 @@
+{
+  "seconds": 2184.539752960205,
+  "seed": 42,
+  "stages": {
+    "loo_seconds": 127.69909286499023,
+    "rerank_eval_sensitivity_seconds": 96.33964490890503,
+    "shapley_seconds": 1660.2231118679047,
+    "train_and_score_seconds": 266.23526096343994
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "AttributionEntropy_mean": 1.7664792100578646,
+  "AttributionTop20Mass_mean": 0.6156941729655845,
+  "DeletionDelta_HitRate@20": 0.0008089524344541132,
+  "DeletionDelta_NDCG@20": 0.002443761331960559,
+  "Insertion_HitRate@20": 0.06336794048547745,
+  "Insertion_NDCG@20": 0.026189330965280533
+}

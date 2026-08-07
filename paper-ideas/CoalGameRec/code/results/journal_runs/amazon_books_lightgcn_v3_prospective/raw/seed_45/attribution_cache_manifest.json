@@ -1,0 +1,6 @@
+{
+  "attribution_hash": "6b911312a1a4da3becaa6879abc8d57c76a7983ff5a1cd2159e95564b45aa5d3",
+  "base_scores_hash": "98f9e03a641ef6a1c54cb856ce382ffbae417443ad8a4498e05731e929a474c8",
+  "cache_tag": "6b911312a1a4da3b",
+  "note": "Checkpoint filenames include this tag. Old untagged checkpoints are intentionally ignored to prevent stale attribution reuse after backbone/config changes."
+}

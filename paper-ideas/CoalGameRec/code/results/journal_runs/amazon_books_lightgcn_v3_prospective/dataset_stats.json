@@ -1,0 +1,111 @@
+{
+  "core_log": [
+    {
+      "edges": 193930,
+      "items": 20816,
+      "iter": 0,
+      "users": 23980
+    },
+    {
+      "edges": 156370,
+      "items": 18000,
+      "iter": 1,
+      "users": 12131
+    },
+    {
+      "edges": 141284,
+      "items": 14265,
+      "iter": 2,
+      "users": 11370
+    },
+    {
+      "edges": 135609,
+      "items": 13907,
+      "iter": 3,
+      "users": 10153
+    },
+    {
+      "edges": 132520,
+      "items": 13234,
+      "iter": 4,
+      "users": 10014
+    },
+    {
+      "edges": 131114,
+      "items": 13159,
+      "iter": 5,
+      "users": 9723
+    },
+    {
+      "edges": 130345,
+      "items": 12993,
+      "iter": 6,
+      "users": 9694
+    },
+    {
+      "edges": 129975,
+      "items": 12983,
+      "iter": 7,
+      "users": 9610
+    },
+    {
+      "edges": 129729,
+      "items": 12927,
+      "iter": 8,
+      "users": 9604
+    },
+    {
+      "edges": 129589,
+      "items": 12924,
+      "iter": 9,
+      "users": 9572
+    },
+    {
+      "edges": 129521,
+      "items": 12907,
+      "iter": 10,
+      "users": 9572
+    },
+    {
+      "edges": 129493,
+      "items": 12907,
+      "iter": 11,
+      "users": 9565
+    },
+    {
+      "edges": 129457,
+      "items": 12898,
+      "iter": 12,
+      "users": 9565
+    },
+    {
+      "edges": 129441,
+      "items": 12898,
+      "iter": 13,
+      "users": 9561
+    },
+    {
+      "edges": 129433,
+      "items": 12896,
+      "iter": 14,
+      "users": 9561
+    },
+    {
+      "edges": 129433,
+      "items": 12896,
+      "iter": 15,
+      "users": 9561
+    }
+  ],
+  "density_train": 0.0011501229307348496,
+  "items": 12885,
+  "mean_train_per_user": 14.819333962518538,
+  "min_ic": 5,
+  "min_uc": 5,
+  "name": "amazon_books_2018_custom",
+  "rating_threshold": 4.0,
+  "test_interactions": 7417,
+  "train_interactions": 109915,
+  "users": 7417,
+  "val_interactions": 7417
+}
