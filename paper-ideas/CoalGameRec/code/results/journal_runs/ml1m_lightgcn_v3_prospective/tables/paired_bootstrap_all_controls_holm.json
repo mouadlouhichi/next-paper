@@ -21,12 +21,12 @@
   },
   "shapley-mc_vs_loo-marginal_HitRate@20": {
     "holm_threshold": 0.05,
-    "p": 0.869,
+    "p": 0.575,
     "reject_0.05": false
   },
   "shapley-mc_vs_loo-marginal_NDCG@20": {
     "holm_threshold": 0.025,
-    "p": 0.0,
+    "p": 0.008,
     "reject_0.05": true
   },
   "shapley-mc_vs_uniform_HitRate@20": {
