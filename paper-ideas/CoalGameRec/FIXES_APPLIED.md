@@ -76,3 +76,80 @@ This document maps each mandatory revision from the peer review to the concrete 
 
 All fixes compile under `sn-jnl` (no pdflatex in sandbox; verified via `latexml` check). For local compile: `cd springer_latex && pdflatex main && bibtex main && pdflatex main && pdflatex main`.
 
+
+---
+
+# Fixes Applied — v14 (response to v13 re-review, 2026-08-07)
+
+**Policy applied:** every number in the manuscript must map to a released artifact file
+(`results/journal_runs/*/tables/*.csv`, `raw/seed_*/{lambda_sensitivity.csv,explanation_diagnostics.json,runtime_by_seed.csv}`).
+Claims without artifacts were removed, not renumbered.
+
+## Critical Issue 1 — Algorithm 4 contradicted Eq. (7)
+- Rewrote § Attribution-guided reranking: new Eqs. (eq:weights)--(eq:rerank) match
+  `code/coalgamerec/rerank.py` exactly: raw signed weights $w_j=a_j$ for Shapley/LOO,
+  $\mathbf{r}_u=\sum_j w_j\mathbf{e}_j$, and the attribution term divided by the
+  **L1 normalizer** $\sum_j|w_j|+\epsilon$ (well-defined for signed weights with $\sum_j w_j\approx0$).
+- Algorithm 4 rewritten with the explicit $d=\sum_j|w_j|+\epsilon$ line; justification added
+  (signed weights, symmetric treatment of positive/negative attribution, identical intervention across families).
+
+## Critical Issue 2 — the 64× complexity claim was false
+- Complexity paragraph rewritten: operation count predicts an $M$-fold ($\approx64\times$) ratio;
+  measured wall-clock is 15.7× (ML-1M: 31,657.7 s vs 2,010.5 s) and 13.0× (Amazon: 8,283.2 s vs 637.2 s);
+  explained via cached graph structures, vectorized propagation, amortized fixed overheads.
+  Op-count now stated as an upper bound, not an equality prediction.
+
+## Critical Issue 3 — statistics for validation baselines / family definition
+- **valid-sim and valid-linear rows removed from Table 3** (no code, config, or result artifact exists for them anywhere in the repo).
+- Contribution 1, §13.2, Appendix B updated accordingly; the validation-access asymmetry is now flagged in
+  Threats to validity (Internal) and Limitations (new 6th limitation) with matched controls committed to the regeneration plan.
+- Primary family defined explicitly everywhere (Abstract-adjacent Contributions, estimand section, Table 4 caption):
+  per dataset F=8 Holm contrasts, Shapley-MC vs {uniform, additive-pref, attention, LOO} × {NDCG@20, HitRate@20}
+  — exactly the released `paired_bootstrap_all_controls*.csv` + `_holm.json`.
+- **12 LOO-as-treatment rows removed from Table 4** (CI/p/dz values were not in the artifact files).
+  LOO-vs-uniform mean differences (0.00375 ML-1M / 0.00259 Amazon, from `cost_effectiveness.csv`)
+  are reported descriptively with an explicit note that LOO-as-treatment bootstrap is in the regeneration plan.
+- Abstract fixed: "+8.1%/+8.7% (Holm p<0.0005)" → the Holm statement now correctly refers to the Shapley-vs-uniform contrasts.
+- Table 3 regrouped (unreranked reference / non-game reweighting / cooperative-game attribution) as requested.
+- Table 4 caption states the one-to-one mapping to artifact files.
+
+## Critical Issue 4 — claimed ablations not reported
+- Removed all unsupported numbers: k-sweep plateau, "M=64 halves variance vs M=32", "+30% variance",
+  player-selection ~0.001, native-vs-external 0.002–0.003.
+- Table 6 rebuilt from `lambda_sensitivity.csv`: **5-seed mean±SD, both datasets**, families restricted to
+  those in the artifact (uniform, additive-pref, shapley-mc). LOO λ-sweep values (0.04710/0.05180/0.05820)
+  were not in any artifact and were removed; LOO is reported at the protocol λ=0.10 only.
+- §15 now states explicitly which ablations are "specified in run_ablations.py but not run" (no numbers reported).
+- Amazon "same trend" claim replaced by the actual Amazon pattern (heuristics flat, Shapley monotone).
+- Runtime statement corrected to artifact values (5,317–5,436 s on 4/5 ML-1M seeds + one 10,160 s outlier; 1,657±3 s Amazon).
+
+## Critical Issue 5 — faithfulness evidence preliminary
+- Table 7 replaced: fabricated 6-method comparison removed. New table = real candidate-masking proxies from
+  `explanation_diagnostics.json`, **5-seed mean±SD, both datasets**, attributed to Shapley-MC (as the pipeline computes them).
+- All three caveats stated: masking proxy (not masked-forward), single 20% fraction, no cross-family comparison run.
+  Faithfulness explicitly NOT claimed; multi-fraction curves + masked-forward + cross-family = regeneration plan.
+- Retention percentages computed honestly against the λ=0 reference (59% ML-1M, 88% Amazon).
+
+## Technical/presentation issues 1–9
+1. Algorithm 3: `for π ∈ {π, π'}` → `for each permutation ρ in the pair (π, π')`; "order π_order" → "order induced by ρ".
+2. Algorithm 1: pools made explicit ($P_2$ from $H_u\setminus P_1$, $P_3$ from $H_u\setminus(P_1\cup P_2)$, exhaustion rule, fill rule).
+3. Contribution 4 family wording rewritten (no more "LOO vs LOO" ambiguity) — see Critical 3.
+4. Appendix B contradiction removed: the paragraph claiming validation-guided baselines exist in code was false and is deleted;
+   appendix rewritten declaratively (no "should"/"before submission" planning language).
+5. Table 3 grouped via multicolumn section headers.
+6. Table 6 now contains real Amazon values (5-seed mean±SD).
+7. Planning language removed from Appendix B; Appendix E remains the one-line archived checklist.
+8. Reference louhichi2024gametheoryxai: `journal={Manuscript}` → `@misc` with `howpublished={Unpublished working paper}`
+   + note "cited for taxonomy completeness only; not used as empirical evidence"; §4 text states the same.
+9. Reproducibility: Appendix B now lists concrete artifacts (manifest.json fields incl. OS/Python/torch/device,
+   config.resolved.json, dataset_stats.json, item_vectors_report.json, requirements.lock pins, cache-key scheme);
+   Data/Code availability updated (Zenodo DOI at acceptance, commit hash in supplement, environment file named).
+
+## Additional consistency fixes
+- Fusion claims softened everywhere (Contribution 5, P3, §Future work, Appendix D): `coalgame-fusion` is implemented
+  in code but was not run under the frozen protocol → no ranking claim.
+- §hyper subsection title "(including validation-guided baselines)" → "(shared across families)".
+- λ-figure caption rewritten (no +14.5% claim; points to the 5-seed table).
+- Unreranked row in Table 3 replaced with real λ=0 5-seed values from the sweep artifact
+  (ML-1M 0.11415/0.04482/0.62967/0.73045; Amazon 0.06690/0.02982/0.23573/0.92082).
+- Both `paper_package/` and `springer_latex/` copies kept byte-identical.
