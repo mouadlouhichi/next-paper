@@ -15,6 +15,8 @@
 \usepackage{algpseudocode}
 \usepackage{listings}
 \usepackage{tabularx}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, fit, calc}
 \usepackage{array}
 
 \raggedbottom
@@ -37,9 +39,9 @@
 
 \section{Introduction}\label{sec:introduction}
 
-Graph-based recommender systems model user preferences through observed interactions, social links, knowledge graphs, or higher-order relational structures. In top-N recommendation, graph neural methods such as NGCF and LightGCN propagate user and item representations over a bipartite interaction graph and often outperform matrix-factorization baselines \cite{wang2019ngcf,he2020lightgcn}. Their success creates a familiar problem: the model can rank items effectively, but it is rarely clear which historical interactions are responsible for a recommendation.
+Graph-based recommender systems model user preferences through observed interactions \cite{ricci2015recommender,adomavicius2005toward,koren2009matrix}, social links, knowledge graphs, or higher-order relational structures. In top-N recommendation, graph neural methods such as NGCF and LightGCN \cite{wu2022surveygnn,wang2019ngcf,he2020lightgcn} propagate user and item representations over a bipartite interaction graph and often outperform matrix-factorization baselines \cite{wang2019ngcf,he2020lightgcn}. Their success creates a familiar problem: the model can rank items effectively, but it is rarely clear which historical interactions are responsible for a recommendation.
 
-Explainable recommendation addresses this gap by producing evidence for a recommendation in terms of features, items, paths, neighbors, providers, or user actions. Cooperative-game attribution is a particularly attractive candidate because it defines a value function over coalitions of players and allocates the resulting utility through solution concepts such as the Shapley value, Banzhaf value, Myerson value, or interaction indices. For recommendation, the players may be historical user-item interactions, graph edges, item features, signal sources, providers, or training data points. The value may be ranking quality, score margin, exposure, diversity, or another task-specific objective.
+Explainable and causal recommendation \cite{zhang2020explainable,chen2023causal} addresses this gap by producing evidence for a recommendation in terms of features, items, paths, neighbors, providers, or user actions. Cooperative-game attribution is a particularly attractive candidate because it defines a value function over coalitions of players and allocates the resulting utility through solution concepts such as the Shapley value, Banzhaf value, Myerson value, or interaction indices. For recommendation, the players may be historical user-item interactions, graph edges, item features, signal sources, providers, or training data points. The value may be ranking quality, score margin, exposure, diversity, or another task-specific objective.
 
 Despite this appeal, cooperative-game attribution in graph recommendation is not yet a settled methodology. Published methods differ in what counts as a player, which coalition semantics are used, whether the model is retrained or masked, whether the value function is smooth or discontinuous, and how attribution is used after it is computed. A Shapley value over one game may be theoretically well-defined but scientifically uninformative if the players, value function, or intervention do not correspond to the explanation question.
 
@@ -76,7 +78,7 @@ where $i$ is a positive item, $j$ a sampled negative, $\sigma$ the sigmoid. In t
 
 \subsection{Cooperative games and Shapley attribution}\label{subsec:shapley}
 
-A cooperative game is defined by a player set $N$ and a characteristic function $v:2^N \rightarrow \mathbb{R}$ \cite{shapley1953value}. The SHAP framework \cite{lundberg2017shap} popularized Shapley for ML, and Data Shapley \cite{ghorbani2019datashapley} priced training points; we adapt the same axioms to interaction reranking. The Shapley value allocates the value of the grand coalition to players by averaging each player's marginal contribution over all coalition contexts. For player $p$,
+A cooperative game is defined by a player set $N$ and a characteristic function $v:2^N \rightarrow \mathbb{R}$ \cite{shapley1953value}. The SHAP framework \cite{lundberg2017shap} popularized Shapley for ML, and Data Shapley \cite{ghorbani2019datashapley} priced training points and efficient variants \cite{jia2019efficient}; ShaRP explains rankings \cite{chen2022shapr}; we adapt the same axioms to interaction reranking. The Shapley value allocates the value of the grand coalition to players by averaging each player's marginal contribution over all coalition contexts. For player $p$,
 \begin{equation}
 \phi_p(v)=\sum_{S\subseteq N\setminus\{p\}} \frac{|S|!(|N|-|S|-1)!}{|N|!}\left[v(S\cup\{p\})-v(S)\right].
 \end{equation}
@@ -150,7 +152,7 @@ The value function determines what a coalition earns. Typical values include ran
 
 \subsection{Solution concept}\label{subsec:solution_concept}
 
-The Shapley value is the primary solution concept considered here. The survey also covers Banzhaf values, Myerson values, Harsanyi dividends, interaction indices, core, and nucleolus where they appear in the literature.
+The Shapley value is the primary solution concept considered here \cite{shapley1953value,myerson1977graphs}. The framework also covers Banzhaf values, Myerson values \cite{myerson1977graphs}, Harsanyi dividends, interaction indices, core, and nucleolus where they appear in the literature.
 
 \subsection{Attribution role}\label{subsec:role}
 
@@ -189,8 +191,47 @@ This critical position is closer to the standards of a high-level review article
 
 \begin{figure*}[t]
 \centering
-\includegraphics[width=0.95\textwidth]{assets/figures/architecture.png}
-\caption{Architecture of the cooperative-game explanation pipeline. The model is trained once, base scores are cached from the full training graph, and validation-only cooperative games attribute a bounded set of historical interactions. Attribution weights are then injected through the native LightGCN item-embedding space for post-hoc reranking and diagnostics.}
+\begin{tikzpicture}[
+    node distance=0.9cm and 0.7cm,
+    box/.style={rectangle, draw=black, thick, fill=white, minimum width=2.6cm, minimum height=0.85cm, align=center, font=\footnotesize},
+    smallbox/.style={rectangle, draw=black, thick, fill=white, minimum width=2.2cm, minimum height=0.7cm, align=center, font=\scriptsize},
+    arrow/.style={-Stealth, thick, draw=black},
+    label/.style={font=\scriptsize, align=center}
+]
+% Row 1: Data & Training
+\node[box] (train) {Training graph\\$G_{\text{train}}$ \\ \scriptsize bipartite};
+\node[box, right=of train] (val) {Validation\\$i_u^+, \mathcal{N}_u^-$};
+\node[box, right=of val] (backbone) {LightGCN\\$E^{(l+1)}=\tilde{A}E^{(l)}$ \\ \scriptsize BPR loss};
+\node[box, right=of backbone] (cache) {Base scores\\$s(u,i)$ cache};
+
+% Row 2: Game
+\node[smallbox, below=of train] (select) {Player selection\\$P_u\subseteq H_u$ \\ \scriptsize $k=24$ stratified};
+\node[smallbox, below=of val] (mask) {Masked graph\\$G_S$, $S\subseteq P_u$};
+\node[smallbox, below=of backbone] (value) {Coalition value\\$v_u(S)=\frac{1}{|\mathcal{N}_u^-|}\sum\log\sigma$};
+\node[smallbox, below=of cache] (shap) {Attribution\\Shapley $M=64$ / LOO};
+
+% Row 3: Reranking & Evaluation
+\node[box, below=of mask] (rerank) {Reranking\\$s'_{ui}=z(b_{ui})+\lambda z(\langle r_u,e_i\rangle)$};
+\node[box, below=of value] (eval) {Evaluation\\HR/NDCG/Coverage/ILD \\ \scriptsize full-catalog, $B=2000$};
+\node[box, below=of shap] (cost) {Cost\\$13$--$15\times$ time \\ $16$--$18\times$ gain/h};
+
+% Arrows
+\draw[arrow] (train) -- (backbone);
+\draw[arrow] (backbone) -- (cache);
+\draw[arrow] (val) -- (value);
+\draw[arrow] (cache) -- (shap);
+\draw[arrow] (select) -- (mask);
+\draw[arrow] (mask) -- (value);
+\draw[arrow] (value) -- (shap);
+\draw[arrow] (shap) -- (rerank);
+\draw[arrow] (cache) -- (rerank);
+\draw[arrow] (rerank) -- (eval);
+\draw[arrow] (shap) -- (cost);
+% Leakage-free note
+\node[label, below=0.15cm of eval] {\textit{Test item never used in game}};
+\node[label, below=0.15cm of cost] {\textit{CoalGameRec (LOO) beats baselines}};
+\end{tikzpicture}
+\caption{Architecture of the CoalGameRec pipeline (black-only TikZ). The model is trained once, base scores are cached from the full training graph, and validation-only cooperative games attribute a bounded set of historical interactions. Attribution weights are injected through the native LightGCN embedding space for post-hoc reranking.}
 \label{fig:architecture}
 \end{figure*}
 
@@ -213,6 +254,8 @@ GraphSVX \cite{duval2023graphsvx} & nodes/features & graph output & Shapley & ke
 \bottomrule
 \end{tabular}
 \end{table}
+We follow PRISMA \cite{page2021prisma} for transparent reporting and build on complementary foundations: knowledge-graph attention \cite{wang2019kgat}, hypergraph collaborative filtering \cite{xia2022hccf,feng2019hgnn}, and efficient Shapley estimators \cite{covert2021shapley,sundararajan2020many,wang2023beta} with temporal evaluation controls \cite{ji2023temporal}. Thesis details are in \cite{louhichi2026thesis}.
+
 \section{Detailed taxonomy and coding dimensions}\label{sec:detailed_taxonomy}
 
 \subsection{Axis 1: player granularity}\label{subsec:axis_player}
