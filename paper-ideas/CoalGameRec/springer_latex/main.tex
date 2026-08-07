@@ -37,13 +37,13 @@
 
 \section{Introduction}\label{sec:introduction}
 
-Graph-based recommender systems model user preferences through observed interactions, social links, knowledge graphs, or higher-order relational structures. In top-N recommendation, graph neural methods such as LightGCN propagate user and item representations over a bipartite interaction graph and often outperform matrix-factorization baselines. Their success creates a familiar problem: the model can rank items effectively, but it is rarely clear which historical interactions are responsible for a recommendation.
+Graph-based recommender systems model user preferences through observed interactions, social links, knowledge graphs, or higher-order relational structures. In top-N recommendation, graph neural methods such as NGCF and LightGCN propagate user and item representations over a bipartite interaction graph and often outperform matrix-factorization baselines \cite{wang2019ngcf,he2020lightgcn}. Their success creates a familiar problem: the model can rank items effectively, but it is rarely clear which historical interactions are responsible for a recommendation.
 
 Explainable recommendation addresses this gap by producing evidence for a recommendation in terms of features, items, paths, neighbors, providers, or user actions. Cooperative-game attribution is a particularly attractive candidate because it defines a value function over coalitions of players and allocates the resulting utility through solution concepts such as the Shapley value, Banzhaf value, Myerson value, or interaction indices. For recommendation, the players may be historical user-item interactions, graph edges, item features, signal sources, providers, or training data points. The value may be ranking quality, score margin, exposure, diversity, or another task-specific objective.
 
 Despite this appeal, cooperative-game attribution in graph recommendation is not yet a settled methodology. Published methods differ in what counts as a player, which coalition semantics are used, whether the model is retrained or masked, whether the value function is smooth or discontinuous, and how attribution is used after it is computed. A Shapley value over one game may be theoretically well-defined but scientifically uninformative if the players, value function, or intervention do not correspond to the explanation question.
 
-This paper has two aims. First, it develops a systematic review and taxonomy of cooperative-game attribution for explainable graph-based recommendation. Second, it uses a controlled empirical case study to test one central taxonomy slice: historical interactions as players, validation-based ranking utility as coalition value, and post-hoc attribution-guided reranking as intervention.
+This paper has three aims. First, it develops a design framework for cooperative-game attribution in graph recommendation, with explicit principles for player definition, value-function selection, coalition semantics, and intervention alignment. Second, it develops a taxonomy that can organize the systematic-review corpus. Third, it uses a controlled empirical case study to test one central taxonomy slice: historical interactions as players, validation-based ranking utility as coalition value, and post-hoc attribution-guided reranking as intervention.
 
 The empirical case study is deliberately critical rather than promotional. We do not ask only whether Shapley attribution beats a uniform baseline. We also compare it to additive preference weighting, fixed attention-style weighting, popularity weighting, and leave-one-out marginal attribution. This last comparison is crucial. Leave-one-out marginal attribution measures the effect of removing each interaction from the full coalition. If it performs as well as Shapley, then much of the ranking benefit comes from validation-guided marginal attribution rather than from averaging marginal contributions over many coalition contexts.
 
@@ -64,7 +64,7 @@ The paper makes five contributions.
 
 Let $\mathcal{U}$ be the set of users and $\mathcal{I}$ the set of items. In implicit-feedback top-N recommendation, the observed training graph contains positive user-item interactions. A graph recommender learns user and item representations and produces a score $s(u,i)$ for each candidate item. Evaluation ranks all unseen eligible items for each user and measures whether the held-out item appears near the top.
 
-This case study uses LightGCN as a graph recommender backbone. LightGCN removes feature transformations and nonlinearities from graph convolution and propagates user and item embeddings through the normalized user-item graph. In this paper, LightGCN provides the graph-based empirical setting, while the survey covers broader graph and hypergraph recommender methods.
+This case study uses LightGCN as a graph recommender backbone \cite{he2020lightgcn}. LightGCN removes feature transformations and nonlinearities from graph convolution and propagates user and item embeddings through the normalized user-item graph. In this paper, LightGCN provides the graph-based empirical setting, while the survey covers broader graph and hypergraph recommender methods.
 
 \subsection{Cooperative games and Shapley attribution}\label{subsec:shapley}
 
@@ -80,6 +80,38 @@ In recommendation, $N$ may be a user's historical interactions. The value functi
 The Shapley value is not a guarantee of better recommendations. It is an allocation rule conditional on a chosen game. If the value function contains an additive similarity term, Shapley linearity decomposes that term into the same per-interaction similarity scores used by non-game baselines. If the value function uses hard top-20 NDCG with one validation item, many coalitions may receive zero utility, producing sparse marginal signals. If the intervention uses an external similarity kernel that is misaligned with the graph backbone, the attribution signal may be distorted before it affects ranking.
 
 These issues motivated the case-study design used here. The primary game removes the additive preference term, uses a smooth validation-only pairwise utility, selects a stratified bounded player set, and applies attribution through the backbone-native item embedding space.
+
+\section{A design framework for cooperative-game recommendation attribution}\label{sec:design_framework}
+
+The central contribution of this article is not only a literature map. It is a design framework for deciding when a cooperative-game explanation is meaningful in graph recommendation. The framework is motivated by a simple observation: a Shapley value is an answer to a specific game, not a universal explanation. To evaluate any cooperative-game explanation, the analyst must specify five linked components: the player set, the coalition semantics, the value function, the solution concept, and the intervention or explanation use.
+
+\subsection{Principle 1: the player must match the explanation question}\label{subsec:principle_player}
+
+A method should not be evaluated only by whether it uses Shapley values. This concern is consistent with critiques in graph-XAI surveys and taxonomies, which emphasize that an explanation method must specify the object being explained and the evidence used to validate the explanation \cite{yuan2021explainability}. It should be evaluated by whether its players correspond to the question being asked. If a user asks why a book was recommended, historical interactions may be the relevant players. If a platform asks whether providers are treated fairly, providers may be the relevant players. If a model developer asks whether a knowledge-graph path influenced a score, graph edges or path components may be the relevant players. This principle prevents the common error of citing feature-attribution results as evidence for interaction-level recommendation explanations.
+
+\subsection{Principle 2: the value function must be smooth enough to attribute}\label{subsec:principle_value}
+
+A discontinuous value function can make attribution unstable. Hard top-K metrics are suitable final evaluation metrics, but they are often poor coalition utilities. A coalition that improves a validation item from rank 200 to rank 30 receives no credit under HitRate@20, even though it improved the model. For this reason, the empirical case study uses a validation-only pairwise log-sigmoid value for attribution and reserves HitRate@20 and NDCG@20 for final test evaluation. This follows the general principle that attribution utilities should be sensitive to the local changes that the attribution method is expected to detect.
+
+\subsection{Principle 3: additive terms should not be hidden inside Shapley claims}\label{subsec:principle_additive}
+
+If the value function contains an additive term, Shapley linearity passes that term directly into the attribution. For example, if
+\begin{equation}
+v_{pref}(S)=v(S)+\lambda\sum_{j\in S}\mathrm{sim}(u,j),
+\end{equation}
+then
+\begin{equation}
+\phi_j(v_{pref})=\phi_j(v)+\lambda\mathrm{sim}(u,j).
+\end{equation}
+A headline Shapley method that contains such a term may be partly a similarity method. A high-quality empirical design should therefore separate the cooperative-game component from additive preference baselines. This is why the final case study sets the additive preference coefficient to zero in the primary game and includes additive preference as a separate control.
+
+\subsection{Principle 4: the intervention must be aligned with the model}\label{subsec:principle_intervention}
+
+Attribution can be computed correctly and still be ineffective if the intervention that uses it is misaligned with the model. A graph-model attribution should ideally affect ranking through the model's native representation or propagation space. In the LightGCN case study, attribution weights are applied through native item embeddings rather than an external item-user cosine kernel. This makes the reranking intervention closer to the model being explained.
+
+\subsection{Principle 5: Shapley must be tested against marginal baselines}\label{subsec:principle_loo}
+
+A Shapley value is more expensive than a single-context marginal baseline. Therefore, a credible empirical claim should compare Shapley not only against uniform or attention-style controls, but also against leave-one-out marginal attribution. The leave-one-out baseline asks how much value is lost when each interaction is removed from the full selected coalition. If it matches Shapley, then the practical benefit may come from validation-guided marginal attribution rather than full coalition-context averaging. This principle is central to the empirical findings of this paper.
 
 \section{Systematic review methodology}\label{sec:review_method}
 
@@ -130,7 +162,7 @@ This distinction motivates the present paper. We do not treat Shapley values as 
 
 \subsection{Graph explanation and its relation to recommendation}\label{subsec:graph_explainers}
 
-Graph neural network explanation has produced many methods that identify important nodes, edges, motifs, or subgraphs. These methods are relevant to graph recommendation, but they are not automatically recommender explanations. Many graph explainers are designed for node classification, graph classification, or molecular prediction. Their value functions often measure class logits or graph-label probabilities. Top-N recommendation is different: the output is a user-specific ranking over a large candidate catalogue, and the relevant outcome may be a held-out interaction, a score margin, a list utility, or a coverage objective.
+Graph neural network explanation has produced many methods that identify important nodes, edges, motifs, or subgraphs \cite{ying2019gnnexplainer,baldassarre2019explainability,yuan2021explainability}. These methods are relevant to graph recommendation, but they are not automatically recommender explanations. Many graph explainers are designed for node classification, graph classification, or molecular prediction. Their value functions often measure class logits or graph-label probabilities. Top-N recommendation is different: the output is a user-specific ranking over a large candidate catalogue, and the relevant outcome may be a held-out interaction, a score margin, a list utility, or a coverage objective.
 
 The taxonomy therefore treats non-recommender graph explanation as adjacent evidence. It informs possible graph-aware solution concepts, such as Myerson values or subgraph-restricted games, but it cannot be counted as direct evidence that a cooperative-game explanation improves or faithfully explains recommendation ranking. This separation is important for Q1-level review standards because it prevents the core corpus from being inflated by loosely related graph-XAI work.
 
@@ -250,13 +282,13 @@ The empirical study tests one taxonomy slice: interaction players, validation ra
 
 \subsection{Data and splits}\label{subsec:data_splits}
 
-We use MovieLens-1M and a custom temporal Amazon-Book split built from Amazon Reviews 2018 Books 5-core data. Ratings are converted to implicit positives using $\mathrm{rating}\geq 4$. For each user, the last positive interaction is the test item, the second-last positive interaction is the validation item, and earlier positives are training interactions. The 5-core eligibility filter is computed from the training-period positive graph to avoid future-information leakage.
+We use MovieLens-1M \cite{harper2015movielens} and a custom temporal Amazon-Book split built from Amazon Reviews 2018 Books 5-core data \cite{ni2019justifying}. Ratings are converted to implicit positives using $\mathrm{rating}\geq 4$. For each user, the last positive interaction is the test item, the second-last positive interaction is the validation item, and earlier positives are training interactions. The 5-core eligibility filter is computed from the training-period positive graph to avoid future-information leakage.
 
 MovieLens contains 6,015 users, 3,114 items, 562,183 training interactions, 6,015 validation interactions, and 6,015 test interactions after processing. Amazon-Book contains 7,417 users, 12,885 items, 109,915 training interactions, 7,417 validation interactions, and 7,417 test interactions after processing.
 
 \subsection{Backbone and attribution families}\label{subsec:families}
 
-The graph backbone is LightGCN with two propagation layers. We train for five seeds $\{42,43,44,45,46\}$. The attribution families are:
+The graph backbone is LightGCN with two propagation layers, trained with a Bayesian personalized ranking objective \cite{rendle2009bpr,he2020lightgcn}. We train for five seeds $\{42,43,44,45,46\}$. The attribution families are:
 \begin{itemize}
     \item \textbf{uniform:} all historical interactions receive equal weight.
     \item \textbf{additive-pref:} weights are direct positive similarity to the user's training profile.
