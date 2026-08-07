@@ -530,6 +530,13 @@ shapley-mc & 0.04481 & 0.04675 & \textbf{0.04900} & \textbf{0.05266} & \textbf{0
 \end{tabular}
 \end{table}
 
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.85\textwidth]{assets/figures/lambda_sensitivity.png}
+\caption{Ablation: $\lambda_{\text{attr}}$ sensitivity (ML-1M seed 42; Amazon same trend). Shapley rises faster than heuristics; shared $\lambda=0.10$ (gray dashed) already beats baselines, while $\lambda=0.20$ reaches $0.05266$ NDCG ($+14.5\%$ vs uniform) and widens the frontier. Error bars are SD over 5 seeds for Tab.1; this ablation is single-seed illustrative.}
+\label{fig:lambda}
+\end{figure}
+
 Stratified $k=24$ was chosen because exact Shapley $O(2^{k}C_v)$ is infeasible for $k>10$; MC $O(MkC_v)$ with $C_v$ the cost of one coalition (graph-masked LightGCN forward plus $|\mathcal{N}_u^-|=100$ log-sigmoid evaluations) fits laptop budgets ($\sim5.3$k s per ML seed). Halving $M$ to $32$ increases Shapley NDCG variance by $\sim30\%$ without changing the beating ordering.
 
 \section{Explainability analysis (faithfulness proxies)}\label{sec:explainability}
