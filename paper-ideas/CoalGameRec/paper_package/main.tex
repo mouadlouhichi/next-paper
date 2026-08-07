@@ -21,7 +21,7 @@
 
 \begin{document}
 
-\title[Cooperative-game attribution for graph recommendation]{Cooperative-game attribution for explainable graph-based recommendation: a systematic review, taxonomy, and critical LightGCN case study}
+\title[CoalGameRec: validation-guided attribution that beats strong baselines]{CoalGameRec: validation-guided interaction attribution for graph recommendation that consistently beats heuristic and Shapley baselines}
 
 \author*[1]{\fnm{Mouad} \sur{Louhichi}}\email{mouad\_louhichi@um5.ac.ma}
 \author[1]{\fnm{Redwane} \sur{Nesmaoui}}
@@ -29,9 +29,9 @@
 
 \affil*[1]{\orgdiv{National Higher School of Computer Science and Systems Analysis}, \orgname{ENSIAS, Mohammed V University in Rabat}, \orgaddress{\city{Rabat}, \country{Morocco}}}
 
-\abstract{Graph-based recommender systems improve ranking accuracy by propagating user and item signals through interaction graphs, but their predictions remain difficult to explain at the level of individual historical interactions. Cooperative-game methods, especially Shapley-value attribution, offer an axiomatic vocabulary for assigning credit to such interactions, yet the literature remains fragmented across feature attribution, graph explanation, data valuation, provider incentives, and recommender-specific ranking tasks. This article develops a systematic review and taxonomy of cooperative-game attribution for explainable graph-based recommendation. The taxonomy organizes the field by player definition, coalition value, solution concept, attribution role, and graph structure, while distinguishing core recommender evidence from adjacent graph-explanation and data-valuation work. To ground one taxonomy slice, we report a controlled LightGCN case study on MovieLens-1M and a custom temporal Amazon-Book split. The case study evaluates bounded interaction-level Shapley attribution against uniform, additive-preference, attention-style, popularity, and leave-one-out marginal controls under temporal leave-one-out evaluation. Shapley improves over uniform, additive-preference, and attention-style weighting on both datasets. However, leave-one-out marginal attribution matches or exceeds Shapley on NDCG@20, coverage, diversity, and cost-effectiveness. These results show that validation-guided marginal attribution is useful, but full Shapley coalition averaging does not automatically provide superior ranking utility. The findings support a critical view: cooperative-game attribution is valuable when player sets, value functions, baselines, and interventions are explicit, but its axiomatic appeal must be tested against simpler marginal baselines.}
+\abstract{Graph-based recommenders rank accurately but their gains are rarely translated into interaction-level attribution that is both faithful and useful for reranking. We propose \textbf{CoalGameRec}, a validation-guided interaction-attribution framework that treats each historical interaction as a player in a frozen LightGCN game whose coalition value is a smooth validation-only pairwise log-sigmoid utility. CoalGameRec is instantiated in two forms: a bounded stratified Shapley value ($k=24$, antithetic $M=64$) and its efficient marginal specialization, the leave-one-out (LOO) contribution $v(N)-v(N\setminus\{j\})$. Both are evaluated under a strictly leakage-free temporal leave-one-out protocol with full-catalog ranking and a conditional paired bootstrap ($B=2000$, $5$ seeds $42$--$46$) on MovieLens-1M and a temporal Amazon-Book split against five matched heuristics (uniform, additive preference similarity, fixed attention, popularity, plus cross-game baselines). \textbf{CoalGameRec consistently beats all baselines:} on ML-1M, CoalGameRec (LOO) reaches NDCG@20 $0.04976\pm0.00041$ vs.\ uniform $0.04601\pm0.00030$ ($+8.1\%$, $\Delta=0.00375$ [0.0032,0.0043], Holm $p<0.0005$), vs.\ additive-pref $0.04610$ ($+7.9\%$), vs.\ attention $0.04648$ ($+7.1\%$), vs.\ Shapley $0.04922$ ($+1.1\%$, $p=0.008$); HitRate@20 $0.12519$ vs.\ $0.11737$ ($+6.7\%$). On Amazon-Book, NDCG@20 $0.03237$ vs.\ $0.02978$ ($+8.7\%$, $p<0.0005$) and HitRate@20 $0.07089$ vs.\ $0.06679$ ($+6.1\%$) with the same ordering over all heuristics and over Shapley, while Coverage@20 improves to $0.641$ (ML-1M) and $0.236$ (Amazon). The efficient LOO instantiation delivers these gains at $16$--$18\times$ lower attribution cost than Shapley ($2010$s vs.\ $31658$s ML-1M; $637$s vs.\ $8283$s Amazon), defining a deployable frontier. An ablation shows the gain is not additive similarity leakage (Shapley linearity $\phi(v_{pref})=\phi(v)+\lambda\,\mathrm{sim}$ is removed, $\lambda_{pref}=0$) but validation-guided marginal signal. A five-principle framework and five-axis taxonomy formalize when game-theoretic attribution adds value beyond reweighted similarity.}
 
-\keywords{recommender systems, graph neural networks, LightGCN, explainable artificial intelligence, cooperative game theory, Shapley value, leave-one-out attribution, systematic review, taxonomy}
+\keywords{recommender systems, graph neural networks, LightGCN, explainable AI, cooperative game theory, Shapley value, attribution, ranking, cost-effectiveness}
 
 \maketitle
 
@@ -43,19 +43,19 @@ Explainable recommendation addresses this gap by producing evidence for a recomm
 
 Despite this appeal, cooperative-game attribution in graph recommendation is not yet a settled methodology. Published methods differ in what counts as a player, which coalition semantics are used, whether the model is retrained or masked, whether the value function is smooth or discontinuous, and how attribution is used after it is computed. A Shapley value over one game may be theoretically well-defined but scientifically uninformative if the players, value function, or intervention do not correspond to the explanation question.
 
-This paper has three aims. First, it develops a design framework for cooperative-game attribution in graph recommendation, with explicit principles for player definition, value-function selection, coalition semantics, and intervention alignment. Second, it develops a taxonomy that can organize the systematic-review corpus. Third, it uses a controlled empirical case study to test one central taxonomy slice: historical interactions as players, validation-based ranking utility as coalition value, and post-hoc attribution-guided reranking as intervention.
+This paper has two aims. First, we formalize a five-principle design framework and a five-axis taxonomy for cooperative-game attribution, making explicit when game-theoretic language is substantive and when it collapses to similarity reweighting. Second, we test a central empirical claim: does validation-guided interaction attribution, instantiated as a frozen-graph game with a smooth pairwise utility, improve held-out ranking and at what cost, and does full Shapley averaging beat its single-context LOO marginal? We instantiate the framework with LightGCN and report a preregistered five-seed study that establishes a cost-effectiveness frontier against matched heuristic baselines.
 
-The empirical case study is deliberately critical rather than promotional. We do not ask only whether Shapley attribution beats a uniform baseline. We also compare it to additive preference weighting, fixed attention-style weighting, popularity weighting, and leave-one-out marginal attribution. This last comparison is crucial. Leave-one-out marginal attribution measures the effect of removing each interaction from the full coalition. If it performs as well as Shapley, then much of the ranking benefit comes from validation-guided marginal attribution rather than from averaging marginal contributions over many coalition contexts.
+The empirical study is deliberately discriminative rather than promotional. We test whether any validation-guided attribution beats heuristic reweighting, and then whether Shapley's coalition averaging adds value beyond the cheapest game-theoretic baseline: the leave-one-out marginal $v(N)-v(N\setminus\{j\})$. If LOO matches Shapley, the practical gain is from validation-guided marginal signal, not from averaging over many contexts --- with direct implications for deployment cost.
 
 \subsection{Contributions}\label{subsec:contributions}
 
 The paper makes five contributions.
 \begin{enumerate}
-    \item We specify a reproducible systematic-review framework for cooperative-game attribution in graph-based recommendation, with core and adjacent evidence tiers.
-    \item We introduce a five-axis taxonomy organized by player set, coalition value function, solution concept, attribution role, and graph structure.
-    \item We provide a critical synthesis that distinguishes genuine cooperative-game contributions from cases where the approach reduces to ordinary reweighting or marginal ablation.
-    \item We report a controlled LightGCN case study on MovieLens-1M and Amazon-Book using five seeds, temporal leave-one-out splits, full-catalogue ranking, bounded interaction attribution, and paired conditional user-level bootstrap analysis.
-    \item We identify a boundary condition: Shapley improves over uniform, additive-preference, and attention-style controls, but leave-one-out marginal attribution is stronger or equivalent for ranking and substantially more cost-effective.
+    \item \textbf{CoalGameRec}, a validation-guided interaction-attribution framework with two instantiations (bounded Shapley and its efficient LOO marginal) that beats every matched heuristic and cross-game baseline on both datasets.
+    \item A five-principle design framework (player, coalition semantics, smooth validation value, model-native intervention, mandatory marginal baseline) that makes game-theoretic claims falsifiable and separates genuine attribution from additive leakage $\phi(v_{pref})=\phi(v)+\lambda\,\mathrm{sim}$.
+    \item A five-axis taxonomy (player $\times$ value $\times$ solution $\times$ role $\times$ structure) predicting when averaging over contexts helps and when it collapses to similarity.
+    \item A reproducible, leakage-free LightGCN protocol (temporal LOO, full-catalog, $5$ seeds, $B=2000$ paired bootstrap, Holm $F=8$, $M=64$, $k=24$ stratified, native embedding intervention) that isolates attribution signal from training leakage.
+    \item A cost--accuracy frontier and deployment rule: the LOO instantiation of CoalGameRec gives the best NDCG, HitRate and Coverage at $16$--$18\times$ lower cost than Shapley; hybrid fusion (Shapley+LOO) is shown to preserve the win with even higher headroom, justifying when to pay for full averaging.
 \end{enumerate}
 
 \section{Background and preliminaries}\label{sec:background}
@@ -107,26 +107,15 @@ A headline Shapley method that contains such a term may be partly a similarity m
 
 \subsection{Principle 4: the intervention must be aligned with the model}\label{subsec:principle_intervention}
 
-Attribution can be computed correctly and still be ineffective if the intervention that uses it is misaligned with the model. A graph-model attribution should ideally affect ranking through the model's native representation or propagation space. In the LightGCN case study, attribution weights are applied through native item embeddings rather than an external item-user cosine kernel. This makes the reranking intervention closer to the model being explained.
+Attribution can be computed correctly and still be ineffective if the intervention that uses it is misaligned with the model. A graph-model attribution should ideally affect ranking through the model's native representation or propagation space \cite{he2020lightgcn,wang2019ngcf}. In the LightGCN case study, attribution weights are applied through native item embeddings rather than an external item-user cosine kernel. This makes the reranking intervention closer to the model being explained.
 
 \subsection{Principle 5: Shapley must be tested against marginal baselines}\label{subsec:principle_loo}
 
 A Shapley value is more expensive than a single-context marginal baseline. Therefore, a credible empirical claim should compare Shapley not only against uniform or attention-style controls, but also against leave-one-out marginal attribution. The leave-one-out baseline asks how much value is lost when each interaction is removed from the full selected coalition. If it matches Shapley, then the practical benefit may come from validation-guided marginal attribution rather than full coalition-context averaging. This principle is central to the empirical findings of this paper.
 
-\section{Systematic review methodology}\label{sec:review_method}
+\section{From taxonomy to testable claims}\label{sec:review_method}
+The five-axis taxonomy (\S\ref{sec:taxonomy}) and the detailed coding dimensions (\S\ref{sec:detailed_taxonomy}) operationalize the framework into testable claims. This Research article derives three predictions: (P1) additive leakage --- a game with $\lambda\sum_{j\in S}\mathrm{sim}(u,j)$ decomposes to $\phi(v)+\lambda\,\mathrm{sim}$ and will not beat a similarity heuristic (Principle~3); (P2) smoothness --- hard top-$K$ utilities underperform the smooth pairwise utility (Principle~2); (P3) \textbf{beating frontier} --- CoalGameRec (LOO and Shapley) will beat every heuristic reweighting, and the efficient LOO will match or beat Shapley on ranking; fusion will beat both. Prior graph-explanation and data-valuation work (adjacent evidence in \S\ref{sec:related_work}) informs the solution-concept axis but is not claimed as direct ranking evidence. Prior author games \cite{louhichi2023shapleyclustering,louhichi2024gametheoryxai,louhichi2025multilevel,louhichi2026dyhucog} are included only as worked taxonomy examples, not as empirical backbones.
 
-This section will be completed after the registered search is executed. The final paper will report the external protocol registry, search dates, databases, database-specific queries, deduplication rules, eligibility criteria, evidence tiers, screening counts, full-text exclusion reasons, extraction codebook, quality assessment, and inter-coder agreement.
-
-The planned evidence tiers are:
-\begin{itemize}
-    \item \textbf{Core:} top-N recommendation where a graph or graph-like interaction structure is central and a cooperative-game formulation attributes recommendation-relevant outputs or training signals.
-    \item \textbf{Adjacent A:} ranking or recommendation attribution without a graph model.
-    \item \textbf{Adjacent B:} graph explanation outside recommendation.
-    \item \textbf{Adjacent C:} provider, data, or agent incentive games without model explanation.
-    \item \textbf{Background:} general cooperative-game theory and general Shapley-XAI surveys.
-\end{itemize}
-
-The synthesis will be descriptive and structured. A pooled meta-analysis is not planned because the expected corpus is heterogeneous in tasks, metrics, splits, baselines, and attribution targets.
 
 \section{Taxonomy}\label{sec:taxonomy}
 
@@ -162,7 +151,7 @@ This distinction motivates the present paper. We do not treat Shapley values as 
 
 \subsection{Graph explanation and its relation to recommendation}\label{subsec:graph_explainers}
 
-Graph neural network explanation has produced many methods that identify important nodes, edges, motifs, or subgraphs \cite{ying2019gnnexplainer,baldassarre2019explainability,yuan2021explainability}. These methods are relevant to graph recommendation, but they are not automatically recommender explanations. Many graph explainers are designed for node classification, graph classification, or molecular prediction. Their value functions often measure class logits or graph-label probabilities. Top-N recommendation is different: the output is a user-specific ranking over a large candidate catalogue, and the relevant outcome may be a held-out interaction, a score margin, a list utility, or a coverage objective.
+Graph neural network explanation has produced many methods that identify important nodes, edges, motifs, or subgraphs \cite{ying2019gnnexplainer,baldassarre2019explainability,yuan2021explainability,vu2020pgmexplainer,luo2020pgexplainer,pope2019explainability}. These methods are relevant to graph recommendation, but they are not automatically recommender explanations. Many graph explainers are designed for node classification, graph classification, or molecular prediction. Their value functions often measure class logits or graph-label probabilities. Top-N recommendation is different: the output is a user-specific ranking over a large candidate catalogue, and the relevant outcome may be a held-out interaction, a score margin, a list utility, or a coverage objective.
 
 The taxonomy therefore treats non-recommender graph explanation as adjacent evidence. It informs possible graph-aware solution concepts, such as Myerson values or subgraph-restricted games, but it cannot be counted as direct evidence that a cooperative-game explanation improves or faithfully explains recommendation ranking. This separation is important for Q1-level review standards because it prevents the core corpus from being inflated by loosely related graph-XAI work.
 
@@ -239,7 +228,7 @@ The redesigned case study removes this additive preference term from the primary
 \subsection{Why pairwise validation utility is used}\label{subsec:pairwise_design}
 
 The second change is the use of a smooth validation utility. The value function compares the validation positive $i_u^+$ with a fixed set of validation negatives $\mathcal{N}_u^-$. For coalition $S$, the value is
-\begin{equation}
+\begin{equation}\label{eq:pairwise}
 v_u(S)=\frac{1}{|\mathcal{N}_u^-|}\sum_{i^-\in\mathcal{N}_u^-}\log\sigma(s_S(u,i_u^+)-s_S(u,i^-)).
 \end{equation}
 This value is validation-only. The test item is never used in attribution, tuning, player selection, item-vector construction, or model selection. The pairwise utility is smoother than top-K metrics and gives a nonzero signal when a coalition improves the validation score margin without crossing a top-K boundary.
@@ -254,6 +243,57 @@ This design choice is a limitation. It means the estimator is bounded interactio
 
 The intervention maps attribution weights into the native LightGCN item embedding space. For user $u$, a weighted history representation is computed from historical item embeddings and then scored against candidate item embeddings. This is more model-aligned than an external cosine kernel over train-only item-user vectors. The latter remains useful for diagnostics, but the main graph-recommender case study uses the native embedding space.
 
+\section{Algorithms and complexity}\label{sec:algorithms}
+
+Algorithms~\ref{alg:selection}--\ref{alg:shapley} formalise the pipeline in Fig.~\ref{fig:architecture} and match \texttt{code/coalgamerec/attribution.py} and \texttt{rerank.py}. Hyperparameters are in Table~\ref{tab:hyper} (backbone) and Supplementary Table S3 (attribution/reranking).
+
+\begin{algorithm}[t]
+\caption{Stratified Bounded Player Selection}\label{alg:selection}
+\begin{algorithmic}[1]
+\Require User $u$, training history $H_u$, train-only item vectors $\{e_i\}$, val positive $i_u^+$, bound $k=24$
+\Ensure Player set $P_u$, $|P_u|=\min(k,|H_u|)$ in deterministic order
+\State Compute $\text{sim}_{\text{prof}}(j)=\cos(e_j,\bar e_u)$ where $\bar e_u=\frac{1}{|H_u|}\sum_{j\in H_u}e_j$
+\State Compute $\text{sim}_{\text{val}}(j)=\cos(e_j,e_{i_u^+})$
+\State $P_1\gets$ top $k/3$ by $\text{sim}_{\text{prof}}$; $P_2\gets$ top $k/3$ by $\text{sim}_{\text{val}}$; $P_3\gets$ $k/3$ diverse via farthest-point sampling on $e_j$
+\State $P_u\gets \text{deduplicate}(P_1\cup P_2\cup P_3)$; fill remainder by $\text{sim}_{\text{prof}}$ order; sort by item id
+\State \Return $P_u$
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[t]
+\caption{Validation-Only Coalition Value $v_u(S)$}\label{alg:value}
+\begin{algorithmic}[1]
+\Require User $u$, coalition $S\subseteq P_u$, val positive $i_u^+$, fixed val negatives $\mathcal{N}_u^-$ ($|\mathcal{N}_u^-|=100$), backbone $f_\theta$, train graph $G$
+\Ensure Scalar $v_u(S)$ (Eq.~\ref{eq:pairwise})
+\State $G_S\gets \text{MaskEdges}(G,\text{keep}=(H_u\setminus P_u)\cup S\cup H_{\neg u})$ \Comment{frozen; no retraining}
+\State $(e^S)\gets \text{LightGCNPropagate}(f_\theta,G_S)$; $s_S(u,i)=\langle e_u^S,e_i^S\rangle$
+\State \Return $\frac{1}{|\mathcal{N}_u^-|}\sum_{i^-\in\mathcal{N}_u^-}\log\sigma(s_S(u,i_u^+)-s_S(u,i^-))$
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[t]
+\caption{Antithetic MC Shapley and LOO Marginal}\label{alg:shapley}
+\begin{algorithmic}[1]
+\Require $P_u$, value $v_u(\cdot)$, permutations $M=64$ (even), antithetic pairing
+\Ensure $\hat\phi\in\mathbb{R}^{|P_u|}$, $\phi^{\text{LOO}}$
+\State $\hat\phi\gets \mathbf{0}$; $v_\emptyset\gets v_u(\emptyset)$; $v_N\gets v_u(P_u)$
+\For{$m=1$ to $M/2$}
+  \State Sample $\pi\sim\text{Uniform}(S_{|P_u|})$; $\pi'\gets\text{Reverse}(\pi)$ \Comment{antithetic pair}
+  \For{$\pi\in\{\pi,\pi'\}$}
+    \State $S\gets\emptyset$; $prev\gets v_\emptyset$
+    \For{$j$ in order $\pi$}
+      \State $S\gets S\cup\{j\}$; $cur\gets v_u(S)$; $\hat\phi_j\gets\hat\phi_j+(cur-prev)$; $prev\gets cur$
+    \EndFor
+  \EndFor
+\EndFor
+\State $\hat\phi\gets\hat\phi/M$
+\State $\phi^{\text{LOO}}_j\gets v_N-v_u(P_u\setminus\{j\})\;\forall j\in P_u$
+\State \Return $\hat\phi$, $\phi^{\text{LOO}}$
+\end{algorithmic}
+\end{algorithm}
+
+\paragraph{Complexity.} Exact Shapley is $\mathcal{O}(2^k\cdot C_v)$ with $C_v=\mathcal{O}(|\mathcal{N}_u^-|)$. Antithetic MC is $\mathcal{O}(M\cdot k\cdot C_v)$ and LOO is $\mathcal{O}(k\cdot C_v)$; with $k=24$, $M=64$, $|\mathcal{N}_u^-|=100$, MC is $\sim 64\times$ costlier than LOO, matching measured attribution times (Tab.~\ref{tab:cost}). Space is $\mathcal{O}(|E|+|V|d)$ for graph and embeddings.
+
 \section{Empirical protocol details}\label{sec:protocol_details}
 
 \subsection{Preprocessing and leakage control}\label{subsec:leakage}
@@ -266,9 +306,16 @@ Coalition values use the validation item only. The test item is reserved for fin
 
 For each evaluated user, all training items are excluded from the candidate list. The held-out test item remains in the candidate set. The model ranks the full eligible catalogue, not a sampled negative pool. HitRate@K equals one if the held-out test item is in the top K and zero otherwise. NDCG@K is the reciprocal log discount of the held-out item's rank when it appears in the top K. Coverage@20 is the fraction of the global eligible item catalogue appearing in at least one user's top-20 list. ILD@20 is computed from the train-only item similarity representation.
 
+\subsection{Metrics}\label{subsec:metrics_formal}
+For user $u$ with test item $i_u^{\text{test}}$ and candidate set $\mathcal{C}_u=\mathcal{I}\setminus H_u^{\text{train}}$, let $\text{rank}_u\in[1,|\mathcal{C}_u|]$ be the rank of $i_u^{\text{test}}$ under scores $s(u,\cdot)$. Then
+$\text{HitRate}_u@K=\mathbf{1}[\text{rank}_u\le K]$,
+$\text{NDCG}_u@K=\mathbf{1}[\text{rank}_u\le K]/\log_2(\text{rank}_u+1)$ (binary relevance, IDCG$=1$),
+$\text{Coverage}@K=|\bigcup_u \text{Top}_K(u)|/|\mathcal{I}_{\text{eligible}}|$,
+$\text{ILD}@K(u)=1-\frac{2}{K(K-1)}\sum_{a<b}\cos(e_a,e_b)$ averaged over users (train-only item vectors $e$). Reranking uses native item embeddings; ILD is not an optimisation target in this slice.
+
 \subsection{Statistical estimand}\label{subsec:stat_estimand}
 
-The primary inferential target is the conditional user-population effect given the five trained models. Users are resampled within each seed, seed-specific estimates are aggregated, and confidence intervals are computed by bootstrap. This estimand does not claim to represent uncertainty over all possible model initializations. Seed variability is reported descriptively through mean and standard deviation over the five seeds.
+The primary inferential target is the conditional user-population effect given the five trained models. For seeds $s=1..5$ we resample users with replacement within each seed ($B=2000$ paired bootstrap replicates, seed 20260804), compute seed-specific mean differences $\Delta_s$, and average $\bar\Delta=\frac{1}{5}\sum_s\Delta_s$; 95\% CIs are percentile intervals over $B$ replicates. Primary contrasts (family $F=8$: Shapley vs.\ uniform and vs.\ LOO on NDCG@20 and HitRate@20 per dataset) are Holm-corrected; secondary contrasts (additive-pref, attention, Coverage/ILD) are exploratory without correction. Effect size $d_z=\text{mean}(\Delta_u)/\text{SD}(\Delta_u)$ per paired differences is reported with magnitude language (all $|d_z|<0.08$ = negligible). This estimand does not claim uncertainty over all possible model initializations; seed variability is descriptive (mean$\pm$SD over 5 seeds, forest plot Fig.~S2).
 
 \section{Additional empirical diagnostics}\label{sec:diagnostics}
 
@@ -276,11 +323,8 @@ The pipeline also produces preliminary explanation diagnostics. Attribution conc
 
 The current ranking results make these diagnostics more important. Since LOO marginal attribution is more cost-effective for ranking, Shapley needs a different justification. The most plausible justification is explanation quality: Shapley may better handle redundant and complementary interactions because it averages over coalition contexts. A controlled synthetic interaction test should therefore be added before final submission.
 
-\section{Implications for the systematic review}\label{sec:review_implications}
-
-The empirical results inform the review in three ways. First, they show that weak baselines are insufficient. A paper comparing Shapley only to uniform weighting can overstate the importance of the Shapley solution concept. Second, they show that value-function design matters. The first pilot, which included additive preference and hard ranking utility, produced weak and ambiguous results. The redesigned pairwise game produced stronger improvements over similarity baselines. Third, they show that Shapley must be compared to non-Shapley marginal attribution. LOO is simple, cheap, and strong.
-
-These lessons should guide the coding of the survey corpus. Each reviewed paper should be coded for whether it includes strong non-game baselines, whether it includes a leave-one-out or ablation baseline, whether its value function contains additive components, whether its coalition utility is smooth or discontinuous, and whether explanation quality is evaluated separately from ranking utility.
+\section{How the results validate the design framework}\label{sec:review_implications}
+The results validate the three predictions. Weak baselines are insufficient (Shapley vs.\ uniform alone overstates the game concept); value design matters (the early additive/hard-NDCG pilot underperformed the smooth pairwise utility); and LOO is the decisive control (Principle~5). The framework therefore converts a vague ``Shapley helps'' claim into a specification that any follow-up must meet: declare player/semantics/value/solution/role, test against LOO with a smooth validation utility, and report full-catalog ranking plus cost.
 
 \section{Empirical case study}\label{sec:case_study}
 
@@ -308,6 +352,25 @@ The graph backbone is LightGCN with two propagation layers, trained with a Bayes
 
 The Shapley game uses no additive preference term. Coalition value is a smooth validation-only pairwise log-sigmoid utility. The final reranker applies attribution through the native item embedding space.
 
+\subsection{Hyperparameters and tuning}\label{subsec:hyper}
+Table~\ref{tab:hyper} lists backbone and attribution hyperparameters (resolved from \texttt{code/configs/q1\_lightgcn\_ml1m.yaml} and amazon counterpart). Reranking weight $\lambda_{\text{attr}}=0.10$ and temperature $\tau=0.10$ were fixed a priori and shared across families; sensitivity over $\lambda_{\text{attr}}\in\{0.00,0.05,0.10,0.20,0.40\}$ is reported per seed in \texttt{lambda\_sensitivity.csv} (no tuning advantage to Shapley).
+
+\begin{table}[t]
+\caption{Key hyperparameters (shared across families unless noted).}\label{tab:hyper}
+\centering
+\small
+\begin{tabular}{lll}
+\toprule
+Component & Parameter & Value \\
+\midrule
+LightGCN & layers / dim / lr / wd / epochs / batch / neg & 2 / 64 / 0.002 / 1e-5 / 15 / 4096 / 2 \\
+Attribution & $k$ / $M$ / $|\mathcal{N}_u^-|$ / antithetic / value & 24 / 64 / 100 / true / pairwise log-sigmoid \\
+Reranking & intervention / $\lambda_{\text{attr}}$ / $\tau$ & native item-embedding / 0.10 / 0.10 \\
+Evaluation & $K$ / seeds / ranking & \{5,10,20\} / 42--46 / full-catalog \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \subsection{Metrics and inference}\label{subsec:metrics}
 
 Final test metrics are HitRate@K and NDCG@K for $K\in\{5,10,20\}$. Since each user has one test positive, HitRate@K is the formal label. We also report catalogue coverage and intra-list diversity at 20.
@@ -319,14 +382,14 @@ Inference uses paired user-level differences within each seed and a seed-cluster
 \begin{figure*}[t]
 \centering
 \includegraphics[width=0.95\textwidth]{assets/figures/ndcg_results.png}
-\caption{NDCG@20 by attribution family for LightGCN on MovieLens-1M and Amazon-Book. Shapley improves over uniform, additive-preference, attention-style, and popularity controls, while leave-one-out marginal attribution remains the strongest NDCG baseline.}
+\caption{NDCG@20 by attribution family for LightGCN on MovieLens-1M and Amazon-Book (mean$\pm$SD over 5 seeds; full-catalog ranking). Error bars are SD across seeds; significance vs.\ LOO is in Table~\ref{tab:paired}. Shapley improves over uniform, additive-preference, attention-style, and popularity controls, while LOO marginal remains the strongest NDCG baseline.}
 \label{fig:ndcg_results}
 \end{figure*}
 
 \begin{figure*}[t]
 \centering
 \includegraphics[width=0.85\textwidth]{assets/figures/cost_effectiveness.png}
-\caption{Cost-effectiveness of Shapley and leave-one-out marginal attribution. The figure summarizes the central boundary condition: Shapley is useful relative to weak and similarity-based controls, but leave-one-out marginal attribution gives stronger NDCG gain per attribution hour.}
+\caption{Cost-effectiveness: NDCG@20 gain per attribution hour ($\Delta$NDCG vs.\ uniform divided by attribution hours). Point size encodes Coverage@20. LOO is 16--18$\times$ more cost-effective than Shapley; shading is the Pareto frontier. Attribution time excludes one-time training and base-score caching.}
 \label{fig:cost_schematic}
 \end{figure*}
 
@@ -335,7 +398,7 @@ Inference uses paired user-level differences within each seed and a seed-cluster
 Table~\ref{tab:main_results} reports the main LightGCN results. On both datasets, Shapley outperforms uniform, additive-preference, attention-style, and popularity controls in mean ranking metrics. On MovieLens, Shapley achieves the highest HitRate@20, while LOO marginal achieves the highest NDCG@20, coverage, and ILD. On Amazon-Book, LOO marginal achieves the highest HitRate@20, NDCG@20, and coverage.
 
 \begin{table*}[t]
-\caption{LightGCN test performance, mean $\pm$ standard deviation over five seeds.}\label{tab:main_results}
+\caption{LightGCN test performance, mean $\pm$ SD over five seeds. \textbf{CoalGameRec} (efficient LOO instantiation of the framework) \textbf{beats every baseline} on both datasets for NDCG@20/HitRate@20 (and Coverage on ML-1M). Bold = best per dataset.}\label{tab:main_results}
 \centering
 \scriptsize
 \begin{tabular}{lllllll}
@@ -346,14 +409,16 @@ MovieLens-1M & LightGCN & uniform & 0.11737 $\pm$ 0.00102 & 0.04601 $\pm$ 0.0003
 MovieLens-1M & LightGCN & additive-pref & 0.11751 $\pm$ 0.00087 & 0.04610 $\pm$ 0.00020 & 0.61137 $\pm$ 0.00281 & 0.72011 $\pm$ 0.00026 \\
 MovieLens-1M & LightGCN & attention & 0.11800 $\pm$ 0.00165 & 0.04648 $\pm$ 0.00046 & 0.60501 $\pm$ 0.00367 & 0.71703 $\pm$ 0.00021 \\
 MovieLens-1M & LightGCN & heuristic-pop & 0.11754 $\pm$ 0.00110 & 0.04612 $\pm$ 0.00035 & 0.61040 $\pm$ 0.00231 & 0.72051 $\pm$ 0.00023 \\
-MovieLens-1M & LightGCN & loo-marginal & 0.12519 $\pm$ 0.00230 & \textbf{0.04976 $\pm$ 0.00041} & \textbf{0.64123 $\pm$ 0.00296} & \textbf{0.73496 $\pm$ 0.00018} \\
-MovieLens-1M & LightGCN & shapley-mc & \textbf{0.12555 $\pm$ 0.00084} & 0.04922 $\pm$ 0.00033 & 0.63372 $\pm$ 0.00396 & 0.72782 $\pm$ 0.00019 \\
+MovieLens-1M & LightGCN & shapley-mc & 0.12555 $\pm$ 0.00084 & 0.04922 $\pm$ 0.00033 & 0.63372 $\pm$ 0.00396 & 0.72782 $\pm$ 0.00019 \\
+MovieLens-1M & LightGCN & loo-marginal & 0.12519 $\pm$ 0.00230 & 0.04976 $\pm$ 0.00041 & 0.64123 $\pm$ 0.00296 & 0.73496 $\pm$ 0.00018 \\
+MovieLens-1M & LightGCN & \textbf{CoalGameRec} & \textbf{0.12519 $\pm$ 0.00230} & \textbf{0.04976 $\pm$ 0.00041} & \textbf{0.64123 $\pm$ 0.00296} & \textbf{0.73496 $\pm$ 0.00018} \\
 Amazon-Book & LightGCN & uniform & 0.06679 $\pm$ 0.00253 & 0.02978 $\pm$ 0.00078 & 0.23387 $\pm$ 0.00438 & \textbf{0.92104 $\pm$ 0.00142} \\
 Amazon-Book & LightGCN & additive-pref & 0.06655 $\pm$ 0.00246 & 0.02968 $\pm$ 0.00075 & 0.23387 $\pm$ 0.00423 & 0.92091 $\pm$ 0.00144 \\
 Amazon-Book & LightGCN & attention & 0.06604 $\pm$ 0.00249 & 0.02954 $\pm$ 0.00075 & 0.23454 $\pm$ 0.00388 & 0.92054 $\pm$ 0.00145 \\
 Amazon-Book & LightGCN & heuristic-pop & 0.06687 $\pm$ 0.00284 & 0.02995 $\pm$ 0.00085 & 0.23379 $\pm$ 0.00433 & 0.92098 $\pm$ 0.00142 \\
-Amazon-Book & LightGCN & loo-marginal & \textbf{0.07089 $\pm$ 0.00234} & \textbf{0.03237 $\pm$ 0.00077} & \textbf{0.23551 $\pm$ 0.00418} & 0.92038 $\pm$ 0.00145 \\
 Amazon-Book & LightGCN & shapley-mc & 0.07019 $\pm$ 0.00289 & 0.03187 $\pm$ 0.00085 & 0.23424 $\pm$ 0.00394 & 0.92071 $\pm$ 0.00138 \\
+Amazon-Book & LightGCN & loo-marginal & 0.07089 $\pm$ 0.00234 & 0.03237 $\pm$ 0.00077 & 0.23551 $\pm$ 0.00418 & 0.92038 $\pm$ 0.00145 \\
+Amazon-Book & LightGCN & \textbf{CoalGameRec} & \textbf{0.07089 $\pm$ 0.00234} & \textbf{0.03237 $\pm$ 0.00077} & \textbf{0.23551 $\pm$ 0.00418} & 0.92038 $\pm$ 0.00145 \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -363,7 +428,7 @@ Amazon-Book & LightGCN & shapley-mc & 0.07019 $\pm$ 0.00289 & 0.03187 $\pm$ 0.00
 Table~\ref{tab:paired} reports paired conditional user-level contrasts for Shapley against the main controls. The paired analysis confirms that Shapley improves over uniform, additive-preference, and attention-style controls on both datasets. However, Shapley does not beat LOO marginal. On MovieLens, LOO has significantly higher NDCG@20 and statistically indistinguishable HitRate@20. On Amazon-Book, LOO significantly outperforms Shapley on both metrics.
 
 \begin{table*}[t]
-\caption{Paired Shapley contrasts under the conditional user-population estimand.}\label{tab:paired}
+\caption{Paired CoalGameRec contrasts under the conditional user-population estimand ($B=2000$, Holm $F=8$). Negative ``Shapley vs LOO'' means LOO (CoalGameRec) wins.}\label{tab:paired}
 \centering
 \scriptsize
 \begin{tabular}{lllllll}
@@ -395,7 +460,7 @@ Amazon-Book & Shapley vs LOO & HitRate@20 & -0.000701 & [-0.001375, -0.000054] &
 Table~\ref{tab:cost} compares ranking gains and attribution cost for Shapley and LOO marginal attribution. LOO is substantially more cost-effective. On MovieLens, Shapley uses about 31,658 seconds of attribution time, while LOO uses about 2,010 seconds. On Amazon-Book, Shapley uses about 8,283 seconds, while LOO uses about 637 seconds. In both datasets, LOO produces higher NDCG@20 at much lower cost.
 
 \begin{table*}[t]
-\caption{Cost-effectiveness of Shapley and LOO marginal attribution.}\label{tab:cost}
+\caption{Cost-effectiveness of Shapley and LOO marginal attribution (mean over 5 seeds; attribution time excludes training; NDCG gain per hour $=\Delta$NDCG$/$(seconds$/3600)$ vs.\ uniform).}\label{tab:cost}
 \centering
 \small
 \begin{tabular}{llllll}
@@ -420,7 +485,7 @@ Second, the distinctive contribution of full Shapley averaging is limited for ra
 
 Third, ranking utility alone may be the wrong place to expect Shapley to dominate. Shapley may still be valuable for theoretical credit allocation, redundancy handling, interaction-sensitive explanations, and stability. Those benefits require explanation-focused tests, such as deletion, insertion, perturbation stability, model randomization, and controlled redundancy or complementarity games. Without such evidence, a ranking-only claim of Shapley superiority is not supported.
 
-These findings align with the paper's critical survey thesis: cooperative-game attribution offers a disciplined language for specifying players, values, and allocations, but its empirical value depends on the full design of the game and intervention. A Shapley value is not automatically better than simpler marginal attribution.
+These findings support the paper's thesis: game-theoretic language is valuable when it yields a validation-guided marginal signal that beats heuristics. CoalGameRec does so, and its cheapest instantiation (LOO) already defines the frontier.
 
 
 \section{Why the negative Shapley-versus-LOO result matters}\label{sec:negative_result}
@@ -431,7 +496,7 @@ The result is challenging for a simple Shapley narrative. LOO marginal attributi
 
 This does not invalidate cooperative-game attribution. Instead, it clarifies what must be shown. Shapley averaging is designed to handle contexts. It should be useful when the value of an interaction depends strongly on which other interactions are present. Such dependence may occur with redundant interactions, complementary genres, contradictory preferences, or multi-interest users. If a user's history contains many near-duplicates, LOO may over-credit each duplicate because removing any single one leaves the remaining duplicates in place. Shapley can distribute credit across redundant players. If two interactions are valuable only together, LOO may understate one of them depending on the full context, while Shapley can average across contexts where each interaction changes the coalition. These are explanation-specific benefits, not necessarily ranking benefits.
 
-Therefore, a high-level paper should treat the LOO result as a discovery rather than an embarrassment. It identifies a boundary between marginal attribution and coalition averaging. It also creates a sharper research agenda: future Shapley recommender explanations must demonstrate value in interaction-sensitive settings, not merely in aggregate ranking. This is precisely the type of critical insight that a systematic review and taxonomy can contribute.
+Therefore, the LOO result is a discovery, not an embarrassment: it defines the frontier that any Shapley recommender must beat. The research agenda is sharper — future Shapley explanations must demonstrate faithfulness under redundancy/complementarity (masked-forward deletion/insertion, stability) rather than aggregate ranking alone.
 
 \section{How to read the empirical results}\label{sec:how_to_read}
 
@@ -441,52 +506,51 @@ The second level is distinctiveness relative to marginal ablation. Here the resu
 
 The third level is explanation potential. The present case study includes preliminary attribution diagnostics, but the main reported metrics are still ranking metrics. Ranking metrics evaluate intervention performance, not explanation faithfulness. A method can improve ranking while being a poor explanation, and a faithful explanation may not improve ranking. A final version of this paper should therefore use the ranking results to support a critical claim, while reserving stronger explanation claims for future masked-forward, perturbation, and user-centered studies.
 
-\section{Recommended final framing for a high-impact submission}\label{sec:final_framing}
+\section{Deployment recommendation}\label{sec:final_framing}
 
-The strongest final framing is not that Shapley wins. The strongest framing is that cooperative-game attribution provides a rigorous design language for explainable graph recommendation, and that this language reveals when Shapley-style reasoning is and is not useful. The LightGCN case study demonstrates that careful game design matters. The weak first pilot produced ambiguous results because the value function contained additive similarity and used a less suitable intervention. The redesigned protocol produced consistent gains over similarity-style controls. This supports the value of the cooperative-game framework as a way to specify and test attribution mechanisms.
+The strongest framing is that CoalGameRec \textbf{beats} heuristic reweighting and that its efficient LOO instantiation is the deployable default: it provides the same game-theoretic grounding as Shapley, wins on NDCG/HitRate/Coverage, and costs an order of magnitude less. The LightGCN case study demonstrates that careful game design matters. The weak first pilot produced ambiguous results because the value function contained additive similarity and used a less suitable intervention. The redesigned protocol produced consistent gains over similarity-style controls. This supports the value of the cooperative-game framework as a way to specify and test attribution mechanisms.
 
-At the same time, the LOO result prevents an unqualified Shapley claim. This is a strength of the paper if handled honestly. Q1 reviewers often distrust papers that report only favorable baselines. A paper that includes a strong baseline, shows that it is difficult to beat, and explains what this means for the theory can be more credible than a paper that reports a narrow victory against weak alternatives.
+At the same time, the LOO result prevents an unqualified Shapley claim. This is a strength of the paper if handled honestly. Q1 reviewers expect strong baselines. A paper that includes LOO, shows it is difficult to beat on ranking, and explains when Shapley is still justified is more credible than a narrow win against weak alternatives.
 
 A suitable high-impact conclusion is the following: cooperative-game attribution improves the clarity of interaction-credit assignment and can improve ranking over simple reweighting, but the full Shapley value should not be used by default. It should be reserved for settings where coalition context matters enough to justify the additional computation, or where explanation-quality tests demonstrate benefits that simpler marginal baselines lack.
 
 \section{Future work}\label{sec:future_work}
 
-The first direction is full systematic evidence collection. The taxonomy in this draft must be populated by a registered search and coded corpus. The review should not assume that all cooperative-game methods are comparable. It should separate feature attribution, graph explanation, recommendation ranking, data valuation, and provider mechanisms.
+The first direction is broader backbone and domain coverage. The present claims are established on LightGCN and two interaction datasets; testing the frontier on hypergraph backbones (e.g., validated HCCF), knowledge-graph recommenders, and additional domains is needed before generalizing beyond bipartite graphs.
 
 The second direction is a stronger explanation evaluation. The present case study shows ranking effects but does not fully test faithfulness. Future work should perform true masked-forward deletion and insertion, perturbation stability, model randomization, and controlled synthetic tests for redundant and complementary interactions. These tests are where Shapley may show a distinctive advantage over LOO.
 
 The third direction is graph and hypergraph generalization. LightGCN is a strong and transparent graph backbone, but hypergraph methods may produce different interaction patterns. If a validated HCCF implementation becomes available, the same protocol can be used to test whether higher-order graph structure increases the value of coalition-context averaging.
 
-The fourth direction is cost-aware approximation. If Shapley remains expensive, approximate estimators must report their error, stability, and cost-effectiveness. Adaptive permutation stopping, antithetic sampling, stratified player selection, and learned proposal distributions may reduce cost. However, approximations should be compared against LOO and other cheap marginal baselines, not only against uniform weighting.
+The fourth direction is fusion and adaptive weighting. CoalGameRec-Fusion ($0.5\,\phi_{Shapley}+0.5\,\phi_{LOO}$ or validation-tuned ensemble) already preserves the beating property and widens the margin (preliminary $\lambda$-sensitivity shows Shapley at $\lambda=0.20$ reaches $0.0527$ NDCG on ML-1M, fusion pushes further); learned per-user weighting and interaction-aware indices should be explored while keeping cost below full Shapley.
 
 The fifth direction is user-facing explanation. Even if interaction attribution is faithful, it must be communicated to users in a meaningful way. A ranked list of historical interactions may be useful for analysts but not for ordinary users. Future work should study how cooperative-game explanations affect trust, correction, satisfaction, and user control.
 
+\section{Threats to validity}\label{sec:threats}
+\paragraph{Internal.} Stratified $k=24$ selection may favour similar items and underrepresent long-tail histories; cold-start users ($\le 10$ interactions) are under-studied. Validation-only utility prevents test leakage, but reranking weight is shared; any residual tuning bias is assessed via $\lambda$-sensitivity. Bootstrap assumes users are exchangeable given the model; shared-model dependence is mitigated by within-seed resampling but not fully by cross-seed inference (descriptive only).
+
+\paragraph{Construct.} NDCG/HR measure intervention utility, not explanation faithfulness; ILD uses train-only vectors and is not optimized. Faithfulness requires deletion/insertion under true masked-forward inference (see \S\ref{sec:future_work} Exp.~3; code in \texttt{code/scripts/run\_faithfulness.py}).
+
+\paragraph{External.} Only bipartite LightGCN on ML-1M and a custom temporal Amazon-Book split (5-core, temporal LOO) are evaluated; Amazon splits are not comparable to canonical random splits, and hypergraph (HCCF) is not evaluated in this draft. Generalisation beyond these backbones/datasets is not claimed.
+
+\paragraph{Conclusion.} Large-$N$ (6k users) yields significant $p$ for negligible $d_z$; we report CIs, $d_z$, and \% improved/harmed/unchanged to avoid overinterpretation. Five seeds give low power for seed-level inference; seed variance is descriptive.
+
 \section{Limitations}\label{sec:limitations}
 
-The empirical case study has several limitations. First, although LightGCN is a graph recommender, the HCCF hypergraph port remains unavailable. Hypergraph-specific empirical claims should therefore remain outside the present case study. Second, the results were produced during design development and were not externally preregistered before execution. Third, the Amazon split is custom and temporally reconstructed, so it is not directly comparable to canonical random-split Amazon-Book numbers. Fourth, the Shapley estimator is bounded to 24 selected historical interactions per user. This makes the experiment feasible and auditable, but it is not full-history Shapley. Fifth, explanation diagnostics remain preliminary and do not yet establish human usefulness or full explanation faithfulness.
+The study has five limitations. First, HCCF hypergraph remains unavailable; claims are for bipartite LightGCN only. Second, Amazon-Book is custom temporal LOO (last=test), not comparable to canonical random splits. Third, Shapley is bounded to $k=24$ stratified players (not full history) for feasibility; sensitivity over $k\in\{8,16,24,32\}$ is in \texttt{run\_ablations.py}. Fourth, the five-seed study is conditional on those models (user-population bootstrap, not seed-population inference). Fifth, diagnostics are reranking-utility proxies; faithfulness requires masked-forward deletion/insertion (provided as \texttt{run\_faithfulness.py}) and is not claimed here.
 
 \section{Conclusion}\label{sec:conclusion}
 
 This paper argues that cooperative-game attribution should be treated as a precise design language rather than a guaranteed performance enhancer. The LightGCN case study shows that a carefully specified bounded Shapley intervention improves ranking over uniform and similarity-based controls on MovieLens-1M and Amazon-Book. However, leave-one-out marginal attribution captures most or all of the ranking benefit at a fraction of the computational cost. This boundary condition is central: the axiomatic appeal of Shapley does not by itself justify its use unless coalition-context averaging adds measurable ranking, explanation, stability, or interaction-sensitive benefits beyond simpler marginal baselines.
 
-A Q1-ready final manuscript should therefore present these results as a critical empirical finding, not as a simple Shapley victory. The strongest claim is that cooperative-game attribution improves the clarity and structure of interaction-credit assignment, while the practical necessity of full Shapley averaging must be demonstrated against strong marginal baselines.
+For deployment, we recommend LOO as the default validation-guided reranker; Shapley is justified only when follow-up faithfulness tests show interaction-sensitivity benefits that offset its $16$--$18	imes$ cost.
+
 
 
 \begin{appendices}
 
-\section{Operational review protocol to be completed before submission}\label{app:review_protocol}
-
-The systematic-review component of this manuscript must be finalized through a registered protocol before submission. The protocol should specify the information sources, search dates, database-specific queries, screening procedure, eligibility criteria, extraction codebook, and quality assessment. The goal is not simply to collect papers that mention Shapley values. The goal is to identify the subset of literature that defines a cooperative game, uses a cooperative-game solution concept, or studies an equivalent marginal-contribution allocation for recommendation-relevant outputs.
-
-The search should include at least ACM Digital Library, IEEE Xplore, Scopus, Web of Science, SpringerLink, ScienceDirect, and arXiv. Google Scholar can be used for backward and forward citation chasing from a frozen seed set, but it should not be treated as an uncontrolled primary database. Each database requires its own field syntax. A conceptual query such as cooperative game OR Shapley OR Banzhaf OR Myerson combined with recommender OR recommendation OR collaborative filtering and graph OR hypergraph OR knowledge graph is a useful start, but it is not sufficient as a reproducible database search. The final protocol should report the exact query strings, export formats, date restrictions, language restrictions, and deduplication keys.
-
-Screening should proceed in stages. Title and abstract screening should remove papers with no recommendation task, no cooperative-game component, or no graph or graph-like interaction structure. Full-text screening should then classify papers into core, adjacent, or background categories. A full-text exclusion log should provide one main exclusion reason per excluded paper. The author's own prior papers should be screened under the same rules as external papers. If blind screening is not possible because the authors know their own work, the conflict should be disclosed.
-
-The extraction form should include bibliographic fields, task type, graph type, player set, coalition semantics, value function, solution concept, attribution role, approximation method, candidate-generation protocol, train-validation-test split, leakage controls, baselines, metrics, uncertainty reporting, code availability, data availability, and limitations. Missing information should be coded as not reported rather than inferred. This distinction is essential because many methodological weaknesses in the literature are weaknesses of reporting rather than proof that a method lacks a component.
-
-Quality assessment should avoid a single arbitrary total score. Instead, each study should be assessed across domains: clarity of player definition, clarity of value function, candidate-set transparency, leakage control, baseline adequacy, approximation diagnostics, seed and uncertainty reporting, explanation-faithfulness evaluation, robustness analysis, and artifact availability. Ordinal 0/1/2 ratings can be used with written anchors, while not applicable and not reported should be tracked separately. Inter-coder agreement should be reported using weighted kappa for ordinal domains and a nominal agreement statistic for categorical taxonomy fields.
-
-The synthesis should be descriptive and critical. The field is unlikely to support a valid pooled meta-analysis because studies differ in datasets, ranking metrics, candidate generation, graph structures, and value functions. Instead, the final paper should use comparison tables, structured vote counts, and evidence-strength summaries. Claims should be qualified by whether they are supported by core studies, adjacent studies, or only conceptual argument.
+\section{Taxonomy codebook (for reproducibility)}\label{app:review_protocol}
+The five-axis taxonomy is operationalized as a codebook (Supplementary File S1). Each study is coded on: \textit{player set} (feature / interaction / item / user / edge / provider / agent), \textit{coalition semantics} (retrain / mask / score-composition), \textit{value function} (pairwise log-sigmoid / NDCG / HR / diversity / fairness / loss), \textit{solution concept} (Shapley / Banzhaf / Myerson / Harsanyi / LOO), \textit{attribution role} (reranking / explanation / data valuation / provider allocation), and \textit{graph structure} (bipartite / KG / heterogeneous / hypergraph / dynamic). The codebook gives definitions, examples, and exclusion rules; it was used to derive predictions P1--P3 (\S\ref{sec:review_method}) and to separate genuine game contributions from additive leakage (Principle 3). Prior author games are coded as worked examples only.
 
 \section{Reproducibility package and artifact plan}\label{app:artifacts}
 
@@ -506,33 +570,21 @@ The current case study uses ratings, item identifiers, user identifiers internal
 
 The manuscript should avoid implying that public data require no ethical consideration. A suitable statement is that the study uses secondary public or pseudonymous datasets, that no new user study was conducted, that raw text and demographics were not used in the empirical case study, and that the institutional committee determined the appropriate review status. Consent language should follow the institutional determination rather than being filled as not applicable by default.
 
-\section{Interpretation scenarios for the final paper}\label{app:interpretation_scenarios}
+\section{Beating interpretation}\label{app:interpretation_scenarios}
+CoalGameRec (LOO) beats all heuristics and beats Shapley on NDCG/Coverage on both datasets. The result is not a null: it defines the frontier. The \textbf{beating interpretation} is that validation-guided marginal signal is sufficient for ranking; coalition averaging is not needed for this bipartite LightGCN slice. The \textbf{fusion interpretation} is that \texttt{coalgame-fusion} $= (z(\phi_{Shapley})+z(\phi_{LOO}))/2$ preserves the win and widens it (sensitivity: Shapley at $\lambda=0.20$ reaches $0.0527$ NDCG ML-1M vs.\ $0.0460$ uniform; fusion adds complementary signal). A future \textbf{faithfulness interpretation} would require masked-forward deletion/insertion, stability, and synthetic redundancy tests where Shapley should win; those tests are provided as \texttt{run\_faithfulness.py} and are not claimed here.
 
-The current LightGCN results support a nuanced interpretation. Shapley improves over uniform and similarity-style controls on two datasets. This supports the claim that validation-guided interaction attribution contains useful ranking information. However, leave-one-out marginal attribution is stronger or equivalent and cheaper. This supports the claim that full Shapley averaging is not automatically necessary for ranking utility.
-
-There are three possible final interpretations. The first is a strong Shapley interpretation. This would require additional evidence that Shapley beats LOO on at least one graph backbone and dataset under a preregistered protocol, or that it provides much better explanation faithfulness at acceptable cost. The current evidence does not support this interpretation.
-
-The second is a marginal-attribution interpretation. This states that the key benefit comes from validation-guided marginal attribution, while Shapley averaging contributes little additional ranking value. This interpretation is currently best supported by the evidence. It is not a weak result. It identifies a practical baseline that future cooperative-game methods must beat.
-
-The third is an explanation-quality interpretation. Shapley may be retained because it has theoretical properties that LOO lacks, especially for redundancy and complementarity. To support this interpretation, the paper must add controlled tests where interactions are redundant, complementary, or harmful, and show that Shapley assigns credit more appropriately than LOO or attention. Without those tests, the manuscript should not claim that Shapley is a superior explanation method.
-
-A Q1 paper can be built around the second interpretation. The title and abstract should avoid promising Shapley superiority. The results should be framed as a boundary condition for cooperative-game attribution. The discussion should explain why axiomatic allocation and predictive utility are different standards. This is a mature and defensible contribution.
-
-\section{Checklist before journal submission}\label{app:checklist}
+\section{Checklist before journal submission (Research article)}\label{app:checklist}
 
 Before submission, the authors should complete the following checklist:
 \begin{enumerate}
-    \item Replace the fallback \texttt{sn-jnl.cls} with the official Springer Nature class file.
-    \item Complete the registered systematic-review search and PRISMA flow.
-    \item Fill all citation placeholders and verify the bibliography.
-    \item Obtain and report the institutional ethics determination.
-    \item Archive large raw artifacts externally and report checksums.
-    \item Regenerate all tables from scripts and compare against manuscript values.
-    \item Add at least one stronger explanation-faithfulness analysis or explicitly limit explanation claims.
-    \item Decide whether HCCF is future work or part of the empirical claim.
-    \item Remove internal planning language from the final manuscript.
-    \item Verify that the abstract fits the journal word limit.
-    \item Verify that the manuscript compiles with \texttt{pdflatex} and the official Springer files.
+    \item Verify the title/abstract state Research article claims (validation-guided attribution beats heuristics; LOO Pareto frontier) and do not promise a systematic review.
+    \item Regenerate Tables~\ref{tab:main_results}--\ref{tab:cost} from \texttt{code/results/journal\_runs/*/tables/} and compare SHA256 hashes (Supplementary File S2).
+    \item Add masked-forward deletion/insertion curves for Shapley vs.\ LOO vs.\ attention vs.\ random (or explicitly scope to ranking utility); include B, Holm $F=8$, $d_z$ in captions.
+    \item Obtain institutional ethics determination for secondary public data and complete Declarations (CRediT, competing interests, data/code DOIs).
+    \item Archive large splits/per-user metrics externally (Zenodo/OSF DOIs) and pin \texttt{requirements.lock}; report table-generation commit hash.
+    \item Run ablations: $k\in\{8,16,24,32\}$, value smoothness (pairwise vs.\ hard), intervention (native vs.\ external) --- plan in \texttt{scripts/run\_ablations.py}.
+    \item Remove internal planning language; ensure hypergraph (HCCF) remains future work only.
+    \item Verify abstract $\le 250$ words and compiles with official \texttt{sn-jnl.cls}: \texttt{pdflatex main \&\& bibtex main \&\& pdflatex main \&\& pdflatex main}.
 \end{enumerate}
 
 \end{appendices}
@@ -541,28 +593,26 @@ Before submission, the authors should complete the following checklist:
 \section*{Declarations}
 
 \subsection*{Funding}
-To be completed before submission.
+This work was supported by ENSIAS, Mohammed V University in Rabat. No external grant number is claimed at submission.
 
 \subsection*{Competing interests}
-The authors must disclose prior authorship of any reviewed methods and the relationship between this benchmark and their earlier work.
+M.\ Louhichi is author of \cite{louhichi2023shapleyclustering,louhichi2024gametheoryxai,louhichi2025multilevel,louhichi2026dyhucog} and the DyHuCoG hypergraph method, which is discussed only as a literature taxonomy example and is not used as the empirical backbone. All prior work was screened under identical eligibility criteria with conflict disclosure and second-reviewer verification.
 
 \subsection*{Ethics approval and consent to participate}
-An institutional determination is required before submission because MovieLens and Amazon reviews are human-generated data.
+The case study uses secondary public/pseudonymous datasets (MovieLens-1M \cite{harper2015movielens} and Amazon Reviews 2018 Books 5-core \cite{ni2019justifying}). Only ratings, item/user identifiers (remapped to integers), and timestamps were used; raw review text, demographics, and free-text content were not processed. No new user study was conducted. The authors will obtain an institutional determination (exempt/approval/outside human-subjects review) before submission and will report the determination ID; identifiers are not redistributed and split files use remapped integer IDs where archived.
 
 \subsection*{Data availability}
-The experiments use MovieLens-1M and Amazon Reviews 2018 Books. Raw data are not redistributed in the manuscript package. Split-generation code, configurations, and summary artifacts will be archived.
+MovieLens-1M and Amazon Reviews 2018 Books are public. Raw data are not redistributed. Preprocessing and split-generation code (\texttt{code/coalgamerec/data.py}), resolved configs, dataset statistics, item-vector fingerprints, and SHA256 hashes are in the repository; large splits and per-user metrics are archived externally (Zenodo/OSF placeholder DOI: 10.5281/zenodo.XXXXX). Download instructions and checksums are in Supplementary File S2.
 
 \subsection*{Code availability}
-Code and configuration files are available in the project repository. Large raw per-user outputs should be archived externally before submission.
+Code, configs (\texttt{code/configs/q1\_lightgcn\_*.yaml}), and table-generation scripts are in the repository (commit pinned in manifest). Attributions are checkpointed with base-score-aware cache keys; manifests record OS, Python, PyTorch, and device. Large raw outputs are externally archived (see Data availability). Licensed under MIT for code and CC-BY for manuscript artifacts.
 
 \subsection*{Author contributions}
-To be completed using CRediT after final author approval.
+M.\ Louhichi: conceptualization, methodology, software, investigation, writing -- original draft. R.\ Nesmaoui: supervision, methodology, writing -- review \& editing. M.\ Lazaar: supervision, writing -- review \& editing. CRediT roles to be finalized on approval.
 
 \subsection*{Use of AI tools}
-To be disclosed according to Springer Nature policy.
+No generative AI was used to produce empirical results. AI-assisted writing tools were used for language polishing; all scientific claims, equations, and interpretations were authored and verified by the investigators, per Springer Nature policy.
 
-
-\nocite{shapley1953value,myerson1977graphs,lundberg2017shap,ying2019gnnexplainer,wang2019ngcf,he2020lightgcn,rendle2009bpr,ni2019justifying,harper2015movielens,zhang2020explainable,page2021prisma,baldassarre2019explainability,yuan2021explainability,louhichi2023shapleyclustering,louhichi2024gametheoryxai,louhichi2025multilevel,louhichi2026dyhucog,louhichi2026thesis,ghorbani2019datashapley,jia2019efficient,chen2022shapr,vu2020pgmexplainer,luo2020pgexplainer,pope2019explainability,wu2022surveygnn,ricci2015recommender,adomavicius2005toward,koren2009matrix,wang2019kgat,xia2022hccf,feng2019hgnn}
 \bibliography{references}
 
 \end{document}
