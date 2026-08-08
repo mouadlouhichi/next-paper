@@ -4,6 +4,10 @@ This guide implements revision 4 of `ActionShap_Recommendation_Spec.md`.
 Schema-v1 pilot outputs are archived under `paper/legacy_pilot/` and cannot be
 used as final-paper evidence.
 
+> **Running on Kaggle?** See [`KAGGLE_NOTEBOOKS.md`](../KAGGLE_NOTEBOOKS.md)
+> — `scripts/kaggle_notebooks.py push|status|output|pull` uploads and runs the
+> canonical notebook on Kaggle's cloud and downloads the results.
+
 ## 1. Environment
 
 From `paper-ideas/ActionShap/code`:
