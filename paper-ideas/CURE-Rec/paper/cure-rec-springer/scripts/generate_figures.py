@@ -96,11 +96,13 @@ def oat_sensitivity() -> None:
 
 
 def lhs_attribution() -> None:
-    rows = read_csv("calibration_lhs_attributions.csv")
+    # Figure 2 explains the actual robust maximin objective on the 20 independent
+    # behavioural seeds; it does not mix LHS design variation with seed variation.
+    rows = read_csv("full_twenty_seed_sweep_attributions.csv")
     order = ["repeat_cap", "explore_slot", "tail_slot", "diversify", "novel_slot", "provider_balance"]
     values = {name: [] for name in order}
     for row in rows:
-        values[row["intervention"]].append(float(row["phi_mean"]))
+        values[row["intervention"]].append(float(row["robust_phi"]))
     means = [float(np.mean(values[name])) for name in order]
     stds = [float(np.std(values[name], ddof=1)) for name in order]
     labels = ["repeat\ncap", "explore\nslot", "tail\nslot", "diversify", "novel\nslot", "provider\nbalance"]
@@ -110,8 +112,8 @@ def lhs_attribution() -> None:
     bars = ax.bar(x, means, yerr=stds, capsize=2.5, color=colors, edgecolor="#555555", linewidth=0.45, zorder=3)
     ax.axhline(0, color=BLACK, linewidth=0.7)
     ax.set_xticks(x, labels)
-    ax.set_ylabel("Mean Shapley value across LHS decisions")
-    ax.set_title("Fig. 2: Exact intervention attribution")
+    ax.set_ylabel("Robust-game Shapley value across 20 seeds")
+    ax.set_title("Fig. 2: Exact robust-game intervention attribution")
     clean(ax)
     save(fig, "figure_02_exact_attribution")
 
