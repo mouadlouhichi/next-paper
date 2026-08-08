@@ -197,3 +197,54 @@ Round-2 verdict: **Major Revision** (validation-informed baselines removed; LOO-
   seeded-random controls from C1 (tab:c1_faith); masked-forward remains declared future work.
 - Manuscript v15 assembled: C1 subsection in Results, updated Threats/Limitations/Abstract/
   Contributions/Code-availability.
+
+---
+
+# Fixes Applied — v17 (response to round-4 review)
+
+## Critical issues
+1. **Eq. (7) mathematics (Critical #1):** reranking equation corrected to the divisor-free form
+   s'_ui = zscore(b_ui) + λ·zscore(⟨r_u,e_i⟩); the released implementation's L1 divisor is
+   proven algebraically inert under candidate-wise z-scoring (z(x/d_u)=z(x) for d_u>0) and is
+   retained only for numerical safety. Stable z-score defined incl. zero-variance behavior.
+2. **P2 / predictions overclaim (Critical #2):** §12 rewritten — P3 supported under the frozen
+   protocol; P1 supported analytically (empirical ablation not executed); P2 declared an untested
+   hypothesis. "predictions" → "hypotheses".
+3. **Equivalence instead of n.s. (Critical #3):** TOST-style equivalence analysis computed from
+   the released per-user artifacts with a pre-declared SESOI (δ=0.001 NDCG@20, δ=0.002 HR@20);
+   new Table tab:equivalence: equivalence established on all four Shapley-vs-LOO contrasts;
+   both NDCG@20 intervals lie entirely on the LOO side. "matches" language replaced everywhere.
+4. **Masked-forward faithfulness (Critical #4):** proxy limitation now stated as failing to test
+   the game-defining intervention; robustness-of-evaluation literature cited (Zheng et al. ICLR'24,
+   Fang et al. NeurIPS'23); true masked-forward protocol scripted (run_masked_forward_faithfulness.py)
+   for execution; no faithfulness claim made.
+5. **M-budget convergence (Critical #13):** run_estimator_convergence.py prepared (M=16..256,
+   efficiency residuals, Spearman/l1/l2 vs M=256 reference, reranking metrics, runtimes).
+6. **Design ablations (Critical #6 / High):** run_design_ablations.py prepared and executed-pending:
+   k-sweep {8,16,24,32} (Shapley+LOO), player selection {stratified,similarity,random},
+   hard-vs-smooth utility (value_mode switch), native-vs-external intervention.
+7. **C1 Shapley gap (High #10):** run_matched_controls.py extended with C1_WITH_SHAPLEY=1.
+
+## High issues
+- Complexity corrected: C_v = O(L|E_S|d + |N_u^-|d); T_MC=O(MkC_v), T_LOO=O((k+1)C_v); rerank
+  O(|C_u|d); cache memory O(|U||I|); "infeasible for k>10" replaced by a budget statement.
+- Superlative audit: ML-1M C1/primary text corrected; Amazon C1 Coverage/ILD bolding fixed
+  (valid-linear highest); "strongest non-game reranker" → "a strong matched non-game reranker".
+- PRISMA claim removed entirely (no systematic-review protocol in manuscript); Table 1 caption
+  now "illustrative set, not a systematic corpus, not claimed exhaustive"; taxonomy repositioned
+  as a proposed conceptual framework (reviewer's Positioning text adopted).
+- Bootstrap hierarchy + exact p-value formula + Holm family pre-specification added to §stat_estimand.
+- Runtime SDs across seeds reported (6,332±2,141 s Shapley vs 402±5 s LOO on ML-1M; training costs
+  included); end-to-end latency/memory declared unmeasured; deployment claims restricted accordingly.
+- History-length stratification table added (tab:strata); bounded-game coverage reported
+  (24% ML-1M / 89% Amazon users below k=24); longest-history stratum nuance (Shapley>LOO) reported.
+- Related work expanded with 9 verified published references (Markchom CSUR'25, LightGCL ICLR'23,
+  XSimGCL TKDE'24, Zheng ICLR'24, Fang NeurIPS'23, Data Banzhaf AISTATS'23, Data-OOB ICML'23,
+  TRAK ICML'23, shapiq NeurIPS'24); PRISMA entry removed.
+- Ethics appendix rewritten declarative (no "should obtain" drafting notes); submission-checklist
+  appendix removed; Deployment section → "Practical implication" (reviewer's rewrite);
+  conclusion cost claim fixed (13.0–15.7×; stray tab character removed).
+- Algorithms 1–4: safe-cosine + short-history + complexity (Alg 1); H_¬u + degree renormalization
+  (Alg 2); RNG seed + efficiency residual output (Alg 3); family identifier + z-score stability (Alg 4).
+- Repetition reduced: negative-result section trimmed; contributions 5→3 separating the proposed
+  framework from the experimentally supported findings.

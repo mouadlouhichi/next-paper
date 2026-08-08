@@ -53,7 +53,7 @@ from scipy import sparse
 CODE_DIR = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(CODE_DIR))
 
-from coalgamerec.attribution import compute_attribution_for_users  # noqa: E402
+from coalgamerec.attribution import compute_attribution_for_users, compute_shapley_for_users  # noqa: E402
 from coalgamerec.data import SplitData, item_user_vectors  # noqa: E402
 from coalgamerec.explanation import deletion_comprehensiveness, insertion_sufficiency  # noqa: E402
 from coalgamerec.metrics import evaluate  # noqa: E402
@@ -184,6 +184,18 @@ def run_seed(split: SplitData, item_vectors, seed: int, out_dir: Path) -> None:
     )
     stages["loo_seconds"] = time.time() - t
 
+    # --- optional Shapley re-run (C1 completeness, set C1_WITH_SHAPLEY=1) ---
+    shap = None
+    if os.environ.get("C1_WITH_SHAPLEY") == "1":
+        t = time.time()
+        shap = compute_shapley_for_users(
+            split, base_scores, item_vectors, max_users=None, m=64, exact_threshold=8, seed=seed,
+            max_players_per_user=ATTR["max_players_per_user"], player_selection=ATTR["player_selection"],
+            checkpoint_path=None, save_every=25, alpha=1.0, beta=0.0, lambda_pref=0.0,
+            lambda_attr_value=ATTR["lambda_attr_value"], value_mode=ATTR["value_mode"],
+            n_val_negatives=ATTR["n_val_negatives"], antithetic=True)
+        stages["shapley_seconds"] = time.time() - t
+
     # --- family evaluation ---
     t = time.time()
     rows, per_user_rows = [], []
@@ -205,6 +217,12 @@ def run_seed(split: SplitData, item_vectors, seed: int, out_dir: Path) -> None:
         record(fam, scores)
     record("valid-sim", valid_sim_scores_all(base_scores, split, val_by_user, item_embeddings, LAMBDA_ATTR))
     record("valid-linear", valid_linear_scores_all(base_scores, split, val_by_user, item_embeddings, LAMBDA_ATTR))
+    if shap is not None:
+        scores = rerank_all(base_scores, split, item_vectors, "shapley-mc",
+                            shapley_by_user=shap, loo_by_user=None,
+                            lambda_attr=LAMBDA_ATTR, tau_att=TAU_ATT,
+                            intervention="native", item_embeddings=item_embeddings)
+        record("shapley-mc", scores)
     stages["rerank_eval_seconds"] = time.time() - t
 
     # --- faithfulness proxy curves (loo / uniform / random) ---

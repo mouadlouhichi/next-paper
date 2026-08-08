@@ -1,0 +1,5 @@
+dataset,metric,contrast,sesoi_margin,mean_diff,ci90_low,ci90_high,equivalence_within_margin,ci_entirely_favors_loo
+ml1m,NDCG@20,shapley-mc_vs_loo-marginal,0.001,-0.0005320968532003325,-0.0008895939467830423,-0.00017186883770573563,True,True
+ml1m,HitRate@20,shapley-mc_vs_loo-marginal,0.002,0.0003657522859517872,-0.0006982543640897756,0.0014962593516209476,True,False
+amazon_books,NDCG@20,shapley-mc_vs_loo-marginal,0.001,-0.0004935586692732911,-0.0006796642314143184,-0.00030928640589187006,True,True
+amazon_books,HitRate@20,shapley-mc_vs_loo-marginal,0.002,-0.0007010920857489551,-0.001267358770392342,-0.0001348254011055683,True,True
