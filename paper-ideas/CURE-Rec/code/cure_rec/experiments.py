@@ -86,6 +86,8 @@ def run_seed_sweep(settings: Settings, seeds: Iterable[int]) -> SeedSweepResult:
     base_feasibility = pd.DataFrame(base_rows)
     decisions.to_csv(sweep_root / "seed_sweep_decisions.csv", index=False)
     attributions.to_csv(sweep_root / "seed_sweep_attributions.csv", index=False)
+    # Persist the regenerated per-seed robust attribution, not only its aggregate.
+    attributions.to_csv(sweep_root / "seed_sweep_attributions.csv", index=False)
     interactions.to_csv(sweep_root / "seed_sweep_interactions.csv", index=False)
     base_feasibility.to_csv(sweep_root / "seed_sweep_base_feasibility.csv", index=False)
     attribution_summary = attributions.groupby("intervention", as_index=False).agg(
@@ -375,6 +377,8 @@ def postprocess_seed_sweep(run_dir: str | Path, settings: Settings | None = None
         frequency=("seed", "count"),
         lower_improvement_mean=("lower_improvement", "mean"),
     )
+    # Persist the regenerated per-seed robust attribution, not only its aggregate.
+    attributions.to_csv(sweep_root / "seed_sweep_attributions.csv", index=False)
     interactions.to_csv(sweep_root / "seed_sweep_interactions.csv", index=False)
     base_feasibility.to_csv(sweep_root / "seed_sweep_base_feasibility.csv", index=False)
     attribution_summary.to_csv(sweep_root / "seed_sweep_attribution_summary.csv", index=False)
