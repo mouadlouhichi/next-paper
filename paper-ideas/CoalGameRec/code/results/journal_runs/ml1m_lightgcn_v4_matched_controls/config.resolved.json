@@ -19,7 +19,7 @@
   },
   "dataset": {
     "name": "ml1m",
-    "source_run": "results/journal_runs/ml1m_lightgcn_v3_prospective"
+    "source_run": "/Users/mlouhichi/Desktop/CoalGameRec/next-paper/paper-ideas/CoalGameRec/code/results/journal_runs/ml1m_lightgcn_v3_prospective"
   },
   "deviations": [
     "device cpu (original mps); confirmatory re-execution, not bit-identical",
