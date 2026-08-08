@@ -25,21 +25,27 @@ SNAPSHOT = CURE_ROOT / "results" / "reproducibility_snapshot_latest"
 FIGURES = PAPER / "figures"
 
 plt.rcParams.update({
-    "font.family": "serif",
-    "font.serif": ["DejaVu Serif", "Times New Roman", "Times"],
-    "font.size": 9,
-    "axes.labelsize": 9,
-    "axes.titlesize": 10,
-    "xtick.labelsize": 8,
-    "ytick.labelsize": 8,
-    "legend.fontsize": 8,
+    "font.family": "sans-serif",
+    "font.sans-serif": ["DejaVu Sans", "Arial", "Helvetica"],
+    "font.size": 8,
+    "axes.labelsize": 8,
+    "axes.titlesize": 9,
+    "xtick.labelsize": 7.5,
+    "ytick.labelsize": 7.5,
+    "legend.fontsize": 7,
     "pdf.fonttype": 42,
     "ps.fonttype": 42,
 })
 
+# Matplotlib's classic tab10 palette, matching the supplied reference paper.
+BLUE = "#1f77b4"
+ORANGE = "#ff7f0e"
+GREEN = "#2ca02c"
+RED = "#d62728"
+PURPLE = "#9467bd"
+BROWN = "#8c564b"
 BLACK = "#1a1a1a"
 DARK = "#555555"
-MID = "#9a9a9a"
 LIGHT = "#d9d9d9"
 WHITE = "#ffffff"
 
@@ -57,9 +63,10 @@ def save(fig: plt.Figure, stem: str) -> None:
 
 
 def clean(ax: plt.Axes) -> None:
-    ax.spines["top"].set_visible(False)
-    ax.spines["right"].set_visible(False)
-    ax.grid(axis="y", color="#d0d0d0", linestyle="--", linewidth=0.55, zorder=0)
+    for spine in ax.spines.values():
+        spine.set_color("#777777")
+        spine.set_linewidth(0.75)
+    ax.grid(axis="y", color="#d7d7d7", linestyle="--", linewidth=0.5, zorder=0)
 
 
 def controlled_recovery() -> None:
@@ -71,13 +78,14 @@ def controlled_recovery() -> None:
     oracle = [float(row["oracle_jaccard"]) for row in rows]
     fig, ax = plt.subplots(figsize=(6.3, 3.55))
     x = np.arange(len(labels))
-    colors = [LIGHT] * (len(labels) - 1) + [BLACK]
-    bars = ax.bar(x, oracle, color=colors, edgecolor=BLACK, linewidth=0.7, zorder=3)
+    colors = [BLUE] * (len(labels) - 1) + [ORANGE]
+    bars = ax.bar(x, oracle, color=colors, edgecolor="#555555", linewidth=0.45, zorder=3)
     for bar, val in zip(bars, oracle, strict=True):
         ax.text(bar.get_x() + bar.get_width() / 2, val + 0.035, f"{val:.1f}", ha="center", va="bottom", fontsize=8)
     ax.set_xticks(x, labels, rotation=32, ha="right")
     ax.set_ylim(0, 1.15)
     ax.set_ylabel("Oracle portfolio Jaccard")
+    ax.set_title("Fig. 2: Controlled oracle recovery")
     clean(ax)
     save(fig, "figure_02_controlled_recovery")
 
@@ -96,11 +104,12 @@ def oat_sensitivity() -> None:
     stds = np.asarray([float(row["lower_improvement_std"]) for row in selected])
     fig, ax = plt.subplots(figsize=(6.3, 3.3))
     x = np.arange(len(labels))
-    bars = ax.bar(x, means, yerr=stds, capsize=2.5, color=LIGHT, edgecolor=BLACK, linewidth=0.7, zorder=3)
-    bars[0].set_facecolor(DARK)
+    colors = [BLUE, ORANGE, ORANGE, GREEN, GREEN, RED, RED, PURPLE, PURPLE]
+    bars = ax.bar(x, means, yerr=stds, capsize=2.5, color=colors, edgecolor="#555555", linewidth=0.45, zorder=3)
     ax.set_xticks(x, labels)
     ax.set_ylim(0, 0.43)
     ax.set_ylabel("Robust lower improvement")
+    ax.set_title("Fig. 3: One-at-a-time robustness")
     clean(ax)
     ax.text(0.99, 0.95, "$r$: repeat threshold; $T$: horizon;\n$p$: provider threshold; $n$: novelty drift",
             ha="right", va="top", transform=ax.transAxes, fontsize=7.2, color=DARK)
@@ -118,11 +127,12 @@ def lhs_attribution() -> None:
     labels = ["repeat\ncap", "explore\nslot", "tail\nslot", "diversify", "novel\nslot", "provider\nbalance"]
     fig, ax = plt.subplots(figsize=(6.3, 3.25))
     x = np.arange(len(order))
-    bars = ax.bar(x, means, yerr=stds, capsize=2.5, color=LIGHT, edgecolor=BLACK, linewidth=0.7, zorder=3)
-    bars[0].set_facecolor(DARK)
+    colors = [BLUE, ORANGE, ORANGE, GREEN, GREEN, RED, RED, PURPLE, PURPLE]
+    bars = ax.bar(x, means, yerr=stds, capsize=2.5, color=colors, edgecolor="#555555", linewidth=0.45, zorder=3)
     ax.axhline(0, color=BLACK, linewidth=0.7)
     ax.set_xticks(x, labels)
     ax.set_ylabel("Mean Shapley value across LHS decisions")
+    ax.set_title("Fig. 4: Joint-calibration attribution")
     clean(ax)
     save(fig, "figure_04_lhs_attribution")
 
@@ -142,13 +152,15 @@ def attribution_decision() -> None:
     means = np.asarray([np.mean(values[name]) for name in order])
     rates = np.asarray([inclusion[name] / len(decision_rows) for name in order])
     fig, ax = plt.subplots(figsize=(5.6, 3.65))
-    ax.scatter(means, rates, marker="o", s=48, facecolors=WHITE, edgecolors=BLACK, linewidths=1.0, zorder=3)
-    for x, y, label in zip(means, rates, order, strict=True):
-        ax.annotate(label.replace("_", " "), (x, y), xytext=(4, 4), textcoords="offset points", fontsize=7.5)
+    colors = [BLUE, ORANGE, GREEN, RED, PURPLE, BROWN]
+    for x, y, label, color in zip(means, rates, order, colors, strict=True):
+        ax.scatter(x, y, marker="o", s=42, color=color, edgecolors="#444444", linewidths=0.4, zorder=3)
+        ax.annotate(label.replace("_", " "), (x, y), xytext=(4, 4), textcoords="offset points", fontsize=7)
     ax.axvline(0, color=DARK, linewidth=0.65, linestyle="--")
     ax.set_xlabel("Mean Shapley value across LHS decisions")
     ax.set_ylabel("Portfolio inclusion rate")
     ax.set_ylim(-0.04, 1.04)
+    ax.set_title("Fig. 5: Attribution and portfolio inclusion")
     clean(ax)
     save(fig, "figure_05_attribution_decision")
 
@@ -163,11 +175,12 @@ def external_ranking() -> None:
     ndcg_sd = [0.0, float(bpr["ndcg_at_k"]["std"]), float(sas["ndcg_at_k"]["std"])]
     x = np.arange(len(names)); width = 0.34
     fig, ax = plt.subplots(figsize=(5.9, 3.35))
-    ax.bar(x - width / 2, recall, width, yerr=recall_sd, capsize=2.5, label="Recall@10", color=LIGHT, edgecolor=BLACK, linewidth=0.7, zorder=3)
-    ax.bar(x + width / 2, ndcg, width, yerr=ndcg_sd, capsize=2.5, label="NDCG@10", color=DARK, edgecolor=BLACK, linewidth=0.7, zorder=3)
+    ax.bar(x - width / 2, recall, width, yerr=recall_sd, capsize=2.5, label="Recall@10", color=BLUE, edgecolor="#555555", linewidth=0.45, zorder=3)
+    ax.bar(x + width / 2, ndcg, width, yerr=ndcg_sd, capsize=2.5, label="NDCG@10", color=ORANGE, edgecolor="#555555", linewidth=0.45, zorder=3)
     ax.set_xticks(x, names)
     ax.set_ylim(0, 0.17)
     ax.set_ylabel("Ranking metric")
+    ax.set_title("Fig. 6: External ranking robustness")
     ax.legend(frameon=False, ncol=2, loc="upper left")
     clean(ax)
     save(fig, "figure_06_external_ranking")
