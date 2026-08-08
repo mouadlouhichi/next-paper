@@ -69,27 +69,6 @@ def clean(ax: plt.Axes) -> None:
     ax.grid(axis="y", color="#d7d7d7", linestyle="--", linewidth=0.5, zorder=0)
 
 
-def controlled_recovery() -> None:
-    rows = read_csv("regime_selection_summary.csv")
-    labels = [
-        "Add.", "Comp.", "Red.", "Antag.", "Delay-S",
-        "Delay-L", "Repair-B", "Repair-R", "Misspec.",
-    ]
-    oracle = [float(row["oracle_jaccard"]) for row in rows]
-    fig, ax = plt.subplots(figsize=(6.3, 3.55))
-    x = np.arange(len(labels))
-    colors = [BLUE] * (len(labels) - 1) + [ORANGE]
-    bars = ax.bar(x, oracle, color=colors, edgecolor="#555555", linewidth=0.45, zorder=3)
-    for bar, val in zip(bars, oracle, strict=True):
-        ax.text(bar.get_x() + bar.get_width() / 2, val + 0.035, f"{val:.1f}", ha="center", va="bottom", fontsize=8)
-    ax.set_xticks(x, labels, rotation=32, ha="right")
-    ax.set_ylim(0, 1.15)
-    ax.set_ylabel("Oracle portfolio Jaccard")
-    ax.set_title("Fig. 2: Controlled oracle recovery")
-    clean(ax)
-    save(fig, "figure_02_controlled_recovery")
-
-
 def oat_sensitivity() -> None:
     rows = read_csv("calibration_oat_summary.csv")
     wanted = [
@@ -132,9 +111,9 @@ def lhs_attribution() -> None:
     ax.axhline(0, color=BLACK, linewidth=0.7)
     ax.set_xticks(x, labels)
     ax.set_ylabel("Mean Shapley value across LHS decisions")
-    ax.set_title("Fig. 4: Joint-calibration attribution")
+    ax.set_title("Fig. 2: Exact intervention attribution")
     clean(ax)
-    save(fig, "figure_04_lhs_attribution")
+    save(fig, "figure_02_exact_attribution")
 
 
 def attribution_decision() -> None:
@@ -160,9 +139,9 @@ def attribution_decision() -> None:
     ax.set_xlabel("Mean Shapley value across LHS decisions")
     ax.set_ylabel("Portfolio inclusion rate")
     ax.set_ylim(-0.04, 1.04)
-    ax.set_title("Fig. 5: Attribution and portfolio inclusion")
+    ax.set_title("Fig. 4: Attribution and portfolio inclusion")
     clean(ax)
-    save(fig, "figure_05_attribution_decision")
+    save(fig, "figure_04_attribution_decision")
 
 
 def external_ranking() -> None:
@@ -180,14 +159,13 @@ def external_ranking() -> None:
     ax.set_xticks(x, names)
     ax.set_ylim(0, 0.17)
     ax.set_ylabel("Ranking metric")
-    ax.set_title("Fig. 6: External ranking robustness")
+    ax.set_title("Fig. 5: External ranking robustness")
     ax.legend(frameon=False, ncol=2, loc="upper left")
     clean(ax)
-    save(fig, "figure_06_external_ranking")
+    save(fig, "figure_05_external_ranking")
 
 
 def main() -> None:
-    controlled_recovery()
     oat_sensitivity()
     lhs_attribution()
     attribution_decision()

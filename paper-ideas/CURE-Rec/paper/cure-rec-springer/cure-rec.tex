@@ -338,16 +338,18 @@ The propositions do not claim that the finite scenario set is the true real-worl
 
 Before behavioural simulation, nine analytic regimes verify the mechanics of the game and planner: additive, complementary, redundant, antagonistic, short delayed-fatigue, long delayed-fatigue, two provider-repair regimes, and misspecified ambiguity. In well-specified regimes, estimated and oracle games agree by construction. The misspecified regime is intentionally different: the estimated game selects repeat cap while the oracle game selects exploration. It tests whether the artifact falsely treats self-consistency as causal recovery.
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=\linewidth]{figures/figure_02_controlled_recovery.pdf}
-\caption{Controlled oracle recovery across the nine declared regimes. Eight regimes recover the oracle portfolio exactly; the misspecified ambiguity regime is the intentional failure case.}
-\label{fig:regimes}
-\end{figure}
+
 
 \subsection{Behavioural robustness designs}
 
 The behavioural benchmark has four scenarios: nominal, fatigue stress, popularity stress, and mixed stress. The full configuration uses 120 users, 240 items, 18 providers, 10 categories, a 12-step horizon, and a slate of 10. The one-at-a-time study changes fatigue strength, repeat threshold, horizon, provider threshold, provider-balance strength, delayed novelty preference drift, and exploration cost. The joint Latin-hypercube study samples these assumptions jointly. Neither study selects a favourable configuration; all configurations and all seed-level decisions are retained.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/figure_02_exact_attribution.pdf}
+\caption{Mean intervention Shapley values across the 125 joint Latin-hypercube decisions. Error bars show the descriptive standard deviation across the predeclared stress design and seeds; they are not population confidence intervals.}
+\label{fig:lhs}
+\end{figure}
 
 \begin{figure}[t]
 \centering
@@ -356,12 +358,9 @@ The behavioural benchmark has four scenarios: nominal, fatigue stress, popularit
 \label{fig:oat}
 \end{figure}
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=\linewidth]{figures/figure_04_lhs_attribution.pdf}
-\caption{Mean intervention Shapley values across the 125 joint Latin-hypercube decisions. Error bars show the descriptive standard deviation across the predeclared stress design and seeds; they are not population confidence intervals.}
-\label{fig:lhs}
-\end{figure}
+
+
+
 
 \subsection{External ranking protocol}
 
@@ -493,7 +492,7 @@ For reporting, we treat the LHS configurations as a predeclared stress design ra
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.90\linewidth]{figures/figure_05_attribution_decision.pdf}
+\includegraphics[width=0.90\linewidth]{figures/figure_04_attribution_decision.pdf}
 \caption{Attribution--decision relationship over the joint calibration design. Each point is one intervention; the horizontal coordinate is its mean Shapley value and the vertical coordinate is its portfolio inclusion rate over 125 decisions. Provider balance illustrates why a feasibility-driven portfolio may be selected despite a negative mean unconstrained contribution.}
 \label{fig:lhs-stability}
 \end{figure}
@@ -523,7 +522,7 @@ SASRec & $0.14520\pm0.00311$ & $0.07424\pm0.00281$ & $0.09620\pm0.00311$ & $0.04
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.94\linewidth]{figures/figure_06_external_ranking.pdf}
+\includegraphics[width=0.94\linewidth]{figures/figure_05_external_ranking.pdf}
 \caption{External MovieLens-1M ranking results under the shared warm-item protocol. BPR-MF and SASRec bars show five-seed means with sample-standard-deviation error bars; popularity is deterministic for the fixed split.}
 \label{fig:external}
 \end{figure}
