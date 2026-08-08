@@ -13,6 +13,7 @@ import numpy as np
 import pandas as pd
 
 from cure_rec.config import Settings
+from cure_rec.game import exact_shapley
 from cure_rec.pipeline import run_experiment
 from cure_rec.planner import decision_to_dict
 
@@ -55,7 +56,11 @@ def run_seed_sweep(settings: Settings, seeds: Iterable[int]) -> SeedSweepResult:
             **decision_to_dict(decision),
         })
         for row in game.regions.to_dict(orient="records"):
-            attribution_rows.append({"seed": seed, **row})
+            attribution_rows.append({
+                "seed": seed,
+                "robust_phi": game.robust_shapley.get(row["intervention"], float("nan")),
+                **row,
+            })
         for row in game.interaction_table.to_dict(orient="records"):
             interaction_rows.append({"seed": seed, **row})
         base_values = [scenario.values[0] for scenario in game.scenario_games.values()]
@@ -89,6 +94,8 @@ def run_seed_sweep(settings: Settings, seeds: Iterable[int]) -> SeedSweepResult:
         phi_lower_mean=("phi_lower", "mean"),
         phi_upper_mean=("phi_upper", "mean"),
         positive_sign_rate=("phi_lower", lambda x: float((x > 0).mean())),
+        robust_phi_mean=("robust_phi", "mean"),
+        robust_phi_std=("robust_phi", "std"),
     )
     attribution_summary.to_csv(sweep_root / "seed_sweep_attribution_summary.csv", index=False)
     selection_frequency = decisions.assign(portfolio=decisions["selected_interventions"].astype(str)).groupby("portfolio", as_index=False).agg(
@@ -305,6 +312,7 @@ def postprocess_seed_sweep(run_dir: str | Path, settings: Settings | None = None
     attributions = pd.read_csv(sweep_root / "seed_sweep_attributions.csv")
     interaction_rows: list[pd.DataFrame] = []
     base_rows: list[dict] = []
+    robust_by_seed: dict[int, dict[str, float]] = {}
     for decision in decisions.to_dict(orient="records"):
         child = Path(decision["cure_run_dir"])
         interactions_path = child / "tables" / "interaction_regions.csv"
@@ -315,6 +323,9 @@ def postprocess_seed_sweep(run_dir: str | Path, settings: Settings | None = None
             interaction_rows.append(frame)
         if coalition_path.exists():
             coalitions = pd.read_csv(coalition_path)
+            robust_values = coalitions.groupby("mask")["improvement"].min().to_dict()
+            if len(robust_values):
+                robust_by_seed[int(decision["seed"])] = exact_shapley({int(mask): float(value) for mask, value in robust_values.items()})
             base = coalitions[coalitions["mask"] == 0]
             base_rows.append({
                 "seed": decision["seed"],
@@ -341,6 +352,12 @@ def postprocess_seed_sweep(run_dir: str | Path, settings: Settings | None = None
                 ),
             })
     interactions = pd.concat(interaction_rows, ignore_index=True) if interaction_rows else pd.DataFrame()
+    if robust_by_seed:
+        attributions = attributions.copy()
+        attributions["robust_phi"] = [
+            robust_by_seed.get(int(row.seed), {}).get(str(row.intervention), float("nan"))
+            for row in attributions.itertuples(index=False)
+        ]
     # Existing decisions do not store historical constraint thresholds. Recompute
     # visual base feasibility from the recorded planner decision and preserve raw
     # provider values; future sweeps write exact margins directly.
@@ -351,6 +368,8 @@ def postprocess_seed_sweep(run_dir: str | Path, settings: Settings | None = None
         phi_lower_mean=("phi_lower", "mean"),
         phi_upper_mean=("phi_upper", "mean"),
         positive_sign_rate=("phi_lower", lambda x: float((x > 0).mean())),
+        robust_phi_mean=("robust_phi", "mean"),
+        robust_phi_std=("robust_phi", "std"),
     )
     selection_frequency = decisions.assign(portfolio=decisions["selected_interventions"].astype(str)).groupby("portfolio", as_index=False).agg(
         frequency=("seed", "count"),
