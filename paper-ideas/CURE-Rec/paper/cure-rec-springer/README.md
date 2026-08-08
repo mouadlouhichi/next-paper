@@ -10,9 +10,10 @@ for the empirical CURE-Rec paper.
 - `cure-rec-bibliography.bib` — references used by the manuscript.
 - `sn-jnl.cls` and `bst/sn-mathphys-num.bst` — Springer template assets copied
   from the template supplied in `../sn-article-template 2/`.
-- `figures/` — only generated CURE-Rec result figures copied from the checksumed
-  reproducibility snapshot. Figure 1 and the external ranking chart are native
-  TikZ/PGFPlots and therefore have no missing image dependency.
+- `figures/` — only the generated LHS calibration figures used directly by the
+  manuscript. The workflow, controlled-regime recovery, OAT sensitivity, and
+  external ranking figures are native black-and-white TikZ/PGFPlots figures and
+  therefore have no missing image dependency.
 
 ## Compile
 
