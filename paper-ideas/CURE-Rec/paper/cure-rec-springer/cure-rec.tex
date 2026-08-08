@@ -1,0 +1,668 @@
+% CURE-Rec manuscript -- Springer Nature template, empirical-result version.
+% Compile from this directory with: pdflatex cure-rec; bibtex cure-rec;
+% pdflatex cure-rec; pdflatex cure-rec.
+% The manuscript deliberately separates controlled causal claims (CURE-Sim)
+% from external chronological-ranking claims (MovieLens-1M).
+
+\documentclass[pdflatex,sn-mathphys-num]{sn-jnl}
+
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+\usepackage[title]{appendix}
+\usepackage{xcolor}
+\usepackage{textcomp}
+\usepackage{manyfoot}
+\usepackage{booktabs}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{array}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{positioning,fit,arrows.meta,shapes.geometric,calc}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+\theoremstyle{thmstyleone}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{thmstyletwo}
+\newtheorem{example}{Example}
+\newtheorem{remark}{Remark}
+\theoremstyle{thmstylethree}
+\newtheorem{definition}{Definition}
+
+\newcommand{\Players}{\mathcal{N}}
+\newcommand{\Models}{\mathcal{M}}
+\newcommand{\Policy}{\pi}
+\newcommand{\BasePolicy}{\pi_0}
+\newcommand{\Utility}{V}
+\newcommand{\Shap}{\phi}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\NDCG}{\mathrm{NDCG@10}}
+\newcommand{\Recall}{\mathrm{Recall@10}}
+\newcommand{\CURE}{\textsc{CURE-Rec}}
+\newcommand{\Sim}{\textsc{CURE-Sim}}
+
+\raggedbottom
+
+\begin{document}
+
+\title[CURE-Rec]{CURE-Rec: Exact Cooperative Intervention Games for Robust Long-Term Recommendation}
+
+\author*[1]{\fnm{Mouad} \sur{Louhichi}}\email{mouad\_louhichi@um5.ac.ma}
+\author[1]{\fnm{Redwane} \sur{Nesmaoui}}\email{redwane\_nesmaoui@um5.ac.ma}
+\author[1]{\fnm{Mohamed} \sur{Lazaar}}\email{mohamed.lazaar@ensias.um5.ac.ma}
+\affil*[1]{\orgdiv{National Higher School of Computer Science and Systems Analysis (ENSIAS)}, \orgname{Mohammed V University in Rabat}, \orgaddress{\city{Rabat}, \country{Morocco}}}
+
+\abstract{Recommendation interventions change the exposure process that generates future feedback, yet systems commonly choose exploration, diversity, long-tail, repetition-control, and provider-balancing policies from local ranking metrics or isolated ablations. Those choices are difficult because interventions overlap, conflict, incur costs, and may repair an unsafe base policy even when their short-run utility increment is small. We introduce \CURE{}, a decision layer that treats a bounded library of feasible policy transformations as players in an exact cooperative game. The game is evaluated under disclosed sequential recommendation scenarios, attributed by Shapley values and pairwise interactions, and optimized directly under relevance, fatigue, provider-disparity, and budget constraints. The planner distinguishes improvement from repair: it may retain a safe base policy when no portfolio robustly improves it, but must select the best feasible repair when the base violates a constraint. We validate the framework in controlled oracle regimes, a behavioural sequential benchmark, one-at-a-time and joint Latin-hypercube robustness studies, and a separate real-data ranking evaluation. In the full 20-seed behavioural study, repeated-exposure control is selected in all seeds with mean robust lower improvement $0.29371$ (standard deviation $0.00258$). Joint calibration reveals principled switches to provider balancing, complementary portfolios, and abstention under combined extreme assumptions. On MovieLens-1M, under identical warm-item candidates and audit checks, frozen SASRec reaches $\Recall=0.1452\pm0.0031$ and $\NDCG=0.07424\pm0.00281$ across five seeds, versus popularity's $0.049$ and $0.02552$. The real-data result is a chronological-ranking robustness result, not a causal policy-effect claim.}
+
+\keywords{Recommender systems, cooperative games, Shapley value, causal decision making, policy intervention, sequential recommendation, robustness}
+
+\maketitle
+
+\section{Introduction}\label{sec:introduction}
+
+Recommendation is not only prediction. A deployed policy decides which items receive exposure, exposure changes short-term response and repeated-item fatigue, and the resulting feedback modifies the popularity and behavioural signals used at later decisions. The operational question is therefore not only which item should be ranked first at a single time point. It is also which feasible part of the policy should be changed when the current system over-repeats items, under-serves providers, over-concentrates attention, or fails to explore. Production teams already manipulate repetition caps, exploration slots, long-tail promotion, diversity rerankers, novelty slots, and provider balancing. What is generally missing is a coherent way to evaluate their joint long-term consequences and to allocate credit when several interventions are redundant or antagonistic.
+
+The standard response is an isolated ablation: activate one intervention, compare a metric with the base policy, and retain the intervention that appears best. This is inadequate for a portfolio decision. An exploration slot may be useful only after a repeat cap releases a position; long-tail and novelty slots can compete for the same bounded insertion capacity; a provider correction may be warranted because the base policy violates a platform constraint even if it does not maximize an unconstrained utility increment. Isolated effects do not sum to the value of a portfolio, and a high attribution score alone does not identify a feasible decision.
+
+\CURE{} addresses this gap with a small, exact cooperative game over \emph{policy interventions}. Its six players are predeclared slate transformations rather than users, items, model features, or arbitrary retraining operations. A coalition applies a deterministic canonical composition to a fixed base policy. For each coalition and each disclosed sequential scenario, \Sim{} rolls out a finite-horizon platform process with preference, popularity feedback, repeated exposure, fatigue, novelty, and provider exposure. The resulting coalition values support exact Shapley attribution, exact pairwise interaction analysis, and a direct robust portfolio decision. Attribution explains a decision; it never replaces the decision rule.
+
+The paper makes four contributions.
+\begin{enumerate}
+\item \textbf{A decision-facing cooperative game over feasible policy changes.} We formalize a fixed intervention library, exact collision semantics for competing injection interventions, scenario-indexed coalition values, Shapley regions, and interaction regions. The six-player library induces only $2^6=64$ coalitions, making exact rather than sampled attribution practical.
+\item \textbf{Robust improvement and repair semantics.} We formulate a constrained direct portfolio optimizer that distinguishes a safe base policy from an unsafe one. In improvement mode it can abstain; in repair mode it must select the best feasible portfolio or report that none exists. This separation prevents a negative utility difference from being misread when an intervention is needed to restore safety.
+\item \textbf{Controlled and behavioural evidence.} Nine analytic oracle regimes test additive, complementary, redundant, antagonistic, delayed, repair, and misspecified settings. A 20-seed behavioural study, a 15-point one-at-a-time study, and a 25-point joint Latin-hypercube study test whether the decision pattern survives disclosed changes in horizon, fatigue, repetition, provider constraints, novelty benefit, intervention strength, and intervention cost.
+\item \textbf{A separately audited real-data robustness protocol.} We evaluate popularity, BPR-MF, and SASRec on MovieLens-1M using the same chronological split, warm-item candidate set, cold-target accounting, validation-only configuration selection, final audit, and fixed-configuration seed replication. This establishes ranking robustness of the implementation while preserving the boundary that MovieLens is not a complete causal policy log.
+\end{enumerate}
+
+The central claim is deliberately bounded. \CURE{} provides causal-oracle and behavioural claims inside \Sim{}, where the sequential data-generating mechanisms and intervention values are disclosed. It provides real-data ranking claims on MovieLens-1M under an audited evaluator. It does not claim that MovieLens identifies the long-run causal effects of production policy changes: it contains neither logged slates, exposure propensities, nor a complete candidate-set record. This separation is a methodological requirement rather than a limitation hidden in the evaluation.
+
+\section{Literature review}\label{sec:literature}
+
+\subsection{Recommendation as a sequential intervention problem}
+
+Collaborative filtering and sequential recommendation are usually introduced as supervised ranking problems, from matrix factorization and Bayesian personalized ranking \cite{rendle2009bpr} to self-attentive sequence models \cite{kang2018sasrec} and graph-based methods \cite{he2020lightgcn}. These models are powerful predictors, but prediction quality does not by itself decide whether a platform should increase exploration, reduce repetition, or rebalance exposure. A recommendation is an action that changes the observations on which future training and ranking depend. This closed loop motivates causal recommender work and counterfactual learning-to-rank \cite{swaminathan2015counterfactual,joachims2017unbiased,wang2021causal}.
+
+The available evidence often limits what can be inferred. Observational ratings typically record a response but not the alternatives shown, the rank at which they were shown, the logging probability, or the contemporaneous candidate set. Treating such records as complete randomized policy logs conflates preference, exposure, and selection. Work on recommendation as treatment makes this distinction explicit \cite{schnabel2016recommendations}. \CURE{} follows that discipline: the causal intervention game is tested in an oracle benchmark; the MovieLens experiment remains a separate chronological-ranking robustness evaluation.
+
+\subsection{Diversity, novelty, repetition, and provider exposure}
+
+A long literature improves recommendation lists through diversity, novelty, long-tail exposure, and popularity-aware reranking \cite{ziegler2005improving,vargas2011rank,abdollahpouri2019popularity}. These contributions usually define one target metric or one re-ranking objective. The operational challenge is that their transformations can collide. A diversity reranker can alter the positions available to a long-tail slot; a novelty slot and a tail slot may propose the same item; and provider balancing can reduce disparity while changing relevance or fatigue. The present work does not replace those objectives. It offers a framework for assessing the exact value of their feasible combinations under a shared platform utility and explicit constraints.
+
+The scope is intentionally modest. The intervention library is not learned from data, and it does not enumerate arbitrary changes to model architecture, user interfaces, retrieval systems, or incentives. These changes would make a coalition ill-defined and destroy exact tractability. Instead, the players are a small set of deployable slate-level transformations with clear costs and collision rules.
+
+\subsection{Cooperative attribution and interactions}
+
+Shapley values provide the unique cooperative allocation satisfying efficiency, symmetry, dummy, and additivity axioms \cite{shapley1953}. They have become central to feature attribution \cite{lundberg2017shap} and to broader data and component valuation problems \cite{mcelfresh2023shapley}. Their use does not make an attribution a decision: an intervention with a positive Shapley value can still be infeasible, redundant with a lower-cost substitute, or inappropriate when the base policy is already safe. We therefore use exact Shapley values as explanations of coalition values and pair them with direct constrained optimization.
+
+Pairwise interaction measures make the non-additivity visible. The Grabisch--Roubens interaction index distinguishes complementary and antagonistic pairs \cite{grabisch1999interaction}. This is particularly relevant for policy transformations because slots and rerankers are not independent switches. The game is exact here because six interventions yield 64 coalitions per scenario. No Monte-Carlo attribution error is required.
+
+\subsection{Robust decision making under model ambiguity}
+
+Partial-identification and robust-decision traditions caution against optimizing a single convenient causal model when several data-generating mechanisms remain plausible \cite{manski2003partial,rosenbaum2002observational}. In recommender systems, ambiguity can arise from fatigue strength, popularity feedback, delayed novelty benefit, provider exposure dynamics, and policy shift. \CURE{} operationalizes this caution as a finite, disclosed scenario set in the current artifact. For a coalition, the relevant object is a lower utility improvement over scenarios, not a point estimate from a favourable scenario. This is an ambiguity stress test, not a claim that a finite scenario ensemble nonparametrically identifies a real-world causal effect.
+
+\subsection{From attribution to deployment planning}
+
+Attribution and deployment solve different optimization problems. An attribution method asks how a specified value should be divided among contributors. A deployment planner asks which action should be taken subject to operational constraints. Confusing the two creates a subtle form of overclaiming. A Shapley value can assign positive credit to an intervention because it improves some coalitions, while a planner should reject it because its cost exceeds a budget, it is redundant with a lower-cost substitute, or it makes a provider-disparity or relevance constraint fail. Conversely, an intervention may be selected as a repair even when its unconstrained utility increment is not the largest, because the current policy is not admissible.
+
+This distinction has precedent in constrained recommendation and multi-objective optimization \cite{fogel2018practical}, but is rarely made explicit in explanation pipelines. A common practice is to report feature or component importance and then make an informal design recommendation. That recommendation may be reasonable, but its feasibility conditions are usually outside the formal object being evaluated. \CURE{} makes the decision object explicit. The cooperative game produces a complete attribution and interaction report; the planner separately evaluates the same coalition values against declared constraints. The result is more falsifiable: a reader can inspect whether a selected portfolio was truly feasible and whether an alternative had a higher lower utility but failed a constraint.
+
+There is also a practical reason to preserve the separation. Platform constraints differ across deployments. A provider-disparity threshold, intervention budget, or tolerated relevance change may be set by policy, product, or law rather than by a statistical estimator. Re-running a small exact game with a changed constraint is transparent; retraining an opaque attribution model or quietly changing a scalarized objective is not. The calibration results in this paper are therefore not merely an uncertainty appendix. They show how the proposed decision changes when the stated operating assumptions change.
+
+\subsection{Evaluation discipline for recommender claims}
+
+Ranking results can be invalidated by small protocol differences. Models may receive different candidate sets, test targets may be inadvertently removed as ``unavailable'', seen items may leak into one model's candidates, or a test result may select an epoch or a blend. These problems are especially easy to miss in a comparison between a non-personalized baseline, a matrix-factorization model, and a sequential neural model because their natural implementations expose different interfaces.
+
+The external protocol in this paper fixes the candidate universe before model scoring. A candidate set contains warm catalogue items not seen by the user in training. All models score exactly this vector; a cold target is counted explicitly rather than converted into an apparently easier warm ranking task. Validation and test are separated: Stage A and Stage B model search write validation rows, the selected configuration is frozen in a manifest, and final test audit is run only after selection. The audit then records candidate cardinalities, target presence, score ordering, pairwise preference checks, and restored checkpoint state. This discipline is not a claim that one benchmark establishes general recommender superiority. It is the minimum required for a credible narrow claim about the implemented comparison.
+
+The same discipline applies to uncertainty. Five seeds are useful for revealing optimization instability and for reporting a range, but they are not five independent real-world datasets. The paper reports means, sample standard deviations, minima, maxima, and paired differences rather than presenting a seed average as a universal effect size. The behavioural studies likewise report all OAT and LHS configurations rather than selecting the ones that favour the proposed planner.
+
+\subsection{Positioning}
+
+\CURE{} differs from conventional re-ranking in its unit of analysis: it evaluates interventions and portfolios rather than individual items. It differs from feature attribution in its players and output: the players are feasible policy changes and the output includes a robust constrained decision. It differs from off-policy evaluation because its primary causal evidence is a controlled sequential oracle environment rather than an assertion that an incomplete ratings dataset identifies a counterfactual policy value. Finally, it differs from a new base-recommender paper: the same intervention-game layer can sit above a transparent simulated policy, BPR-MF, or SASRec, provided that the intervention semantics and evaluation protocol are fixed.
+
+\section{Background and preliminaries}\label{sec:background}
+
+\subsection{Sequential recommendation environment}
+
+Let $\mathcal{U}$ be a user cohort, $\mathcal{I}$ an item catalogue, and $t\in\{0,\ldots,T-1\}$ a decision time. The platform state is
+\begin{equation}
+ X_t=(P_t,H_t,F_t,Q_t,E_t),
+\label{eq:state}
+\end{equation}
+where $P_t$ is the public profile available to the policy, $H_t$ denotes latent preference state used only by the simulator response mechanism, $F_t$ is user fatigue, $Q_t$ is item and provider popularity state, and $E_t$ is exposure history. A base policy $\BasePolicy$ returns a ranked slate from a candidate catalogue. The environment then produces response and transition variables,
+\begin{equation}
+ L_t\sim \Policy(X_t),\qquad Y_t\sim p_m(Y_t\mid X_t,L_t),\qquad X_{t+1}=F_m(X_t,L_t,Y_t,\epsilon_t),
+\label{eq:transition}
+\end{equation}
+for scenario $m\in\Models$. The notation makes clear that a policy change affects both immediate response and later state.
+
+The behavioural benchmark uses a cohort-level process with hidden affinity, public-profile noise, repeated exposure, satisfaction-mediated preference drift, item-popularity feedback, and provider exposure. The base ranker uses public-profile similarity and popularity rather than hidden interest. This preserves a meaningful gap between the policy's information and the simulator's outcome mechanism.
+
+Two features of this formulation matter for interpretation. First, the state is not merely an enlarged feature vector. Exposure and provider counts are shared, evolving variables: changing one user's slate can alter the popularity signal used in later ranking and the aggregate provider-disparity outcome. We consequently evaluate a cohort rollout rather than treating each user--item record as an independent supervised observation. Second, the latent-interest component is deliberately hidden from the policy. A policy that could inspect the simulator's response state would turn the benchmark into an oracle ranker and would make intervention results difficult to interpret. The policy receives only public profiles, exposure history, candidate availability, and the current popularity state.
+
+The temporal horizon has a direct scientific role. A short horizon emphasizes the immediate relevance cost of an intervention; a longer horizon can reveal an effect operating through fatigue reduction, provider exposure, or preference drift. This is why horizon is not selected from the outcome but varied explicitly in the calibration studies. The OAT study demonstrates this distinction directly: lowering the horizon to eight reduces the mean robust lower improvement to $0.14397$, while increasing it to sixteen raises it to $0.37785$. A one-step ranking evaluation cannot express this trade-off.
+
+\subsection{Evidence, interventions, and causal scope}
+
+A causal claim needs more than a timestamped interaction table. For a real policy evaluation, the analyst would need at least the candidate set available at each decision, the displayed slate and positions, the logging or assignment probability, policy identifiers, a representation of eligibility and inventory, and outcomes at the time scale of the claimed effect. Without these fields, the observed response is confounded by which alternatives were exposed and by which policy generated the exposure. The absence of these fields is not repaired by fitting a more flexible predictor.
+
+This paper therefore uses three evidence layers. The first is an \emph{analytic oracle} layer, where coalition values and true optima are defined transparently. The second is a \emph{behavioural oracle} layer, where the sequential mechanisms in Eqs.~\eqref{eq:state}--\eqref{eq:transition} generate the long-run outcome. The third is an \emph{external ranking} layer, where MovieLens-1M checks the recommender training and evaluation protocol. The layers complement one another but are not interchangeable. Controlled oracle evidence tests whether the cooperative and decision machinery reacts correctly to known structures. Behavioural evidence tests whether those mechanisms remain meaningful under feedback and fatigue. External ranking evidence tests whether the trained ranking models improve an audited held-out metric. Only the first two layers support the paper's causal intervention statements.
+
+The player definition is also causal in a restricted but operational sense. A player is a policy transformation that can be applied while holding the base policy, candidate universe, and intervention semantics fixed. We do not define players as arbitrary features that happen to correlate with response, nor as unrestricted retraining operations. This restriction makes the intervention $do(\Policy\leftarrow\Policy_S)$ interpretable: the system replaces the deployed slate transformation with a declared alternative and executes the same sequential environment. It also makes negative results interpretable. If an intervention has no eligible candidate at a time step, it performs no operation and the event is logged. A no-op is not silently converted into another intervention.
+
+\subsection{Policy transformations as players}
+
+The player set is
+\begin{equation}
+ \Players=\{\texttt{repeat\_cap},\texttt{explore\_slot},\texttt{tail\_slot},\texttt{diversify},\texttt{novel\_slot},\texttt{provider\_balance}\}.
+\label{eq:players}
+\end{equation}
+A coalition $S\subseteq\Players$ is a policy transformation, not a set of independently trained models. To avoid permutation-dependent semantics, every coalition follows one canonical order: repeated-exposure cap, eligibility filtering, injection allocation, diversity re-ranking, and provider balancing. The three injection players jointly compete for a capacity of two positions. Each proposes eligible items, normalizes its proposal score within its own scale, and an exact small assignment resolves collisions. A player with no eligible proposal is recorded as a no-op rather than being silently replaced by a popular item.
+
+This design is important for interpretability. If intervention order changes with Shapley permutations, the same coalition can represent several different policies, making the characteristic function undefined. Shapley permutations average marginal contributions over set order; they must not change the operational definition of a set.
+
+\begin{table*}[t]
+\caption{Intervention players and fixed operational semantics. Costs and thresholds are configuration values rather than learned coefficients.}\label{tab:players}
+\centering
+\begin{tabular}{@{}p{0.18\textwidth}p{0.39\textwidth}p{0.31\textwidth}@{}}
+\toprule
+Player & Slate transformation & Interaction and feasibility relevance\\
+\midrule
+Repeat cap & Moves items whose user-specific exposure count reaches the declared cap behind eligible alternatives. & Releases repeatedly occupied positions; can reduce fatigue and alter the feasibility of other slots.\\
+Exploration slot & Proposes low-exposure candidates and competes for an injection position. & Has a bounded slot cost; may be complementary to repeat control or costly in relevance.\\
+Long-tail slot & Proposes candidates below a configured popularity quantile. & Shares injection capacity with exploration and novelty; can alter provider and catalogue exposure.\\
+Diversity reranker & Greedily reranks a bounded candidate prefix using category novelty. & Has no reserved slot but can change the slate into which injection proposals are placed.\\
+Novelty slot & Proposes items sufficiently dissimilar from a user's public profile. & Can trade immediate relevance for delayed preference broadening in scenarios where that mechanism is active.\\
+Provider balance & Reranks toward under-exposed providers using aggregate exposure. & Directly targets provider disparity and may be selected as a repair of an unsafe base policy.\\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+A coalition is consequently more than a binary feature mask. It specifies a feasible composition with a capacity constraint, eligibility rules, a tie-breaking convention, and a cost. The distinction becomes important in the LHS study. A switch from repeat cap to provider balancing is not interpreted as instability of an arbitrary score; it is an explicit response to a joint configuration in which provider feasibility, horizon, and the competing intervention costs change the robust portfolio.
+
+\subsection{Long-term utility, constraints, and feasible policies}
+
+For scenario $m$ and coalition $S$, let $\Utility_m(S)$ be the discounted cohort utility before intervention cost. We use discounted satisfaction and retention, less fatigue, and subtract coalition cost:
+\begin{equation}
+ \Utility_m(S)=\sum_{t=0}^{T-1}\gamma^t\left(w_s\,\mathrm{Sat}_{m,t}(S)+w_r\,\mathrm{Ret}_{m,t}(S)-w_f\,\mathrm{Fat}_{m,t}(S)\right)-w_c\,c(S).
+\label{eq:utility}
+\end{equation}
+The reported improvement is $\Delta\Utility_m(S)=\Utility_m(S)-\Utility_m(\varnothing)$. We retain utility, satisfaction, retention, fatigue, relevance, catalogue coverage, and provider disparity separately; a scalar utility is useful for comparison but must not hide constraint violations.
+
+A coalition is feasible when its cost is within budget, its worst-scenario relevance change exceeds a minimum threshold, its maximum provider disparity is below a declared limit, and its maximum fatigue is below a declared limit. Thus feasibility is a property of a portfolio under all active scenarios, not a post-hoc annotation.
+
+The four constraints have distinct roles. Budget prevents an explanation from recommending a portfolio whose combined operational burden has not been approved. The relevance bound prevents a diversity or provider objective from being achieved by making the ranking unusable. The fatigue bound records a user-side temporal safety criterion. The provider-disparity bound records a platform-side exposure criterion. We do not collapse these requirements into one weighted penalty at decision time, because a large satisfaction gain should not automatically compensate for a violated hard provider threshold. The utility is used to order feasible coalitions; constraints define which coalitions may be considered.
+
+The base policy is evaluated by the same criteria as every intervention coalition. This is essential for repair semantics. A base policy can be relevant and have good immediate click outcomes while still violating a provider-disparity constraint accumulated over a rollout. In that case the appropriate comparison is not simply ``does an intervention improve the base score?'' but ``which feasible policy best restores safety while preserving the most robust utility?'' The archived seed-level decisions retain the base feasibility flag so that the distinction is inspectable rather than inferred from a final portfolio label.
+
+\subsection{Scenario-indexed cooperative values}
+
+The exact game in scenario $m$ is $(\Players,\Delta\Utility_m)$, with Shapley value
+\begin{equation}
+ \Shap_i^m=\sum_{S\subseteq\Players\setminus\{i\}}\frac{|S|!(|\Players|-|S|-1)!}{|\Players|!}\left[\Delta\Utility_m(S\cup\{i\})-\Delta\Utility_m(S)\right].
+\label{eq:shapley}
+\end{equation}
+For a finite disclosed scenario set, we report the region
+\begin{equation}
+ [\underline{\Shap}_i,\overline{\Shap}_i]=\left[\min_{m\in\Models}\Shap_i^m,\max_{m\in\Models}\Shap_i^m\right].
+\label{eq:region}
+\end{equation}
+A positive lower bound supports a robustly positive contribution under the declared stress set; a region crossing zero signals scenario sensitivity. These regions summarize the configured model set. They are not presented as a nonparametric confidence interval or as partial identification from MovieLens.
+
+\subsection{Improvement and repair modes}
+
+A central distinction follows from whether the base policy is feasible. If $\BasePolicy$ is feasible, the planner chooses the feasible coalition with maximal worst-scenario improvement only when that improvement is positive; otherwise it abstains and keeps the base policy. If the base policy is infeasible, abstention is not valid. The planner selects the feasible coalition with greatest lower improvement even when the numerical improvement is negative, because the decision is a repair of a constraint violation. If no coalition is feasible, it reports this explicitly.
+
+This distinction prevents two common errors. First, a system should not force an intervention merely because a Shapley value is positive if the base is already safe and no portfolio robustly improves it. Second, it should not call a repair ``harmful'' solely because it has lower unconstrained utility than an unsafe base policy. The decision card therefore records mode, status, base feasibility, selected coalition, lower and upper improvement, relevance change, provider disparity, fatigue, and cost.
+
+\section{Methodology}\label{sec:method}
+
+\subsection{Framework workflow}
+
+Figure~\ref{fig:workflow} gives the complete workflow. The upper path constructs a reproducible sequential policy environment and evaluates all coalitions under shared random state within each seed. The middle path computes attribution and interactions from the exact game. The lower path uses feasibility constraints and robust improvement to choose a portfolio. A separate, explicitly labelled external-evaluation path checks that the recommender implementations and shared ranking evaluator behave correctly on MovieLens-1M; it does not feed observational ratings into the causal game.
+
+\begin{figure*}[t]
+\centering
+\begin{tikzpicture}[
+  font=\small,
+  node distance=0.90cm and 0.95cm,
+  input/.style={draw, rounded corners=2pt, align=center, minimum height=9mm, minimum width=27mm, fill=blue!7},
+  game/.style={draw, rounded corners=2pt, align=center, minimum height=9mm, minimum width=30mm, fill=orange!14},
+  decision/.style={draw, rounded corners=2pt, align=center, minimum height=9mm, minimum width=31mm, fill=green!12},
+  audit/.style={draw, rounded corners=2pt, align=center, minimum height=9mm, minimum width=30mm, fill=purple!9},
+  arr/.style={-{Latex[length=2mm]}, thick, draw=black!75},
+  dash/.style={-{Latex[length=2mm]}, thick, dashed, draw=black!65}
+]
+\node[input] (policy) {Base policy\\and public state};
+\node[input, right=of policy] (library) {Six bounded\\intervention players};
+\node[game, right=of library] (coalitions) {Exact coalitions\\$2^6=64$};
+\node[game, right=of coalitions] (rollout) {Scenario rollouts\\utility and constraints};
+\node[game, below=of coalitions] (credit) {Exact Shapley regions\\and interactions};
+\node[decision, right=of credit] (planner) {Robust planner\\improve, repair, or abstain};
+\node[decision, right=of planner] (card) {Portfolio decision\\and explanation card};
+\node[audit, below=of policy] (external) {External ranking protocol\\MovieLens split and candidates};
+\node[audit, right=of external] (models) {Popularity, BPR, SASRec\\validation selection};
+\node[audit, right=of models] (checks) {Audit: seen-item, target,\\candidate, checkpoint checks};
+
+\draw[arr] (policy) -- (library);
+\draw[arr] (library) -- (coalitions);
+\draw[arr] (coalitions) -- (rollout);
+\draw[arr] (rollout) -- (credit);
+\draw[arr] (credit) -- (planner);
+\draw[arr] (planner) -- (card);
+\draw[arr] (external) -- (models);
+\draw[arr] (models) -- (checks);
+\draw[dash] (policy.south) -- (external.north);
+\draw[dash] (checks.north) -- ++(0,0.42) -| (card.south);
+\node[draw, dashed, rounded corners=2pt, fit=(coalitions)(rollout)(credit), inner sep=5pt,
+ label={[font=\small]below:exact cooperative intervention-game layer}] {};
+\end{tikzpicture}
+\caption{Workflow of the proposed \CURE{} framework. The causal-oracle and behavioural claims are produced by the upper and middle paths in the disclosed sequential benchmark. The lower external path audits chronological ranking implementations on MovieLens-1M. It is deliberately not used to assert causal policy effects.}
+\label{fig:workflow}
+\end{figure*}
+
+\subsection{Exact coalition evaluation and common random numbers}
+
+For a fixed seed and scenario, every coalition begins from the same initial environment state and random-number construction. This common-random-number design reduces the variance of paired coalition differences: an observed difference is attributable to the policy transformation rather than to a different synthetic cohort draw. Seeds are independent across repetitions. Each run writes a manifest, JSONL events, coalition values, attribution regions, interaction regions, decision data, trajectories, and generated tables and figures.
+
+The use of common random numbers does not manufacture a positive result. It makes a within-seed comparison more precise. A coalition can still reduce utility, violate relevance, or fail a provider constraint; the grand coalition is in fact harmful in the observed behavioural scenarios. The design merely ensures that a comparison between two coalitions is not dominated by an avoidable difference in simulated initial state. We preserve independent seeds because a common-random-number result from one seed is not a stability claim.
+
+Every exact run has three audit layers. The game layer checks that all 64 masks are present for every scenario and that the Shapley efficiency gap is numerically zero. The planner layer records why a coalition is rejected, whether the base is feasible, and whether the final status is improvement, repair, abstention, or no feasible portfolio. The reporting layer materializes numbered tables and figures plus an asset registry. This makes the reported result traceable from a manuscript number to a seed, a configuration hash, and the underlying coalition rows.
+
+The computational cost is transparent. With six players and four behavioural scenarios, one seed requires $64\times4=256$ rollouts. The full behavioural inference study has 20 seeds, or 5,120 scenario--coalition rollouts. The one-at-a-time robustness study evaluates 15 configurations across five seeds; the joint Latin-hypercube study evaluates a baseline plus 24 joint configurations across five seeds. These are substantial but finite computations, and all completed summaries and checksums are retained in the reproducibility snapshot.
+
+\subsection{Attribution, interactions, and direct selection}
+
+The Shapley allocation obeys efficiency within every scenario:
+\begin{equation}
+ \sum_{i\in\Players}\Shap_i^m=\Delta\Utility_m(\Players)-\Delta\Utility_m(\varnothing).
+\label{eq:efficiency}
+\end{equation}
+This identity is a diagnostic: it is checked to machine precision in every exact game. Pairwise interactions are computed exactly under the declared Grabisch--Roubens convention. Positive interactions identify complementarity, whereas negative interactions identify combinations whose joint effect is lower than their separate effects imply.
+
+Selection does not add Shapley values. Let $\mathcal{F}$ be the feasible coalitions. In improvement mode, the selected coalition is
+\begin{equation}
+ S^\star=\arg\max_{S\in\mathcal{F}\cup\{\varnothing\}}\min_{m\in\Models}\Delta\Utility_m(S),
+\quad\text{with }\varnothing\text{ retained if no feasible coalition improves it.}
+\label{eq:improve}
+\end{equation}
+In repair mode, $\varnothing$ is removed when it is infeasible and the same maximin criterion chooses the least-worst feasible repair. This direct objective preserves the meaning of the outcome: Shapley values are explanatory credit; the selected policy is a constrained action.
+
+The explanation card reports both objects. For every selected intervention it records its Shapley region and its feasibility-aware semivalue, while the card header records the selected coalition and its robust lower improvement. This design prevents a familiar but misleading presentation in which a bar chart of attributions is treated as if it were itself an optimization result. A player can have a positive global contribution but not appear in the chosen coalition because it is redundant, consumes scarce injection capacity, violates a constraint in combination, or is dominated by a lower-cost feasible substitute.
+
+The interaction table provides a complementary diagnostic. Let $I_{ij}^m$ denote the declared pairwise interaction of players $i$ and $j$ in scenario $m$. Positive $I_{ij}^m$ means that their joint marginal contribution exceeds the additive baseline under the index; negative interaction means that combining them reduces their expected joint contribution. In the current framework, negative interactions are particularly informative because they often arise from an explicit operational mechanism: slot competition, overlap between long-tail and novelty proposals, or a reranking trade-off. The paper reports interactions as explanatory evidence and does not use a pairwise approximation to replace the exact portfolio search.
+
+\begin{proposition}[Exact credit conservation]\label{prop:efficiency}
+For every scenario $m$, the exact allocation in Eq.~\eqref{eq:shapley} satisfies Eq.~\eqref{eq:efficiency}. Thus all credited intervention value equals the full-coalition improvement over the base coalition in that scenario.
+\end{proposition}
+
+\begin{proposition}[Coalition well-definedness]\label{prop:well-defined}
+Assume that candidate eligibility, score normalization, injection assignment, canonical transformation order, and tie breaking are deterministic conditional on the environment state and random seed. Then every coalition $S\subseteq\Players$ defines one policy transformation $\Policy_S$, independently of the permutation used to compute its Shapley marginal contribution.
+\end{proposition}
+
+\begin{proposition}[Repair safety ordering]\label{prop:repair}
+If the base coalition is infeasible and $\mathcal{F}$ is nonempty, the repair decision in Eq.~\eqref{eq:improve} selects a feasible coalition whose worst-scenario improvement is no lower than that of any other feasible coalition. It never returns the infeasible base coalition.
+\end{proposition}
+
+The propositions do not claim that the finite scenario set is the true real-world environment. They establish properties conditional on the game and constraint definitions, which is the appropriate theoretical level for a decision layer. Proofs are included in Appendix~\ref{app:proofs}.
+
+\subsection{Controlled oracle regimes}
+
+Before behavioural simulation, nine analytic regimes verify the mechanics of the game and planner: additive, complementary, redundant, antagonistic, short delayed-fatigue, long delayed-fatigue, two provider-repair regimes, and misspecified ambiguity. In well-specified regimes, estimated and oracle games agree by construction. The misspecified regime is intentionally different: the estimated game selects repeat cap while the oracle game selects exploration. It tests whether the artifact falsely treats self-consistency as causal recovery.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.94\linewidth]{figures/figure_02_controlled_regimes.png}
+\caption{Controlled-regime recovery. The figure is generated from the archived oracle suite. Eight of nine regimes recover the oracle portfolio; the misspecified ambiguity regime is the intended failure case.}
+\label{fig:regimes}
+\end{figure}
+
+\subsection{Behavioural robustness designs}
+
+The behavioural benchmark has four scenarios: nominal, fatigue stress, popularity stress, and mixed stress. The full configuration uses 120 users, 240 items, 18 providers, 10 categories, a 12-step horizon, and a slate of 10. The one-at-a-time study changes fatigue strength, repeat threshold, horizon, provider threshold, provider-balance strength, delayed novelty preference drift, and exploration cost. The joint Latin-hypercube study samples these assumptions jointly. Neither study selects a favourable configuration; all configurations and all seed-level decisions are retained.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.98\linewidth]{figures/figure_03_oat_sensitivity.png}
+\caption{One-at-a-time behavioural sensitivity of robust lower improvement. This generated figure is based on 15 predeclared configurations and five independent seeds per configuration.}
+\label{fig:oat}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.98\linewidth]{figures/figure_04_lhs_sensitivity.png}
+\caption{Joint Latin-hypercube sensitivity of robust lower improvement. Colour encodes repair rate. The figure reports a baseline plus 24 predeclared joint configurations, each evaluated over five seeds.}
+\label{fig:lhs}
+\end{figure}
+
+\subsection{External ranking protocol}
+
+MovieLens-1M is used only to test recommender implementation robustness. The dataset contains 6,040 users, 3,706 items, and 1,000,209 ratings; the positive interaction processing used here yields 575,281 positives. We construct a chronological leave-one-out split from positive interactions. For every evaluated user, all models receive the identical candidate set
+\begin{equation}
+ \mathcal{C}_u=\mathcal{I}_{\mathrm{train}}\setminus\mathcal{I}_{u,\mathrm{train}}.
+\label{eq:candidates}
+\end{equation}
+A held-out target absent from the training catalogue is counted as cold rather than silently removed. The final evaluations report 1,000 warm-target users, one cold test target, mean candidate count 3,436.958, and candidate counts from 2,739 to 3,521.
+
+The protocol has three gates. First, hyperparameters are selected by validation $\NDCG$ only. Second, the frozen selected configuration is trained once for the final audit and its best validation checkpoint is restored before test ranking. Third, the configuration is replicated over fixed independent seeds without retuning. The evaluator asserts zero seen-item leakage, zero missing-target violations, identical candidates for all compared models, and descending-score correctness. This protocol guards against metric improvements produced by an evaluator difference rather than by a recommender.
+
+The popularity baseline is fit on training interactions only. BPR-MF uses an item bias and Adam optimization with uniform, popularity, or hard-negative mixtures during validation-stage search; the selected final BPR configuration uses 128 factors, batch size 8,192, learning rate $0.003$, weight decay $10^{-5}$, and popularity-mixture negatives. SASRec is selected independently, using causal self-attention over chronological training prefixes. Its selected configuration has 128-dimensional item embeddings, sequence length 25, two heads, two Transformer layers, dropout 0.10, batch size 1,024, learning rate $5\times10^{-4}$, weight decay $10^{-5}$, and popularity-mixture negatives. The SASRec implementation uses right padding so a causal padding query never encounters an all-masked attention row on the Apple Silicon MPS backend.
+
+The audit also records pairwise training and validation accuracy. These quantities are not used as ranking metrics or selection targets; they are sanity checks that a personalized model has learned a directional preference signal without candidate leakage. For the final SASRec audit, the popularity and SASRec models both have zero critical audit violations and the SASRec best validation epoch equals the restored checkpoint epoch (20). The same audit is rerun within every fixed-configuration replication.
+
+\subsection{Implementation and reproducibility}
+
+The artifact is implemented in Python with typed configuration, deterministic seeds, JSONL events, CSV tables, and a checksumed snapshot. Exact intervention games use CPU-first NumPy simulation. External BPR and SASRec use PyTorch with Apple Silicon MPS when available; BPR uses Adam, item bias, and mixed negatives, while SASRec uses causal self-attention, right-padded sequences, and validation checkpointing. The final snapshot stores source manifests, final configurations, audit tables, loss and validation histories, seed metrics, paired metrics, calibration summaries, controlled-regime assets, and SHA-256 checksums. The code and the manuscript assets are available with the project repository.
+
+\section{Experimental results}\label{sec:results}
+
+\subsection{Research questions and evidence levels}
+
+We answer four questions. \textbf{RQ1}: does the exact game and planner recover known structures and distinguish estimated from oracle recovery? \textbf{RQ2}: which intervention portfolio is selected in the behavioural sequential environment, and how stable is the decision across independent seeds? \textbf{RQ3}: do isolated and joint changes to disclosed behavioural assumptions preserve or alter the decision? \textbf{RQ4}: do audited BPR and SASRec implementations improve chronological ranking over popularity on a real benchmark under the same candidates?
+
+The evidence level differs by question. RQ1--RQ3 make controlled causal-oracle and behavioural claims about \Sim{}. RQ4 makes an external ranking claim on MovieLens-1M. It is not evidence that a MovieLens policy intervention would cause the corresponding long-run platform effect.
+
+\subsection{RQ1: controlled recovery and misspecification}\label{sec:rq1}
+
+Table~\ref{tab:regimes} reports the controlled-regime result. The estimated game reproduces the specified estimated selection in all nine regimes. Oracle selection agrees in eight. The exception is deliberately misspecified: the estimated game selects \texttt{repeat\_cap}, while the oracle selects \texttt{explore\_slot}. Estimated recovery is therefore not treated as proof of oracle recovery. The misspecified setting has oracle regret $0.19$, Shapley mean absolute error $0.06$, sign accuracy $0.667$, and point coverage $0.667$.
+
+\begin{table*}[t]
+\caption{Controlled oracle-regime validation. ``Estimated match'' compares the selected estimated-game portfolio with the declared estimated target; ``oracle match'' compares it with the true-game portfolio.}\label{tab:regimes}
+\centering
+\begin{tabular}{@{}llccc@{}}
+\toprule
+Regime & Estimated selected portfolio & Oracle selected portfolio & Estimated match & Oracle match / regret\\
+\midrule
+Additive & repeat cap + exploration + tail + provider balance & same & yes & yes / 0.00\\
+Complementary & repeat cap + exploration & same & yes & yes / 0.00\\
+Redundant & tail slot & same & yes & yes / 0.00\\
+Antagonistic & exploration slot & same & yes & yes / 0.00\\
+Delayed fatigue, short horizon & abstain & abstain & yes & yes / 0.00\\
+Delayed fatigue, long horizon & repeat cap & repeat cap & yes & yes / 0.00\\
+Provider repair, balancing & provider balance & provider balance & yes & yes / 0.00\\
+Provider repair, repeat & repeat cap & repeat cap & yes & yes / 0.00\\
+Misspecified ambiguity & repeat cap & exploration slot & yes & no / 0.19\\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+This result establishes a needed negative control. A cooperative attribution layer can be internally consistent and still be wrong when its model of the environment is wrong. The paper therefore reports estimated and oracle recovery separately rather than compressing them into one success rate.
+
+The remaining regimes test the distinction between contribution and decision. In the complementary regime, repeat cap and exploration are weak alone but selected jointly. In the redundant regime, tail and novelty overlap and the planner selects one player under its deterministic cost and tie rule. In the antagonistic regime, exploration and diversity are individually useful but jointly harmful, so the selected policy avoids the pair. The two provider-repair regimes start from an infeasible base and select different repairs: provider balancing in one and repeat suppression in the other. These cases show why a framework that independently ranks interventions cannot substitute for a coalition search with explicit repair semantics.
+
+The short- and long-horizon delayed-fatigue regimes additionally test temporal interpretation. With the short horizon, the base is feasible and the planner abstains because repeat suppression has not yet recovered its immediate cost. With the longer horizon, repeat cap is selected. The switch is not a change in implementation or attribution convention; it is a change in the declared decision horizon. This is the minimal controlled demonstration that a myopic metric and a long-horizon intervention decision need not agree.
+
+\subsection{RQ2: behavioural selection over independent seeds}\label{sec:rq2}
+
+The full behavioural study evaluates all 64 coalitions under four scenarios across 20 independent seeds. Repeat cap is selected in 20/20 seeds. The mean robust lower improvement is $0.29371$ with standard deviation $0.00258$, range $[0.28928,0.29709]$, and an approximate $t$-interval of $[0.29250,0.29491]$. Fourteen of 20 decisions are repairs because the base violates the provider-disparity constraint; six are improvements from a feasible base. The selected portfolio is feasible in every seed.
+
+The independent five-seed full run provides a second check: repeat cap is selected in 5/5 seeds, with mean lower improvement $0.29488$ and standard deviation $0.00244$. The quick configuration is intentionally not used for inference: it selects repeat cap in four seeds and repeat cap plus tail slot in one, with one negative-improvement repair. It is retained as a smoke and runtime result rather than as an empirical conclusion.
+
+\begin{table}[t]
+\caption{Behavioural exact-game seed studies. Lower improvement is the worst-scenario utility change relative to the base policy.}\label{tab:behavioural}
+\centering
+\begin{tabular}{@{}lrrrrl@{}}
+\toprule
+Study & Seeds & Repeat-cap selection & Lower improvement & SD & Planner modes\\
+\midrule
+Quick five-seed & 5 & 4/5 & 0.01241 & 0.03908 & 4 improve, 1 repair\\
+Full five-seed & 5 & 5/5 & 0.29488 & 0.00244 & 1 improve, 4 repair\\
+Full twenty-seed & 20 & 20/20 & 0.29371 & 0.00258 & 6 improve, 14 repair\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The grand coalition is harmful in the observed behavioural scenarios while repeat cap is beneficial. This rejects an additive ``more interventions is always better'' interpretation. Interaction analysis explains why: several injection and reranking combinations introduce relevance, cost, or fatigue trade-offs that a single-intervention ablation cannot expose.
+
+The decision modes are as informative as the selected player. In the full twenty-seed study, the base is infeasible in 14 seeds, principally because provider disparity crosses the declared upper bound. Those 14 outputs are repairs, not failed improvements: repeat cap is chosen because it produces the best feasible maximin policy under the configured scenarios. In the remaining six seeds, the base is feasible and repeat cap is selected as an improvement. A manuscript that reported only the 20/20 selection frequency would hide this operational distinction.
+
+The result also illustrates why the full coalition is not a useful default. A system might reason that enabling all safeguards is conservative. Here, the grand coalition is repeatedly harmful because three slot interventions compete for capacity, rerankers can reduce relevance, and total cost can exceed the budget. Exact enumeration makes this failure visible without assuming pairwise additivity. In a larger intervention library, screening or approximation would be required; the present six-player study provides a clean benchmark in which the portfolio optimum is known exactly.
+
+\subsection{RQ3: calibration robustness and portfolio switches}\label{sec:rq3}
+
+The one-at-a-time study contains 15 predeclared configurations and five seeds per configuration. Repeat cap appears in every selected portfolio (75/75 seed decisions); it is the exact portfolio in 74/75 decisions. The exception occurs at the strict provider threshold 0.24, where one seed selects repeat cap plus tail slot. The result is stable but not invariant in magnitude. Shortening the horizon from 12 to 8 reduces mean lower improvement from $0.29488$ to $0.14397$; extending it to 16 increases it to $0.37785$. Altering the repeat threshold to 2 or 4 changes the mean to $0.20206$ and $0.21226$, respectively. These are expected behavioural sensitivities, not a failure of the framework.
+
+\begin{table*}[t]
+\caption{Selected one-at-a-time calibration results. Every row has five independent seeds. The table reports actual archived summaries.}\label{tab:oat}
+\centering
+\begin{tabular}{@{}lrrrll@{}}
+\toprule
+Assumption & Value & Lower improvement mean & SD & Base-feasible rate & Modal portfolio\\
+\midrule
+Baseline & --- & 0.29488 & 0.00244 & 0.20 & repeat cap\\
+Repeat threshold & 2 & 0.20206 & 0.00175 & 0.20 & repeat cap\\
+Repeat threshold & 4 & 0.21226 & 0.00240 & 0.20 & repeat cap\\
+Horizon & 8 & 0.14397 & 0.00230 & 0.60 & repeat cap\\
+Horizon & 16 & 0.37785 & 0.00220 & 0.20 & repeat cap\\
+Provider threshold & 0.24 & 0.27997 & 0.03397 & 0.00 & repeat cap (0.80 stability)\\
+Provider threshold & 0.32 & 0.29488 & 0.00244 & 0.60 & repeat cap\\
+Novelty drift & 0.03 & 0.29502 & 0.00249 & 0.20 & repeat cap\\
+Novelty drift & 0.06 & 0.29513 & 0.00252 & 0.20 & repeat cap\\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+The Latin-hypercube study is the more stringent test because it changes assumptions jointly. It contains a baseline plus 24 configurations, five seeds each, for 125 decisions. Repeat cap appears in 114/125 selected portfolios, but the framework also selects provider balance, tail-enhanced portfolios, repeat cap plus exploration, and abstention. Across the 25 configuration-level modal portfolios, 18 are repeat cap alone, three are repeat cap plus tail slot, two are provider balance, one is repeat cap plus exploration, and one is abstention. Eighty-three of 125 decisions are repairs and 42 are improvements. The result is substantively valuable: the framework does not mechanically choose the same player under joint extreme conditions, yet it produces documented switches tied to feasibility and scenario assumptions.
+
+The LHS study changes the interpretation of the OAT finding. The OAT result supports local robustness: along each isolated axis in the declared range, repeat cap remains present in every selected portfolio. It does not prove global invariance under combined changes. The LHS result supplies the needed qualification. In several joint configurations the modal solution is provider balancing, and in another the modal choice is abstention. These cases are not discarded as inconvenient outliers. They identify the boundary of the repeat-cap conclusion and show that the framework can express a safety- or constraint-driven portfolio switch rather than merely amplifying the strongest average player.
+
+For reporting, we treat the LHS configurations as a predeclared stress design rather than as an iid sample from a real distribution of platforms. The counts $114/125$ and $83/125$ are therefore descriptive frequencies over the design, not estimates of an unknown global deployment probability. This is more precise than calling the design a confidence study while still giving an operator a concrete map of the regions in which the selected policy changes.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.98\linewidth]{figures/figure_05_lhs_stability.png}
+\caption{Decision stability across the 25 joint calibration configurations. The full seed-level portfolio distribution is retained in the archive; this figure summarizes configuration-level stability, repair rate, base feasibility, and repeat-cap selection rate.}
+\label{fig:lhs-stability}
+\end{figure}
+
+\subsection{RQ4: external ranking robustness on MovieLens-1M}\label{sec:rq4}
+
+The external evaluation is deliberately separated from the causal benchmark. Popularity, BPR-MF, and SASRec use the same chronological split and candidates. BPR is selected through staged validation search, then audited once and replicated over fixed seeds. SASRec is selected by validation $\NDCG$, audited once on the untouched test set, and replicated without retuning. The final audit has zero seen-item, missing-target, candidate-equality, and descending-score violations for every compared model.
+
+Table~\ref{tab:external} reports the five-seed fixed-configuration summaries. Popularity has $\Recall=0.049$ and $\NDCG=0.02552$. BPR reaches $0.08800\pm0.00354$ recall and $0.04384\pm0.00167$ NDCG. SASRec reaches $0.14520\pm0.00311$ recall and $0.07424\pm0.00281$ NDCG. All SASRec seed-level gains over popularity are positive: recall gains range from $0.091$ to $0.099$ and NDCG gains from $0.04553$ to $0.05293$. These are reproducible ranking results under the protocol; they are not estimates of causal intervention benefit.
+
+\begin{table}[t]
+\caption{MovieLens-1M fixed-configuration five-seed ranking results under shared warm-item candidates. Mean $\pm$ sample standard deviation.}\label{tab:external}
+\centering
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Model & $\Recall$ & $\NDCG$ & $\Delta\Recall$ vs. popularity & $\Delta\NDCG$ vs. popularity\\
+\midrule
+Popularity & 0.04900 & 0.02552 & --- & ---\\
+BPR-MF + bias & $0.08800\pm0.00354$ & $0.04384\pm0.00167$ & $0.03900\pm0.00354$ & $0.01832\pm0.00167$\\
+SASRec & $0.14520\pm0.00311$ & $0.07424\pm0.00281$ & $0.09620\pm0.00311$ & $0.04872\pm0.00281$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+ width=0.98\linewidth, height=6.3cm,
+ ybar, bar width=13pt, ymin=0, ymax=0.17,
+ ylabel={Metric value},
+ symbolic x coords={Popularity,BPR-MF,SASRec},
+ xtick=data, legend style={at={(0.5,1.06)},anchor=south,legend columns=-1},
+ nodes near coords, every node near coord/.append style={font=\scriptsize},
+ ymajorgrids=true, grid style=dashed
+]
+\addplot coordinates {(Popularity,0.04900) (BPR-MF,0.08800) (SASRec,0.14520)};
+\addplot coordinates {(Popularity,0.02552) (BPR-MF,0.04384) (SASRec,0.07424)};
+\legend{$\Recall$, $\NDCG$}
+\end{axis}
+\end{tikzpicture}
+\caption{External MovieLens-1M ranking results. Bars show five-seed means for BPR-MF and SASRec and the deterministic popularity value under the shared warm-item protocol.}
+\label{fig:external}
+\end{figure}
+
+\subsection{Ablations, reporting checks, and negative evidence}\label{sec:ablations}
+
+Several checks prevent the reported outcome from becoming a favourable-only story. The controlled misspecification regime fails oracle recovery as intended. The quick behavioural sweep is unstable and is not used for inference. OAT calibration shows that horizon and repeat mechanics materially change utility magnitude. LHS calibration shows that repeat cap is not a universal answer under joint extremes. The external evaluator records one cold target instead of erasing it, and checks the candidate vector used by each model. Finally, the selected SASRec blend is a pure SASRec configuration rather than a popularity blend selected after observing test results.
+
+We report seed dispersion rather than treating repeated seeds as independent real-world users. The five external seeds establish optimization stability for a fixed split and candidate protocol, not population-level uncertainty over users, datasets, or deployment contexts. The 20 behavioural seeds establish simulation stability under the declared environment, not a confidence interval for an unspecified production platform.
+
+\section{Discussion and broader implications}\label{sec:discussion}
+
+\subsection{What the framework explains}
+
+\CURE{} explains a portfolio-level operational decision. A system owner can ask whether repeat suppression is robustly useful, whether provider balancing is required to repair a constraint, whether additional exploration is complementary or redundant, and whether the available evidence supports change at all. The answer is not a feature-level saliency map; it is a coalition value table, an attribution region, an interaction structure, and a decision card. This is useful precisely because recommendation interventions often have consequences outside immediate relevance.
+
+The OAT and LHS results illustrate the difference between robustness and invariance. The OAT result says that repeat cap survives each isolated perturbation in the declared range. The LHS result says that joint changes can move the decision to provider balancing, tail support, a composite intervention, or abstention. A framework that returned repeat cap everywhere would be less credible, not more credible. The observed switches are evidence that constraints and scenario dynamics are participating in the decision.
+
+\subsection{Relationship between causal-oracle and external evidence}
+
+The two evaluation paths answer different questions. \Sim{} supports causal statements internal to a disclosed sequential structural model: the true policy value is known, counterfactual rollouts are executable, and oracle recovery can be measured. MovieLens-1M supports a distinct statement: under a shared chronological ranking protocol, the tested implementations produce stable ranking improvements. It does not record a complete policy assignment mechanism, exposure propensities, or all items made available to users. Consequently, the paper does not translate a MovieLens NDCG improvement into a claimed causal benefit of an intervention portfolio.
+
+This boundary should improve, rather than weaken, the paper. It prevents a common but invalid move from retrospective ratings to long-term policy claims. A future audited production log with slates, propensities, policy identifiers, eligibility, and delayed outcomes could connect the two paths using off-policy or randomized-policy evaluation. The present artifact makes the data requirements visible.
+
+\subsection{Implications for system design}
+
+The results suggest three practical principles. First, interventions should be managed as portfolios, not independent checkboxes. Second, a provider or fatigue constraint changes the meaning of a decision: an intervention can be selected as a repair even when a purely unconstrained comparison would favour keeping the base. Third, attribution should be paired with a decision rule. Ranking interventions by Shapley value alone does not enforce relevance, fatigue, provider, or budget requirements.
+
+The external results add an implementation lesson. The same candidate protocol and audit exposed large, stable gains from a sequential model over popularity and BPR. This does not settle which base model a deployment should use, but it demonstrates that \CURE{} can be evaluated beside modern ranking models without changing the meaning of candidates, test targets, or checkpoint selection.
+
+\subsection{Limitations and threats to validity}
+
+The scenario set is disclosed but finite. Its Shapley regions are sensitivity summaries over the implemented mechanisms, not universal uncertainty intervals. The behavioural environment abstracts from many deployment phenomena, including strategic providers, dynamic inventory, policy learning, and heterogeneous user objectives. The intervention library is deliberately small and does not include model retraining, UI changes, or arbitrary causal graph discovery. Exact enumeration scales exponentially with the number of players, so the current design is appropriate for a bounded operational library rather than hundreds of interventions.
+
+The calibration studies are designed robustness probes, not empirical calibration to MovieLens. The LHS configurations are predeclared and retained, but a finite design cannot cover every combination of environment assumptions. The MovieLens evaluation is limited to one benchmark, one chronological split, 1,000 evaluated warm-target users, and five optimization seeds. Its shared candidates improve comparability, while also making the metric a warm-item ranking metric by design. Cold targets are counted but not ranked.
+
+Finally, the external BPR and SASRec models are evaluated as recommenders, whereas the causal game is evaluated over a transparent base policy inside \Sim{}. The paper does not claim that a SASRec embedding itself identifies the effect of a long-term policy intervention. Bridging this gap requires real audited policy logs or randomized intervention studies.
+
+\subsection{Reproducibility and reporting checklist}
+
+The final result snapshot contains 52 SHA-256 entries covering the implementation manifests and the small final artifacts needed to reproduce the reported numbers. Raw MovieLens data and large training checkpoints are not duplicated in the archive; this avoids redistribution of source data and unnecessary storage while retaining configuration hashes, selected hyperparameters, validation histories, final audit tables, and fixed-seed metrics. A reader can verify the snapshot with \texttt{sha256sum -c SHA256SUMS.txt} before inspecting the tables.
+
+For a claim paper, reproducibility also requires negative evidence. The archive therefore includes the misspecified controlled regime, the quick sweep that is not used for inference, all OAT and LHS configuration summaries, seed-level rather than only mean metrics, and constraint-mode fields. The paper does not hide that the external data path is evidentially weaker for causal questions than the oracle path. This reporting design is intended to make it possible to disagree with the scope of the claim without being unable to inspect the computation.
+
+\section{Conclusion}\label{sec:conclusion}
+
+\CURE{} turns a bounded set of recommendation-policy transformations into an exact cooperative decision problem. The framework combines scenario-indexed coalition values, exact Shapley and interaction analysis, feasibility constraints, and direct robust selection. Controlled regimes show that it recovers additive, complementary, redundant, antagonistic, delayed, and repair structures while exposing misspecification. Behavioural studies show a stable repeat-cap decision under isolated perturbations and meaningful portfolio switches under joint stress. Separately, audited MovieLens experiments show stable chronological-ranking gains for BPR and SASRec under common candidates and fixed configurations.
+
+The principal contribution is a disciplined bridge from intervention attribution to action. It is not enough to assign a large credit value to an intervention; a platform needs to know whether a feasible portfolio robustly improves a safe base policy or repairs an unsafe one. By keeping causal-oracle claims, behavioural robustness claims, and external ranking claims separate, the artifact provides a reproducible foundation for future evaluation with audited production policy logs.
+
+\backmatter
+
+\bmhead{Supplementary information}
+The reproducibility snapshot contains checksumed configurations, exact-game summaries, controlled-regime assets, OAT and LHS calibration summaries, BPR and SASRec audit outputs, loss histories, validation histories, seed-level paired metrics, and generated figures.
+
+\bmhead{Acknowledgements}
+Not applicable.
+
+\section*{Declarations}
+
+\bmhead{Funding}
+No external funding was declared for this study.
+
+\bmhead{Conflict of interest}
+The authors declare no competing interests.
+
+\bmhead{Ethics approval and consent to participate}
+Not applicable. The study uses public benchmark data and a synthetic controlled environment; no human-subject study was conducted.
+
+\bmhead{Consent for publication}
+Not applicable.
+
+\bmhead{Data availability}
+MovieLens-1M is publicly available subject to its terms of use \cite{harper2015movielens}. The generated summaries and checksums used in this manuscript are included in the project reproducibility snapshot.
+
+\bmhead{Materials availability}
+The complete CURE-Sim configurations, generated tables, figures, and manuscript assets are included with the project repository.
+
+\bmhead{Code availability}
+The implementation, notebooks, configurations, and checksumed result snapshot are available in the accompanying repository: \url{https://github.com/mouadlouhichi/next-paper}.
+
+\bmhead{Author contributions}
+Mouad Louhichi: conceptualization, methodology, software, experiments, analysis, and writing. Redwane Nesmaoui: conceptualization, supervision, and review. Mohamed Lazaar: supervision, methodology review, and review.
+
+\begin{appendices}
+
+\section{Proofs of framework properties}\label{app:proofs}
+
+\subsection*{Proof of Proposition~\ref{prop:efficiency}}
+For a fixed scenario, insert Eq.~\eqref{eq:shapley} and sum over players. Every ordered permutation of $\Players$ contributes the telescoping sequence of marginal increments from the empty coalition to the grand coalition. Averaging over all $|\Players|!$ permutations leaves exactly $\Delta\Utility_m(\Players)-\Delta\Utility_m(\varnothing)$. This is the standard efficiency property of the exact Shapley value. Because the implementation enumerates all coalitions and uses the same coalition value table for every player, the numerical efficiency gap is also directly checkable rather than estimated.
+
+\subsection*{Proof of Proposition~\ref{prop:well-defined}}
+Fix a state and seed. The base ranker returns one deterministic ranked list. The repeat cap applies its declared eligibility predicate; each active injection produces a deterministic proposal set and normalized within-intervention score; the finite assignment problem has a deterministic maximizer under the declared stable tie rule; and diversity and provider rerankers apply in a fixed order. Composition therefore maps the set $S$ to one slate transformation. Shapley permutations are used only to aggregate the differences between values of sets and never to choose an execution order. Hence the policy represented by $S$ is invariant to the attribution permutation.
+
+\subsection*{Proof of Proposition~\ref{prop:repair}}
+When the base is infeasible, it is excluded from the feasible choice set. The repair rule takes an argmax of $\min_{m\in\Models}\Delta\Utility_m(S)$ over the finite nonempty set $\mathcal{F}$. An argmax exists and is feasible by membership in $\mathcal{F}$. By the definition of an argmax, no other feasible coalition has a greater lower improvement. The rule makes no assertion that the chosen repair improves an infeasible base on an unconstrained utility scale; it asserts the stated feasible maximin ordering.
+
+\section{Notation and decision semantics}\label{app:notation}
+\begin{table}[h]
+\caption{Core notation.}\label{tab:notation}
+\centering
+\begin{tabular}{@{}ll@{}}
+\toprule
+Symbol & Meaning\\
+\midrule
+$\Players$ & set of six feasible intervention players\\
+$S$ & intervention coalition, $S\subseteq\Players$\\
+$\BasePolicy$ & deployed base recommendation policy\\
+$\Policy_S$ & canonically transformed policy for coalition $S$\\
+$\Models$ & disclosed scenario or model stress set\\
+$\Utility_m(S)$ & discounted scenario utility before comparison to the base\\
+$\Delta\Utility_m(S)$ & utility improvement $\Utility_m(S)-\Utility_m(\varnothing)$\\
+$\Shap_i^m$ & Shapley value of intervention $i$ in scenario $m$\\
+$[\underline{\Shap}_i,\overline{\Shap}_i]$ & scenario-indexed Shapley region\\
+$\mathcal{F}$ & feasible coalitions under declared constraints\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{OAT and LHS portfolio distributions}\label{app:calibration}
+The OAT study has 75 decisions. Repeat cap is included in all 75 and is the exact portfolio in 74. The joint LHS study has 125 decisions. Its seed-level portfolios are: repeat cap alone (89), repeat cap plus tail slot (12), repeat cap plus exploration slot (8), provider balance alone (6), abstention (4), repeat cap plus diversity (2), repeat cap plus provider balance (2), repeat cap plus exploration plus tail (1), and tail slot alone (1). The 125 decisions comprise 83 repairs and 42 improvements; 42 base policies are feasible. These counts are reported to make the joint-switching result auditable rather than summarized only by a modal portfolio.
+
+\section{External evaluation audit}\label{app:audit}
+For the final SASRec audit, both popularity and SASRec evaluate 1,000 warm targets, count one cold test target, and use candidate sets with mean size 3,436.958 (minimum 2,739; maximum 3,521). Seen-item violations, missing-target violations, candidate-equality violations, and descending-score violations are all zero. SASRec's best validation epoch and restored checkpoint epoch are both 20 for the final audit. The BPR and SASRec seed summaries in the reproducibility snapshot retain all five fixed-seed rows and paired differences against popularity.
+
+\section{Claim boundaries}\label{app:claims}
+The following claims are supported by the corresponding evidence.
+\begin{itemize}
+\item \textbf{Controlled causal claim:} exact-game recovery and misspecification behaviour are established within the analytic and behavioural \Sim{} mechanisms.
+\item \textbf{Behavioural robustness claim:} the reported OAT and LHS selection frequencies, utility summaries, repairs, and switches hold for the disclosed finite configurations and seeds.
+\item \textbf{External ranking claim:} BPR and SASRec produce the reported chronological warm-item ranking metrics under the shared MovieLens evaluator.
+\item \textbf{Unsupported claim:} no result in this artifact identifies the long-run causal effect of a policy intervention from MovieLens ratings alone.
+\end{itemize}
+
+\section{Scenario and calibration protocol}\label{app:protocol}
+The full behavioural configuration fixes 120 users, 240 items, 18 providers, 10 categories, 12 latent dimensions, a 12-step horizon, and slate size 10. The nominal scenario uses the base fatigue and popularity-feedback settings. Fatigue stress increases the fatigue multiplier; popularity stress increases popularity feedback; mixed stress changes both and applies a small satisfaction shift. The intervention costs used in the full configuration are 0.05 for repeat cap, 0.10 for exploration, 0.08 for long-tail, 0.06 for diversity, 0.08 for novelty, and 0.12 for provider balancing. The budget is 0.35, the minimum relevance change is $-0.08$, the maximum provider disparity is 0.28, and maximum fatigue is 0.65.
+
+The OAT protocol retains the baseline and changes one assumption at a time. It evaluates fatigue strengths 0.75 and 1.25; repeat thresholds 2 and 4; horizons 8 and 16; provider thresholds 0.24 and 0.32; provider-balance strengths 0.15 and 0.55; novelty preference drift 0.03 and 0.06; and exploration costs 0.05 and 0.15. The LHS protocol samples 24 joint settings over the declared ranges plus the baseline. Both protocols use seeds 42--46. No setting is selected as the reported primary configuration after observing utility; all are retained in the archived configuration tables.
+
+\section{External fixed-seed results}\label{app:external-seeds}
+\begin{table}[h]
+\caption{Frozen SASRec seed replication under the shared MovieLens warm-item evaluator.}\label{tab:sas-seeds}
+\centering
+\begin{tabular}{@{}rrrrrr@{}}
+\toprule
+Seed & SASRec $\Recall$ & SASRec $\NDCG$ & Popularity $\Recall$ & Popularity $\NDCG$ & Best epoch\\
+\midrule
+42 & 0.145 & 0.075122 & 0.049 & 0.025520 & 20\\
+43 & 0.146 & 0.074018 & 0.049 & 0.025520 & 48\\
+44 & 0.140 & 0.071049 & 0.049 & 0.025520 & 42\\
+45 & 0.147 & 0.078446 & 0.049 & 0.025520 & 44\\
+46 & 0.148 & 0.072547 & 0.049 & 0.025520 & 60\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The selected final BPR configuration uses hash \texttt{9875430c235b}; the selected SASRec configuration uses hash \texttt{7aa511398a7f}. Each seed replication checks that the configuration hash matches the frozen search manifest before its metric row is accepted. This prevents a stale result directory from being silently mixed with a later configuration.
+
+\section{Artifact inventory}\label{app:artifacts}
+The reproducibility snapshot is intentionally small enough to inspect. It contains the external data-analysis manifest and evaluator tables; BPR staged-search and final-audit files; SASRec final configuration, evaluation audit, pairwise audit, loss, validation, seed metrics, paired metrics, and summary; controlled-regime manifest, selections, attributions, interactions, and figure; and OAT/LHS manifests, configurations, summaries, seed decisions, attributions, interactions, and figures. It omits raw MovieLens data and large model checkpoints. The archive manifest explains how to regenerate those omitted artifacts from the source repository.
+
+\end{appendices}
+
+\bibliography{cure-rec-bibliography}
+
+\end{document}
