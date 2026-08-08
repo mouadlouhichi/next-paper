@@ -1,0 +1,3 @@
+contrast,metric,treatment,control,mean_diff_conditional_user,ci95_low,ci95_high,median_user_diff,prop_users_improved,prop_users_harmed,prop_users_unchanged,cohen_dz_user_conditional_descriptive,bootstrap_p_descriptive,bootstrap_p_report,n_seeds,n_user_diffs,holm_threshold,holm_reject_0.05
+valid-sim_vs_uniform_NDCG@20,NDCG@20,valid-sim,uniform,0.001774422786699917,0.0014268183151288445,0.0021203176370989192,0.0,0.04349127182044888,0.021346633416458854,0.9351620947630923,0.057341580223039375,0.0,< 0.0005,5,30075,0.025,True
+valid-sim_vs_uniform_HitRate@20,HitRate@20,valid-sim,uniform,0.004488778054862843,0.003258520365752286,0.005685785536159601,0.0,0.007813798836242726,0.0033250207813798837,0.9888611803823774,0.04256910136415548,0.0,< 0.0005,5,30075,0.05,True

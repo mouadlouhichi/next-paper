@@ -1,0 +1,8 @@
+% MovieLens-1M: LOO NDCG@20 0.04968 vs valid-sim 0.04778 -> +3.98%
+% MovieLens-1M: LOO NDCG@20 0.04968 vs valid-linear 0.04842 -> +2.61%
+% MovieLens-1M: LOO NDCG@20 0.04968 vs uniform 0.04601 -> +7.99%
+% MovieLens-1M: Holm rejected 12/12 LOO-vs-control contrasts
+% Amazon-Book: LOO NDCG@20 0.03229 vs valid-sim 0.03039 -> +6.26%
+% Amazon-Book: LOO NDCG@20 0.03229 vs valid-linear 0.03154 -> +2.39%
+% Amazon-Book: LOO NDCG@20 0.03229 vs uniform 0.02946 -> +9.63%
+% Amazon-Book: Holm rejected 11/12 LOO-vs-control contrasts
