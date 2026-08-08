@@ -153,3 +153,33 @@ Claims without artifacts were removed, not renumbered.
 - Unreranked row in Table 3 replaced with real λ=0 5-seed values from the sweep artifact
   (ML-1M 0.11415/0.04482/0.62967/0.73045; Amazon 0.06690/0.02982/0.23573/0.92082).
 - Both `paper_package/` and `springer_latex/` copies kept byte-identical.
+
+---
+
+# Fixes Applied — v15 (response to round-2 re-review, in progress)
+
+Round-2 verdict: **Major Revision** (validation-informed baselines removed; LOO-vs-baseline paired tests missing; ablations; XAI evidence preliminary).
+
+## Critical Issue 1 — validation-informed non-game baselines RESTORED (with real data)
+- Implemented `valid-sim` (history reweighting by cos(e_j, e_{i_u+})) and `valid-linear`
+  (candidate-side linear reranker s' = z(b) + λ z(cos(e_i, e_{i_u+}))) in `coalgamerec/rerank.py`;
+  both share the a-priori λ=0.10 and native intervention; identical validation access as the games.
+- Confirmatory study C1 (`scripts/run_matched_controls.py`): CPU re-execution of the frozen protocol
+  (identical hyperparameters, seeds 42–46, archived splits) adding unreranked + the two matched controls;
+  deviations recorded in each manifest.json. Runs: `*_lightgcn_v4_matched_controls/` (in progress).
+- Table 3 grouped rows restored via the C1 results (pending run completion).
+
+## Critical Issue 2 — paired LOO-vs-all-controls statistics
+- (a) Computed from EXISTING v3 artifacts (`per_user_metrics_all.csv`): Table 4b (tab:paired_loo) —
+  Holm F=10 per dataset, LOO vs {uniform, additive-pref, attention, heuristic-pop, shapley-mc} × 2 metrics;
+  all LOO-vs-heuristic contrasts p<0.0005 (Holm), LOO beats Shapley on NDCG@20 both datasets.
+- (b) C1 adds LOO vs {…, valid-sim, valid-linear} paired contrasts (Holm F=12) — pending run completion.
+
+## Critical Issue 3 — unexecuted ablations no longer used to justify design
+- §8.3 (bounded players): k=24 justification now rests solely on the feasibility argument;
+  player-count sensitivity explicitly marked "specified but not executed".
+
+## Critical Issue 4 — XAI evidence extended
+- C1 produces deletion/insertion CURVES (fractions 0.05/0.10/0.20/0.30) with a seeded RANDOM control
+  and uniform control, for LOO attributions, 5 seeds, both datasets (faithfulness_curves_all.csv).
+- Masked-forward and stability tests remain declared future work (run_faithfulness.py).

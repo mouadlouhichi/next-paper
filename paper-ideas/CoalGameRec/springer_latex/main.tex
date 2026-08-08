@@ -318,7 +318,7 @@ This value is validation-only. The test item is never used in attribution, tunin
 
 Full-history Shapley is infeasible for many users. Exact enumeration is exponential, and permutation Monte Carlo scales with the number of selected players, number of permutations, and cost of the value function. The empirical design uses a bounded set of 24 players selected by a stratified deterministic rule. The rule includes profile-similar, validation-similar, and diverse historical interactions. This avoids the earlier pure similarity selection that advantaged the attention baseline.
 
-This design choice is a limitation. It means the estimator is bounded interaction Shapley, not full-history Shapley. The benefit is feasibility and reproducibility. We report this explicitly and treat player-count sensitivity as a robustness check (\S\ref{sec:ablation}).
+This design choice is a limitation. It means the estimator is bounded interaction Shapley, not full-history Shapley. The benefit is feasibility and reproducibility. We report this explicitly; player-count sensitivity is specified as a robustness check in \texttt{code/scripts/run\_ablations.py} but was not executed in this study (\S\ref{sec:ablation}, Limitations), so no sensitivity numbers are used to justify the $k=24$ choice --- the choice rests solely on the feasibility argument of \S\ref{sec:algorithms}.
 
 \subsection{Why native intervention is used}\label{subsec:native_intervention}
 
@@ -556,7 +556,39 @@ Amazon-Book & Shapley vs LOO & HitRate@20 & -0.000701 & [-0.001375, -0.000054] &
 \end{tabular}
 \end{table*}
 
-LOO-versus-control contrasts are not part of the frozen primary family (whose single treatment is Shapley-MC), so they are reported descriptively rather than inferentially: the 5-seed mean differences of LOO vs.\ uniform are $\Delta$NDCG@20 $=0.00375$ (ML-1M) and $0.00259$ (Amazon-Book) (Table~\ref{tab:cost}). A user-level paired bootstrap with LOO as treatment is included in the artifact regeneration plan (identical script with \texttt{treatment=loo-marginal}) but was not executed under the frozen protocol; we therefore attach no $p$-values or CIs to these differences in this version. The practical picture is nonetheless visible in Table~\ref{tab:main_results}: LOO's 5-seed means lead every non-game control on NDCG@20 and Coverage@20 on both datasets, and the Shapley-vs-LOO rows above show that Shapley does not significantly exceed LOO on NDCG@20 on either dataset.
+Table~\ref{tab:paired_loo} complements Table~\ref{tab:paired} with the LOO-as-treatment family, computed with the identical paired user bootstrap ($B=2000$, seed 20260804) and released as \texttt{paired\_bootstrap\_loo\_controls*.csv} per run. Per dataset the family contains $F=10$ Holm-adjusted contrasts: LOO-marginal vs.\ each of uniform, additive-pref, attention, heuristic-pop, and Shapley-MC on NDCG@20 and HitRate@20. LOO significantly beats every non-game control on both metrics and both datasets (all Holm $p<0.0005$), and beats Shapley-MC on NDCG@20 on both datasets (ML-1M $p=0.008$; Amazon-Book $p<0.0005$); on HitRate@20 LOO is statistically indistinguishable from Shapley on ML-1M ($p=0.575$) and ahead on Amazon-Book ($p=0.036$). Effect sizes remain small ($|d_z|\le 0.066$), consistent with the large-$N$ caveats in \S\ref{sec:threats}; the CIs, not the point effect sizes, carry the inferential claim.
+
+\begin{table*}[t]
+\caption{Paired contrasts with LOO-marginal (CoalGameRec) as treatment, conditional user-population estimand ($B=2000$, seed 20260804). Holm family per dataset ($F=10$): LOO vs.\ $\{$uniform, additive-pref, attention, heuristic-pop, Shapley-MC$\}$ $\times$ $\{$NDCG@20, HitRate@20$\}$. Rows correspond one-to-one to \texttt{tables/paired\_bootstrap\_loo\_controls.csv} (+\texttt{\_holm.json}) of each v3 run. Positive mean difference = LOO wins.}\label{tab:paired_loo}
+\centering
+\scriptsize
+\begin{tabular}{lllllll}
+\toprule
+Dataset & Contrast & Metric & Mean diff. & 95\% CI & $p$ (Holm) & $d_z$ \\
+\midrule
+MovieLens-1M & LOO vs uniform & NDCG@20 & 0.003748 & [0.003106, 0.004386] & $<0.0005$ & 0.0661 \\
+MovieLens-1M & LOO vs uniform & HitRate@20 & 0.007814 & [0.005852, 0.009809] & $<0.0005$ & 0.0452 \\
+MovieLens-1M & LOO vs additive-pref & NDCG@20 & 0.003653 & [0.002996, 0.004313] & $<0.0005$ & 0.0635 \\
+MovieLens-1M & LOO vs additive-pref & HitRate@20 & 0.007681 & [0.005619, 0.009643] & $<0.0005$ & 0.0441 \\
+MovieLens-1M & LOO vs attention & NDCG@20 & 0.003272 & [0.002592, 0.003934] & $<0.0005$ & 0.0545 \\
+MovieLens-1M & LOO vs attention & HitRate@20 & 0.007182 & [0.005153, 0.009278] & $<0.0005$ & 0.0401 \\
+MovieLens-1M & LOO vs heuristic-pop & NDCG@20 & 0.003632 & [0.002984, 0.004281] & $<0.0005$ & 0.0631 \\
+MovieLens-1M & LOO vs heuristic-pop & HitRate@20 & 0.007648 & [0.005653, 0.009609] & $<0.0005$ & 0.0439 \\
+MovieLens-1M & LOO vs Shapley-MC & NDCG@20 & 0.000532 & [0.000119, 0.000963] & 0.008 & 0.0143 \\
+MovieLens-1M & LOO vs Shapley-MC & HitRate@20 & $-$0.000366 & [$-$0.001696, 0.000899] & 0.575 & $-$0.0032 \\
+Amazon-Book & LOO vs uniform & NDCG@20 & 0.002589 & [0.002119, 0.003059] & $<0.0005$ & 0.0573 \\
+Amazon-Book & LOO vs uniform & HitRate@20 & 0.004099 & [0.002939, 0.005231] & $<0.0005$ & 0.0360 \\
+Amazon-Book & LOO vs additive-pref & NDCG@20 & 0.002685 & [0.002209, 0.003158] & $<0.0005$ & 0.0592 \\
+Amazon-Book & LOO vs additive-pref & HitRate@20 & 0.004341 & [0.003182, 0.005448] & $<0.0005$ & 0.0383 \\
+Amazon-Book & LOO vs attention & NDCG@20 & 0.002832 & [0.002363, 0.003306] & $<0.0005$ & 0.0617 \\
+Amazon-Book & LOO vs attention & HitRate@20 & 0.004854 & [0.003721, 0.006013] & $<0.0005$ & 0.0424 \\
+Amazon-Book & LOO vs heuristic-pop & NDCG@20 & 0.002415 & [0.001936, 0.002858] & $<0.0005$ & 0.0544 \\
+Amazon-Book & LOO vs heuristic-pop & HitRate@20 & 0.004018 & [0.002831, 0.005123] & $<0.0005$ & 0.0354 \\
+Amazon-Book & LOO vs Shapley-MC & NDCG@20 & 0.000494 & [0.000281, 0.000709] & $<0.0005$ & 0.0228 \\
+Amazon-Book & LOO vs Shapley-MC & HitRate@20 & 0.000701 & [0.000054, 0.001375] & 0.036 & 0.0108 \\
+\bottomrule
+\end{tabular}
+\end{table*}
 
 \subsection{Cost-effectiveness}\label{subsec:cost}
 

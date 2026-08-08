@@ -1,0 +1,14 @@
+{
+  "device": "cpu",
+  "item_vectors_hash_exact_match": false,
+  "item_vectors_shape_nnz_match": true,
+  "n_items": 12885,
+  "n_users": 7417,
+  "note": "Confirmatory matched-controls run (v4). Adds validation-informed non-game controls to the frozen v3 protocol.",
+  "platform": "Linux-6.1.158+-x86_64-with-glibc2.36",
+  "python": "3.11.2",
+  "torch": "2.13.0+cu130",
+  "total_seconds": 5.077640533447266,
+  "train_interactions": 109915,
+  "trainer": "train_lightgcn_shared_prop (equivalent gradients, 1 propagation/batch)"
+}

@@ -1,0 +1,57 @@
+% ===== DRAFT: C1 confirmatory matched-controls section (to insert in Results, after Cost-effectiveness) =====
+% Numbers pending: fill from manuscript_assets/c1_*.tex once runs complete.
+
+\subsection{Confirmatory study with matched validation-informed controls (C1)}\label{subsec:c1}
+
+The primary frozen study compares validation-guided game attribution against non-game controls that have \emph{no} validation access. To isolate the contribution of the game structure from the contribution of validation access itself, we ran a confirmatory study (C1) that adds two matched validation-informed non-game controls with the same validation item available to the Shapley/LOO games:
+\begin{itemize}
+    \item \textbf{valid-sim} (history reweighting): $w_j = \max(0, \cos(\mathbf{e}_j, \mathbf{e}_{i_u^+}))$ applied through the identical native intervention~(\ref{eq:rerank});
+    \item \textbf{valid-linear} (candidate-side linear reranker): $s'_{ui} = \mathrm{zscore}(b_{ui}) + \lambda_{\text{attr}}\,\mathrm{zscore}(\cos(\mathbf{e}_i, \mathbf{e}_{i_u^+}))$, the strongest non-game reranker with validation access.
+\end{itemize}
+Both share the a-priori $\lambda_{\text{attr}}=0.10$; neither uses coalition values or attribution. C1 re-executes the frozen protocol (identical hyperparameters, seeds 42--46, archived splits) on CPU; deviations from the v3 runs (hardware, torch re-execution, vectorized negative sampler, one shared propagation per batch, Shapley-MC not re-run for compute reasons) are recorded in each run's \texttt{manifest.json}. Code: \texttt{scripts/run\_matched\_controls.py}, \texttt{coalgamerec/rerank.py}.
+
+Table~\ref{tab:c1_main} reports the C1 main results. [FILL: findings]
+
+\begin{table*}[t]
+\caption{Confirmatory study C1: LightGCN test performance, mean $\pm$ SD over five seeds (CPU re-execution of the frozen protocol with matched validation-informed controls; \texttt{results/journal\_runs/*\_v4\_matched\_controls}). Bold = CoalGameRec (LOO).}\label{tab:c1_main}
+\centering
+\scriptsize
+\begin{tabular}{lllllll}
+\toprule
+Dataset & Backbone & Method & HitRate@20 & NDCG@20 & Coverage@20 & ILD@20 \\
+\midrule
+%C1_MAIN_ROWS%
+\bottomrule
+\end{tabular}
+\end{table*}
+
+Table~\ref{tab:c1_paired} reports the paired contrasts with LOO as treatment against all six matched controls (Holm family $F=12$ per dataset; \texttt{paired\_bootstrap\_loo\_vs\_matched\_controls.csv}). [FILL: findings]
+
+\begin{table*}[t]
+\caption{C1 paired contrasts, LOO-marginal (CoalGameRec) as treatment ($B=2000$, Holm $F=12$ per dataset). Artifact: \texttt{paired\_bootstrap\_loo\_vs\_matched\_controls.csv} (+\texttt{\_holm.json}).}\label{tab:c1_paired}
+\centering
+\scriptsize
+\begin{tabular}{lllllll}
+\toprule
+Dataset & Contrast & Metric & Mean diff. & 95\% CI & $p$ (Holm) & $d_z$ \\
+\midrule
+%C1_PAIRED_ROWS%
+\bottomrule
+\end{tabular}
+\end{table*}
+
+% Faithfulness curves (Issue 4): fractions + random control, both datasets
+C1 also extends the faithfulness proxies of \S\ref{sec:explainability}: deletion/insertion curves over fractions $\{0.05,0.10,0.20,0.30\}$ with a seeded random-weight control, computed on the C1 models (Table~\ref{tab:c1_faith}). [FILL: findings]
+
+\begin{table}[t]
+\caption{C1 faithfulness proxy curves (candidate-masking, five-seed mean $\pm$ SD; \texttt{faithfulness\_curves\_all.csv}). Deletion $\Delta$NDCG@20: drop when the top-fraction attributed history is removed (higher = more influential); Insertion NDCG@20: retained performance keeping only the top fraction.}\label{tab:c1_faith}
+\centering
+\scriptsize
+\begin{tabular}{llccc}
+\toprule
+Dataset & Weights & Fraction & Deletion $\Delta$NDCG@20 & Insertion NDCG@20 \\
+\midrule
+%C1_FAITH_ROWS%
+\bottomrule
+\end{tabular}
+\end{table}
