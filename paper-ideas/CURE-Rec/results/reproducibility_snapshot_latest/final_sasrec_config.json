@@ -1,0 +1,17 @@
+{
+  "selected_config_hash": "7aa511398a7f",
+  "config": {
+    "embedding_dim": 128,
+    "max_sequence_length": 25,
+    "num_heads": 2,
+    "num_layers": 2,
+    "dropout": 0.1,
+    "batch_size": 1024,
+    "learning_rate": 0.0005,
+    "weight_decay": 1e-05,
+    "negative_strategy": "popularity_mixture"
+  },
+  "seed": 42,
+  "best_validation_epoch": 20,
+  "restored_checkpoint_epoch": 20
+}
