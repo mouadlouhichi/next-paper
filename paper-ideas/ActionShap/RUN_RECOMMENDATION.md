@@ -7,6 +7,10 @@ used as final-paper evidence.
 > **Running on Kaggle?** See [`KAGGLE_NOTEBOOKS.md`](../KAGGLE_NOTEBOOKS.md)
 > — `scripts/kaggle_notebooks.py push|status|output|pull` uploads and runs the
 > canonical notebook on Kaggle's cloud and downloads the results.
+>
+> **Running on Google Colab?** See [`COLAB.md`](../COLAB.md) — one click opens
+> the notebook on Colab from GitHub via
+> `scripts/colab_notebooks.py push`.
 
 ## 1. Environment
 
