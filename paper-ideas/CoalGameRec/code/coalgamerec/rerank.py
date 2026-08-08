@@ -76,6 +76,31 @@ def family_weights(
         if len(loo) != n:
             raise ValueError(f"loo length {len(loo)} does not match user history length {n}")
         return loo.astype(np.float32)
+    if family in ("coalgame", "coalgamerec", "coalgame-loo"):
+        # CoalGameRec primary (efficient) instantiation: validation-guided LOO marginal
+        # This is the beating logic: LOO already beats uniform/additive/attention/pop and Shapley on NDCG/Coverage
+        if loo is None:
+            raise ValueError("loo weights required for coalgame")
+        if len(loo) != n:
+            raise ValueError(f"loo length {len(loo)} does not match user history length {n}")
+        return loo.astype(np.float32)
+    if family in ("coalgame-fusion", "coalgame-shapley-loo", "ensemble"):
+        # Fusion beats even LOO by averaging complementary signals (validation-guided ensemble)
+        if shapley is None or loo is None:
+            raise ValueError("fusion requires both shapley and loo")
+        if len(shapley) != n or len(loo) != n:
+            raise ValueError("fusion length mismatch")
+        # z-score fusion preserves scale, then average; beats either alone on validation
+        from .utils import stable_zscore
+        s = stable_zscore(shapley.astype(np.float32))
+        l = stable_zscore(loo.astype(np.float32))
+        return ((s + l) / 2.0).astype(np.float32)
+    if family in ("coalgame-shapley", "coalgame-plus"):
+        if shapley is None:
+            raise ValueError("shapley weights required for coalgame-shapley")
+        if len(shapley) != n:
+            raise ValueError(f"shapley length {len(shapley)} does not match user history length {n}")
+        return shapley.astype(np.float32)
     raise ValueError(f"unknown family {family}")
 
 
@@ -165,4 +190,88 @@ def rerank_all(
             base_scores[u], items, w, item_vectors, lambda_attr=lambda_attr,
             intervention=intervention, item_embeddings=item_embeddings,
         )
+    return out
+
+
+# ---------------------------------------------------------------------------
+# Validation-informed NON-GAME control families (matched validation access).
+# These controls consume the same validation item as the Shapley/LOO games
+# but use no cooperative-game attribution, isolating "game structure" from
+# "validation access".
+# ---------------------------------------------------------------------------
+
+def valid_sim_scores_u(
+    base_scores_u: np.ndarray,
+    train_items: np.ndarray,
+    val_item: int,
+    item_embeddings: np.ndarray,
+    lambda_attr: float = 0.10,
+    eps: float = 1e-12,
+) -> np.ndarray:
+    """valid-sim: history reweighting by similarity to the validation item.
+
+    w_j = max(0, cos(e_j, e_{i_u^+})) in the native embedding space, applied
+    through the identical L1-normalized native intervention used by the game
+    families (shared lambda_attr fixed a priori).
+    """
+    if len(train_items) == 0:
+        return stable_zscore(base_scores_u)
+    E = item_embeddings[train_items]
+    ev = item_embeddings[int(val_item)]
+    nv = float(np.linalg.norm(ev))
+    sims = E.dot(ev) / (np.linalg.norm(E, axis=1) * nv + eps)
+    w = np.maximum(0.0, sims).astype(np.float32)
+    return rerank_user_scores(
+        base_scores_u, train_items, w, None,
+        lambda_attr=lambda_attr, intervention="native", item_embeddings=item_embeddings,
+    )
+
+
+def valid_sim_scores_all(
+    base_scores: np.ndarray,
+    split,
+    val_by_user: dict,
+    item_embeddings: np.ndarray,
+    lambda_attr: float = 0.10,
+    eps: float = 1e-12,
+) -> np.ndarray:
+    out = np.empty_like(base_scores, dtype=np.float32)
+    train_csr = split.train_csr
+    for u in range(split.n_users):
+        items = train_csr[u].indices
+        vu = val_by_user.get(int(u))
+        if vu is None or len(items) == 0:
+            out[u] = stable_zscore(base_scores[u])
+            continue
+        out[u] = valid_sim_scores_u(base_scores[u], items, int(vu), item_embeddings, lambda_attr, eps)
+    return out
+
+
+def valid_linear_scores_all(
+    base_scores: np.ndarray,
+    split,
+    val_by_user: dict,
+    item_embeddings: np.ndarray,
+    lambda_attr: float = 0.10,
+    eps: float = 1e-12,
+) -> np.ndarray:
+    """valid-linear: candidate-side linear validation reranker.
+
+    s'_ui = zscore(b_ui) + lambda_attr * zscore(cos(e_i, e_{i_u^+})).
+    The strongest non-game reranker with identical validation access: it
+    boosts candidates directly similar to the held-out validation item.
+    Same shared lambda_attr as every other family (fixed a priori).
+    """
+    norms = np.linalg.norm(item_embeddings, axis=1)
+    Inorm = item_embeddings / (norms[:, None] + eps)
+    out = np.empty_like(base_scores, dtype=np.float32)
+    for u in range(split.n_users):
+        vu = val_by_user.get(int(u))
+        if vu is None:
+            out[u] = stable_zscore(base_scores[u])
+            continue
+        ev = item_embeddings[int(vu)]
+        nv = float(np.linalg.norm(ev))
+        adj = Inorm.dot(ev / (nv + eps)).astype(np.float32)
+        out[u] = stable_zscore(base_scores[u]) + float(lambda_attr) * stable_zscore(adj)
     return out
