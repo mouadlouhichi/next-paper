@@ -62,44 +62,6 @@ def clean(ax: plt.Axes) -> None:
     ax.grid(axis="y", color="#d0d0d0", linestyle="--", linewidth=0.55, zorder=0)
 
 
-def workflow() -> None:
-    """A narrow portrait workflow, intentionally limited to readable stages."""
-    fig, ax = plt.subplots(figsize=(4.25, 6.85))
-    ax.set_axis_off()
-    boxes = [
-        "Base policy\nand observable state",
-        "Six intervention players\nrepeat, explore, tail, diversity,\nnovelty, provider balance",
-        "Canonical composition\nand all $2^6=64$ coalitions",
-        "Shared-seed rollouts\nutility, relevance, fatigue,\nand provider exposure",
-        "Exact Shapley regions\nand interactions",
-        "Robust planner\nimprove, repair, or abstain",
-        "Portfolio decision\nand explanation card",
-        "External ranking audit\nshared candidates; frozen tests",
-    ]
-    x, width, height = 0.56, 0.69, 0.083
-    ys = np.linspace(0.92, 0.105, len(boxes))
-    for index, (label, y) in enumerate(zip(boxes, ys, strict=True)):
-        dashed = index == len(boxes) - 1
-        patch = FancyBboxPatch(
-            (x - width / 2, y - height / 2), width, height,
-            boxstyle="round,pad=0.006,rounding_size=0.008",
-            facecolor=WHITE, edgecolor=BLACK, linewidth=0.85,
-            linestyle="--" if dashed else "-", transform=ax.transAxes,
-        )
-        ax.add_patch(patch)
-        ax.text(x, y, label, ha="center", va="center", transform=ax.transAxes,
-                fontsize=6.65, fontweight="bold", linespacing=1.16)
-        if index < len(boxes) - 1:
-            ax.annotate("", xy=(x, ys[index + 1] + height / 2 + 0.004),
-                        xytext=(x, y - height / 2 - 0.004), xycoords=ax.transAxes,
-                        arrowprops=dict(arrowstyle="-|>", lw=0.85, color=BLACK))
-    ax.text(0.06, 0.56, "exact cooperative\nintervention-game layer", rotation=90,
-            ha="center", va="center", transform=ax.transAxes, fontsize=7.2, color=DARK)
-    ax.plot([0.105, 0.105], [ys[2] + height / 2, ys[4] - height / 2], transform=ax.transAxes,
-            color=BLACK, linestyle="--", linewidth=0.75)
-    save(fig, "figure_01_workflow")
-
-
 def controlled_recovery() -> None:
     rows = read_csv("regime_selection_summary.csv")
     labels = [
@@ -212,7 +174,6 @@ def external_ranking() -> None:
 
 
 def main() -> None:
-    workflow()
     controlled_recovery()
     oat_sensitivity()
     lhs_attribution()

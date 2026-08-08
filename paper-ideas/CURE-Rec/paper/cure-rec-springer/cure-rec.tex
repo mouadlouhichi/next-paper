@@ -22,6 +22,8 @@
 \usepackage{array}
 \usepackage{url}
 \usepackage{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta}
 
 \theoremstyle{thmstyleone}
 \newtheorem{theorem}{Theorem}
@@ -251,8 +253,32 @@ Figure~\ref{fig:workflow} gives the complete workflow as one narrow vertical pat
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.78\linewidth]{figures/figure_01_workflow.pdf}
-\caption{Vertical workflow of the proposed \CURE{} framework. The black-and-white workflow is generated from the same manuscript figure script as the quantitative figures. The dashed final box is an external ranking audit and is not used to infer causal policy effects from MovieLens.}
+\begin{tikzpicture}[
+  font=\scriptsize,
+  node distance=3.2mm,
+  stage/.style={draw=black, rounded corners=1pt, align=center, text width=0.64\textwidth, minimum height=8.2mm, inner sep=2.2pt, fill=white, line width=.55pt},
+  audit/.style={stage, dashed},
+  arrow/.style={-{Latex[length=1.6mm]}, draw=black, line width=.6pt}
+]
+\node[stage] (state) {Base policy and observable platform state};
+\node[stage, below=of state] (players) {Six feasible intervention players: repeat, exploration, tail, diversity, novelty, and provider balance};
+\node[stage, below=of players] (coalitions) {Canonical composition and exact game: all $2^6=64$ intervention coalitions};
+\node[stage, below=of coalitions] (rollouts) {Shared-seed scenario rollouts and long-term outcomes};
+\node[stage, below=of rollouts] (values) {Coalition values, constraints, and feasibility diagnostics};
+\node[stage, below=of values] (credit) {Exact Shapley regions and pairwise interactions};
+\node[stage, below=of credit] (planner) {Robust maximin planner: improvement, repair, abstention, or no feasible portfolio};
+\node[stage, below=of planner] (output) {Selected portfolio, explanation card, trajectories, tables, and reproducibility manifest};
+\node[audit, below=of output] (external) {Separate external ranking audit: shared MovieLens candidates, validation selection, and frozen BPR/SASRec tests};
+\draw[arrow] (state) -- (players);
+\draw[arrow] (players) -- (coalitions);
+\draw[arrow] (coalitions) -- (rollouts);
+\draw[arrow] (rollouts) -- (values);
+\draw[arrow] (values) -- (credit);
+\draw[arrow] (credit) -- (planner);
+\draw[arrow] (planner) -- (output);
+\draw[arrow, dashed] (output) -- (external);
+\end{tikzpicture}
+\caption{Vertical workflow of the proposed \CURE{} framework. The solid path defines, evaluates, attributes, and selects an intervention portfolio. The dashed final box is a separate external ranking audit and is not used to infer causal policy effects from MovieLens.}
 \label{fig:workflow}
 \end{figure}
 

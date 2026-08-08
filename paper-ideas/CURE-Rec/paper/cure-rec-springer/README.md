@@ -10,11 +10,12 @@ for the empirical CURE-Rec paper.
 - `cure-rec-bibliography.bib` — references used by the manuscript.
 - `sn-jnl.cls` and `bst/sn-mathphys-num.bst` — Springer template assets copied
   from the template supplied in `../sn-article-template 2/`.
-- `scripts/generate_figures.py` — regenerates every manuscript figure from the
-  checksumed result tables using a consistent black/grey Matplotlib style.
-- `figures/` — generated vector PDF and high-resolution PNG figures. The vertical
-  workflow, controlled-regime recovery, OAT sensitivity, LHS attribution/decision,
-  and external ranking plots have no placeholder or remote image dependency.
+- Figure 1 is an editable, compact vertical TikZ workflow embedded directly in
+  `cure-rec.tex`.
+- `scripts/generate_figures.py` — regenerates Figures 2--6 from checksumed result
+  tables using a consistent black/grey Matplotlib style.
+- `figures/` — generated vector PDF and high-resolution PNG files for the
+  controlled-regime, OAT, LHS attribution/decision, and external-ranking figures.
 
 ## Regenerate figures
 
