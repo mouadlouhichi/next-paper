@@ -213,8 +213,16 @@ def build_explanation_card(game: GameResult, decision: PortfolioDecision, logger
     selected = set(decision.selected_interventions)
     region_rows = game.regions.to_dict(orient="records")
     interactions = game.interaction_table.to_dict(orient="records")
+    robust_rows = [
+        {"intervention": name, "robust_phi": value}
+        for name, value in game.robust_shapley.items()
+    ]
     card = {
         "decision": decision_to_dict(decision),
+        "robust_characteristic_function": "min_scenario_improvement",
+        "robust_selected_attributions": [row for row in robust_rows if row["intervention"] in selected],
+        "robust_rejected_or_deferred": [row for row in robust_rows if row["intervention"] not in selected],
+        "scenario_region_attributions": region_rows,
         "selected_attributions": [row for row in region_rows if row["intervention"] in selected],
         "rejected_or_deferred": [row for row in region_rows if row["intervention"] not in selected],
         "relevant_interactions": [
@@ -222,7 +230,9 @@ def build_explanation_card(game: GameResult, decision: PortfolioDecision, logger
             if row["intervention_i"] in selected or row["intervention_j"] in selected
         ],
         "interpretation": {
-            "positive_certificate": "phi_lower > 0 means positive order-averaged marginal contribution across configured scenarios.",
+            "robust_phi": "robust_phi is the exact Shapley allocation of the maximin characteristic function used by the planner.",
+            "scenario_region": "phi_lower and phi_upper are scenario-sensitivity envelopes, not a decomposition of the maximin objective.",
+            "budget_feasible_semivalue": "psi is the mean marginal contribution over budget-feasible predecessor coalitions only; it is a diagnostic, not the planner objective.",
             "improvement_mode": "A feasible base policy may be retained when no portfolio robustly improves it.",
             "repair_mode": "An infeasible base policy cannot be retained; select a feasible repair or certify no feasible portfolio.",
             "selection_rule": "Portfolio selection used direct robust improvement, not summed Shapley lower bounds.",

@@ -52,7 +52,7 @@
 
 \begin{document}
 
-\title[CURE-Rec]{CURE-Rec: Exact Cooperative Intervention Games for Robust Long-Term Recommendation}
+\title[CURE-Rec]{CURE-Rec: Exact Cooperative Games over Policy Interventions for Robust Policy Selection in Sequential Recommendation}
 
 \author*[1]{\fnm{Mouad} \sur{Louhichi}}\email{mouad\_louhichi@um5.ac.ma}
 \author[1]{\fnm{Redwane} \sur{Nesmaoui}}\email{redwane\_nesmaoui@um5.ac.ma}
@@ -61,7 +61,7 @@
 
 \abstract{Recommendation interventions change the exposure process that generates future feedback, yet systems commonly choose exploration, diversity, long-tail, repetition-control, and provider-balancing policies from local ranking metrics or isolated ablations. Those choices are difficult because interventions overlap, conflict, incur costs, and may repair an unsafe base policy even when their short-run utility increment is small. We introduce \CURE{}, a decision layer that treats a bounded library of feasible policy transformations as players in an exact cooperative game. The game is evaluated under disclosed sequential recommendation scenarios, attributed by Shapley values and pairwise interactions, and optimized directly under relevance, fatigue, provider-disparity, and budget constraints. The planner distinguishes improvement from repair: it may retain a safe base policy when no portfolio robustly improves it, but must select the best feasible repair when the base violates a constraint. We validate the framework in controlled oracle regimes, a behavioural sequential benchmark, one-at-a-time and joint Latin-hypercube robustness studies, and a separate real-data ranking evaluation. In the full 20-seed behavioural study, repeated-exposure control is selected in all seeds with mean robust lower improvement $0.29371$ (standard deviation $0.00258$). Joint calibration reveals principled switches to provider balancing, complementary portfolios, and abstention under combined extreme assumptions. On MovieLens-1M, under identical warm-item candidates and audit checks, frozen SASRec reaches $\Recall=0.1452\pm0.0031$ and $\NDCG=0.07424\pm0.00281$ across five seeds, versus popularity's $0.049$ and $0.02552$. The real-data result is a chronological-ranking robustness result, not a causal policy-effect claim.}
 
-\keywords{Recommender systems, cooperative games, Shapley value, causal decision making, policy intervention, sequential recommendation, robustness}
+\keywords{Recommender systems, Explainable AI, cooperative games, Shapley value, policy intervention, multi-stakeholder recommendation, robust optimization}
 
 \maketitle
 
@@ -193,11 +193,14 @@ A coalition is consequently more than a binary feature mask. It specifies a feas
 
 The three slot interventions cannot each reserve an independent position. For active injection player $i$, let $C_i(X_t)$ be its eligible item proposals and $b_i(j)$ its native score for item $j$. Native uncertainty, tail-popularity, and novelty-distance scores have incompatible units, so the implementation converts each score to a within-player percentile $\widetilde b_i(j)$. With capacity $q=2$, the selected assignment is
 \begin{equation}
- A_S^{\star}(X_t)=\arg\max_A\sum_{(i,j)\in A}\widetilde b_i(j)
-\quad\text{s.t.}\quad |A|\leq q,\quad |\{j:(i,j)\in A\}|=|A|,
+ \max_{x}\ \sum_{i\in J_S}\sum_{j\in C_i(X_t)}\widetilde b_i(j)x_{ij}
+\quad\text{s.t.}\quad
+\sum_{j\in C_i(X_t)}x_{ij}\leq1\ \forall i,\quad
+\sum_{i\in J_S}x_{ij}\leq1\ \forall j,\quad
+\sum_{i,j}x_{ij}\leq q,\quad x_{ij}\in\{0,1\}.
 \label{eq:assignment}
 \end{equation}
-where at most one item is assigned to each active intervention and an item may not be assigned twice. The assignment is solved by exhaustive enumeration because there are at most three active injection players and a small proposal list. A stable item/intervention tie rule makes $A_S^{\star}$ deterministic.
+The selected assignment $A_S^{\star}(X_t)$ is the set of pairs with $x_{ij}=1$. The first constraint enforces at most one item per active intervention, the second enforces at most one intervention per item, and the third enforces the global injection capacity. The assignment is solved by exhaustive enumeration because there are at most three active injection players and a small proposal list. Objective ties are broken lexicographically by the sorted sequence of $(\mathrm{item\ id},\mathrm{intervention\ name})$ pairs; no-op is permitted for every player.
 
 This detail prevents an otherwise serious ambiguity. Suppose tail and novelty propose the same item. If the implementation independently inserted both proposals, the coalition could contain a duplicate item or have an effective capacity greater than two. If it resolved the collision in player order, an attribution permutation could alter the realised slate. Equation~\eqref{eq:assignment} instead defines one policy for one coalition. Proposal counts, selected proposals, no-ops, and collision outcomes are retained in the run manifest.
 
@@ -208,7 +211,7 @@ For scenario $m$ and coalition $S$, let $\Utility_m(S)$ be the discounted cohort
  \Utility_m(S)=\sum_{t=0}^{T-1}\gamma^t\left(w_s\,\mathrm{Sat}_{m,t}(S)+w_r\,\mathrm{Ret}_{m,t}(S)-w_f\,\mathrm{Fat}_{m,t}(S)\right)-w_c\,c(S).
 \label{eq:utility}
 \end{equation}
-The reported improvement is $\Delta\Utility_m(S)=\Utility_m(S)-\Utility_m(\varnothing)$. We retain utility, satisfaction, retention, fatigue, relevance, catalogue coverage, and provider disparity separately; a scalar utility is useful for comparison but must not hide constraint violations.
+The reported improvement is $\Delta\Utility_m(S)=\Utility_m(S)-\Utility_m(\varnothing)$. In the preregistered full configuration, $\gamma=0.97$, $(w_s,w_r,w_f,w_c)=(0.70,0.30,0.35,1.00)$, and the components are bounded cohort means in $[0,1]$. Satisfaction is the discounted mean of the response-level satisfaction probability, fatigue is the discounted mean user fatigue, and retention is $\mathrm{clip}(1-\mathrm{fatigue}+0.25\,\mathrm{satisfaction},0,1)$. Thus the utility is a normalized simulator scale rather than a currency or a user-percentage quantity. We retain utility, satisfaction, retention, fatigue, relevance, catalogue coverage, and provider disparity separately; a scalar utility is useful for comparison but must not hide constraint violations.
 
 A coalition is feasible when its cost is within budget, its worst-scenario relevance change exceeds a minimum threshold, its maximum provider disparity is below a declared limit, and its maximum fatigue is below a declared limit. Thus feasibility is a property of a portfolio under all active scenarios, not a post-hoc annotation.
 
@@ -239,6 +242,13 @@ For a finite disclosed scenario set, we report the region
 \end{equation}
 A positive lower bound supports a robustly positive contribution under the declared stress set; a region crossing zero signals scenario sensitivity. These regions summarize the configured model set. They are not presented as a nonparametric confidence interval or as partial identification from MovieLens.
 
+The planner does not optimize either endpoint of this envelope. It optimizes the robust characteristic function $v^{\mathrm{rob}}(S)=\underline{\Delta}(S)$. We therefore compute and report a second, decision-faithful attribution:
+\begin{equation}
+ \phi_i^{\mathrm{rob}}=\sum_{S\subseteq\Players\setminus\{i\}}\frac{|S|!(|\Players|-|S|-1)!}{|\Players|!}\left[v^{\mathrm{rob}}(S\cup\{i\})-v^{\mathrm{rob}}(S)\right].
+\label{eq:robust-shapley}
+\end{equation}
+The scenario envelope and $\phi_i^{\mathrm{rob}}$ answer different questions. The former is a scenario-sensitivity report; the latter is the exact additive allocation of the nonlinear maximin objective used by the planner. The explanation card displays both and labels them separately. This avoids assuming that Shapley attribution commutes with the scenario minimum.
+
 \subsection{Improvement and repair modes}
 
 A central distinction follows from whether the base policy is feasible. If $\BasePolicy$ is feasible, the planner chooses the feasible coalition with maximal worst-scenario improvement only when that improvement is positive; otherwise it abstains and keeps the base policy. If the base policy is infeasible, abstention is not valid. The planner selects the feasible coalition with greatest lower improvement even when the numerical improvement is negative, because the decision is a repair of a constraint violation. If no coalition is feasible, it reports this explicitly.
@@ -249,7 +259,7 @@ This distinction prevents two common errors. First, a system should not force an
 
 \subsection{Framework workflow}
 
-Figure~\ref{fig:workflow} gives the complete workflow as one narrow vertical path, following the presentation style of the reference paper. The first seven boxes define the controlled intervention-game path. The final dashed box is deliberately separated as an implementation audit: MovieLens ranking results validate the external models and evaluator but do not enter the causal coalition value.
+Figure~\ref{fig:workflow} gives the complete workflow as one narrow vertical path. The first seven boxes define the controlled intervention-game path. The final dashed box is deliberately separated as an implementation audit: MovieLens ranking results validate the external models and evaluator but do not enter the causal coalition value.
 
 \begin{figure}[t]
 \centering
@@ -309,7 +319,7 @@ Selection does not add Shapley values. Let $\mathcal{F}$ be the feasible coaliti
 \end{equation}
 In repair mode, $\varnothing$ is removed when it is infeasible and the same maximin criterion chooses the least-worst feasible repair. This direct objective preserves the meaning of the outcome: Shapley values are explanatory credit; the selected policy is a constrained action.
 
-The explanation card reports both objects. For every selected intervention it records its Shapley region and its feasibility-aware semivalue, while the card header records the selected coalition and its robust lower improvement. This design prevents a familiar but misleading presentation in which a bar chart of attributions is treated as if it were itself an optimization result. A player can have a positive global contribution but not appear in the chosen coalition because it is redundant, consumes scarce injection capacity, violates a constraint in combination, or is dominated by a lower-cost feasible substitute.
+The explanation card reports both objects. For every selected intervention it records the robust-game Shapley value and the scenario-wise region. For an additional diagnostic it reports the \emph{budget-feasible marginal semivalue}, defined as the unweighted mean of $\Delta\Utility_m(S\cup\{i\})-\Delta\Utility_m(S)$ over predecessor coalitions for which both $S$ and $S\cup\{i\}$ satisfy the budget constraint. This quantity is not an axiomatic Shapley value and is not used for selection; it is retained only to expose marginal effects among operationally budget-deployable predecessors. The card header records the selected coalition and its robust lower improvement. This design prevents a familiar but misleading presentation in which a bar chart of attributions is treated as if it were itself an optimization result. A player can have a positive global contribution but not appear in the chosen coalition because it is redundant, consumes scarce injection capacity, violates a constraint in combination, or is dominated by a lower-cost feasible substitute.
 
 The interaction table provides a complementary diagnostic. Let $I_{ij}^m$ denote the declared pairwise interaction of players $i$ and $j$ in scenario $m$. We compute the exact Shapley interaction index
 \begin{equation}
@@ -333,6 +343,45 @@ If the base coalition is infeasible and $\mathcal{F}$ is nonempty, the repair de
 \end{proposition}
 
 The propositions do not claim that the finite scenario set is the true real-world environment. They establish properties conditional on the game and constraint definitions, which is the appropriate theoretical level for a decision layer. Proofs are included in Appendix~\ref{app:proofs}.
+
+\subsection{Algorithms and complexity}
+\begin{algorithm}[t]
+\caption{Exact intervention-game evaluation}\label{alg:game}
+\begin{algorithmic}[1]
+\Require Players $\Players$, scenarios $\Models$, seed $z$, base policy $\BasePolicy$, horizon $T$
+\For{each $m\in\Models$}
+  \State construct event-indexed shocks keyed by $(z,m,t,u,\mathrm{event})$
+  \For{each coalition $S\subseteq\Players$ in canonical mask order}
+    \State reset to the same scenario-specific initial state
+    \For{$t=0,\ldots,T-1$}
+      \State rank with $\BasePolicy$; apply repeat cap, binary injection assignment, diversity, and provider balancing in canonical order
+      \State evaluate response and transition with the keyed shocks; record all outcomes and margins
+    \EndFor
+    \State store $\Utility_m(S)$ and constraint metrics
+  \EndFor
+  \State compute exact $\phi_i^m$ and $I_{ij}^m$; assert Shapley efficiency
+\EndFor
+\State compute $v^{\mathrm{rob}}(S)=\min_m\Delta\Utility_m(S)$, $\phi_i^{\mathrm{rob}}$, and the robust decision
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[t]
+\caption{Improvement/repair portfolio selection}\label{alg:planner}
+\begin{algorithmic}[1]
+\Require Robust values and all scenario constraint margins
+\State $\mathcal F\gets\{S:\mathbf{1}_{\mathcal F}(S)=1\}$; use lexicographic ties: greater lower improvement, lower cost, smaller cardinality, smaller mask
+\If{$\varnothing\in\mathcal F$}
+  \State $S^\star\gets\arg\max_{S\in\mathcal F}\underline\Delta(S)$
+  \If{$\underline\Delta(S^\star)\leq0$} return $\varnothing$ with \textsc{abstain} \Else return $S^\star$ with \textsc{improvement} \EndIf
+\ElsIf{$\mathcal F\setminus\{\varnothing\}\neq\emptyset$}
+  \State return $\arg\max_{S\in\mathcal F}\underline\Delta(S)$ with \textsc{repair}
+\Else
+  \State return \textsc{no-feasible-portfolio}
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+For $n=|\Players|$, $M=|\Models|$, and one rollout cost $C_{\mathrm{roll}}$, evaluation costs $O(M2^nC_{\mathrm{roll}})$. Exact Shapley and all pair interactions cost $O(Mn2^n)$ and $O(Mn^2 2^n)$ after coalition values are available. The assignment cost is $O(\prod_{i\in J_S}(1+|C_i|))$; with at most three injection players and top-$10$ proposal lists it remains negligible relative to a rollout. The main artifact is deliberately limited to $n=6$; larger libraries require screening or approximate attribution and are evaluated as a separate scalability revision.
 
 \subsection{Controlled oracle regimes}
 
@@ -656,6 +705,20 @@ The following claims are supported by the corresponding evidence.
 \item \textbf{External ranking claim:} BPR and SASRec produce the reported chronological warm-item ranking metrics under the shared MovieLens evaluator.
 \item \textbf{Unsupported claim:} no result in this artifact identifies the long-run causal effect of a policy intervention from MovieLens ratings alone.
 \end{itemize}
+
+\section{CURE-Sim structural mechanisms}\label{app:scm}
+For user $u$, item $j$, and position $\ell$, the simulator uses normalized latent item vector $e_j$, hidden user interest $h_u$, public profile $p_u$, item base quality $a_j$, exposure count $E_{uj,t}$, user fatigue $F_{u,t}$, and item popularity $Q_{j,t}$. With $r$ the repeat threshold, the repeated-item indicator is $z_{uj,t}=\mathbf{1}\{E_{uj,t}\ge r\}$. The response probability is
+\begin{equation}
+ \Pr(Y_{uj\ell t}=1)=\sigma\!\left(1.6 e_j^\top h_u+\frac{0.45}{\sqrt{\ell+1}}+0.15\log(1+Q_{j,t})-0.85\,\alpha_m F_{u,t}-0.55z_{uj,t}+\delta_m\right),
+\end{equation}
+where $\alpha_m$ and $\delta_m$ are the declared scenario fatigue multiplier and satisfaction shift. Item satisfaction and relevance are respectively $\sigma(1.8e_j^\top h_u-0.7z_{uj,t}-0.4F_{u,t})$ and $\sigma(1.7e_j^\top h_u+a_j)$. The update equations are
+\begin{align}
+ E_{uj,t+1}&=E_{uj,t}+\mathbf{1}\{j\in L_{u,t}\},\\
+ F_{u,t+1}&=\mathrm{clip}\{0.88F_{u,t}+0.22\,\overline z_{u,t},0,1\},\\
+ Q_{j,t+1}&=Q_{j,t}+\beta_m\rho\,\mathbf{1}\{j\in L_{u,t}\},\\
+ h_{u,t+1}&=\mathrm{norm}\{h_{u,t}+0.03\,\overline s_{u,t}\,\overline e_{u,t}+\nu\,\overline e^{\mathrm{novel}}_{u,t}\}.
+\end{align}
+Here $\rho$ is base popularity feedback, $\beta_m$ is the scenario popularity multiplier, $\nu$ is the calibrated novelty-drift coefficient, bars denote slate averages, and $\mathrm{norm}$ renormalizes to unit Euclidean norm. Provider disparity is the Gini coefficient of cumulative provider exposure. The base score is $e_j^\top p_u+\lambda_{\mathrm{pop}}\log(1+Q_{j,t})$, with the configured profile and popularity weights. These equations define the simulator characteristic function conditional on the configuration; they are not claimed to be a fitted structural model of MovieLens.
 
 \section{Scenario and calibration protocol}\label{app:protocol}
 The full behavioural configuration fixes 120 users, 240 items, 18 providers, 10 categories, 12 latent dimensions, a 12-step horizon, and slate size 10. The nominal scenario uses the base fatigue and popularity-feedback settings. Fatigue stress increases the fatigue multiplier; popularity stress increases popularity feedback; mixed stress changes both and applies a small satisfaction shift. The intervention costs used in the full configuration are 0.05 for repeat cap, 0.10 for exploration, 0.08 for long-tail, 0.06 for diversity, 0.08 for novelty, and 0.12 for provider balancing. The budget is 0.35, the minimum relevance change is $-0.08$, the maximum provider disparity is 0.28, and maximum fatigue is 0.65.

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass, replace
+from dataclasses import asdict, dataclass, field, replace
 from itertools import combinations
 from math import factorial
 from time import perf_counter
@@ -56,6 +56,11 @@ class GameResult:
     regions: pd.DataFrame
     coalition_table: pd.DataFrame
     interaction_table: pd.DataFrame
+    # Attribution of the actual maximin characteristic function, not merely
+    # an envelope over scenario-specific attributions.
+    robust_improvements: dict[int, float] = field(default_factory=dict)
+    robust_shapley: dict[str, float] = field(default_factory=dict)
+    robust_interactions: dict[tuple[str, str], float] = field(default_factory=dict)
 
 
 def coalition_names(mask: int) -> tuple[str, ...]:
@@ -245,13 +250,53 @@ def run_exact_game(settings: Settings, logger: RunLogger) -> GameResult:
             "interaction_mean": float(np.mean(pair_values)),
         })
     interaction_table = pd.DataFrame(interaction_rows)
+
+    # The planner maximizes the worst-scenario improvement. Its explanation must
+    # therefore include the Shapley allocation of this robust characteristic
+    # function, rather than treating scenario-wise min/max regions as an additive
+    # decomposition of a nonlinear minimum.
+    robust_improvements = {
+        mask: float(min(game.values[mask].improvement for game in scenario_games.values()))
+        for mask in ALL_MASKS
+    }
+    robust_shapley = exact_shapley(robust_improvements)
+    robust_interactions = exact_interactions(robust_improvements)
+    robust_gap = float(sum(robust_shapley.values()) - robust_improvements[FULL_MASK])
+    if not np.isclose(robust_gap, 0.0, atol=1e-8):
+        raise AssertionError(f"Robust-game Shapley efficiency failed: {robust_gap}")
+    robust_table = pd.DataFrame([
+        {
+            "intervention": name,
+            "robust_phi": robust_shapley[name],
+            "scenario_phi_lower": float(regions.loc[regions["intervention"] == name, "phi_lower"].iloc[0]),
+            "scenario_phi_upper": float(regions.loc[regions["intervention"] == name, "phi_upper"].iloc[0]),
+            "budget_feasible_semivalue_lower": float(regions.loc[regions["intervention"] == name, "psi_feasible_lower"].iloc[0]),
+            "budget_feasible_semivalue_upper": float(regions.loc[regions["intervention"] == name, "psi_feasible_upper"].iloc[0]),
+        }
+        for name in INTERVENTION_NAMES
+    ])
+    robust_interaction_table = pd.DataFrame([
+        {"intervention_i": i, "intervention_j": j, "robust_interaction": value}
+        for (i, j), value in robust_interactions.items()
+    ])
+    logger.event("robust_game_completed", robust_grand_improvement=robust_improvements[FULL_MASK], robust_shapley_efficiency_gap=robust_gap)
     logger.write_dataframe("tables/coalition_values.csv", coalition_table)
     logger.write_dataframe("tables/shapley_regions.csv", regions)
     logger.write_dataframe("tables/interaction_regions.csv", interaction_table)
+    logger.write_dataframe("tables/robust_game_attribution.csv", robust_table)
+    logger.write_dataframe("tables/robust_game_interactions.csv", robust_interaction_table)
     logger.write_json("artifacts/game_manifest.json", {
         "players": INTERVENTION_NAMES,
         "all_masks": list(ALL_MASKS),
         "canonical_composition": ["repeat_cap", "eligibility_filter", "injection_allocation", "diversify", "provider_balance"],
         "scenarios": list(scenario_games),
+        "robust_characteristic_function": "min_scenario_improvement",
+        "robust_grand_improvement": robust_improvements[FULL_MASK],
+        "robust_shapley_efficiency_gap": robust_gap,
     })
-    return GameResult(scenario_games, regions, coalition_table, interaction_table)
+    return GameResult(
+        scenario_games, regions, coalition_table, interaction_table,
+        robust_improvements=robust_improvements,
+        robust_shapley=robust_shapley,
+        robust_interactions=robust_interactions,
+    )
