@@ -46,6 +46,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dataset", default="ml1m", choices=["ml1m", "amazon"])
     ap.add_argument("--seed", type=int, default=42)
+    ap.add_argument("--max-users", type=int, default=1000,
+                    help="subsample of users for attribution + diagnostics (runtime feasibility)")
     ap.add_argument("--source-run", default=None)
     args = ap.parse_args()
 
@@ -65,7 +67,7 @@ def main():
     model = train_lightgcn_shared_prop(split.train, split.n_users, split.n_items, train_cfg, n_layers=BACKBONE["n_layers"])
     base_scores = cache_full_scores(model, split.n_users, batch_size=256, chunk_items=4096 if split.n_items > 8000 else None)
     item_embeddings = get_item_embeddings(model)
-    say(f"trained {args.dataset} seed {args.seed}; computing Shapley for M={M_VALUES}")
+    say(f"trained {args.dataset} seed {args.seed}; computing Shapley for M={M_VALUES} on first {args.max_users} users")
 
     train_csr = split.train_csr
     val_targets = split.val.sort_values("user").set_index("user").item.to_dict()
@@ -78,7 +80,7 @@ def main():
             rseed = args.seed + off
             t0 = time.time()
             shap = compute_shapley_for_users(
-                split, base_scores, item_vectors, max_users=None, m=M,
+                split, base_scores, item_vectors, max_users=args.max_users, m=M,
                 exact_threshold=8, seed=rseed, max_players_per_user=K,
                 player_selection="stratified", checkpoint_path=None, save_every=25,
                 alpha=1.0, beta=0.0, lambda_pref=0.0, lambda_attr_value=0.10,
@@ -124,16 +126,17 @@ def main():
         r.update(spearman_vs_M256_mean=float(np.nanmean(rhos)), l1_vs_M256_mean=float(np.mean(l1s)),
                  l2_vs_M256_mean=float(np.mean(l2s)))
 
-    # reranking metrics per M (first estimator seed)
-    for M in M_VALUES:
-        scores = rerank_all(base_scores, split, item_vectors, "shapley-mc",
-                            shapley_by_user=attributions[(M, args.seed)], loo_by_user=None,
-                            lambda_attr=0.10, tau_att=0.10, intervention="native", item_embeddings=item_embeddings)
-        summary, _ = evaluate(scores, split, item_vectors, ks=(5, 10, 20))
-        for r in rows:
-            if r["M"] == M and r["est_seed"] == args.seed:
-                r["NDCG@20"] = summary["NDCG@20"]
-                r["HitRate@20"] = summary["HitRate@20"]
+    # reranking metrics per M (first estimator seed) — only meaningful when all users computed
+    if args.max_users is None or args.max_users >= split.n_users:
+        for M in M_VALUES:
+            scores = rerank_all(base_scores, split, item_vectors, "shapley-mc",
+                                shapley_by_user=attributions[(M, args.seed)], loo_by_user=None,
+                                lambda_attr=0.10, tau_att=0.10, intervention="native", item_embeddings=item_embeddings)
+            summary, _ = evaluate(scores, split, item_vectors, ks=(5, 10, 20))
+            for r in rows:
+                if r["M"] == M and r["est_seed"] == args.seed:
+                    r["NDCG@20"] = summary["NDCG@20"]
+                    r["HitRate@20"] = summary["HitRate@20"]
 
     df = pd.DataFrame(rows)
     df.to_csv(out_tables / "estimator_convergence.csv", index=False)
