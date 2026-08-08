@@ -355,9 +355,13 @@ def cmd_pull(args: argparse.Namespace) -> int:
 
 
 def cmd_list(args: argparse.Namespace) -> int:
-    command = [args.kaggle_bin, "kernels", "list", "--mine", "--page-size", "20"]
+    command = [args.kaggle_bin, "kernels", "list", "--page-size", "20"]
+    if args.mine or (not args.user and not args.search):
+        command += ["--mine"]
     if args.user:
-        command = [args.kaggle_bin, "kernels", "list", "--user", args.user, "--page-size", "20"]
+        command += ["--user", args.user]
+    if args.search:
+        command += ["--search", args.search]
     return run_cli(command, args.dry_run, capture=False)[0]
 
 
@@ -473,8 +477,10 @@ def build_parser() -> argparse.ArgumentParser:
 
     sub.add_parser("output", parents=[common_options], help="Download the run's output files to code/kaggle/output/.")
     sub.add_parser("pull", parents=[common_options], help="Download the executed notebook to code/kaggle/pulled/.")
-    p_list = sub.add_parser("list", parents=[common_options], help="List your kernels on Kaggle.")
-    p_list.add_argument("--user", default=None, help="List another user's kernels.")
+    p_list = sub.add_parser("list", parents=[common_options], help="List notebooks on Kaggle.")
+    p_list.add_argument("--user", default=None, help="List a user's public notebooks (default: your own, including private).")
+    p_list.add_argument("--search", default=None, help="Search public notebooks by query (e.g. 'recommendation').")
+    p_list.add_argument("--mine", action="store_true", help="Explicitly list your own notebooks.")
 
     return parser
 
