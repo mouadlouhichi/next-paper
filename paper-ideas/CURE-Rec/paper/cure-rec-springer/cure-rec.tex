@@ -22,10 +22,6 @@
 \usepackage{array}
 \usepackage{url}
 \usepackage{hyperref}
-\usepackage{tikz}
-\usetikzlibrary{positioning,fit,arrows.meta,shapes.geometric,calc}
-\usepackage{pgfplots}
-\pgfplotsset{compat=1.18}
 
 \theoremstyle{thmstyleone}
 \newtheorem{theorem}{Theorem}
@@ -95,7 +91,7 @@ The available evidence often limits what can be inferred. Observational ratings 
 
 \subsection{Diversity, novelty, repetition, and provider exposure}
 
-A long literature improves recommendation lists through diversity, novelty, long-tail exposure, popularity-aware reranking, and multi-stakeholder objectives \cite{ziegler2005improving,vargas2011rank,castells2015novelty,abdollahpouri2019popularity,burke2018multistakeholder}. These contributions usually define one target metric or one re-ranking objective. The operational challenge is that their transformations can collide. A diversity reranker can alter the positions available to a long-tail slot; a novelty slot and a tail slot may propose the same item; and provider balancing can reduce disparity while changing relevance or fatigue. The present work does not replace those objectives. It offers a framework for assessing the exact value of their feasible combinations under a shared platform utility and explicit constraints.
+A long literature improves recommendation lists through diversity, novelty, long-tail exposure, popularity-aware reranking, and multi-stakeholder objectives \cite{ziegler2005improving,vargas2011rank,castells2015novelty,abdollahpouri2019popularity,burke2018multistakeholder,ekstrand2022fairness}. These contributions usually define one target metric or one re-ranking objective. The operational challenge is that their transformations can collide. A diversity reranker can alter the positions available to a long-tail slot; a novelty slot and a tail slot may propose the same item; and provider balancing can reduce disparity while changing relevance or fatigue. The present work does not replace those objectives. It offers a framework for assessing the exact value of their feasible combinations under a shared platform utility and explicit constraints.
 
 The scope is intentionally modest. The intervention library is not learned from data, and it does not enumerate arbitrary changes to model architecture, user interfaces, retrieval systems, or incentives. These changes would make a coalition ill-defined and destroy exact tractability. Instead, the players are a small set of deployable slate-level transformations with clear costs and collision rules.
 
@@ -191,6 +187,18 @@ Provider balance & Reranks toward under-exposed providers using aggregate exposu
 
 A coalition is consequently more than a binary feature mask. It specifies a feasible composition with a capacity constraint, eligibility rules, a tie-breaking convention, and a cost. The distinction becomes important in the LHS study. A switch from repeat cap to provider balancing is not interpreted as instability of an arbitrary score; it is an explicit response to a joint configuration in which provider feasibility, horizon, and the competing intervention costs change the robust portfolio.
 
+\subsection{Collision allocation and policy determinism}
+
+The three slot interventions cannot each reserve an independent position. For active injection player $i$, let $C_i(X_t)$ be its eligible item proposals and $b_i(j)$ its native score for item $j$. Native uncertainty, tail-popularity, and novelty-distance scores have incompatible units, so the implementation converts each score to a within-player percentile $\widetilde b_i(j)$. With capacity $q=2$, the selected assignment is
+\begin{equation}
+ A_S^{\star}(X_t)=\arg\max_A\sum_{(i,j)\in A}\widetilde b_i(j)
+\quad\text{s.t.}\quad |A|\leq q,\quad |\{j:(i,j)\in A\}|=|A|,
+\label{eq:assignment}
+\end{equation}
+where at most one item is assigned to each active intervention and an item may not be assigned twice. The assignment is solved by exhaustive enumeration because there are at most three active injection players and a small proposal list. A stable item/intervention tie rule makes $A_S^{\star}$ deterministic.
+
+This detail prevents an otherwise serious ambiguity. Suppose tail and novelty propose the same item. If the implementation independently inserted both proposals, the coalition could contain a duplicate item or have an effective capacity greater than two. If it resolved the collision in player order, an attribution permutation could alter the realised slate. Equation~\eqref{eq:assignment} instead defines one policy for one coalition. Proposal counts, selected proposals, no-ops, and collision outcomes are retained in the run manifest.
+
 \subsection{Long-term utility, constraints, and feasible policies}
 
 For scenario $m$ and coalition $S$, let $\Utility_m(S)$ be the discounted cohort utility before intervention cost. We use discounted satisfaction and retention, less fatigue, and subtract coalition cost:
@@ -205,6 +213,15 @@ A coalition is feasible when its cost is within budget, its worst-scenario relev
 The four constraints have distinct roles. Budget prevents an explanation from recommending a portfolio whose combined operational burden has not been approved. The relevance bound prevents a diversity or provider objective from being achieved by making the ranking unusable. The fatigue bound records a user-side temporal safety criterion. The provider-disparity bound records a platform-side exposure criterion. We do not collapse these requirements into one weighted penalty at decision time, because a large satisfaction gain should not automatically compensate for a violated hard provider threshold. The utility is used to order feasible coalitions; constraints define which coalitions may be considered.
 
 The base policy is evaluated by the same criteria as every intervention coalition. This is essential for repair semantics. A base policy can be relevant and have good immediate click outcomes while still violating a provider-disparity constraint accumulated over a rollout. In that case the appropriate comparison is not simply ``does an intervention improve the base score?'' but ``which feasible policy best restores safety while preserving the most robust utility?'' The archived seed-level decisions retain the base feasibility flag so that the distinction is inspectable rather than inferred from a final portfolio label.
+
+For compactness, define worst-case policy improvement and a feasibility indicator as
+\begin{equation}
+ \underline{\Delta}(S)=\min_{m\in\Models}\{\Utility_m(S)-\Utility_m(\varnothing)\},
+ \qquad
+ \mathbf{1}_{\mathcal F}(S)=\mathbf{1}\{c(S)\leq B,\ r(S)\geq r_{\min},\ d(S)\leq d_{\max},\ f(S)\leq f_{\max}\}.
+\label{eq:robust-feasibility}
+\end{equation}
+Here $r(S)$ is the lower scenario relevance difference, $d(S)$ the upper scenario provider disparity, and $f(S)$ the upper scenario fatigue. The implementation stores each scalar, rather than only the indicator, because a failed coalition must be explainable: it matters whether the failure arose from budget, relevance, fatigue, provider disparity, or several constraints at once.
 
 \subsection{Scenario-indexed cooperative values}
 
@@ -234,36 +251,8 @@ Figure~\ref{fig:workflow} gives the complete workflow as one narrow vertical pat
 
 \begin{figure}[t]
 \centering
-\begin{tikzpicture}[
-  font=\footnotesize,
-  node distance=3.7mm,
-  stage/.style={draw=black, rounded corners=1pt, align=center, minimum height=8.2mm, minimum width=71mm, fill=white, line width=.55pt},
-  audit/.style={draw=black, dashed, rounded corners=1pt, align=center, minimum height=8.2mm, minimum width=71mm, fill=white, line width=.55pt},
-  arr/.style={-{Latex[length=1.7mm]}, draw=black, line width=.6pt},
-  note/.style={-{Latex[length=1.7mm]}, draw=black, dashed, line width=.55pt}
-]
-\node[stage] (state) {Base policy $\BasePolicy$ and observable platform state};
-\node[stage, below=of state] (players) {Six feasible intervention players};
-\node[stage, below=of players] (coalitions) {Canonical composition and all $2^6=64$ intervention coalitions};
-\node[stage, below=of coalitions] (rollouts) {Shared-seed scenario rollouts over satisfaction, retention, fatigue, relevance, and provider exposure};
-\node[stage, below=of rollouts] (values) {Scenario coalition values and feasibility diagnostics};
-\node[stage, below=of values] (attribution) {Exact Shapley regions and pairwise interaction analysis};
-\node[stage, below=of attribution] (planner) {Maximin feasibility planner: improve, repair, abstain, or no feasible portfolio};
-\node[stage, below=of planner] (output) {Selected portfolio, explanation card, trajectories, tables, and reproducibility manifest};
-\node[audit, below=of output] (external) {Separate external-ranking audit: shared MovieLens candidates, validation selection, frozen BPR/SASRec tests};
-
-\draw[arr] (state) -- (players);
-\draw[arr] (players) -- (coalitions);
-\draw[arr] (coalitions) -- (rollouts);
-\draw[arr] (rollouts) -- (values);
-\draw[arr] (values) -- (attribution);
-\draw[arr] (attribution) -- (planner);
-\draw[arr] (planner) -- (output);
-\draw[note] (output) -- (external);
-\node[draw=black, dashed, rounded corners=1pt, fit=(coalitions)(rollouts)(values)(attribution), inner sep=3pt,
- label={[font=\scriptsize]left:exact cooperative intervention-game layer}] {};
-\end{tikzpicture}
-\caption{Workflow of the proposed \CURE{} framework. One vertical chain defines, evaluates, attributes, and selects a policy-intervention portfolio. The final dashed box is an external ranking audit and is not used to infer causal policy effects from MovieLens.}
+\includegraphics[width=0.78\linewidth]{figures/figure_01_workflow.pdf}
+\caption{Vertical workflow of the proposed \CURE{} framework. The black-and-white workflow is generated from the same manuscript figure script as the quantitative figures. The dashed final box is an external ranking audit and is not used to infer causal policy effects from MovieLens.}
 \label{fig:workflow}
 \end{figure}
 
@@ -296,7 +285,14 @@ In repair mode, $\varnothing$ is removed when it is infeasible and the same maxi
 
 The explanation card reports both objects. For every selected intervention it records its Shapley region and its feasibility-aware semivalue, while the card header records the selected coalition and its robust lower improvement. This design prevents a familiar but misleading presentation in which a bar chart of attributions is treated as if it were itself an optimization result. A player can have a positive global contribution but not appear in the chosen coalition because it is redundant, consumes scarce injection capacity, violates a constraint in combination, or is dominated by a lower-cost feasible substitute.
 
-The interaction table provides a complementary diagnostic. Let $I_{ij}^m$ denote the declared pairwise interaction of players $i$ and $j$ in scenario $m$. Positive $I_{ij}^m$ means that their joint marginal contribution exceeds the additive baseline under the index; negative interaction means that combining them reduces their expected joint contribution. In the current framework, negative interactions are particularly informative because they often arise from an explicit operational mechanism: slot competition, overlap between long-tail and novelty proposals, or a reranking trade-off. The paper reports interactions as explanatory evidence and does not use a pairwise approximation to replace the exact portfolio search.
+The interaction table provides a complementary diagnostic. Let $I_{ij}^m$ denote the declared pairwise interaction of players $i$ and $j$ in scenario $m$. We compute the exact Shapley interaction index
+\begin{equation}
+ I_{ij}^m=\sum_{S\subseteq\Players\setminus\{i,j\}}
+ \frac{|S|!(|\Players|-|S|-2)!}{(|\Players|-1)!}
+ \left[\Delta\Utility_m(S\cup\{i,j\})-\Delta\Utility_m(S\cup\{i\})-\Delta\Utility_m(S\cup\{j\})+\Delta\Utility_m(S)\right].
+\label{eq:interaction}
+\end{equation}
+Positive $I_{ij}^m$ means that the joint marginal contribution exceeds the additive baseline under the index; negative interaction means that combining them reduces their expected joint contribution. In the current framework, negative interactions are particularly informative because they often arise from an explicit operational mechanism: slot competition, overlap between long-tail and novelty proposals, or a reranking trade-off. The paper reports interactions as explanatory evidence and does not use a pairwise approximation to replace the exact portfolio search.
 
 \begin{proposition}[Exact credit conservation]\label{prop:efficiency}
 For every scenario $m$, the exact allocation in Eq.~\eqref{eq:shapley} satisfies Eq.~\eqref{eq:efficiency}. Thus all credited intervention value equals the full-coalition improvement over the base coalition in that scenario.
@@ -318,23 +314,8 @@ Before behavioural simulation, nine analytic regimes verify the mechanics of the
 
 \begin{figure}[t]
 \centering
-\begin{tikzpicture}
-\begin{axis}[
-  width=\linewidth, height=5.8cm,
-  ybar, bar width=7pt, ymin=0, ymax=1.12,
-  ylabel={Jaccard similarity to oracle portfolio},
-  symbolic x coords={Add,Comp,Red,Ant,Short,Long,PBal,PRep,Mis},
-  xtick=data,
-  xticklabels={additive,complementary,redundant,antagonistic,short,long,balance repair,repeat repair,misspecified},
-  x tick label style={rotate=45,anchor=east,font=\scriptsize},
-  ymajorgrids=true, grid style={dashed,black!35},
-  nodes near coords, every node near coord/.append style={font=\scriptsize},
-  enlarge x limits=0.04
-]
-\addplot+[draw=black,fill=black!22] coordinates {(Add,1) (Comp,1) (Red,1) (Ant,1) (Short,1) (Long,1) (PBal,1) (PRep,1) (Mis,0)};
-\end{axis}
-\end{tikzpicture}
-\caption{Controlled oracle recovery. Eight regimes recover the oracle portfolio exactly. The misspecified ambiguity regime is the intended failure: the estimated game selects repeat cap while the oracle selects exploration.}
+\includegraphics[width=\linewidth]{figures/figure_02_controlled_recovery.pdf}
+\caption{Controlled oracle recovery across the nine declared regimes. Eight regimes recover the oracle portfolio exactly; the misspecified ambiguity regime is the intentional failure case.}
 \label{fig:regimes}
 \end{figure}
 
@@ -344,32 +325,15 @@ The behavioural benchmark has four scenarios: nominal, fatigue stress, popularit
 
 \begin{figure}[t]
 \centering
-\begin{tikzpicture}
-\begin{axis}[
-  width=\linewidth, height=6.1cm,
-  ybar, bar width=7pt, ymin=0, ymax=0.42,
-  ylabel={Mean robust lower improvement},
-  symbolic x coords={Base,R2,R4,H8,H16,P24,P32,N03,N06},
-  xtick=data,
-  xticklabels={base,$r{=}2$,$r{=}4$,$T{=}8$,$T{=}16$,$p{=}0.24$,$p{=}0.32$,$n{=}0.03$,$n{=}0.06$},
-  x tick label style={font=\scriptsize},
-  ymajorgrids=true, grid style={dashed,black!35},
-  nodes near coords, every node near coord/.append style={font=\scriptsize,rotate=90,anchor=west},
-  enlarge x limits=0.04
-]
-\addplot+[draw=black,fill=black!22] coordinates {
- (Base,0.29488) (R2,0.20206) (R4,0.21226) (H8,0.14397) (H16,0.37785)
- (P24,0.27997) (P32,0.29488) (N03,0.29502) (N06,0.29513)};
-\end{axis}
-\end{tikzpicture}
-\caption{One-at-a-time sensitivity of mean robust lower improvement. $r$ is the repeated-exposure threshold, $T$ the horizon, $p$ the provider-disparity threshold, and $n$ the delayed novelty-preference drift. All bars summarize five independent seeds; numerical values are reported in Table~\ref{tab:oat}.}
+\includegraphics[width=\linewidth]{figures/figure_03_oat_sensitivity.pdf}
+\caption{One-at-a-time sensitivity of mean robust lower improvement. Error bars are sample standard deviations over five independent seeds. Parameter symbols are defined in the caption and full values appear in Table~\ref{tab:oat}.}
 \label{fig:oat}
 \end{figure}
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.98\linewidth]{figures/figure_04_lhs_sensitivity.png}
-\caption{Joint Latin-hypercube sensitivity of robust lower improvement. Colour encodes repair rate. The figure reports a baseline plus 24 predeclared joint configurations, each evaluated over five seeds.}
+\includegraphics[width=\linewidth]{figures/figure_04_lhs_attribution.pdf}
+\caption{Mean intervention Shapley values across the 125 joint Latin-hypercube decisions. Error bars show the descriptive standard deviation across the predeclared stress design and seeds; they are not population confidence intervals.}
 \label{fig:lhs}
 \end{figure}
 
@@ -380,7 +344,13 @@ MovieLens-1M is used only to test recommender implementation robustness. The dat
  \mathcal{C}_u=\mathcal{I}_{\mathrm{train}}\setminus\mathcal{I}_{u,\mathrm{train}}.
 \label{eq:candidates}
 \end{equation}
-A held-out target absent from the training catalogue is counted as cold rather than silently removed. The final evaluations report 1,000 warm-target users, one cold test target, mean candidate count 3,436.958, and candidate counts from 2,739 to 3,521.
+A held-out target absent from the training catalogue is counted as cold rather than silently removed. The final evaluations report 1,000 warm-target users, one cold test target, mean candidate count 3,436.958, and candidate counts from 2,739 to 3,521. For a warm target $i_u^+$ with rank $q_u$ in the ordered candidate list, the per-user metrics are
+\begin{equation}
+ \Recall_u@k=\mathbf{1}\{q_u\leq k\},\qquad
+ \NDCG_u@k=\frac{\mathbf{1}\{q_u\leq k\}}{\log_2(q_u+1)},
+\label{eq:ranking-metrics}
+\end{equation}
+and reported values are means over warm evaluated users with cold-target coverage stated separately. This definition makes the candidate protocol part of the estimand rather than an implementation detail.
 
 The protocol has three gates. First, hyperparameters are selected by validation $\NDCG$ only. Second, the frozen selected configuration is trained once for the final audit and its best validation checkpoint is restored before test ranking. Third, the configuration is replicated over fixed independent seeds without retuning. The evaluator asserts zero seen-item leakage, zero missing-target violations, identical candidates for all compared models, and descending-score correctness. This protocol guards against metric improvements produced by an evaluator difference rather than by a recommender.
 
@@ -497,8 +467,8 @@ For reporting, we treat the LHS configurations as a predeclared stress design ra
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.98\linewidth]{figures/figure_05_lhs_stability.png}
-\caption{Decision stability across the 25 joint calibration configurations. The full seed-level portfolio distribution is retained in the archive; this figure summarizes configuration-level stability, repair rate, base feasibility, and repeat-cap selection rate.}
+\includegraphics[width=0.90\linewidth]{figures/figure_05_attribution_decision.pdf}
+\caption{Attribution--decision relationship over the joint calibration design. Each point is one intervention; the horizontal coordinate is its mean Shapley value and the vertical coordinate is its portfolio inclusion rate over 125 decisions. Provider balance illustrates why a feasibility-driven portfolio may be selected despite a negative mean unconstrained contribution.}
 \label{fig:lhs-stability}
 \end{figure}
 
@@ -527,22 +497,8 @@ SASRec & $0.14520\pm0.00311$ & $0.07424\pm0.00281$ & $0.09620\pm0.00311$ & $0.04
 
 \begin{figure}[t]
 \centering
-\begin{tikzpicture}
-\begin{axis}[
- width=0.98\linewidth, height=6.3cm,
- ybar, bar width=13pt, ymin=0, ymax=0.17,
- ylabel={Metric value},
- symbolic x coords={Popularity,BPR-MF,SASRec},
- xtick=data, legend style={at={(0.5,1.06)},anchor=south,legend columns=-1},
- nodes near coords, every node near coord/.append style={font=\scriptsize},
- ymajorgrids=true, grid style=dashed
-]
-\addplot coordinates {(Popularity,0.04900) (BPR-MF,0.08800) (SASRec,0.14520)};
-\addplot coordinates {(Popularity,0.02552) (BPR-MF,0.04384) (SASRec,0.07424)};
-\legend{$\Recall$, $\NDCG$}
-\end{axis}
-\end{tikzpicture}
-\caption{External MovieLens-1M ranking results. Bars show five-seed means for BPR-MF and SASRec and the deterministic popularity value under the shared warm-item protocol.}
+\includegraphics[width=0.94\linewidth]{figures/figure_06_external_ranking.pdf}
+\caption{External MovieLens-1M ranking results under the shared warm-item protocol. BPR-MF and SASRec bars show five-seed means with sample-standard-deviation error bars; popularity is deterministic for the fixed split.}
 \label{fig:external}
 \end{figure}
 
