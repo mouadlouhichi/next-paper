@@ -31,7 +31,7 @@
 
 \affil*[1]{\orgdiv{National Higher School of Computer Science and Systems Analysis}, \orgname{ENSIAS, Mohammed V University in Rabat}, \orgaddress{\city{Rabat}, \country{Morocco}}}
 
-\abstract{Graph-based recommenders rank accurately, but it remains unclear whether interaction-level attribution improves reranking beyond simple reweighting. We present CoalGameRec, a validation-guided attribution framework for a frozen LightGCN backbone. Selected historical interactions are treated as players, and coalition utility is a validation-only pairwise log-sigmoid score. We compare a bounded antithetic Monte Carlo Shapley estimator ($k=24$, $M=64$) with the leave-one-out (LOO) marginal $v(N)-v(N\setminus\{j\})$ under temporal leave-one-out, full-catalog ranking, five seeds ($42$--$46$), and paired user bootstrap inference ($B=2000$) on MovieLens-1M and a temporal Amazon-Book split. LOO yields NDCG@20 $0.04976\pm0.00041$ and $0.03237\pm0.00077$, compared with $0.04601\pm0.00030$ and $0.02978\pm0.00078$ for uniform weighting ($+8.1\%$ and $+8.7\%$); within the Holm-adjusted primary family, Shapley beats uniform with $p<0.0005$ on both datasets; Shapley also beats heuristic controls but is not consistently ahead of LOO — on MovieLens-1M HitRate@20 Shapley is higher ($0.12555$ vs $0.12519$, n.s. $p=0.575$). Attribution time is $13.0\times$ (Amazon) to $15.7\times$ (ML-1M) lower for LOO; NDCG gain per attribution hour is $16.1\times$--$18.3\times$ higher. Results support validation-guided marginal attribution as a deployable reranking signal, but they do not establish that full Shapley averaging improves ranking or that attributions are faithful explanations.}
+\abstract{Graph-based recommenders rank accurately, but it remains unclear whether interaction-level attribution improves reranking beyond simple reweighting. We present CoalGameRec, a validation-guided attribution framework for a frozen LightGCN backbone. Selected historical interactions are treated as players, and coalition utility is a validation-only pairwise log-sigmoid score. We compare a bounded antithetic Monte Carlo Shapley estimator ($k=24$, $M=64$) with the leave-one-out (LOO) marginal $v(N)-v(N\setminus\{j\})$ under temporal leave-one-out, full-catalog ranking, five seeds ($42$--$46$), and paired user bootstrap inference ($B=2000$) on MovieLens-1M and a temporal Amazon-Book split. LOO yields NDCG@20 $0.04976\pm0.00041$ and $0.03237\pm0.00077$, compared with $0.04601\pm0.00030$ and $0.02978\pm0.00078$ for uniform weighting ($+8.1\%$ and $+8.7\%$); within the Holm-adjusted primary family, Shapley beats uniform with $p<0.0005$ on both datasets; Shapley also beats heuristic controls but is not consistently ahead of LOO — on MovieLens-1M HitRate@20 Shapley is higher ($0.12555$ vs $0.12519$, n.s. $p=0.575$). Attribution time is $13.0\times$ (Amazon) to $15.7\times$ (ML-1M) lower for LOO; NDCG gain per attribution hour is $16.1\times$--$18.3\times$ higher. A confirmatory re-execution of the frozen protocol with matched validation-informed non-game controls (valid-similarity reweighting and a validation-tuned linear reranker) shows that LOO also beats both matched controls on NDCG@20 on both datasets (Holm $p\le0.004$), closing the validation-access asymmetry. Results support validation-guided marginal attribution as a deployable reranking signal, but they do not establish that full Shapley averaging improves ranking or that attributions are faithful explanations.}
 
 \keywords{recommender systems, graph neural networks, LightGCN, explainable AI, cooperative game theory, Shapley value, attribution, ranking, cost-effectiveness}
 
@@ -53,7 +53,7 @@ The empirical study is deliberately discriminative rather than promotional. We t
 
 The paper makes five contributions.
 \begin{enumerate}
-    \item \textbf{CoalGameRec}, a validation-guided interaction-attribution framework with two instantiations (bounded Shapley and its efficient LOO marginal) whose LOO instantiation beats every matched non-game control (uniform, additive-pref, attention, popularity) and matches or beats bounded Shapley on NDCG@20 and Coverage@20 on both datasets (Table~\ref{tab:main_results}).
+    \item \textbf{CoalGameRec}, a validation-guided interaction-attribution framework with two instantiations (bounded Shapley and its efficient LOO marginal) whose LOO instantiation beats every matched non-game control (uniform, additive-pref, attention, popularity) --- and, in the confirmatory study C1, also both matched \emph{validation-informed} non-game controls (valid-sim, valid-linear) on NDCG@20 on both datasets --- and matches or beats bounded Shapley on NDCG@20 and Coverage@20 (Tables~\ref{tab:main_results}, \ref{tab:c1_main}, \ref{tab:c1_paired}).
     \item A five-principle design framework (player, coalition semantics, smooth validation value, model-native intervention, mandatory marginal baseline) that makes game-theoretic claims falsifiable and separates genuine attribution from additive leakage $\phi(v_{pref})=\phi(v)+\lambda\,\mathrm{sim}$.
     \item A five-axis taxonomy (player $\times$ value $\times$ solution $\times$ role $\times$ structure) predicting when averaging over contexts helps and when it collapses to similarity.
     \item A reproducible, leakage-free LightGCN protocol (temporal LOO splits, full-catalog ranking, $5$ seeds 42--46, $B=2000$ paired user bootstrap, $M=64$, $k=24$ stratified players, native embedding intervention) that isolates attribution signal from training leakage. The primary inferential family is defined explicitly: per dataset, $F=8$ Holm-adjusted contrasts, Shapley-MC vs.\ $\{$uniform, additive-pref, attention, LOO$\}$ $\times$ $\{$NDCG@20, HitRate@20$\}$; every reported contrast maps one-to-one to a released artifact file.
@@ -610,6 +610,128 @@ Amazon-Book & shapley-mc & 0.031873 & 0.070190 & 8283.2 & 0.000911 \\
 \end{tabular}
 \end{table*}
 
+\subsection{Confirmatory matched-controls study (C1)}\label{subsec:c1}
+
+The primary study compares validation-guided game attribution against non-game controls that have \emph{no} validation access, leaving open how much of the game-vs-heuristic gap is attributable to validation access itself. Study C1 closes this gap by adding two matched validation-informed non-game controls that consume the same validation item $i_u^+$ as the Shapley/LOO games but use no coalition structure:
+\begin{itemize}
+    \item \textbf{valid-sim}: history reweighting $w_j=\max(0,\cos(\mathbf{e}_j,\mathbf{e}_{i_u^+}))$ under the identical native intervention~(\ref{eq:rerank});
+    \item \textbf{valid-linear}: candidate-side linear reranker $s'_{ui}=\mathrm{zscore}(b_{ui})+\lambda_{\text{attr}}\,\mathrm{zscore}(\cos(\mathbf{e}_i,\mathbf{e}_{i_u^+}))$, the strongest non-game reranker with validation access.
+\end{itemize}
+Both share the a-priori $\lambda_{\text{attr}}=0.10$ and neither uses coalition values or attribution. C1 re-executes the frozen protocol (identical hyperparameters, seeds 42--46, archived splits; \texttt{scripts/run\_matched\_controls.py}, runnable notebook \texttt{notebooks/CoalGameRec\_C1\_Run.ipynb}; full logs in each \texttt{run.log}). Deviations from the v3 runs --- hardware, torch re-execution, one shared propagation per batch (equivalent gradients), vectorized negative sampler, and Shapley-MC not re-run for compute reasons --- are recorded in each \texttt{manifest.json}. As a fidelity check, C1 reproduces the primary study within seed noise: uniform NDCG@20 on ML-1M is $0.04601\pm0.00022$ (identical to v3), unreranked $0.04493\pm0.00018$ vs.\ v3 $0.04482\pm0.00021$, and LOO $0.04968\pm0.00038$ vs.\ v3 $0.04976\pm0.00041$.
+
+Table~\ref{tab:c1_main} reports the C1 main results. Validation access is itself valuable --- valid-sim and valid-linear significantly beat uniform on both datasets and both metrics (Holm $p<0.0005$; \texttt{paired\_bootstrap\_valid\_access\_*.csv}) --- but the game signal adds on top of it: CoalGameRec (LOO) attains the best NDCG@20, HitRate@20 (ML-1M), and Coverage@20 among all eight families.
+
+\begin{table*}[t]
+\caption{Confirmatory study C1: LightGCN test performance, mean $\pm$ SD over five seeds (frozen protocol re-executed with matched validation-informed controls; \texttt{results/journal\_runs/*\_v4\_matched\_controls}). ML-1M executed on Apple MPS (original v3 hardware); Amazon-Book on CPU. Bold = best per dataset among reranked families.}\label{tab:c1_main}
+\centering
+\scriptsize
+\begin{tabular}{lllllll}
+\toprule
+Dataset & Backbone & Method & HitRate@20 & NDCG@20 & Coverage@20 & ILD@20 \\
+\midrule
+\multicolumn{7}{l}{\textit{MovieLens-1M --- unreranked reference ($\lambda_{\text{attr}}=0$)}}\\
+MovieLens-1M & LightGCN & unreranked & 0.11358 $\pm$ 0.00181 & 0.04493 $\pm$ 0.00018 & 0.62749 $\pm$ 0.00296 & 0.73034 $\pm$ 0.00031 \\
+\multicolumn{7}{l}{\textit{MovieLens-1M --- non-game reweighting (no validation access)}}\\
+MovieLens-1M & LightGCN & uniform & 0.11741 $\pm$ 0.00091 & 0.04601 $\pm$ 0.00022 & 0.61285 $\pm$ 0.00244 & 0.72161 $\pm$ 0.00023 \\
+MovieLens-1M & LightGCN & additive-pref & 0.11764 $\pm$ 0.00085 & 0.04612 $\pm$ 0.00020 & 0.61060 $\pm$ 0.00308 & 0.71998 $\pm$ 0.00026 \\
+MovieLens-1M & LightGCN & attention & 0.11857 $\pm$ 0.00086 & 0.04657 $\pm$ 0.00024 & 0.60385 $\pm$ 0.00334 & 0.71689 $\pm$ 0.00026 \\
+MovieLens-1M & LightGCN & heuristic-pop & 0.11791 $\pm$ 0.00083 & 0.04625 $\pm$ 0.00024 & 0.61105 $\pm$ 0.00243 & 0.72038 $\pm$ 0.00026 \\
+\multicolumn{7}{l}{\textit{MovieLens-1M --- validation-informed non-game controls (matched validation access)}}\\
+MovieLens-1M & LightGCN & valid-sim & 0.12190 $\pm$ 0.00086 & 0.04778 $\pm$ 0.00013 & 0.61927 $\pm$ 0.00337 & 0.72295 $\pm$ 0.00032 \\
+MovieLens-1M & LightGCN & valid-linear & 0.12316 $\pm$ 0.00087 & 0.04842 $\pm$ 0.00019 & 0.63976 $\pm$ 0.00396 & 0.72972 $\pm$ 0.00031 \\
+\multicolumn{7}{l}{\textit{MovieLens-1M --- cooperative-game attribution (validation-guided)}}\\
+MovieLens-1M & LightGCN & \textbf{CoalGameRec (LOO)} & \textbf{0.12522 $\pm$ 0.00049} & \textbf{0.04968 $\pm$ 0.00038} & \textbf{0.64168 $\pm$ 0.00249} & \textbf{0.73495 $\pm$ 0.00038} \\
+\multicolumn{7}{l}{\textit{Amazon-Book --- unreranked reference ($\lambda_{\text{attr}}=0$)}}\\
+Amazon-Book & LightGCN & unreranked & 0.06652 $\pm$ 0.00225 & 0.02948 $\pm$ 0.00075 & 0.23603 $\pm$ 0.00449 & 0.92057 $\pm$ 0.00106 \\
+\multicolumn{7}{l}{\textit{Amazon-Book --- non-game reweighting (no validation access)}}\\
+Amazon-Book & LightGCN & uniform & 0.06633 $\pm$ 0.00251 & 0.02946 $\pm$ 0.00078 & 0.23449 $\pm$ 0.00420 & 0.92080 $\pm$ 0.00107 \\
+Amazon-Book & LightGCN & additive-pref & 0.06615 $\pm$ 0.00269 & 0.02937 $\pm$ 0.00084 & 0.23457 $\pm$ 0.00484 & 0.92066 $\pm$ 0.00109 \\
+Amazon-Book & LightGCN & attention & 0.06615 $\pm$ 0.00259 & 0.02929 $\pm$ 0.00071 & 0.23534 $\pm$ 0.00457 & 0.92027 $\pm$ 0.00107 \\
+Amazon-Book & LightGCN & heuristic-pop & 0.06658 $\pm$ 0.00238 & 0.02962 $\pm$ 0.00076 & 0.23421 $\pm$ 0.00459 & 0.92073 $\pm$ 0.00107 \\
+\multicolumn{7}{l}{\textit{Amazon-Book --- validation-informed non-game controls (matched validation access)}}\\
+Amazon-Book & LightGCN & valid-sim & 0.06752 $\pm$ 0.00265 & 0.03039 $\pm$ 0.00073 & 0.23489 $\pm$ 0.00405 & 0.92090 $\pm$ 0.00105 \\
+Amazon-Book & LightGCN & valid-linear & 0.07024 $\pm$ 0.00188 & 0.03154 $\pm$ 0.00058 & 0.24745 $\pm$ 0.00498 & 0.92110 $\pm$ 0.00104 \\
+\multicolumn{7}{l}{\textit{Amazon-Book --- cooperative-game attribution (validation-guided)}}\\
+Amazon-Book & LightGCN & \textbf{CoalGameRec (LOO)} & \textbf{0.07116 $\pm$ 0.00269} & \textbf{0.03229 $\pm$ 0.00082} & \textbf{0.23781 $\pm$ 0.00429} & \textbf{0.92015 $\pm$ 0.00105} \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+Table~\ref{tab:c1_paired} reports the paired contrasts with LOO as treatment against all six matched controls (Holm family $F=12$ per dataset; $B=2000$, seed 20260804). On ML-1M all twelve contrasts are significant (Holm $p\le0.004$): LOO beats valid-sim by $+0.00190$ NDCG@20 ($+3.98\%$) and valid-linear by $+0.00126$ ($+2.61\%$), with the same ordering on HitRate@20. On Amazon-Book, eleven of twelve contrasts are significant; the single non-significant contrast is HitRate@20 vs.\ valid-linear ($p=0.077$), while NDCG@20 favors LOO ($+0.00076$, $p=0.001$, $+2.39\%$). Across the two studies, LOO is never significantly beaten by any matched control: the validation-access asymmetry of the primary design is therefore closed in favor of the game attribution, not of the non-game validation-informed rerankers.
+
+\begin{table*}[t]
+\caption{C1 paired contrasts, LOO-marginal (CoalGameRec) as treatment ($B=2000$, Holm $F=12$ per dataset). Artifacts: \texttt{paired\_bootstrap\_loo\_vs\_matched\_controls.csv} (+\texttt{\_holm.json}) of each v4 run. Positive mean difference = LOO wins.}\label{tab:c1_paired}
+\centering
+\scriptsize
+\begin{tabular}{lllllll}
+\toprule
+Dataset & Contrast & Metric & Mean diff. & 95\% CI & $p$ (Holm) & $d_z$ \\
+\midrule
+MovieLens-1M & LOO vs uniform & NDCG@20 & 0.003678 & [0.003026, 0.004288] & $<0.0005$ (rej) & 0.0640 \\
+MovieLens-1M & LOO vs uniform & HitRate@20 & 0.007814 & [0.005819, 0.009677] & $<0.0005$ (rej) & 0.0448 \\
+MovieLens-1M & LOO vs additive-pref & NDCG@20 & 0.003561 & [0.002903, 0.004235] & $<0.0005$ (rej) & 0.0613 \\
+MovieLens-1M & LOO vs additive-pref & HitRate@20 & 0.007581 & [0.005618, 0.009476] & $<0.0005$ (rej) & 0.0430 \\
+MovieLens-1M & LOO vs attention & NDCG@20 & 0.003116 & [0.002425, 0.003793] & $<0.0005$ (rej) & 0.0507 \\
+MovieLens-1M & LOO vs attention & HitRate@20 & 0.006650 & [0.004589, 0.008678] & $<0.0005$ (rej) & 0.0363 \\
+MovieLens-1M & LOO vs heuristic-pop & NDCG@20 & 0.003438 & [0.002769, 0.004109] & $<0.0005$ (rej) & 0.0590 \\
+MovieLens-1M & LOO vs heuristic-pop & HitRate@20 & 0.007315 & [0.005319, 0.009210] & $<0.0005$ (rej) & 0.0415 \\
+MovieLens-1M & LOO vs valid-sim & NDCG@20 & 0.001903 & [0.001335, 0.002434] & $<0.0005$ (rej) & 0.0394 \\
+MovieLens-1M & LOO vs valid-sim & HitRate@20 & 0.003325 & [0.001595, 0.004988] & $<0.0005$ (rej) & 0.0221 \\
+MovieLens-1M & LOO vs valid-linear & NDCG@20 & 0.001263 & [0.000783, 0.001748] & $<0.0005$ (rej) & 0.0303 \\
+MovieLens-1M & LOO vs valid-linear & HitRate@20 & 0.002062 & [0.000532, 0.003525] & 0.004 (rej) & 0.0158 \\
+Amazon-Book & LOO vs uniform & NDCG@20 & 0.002836 & [0.002365, 0.003314] & $<0.0005$ (rej) & 0.0616 \\
+Amazon-Book & LOO vs uniform & HitRate@20 & 0.004827 & [0.003721, 0.005986] & $<0.0005$ (rej) & 0.0423 \\
+Amazon-Book & LOO vs additive-pref & NDCG@20 & 0.002925 & [0.002449, 0.003410] & $<0.0005$ (rej) & 0.0623 \\
+Amazon-Book & LOO vs additive-pref & HitRate@20 & 0.005016 & [0.003883, 0.006229] & $<0.0005$ (rej) & 0.0433 \\
+Amazon-Book & LOO vs attention & NDCG@20 & 0.002999 & [0.002495, 0.003499] & $<0.0005$ (rej) & 0.0633 \\
+Amazon-Book & LOO vs attention & HitRate@20 & 0.005016 & [0.003883, 0.006229] & $<0.0005$ (rej) & 0.0430 \\
+Amazon-Book & LOO vs heuristic-pop & NDCG@20 & 0.002673 & [0.002206, 0.003144] & $<0.0005$ (rej) & 0.0593 \\
+Amazon-Book & LOO vs heuristic-pop & HitRate@20 & 0.004584 & [0.003452, 0.005717] & $<0.0005$ (rej) & 0.0402 \\
+Amazon-Book & LOO vs valid-sim & NDCG@20 & 0.001904 & [0.001503, 0.002316] & $<0.0005$ (rej) & 0.0472 \\
+Amazon-Book & LOO vs valid-sim & HitRate@20 & 0.003640 & [0.002562, 0.004746] & $<0.0005$ (rej) & 0.0335 \\
+Amazon-Book & LOO vs valid-linear & NDCG@20 & 0.000755 & [0.000369, 0.001134] & 0.001 (rej) & 0.0200 \\
+Amazon-Book & LOO vs valid-linear & HitRate@20 & 0.000917 & [$-$0.000081, 0.001941] & 0.077 (n.s.) & 0.0090 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+C1 also extends the faithfulness proxies of \S\ref{sec:explainability} from a single fraction to deletion/insertion curves over fractions $\{0.05,0.10,0.20,0.30\}$ with uniform and seeded-random weight controls (Table~\ref{tab:c1_faith}). On both datasets the LOO attributions induce a strictly larger deletion drop than uniform and random weights at every fraction (e.g., ML-1M at 20\%: $0.00972\pm0.00035$ vs.\ $0.00854\pm0.00018$ uniform and $0.00821\pm0.00034$ random $\Delta$NDCG@20), the gap is monotone in the removed fraction, and top-fraction insertion retains slightly more performance under LOO. The proxies remain candidate-masking (not masked-forward re-propagation), so faithfulness is still not claimed; the curves sharpen the preliminary evidence that the game-derived weights select influential history.
+
+\begin{table*}[t]
+\caption{C1 faithfulness proxy curves (candidate-masking, five-seed mean $\pm$ SD; \texttt{faithfulness\_curves\_all.csv} of each v4 run). Deletion $\Delta$NDCG@20: drop when the top fraction of attributed history is removed (larger = more influential). Insertion NDCG@20: retained performance keeping only the top fraction.}\label{tab:c1_faith}
+\centering
+\scriptsize
+\begin{tabular}{llccc}
+\toprule
+Dataset & Weights & Fraction & Deletion $\Delta$NDCG@20 & Insertion NDCG@20 \\
+\midrule
+MovieLens-1M & loo-marginal & 0.05 & 0.00365 $\pm$ 0.00020 & 0.02353 $\pm$ 0.00018 \\
+MovieLens-1M & loo-marginal & 0.10 & 0.00605 $\pm$ 0.00020 & 0.02453 $\pm$ 0.00020 \\
+MovieLens-1M & loo-marginal & 0.20 & 0.00972 $\pm$ 0.00035 & 0.02631 $\pm$ 0.00024 \\
+MovieLens-1M & loo-marginal & 0.30 & 0.01229 $\pm$ 0.00034 & 0.02832 $\pm$ 0.00014 \\
+MovieLens-1M & uniform & 0.05 & 0.00273 $\pm$ 0.00014 & 0.02315 $\pm$ 0.00027 \\
+MovieLens-1M & uniform & 0.10 & 0.00513 $\pm$ 0.00030 & 0.02377 $\pm$ 0.00030 \\
+MovieLens-1M & uniform & 0.20 & 0.00854 $\pm$ 0.00018 & 0.02526 $\pm$ 0.00025 \\
+MovieLens-1M & uniform & 0.30 & 0.01108 $\pm$ 0.00029 & 0.02671 $\pm$ 0.00028 \\
+MovieLens-1M & random & 0.05 & 0.00283 $\pm$ 0.00019 & 0.02330 $\pm$ 0.00027 \\
+MovieLens-1M & random & 0.10 & 0.00503 $\pm$ 0.00036 & 0.02389 $\pm$ 0.00023 \\
+MovieLens-1M & random & 0.20 & 0.00821 $\pm$ 0.00034 & 0.02518 $\pm$ 0.00027 \\
+MovieLens-1M & random & 0.30 & 0.01094 $\pm$ 0.00019 & 0.02667 $\pm$ 0.00008 \\
+Amazon-Book & loo-marginal & 0.05 & 0.00152 $\pm$ 0.00011 & 0.02550 $\pm$ 0.00075 \\
+Amazon-Book & loo-marginal & 0.10 & 0.00171 $\pm$ 0.00005 & 0.02559 $\pm$ 0.00072 \\
+Amazon-Book & loo-marginal & 0.20 & 0.00250 $\pm$ 0.00018 & 0.02627 $\pm$ 0.00076 \\
+Amazon-Book & loo-marginal & 0.30 & 0.00339 $\pm$ 0.00014 & 0.02716 $\pm$ 0.00074 \\
+Amazon-Book & uniform & 0.05 & 0.00102 $\pm$ 0.00008 & 0.02535 $\pm$ 0.00066 \\
+Amazon-Book & uniform & 0.10 & 0.00109 $\pm$ 0.00011 & 0.02536 $\pm$ 0.00067 \\
+Amazon-Book & uniform & 0.20 & 0.00153 $\pm$ 0.00010 & 0.02551 $\pm$ 0.00066 \\
+Amazon-Book & uniform & 0.30 & 0.00208 $\pm$ 0.00013 & 0.02603 $\pm$ 0.00068 \\
+Amazon-Book & random & 0.05 & 0.00116 $\pm$ 0.00026 & 0.02530 $\pm$ 0.00071 \\
+Amazon-Book & random & 0.10 & 0.00128 $\pm$ 0.00025 & 0.02534 $\pm$ 0.00078 \\
+Amazon-Book & random & 0.20 & 0.00190 $\pm$ 0.00019 & 0.02577 $\pm$ 0.00088 \\
+Amazon-Book & random & 0.30 & 0.00243 $\pm$ 0.00019 & 0.02617 $\pm$ 0.00083 \\
+\bottomrule
+\end{tabular}
+\end{table*}
 
 \section{Ablation study}\label{sec:ablation}
 Table~\ref{tab:ablation_lambda} reports the reranking-strength sensitivity across the full five-seed protocol on both datasets, restricted to the families contained in the released $\lambda$-sweep artifact. The gain is not due to arbitrary reweighting: at $\lambda_{\text{attr}}=0$ all methods coincide with the base ranking (NDCG@20 $0.04482\pm0.00021$ on ML-1M; $0.02982\pm0.00074$ on Amazon). On ML-1M all families improve monotonically with $\lambda$, and Shapley rises fastest: at $\lambda=0.20$ it reaches $0.05278\pm0.00043$, $+7.2\%$ relative to its own value at the protocol setting $\lambda=0.10$ ($0.04922$) and $+6.1\%$ above LOO at $\lambda=0.10$ ($0.04976$, Table~\ref{tab:main_results}). We stress that $\lambda_{\text{attr}}=0.10$ was fixed a priori and shared across families; the sweep is a sensitivity analysis, not a selection rule, and per-family tuning is excluded by the protocol. On Amazon-Book the pattern is sharper: heuristic weights are flat across $\lambda$ (uniform stays within $0.02973$--$0.02982$; additive-pref weakly \emph{decreases}), while Shapley rises monotonically to $0.03591\pm0.00101$ at $\lambda=0.40$. This indicates that the Amazon gain is carried by the validation-guided game signal rather than by generic reweighting strength.
@@ -660,7 +782,7 @@ Amazon-Book & 0.00255 $\pm$ 0.00019 & 0.00102 $\pm$ 0.00049 & 0.02630 $\pm$ 0.00
 \end{tabular}
 \end{table}
 
-Three caveats bound the claim. First, the proxy masks candidates rather than re-propagating LightGCN on the masked graph $G_S$; true masked-forward evaluation is specified in \texttt{code/scripts/run\_faithfulness.py}. Second, a single 20\% fraction is reported; deletion/insertion curves over multiple fractions are part of the regeneration plan. Third, the released diagnostics were computed for the Shapley-MC attribution only; a cross-family comparison (LOO, uniform, random weights under the identical proxy) was not run, so no method-ordering claim is made from this table. Faithfulness of the attributions is therefore \emph{not claimed}; the table is preliminary evidence that the game-derived weights select influential history.
+Three caveats bound the claim. First, the proxy masks candidates rather than re-propagating LightGCN on the masked graph $G_S$; true masked-forward evaluation is specified in \texttt{code/scripts/run\_faithfulness.py}. Second, a single 20\% fraction is reported here; multi-fraction deletion/insertion curves with uniform and seeded-random controls were subsequently executed in the confirmatory study C1 (\S\ref{subsec:c1}, Table~\ref{tab:c1_faith}). Third, the present table was computed for the Shapley-MC attribution only; the cross-family (LOO vs.\ uniform vs.\ random) comparison under the identical proxy is provided by C1, where LOO dominates at every fraction on both datasets. Faithfulness of the attributions is therefore \emph{not claimed}; the table is preliminary evidence that the game-derived weights select influential history.
 \section{Discussion}\label{sec:discussion}
 
 The case study yields three main findings.
@@ -713,7 +835,7 @@ The fourth direction is fusion and adaptive weighting. A CoalGameRec-Fusion vari
 The fifth direction is user-facing explanation. Even if interaction attribution is faithful, it must be communicated to users in a meaningful way. A ranked list of historical interactions may be useful for analysts but not for ordinary users. Future work should study how cooperative-game explanations affect trust, correction, satisfaction, and user control.
 
 \section{Threats to validity}\label{sec:threats}
-\paragraph{Internal.} Stratified $k=24$ selection may favour similar items and underrepresent long-tail histories; cold-start users ($\le 10$ interactions) are under-studied. Validation-only utility prevents test leakage, but reranking weight is shared; any residual tuning bias is assessed via $\lambda$-sensitivity. The game families use validation data while the heuristic controls do not; matched validation-informed non-game controls were specified but not run in this study, so part of the game-vs-heuristic gap may reflect validation access rather than game structure (see Limitations). Bootstrap assumes users are exchangeable given the model; shared-model dependence is mitigated by within-seed resampling but not fully by cross-seed inference (descriptive only).
+\paragraph{Internal.} Stratified $k=24$ selection may favour similar items and underrepresent long-tail histories; cold-start users ($\le 10$ interactions) are under-studied. Validation-only utility prevents test leakage, but reranking weight is shared; any residual tuning bias is assessed via $\lambda$-sensitivity. The game families use validation data while the heuristic controls do not; the matched validation-informed non-game controls (valid-sim, valid-linear) were executed in the confirmatory study C1 (\S\ref{subsec:c1}), where LOO significantly beats both on NDCG@20 on both datasets, indicating that the game-vs-heuristic gap is not an artifact of validation access alone. Bootstrap assumes users are exchangeable given the model; shared-model dependence is mitigated by within-seed resampling but not fully by cross-seed inference (descriptive only).
 
 \paragraph{Construct.} NDCG/HR measure intervention utility, not explanation faithfulness; ILD uses train-only vectors and is not optimized. Faithfulness requires deletion/insertion under true masked-forward inference (see \S\ref{sec:future_work} Exp.~3; code in \texttt{code/scripts/run\_faithfulness.py}).
 
@@ -723,7 +845,7 @@ The fifth direction is user-facing explanation. Even if interaction attribution 
 
 \section{Limitations}\label{sec:limitations}
 
-The study has five limitations. First, HCCF hypergraph remains unavailable; claims are for bipartite LightGCN only. Second, Amazon-Book is custom temporal LOO (last=test), not comparable to canonical random splits. Third, Shapley is bounded to $k=24$ stratified players (not full history) for feasibility; the $k\in\{8,16,24,32\}$ sweep, the $M$-budget variance test, the player-selection and intervention ablations, and the hard-vs-smooth utility test are specified in \texttt{run\_ablations.py} but were not executed, so no results are reported for them. Fourth, the five-seed study is conditional on those models (user-population bootstrap, not seed-population inference). Fifth, diagnostics are reranking-utility proxies; faithfulness requires masked-forward deletion/insertion (provided as \texttt{run\_faithfulness.py}) and is not claimed here. Sixth, validation-informed non-game baselines (validation-similarity reweighting, validation-tuned linear reranking) were not run; the heuristic controls do not use validation data, so the comparison isolates ``game vs.\ non-game'' but not yet ``game vs.\ validation access''. Adding those matched controls is the first item of the regeneration plan.
+The study has five limitations. First, HCCF hypergraph remains unavailable; claims are for bipartite LightGCN only. Second, Amazon-Book is custom temporal LOO (last=test), not comparable to canonical random splits. Third, Shapley is bounded to $k=24$ stratified players (not full history) for feasibility; the $k\in\{8,16,24,32\}$ sweep, the $M$-budget variance test, the player-selection and intervention ablations, and the hard-vs-smooth utility test are specified in \texttt{run\_ablations.py} but were not executed, so no results are reported for them. Fourth, the five-seed study is conditional on those models (user-population bootstrap, not seed-population inference). Fifth, diagnostics are reranking-utility proxies; faithfulness requires masked-forward deletion/insertion (provided as \texttt{run\_faithfulness.py}) and is not claimed here. Sixth, the matched validation-informed controls were run in the confirmatory study C1 rather than in the primary frozen run: C1 is a re-execution of the frozen protocol (fidelity verified in \S\ref{subsec:c1}), ML-1M was re-run on the original hardware (Apple MPS) and Amazon-Book on CPU, and Shapley-MC was not re-run in C1 for compute reasons; Shapley comparisons therefore remain anchored to the primary v3 artifacts.
 
 \section{Conclusion}\label{sec:conclusion}
 
@@ -778,7 +900,7 @@ The case study uses secondary public/pseudonymous datasets (MovieLens-1M \cite{h
 MovieLens-1M and Amazon Reviews 2018 Books are public. Raw data are not redistributed. Preprocessing and split-generation code (\texttt{code/coalgamerec/data.py}), resolved configs, dataset statistics, item-vector fingerprints, and SHA256 hashes are in the repository; large splits and per-user metrics are archived externally upon acceptance (Zenodo DOI to be minted from the tagged release; SHA256 checksums and download instructions are in Supplementary File S2; reviewers may access the anonymized repository snapshot at the submission commit).
 
 \subsection*{Code availability}
-Code, configs (\texttt{code/configs/q1\_lightgcn\_*.yaml}), the pinned environment (\texttt{code/requirements.lock}), and table-generation scripts are in the repository; run manifests record OS, Python, PyTorch, and device, and the release commit hash is printed in the supplementary material at acceptance. Attributions are checkpointed with base-score-aware cache keys. Large raw outputs are externally archived (see Data availability). Licensed under MIT for code and CC-BY for manuscript artifacts.
+Code, configs (\texttt{code/configs/q1\_lightgcn\_*.yaml}), the pinned environment (\texttt{code/requirements.lock}), and table-generation scripts are in the repository; the confirmatory C1 study is fully scripted (\texttt{scripts/run\_matched\_controls.py}) with a runnable notebook (\texttt{notebooks/CoalGameRec\_C1\_Run.ipynb}) and complete execution logs (\texttt{run.log} per run); run manifests record OS, Python, PyTorch, and device, and the release commit hash is printed in the supplementary material at acceptance. Attributions are checkpointed with base-score-aware cache keys. Large raw outputs are externally archived (see Data availability). Licensed under MIT for code and CC-BY for manuscript artifacts.
 
 \subsection*{Author contributions}
 M.\ Louhichi: conceptualization, methodology, software, investigation, writing -- original draft. R.\ Nesmaoui: supervision, methodology, writing -- review \& editing. M.\ Lazaar: supervision, writing -- review \& editing. All CRediT roles confirmed.

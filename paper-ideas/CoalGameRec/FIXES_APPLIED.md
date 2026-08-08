@@ -183,3 +183,17 @@ Round-2 verdict: **Major Revision** (validation-informed baselines removed; LOO-
 - C1 produces deletion/insertion CURVES (fractions 0.05/0.10/0.20/0.30) with a seeded RANDOM control
   and uniform control, for LOO attributions, 5 seeds, both datasets (faithfulness_curves_all.csv).
 - Masked-forward and stability tests remain declared future work (run_faithfulness.py).
+
+## v15 completion status (2026-08-08/09)
+- C1 confirmatory run EXECUTED for both datasets (5 seeds each):
+  ML-1M on Apple MPS (original v3 hardware, torch 2.3.1, 14,067 s total, run.log committed);
+  Amazon-Book on CPU. Fidelity check passed (uniform NDCG@20 ML-1M identical to v3: 0.04601).
+- Critical Issue 1 CLOSED: valid-sim + valid-linear restored with real data;
+  LOO beats both on NDCG@20 on both datasets (Holm): ML-1M 12/12 contrasts significant,
+  Amazon 11/12 (HR vs valid-linear n.s. p=0.077).
+- Critical Issue 2 CLOSED: paired LOO-vs-all-controls on primary artifacts (Table 4b) AND
+  paired LOO-vs-matched-controls from C1 (tab:c1_paired).
+- Critical Issue 4 extended: deletion/insertion CURVES (fractions 0.05-0.30) with uniform +
+  seeded-random controls from C1 (tab:c1_faith); masked-forward remains declared future work.
+- Manuscript v15 assembled: C1 subsection in Results, updated Threats/Limitations/Abstract/
+  Contributions/Code-availability.
