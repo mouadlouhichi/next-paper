@@ -1,0 +1,32 @@
+trained ml1m seed 42
+k=8: LOO
+  k_sweep | k=8 | loo-marginal | native: NDCG@20=0.04942
+k=8: Shapley
+  k_sweep | k=8 | shapley-mc | native: NDCG@20=0.04867
+k=16: LOO
+  k_sweep | k=16 | loo-marginal | native: NDCG@20=0.04976
+k=16: Shapley
+  k_sweep | k=16 | shapley-mc | native: NDCG@20=0.04909
+k=24: LOO
+  k_sweep | k=24 | loo-marginal | native: NDCG@20=0.04912
+k=24: Shapley
+  k_sweep | k=24 | shapley-mc | native: NDCG@20=0.04892
+k=32: LOO
+  k_sweep | k=32 | loo-marginal | native: NDCG@20=0.04948
+k=32: Shapley
+  k_sweep | k=32 | shapley-mc | native: NDCG@20=0.04900
+selection=stratified: Shapley
+  player_selection | stratified | shapley-mc | native: NDCG@20=0.04892
+selection=similarity: Shapley
+  player_selection | similarity | shapley-mc | native: NDCG@20=0.04840
+selection=random: Shapley
+  player_selection | random | shapley-mc | native: NDCG@20=0.04902
+utility=pairwise_logsigmoid: Shapley
+  utility | pairwise_logsigmoid | shapley-mc | native: NDCG@20=0.04892
+utility=pairwise_logsigmoid: LOO
+  utility | pairwise_logsigmoid | loo-marginal | native: NDCG@20=0.04912
+utility=ndcg_ild: Shapley
+  utility | ndcg_ild | shapley-mc | native: NDCG@20=0.04610
+utility=ndcg_ild: LOO
+  utility | ndcg_ild | loo-marginal | native: NDCG@20=0.04522
+intervention ablation
