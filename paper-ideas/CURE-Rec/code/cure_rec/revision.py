@@ -144,7 +144,15 @@ def _paired_summary(frame: pd.DataFrame, reference: str) -> pd.DataFrame:
     ref = frame[frame["selector"] == reference][["selection_seed", "evaluation_seed", "robust_lower_improvement"]].rename(columns={"robust_lower_improvement": "reference"})
     for selector, part in frame.groupby("selector"):
         merged = part.merge(ref, on=["selection_seed", "evaluation_seed"], how="inner", validate="one_to_one")
-        diff = (merged["robust_lower_improvement"] - merged["reference"]).to_numpy(dtype=float)
+        # Selection choices are evaluated on the same held-out seed table.  The
+        # independent unit for inference is therefore evaluation_seed (n=20), not
+        # the 5 x 20 cross-product rows.  Average across selection seeds before
+        # calculating paired effects or sign tests to avoid pseudoreplication.
+        per_evaluation_seed = merged.groupby("evaluation_seed", as_index=False).agg(
+            robust_lower_improvement=("robust_lower_improvement", "mean"),
+            reference=("reference", "mean"),
+        )
+        diff = (per_evaluation_seed["robust_lower_improvement"] - per_evaluation_seed["reference"]).to_numpy(dtype=float)
         mean = float(diff.mean()) if len(diff) else float("nan")
         sd = float(diff.std(ddof=1)) if len(diff) > 1 else 0.0
         # Exact two-sided sign test; zeros are excluded.
@@ -154,7 +162,8 @@ def _paired_summary(frame: pd.DataFrame, reference: str) -> pd.DataFrame:
         sign_p = min(1.0, 2 * sum(comb(n, k) for k in range(positives + 1)) / (2**n)) if n else 1.0
         rows.append({
             "selector": selector,
-            "evaluation_rows": int(len(merged)),
+            "selection_evaluation_pairs": int(len(merged)),
+            "independent_evaluation_seeds": int(len(per_evaluation_seed)),
             "robust_lower_improvement_mean": float(part["robust_lower_improvement"].mean()),
             "robust_lower_improvement_std": float(part["robust_lower_improvement"].std(ddof=1)) if len(part) > 1 else 0.0,
             "feasible_rate": float(part["feasible"].mean()),
@@ -226,3 +235,12 @@ def run_selector_holdout_study(
         "claim": "Held-out simulation-seed comparison; not external real-world causal inference.",
     }, indent=2), encoding="utf-8")
     return root
+
+
+def recompute_selector_summary(revision_dir: str | Path) -> pd.DataFrame:
+    """Recompute clustered held-out statistics from an existing expensive run."""
+    root = Path(revision_dir)
+    evaluation = pd.read_csv(root / "heldout_selector_evaluations.csv")
+    summary = _paired_summary(evaluation, "cure_exact_maximin")
+    summary.to_csv(root / "heldout_selector_summary.csv", index=False)
+    return summary
