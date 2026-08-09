@@ -59,7 +59,7 @@
 \author[1]{\fnm{Mohamed} \sur{Lazaar}}\email{mohamed.lazaar@ensias.um5.ac.ma}
 \affil*[1]{\orgdiv{National Higher School of Computer Science and Systems Analysis (ENSIAS)}, \orgname{Mohammed V University in Rabat}, \orgaddress{\city{Rabat}, \country{Morocco}}}
 
-\abstract{Recommendation interventions change the exposure process that generates future feedback, yet systems commonly choose exploration, diversity, long-tail, repetition-control, and provider-balancing policies from local ranking metrics or isolated ablations. Those choices are difficult because interventions overlap, conflict, incur costs, and may repair an unsafe base policy even when their short-run utility increment is small. We introduce \CURE{}, a decision layer that treats a bounded library of feasible policy transformations as players in an exact cooperative game. The game is evaluated under disclosed sequential recommendation scenarios, attributed by Shapley values and pairwise interactions, and optimized directly under relevance, fatigue, provider-disparity, and budget constraints. The planner distinguishes improvement from repair: it may retain a safe base policy when no portfolio robustly improves it, but must select the best feasible repair when the base violates a constraint. We validate the framework in controlled oracle regimes, a behavioural sequential benchmark, one-at-a-time and joint Latin-hypercube robustness studies, and a separate real-data ranking evaluation. In the full 20-seed behavioural study, repeated-exposure control is selected in all seeds with mean robust lower improvement $0.29371$ (standard deviation $0.00258$). Joint calibration reveals principled switches to provider balancing, complementary portfolios, and abstention under combined extreme assumptions. On MovieLens-1M, under identical warm-item candidates and audit checks, frozen SASRec reaches $\Recall=0.1452\pm0.0031$ and $\NDCG=0.07424\pm0.00281$ across five seeds, versus popularity's $0.049$ and $0.02552$. The real-data result is a chronological-ranking robustness result, not a causal policy-effect claim.}
+\abstract{Recommendation interventions change the exposure process that generates future feedback, yet systems commonly choose exploration, diversity, long-tail, repetition-control, and provider-balancing policies from local ranking metrics or isolated ablations. Those choices are difficult because interventions overlap, conflict, incur costs, and may repair an unsafe base policy even when their short-run utility increment is small. We introduce \CURE{}, a decision layer that treats a bounded library of feasible policy transformations as players in an exact cooperative game. The game is evaluated under disclosed sequential recommendation scenarios, attributed by Shapley values and pairwise interactions, and optimized directly under relevance, fatigue, provider-disparity, and budget constraints. The planner distinguishes improvement from repair: it may retain a safe base policy when no portfolio robustly improves it, but must select the best feasible repair when the base violates a constraint. We validate the framework in controlled oracle regimes, a behavioural sequential benchmark, one-at-a-time and joint Latin-hypercube robustness studies, and a separate real-data ranking evaluation. In the full 20-seed behavioural study, repeated-exposure control is selected in all seeds with a mean robust lower improvement of $0.29371$ (standard deviation $0.00258$) on the normalized CURE-Sim utility scale. Joint calibration reveals principled switches to provider balancing, complementary portfolios, and abstention under combined extreme assumptions. On MovieLens-1M, under identical warm-item candidates and audit checks, frozen SASRec reaches $\Recall=0.1452\pm0.0031$ and $\NDCG=0.07424\pm0.00281$ across five seeds, versus popularity's $0.049$ and $0.02552$. The real-data result is a chronological-ranking robustness result, not a causal policy-effect claim.}
 
 \keywords{Recommender systems, Explainable AI, cooperative games, Shapley value, policy intervention, multi-stakeholder recommendation, robust optimization}
 
@@ -500,7 +500,31 @@ Full twenty-seed & 20 & 20/20 & 0.29371 & 0.00258 & 6 improve, 14 repair\\
 \end{tabular}}
 \end{table}
 
-The grand coalition is harmful in the observed behavioural scenarios while repeat cap is beneficial. This rejects an additive ``more interventions is always better'' interpretation. Interaction analysis explains why: several injection and reranking combinations introduce relevance, cost, or fatigue trade-offs that a single-intervention ablation cannot expose.
+The grand coalition is budget-infeasible ($c(\Players)=0.49>B=0.35$) and has negative robust-game value; it is retained only as a diagnostic, not as a selectable portfolio. This rejects an additive ``more interventions is always better'' interpretation. Interaction analysis explains why: several injection and reranking combinations introduce relevance, cost, or fatigue trade-offs that a single-intervention ablation cannot expose.
+
+\begin{table*}[t]
+\caption{Held-out selector evaluation. Portfolios are selected on five seeds and evaluated on 20 disjoint seeds. The independent inferential unit is the evaluation seed; 100 cross-product rows are retained for traceability but are not treated as 100 independent observations.}\label{tab:selector-baselines}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lrrrl@{}}
+\toprule
+Selector & Held-out robust lower improvement & SD & Difference versus CURE & Exact sign-test $p$\\
+\midrule
+CURE exact maximin & 0.294584 & 0.002031 & 0.000000 & 1.000000\\
+Best singleton & 0.294584 & 0.002031 & 0.000000 & 1.000000\\
+Robust Shapley-1 & 0.294584 & 0.002031 & 0.000000 & 1.000000\\
+Robust Shapley-budget & 0.294584 & 0.002031 & 0.000000 & 1.000000\\
+Greedy robust & 0.294584 & 0.002031 & 0.000000 & 1.000000\\
+Nominal-scenario selector & 0.294584 & 0.002031 & 0.000000 & 1.000000\\
+Random feasible & 0.059153 & 0.112314 & -0.235431 & 0.000002\\
+Grand-coalition diagnostic & 0.000000 & 0.000000 & -0.294584 & 0.000002\\
+\bottomrule
+\end{tabular}}
+\end{table*}
+
+The selector comparison is intentionally not a manufactured superiority claim. Exact CURE, singleton, robust-Shapley, greedy, and nominal selectors all choose repeat cap for all selection seeds in this configuration, so they are tied on the held-out evaluation. The exact framework is markedly better than random feasible selection; the grand coalition is predominantly infeasible and is reported only as a diagnostic. The value of CURE-Rec in this regime is therefore not that it beats every heuristic, but that it identifies and explains the same simple intervention while retaining principled repair, constraint, and interaction diagnostics for settings in which selectors diverge.
 
 The decision modes are as informative as the selected player. In the full twenty-seed study, the base is infeasible in 14 seeds, principally because provider disparity crosses the declared upper bound. Those 14 outputs are repairs, not failed improvements: repeat cap is chosen because it produces the best feasible maximin policy under the configured scenarios. In the remaining six seeds, the base is feasible and repeat cap is selected as an improvement. A manuscript that reported only the 20/20 selection frequency would hide this operational distinction.
 
@@ -521,14 +545,20 @@ The one-at-a-time study contains 15 predeclared configurations and five seeds pe
 Assumption & Value & Lower improvement mean & SD & Base-feasible rate & Modal portfolio\\
 \midrule
 Baseline & --- & 0.29488 & 0.00244 & 0.20 & repeat cap\\
+Fatigue strength & 0.75 & 0.29488 & 0.00244 & 0.20 & repeat cap\\
+Fatigue strength & 1.25 & 0.29488 & 0.00244 & 0.20 & repeat cap\\
 Repeat threshold & 2 & 0.20206 & 0.00175 & 0.20 & repeat cap\\
 Repeat threshold & 4 & 0.21226 & 0.00240 & 0.20 & repeat cap\\
 Horizon & 8 & 0.14397 & 0.00230 & 0.60 & repeat cap\\
 Horizon & 16 & 0.37785 & 0.00220 & 0.20 & repeat cap\\
 Provider threshold & 0.24 & 0.27997 & 0.03397 & 0.00 & repeat cap (0.80 stability)\\
 Provider threshold & 0.32 & 0.29488 & 0.00244 & 0.60 & repeat cap\\
+Provider-balance strength & 0.15 & 0.29488 & 0.00244 & 0.20 & repeat cap\\
+Provider-balance strength & 0.55 & 0.29488 & 0.00244 & 0.20 & repeat cap\\
 Novelty drift & 0.03 & 0.29502 & 0.00249 & 0.20 & repeat cap\\
 Novelty drift & 0.06 & 0.29513 & 0.00252 & 0.20 & repeat cap\\
+Exploration cost & 0.05 & 0.29488 & 0.00244 & 0.20 & repeat cap\\
+Exploration cost & 0.15 & 0.29488 & 0.00244 & 0.20 & repeat cap\\
 \bottomrule
 \end{tabular}}
 \end{table*}
@@ -686,6 +716,13 @@ $\Utility_m(S)$ & discounted scenario utility before comparison to the base\\
 $\Delta\Utility_m(S)$ & utility improvement $\Utility_m(S)-\Utility_m(\varnothing)$\\
 $\Shap_i^m$ & Shapley value of intervention $i$ in scenario $m$\\
 $[\underline{\Shap}_i,\overline{\Shap}_i]$ & scenario-indexed Shapley region\\
+$\phi_i^{\mathrm{rob}}$ & Shapley value of $v^{\mathrm{rob}}(S)=\min_m\Delta\Utility_m(S)$\\
+$I_{ij}^m$ & Grabisch--Roubens Shapley interaction of interventions $i,j$ in scenario $m\\
+$x_{ij}$ & binary assignment of item $j$ to injection intervention $i$\\
+$q$ & injection capacity (2 in the full configuration)\\
+$\gamma$ & utility discount factor (0.97)\\
+$(w_s,w_r,w_f,w_c)$ & satisfaction, retention, fatigue, and cost weights $(0.70,0.30,0.35,1.00)$\\
+$B,r_{\min},d_{\max},f_{\max}$ & budget and relevance/provider/fatigue constraint thresholds\\
 $\mathcal{F}$ & feasible coalitions under declared constraints\\
 \bottomrule
 \end{tabular}
