@@ -52,6 +52,8 @@ from scipy import sparse
 
 CODE_DIR = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(CODE_DIR))
+# Default results root (used by sibling experiment scripts when --source-run is omitted)
+RESULTS = CODE_DIR / "results" / "journal_runs"
 
 from coalgamerec.attribution import compute_attribution_for_users, compute_shapley_for_users  # noqa: E402
 from coalgamerec.data import SplitData, item_user_vectors  # noqa: E402

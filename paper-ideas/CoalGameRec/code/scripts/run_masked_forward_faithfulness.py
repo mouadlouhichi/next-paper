@@ -43,7 +43,7 @@ FRACTIONS = [0.10, 0.20, 0.30]
 
 
 def masked_scores_for_users(model, train_csr, split, users, edge_src_np, edge_dst_np,
-                            user_edge_positions, keep_or_drop, mode, device):
+                            edge_item_np, user_edge_positions, keep_or_drop, mode, device):
     """Repropagate frozen LightGCN on per-user masked graphs; return scores rows for `users`.
 
     keep_or_drop[u] = array of history items defining the coalition S for user u.
@@ -62,7 +62,7 @@ def masked_scores_for_users(model, train_csr, split, users, edge_src_np, edge_ds
         keep_edge = np.ones(len(edge_src_np), dtype=bool)
         pos = user_edge_positions[u]
         for p in pos:
-            if edge_dst_np[p] - n_users not in S:  # edge (u, item)
+            if int(edge_item_np[p]) not in S:  # remove both directions of the edge
                 keep_edge[p] = False
         src = torch.as_tensor(edge_src_np[keep_edge], dtype=torch.long, device=device)
         dst = torch.as_tensor(edge_dst_np[keep_edge], dtype=torch.long, device=device)
@@ -114,14 +114,20 @@ def main():
     base_scores = cache_full_scores(model, split.n_users, batch_size=256, chunk_items=4096 if split.n_items > 8000 else None)
     train_csr = split.train_csr
 
-    # edge index (numpy) and per-user edge positions
+    # edge index (numpy) and per-user edge positions (BOTH directions of each edge)
     users_np = split.train.user.values.astype(np.int64)
     items_np = split.train.item.values.astype(np.int64) + split.n_users
     edge_src_np = np.concatenate([users_np, items_np])
     edge_dst_np = np.concatenate([items_np, users_np])
+    half = len(users_np)
+    # item id incident to each directed edge position
+    edge_item_np = np.empty(len(edge_src_np), dtype=np.int64)
+    edge_item_np[:half] = edge_dst_np[:half] - split.n_users
+    edge_item_np[half:] = edge_src_np[half:] - split.n_users
     user_edge_positions = {u: [] for u in range(split.n_users)}
     for pos, u in enumerate(users_np):
         user_edge_positions[int(u)].append(pos)
+        user_edge_positions[int(u)].append(pos + half)
     for u in user_edge_positions:
         user_edge_positions[u] = np.asarray(user_edge_positions[u], dtype=np.int64)
 
@@ -178,7 +184,7 @@ def main():
                         keep[u] = top
                 t0 = time.time()
                 scores = masked_scores_for_users(model, train_csr, split, users, edge_src_np, edge_dst_np,
-                                                 user_edge_positions, keep, mode, device)
+                                                 edge_item_np, user_edge_positions, keep, mode, device)
                 m = per_user_hit_ndcg(scores, tg, train_csr[users], ks=(20,))
                 rows.append(dict(family=fam, fraction=frac, mode=mode,
                                  NDCG20=float(m["NDCG@20"].mean()), HitRate20=float(m["HitRate@20"].mean()),

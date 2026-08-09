@@ -87,21 +87,22 @@ def main():
                 value_mode="pairwise_logsigmoid", n_val_negatives=N_VAL_NEG, antithetic=True)
             dt = time.time() - t0
             attributions[(M, rseed)] = shap
-            # efficiency residual on a user subsample (every 6th user, capped 1000)
+            # efficiency residual on a subsample of the computed users
             resid = []
-            for u in users[::6][:1000]:
+            for u in sorted(shap.keys())[::6][:1000]:
                 items = train_csr[int(u)].indices
                 if len(items) == 0 or int(u) not in val_targets:
                     continue
-                P = select_players(items, item_vectors, int(val_targets[int(u)]), K, "stratified")
-                idx_all = np.where(np.isin(items, P))[0]
                 vt = int(val_targets[int(u)])
-                negs = sample_validation_negatives(split.n_items, items, vt, N_VAL_NEG, seed=rseed)
+                selected_idx = select_players(items, item_vectors, K, strategy="stratified",
+                                              val_target=vt, seed=rseed + int(u))
+                negs = sample_validation_negatives(split.n_items, items, vt, N_VAL_NEG,
+                                                   rseed + 100000 + int(u))
                 kw = dict(alpha=1.0, beta=0.0, lambda_pref=0.0, lambda_attr_value=0.10,
                           value_mode="pairwise_logsigmoid", val_negatives=negs)
-                v_full = coalition_value(base_scores[int(u)], items, idx_all, vt, item_vectors, **kw)
+                v_full = coalition_value(base_scores[int(u)], items, selected_idx, vt, item_vectors, **kw)
                 v_empty = coalition_value(base_scores[int(u)], items, np.array([], dtype=np.int64), vt, item_vectors, **kw)
-                phi = np.asarray([shap[int(u)][i] for i in idx_all], dtype=np.float64)
+                phi = np.asarray(shap[int(u)][selected_idx], dtype=np.float64)
                 resid.append(abs(float(phi.sum()) - (v_full - v_empty)))
             rows.append(dict(M=M, est_seed=rseed, attribution_seconds=round(dt, 1),
                              efficiency_residual_mean=float(np.mean(resid)),
@@ -115,7 +116,7 @@ def main():
     for r in rows:
         M, rseed = r["M"], r["est_seed"]
         rhos, l1s, l2s = [], [], []
-        for u in users[::6][:1000]:
+        for u in sorted(attributions[(M, rseed)].keys())[::6][:1000]:
             a, b = attributions[(M, rseed)].get(int(u)), ref.get(int(u))
             if a is None or b is None or len(a) < 3:
                 continue
