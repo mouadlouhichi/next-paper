@@ -108,7 +108,9 @@ def main():
     device = torch.device(os.environ.get("COALGAME_DEVICE", "cpu"))
     split = load_split_from_run(source)
     item_vectors = item_user_vectors(split.train_csr)
-    cfg = TrainConfig(**BACKBONE, seed=args.seed, device=str(device))
+    cfg = TrainConfig(dim=BACKBONE["dim"], lr=BACKBONE["lr"], weight_decay=BACKBONE["weight_decay"],
+                      epochs=BACKBONE["epochs"], batch_size=BACKBONE["batch_size"], n_neg=BACKBONE["n_neg"],
+                      seed=args.seed, device=str(device))
     model = train_lightgcn_shared_prop(split.train, split.n_users, split.n_items, cfg, n_layers=BACKBONE["n_layers"])
     model.eval()
     base_scores = cache_full_scores(model, split.n_users, batch_size=256, chunk_items=4096 if split.n_items > 8000 else None)
