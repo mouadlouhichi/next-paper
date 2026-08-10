@@ -420,8 +420,8 @@ MovieLens-1M is used only to test recommender implementation robustness. The dat
 \end{equation}
 A held-out target absent from the training catalogue is counted as cold rather than silently removed. The final evaluations report 1,000 warm-target users, one cold test target, mean candidate count 3,436.958, and candidate counts from 2,739 to 3,521. For a warm target $i_u^+$ with rank $q_u$ in the ordered candidate list, the per-user metrics are
 \begin{equation}
- \Recall_u@k=\mathbf{1}\{q_u\leq k\},\qquad
- \NDCG_u@k=\frac{\mathbf{1}\{q_u\leq k\}}{\log_2(q_u+1)},
+ \mathrm{Recall@}k(u)=\mathbf{1}\{q_u\leq k\},\qquad
+ \mathrm{NDCG@}k(u)=\frac{\mathbf{1}\{q_u\leq k\}}{\log_2(q_u+1)},
 \label{eq:ranking-metrics}
 \end{equation}
 and reported values are means over warm evaluated users with cold-target coverage stated separately. This definition makes the candidate protocol part of the estimand rather than an implementation detail.

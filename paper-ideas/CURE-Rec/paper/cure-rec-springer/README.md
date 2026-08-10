@@ -32,10 +32,7 @@ python scripts/generate_figures.py
 From this directory, with a full TeX Live or MacTeX installation:
 
 ```bash
-pdflatex cure-rec.tex
-bibtex cure-rec
-pdflatex cure-rec.tex
-pdflatex cure-rec.tex
+./build_clean.sh
 ```
 
 The document uses the Springer Nature math/physical-sciences numbered reference
