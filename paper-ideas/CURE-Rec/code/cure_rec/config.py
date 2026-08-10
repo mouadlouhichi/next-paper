@@ -26,6 +26,9 @@ class RunConfig(BaseModel):
     seed: int = 42
     output_root: Path = Path("runs")
     log_level: str = "INFO"
+    # True shares event-indexed shocks across coalitions; False gives every
+    # coalition an independent shock stream for the CRN variance ablation.
+    common_random_numbers: bool = True
 
 
 class SimulatorConfig(BaseModel):
