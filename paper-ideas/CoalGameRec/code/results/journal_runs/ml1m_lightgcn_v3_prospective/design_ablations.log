@@ -30,3 +30,8 @@ utility=ndcg_ild: Shapley
 utility=ndcg_ild: LOO
   utility | ndcg_ild | loo-marginal | native: NDCG@20=0.04522
 intervention ablation
+  intervention | native | loo-marginal | native: NDCG@20=0.04912
+  intervention | kernel | loo-marginal | kernel: NDCG@20=0.05235
+  intervention | native | shapley-mc | native: NDCG@20=0.04892
+  intervention | kernel | shapley-mc | kernel: NDCG@20=0.05037
+SAVED design_ablations.csv

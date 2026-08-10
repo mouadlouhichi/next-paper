@@ -1,0 +1,12 @@
+trained ml1m seed 42; computing Shapley for M=[16, 32, 64, 128, 256] on first 1000 users
+  M=16 seed=42: 296s, eff-residual mean=3.63e-11
+  M=16 seed=1042: 280s, eff-residual mean=2.13e-11
+  M=32 seed=42: 484s, eff-residual mean=1.26e-10
+  M=32 seed=1042: 503s, eff-residual mean=1.00e-10
+  M=64 seed=42: 900s, eff-residual mean=2.98e-10
+  M=64 seed=1042: 898s, eff-residual mean=3.14e-10
+  M=128 seed=42: 2337s, eff-residual mean=3.60e-10
+  M=128 seed=1042: 1893s, eff-residual mean=3.91e-10
+  M=256 seed=42: 17151s, eff-residual mean=4.34e-10
+  M=256 seed=1042: 6716s, eff-residual mean=4.06e-10
+SAVED estimator_convergence.csv
