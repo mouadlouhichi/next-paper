@@ -139,7 +139,16 @@ def train_lightgcn_shared_prop(train_df: pd.DataFrame, n_users: int, n_items: in
 
 
 def load_split_from_run(source_run: Path) -> SplitData:
+    source_run = Path(source_run)
     sp = source_run / "splits"
+    if not (sp / "meta.json").exists():
+        # v4/v4b outputs do not carry splits; fall back to the v3 prospective run
+        for tag in ("_v4b_matched_controls", "_v4_matched_controls"):
+            if str(source_run).endswith(tag):
+                alt = Path(str(source_run)[: -len(tag)] + "_v3_prospective")
+                if (alt / "splits" / "meta.json").exists():
+                    sp = alt / "splits"
+                    break
     meta = json.loads((sp / "meta.json").read_text())
     train = pd.read_parquet(sp / "train.parquet")
     val = pd.read_parquet(sp / "val.parquet")

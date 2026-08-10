@@ -50,7 +50,16 @@ def masked_scores_for_users(model, train_csr, split, users, edge_src_np, edge_ds
     mode='deletion': S = P_u minus top-attributed (those edges removed).
     mode='insertion': S = top-attributed only.
     All edges of other users are kept.
+
+    NOTE: propagation is forced to CPU. Masked re-propagation rebuilds the
+    normalized adjacency with torch.bincount + index_add_ on a per-user masked
+    edge set; these scatter/count kernels are numerically unreliable on MPS,
+    where they produce mask-independent (identical) scores. Faithfulness
+    diagnostics must be numerically exact, so we run them on CPU regardless
+    of COALGAME_DEVICE. Verified on CPU: keep=ALL reproduces the cached base
+    scores to ~1e-10, and masking provably changes the scores.
     """
+    device = torch.device("cpu")
     n_users, n_items = split.n_users, split.n_items
     E0 = torch.cat([model.user_emb.weight.detach(), model.item_emb.weight.detach()], dim=0).to(device)
     train_items_by_user = {int(u): train_csr[int(u)].indices for u in users}
@@ -167,6 +176,17 @@ def main():
     base_hr = float(base_metrics["HitRate@20"].mean())
     rows.append(dict(family="unmasked-reference", fraction=0.0, NDCG20=base_ndcg, HitRate20=base_hr))
     say(f"unmasked reference: NDCG@20={base_ndcg:.5f} HR@20={base_hr:.5f}")
+
+    # self-test: keeping the FULL history must reproduce the cached base scores;
+    # abort loudly rather than emitting mask-independent garbage
+    u0 = int(users[0])
+    keep_full0 = {u0: train_csr[u0].indices}
+    s0 = masked_scores_for_users(model, train_csr, split, np.array([u0]), edge_src_np, edge_dst_np,
+                                 edge_item_np, user_edge_positions, keep_full0, "deletion", device)
+    fin = np.isfinite(s0[0])
+    c = float(np.corrcoef(s0[0][fin], base_scores[u0][fin])[0, 1])
+    assert c > 0.99999, f"masked-forward self-test FAILED (corr={c:.6f}); aborting"
+    say(f"self-test passed: keep=full reproduces base scores (corr={c:.8f})")
 
     for fam, attrs in fam_attrs.items():
         for frac in FRACTIONS:
