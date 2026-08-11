@@ -155,7 +155,7 @@ def evaluate_coalition(
     if not settings.run.common_random_numbers:
         # Preserve the scenario initial state but give this coalition its own
         # reproducible exogenous shock stream for the CRN-on/off ablation.
-        simulator.rng = np.random.default_rng(settings.run.seed + simulator._scenario_offset(scenario.name) + 1_000_003 * mask)
+        simulator.rng_offset = 1_000_003 * mask
     summary: RolloutSummary = simulator.rollout(_policy_for_coalition(policy, coalition, settings))
     cost = coalition.cost(settings.interventions)
     utility = summary.utility_before_cost - settings.utility.cost_weight * cost

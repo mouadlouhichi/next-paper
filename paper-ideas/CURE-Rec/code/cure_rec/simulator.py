@@ -79,7 +79,8 @@ class CureSim:
         self.settings = settings
         self.scenario = scenario
         cfg = settings.simulator
-        self.rng = np.random.default_rng(settings.run.seed + self._scenario_offset(scenario.name))
+        self.rng_offset = 0
+        self.rng = np.random.default_rng(settings.run.seed + self._scenario_offset(scenario.name) + self.rng_offset)
         self.catalog = self._build_catalog()
         self.initial_state = self._build_state()
         self.state = copy.deepcopy(self.initial_state)
@@ -115,7 +116,7 @@ class CureSim:
 
     def reset(self) -> PlatformState:
         self.state = copy.deepcopy(self.initial_state)
-        self.rng = np.random.default_rng(self.settings.run.seed + self._scenario_offset(self.scenario.name))
+        self.rng = np.random.default_rng(self.settings.run.seed + self._scenario_offset(self.scenario.name) + self.rng_offset)
         return self.state
 
     def clone(self) -> "CureSim":
