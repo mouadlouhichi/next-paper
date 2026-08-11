@@ -164,6 +164,7 @@ class CureSim:
             "satisfaction": mean_satisfaction,
             "relevance": mean_relevance,
             "repeat_rate": float(np.mean(repeated)),
+            "click_rate": float(np.mean(clicks)),
         }
 
     def step(self, policy: PolicyFn) -> dict:
@@ -185,7 +186,8 @@ class CureSim:
             )
             # A small satisfaction-mediated preference drift creates delayed effects.
             direction = self.catalog.features[items].mean(axis=0)
-            updated = self.state.hidden_interest[user_id] + 0.03 * response["satisfaction"] * direction
+            feedback_signal = (1.0 - cfg.click_feedback_weight) * response["satisfaction"] + cfg.click_feedback_weight * response["click_rate"]
+            updated = self.state.hidden_interest[user_id] + 0.03 * feedback_signal * direction
             # This optional term is zero in the archived baseline configuration.
             # When varied in calibration it encodes a disclosed behavioral
             # assumption: exposure to items unlike the public profile can create

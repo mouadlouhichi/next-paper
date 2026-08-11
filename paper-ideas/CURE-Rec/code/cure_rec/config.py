@@ -46,6 +46,7 @@ class SimulatorConfig(BaseModel):
     # historical CURE-Sim behavior; calibration can vary this assumption.
     novelty_preference_drift: float = Field(default=0.0, ge=0.0, le=1.0)
     satisfaction_shift: float = 0.0
+    click_feedback_weight: float = Field(default=0.0, ge=0.0, le=1.0)
 
     @model_validator(mode="after")
     def item_count_supports_slate(self) -> "SimulatorConfig":
@@ -105,6 +106,7 @@ class ScenarioConfig(BaseModel):
     fatigue_multiplier: PositiveFloat = 1.0
     popularity_feedback_multiplier: PositiveFloat = 1.0
     satisfaction_shift: float = 0.0
+    click_feedback_weight: float = Field(default=0.0, ge=0.0, le=1.0)
 
 
 class Settings(BaseModel):
