@@ -138,17 +138,25 @@ def train_lightgcn_shared_prop(train_df: pd.DataFrame, n_users: int, n_items: in
     return model
 
 
-def load_split_from_run(source_run: Path) -> SplitData:
+def resolve_source_dir(source_run: Path) -> Path:
+    """Directory that actually carries splits + the canonical item-vector report.
+
+    v4/v4b matched-control outputs do not carry splits (or carry a reduced
+    item-vector report schema); resolve them back to the v3 prospective run.
+    """
     source_run = Path(source_run)
-    sp = source_run / "splits"
-    if not (sp / "meta.json").exists():
-        # v4/v4b outputs do not carry splits; fall back to the v3 prospective run
-        for tag in ("_v4b_matched_controls", "_v4_matched_controls"):
-            if str(source_run).endswith(tag):
-                alt = Path(str(source_run)[: -len(tag)] + "_v3_prospective")
-                if (alt / "splits" / "meta.json").exists():
-                    sp = alt / "splits"
-                    break
+    if (source_run / "splits" / "meta.json").exists():
+        return source_run
+    for tag in ("_v4b_matched_controls", "_v4_matched_controls"):
+        if str(source_run).endswith(tag):
+            alt = Path(str(source_run)[: -len(tag)] + "_v3_prospective")
+            if (alt / "splits" / "meta.json").exists():
+                return alt
+    return source_run
+
+
+def load_split_from_run(source_run: Path) -> SplitData:
+    sp = resolve_source_dir(source_run) / "splits"
     meta = json.loads((sp / "meta.json").read_text())
     train = pd.read_parquet(sp / "train.parquet")
     val = pd.read_parquet(sp / "val.parquet")
@@ -275,12 +283,13 @@ def main():
 
     # integrity check: item vectors depend only on the train split, so their
     # fingerprint must equal the one recorded by the source v3 run.
-    src_report = json.loads((source_run / "item_vectors_report.json").read_text())
+    src_report = json.loads((resolve_source_dir(source_run) / "item_vectors_report.json").read_text())
     fp = sparse_fingerprint(item_vectors)
     iv_sorted = item_vectors.copy(); iv_sorted.sort_indices()
     fp_sorted = sparse_fingerprint(iv_sorted)
-    iv_match = (fp == src_report["hash"]) or (fp_sorted == src_report["hash"])
-    shape_nnz_match = (list(item_vectors.shape) == src_report["shape"]
+    iv_match = (fp == src_report.get("hash")) or (fp_sorted == src_report.get("hash"))
+    shape_nnz_match = ("shape" in src_report and "nnz" in src_report
+                       and list(item_vectors.shape) == src_report["shape"]
                        and int(item_vectors.nnz) == int(src_report["nnz"]))
     # Content is derived deterministically from the archived split; a hash
     # mismatch can only reflect intra-row index ordering after the parquet
