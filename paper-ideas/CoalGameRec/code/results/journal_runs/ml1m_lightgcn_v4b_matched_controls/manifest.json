@@ -1,0 +1,14 @@
+{
+  "device": "mps",
+  "item_vectors_hash_exact_match": true,
+  "item_vectors_shape_nnz_match": true,
+  "n_items": 3114,
+  "n_users": 6015,
+  "note": "Confirmatory matched-controls run (v4). Adds validation-informed non-game controls to the frozen v3 protocol.",
+  "platform": "macOS-26.6-arm64-arm-64bit",
+  "python": "3.12.13",
+  "torch": "2.3.1",
+  "total_seconds": 80283.89233374596,
+  "train_interactions": 562183,
+  "trainer": "train_lightgcn_shared_prop (equivalent gradients, 1 propagation/batch)"
+}
