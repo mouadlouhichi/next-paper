@@ -1,9 +1,0 @@
-contrast,metric,treatment,control,mean_diff,ci90_low,ci90_high,p,dz,n_seeds,holm_reject_0.05
-shapley-mc_vs_uniform_NDCG@20,NDCG@20,shapley-mc,uniform,0.00308185549758936,0.002572087149235245,0.0035789280950290926,< 0.0005,0.0679,5,True
-shapley-mc_vs_valid-sim_NDCG@20,NDCG@20,shapley-mc,valid-sim,0.001307432710889443,0.0009094239048129675,0.0016675139283624267,< 0.0005,0.0388,5,True
-shapley-mc_vs_valid-linear_NDCG@20,NDCG@20,shapley-mc,valid-linear,0.000666625838736492,0.0002380427654364089,0.0010838107117622597,0.002,0.0185,5,True
-shapley-mc_vs_loo-marginal_NDCG@20,NDCG@20,shapley-mc,loo-marginal,-0.0005959652136325852,-0.0010099703316375727,-0.00015185682226932665,0.007,-0.0158,5,True
-shapley-mc_vs_uniform_HitRate@20,HitRate@20,shapley-mc,uniform,0.007880299251870324,0.006083956774729842,0.009443059019118868,< 0.0005,0.0523,5,True
-shapley-mc_vs_valid-sim_HitRate@20,HitRate@20,shapley-mc,valid-sim,0.0033915211970074813,0.002028262676641729,0.004621778886118038,< 0.0005,0.0292,5,True
-shapley-mc_vs_valid-linear_HitRate@20,HitRate@20,shapley-mc,valid-linear,0.0021280133000831257,0.0007647547797173732,0.003458021612635079,0.001,0.0182,5,True
-shapley-mc_vs_loo-marginal_HitRate@20,HitRate@20,shapley-mc,loo-marginal,6.650041562759768e-05,-0.001197007481296758,0.0013973399833748918,0.938,0.0006,5,False
