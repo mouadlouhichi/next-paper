@@ -495,8 +495,8 @@ Inference uses paired user-level differences within each seed and a seed-cluster
 
 \begin{figure*}[t]
 \centering
-\includegraphics[width=0.95\textwidth]{assets/figures/ndcg_results.png}
-\caption{NDCG@20 by attribution family for LightGCN on MovieLens-1M and Amazon-Book (mean$\pm$SD over 5 seeds; full-catalog ranking). Error bars are SD across seeds; significance vs.\ LOO is in Table~\ref{tab:paired}. Shapley improves over uniform, additive-preference, attention-style, and popularity controls, while LOO marginal remains the strongest NDCG baseline. The comparison with the popularity control is descriptive (it is not in the Holm family).}
+\includegraphics[width=\textwidth]{assets/figures/performance_ndcg_recall.png}
+\caption{Ranking quality by attribution family, in the style of a model-comparison chart: NDCG@20 and Recall@20 ($=$ HitRate@20 for a single held-out positive) on MovieLens-1M and Amazon-Book, mean $\pm$ SD over five seeds, full-catalog ranking. The cooperative-game families (Shapley and CoalGameRec/LOO) sit above the non-game reweighting controls, and CoalGameRec (LOO) is the strongest overall; paired significance is in Tables~\ref{tab:paired} and \ref{tab:paired_loo}.}
 \label{fig:ndcg_results}
 \end{figure*}
 
