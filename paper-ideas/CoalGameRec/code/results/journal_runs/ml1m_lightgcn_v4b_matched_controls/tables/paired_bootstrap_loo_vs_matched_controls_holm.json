@@ -1,0 +1,62 @@
+{
+  "loo-marginal_vs_additive-pref_HitRate@20": {
+    "holm_threshold": 0.005555555555555556,
+    "p": 0.0,
+    "reject_0.05": true
+  },
+  "loo-marginal_vs_additive-pref_NDCG@20": {
+    "holm_threshold": 0.005,
+    "p": 0.0,
+    "reject_0.05": true
+  },
+  "loo-marginal_vs_attention_HitRate@20": {
+    "holm_threshold": 0.0071428571428571435,
+    "p": 0.0,
+    "reject_0.05": true
+  },
+  "loo-marginal_vs_attention_NDCG@20": {
+    "holm_threshold": 0.00625,
+    "p": 0.0,
+    "reject_0.05": true
+  },
+  "loo-marginal_vs_heuristic-pop_HitRate@20": {
+    "holm_threshold": 0.01,
+    "p": 0.0,
+    "reject_0.05": true
+  },
+  "loo-marginal_vs_heuristic-pop_NDCG@20": {
+    "holm_threshold": 0.008333333333333333,
+    "p": 0.0,
+    "reject_0.05": true
+  },
+  "loo-marginal_vs_uniform_HitRate@20": {
+    "holm_threshold": 0.004545454545454546,
+    "p": 0.0,
+    "reject_0.05": true
+  },
+  "loo-marginal_vs_uniform_NDCG@20": {
+    "holm_threshold": 0.004166666666666667,
+    "p": 0.0,
+    "reject_0.05": true
+  },
+  "loo-marginal_vs_valid-linear_HitRate@20": {
+    "holm_threshold": 0.05,
+    "p": 0.004,
+    "reject_0.05": true
+  },
+  "loo-marginal_vs_valid-linear_NDCG@20": {
+    "holm_threshold": 0.025,
+    "p": 0.0,
+    "reject_0.05": true
+  },
+  "loo-marginal_vs_valid-sim_HitRate@20": {
+    "holm_threshold": 0.016666666666666666,
+    "p": 0.0,
+    "reject_0.05": true
+  },
+  "loo-marginal_vs_valid-sim_NDCG@20": {
+    "holm_threshold": 0.0125,
+    "p": 0.0,
+    "reject_0.05": true
+  }
+}
