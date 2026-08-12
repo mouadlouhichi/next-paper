@@ -1,0 +1,13 @@
+contrast,metric,treatment,control,mean_diff,ci90_low,ci90_high,p,dz,n_seeds,holm_reject_0.05
+loo-marginal_vs_uniform_NDCG@20,NDCG@20,loo-marginal,uniform,0.003677820711221945,0.0030256709125270156,0.004287567532826267,< 0.0005,0.064,5,True
+loo-marginal_vs_additive-pref_NDCG@20,NDCG@20,loo-marginal,additive-pref,0.0035613350038237743,0.002903018835976725,0.004235422057813799,< 0.0005,0.0613,5,True
+loo-marginal_vs_attention_NDCG@20,NDCG@20,loo-marginal,attention,0.0031162040960931005,0.0024252034123773904,0.0037932610169243556,< 0.0005,0.0507,5,True
+loo-marginal_vs_heuristic-pop_NDCG@20,NDCG@20,loo-marginal,heuristic-pop,0.0034380042347464676,0.0027685710330257692,0.004108531655211969,< 0.0005,0.059,5,True
+loo-marginal_vs_valid-sim_NDCG@20,NDCG@20,loo-marginal,valid-sim,0.0019033979245220282,0.0013354196584954281,0.0024341420839900235,< 0.0005,0.0394,5,True
+loo-marginal_vs_valid-linear_NDCG@20,NDCG@20,loo-marginal,valid-linear,0.0012625910523690771,0.0007830602143059017,0.0017479149699418117,< 0.0005,0.0303,5,True
+loo-marginal_vs_uniform_HitRate@20,HitRate@20,loo-marginal,uniform,0.007813798836242728,0.005818786367414796,0.009676641729010803,< 0.0005,0.0448,5,True
+loo-marginal_vs_additive-pref_HitRate@20,HitRate@20,loo-marginal,additive-pref,0.007581047381546134,0.005618453865336658,0.00947630922693267,< 0.0005,0.043,5,True
+loo-marginal_vs_attention_HitRate@20,HitRate@20,loo-marginal,attention,0.006650041562759767,0.004588528678304239,0.008678304239401495,< 0.0005,0.0363,5,True
+loo-marginal_vs_heuristic-pop_HitRate@20,HitRate@20,loo-marginal,heuristic-pop,0.007315045719035744,0.005319201995012469,0.009210307564422277,< 0.0005,0.0415,5,True
+loo-marginal_vs_valid-sim_HitRate@20,HitRate@20,loo-marginal,valid-sim,0.0033250207813798833,0.0015951787198669992,0.004987531172069825,< 0.0005,0.0221,5,True
+loo-marginal_vs_valid-linear_HitRate@20,HitRate@20,loo-marginal,valid-linear,0.002061512884455528,0.0005320033250207814,0.003525353283458017,0.004,0.0158,5,True

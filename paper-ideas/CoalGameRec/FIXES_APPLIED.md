@@ -248,3 +248,29 @@ Round-2 verdict: **Major Revision** (validation-informed baselines removed; LOO-
   (Alg 2); RNG seed + efficiency residual output (Alg 3); family identifier + z-score stability (Alg 4).
 - Repetition reduced: negative-result section trimmed; contributions 5→3 separating the proposed
   framework from the experimentally supported findings.
+
+---
+
+# v18 integration (2026-08-12): C1b (Shapley re-run), design ablations, convergence, masked-forward
+
+All round-4 experiments executed on the authors' machine (Apple MPS, torch 2.3.1) and integrated:
+
+1. **C1b (C1 with Shapley)** — 9 families, both datasets, 5 seeds. Ordering on NDCG@20 on both
+   datasets: LOO > Shapley > valid-linear > valid-sim > heuristics. Paired (Holm): LOO beats all
+   6 controls — ML-1M 12/12, Amazon 11/12 (HR vs valid-linear p=0.086 n.s.). Shapley-as-treatment:
+   beats valid-sim on both datasets (NDCG p<0.0005) but is significantly BEATEN by LOO on NDCG@20
+   in the matched environment (ML-1M p=0.007; Amazon p<0.0005). New tables: tab:c1_main (v4b),
+   tab:c1_paired (v4b), tab:c1_shap (new).
+2. **Design-factor ablations** (new tab:design_ablations, seed 42, both datasets): k flat for k>=16;
+   player selection indistinguishable; smooth utility beats hard utility (first direct P2 evidence);
+   external kernel beats native intervention (reported as honest finding against the alignment
+   principle as a performance claim; native retained as the protocol intervention).
+3. **Estimator convergence** (new tab:estimator_convergence, ML-1M, 1000 users, 2 est. seeds):
+   efficiency residual <=4.3e-10 for all M; Spearman vs M=256 reference 0.81->0.96, passing 0.91
+   at protocol M=64.
+4. **Masked-forward faithfulness** (valid re-run, CPU, self-tested): tab:c1_faith replaced with true
+   masked-forward results — insertion retains/exceeds unmasked under game families while uniform
+   falls below; deletion degrades most under LOO (ML-1M) and Shapley (Amazon). Faithfulness still
+   not claimed in the full sense.
+5. Abstract, contributions, limitations, discussion updated to reflect C1b + masked-forward;
+   all "Shapley not re-run" language removed.
