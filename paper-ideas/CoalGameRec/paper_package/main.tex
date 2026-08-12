@@ -869,6 +869,30 @@ Intervention & native (protocol) & LOO     & & 0.04912 & 0.03209 \\
 \end{tabular}
 \end{table*}
 
+
+\subsection{Synthetic redundancy and complementarity game}\label{subsec:redundancy_demo}
+
+The redundancy argument behind Proposition~\ref{prop2} is demonstrated directly on a synthetic coverage game with known ground-truth structure (Table~\ref{tab:redundancy_demo}): eight players covering four needs, with two redundant pairs ($a_1,a_2$ both cover need $A$; $b_1,b_2$ cover $B$), one complementary pair (need $C$ is covered only if \emph{both} $c_1$ and $c_2$ are present), one null player $z$, and one singleton $s$; the coalition value $v(S)$ is the fraction of needs covered. Exact Shapley ($2^8$ coalitions) and the grand-coalition LOO marginal are computed on the identical game. The outcome is exactly the mechanism the proposition predicts: LOO assigns \emph{zero} to all four redundant players --- each is individually removable without loss because its partner still covers the need --- while Shapley splits their joint credit evenly ($0.125$ each; $0.50$ for the two pairs together). Symmetrically, LOO \emph{double-counts} the complementary pair (removing either member kills need $C$, so each receives its full value, $0.25+0.25=0.50$ where Shapley assigns $0.25$). The null player receives zero under both concepts. Consequently the LOO shares sum to $0.75$ against $v(N)=1.00$ --- a $-25\%$ efficiency gap --- while Shapley sums exactly to $1.00$ (residual $1.2\times10^{-15}$). This is the controlled instance of the failure mode that the real-data efficiency gaps of Section~\ref{subsec4_4} exhibit approximately; it shows the gap is a property of the LOO estimator under redundancy and complementarity, not of these particular datasets.
+
+\begin{table}[t]
+\caption{Synthetic redundancy/complementarity coverage game (exact Shapley over $2^8$ coalitions vs.\ grand-coalition LOO; released synthetic demo artifacts). Redundant players are individually removable without loss; the complementary need requires both members.}\label{tab:redundancy_demo}
+\centering
+\small
+\begin{tabular}{llcc}
+\toprule
+Item & Role & Shapley & LOO \\
+\midrule
+$a_1$, $a_2$ & redundant pair ($A$)   & $0.125$ each & $0.000$ each \\
+$b_1$, $b_2$ & redundant pair ($B$)   & $0.125$ each & $0.000$ each \\
+$c_1$, $c_2$ & complementary ($C$)    & $0.125$ each & $0.250$ each \\
+$z$          & null player            & $0.000$      & $0.000$ \\
+$s$          & singleton ($D$)        & $0.250$      & $0.250$ \\
+\midrule
+\multicolumn{2}{l}{Sum of shares vs.\ $v(N)=1.000$} & $1.000$ (residual $\sim10^{-15}$) & $0.750$ ($-25\%$ gap) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \subsection{Shapley estimator convergence}\label{subsec:estimator_convergence}
 
 Because the negative Shapley-vs-LOO result could in principle reflect an under-resolved Shapley estimator, Table~\ref{tab:estimator_convergence} reports an $M$-budget convergence study on ML-1M (user subsample of 1,000, two estimator RNG seeds per $M$, reference = mean of the two $M=256$ runs). The efficiency residual $|\sum_g\hat\phi_g-(v(P_u)-v(\emptyset))|$ is at machine precision ($\le4.3\times10^{-10}$) for every $M$, and the per-user attribution rank correlation with the $M=256$ reference rises monotonically from $0.81$ ($M=16$) to $0.96$ ($M=256$), passing $0.91$ at the protocol value $M=64$. The $M=64$ choice therefore captures the bulk of the estimator's ordering signal at a fraction of the $M=256$ cost, and the Shapley-vs-LOO ranking conclusion is stable across the two estimator seeds.

@@ -274,3 +274,10 @@ All round-4 experiments executed on the authors' machine (Apple MPS, torch 2.3.1
    not claimed in the full sense.
 5. Abstract, contributions, limitations, discussion updated to reflect C1b + masked-forward;
    all "Shapley not re-run" language removed.
+
+## v18 addition: synthetic redundancy/complementarity game (mandatory item #8)
+- scripts/run_redundancy_demo.py: 8-player coverage game (2 redundant pairs, 1 complementary
+  pair, 1 null player, 1 singleton), exact Shapley (2^8 coalitions) vs grand-coalition LOO.
+- Result: LOO assigns zero to all four redundant players while Shapley splits their joint credit;
+  LOO double-counts the complementary pair; LOO efficiency gap -25% vs Shapley residual ~1e-15.
+  New tab:redundancy_demo; controlled instance of the real-data efficiency gaps.
