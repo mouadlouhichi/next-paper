@@ -13,11 +13,14 @@ from cure_rec.data import audit_interactions, load_dataset, load_interactions_cs
 from cure_rec.experiments import postprocess_seed_sweep, run_seed_sweep
 from cure_rec.observability import RunLogger
 from cure_rec.pipeline import run_experiment
+from cure_rec.game import ALL_MASKS
 from cure_rec.regimes import run_regime_suite
 from cure_rec.search import SearchConfig, run_final_bpr_audit, run_final_bpr_seed_replication, run_staged_bpr_search
 from cure_rec.sasrec_search import SASRecSearchConfig, run_final_sasrec_audit, run_final_sasrec_seed_replication, run_staged_sasrec_search
 from cure_rec.models import chronological_leave_one_out
 from cure_rec.workflow import run_full_workflow
+from cure_rec.reviewer_cli import run_holdout, aggregate as aggregate_reviewer_runs
+from cure_rec.revision_suite import objective_ablation, sampled_shapley_fidelity, write_revision_assets
 
 
 PUBLIC_DATASETS = ("movielens_1m", "coat", "yahoo_r3")
@@ -190,6 +193,30 @@ def _calibrate(args: argparse.Namespace) -> int:
     return 0
 
 
+def _reviewer_holdout(args: argparse.Namespace) -> int:
+    selection = tuple(int(x) for x in args.selection_seeds.split(",") if x.strip())
+    evaluation = tuple(int(x) for x in args.evaluation_seeds.split(",") if x.strip())
+    run_dir = run_holdout(args.config, args.output_root, selection, evaluation)
+    print(json.dumps({"reviewer_holdout_run": str(run_dir), "selection_seeds": selection, "evaluation_seeds": evaluation}, indent=2))
+    return 0
+
+
+def _revision_ablation(args: argparse.Namespace) -> int:
+    settings = load_settings(args.config)
+    logger, game, decision = run_experiment(settings)
+    tables = {"phase_b_objective_constraint_ablation": objective_ablation(game, settings), "phase_c_sampled_shapley_fidelity": sampled_shapley_fidelity(game.robust_improvements or {m: min(s.values[m].improvement for s in game.scenario_games.values()) for m in ALL_MASKS})}
+    output = write_revision_assets(args.output_dir, tables, {"source_run": str(logger.run_dir), "claim_scope": "CURE-Sim revision ablations", "selected_portfolio": decision.selected_interventions})
+    print(json.dumps({"revision_assets": str(output), "source_run": str(logger.run_dir)}, indent=2))
+    return 0
+
+
+def _reviewer_aggregate(args: argparse.Namespace) -> int:
+    run_dirs = [Path(x) for x in args.run_dirs.split(",") if x.strip()]
+    output = aggregate_reviewer_runs(run_dirs, args.output_dir)
+    print(json.dumps({"reviewer_phase_a_assets": str(output), "table": str(output / "reviewer_table_selector_holdout.csv")}, indent=2))
+    return 0
+
+
 def _postprocess_sweep(args: argparse.Namespace) -> int:
     settings = load_settings(args.config)
     result = postprocess_seed_sweep(args.run_dir, settings)
@@ -342,6 +369,23 @@ def main(argv: list[str] | None = None) -> int:
     calibration.add_argument("--lhs-seed", type=int, default=20260805)
     calibration.add_argument("--resume-dir", type=Path, help="Existing calibration-{design}-<timestamp> directory to resume without rerunning completed child seeds")
     calibration.set_defaults(handler=_calibrate)
+
+    revision_ablation = subparsers.add_parser("revision-ablation", help="Run Phase B objective/constraint and Phase C sampled-Shapley assets")
+    revision_ablation.add_argument("--config", type=Path, required=True)
+    revision_ablation.add_argument("--output-dir", type=Path, required=True)
+    revision_ablation.set_defaults(handler=_revision_ablation)
+
+    reviewer_holdout = subparsers.add_parser("reviewer-holdout", help="Run disjoint-seed selector comparison for reviewer revision")
+    reviewer_holdout.add_argument("--config", type=Path, required=True)
+    reviewer_holdout.add_argument("--output-root", type=Path, default=Path("runs/reviewer-revision"))
+    reviewer_holdout.add_argument("--selection-seeds", default="42,43,44,45,46")
+    reviewer_holdout.add_argument("--evaluation-seeds", default="200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,218,219")
+    reviewer_holdout.set_defaults(handler=_reviewer_holdout)
+
+    reviewer_aggregate = subparsers.add_parser("reviewer-aggregate", help="Aggregate completed reviewer selector runs")
+    reviewer_aggregate.add_argument("--run-dirs", required=True, help="Comma-separated held-out run directories")
+    reviewer_aggregate.add_argument("--output-dir", type=Path, required=True)
+    reviewer_aggregate.set_defaults(handler=_reviewer_aggregate)
 
     postprocess = subparsers.add_parser("postprocess-sweep", help="Regenerate aggregate seed assets from an existing completed sweep")
     postprocess.add_argument("--config", type=Path, required=True)

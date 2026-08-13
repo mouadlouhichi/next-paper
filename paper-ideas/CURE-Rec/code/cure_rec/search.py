@@ -85,7 +85,7 @@ def run_staged_bpr_search(split: LeaveOneOutSplit, output_dir: str | Path, searc
     best_cfg = {key: best[key] for key in ("embedding_dim", "batch_size", "learning_rate", "weight_decay", "negative_strategy")}
     final = TorchBPRMFWithBias(TorchBPRConfig(max_epochs=search.final_epochs, seed=search.seed, **best_cfg))
     final.fit(split.train, validation_split=split, max_eval_users=search.max_eval_users)
-    popularity = PopularityRecommender().fit(split.train)
+    popularity = PopularityRecommender().fit(split.train if split is not None else None)
     stage_c = []
     for alpha in (0.25, 0.40, 0.55, 0.70, 0.85, 1.0):
         metric = evaluate_leave_one_out(PopularityHybrid(final, popularity, alpha), split, use_validation=True, max_users=search.max_eval_users)
@@ -125,8 +125,13 @@ def run_final_bpr_audit(
     root = Path(output_dir)
     root.mkdir(parents=True, exist_ok=True)
     model = TorchBPRMFWithBias(TorchBPRConfig(max_epochs=final_epochs, seed=seed, **best_cfg))
-    model.fit(split.train, validation_split=split, max_eval_users=max_eval_users)
-    popularity = PopularityRecommender().fit(split.train)
+    # Keep the audit helper testable with lightweight model doubles that do not
+    # need a real split; production runs always provide a LeaveOneOutSplit.
+    if split is not None:
+        model.fit(split.train, validation_split=split, max_eval_users=max_eval_users)
+    else:
+        model.fit(None, validation_split=None, max_eval_users=max_eval_users)
+    popularity = PopularityRecommender().fit(split.train if split is not None else None)
     bpr_metric = asdict(evaluate_leave_one_out(model, split, max_users=max_eval_users))
     pop_metric = asdict(evaluate_leave_one_out(popularity, split, max_users=max_eval_users))
     audit, pairwise = audit_evaluation([popularity, model], split, max_users=max_eval_users, seed=seed)

@@ -1,0 +1,11 @@
+{
+  "source_run": "runs/curesim-quickstart-20260813T120715Z-488cdd22",
+  "claim_scope": "CURE-Sim revision ablations",
+  "selected_portfolio": [
+    "repeat_cap"
+  ],
+  "tables": [
+    "phase_b_objective_constraint_ablation",
+    "phase_c_sampled_shapley_fidelity"
+  ]
+}

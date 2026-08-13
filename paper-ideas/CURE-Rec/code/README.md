@@ -161,6 +161,20 @@ cure-rec calibrate \
 cure-rec postprocess-sweep \
   --config configs/curesim_full.yaml \
   --run-dir runs/seed-sweep-<timestamp>
+
+# Reviewer Phase A: select on disjoint seeds and evaluate frozen portfolios on held-out seeds.
+# The output contains selection_choices.csv, heldout_selector_evaluations.csv,
+# heldout_selector_summary.csv, and revision_manifest.json.
+cure-rec reviewer-holdout \
+  --config configs/curesim_full.yaml \
+  --output-root runs/reviewer-revision \
+  --selection-seeds 42,43,44,45,46 \
+  --evaluation-seeds 200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,218,219
+
+# Aggregate multiple completed Phase-A runs without rerunning simulations.
+cure-rec reviewer-aggregate \
+  --run-dirs runs/reviewer-revision/run-a,runs/reviewer-revision/run-b \
+  --output-dir runs/reviewer-phase-a-assets
 ```
 
 `calibrate` is a sensitivity analysis of stated CURE-Sim assumptions, **not** a
