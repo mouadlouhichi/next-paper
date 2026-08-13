@@ -69,7 +69,136 @@ been inserted into the Springer manuscript.
 5. archive new revision artifacts with checksums;
 6. create a tagged release and Zenodo/OSF record before submission.
 
+## Phase A — detailed interpretation and manuscript rules
+
+The completed selector studies show that the deterministic selectors often agree:
+exact CURE maximin, best singleton, robust-Shapley-1, budgeted robust-Shapley,
+greedy robust, and nominal selection all choose `repeat_cap` in the tested full
+configuration. This is not a failure and must not be rewritten as a superiority
+claim. The correct claim is that the exact planner recovers the same simple policy
+when the decision problem has a clear dominant feasible intervention, while exposing
+when random portfolios and the grand coalition are poor or infeasible.
+
+The strict provider-threshold study must also be reported as a limitation: a policy
+selected on calibration seeds can fail the strict constraint on some unseen stochastic
+evaluation seeds. This is evidence for held-out portfolio evaluation, not evidence
+that the threshold is universally satisfied.
+
+The robust-game attribution should be described precisely:
+
+```math
+v^{rob}(S)=\min_{m\in\mathcal{M}}\Delta V_m(S),
+```
+
+and `robust_phi` is the exact Shapley allocation of this characteristic function.
+Scenario Shapley regions answer a separate sensitivity question. Neither object alone
+fully explains a hard-constrained decision; the decision card must also report the
+binding constraint margins.
+
+## Phase B — detailed design
+
+### B1. Maximin versus mean-utility
+
+For each selection seed, construct both:
+
+```math
+S_{maximin}=\arg\max_{S\in\mathcal{F}}\min_m\Delta V_m(S),
+```
+
+and:
+
+```math
+S_{mean}=\arg\max_{S\in\mathcal{F}}\frac{1}{|\mathcal{M}|}\sum_m\Delta V_m(S).
+```
+
+Freeze each selected mask and evaluate both on disjoint evaluation seeds. Report:
+selected mask frequency, held-out lower utility, held-out mean utility, feasibility
+rate, provider margin, fatigue margin, and paired difference. A tie is a valid result.
+
+### B2. Hard constraints versus scalar penalty
+
+Keep the hard-feasible selector as the reference. Predeclare penalty coefficients
+before running the comparator and define:
+
+```math
+J_{pen}(S)=v^{rob}(S)-\lambda_r[r_{min}-r(S)]_+-\lambda_d[d(S)-d_{max}]_+-\lambda_f[f(S)-f_{max}]_+-\lambda_c[c(S)-B]_+.
+```
+
+Report both utility and violation rate. A penalty selector must not be called better
+solely because it has higher unconstrained utility while violating a declared limit.
+
+### B3. CRN analysis
+
+The valid CRN endpoint is the variance of a *paired coalition difference*, not merely
+the SD of a selected policy across seeds. Predeclare one or more coalition pairs,
+for example base versus repeat-cap and repeat-cap versus repeat-cap-plus-tail. For
+each seed compute the difference under shared shocks and under independent shocks.
+Report the variance ratio and a confidence interval. The click-feedback variant is a
+separate stochastic simulator variant and must be labelled as such.
+
+### B4. Component ablations
+
+Evaluate one component change at a time: remove repair semantics, replace exact
+search with greedy search, remove the hard feasibility filter, remove robust-game
+attribution from the explanation card, and remove common random numbers. The output
+should identify which masks, constraint margins, and held-out outcomes change.
+
+## Phase C — detailed scaling protocol
+
+A larger player library must be explicitly declared. Do not create artificial duplicate
+players merely to reach a larger n. Each added player needs a distinct operational
+transformation, cost, eligibility rule, and collision semantics. For every n report:
+
+```text
+coalition count = 2^n
+scenario count
+seed count
+runtime per game
+peak memory
+exact Shapley time
+interaction time
+Shapley efficiency gap
+```
+
+For sampled Shapley, repeat the estimator with independent permutation seeds. Report
+mean absolute error, maximum error, sign agreement, rank correlation, and runtime
+against the exact value. Exact versus sampled comparisons are meaningful only where
+the exact table is available.
+
+## Phase D — detailed external protocol
+
+External ranking remains descriptive. For every evaluated user save the target rank,
+hit, NDCG contribution, candidate count, and cold-target flag for every model. The
+statistical comparison must be paired by user because each model ranks the same user
+and candidate vector. Report bootstrap confidence intervals for metric differences,
+paired permutation or Wilcoxon tests, effect sizes, and Holm-corrected p-values.
+
+A second dataset must have real timestamps and sufficient positive history. Its loader,
+license, preprocessing, positive threshold, user filtering, split, warm/cold handling,
+and model search budget must be documented. Do not label a second ratings dataset as
+causal evidence without logged exposures and propensities.
+
+## Release checklist
+
+Before submission, create a release containing:
+
+```text
+source commit hash
+requirements and package versions
+configuration YAML files
+seed lists
+raw small summary tables
+all manuscript figures
+SHA256SUMS.txt
+REPRODUCE.md
+revision experiment manifests
+manuscript PDF and TeX source
+```
+
+Use a tag and archive DOI rather than only a moving working branch.
+
 ## Execution rule
 
 Run one expensive action at a time. After each completed action: inspect output,
-archive it, commit it, and push it before enabling the next action.
+archive it, commit it, and push it before enabling the next action. Never use an
+unfinished or stale kernel result in the manuscript.
