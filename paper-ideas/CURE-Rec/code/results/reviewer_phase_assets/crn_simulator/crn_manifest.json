@@ -1,0 +1,22 @@
+{
+  "seeds": [
+    300,
+    301,
+    302,
+    303,
+    304
+  ],
+  "pairs": [
+    [
+      0,
+      1
+    ],
+    [
+      1,
+      5
+    ]
+  ],
+  "claim_scope": "CURE-Sim paired coalition differences",
+  "common_random_numbers_definition": "same seed and shared shock stream within each exact game",
+  "independent_definition": "coalition-specific shock offset in simulator"
+}
