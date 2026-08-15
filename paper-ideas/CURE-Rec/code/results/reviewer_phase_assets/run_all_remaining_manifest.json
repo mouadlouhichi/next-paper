@@ -1,0 +1,10 @@
+{
+  "run_all": true,
+  "phase_a": "archived_not_rerun",
+  "phase_bc": "archived_inspected",
+  "crn": "executed_click_feedback_variant",
+  "phase_d": "skipped_missing_per_user_metrics",
+  "scalability": "skipped_no_distinct_8_10_player_library",
+  "registered_config_changed": false,
+  "crn_click_feedback_weight": 0.35
+}

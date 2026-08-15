@@ -1,0 +1,22 @@
+{
+  "seeds": [
+    300,
+    301,
+    302,
+    303,
+    304
+  ],
+  "pairs": [
+    [
+      0,
+      1
+    ],
+    [
+      1,
+      5
+    ]
+  ],
+  "click_feedback_weight": 0.35,
+  "registered_config_changed": false,
+  "claim_scope": "CURE-Sim stochastic click-feedback CRN diagnostic"
+}
