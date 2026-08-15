@@ -156,6 +156,11 @@ def evaluate_coalition(
         # Preserve the scenario initial state but give this coalition its own
         # reproducible exogenous shock stream for the CRN-on/off ablation.
         simulator.rng_offset = 1_000_003 * mask
+        # `clone()` copies the generator state created during simulator
+        # construction. Setting rng_offset alone therefore has no effect until
+        # the simulator is reset. Without this reset the CRN-off ablation is
+        # accidentally identical to CRN-on.
+        simulator.reset()
     summary: RolloutSummary = simulator.rollout(_policy_for_coalition(policy, coalition, settings))
     cost = coalition.cost(settings.interventions)
     utility = summary.utility_before_cost - settings.utility.cost_weight * cost
