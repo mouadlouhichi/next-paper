@@ -1,0 +1,3 @@
+model,reference,metric,n_users,difference_mean,bootstrap_low,bootstrap_high,effect_dz
+bpr_mf_numpy,popularity,hit,1000,-0.046,-0.06,-0.033,-0.21947622039928316
+bpr_mf_numpy,popularity,ndcg,1000,-0.02039921129864554,-0.026879246245265123,-0.01436545336361245,-0.20327288734256138
