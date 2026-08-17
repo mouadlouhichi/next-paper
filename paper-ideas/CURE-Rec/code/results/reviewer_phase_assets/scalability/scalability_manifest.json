@@ -1,0 +1,46 @@
+{
+  "players": [
+    6,
+    8,
+    10
+  ],
+  "budgets": [
+    32,
+    128,
+    512,
+    2048
+  ],
+  "scope": "declared non-additive attribution benchmark; not CURE-Sim causal utility",
+  "distinct_players": {
+    "6": [
+      "repeat_cap",
+      "explore_slot",
+      "tail_slot",
+      "diversify",
+      "novel_slot",
+      "provider_balance"
+    ],
+    "8": [
+      "repeat_cap",
+      "explore_slot",
+      "tail_slot",
+      "diversify",
+      "novel_slot",
+      "provider_balance",
+      "session_length_cap",
+      "freshness_quota"
+    ],
+    "10": [
+      "repeat_cap",
+      "explore_slot",
+      "tail_slot",
+      "diversify",
+      "novel_slot",
+      "provider_balance",
+      "session_length_cap",
+      "freshness_quota",
+      "provider_cooldown",
+      "category_coverage_quota"
+    ]
+  }
+}
