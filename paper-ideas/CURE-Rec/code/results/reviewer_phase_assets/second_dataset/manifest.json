@@ -1,0 +1,5 @@
+{
+  "dataset": "movielens_25m",
+  "source": "/Users/mlouhichi/Desktop/CURE-Rec/next-paper/paper-ideas/CURE-Rec/code/data/raw/ml-25m",
+  "scope": "chronological warm-item ranking only; not causal policy evidence"
+}
