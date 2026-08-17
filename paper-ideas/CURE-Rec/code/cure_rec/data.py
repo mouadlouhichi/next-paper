@@ -265,7 +265,25 @@ def load_movielens_25m(root: str | Path, *, download: bool = False, logger: RunL
     if not ratings_path.exists():
         if not download:
             raise FileNotFoundError("MovieLens-25M ratings.csv not found; use download=True.")
-        archive = _download(MOVIELENS_25M_URL, root_path / "ml-25m.zip", logger)
+        archive = root_path / "ml-25m.zip"
+        # Do not reuse a truncated HTML/error response as if it were the archive.
+        if archive.exists() and not zipfile.is_zipfile(archive):
+            archive.unlink()
+        last_error = None
+        for attempt in range(3):
+            try:
+                request = urllib.request.Request(MOVIELENS_25M_URL, headers={"User-Agent": "CURE-Rec/0.1 dataset downloader"})
+                with urllib.request.urlopen(request, timeout=120) as source, archive.open("wb") as target:
+                    shutil.copyfileobj(source, target)
+                if not zipfile.is_zipfile(archive):
+                    raise ValueError("downloaded MovieLens-25M response is not a ZIP archive")
+                break
+            except Exception as exc:
+                last_error = exc
+                if archive.exists(): archive.unlink()
+                if attempt == 2:
+                    raise RuntimeError(f"MovieLens-25M download failed after 3 attempts: {exc}") from exc
+        _log(logger, "dataset_download_completed", url=MOVIELENS_25M_URL, destination=str(archive), bytes=archive.stat().st_size)
         _safe_extract_zip(archive, root_path)
         ratings_path = _find_file(root_path, ("ratings.csv",))
     frame = pd.read_csv(ratings_path, usecols=["userId", "movieId", "rating", "timestamp"])
