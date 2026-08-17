@@ -189,6 +189,21 @@ def evaluate_cases(model, cases: list[EvaluationCase], cold_count: int, k: int =
     return RankingMetrics(model.name, len(cases), len(cases) / total if total else 0.0, cold_count, float(np.mean(hits)) if hits else 0.0, float(np.mean(ndcgs)) if ndcgs else 0.0, float(np.mean(hits)) if hits else 0.0)
 
 
+def evaluate_user_metrics(model, split: LeaveOneOutSplit, k: int = 10, max_users: int = 1_000, *, use_validation: bool = False) -> pd.DataFrame:
+    """Export one warm-user row per model for paired external statistics."""
+    cases, _ = build_shared_candidates(split, use_validation=use_validation, max_users=max_users)
+    rows = []
+    for case in cases:
+        scores = model.score(case.user_id, case.candidate_items)
+        order = np.lexsort((case.candidate_items, -scores))
+        ranked = case.candidate_items[order[:k]]
+        position = np.where(ranked == case.target_item)[0]
+        hit = int(len(position) > 0)
+        ndcg = float(1 / np.log2(int(position[0]) + 2)) if hit else 0.0
+        rows.append({"user_id": case.user_id, "model": model.name, "hit": hit, "ndcg": ndcg})
+    return pd.DataFrame(rows)
+
+
 def evaluate_leave_one_out(model, split: LeaveOneOutSplit, k: int = 10, max_users: int = 1_000, *, use_validation: bool = False) -> RankingMetrics:
     cases, cold = build_shared_candidates(split, use_validation=use_validation, max_users=max_users)
     return evaluate_cases(model, cases, cold, k=k)

@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
+import pandas as pd
 
 from cure_rec.analysis import analyze_dataset
 from cure_rec.calibration import run_calibration_sweep
@@ -17,7 +18,7 @@ from cure_rec.game import ALL_MASKS
 from cure_rec.regimes import run_regime_suite
 from cure_rec.search import SearchConfig, run_final_bpr_audit, run_final_bpr_seed_replication, run_staged_bpr_search
 from cure_rec.sasrec_search import SASRecSearchConfig, run_final_sasrec_audit, run_final_sasrec_seed_replication, run_staged_sasrec_search
-from cure_rec.models import chronological_leave_one_out
+from cure_rec.models import chronological_leave_one_out, PopularityRecommender, BPRMFRecommender, evaluate_user_metrics
 from cure_rec.workflow import run_full_workflow
 from cure_rec.reviewer_cli import run_holdout, aggregate as aggregate_reviewer_runs
 from cure_rec.revision_suite import objective_ablation, sampled_shapley_fidelity, write_revision_assets
@@ -114,6 +115,21 @@ def _final_sasrec_audit(args: argparse.Namespace) -> int:
     split = chronological_leave_one_out(result.interactions)
     summary = run_final_sasrec_audit(split, args.search_root, args.output_root, seed=args.seed, max_eval_users=args.max_eval_users)
     print(json.dumps({"final_sasrec_audit": str(args.output_root), "metrics": summary.to_dict(orient="records")}, indent=2, default=str))
+    return 0
+
+
+def _export_per_user_metrics(args: argparse.Namespace) -> int:
+    result = load_dataset(args.dataset, args.source, download=args.download)
+    split = chronological_leave_one_out(result.interactions)
+    models = [PopularityRecommender().fit(split.train)]
+    if not args.skip_bpr:
+        models.append(BPRMFRecommender(max_updates=args.bpr_updates, seed=args.seed).fit(split.train))
+    frames = [evaluate_user_metrics(model, split, k=args.k, max_users=args.max_eval_users) for model in models]
+    output = Path(args.output)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    frame = pd.concat(frames, ignore_index=True)
+    frame.to_csv(output, index=False)
+    print(json.dumps({"output": str(output), "rows": len(frame), "users": int(frame.user_id.nunique()), "models": frame.model.unique().tolist(), "claim_scope": "chronological warm-item ranking statistics; not causal policy evidence"}, indent=2))
     return 0
 
 
@@ -287,6 +303,18 @@ def main(argv: list[str] | None = None) -> int:
     analyzer.add_argument("--max-eval-users", type=int, default=1_000)
     analyzer.add_argument("--seed", type=int, default=42)
     analyzer.set_defaults(handler=_analyze_data)
+
+    per_user = subparsers.add_parser("export-per-user-metrics", help="Export paired per-user chronological ranking metrics")
+    per_user.add_argument("--dataset", choices=(*PUBLIC_DATASETS, "csv"), required=True)
+    per_user.add_argument("--source", type=Path, required=True)
+    per_user.add_argument("--output", type=Path, required=True)
+    per_user.add_argument("--download", action="store_true")
+    per_user.add_argument("--skip-bpr", action="store_true")
+    per_user.add_argument("--bpr-updates", type=int, default=500_000)
+    per_user.add_argument("--max-eval-users", type=int, default=1_000)
+    per_user.add_argument("--k", type=int, default=10)
+    per_user.add_argument("--seed", type=int, default=42)
+    per_user.set_defaults(handler=_export_per_user_metrics)
 
     search = subparsers.add_parser("search-bpr", help="Run staged validation-only Torch BPR and hybrid search")
     search.add_argument("--dataset", choices=(*PUBLIC_DATASETS, "csv"), required=True)
