@@ -1,10 +1,11 @@
-\begin{table}[t]
+\begin{table}[!htbp]
 \centering\scriptsize
 \caption{Confirmatory paired comparisons. Bootstrap intervals are descriptive and unadjusted; significance is determined by Holm-adjusted permutation $p$-values.}
 \label{tab:app-statistics}
-\begin{tabular}{@{}llp{.17\textwidth}p{.13\textwidth}rrr@{}}
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{@{}ll>{\raggedright\arraybackslash}p{.17\textwidth}>{\raggedright\arraybackslash}p{.14\textwidth}rrr@{}}
 \toprule
-Dataset & Metric & Comparison & Difference & Unadjusted CI & Holm $p$ & $d_z$ \\
+Dataset & Metric & Comparison & Diff. & Unadj.\ CI & Holm $p$ & $d_z$ \\
 \midrule
 Amazon & Gap & Shapley $-$ LIME & .232 & [.202,.263] & .0010 & .473 \\
 Amazon & Gap & Shapley $-$ LOO & .277 & [.245,.311] & .0010 & .525 \\

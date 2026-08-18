@@ -1,0 +1,21 @@
+% Table D4 (generated from results/review3 replication JSONs).
+\begin{table}[t]\centering\scriptsize\setlength{\tabcolsep}{2pt}
+\caption{Review-3 replication aggregates per run: exact-Shapley validation of the
+MC estimator (max absolute error and rank $\rho$ on the enumerated subset);
+interaction strength relative to singleton effects; additive-vs-realized pair
+ranking; bounded alignment for Shapley and all intervention-aware baselines
+(binary/continuous bounded LIME, finite differences, integrated gradients);
+last column is the prospective (non-target-conditioned) Shapley alignment.
+$--$ = undefined (constant exact spectrum or effect vectors).}
+\label{tab:review3}
+\begin{tabular}{@{}lrrrrrrrrrr@{}}
+\toprule
+Run & err & $\rho$ & int. & add./real. & Shap. & LIME b. & LIME c. & FD & IG & prosp. \\
+\midrule
+Amazon ItemKNN & 0.0001 & 0.783 & 0.078 & 0.842 & 0.669 & 0.739 & 0.734 & 1.000 & 0.967 & 0.727 \\
+Amazon SASRec & 0.0129 & 0.395 & 0.782 & 0.453 & 0.140 & 0.760 & 0.827 & 0.734 & 0.722 & 0.798 \\
+ML-1M ItemKNN & 0.0021 & 0.982 & 0.071 & 0.905 & 0.697 & 0.905 & 0.938 & 0.958 & 0.953 & 0.796 \\
+ML-1M SASRec & 0.0184 & 0.688 & 0.206 & 0.785 & 0.241 & 0.856 & 0.950 & 0.951 & 0.944 & 0.870 \\
+\bottomrule
+\end{tabular}
+\end{table}

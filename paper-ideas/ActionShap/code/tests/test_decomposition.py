@@ -8,6 +8,7 @@ whose structure is known by construction.
 
 from __future__ import annotations
 
+import ctypes
 import itertools
 
 import numpy as np
@@ -37,7 +38,16 @@ def _fit(X, y, interactions=3, seed=0):
         random_state=seed,
         n_jobs=1,
     )
-    ebm.fit(X, y)
+    try:
+        ebm.fit(X, y)
+    except (ctypes.ArgumentError, TypeError) as exc:  # pragma: no cover
+        if "numpy.bool" in str(exc) or "ArgumentError" in type(exc).__name__:
+            pytest.skip(
+                "interpret-core<0.7 is incompatible with numpy>=2 "
+                "(ctypes bool argument in bin_native_by_dimension); "
+                "upgrade with: pip install -U 'interpret-core>=0.7.4,<0.8'"
+            )
+        raise
     return ebm
 
 

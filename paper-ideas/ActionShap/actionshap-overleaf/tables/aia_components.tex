@@ -1,24 +1,24 @@
-% Compact principal table. Complete condition-by-condition values are in aia_components.csv.
+% Compact principal table with visible uncertainty. Complete condition-by-condition values are in aia_components.csv.
 \begin{table}[t]\centering\small
-\caption{Primary ItemKNN alignment components. Values are distinct-user means. Primary 95\% bootstrap intervals are reported in Section~\ref{sec:results}; complete intervals and missing-user counts are provided in the release.}
+\setlength{\tabcolsep}{4pt}
+\caption{Primary ItemKNN alignment components. Values are distinct-user means; the bounded-AIA and Gap columns carry 95\% user-bootstrap confidence intervals, while deletion-AIA intervals are provided in \texttt{aia\_components.csv} and the release. Abbreviations: Shapley = Monte Carlo Shapley; Greedy = greedy sequential deletion; Random = random control.}
 \label{tab:aia-components}
-\begin{tabular}{llrrrr}
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}llrrllr@{}}
 \toprule
-Dataset & Method & Deletion AIA & Bounded AIA & Gap & Valid $n$ \\
+Dataset & Method & Deletion AIA & Bounded AIA [95\% CI] & Gap [95\% CI] & Valid $n$ \\
 \midrule
-MovieLens & Monte Carlo Shapley & 0.762 & 0.779 & 0.017 & 1000 \\
-MovieLens & LIME & 0.951 & 0.933 & -0.018 & 1000 \\
-MovieLens & LOO & 1.000 & 0.978 & -0.022 & 1000 \\
-MovieLens & Greedy & 0.321 & 0.318 & -0.002 & 1000 \\
-MovieLens & Random & -0.001 & 0.000 & 0.001 & 1000 \\
+MovieLens & Shapley & 0.762 & 0.779 [0.769, 0.789] & +0.017 [+0.013, +0.022] & 1000 \\
+MovieLens & LIME & 0.951 & 0.933 [0.928, 0.938] & $-$0.018 [$-$0.022, $-$0.014] & 1000 \\
+MovieLens & LOO & 1.000 & 0.978 [0.974, 0.981] & $-$0.022 [$-$0.026, $-$0.019] & 1000 \\
+MovieLens & Greedy & 0.321 & 0.318 [0.301, 0.336] & $-$0.002 [$-$0.007, +0.002] & 1000 \\
+MovieLens & Random & $-$0.001 & 0.000 [$-$0.006, +0.007] & +0.001 [$-$0.001, +0.005] & 1000 \\
 \midrule
-Amazon & Monte Carlo Shapley & 0.286 & 0.414 & 0.129 & 993 \\
-Amazon & LIME & 0.930 & 0.827 & -0.103 & 993 \\
-Amazon & LOO & 1.000 & 0.851 & -0.149 & 993 \\
-Amazon & Greedy & 0.191 & 0.131 & -0.060 & 993 \\
-Amazon & Random & -0.008 & -0.010 & -0.002 & 993 \\
+Amazon & Shapley & 0.286 & 0.414 [0.381, 0.448] & +0.129 [+0.110, +0.148] & 993 \\
+Amazon & LIME & 0.930 & 0.827 [0.811, 0.843] & $-$0.103 [$-$0.119, $-$0.089] & 993 \\
+Amazon & LOO & 1.000 & 0.851 [0.835, 0.867] & $-$0.149 [$-$0.166, $-$0.133] & 993 \\
+Amazon & Greedy & 0.191 & 0.131 [0.098, 0.163] & $-$0.060 [$-$0.076, $-$0.044] & 993 \\
+Amazon & Random & $-$0.008 & $-$0.010 [$-$0.025, +0.005] & $-$0.002 [$-$0.010, +0.005] & 993 \\
 \bottomrule
 \end{tabular}
 \end{table}
-
-\noindent\scriptsize Primary 95\% user-bootstrap CIs (deletion, bounded, gap): MovieLens Shapley $[.751,.773]$, $[.769,.789]$, $[.013,.022]$; LIME $[.948,.954]$, $[.928,.938]$, $[-.022,-.014]$; LOO $[1.000,1.000]$, $[.974,.981]$, $[-.026,-.019]$; Random $[-.008,.006]$, $[-.006,.007]$, $[-.001,.005]$. Amazon Shapley $[.248,.323]$, $[.381,.448]$, $[.110,.148]$; LIME $[.924,.937]$, $[.811,.843]$, $[-.119,-.089]$; LOO $[1.000,1.000]$, $[.835,.867]$, $[-.166,-.133]$; Random $[-.023,.007]$, $[-.025,.005]$, $[-.010,.005]$.

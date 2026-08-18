@@ -1,820 +1,827 @@
 {
-  "schema_version": 2,
-  "repository": {
-    "url": "https://github.com/mouadlouhichi/next-paper",
-    "manuscript_root": "paper-ideas/ActionShap/paper-v3",
-    "source_commit": "0673378",
-    "release_archive_sha256": "ac4c7fb1993458b6b41054974ebff215710e7a8b5894c7aa6af828e94b2a5b0f",
-    "visibility_required_before_submission": "public_or_mirrored"
+ "schema_version": 2,
+ "repository": {
+  "url": "https://github.com/mouadlouhichi/next-paper",
+  "provenance": {
+   "numeric_source_commit": "0673378",
+   "numeric_source_role": "commit at which the schema-v2 numerical results were generated and validated; the source of every value in the manuscript tables",
+   "manifest_generation_commit": "d4c55b21010d56e43a181628b459c5fed02709b8",
+   "manifest_generation_role": "commit at which this asset manifest was (re)generated from the raw schema-v2 archive; it describes the archive, not the manuscript",
+   "packaging_tag": "actionshap-v1",
+   "packaging_tag_role": "release tag frozen at the submission packaging commit; immutable from submission onward",
+   "note": "These three identifiers refer to distinct artifacts by design; they are not expected to be equal.",
+   "manuscript_packaging_commit": "f3fc0df64a51f4746b766bc42ece95183b7753f8",
+   "packaging_tag_frozen": true
   },
-  "validation": {
-    "status": "PASS",
-    "errors": [],
-    "warnings": [],
-    "notes": [
-      "amazon-digital-music_profile_fullcatalog_seed42.json: attributed model underperforms popularity (NDCG 0.001262 vs 0.007536; Recall 0.004 vs 0.02)",
-      "amazon-digital-music_profile_fullcatalog_seed43.json: attributed model underperforms popularity (NDCG 0.005047 vs 0.007536; Recall 0.008 vs 0.02)",
-      "amazon-digital-music_profile_fullcatalog_seed44.json: attributed model underperforms popularity (NDCG 0.003204 vs 0.007536; Recall 0.008 vs 0.02)",
-      "amazon-digital-music_profile_fullcatalog_seed45.json: attributed model underperforms popularity (NDCG 0 vs 0.007536; Recall 0 vs 0.02)",
-      "amazon-digital-music_profile_fullcatalog_seed46.json: attributed model underperforms popularity (NDCG 0 vs 0.007536; Recall 0 vs 0.02)",
-      "amazon-digital-music_profile_sampled_seed42.json: attributed model underperforms popularity (NDCG 0.03576 vs 0.08991; Recall 0.068 vs 0.155)",
-      "amazon-digital-music_profile_sampled_seed43.json: attributed model underperforms popularity (NDCG 0.0397 vs 0.08991; Recall 0.075 vs 0.155)",
-      "amazon-digital-music_profile_sampled_seed44.json: attributed model underperforms popularity (NDCG 0.04437 vs 0.08991; Recall 0.081 vs 0.155)",
-      "amazon-digital-music_profile_sampled_seed45.json: attributed model underperforms popularity (NDCG 0.03645 vs 0.08991; Recall 0.073 vs 0.155)",
-      "amazon-digital-music_profile_sampled_seed46.json: attributed model underperforms popularity (NDCG 0.03536 vs 0.08991; Recall 0.069 vs 0.155)",
-      "movielens-1m_profile_fullcatalog_seed42.json: attributed model underperforms popularity (NDCG 0.008985 vs 0.009373; Recall 0.016 vs 0.02)",
-      "movielens-1m_profile_sampled_seed42.json: attributed model underperforms popularity (NDCG 0.1556 vs 0.158; Recall 0.299 vs 0.32)",
-      "movielens-1m_profile_sampled_seed43.json: attributed model underperforms popularity (NDCG 0.1539 vs 0.158; Recall 0.29 vs 0.32)",
-      "movielens-1m_profile_sampled_seed44.json: attributed model underperforms popularity (NDCG 0.1561 vs 0.158; Recall 0.303 vs 0.32)",
-      "movielens-1m_profile_sampled_seed45.json: attributed model underperforms popularity (NDCG 0.1555 vs 0.158; Recall 0.303 vs 0.32)",
-      "movielens-1m_profile_sampled_seed46.json: masking gate did not pass",
-      "movielens-1m_profile_sampled_seed46.json: attributed model underperforms popularity (NDCG 0.1567 vs 0.158; Recall 0.308 vs 0.32)",
-      "('Amazon-Digital-Music', 'itemknn', 'full_unseen_catalogue', 'target_margin', 'full_catalogue', 'full_catalogue'): M=50 reaches both per-user thresholds for 60.0% of rank-valid users",
-      "('Amazon-Digital-Music', 'itemknn', 'sampled_unseen_negatives_with_target', 'target_margin', 'primary', 'primary'): M=50 reaches both per-user thresholds for 60.0% of rank-valid users",
-      "('Amazon-Digital-Music', 'profile', 'full_unseen_catalogue', 'target_margin', 'full_catalogue', 'full_catalogue'): M=100 reaches both per-user thresholds for 66.0% of rank-valid users",
-      "('Amazon-Digital-Music', 'profile', 'sampled_unseen_negatives_with_target', 'target_margin', 'primary', 'primary'): M=100 reaches both per-user thresholds for 66.0% of rank-valid users",
-      "('MovieLens-1M', 'itemknn', 'full_unseen_catalogue', 'target_margin', 'full_catalogue', 'full_catalogue'): M=250 reaches both per-user thresholds for 69.0% of rank-valid users",
-      "('MovieLens-1M', 'itemknn', 'sampled_unseen_negatives_with_target', 'target_margin', 'primary', 'primary'): M=250 reaches both per-user thresholds for 69.0% of rank-valid users",
-      "('MovieLens-1M', 'itemknn', 'sampled_unseen_negatives_with_target', 'target_margin', 'sensitivity', 'budget1'): M=250 reaches both per-user thresholds for 69.0% of rank-valid users",
-      "('MovieLens-1M', 'itemknn', 'sampled_unseen_negatives_with_target', 'target_margin', 'sensitivity', 'budget3'): M=250 reaches both per-user thresholds for 69.0% of rank-valid users",
-      "('MovieLens-1M', 'itemknn', 'sampled_unseen_negatives_with_target', 'target_margin', 'sensitivity', 'candidates100'): M=250 reaches both per-user thresholds for 69.0% of rank-valid users",
-      "('MovieLens-1M', 'itemknn', 'sampled_unseen_negatives_with_target', 'target_margin', 'sensitivity', 'candidates500'): M=250 reaches both per-user thresholds for 69.0% of rank-valid users",
-      "('MovieLens-1M', 'itemknn', 'sampled_unseen_negatives_with_target', 'target_margin', 'sensitivity', 'nmax100'): M=250 reaches both per-user thresholds for 69.0% of rank-valid users",
-      "('MovieLens-1M', 'itemknn', 'sampled_unseen_negatives_with_target', 'target_margin', 'sensitivity', 'nmax50'): M=250 reaches both per-user thresholds for 69.0% of rank-valid users",
-      "('MovieLens-1M', 'itemknn', 'sampled_unseen_negatives_with_target', 'target_margin', 'sensitivity', 'rho025'): M=250 reaches both per-user thresholds for 69.0% of rank-valid users",
-      "('MovieLens-1M', 'itemknn', 'sampled_unseen_negatives_with_target', 'ndcg', 'sensitivity', 'utility-ndcg'): NDCG attribution did not satisfy convergence thresholds; the sensitivity uses the maximum M=1000 and reports failure",
-      "('MovieLens-1M', 'itemknn', 'sampled_unseen_negatives_with_target', 'ndcg', 'sensitivity', 'utility-ndcg'): M=1000 reaches both per-user thresholds for 62.0% of rank-valid users",
-      "('MovieLens-1M', 'profile', 'full_unseen_catalogue', 'target_margin', 'full_catalogue', 'full_catalogue'): M=50 reaches both per-user thresholds for 56.0% of rank-valid users",
-      "('MovieLens-1M', 'profile', 'sampled_unseen_negatives_with_target', 'target_margin', 'primary', 'primary'): M=50 reaches both per-user thresholds for 56.0% of rank-valid users"
-    ],
-    "loo_identity_max_abs_error": 2.220446049250313e-16,
-    "normalized_regret_min": 0.0,
-    "experiment_groups": [
-      [
-        "Amazon-Digital-Music",
-        "itemknn",
-        "full_unseen_catalogue",
-        "target_margin",
-        "full_catalogue",
-        "full_catalogue"
-      ],
-      [
-        "Amazon-Digital-Music",
-        "itemknn",
-        "sampled_unseen_negatives_with_target",
-        "target_margin",
-        "primary",
-        "primary"
-      ],
-      [
-        "Amazon-Digital-Music",
-        "profile",
-        "full_unseen_catalogue",
-        "target_margin",
-        "full_catalogue",
-        "full_catalogue"
-      ],
-      [
-        "Amazon-Digital-Music",
-        "profile",
-        "sampled_unseen_negatives_with_target",
-        "target_margin",
-        "primary",
-        "primary"
-      ],
-      [
-        "MovieLens-1M",
-        "itemknn",
-        "full_unseen_catalogue",
-        "target_margin",
-        "full_catalogue",
-        "full_catalogue"
-      ],
-      [
-        "MovieLens-1M",
-        "itemknn",
-        "sampled_unseen_negatives_with_target",
-        "ndcg",
-        "sensitivity",
-        "utility-ndcg"
-      ],
-      [
-        "MovieLens-1M",
-        "itemknn",
-        "sampled_unseen_negatives_with_target",
-        "target_margin",
-        "primary",
-        "primary"
-      ],
-      [
-        "MovieLens-1M",
-        "itemknn",
-        "sampled_unseen_negatives_with_target",
-        "target_margin",
-        "sensitivity",
-        "budget1"
-      ],
-      [
-        "MovieLens-1M",
-        "itemknn",
-        "sampled_unseen_negatives_with_target",
-        "target_margin",
-        "sensitivity",
-        "budget3"
-      ],
-      [
-        "MovieLens-1M",
-        "itemknn",
-        "sampled_unseen_negatives_with_target",
-        "target_margin",
-        "sensitivity",
-        "candidates100"
-      ],
-      [
-        "MovieLens-1M",
-        "itemknn",
-        "sampled_unseen_negatives_with_target",
-        "target_margin",
-        "sensitivity",
-        "candidates500"
-      ],
-      [
-        "MovieLens-1M",
-        "itemknn",
-        "sampled_unseen_negatives_with_target",
-        "target_margin",
-        "sensitivity",
-        "nmax100"
-      ],
-      [
-        "MovieLens-1M",
-        "itemknn",
-        "sampled_unseen_negatives_with_target",
-        "target_margin",
-        "sensitivity",
-        "nmax50"
-      ],
-      [
-        "MovieLens-1M",
-        "itemknn",
-        "sampled_unseen_negatives_with_target",
-        "target_margin",
-        "sensitivity",
-        "rho025"
-      ],
-      [
-        "MovieLens-1M",
-        "profile",
-        "full_unseen_catalogue",
-        "target_margin",
-        "full_catalogue",
-        "full_catalogue"
-      ],
-      [
-        "MovieLens-1M",
-        "profile",
-        "sampled_unseen_negatives_with_target",
-        "target_margin",
-        "primary",
-        "primary"
-      ]
-    ],
-    "n_files": 80
-  },
-  "source_files": [
-    {
-      "path": "external/amazon-digital-music_itemknn_fullcatalog_seed42.json",
-      "sha256": "d951b8dff7728945865fcee803aef91f06803f5d70a265c687db8cb44ffe0e23",
-      "bytes": 2380631
-    },
-    {
-      "path": "external/amazon-digital-music_itemknn_fullcatalog_seed43.json",
-      "sha256": "5364fc5558447f90acbecbe7fbd2f38f55d9e880116f4d711b0de8d3b3fff378",
-      "bytes": 2382143
-    },
-    {
-      "path": "external/amazon-digital-music_itemknn_fullcatalog_seed44.json",
-      "sha256": "918e18e3f545b2dc58add7e7f136c401755a25836c430f7f53ecec5ed60e57ff",
-      "bytes": 2381524
-    },
-    {
-      "path": "external/amazon-digital-music_itemknn_fullcatalog_seed45.json",
-      "sha256": "122c942fd1a6fb7411ad1b41894e320ac3e70c1954d987dc034cf5d5fa56f60f",
-      "bytes": 2381940
-    },
-    {
-      "path": "external/amazon-digital-music_itemknn_fullcatalog_seed46.json",
-      "sha256": "9f88909a5be19a78bf3f0dfab1bc75eb783b2536095bcd8dfb9779666c96a58b",
-      "bytes": 2382744
-    },
-    {
-      "path": "external/amazon-digital-music_itemknn_sampled_seed42.json",
-      "sha256": "bc08c26b9d0544a17ee244e5ba5f02eb0a914ac4bb2db9441d17358acc0d8702",
-      "bytes": 9786848
-    },
-    {
-      "path": "external/amazon-digital-music_itemknn_sampled_seed43.json",
-      "sha256": "cc5d7071cf2c2860c24960ae1e03aec1052c075046c2664e053474acb21794ed",
-      "bytes": 9784638
-    },
-    {
-      "path": "external/amazon-digital-music_itemknn_sampled_seed44.json",
-      "sha256": "9be280bf6f43101aed1e481afce8c7c813c9bd01a81eb8a77e241e12f4b9d43d",
-      "bytes": 9786180
-    },
-    {
-      "path": "external/amazon-digital-music_itemknn_sampled_seed45.json",
-      "sha256": "c7a46d587698dde396219a0d58a1ca2b8430352b906e9f5408e0997b1862675c",
-      "bytes": 9787295
-    },
-    {
-      "path": "external/amazon-digital-music_itemknn_sampled_seed46.json",
-      "sha256": "80848a037781262fc06dae0f9b8bfc960a01ea736bd7e12e2affb3a0e500cdf9",
-      "bytes": 9787022
-    },
-    {
-      "path": "external/amazon-digital-music_profile_fullcatalog_seed42.json",
-      "sha256": "dba529c7ad2f95729b9a9476f07d22a60f18aee2a988fcf80ace70e9f0bd95da",
-      "bytes": 2409056
-    },
-    {
-      "path": "external/amazon-digital-music_profile_fullcatalog_seed43.json",
-      "sha256": "2d0ab0c83d45a7f66f2c36e67e22c503623c4a930aab77821dad8ea443020039",
-      "bytes": 2412197
-    },
-    {
-      "path": "external/amazon-digital-music_profile_fullcatalog_seed44.json",
-      "sha256": "79e97f56d05c38577d3c15b85100645416a52d3ae25df5a573350620865f6e1c",
-      "bytes": 2408968
-    },
-    {
-      "path": "external/amazon-digital-music_profile_fullcatalog_seed45.json",
-      "sha256": "c14b944023d9509bfad0dbf1acd699972d725636735b215fb821b717fb3278ec",
-      "bytes": 2410167
-    },
-    {
-      "path": "external/amazon-digital-music_profile_fullcatalog_seed46.json",
-      "sha256": "33e7d342a3cdff9f068b01394f26467422684daad1b978b8adb96c3e7ab44451",
-      "bytes": 2412249
-    },
-    {
-      "path": "external/amazon-digital-music_profile_sampled_seed42.json",
-      "sha256": "1a9e9fb9703900c697e324c8592c59b275cbae7766b76e78485ac9c90d5be224",
-      "bytes": 9768425
-    },
-    {
-      "path": "external/amazon-digital-music_profile_sampled_seed43.json",
-      "sha256": "597e688bade17af7a7c260c46793425967cc6dfff8fea09c13ea4db6b657b588",
-      "bytes": 9772490
-    },
-    {
-      "path": "external/amazon-digital-music_profile_sampled_seed44.json",
-      "sha256": "4638c38f470e0af09d34f0e7e320e6e6503588819d78b2f8b4885e99fe6f3093",
-      "bytes": 9763033
-    },
-    {
-      "path": "external/amazon-digital-music_profile_sampled_seed45.json",
-      "sha256": "8893fd005e6c0a158ee083164e6024847d104ba75f41d22800d3bfebaf9e6195",
-      "bytes": 9768327
-    },
-    {
-      "path": "external/amazon-digital-music_profile_sampled_seed46.json",
-      "sha256": "9aa4e02d70a7dd2511719b25e2eabbd55997217336764d6b694e087991fbf70d",
-      "bytes": 9767268
-    },
-    {
-      "path": "external/movielens-1m_itemknn_fullcatalog_seed42.json",
-      "sha256": "70b2eeabb56197e22a5482b43055c0bb334e50e5980a352909af136d598cc12e",
-      "bytes": 3349903
-    },
-    {
-      "path": "external/movielens-1m_itemknn_fullcatalog_seed43.json",
-      "sha256": "178cbf6e3293bcffa4387d6479e8bb7cf041de5e04be78d2faeff3b63aaac339",
-      "bytes": 3350611
-    },
-    {
-      "path": "external/movielens-1m_itemknn_fullcatalog_seed44.json",
-      "sha256": "45801e2e703ea34d10ac365baa46b6c22b7ecd397b1923861c0c69fc5c2a120c",
-      "bytes": 3349866
-    },
-    {
-      "path": "external/movielens-1m_itemknn_fullcatalog_seed45.json",
-      "sha256": "870a52978a3be657b1e2c3f89857599285258a1cdcf3b5aef14645facb46cfb9",
-      "bytes": 3349808
-    },
-    {
-      "path": "external/movielens-1m_itemknn_fullcatalog_seed46.json",
-      "sha256": "ede83ef1062974cbc0aa6741ce712b8b4e500ea1e58bb35e79904c6b5e955927",
-      "bytes": 3349930
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sampled_seed42.json",
-      "sha256": "f7e41bb87f7c9ad74942d04bbd9daacfa56fbb730421b1ec52d9a5310649f1bc",
-      "bytes": 13418254
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sampled_seed43.json",
-      "sha256": "3cce32431bbaf98dd90b75aebafba0b4a3a1088764948e9ccbd7bed6f00bfa59",
-      "bytes": 13417784
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sampled_seed44.json",
-      "sha256": "64262e07640fa76ec2c76968af6e2346e05b321a49871579e31f217ecbd5f1e9",
-      "bytes": 13418759
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sampled_seed45.json",
-      "sha256": "a9b9b656626ec64976656ba0f9c93d7d312467e5c5a9728e640b306e4136123e",
-      "bytes": 13418745
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sampled_seed46.json",
-      "sha256": "d6ac78d934369e960abb35b9461821e4d7ea8e7598b48ef94854da42a947a23d",
-      "bytes": 13419618
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-budget1_seed42.json",
-      "sha256": "8a4b6d4fc324b1d07a2bec330784a1594b8afaf36243cb0002e7ea91dbd820b7",
-      "bytes": 3314463
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-budget1_seed43.json",
-      "sha256": "b94b72ffc1b804aab6f2e71d96dac3375df2b6add1f866e1c7c7a7b5e926b428",
-      "bytes": 3314920
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-budget1_seed44.json",
-      "sha256": "1f711cdf24a582fcfba79d4c03b39c5c584e314798483313694c603dd9f3ce14",
-      "bytes": 3314524
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-budget1_seed45.json",
-      "sha256": "7d756cbc618dbb2f20a80aec56549f7277ae623771ce0f9ae3d2a293b4d8462c",
-      "bytes": 3315424
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-budget1_seed46.json",
-      "sha256": "b90a69043347b61af1aa356b2d283dafcc45f5fe4fbbe2ba42e7ddacec48213d",
-      "bytes": 3315630
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-budget3_seed42.json",
-      "sha256": "8e02ceceb4a2bae015be3d129078dd7f77c295e514b70c375bd56e5c74714b2a",
-      "bytes": 3342694
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-budget3_seed43.json",
-      "sha256": "01e08d7a53d39ca1d35651bf3be6ac70ca42c7e348496d19214a471e0557c0ec",
-      "bytes": 3343085
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-budget3_seed44.json",
-      "sha256": "a352d380c766e185835d7f183d85ae066d727e134bb7d83a73234e3d3c012512",
-      "bytes": 3342901
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-budget3_seed45.json",
-      "sha256": "82e110b60bc61b830f0e7abf0ece52fa2c8493b3d6b8e1bfc3483208d85a6d9a",
-      "bytes": 3343455
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-budget3_seed46.json",
-      "sha256": "28ab44d8567b874f80de698d766f67b53a27ae8d656e4b5ab444d550d2d56f02",
-      "bytes": 3343620
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-candidates100_seed42.json",
-      "sha256": "d6cff440a11bfa0a5753dbfc290b2aa5d0bb15b9adb7f784226d533d0d0b51bb",
-      "bytes": 3387511
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-candidates100_seed43.json",
-      "sha256": "a841dcb5a3ca02e05328ec1b5d58390aab641e5989687681b5c25f1f418c06fb",
-      "bytes": 3387810
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-candidates100_seed44.json",
-      "sha256": "6cd63ae258752d5126daad730351e96808d37c349fe3d8cd944f18b3bdec05ed",
-      "bytes": 3387419
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-candidates100_seed45.json",
-      "sha256": "d44f56d2da67470824e078dca0b50e206fc3175e11c232e4e618bbca03617261",
-      "bytes": 3387519
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-candidates100_seed46.json",
-      "sha256": "d2a876aa9dc481ba5b91d89f8a25b30bc29acf7f7ef0e52cf4df24712641ab27",
-      "bytes": 3387321
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-candidates500_seed42.json",
-      "sha256": "4a6ed79af22d04f7117f96fd5179a7bd20ef58883191bb2ab40676444268dfd2",
-      "bytes": 3371282
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-candidates500_seed43.json",
-      "sha256": "4b5f2b98a559a778a0dc9a7e6a6179b5107ee860ca887095f17ab8605d597a13",
-      "bytes": 3371490
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-candidates500_seed44.json",
-      "sha256": "9f608201e1c2b824083520ffab6df2889139cded81274a789fb417bcf49e86dc",
-      "bytes": 3371333
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-candidates500_seed45.json",
-      "sha256": "bb5c9245d319ffc81a7502cdad4b98fa65a27f6de2d7496ba59ae9e01ccb67a9",
-      "bytes": 3371185
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-candidates500_seed46.json",
-      "sha256": "21f7c6c101f88ebe4387eb22f39b89a47620944c6624c9876701dc124f82ab3a",
-      "bytes": 3371268
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-nmax100_seed42.json",
-      "sha256": "4ec72f5d30830264e730220b3a5cc84f72163f81324b559b99d2c4a0568aea42",
-      "bytes": 6194066
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-nmax100_seed43.json",
-      "sha256": "969779f3f817fd2b606b7e4e85370a7d8a99863ba15a0d872b94542ea614573d",
-      "bytes": 6193018
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-nmax100_seed44.json",
-      "sha256": "91c1557950e4068f705c4f508087bbf8e452af49567cf6d8466d8818b2cd879b",
-      "bytes": 6192986
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-nmax100_seed45.json",
-      "sha256": "5384fa95d4ce13d0f47d92ca6a203675093c8192dedf84ef9c2079877dc1b750",
-      "bytes": 6193597
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-nmax100_seed46.json",
-      "sha256": "c7aa727858b16e1456f0e91a31a369eecbab609b150969f2b0ceca2917b36a0b",
-      "bytes": 6193389
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-nmax50_seed42.json",
-      "sha256": "82a7b6aa6079e190b588106edbb2bb1f2ff2e18951c0ae4cf9933a3d0d3fceb5",
-      "bytes": 4801661
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-nmax50_seed43.json",
-      "sha256": "f2a382725bddec427fc3e9c25fee52fbbb960e19fc933cf26c74563fce227f46",
-      "bytes": 4801735
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-nmax50_seed44.json",
-      "sha256": "579240fcd7af09fa61c87849a70fdaed8f7197bf23d81c4ee06172dbd6328d9f",
-      "bytes": 4801289
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-nmax50_seed45.json",
-      "sha256": "94ca3ccd9eb723c9d8cd4512d76af4afbe7be4d363743c1d6a004d477dcd197a",
-      "bytes": 4802257
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-nmax50_seed46.json",
-      "sha256": "e2e991d1cda5dcaa351a850f762046be4166f3221634fef4d31982854b783438",
-      "bytes": 4801582
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-rho025_seed42.json",
-      "sha256": "d3ca5c94358e09b08bc25a48a4cd9a47588166d8719c64e3ad9f2d5e01874411",
-      "bytes": 3389345
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-rho025_seed43.json",
-      "sha256": "19a8b0a75dae5d809d8eaba66afb72155ae646a1930ac3be7ffa678f055afc68",
-      "bytes": 3389777
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-rho025_seed44.json",
-      "sha256": "29a4de5bdbda6021ac920e5f3cb1b75084494f7e60c825798e13fc981458e82f",
-      "bytes": 3389416
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-rho025_seed45.json",
-      "sha256": "4594d3c0fb372cc9fe6db4c96fde478a96bec138f824cfec9160cfa2ccfcb5bc",
-      "bytes": 3389988
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-rho025_seed46.json",
-      "sha256": "9303cd61ef50d5d22f63acb163f0e02b7c207fe2949cc83cfd20c0b70bd5a5ef",
-      "bytes": 3390044
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-utility-ndcg_seed42.json",
-      "sha256": "8259506c33860631b4f2e0c8fce66af7986e73822506afc005e0fe3c5739ba23",
-      "bytes": 2848990
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-utility-ndcg_seed43.json",
-      "sha256": "e59d3cfe4403472dfbfaa00e8c775faae0131963e6e232f5279e84d7ea9e08f1",
-      "bytes": 2849439
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-utility-ndcg_seed44.json",
-      "sha256": "84db72f1799fcc3b995337e9ce0e697f9177b256c4c7846918cb2bbf650803d2",
-      "bytes": 2849791
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-utility-ndcg_seed45.json",
-      "sha256": "5a6c48f20cf9ad1e72cbac259e2c89521e73aaa8bb5a163d19b54a1d3c144152",
-      "bytes": 2849657
-    },
-    {
-      "path": "external/movielens-1m_itemknn_sensitivity-utility-ndcg_seed46.json",
-      "sha256": "2064e9d0e4a9e7dae884f768bab20baf1828249354abb88b4b5731fd38768a12",
-      "bytes": 2849554
-    },
-    {
-      "path": "external/movielens-1m_profile_fullcatalog_seed42.json",
-      "sha256": "dd1bb30af79a0344660ec4380f685a7e3801a89881f200ec37582de698f9bc19",
-      "bytes": 3294209
-    },
-    {
-      "path": "external/movielens-1m_profile_fullcatalog_seed43.json",
-      "sha256": "7b0583bbbb23fe8aacf11bc06c339b5eaa82dd9dec6b35b9b5af9ac654ab853b",
-      "bytes": 3301909
-    },
-    {
-      "path": "external/movielens-1m_profile_fullcatalog_seed44.json",
-      "sha256": "510beea54a81fca75ff9e1b07874291b0d4f33557198e5d93ce71995d0a341ad",
-      "bytes": 3294788
-    },
-    {
-      "path": "external/movielens-1m_profile_fullcatalog_seed45.json",
-      "sha256": "826bc95ce3a5b50f6090e467227a501198c67024934fbb0f4b4ddf64770a6133",
-      "bytes": 3291478
-    },
-    {
-      "path": "external/movielens-1m_profile_fullcatalog_seed46.json",
-      "sha256": "4480ac128951dcd92e0a8289fca8831cf43c34cb80ceb55e94ac33d7a1cc4a02",
-      "bytes": 3290596
-    },
-    {
-      "path": "external/movielens-1m_profile_sampled_seed42.json",
-      "sha256": "8decf2cfa0d1864ed55c4d02492b3e140355f9e17157ef3e17076b883c12e5a9",
-      "bytes": 13201857
-    },
-    {
-      "path": "external/movielens-1m_profile_sampled_seed43.json",
-      "sha256": "c5f3a9790e7d1283550edfb6a59f227794b8979c03b6aa945f63c2c870710eb4",
-      "bytes": 13252086
-    },
-    {
-      "path": "external/movielens-1m_profile_sampled_seed44.json",
-      "sha256": "d6ddf775bbdd30447dfd15483c45369b3f819fda6152a1a6926e5cf1e25e3f6f",
-      "bytes": 13210545
-    },
-    {
-      "path": "external/movielens-1m_profile_sampled_seed45.json",
-      "sha256": "494726a0e0fe1d247bf865ad6f071e5260faece8c0aa502c77128fd14b873ca2",
-      "bytes": 13172712
-    },
-    {
-      "path": "external/movielens-1m_profile_sampled_seed46.json",
-      "sha256": "d6ad8b12683cf0b0f5744742bfaeea9ecc15ca63e50ae8e8e89235bbc33263b5",
-      "bytes": 13185267
-    },
-    {
-      "path": "external/convergence_amazon-digital-music_itemknn.json",
-      "sha256": "67dfc89d07160290496b74e1334f9ba391e0bd9d1642c1ecec68b96726f45cd3",
-      "bytes": 246854
-    },
-    {
-      "path": "external/convergence_amazon-digital-music_profile.json",
-      "sha256": "c41d784ceb1587530bbb666763d4c6e640e799c2793fbdbe807d00acd18eb6f5",
-      "bytes": 247648
-    },
-    {
-      "path": "external/convergence_movielens-1m_itemknn.json",
-      "sha256": "36ba2af9d532aa52120dc21fdad5d88a29104cb02b34cd93563a64252edb04d9",
-      "bytes": 256621
-    },
-    {
-      "path": "external/convergence_movielens-1m_itemknn_ndcg.json",
-      "sha256": "f8677692efde09696d0c5565498787f06e4e93a67b79b823834e89f352b871b7",
-      "bytes": 254241
-    },
-    {
-      "path": "external/convergence_movielens-1m_profile.json",
-      "sha256": "19c7a4f0ee4467a05c09d6d9f69ec1294db98aa782cb84c1dabc17074d67a069",
-      "bytes": 255740
-    },
-    {
-      "path": "paper-ideas/ActionShap/paper-v3/preflight/movielens_masking_gate.json",
-      "sha256": "18b8157185c552e8cbb6df889064bf0f89739b91a02dbbe0debbacc8962a6b77",
-      "bytes": 15761
-    }
+  "release_archive_sha256": "ac4c7fb1993458b6b41054974ebff215710e7a8b5894c7aa6af828e94b2a5b0f",
+  "release_archive_role": "content hash of the raw schema-v2 result archive (80 recommendation runs + 5 convergence studies)",
+  "overleaf_zip_sha256": "43228a193b37ac524a9c24ed9702c41439f135f99373ef0ebec591e95c2001df",
+  "overleaf_zip_role": "hash of the Overleaf presentation ZIP (manuscript sources); a different artifact from the result archive"
+ },
+ "validation": {
+  "status": "PASS",
+  "errors": [],
+  "warnings": [],
+  "notes": [
+   "amazon-digital-music_profile_fullcatalog_seed42.json: attributed model underperforms popularity (NDCG 0.001262 vs 0.007536; Recall 0.004 vs 0.02)",
+   "amazon-digital-music_profile_fullcatalog_seed43.json: attributed model underperforms popularity (NDCG 0.005047 vs 0.007536; Recall 0.008 vs 0.02)",
+   "amazon-digital-music_profile_fullcatalog_seed44.json: attributed model underperforms popularity (NDCG 0.003204 vs 0.007536; Recall 0.008 vs 0.02)",
+   "amazon-digital-music_profile_fullcatalog_seed45.json: attributed model underperforms popularity (NDCG 0 vs 0.007536; Recall 0 vs 0.02)",
+   "amazon-digital-music_profile_fullcatalog_seed46.json: attributed model underperforms popularity (NDCG 0 vs 0.007536; Recall 0 vs 0.02)",
+   "amazon-digital-music_profile_sampled_seed42.json: attributed model underperforms popularity (NDCG 0.03576 vs 0.08991; Recall 0.068 vs 0.155)",
+   "amazon-digital-music_profile_sampled_seed43.json: attributed model underperforms popularity (NDCG 0.0397 vs 0.08991; Recall 0.075 vs 0.155)",
+   "amazon-digital-music_profile_sampled_seed44.json: attributed model underperforms popularity (NDCG 0.04437 vs 0.08991; Recall 0.081 vs 0.155)",
+   "amazon-digital-music_profile_sampled_seed45.json: attributed model underperforms popularity (NDCG 0.03645 vs 0.08991; Recall 0.073 vs 0.155)",
+   "amazon-digital-music_profile_sampled_seed46.json: attributed model underperforms popularity (NDCG 0.03536 vs 0.08991; Recall 0.069 vs 0.155)",
+   "movielens-1m_profile_fullcatalog_seed42.json: attributed model underperforms popularity (NDCG 0.008985 vs 0.009373; Recall 0.016 vs 0.02)",
+   "movielens-1m_profile_sampled_seed42.json: attributed model underperforms popularity (NDCG 0.1556 vs 0.158; Recall 0.299 vs 0.32)",
+   "movielens-1m_profile_sampled_seed43.json: attributed model underperforms popularity (NDCG 0.1539 vs 0.158; Recall 0.29 vs 0.32)",
+   "movielens-1m_profile_sampled_seed44.json: attributed model underperforms popularity (NDCG 0.1561 vs 0.158; Recall 0.303 vs 0.32)",
+   "movielens-1m_profile_sampled_seed45.json: attributed model underperforms popularity (NDCG 0.1555 vs 0.158; Recall 0.303 vs 0.32)",
+   "movielens-1m_profile_sampled_seed46.json: masking gate did not pass",
+   "movielens-1m_profile_sampled_seed46.json: attributed model underperforms popularity (NDCG 0.1567 vs 0.158; Recall 0.308 vs 0.32)",
+   "('Amazon-Digital-Music', 'itemknn', 'full_unseen_catalogue', 'target_margin', 'full_catalogue', 'full_catalogue'): M=50 reaches both per-user thresholds for 60.0% of rank-valid users",
+   "('Amazon-Digital-Music', 'itemknn', 'sampled_unseen_negatives_with_target', 'target_margin', 'primary', 'primary'): M=50 reaches both per-user thresholds for 60.0% of rank-valid users",
+   "('Amazon-Digital-Music', 'profile', 'full_unseen_catalogue', 'target_margin', 'full_catalogue', 'full_catalogue'): M=100 reaches both per-user thresholds for 66.0% of rank-valid users",
+   "('Amazon-Digital-Music', 'profile', 'sampled_unseen_negatives_with_target', 'target_margin', 'primary', 'primary'): M=100 reaches both per-user thresholds for 66.0% of rank-valid users",
+   "('MovieLens-1M', 'itemknn', 'full_unseen_catalogue', 'target_margin', 'full_catalogue', 'full_catalogue'): M=250 reaches both per-user thresholds for 69.0% of rank-valid users",
+   "('MovieLens-1M', 'itemknn', 'sampled_unseen_negatives_with_target', 'target_margin', 'primary', 'primary'): M=250 reaches both per-user thresholds for 69.0% of rank-valid users",
+   "('MovieLens-1M', 'itemknn', 'sampled_unseen_negatives_with_target', 'target_margin', 'sensitivity', 'budget1'): M=250 reaches both per-user thresholds for 69.0% of rank-valid users",
+   "('MovieLens-1M', 'itemknn', 'sampled_unseen_negatives_with_target', 'target_margin', 'sensitivity', 'budget3'): M=250 reaches both per-user thresholds for 69.0% of rank-valid users",
+   "('MovieLens-1M', 'itemknn', 'sampled_unseen_negatives_with_target', 'target_margin', 'sensitivity', 'candidates100'): M=250 reaches both per-user thresholds for 69.0% of rank-valid users",
+   "('MovieLens-1M', 'itemknn', 'sampled_unseen_negatives_with_target', 'target_margin', 'sensitivity', 'candidates500'): M=250 reaches both per-user thresholds for 69.0% of rank-valid users",
+   "('MovieLens-1M', 'itemknn', 'sampled_unseen_negatives_with_target', 'target_margin', 'sensitivity', 'nmax100'): M=250 reaches both per-user thresholds for 69.0% of rank-valid users",
+   "('MovieLens-1M', 'itemknn', 'sampled_unseen_negatives_with_target', 'target_margin', 'sensitivity', 'nmax50'): M=250 reaches both per-user thresholds for 69.0% of rank-valid users",
+   "('MovieLens-1M', 'itemknn', 'sampled_unseen_negatives_with_target', 'target_margin', 'sensitivity', 'rho025'): M=250 reaches both per-user thresholds for 69.0% of rank-valid users",
+   "('MovieLens-1M', 'itemknn', 'sampled_unseen_negatives_with_target', 'ndcg', 'sensitivity', 'utility-ndcg'): NDCG attribution did not satisfy convergence thresholds; the sensitivity uses the maximum M=1000 and reports failure",
+   "('MovieLens-1M', 'itemknn', 'sampled_unseen_negatives_with_target', 'ndcg', 'sensitivity', 'utility-ndcg'): M=1000 reaches both per-user thresholds for 62.0% of rank-valid users",
+   "('MovieLens-1M', 'profile', 'full_unseen_catalogue', 'target_margin', 'full_catalogue', 'full_catalogue'): M=50 reaches both per-user thresholds for 56.0% of rank-valid users",
+   "('MovieLens-1M', 'profile', 'sampled_unseen_negatives_with_target', 'target_margin', 'primary', 'primary'): M=50 reaches both per-user thresholds for 56.0% of rank-valid users"
   ],
-  "analysis": {
-    "unit": "distinct user after averaging repeated seeds",
-    "bootstrap_draws": 10000,
-    "paired_permutation_draws": 10000,
-    "aia_null_draws": 1000,
-    "multiplicity": "Holm-Bonferroni within experiment and metric",
-    "paired_p_value_floor": 9.999000099990002e-05,
-    "aia_null_p_value_floor": 0.000999000999000999
+  "loo_identity_max_abs_error": 2.220446049250313e-16,
+  "normalized_regret_min": 0.0,
+  "experiment_groups": [
+   [
+    "Amazon-Digital-Music",
+    "itemknn",
+    "full_unseen_catalogue",
+    "target_margin",
+    "full_catalogue",
+    "full_catalogue"
+   ],
+   [
+    "Amazon-Digital-Music",
+    "itemknn",
+    "sampled_unseen_negatives_with_target",
+    "target_margin",
+    "primary",
+    "primary"
+   ],
+   [
+    "Amazon-Digital-Music",
+    "profile",
+    "full_unseen_catalogue",
+    "target_margin",
+    "full_catalogue",
+    "full_catalogue"
+   ],
+   [
+    "Amazon-Digital-Music",
+    "profile",
+    "sampled_unseen_negatives_with_target",
+    "target_margin",
+    "primary",
+    "primary"
+   ],
+   [
+    "MovieLens-1M",
+    "itemknn",
+    "full_unseen_catalogue",
+    "target_margin",
+    "full_catalogue",
+    "full_catalogue"
+   ],
+   [
+    "MovieLens-1M",
+    "itemknn",
+    "sampled_unseen_negatives_with_target",
+    "ndcg",
+    "sensitivity",
+    "utility-ndcg"
+   ],
+   [
+    "MovieLens-1M",
+    "itemknn",
+    "sampled_unseen_negatives_with_target",
+    "target_margin",
+    "primary",
+    "primary"
+   ],
+   [
+    "MovieLens-1M",
+    "itemknn",
+    "sampled_unseen_negatives_with_target",
+    "target_margin",
+    "sensitivity",
+    "budget1"
+   ],
+   [
+    "MovieLens-1M",
+    "itemknn",
+    "sampled_unseen_negatives_with_target",
+    "target_margin",
+    "sensitivity",
+    "budget3"
+   ],
+   [
+    "MovieLens-1M",
+    "itemknn",
+    "sampled_unseen_negatives_with_target",
+    "target_margin",
+    "sensitivity",
+    "candidates100"
+   ],
+   [
+    "MovieLens-1M",
+    "itemknn",
+    "sampled_unseen_negatives_with_target",
+    "target_margin",
+    "sensitivity",
+    "candidates500"
+   ],
+   [
+    "MovieLens-1M",
+    "itemknn",
+    "sampled_unseen_negatives_with_target",
+    "target_margin",
+    "sensitivity",
+    "nmax100"
+   ],
+   [
+    "MovieLens-1M",
+    "itemknn",
+    "sampled_unseen_negatives_with_target",
+    "target_margin",
+    "sensitivity",
+    "nmax50"
+   ],
+   [
+    "MovieLens-1M",
+    "itemknn",
+    "sampled_unseen_negatives_with_target",
+    "target_margin",
+    "sensitivity",
+    "rho025"
+   ],
+   [
+    "MovieLens-1M",
+    "profile",
+    "full_unseen_catalogue",
+    "target_margin",
+    "full_catalogue",
+    "full_catalogue"
+   ],
+   [
+    "MovieLens-1M",
+    "profile",
+    "sampled_unseen_negatives_with_target",
+    "target_margin",
+    "primary",
+    "primary"
+   ]
+  ],
+  "n_files": 80
+ },
+ "source_files": [
+  {
+   "path": "external/amazon-digital-music_itemknn_fullcatalog_seed42.json",
+   "sha256": "d951b8dff7728945865fcee803aef91f06803f5d70a265c687db8cb44ffe0e23",
+   "bytes": 2380631
   },
-  "generated_files": [
-    "final/README.md",
-    "final/RESULTS_SUMMARY.md",
-    "final/data/user_seed_metrics.csv.gz",
-    "final/figures/actionability_gap_robustness.pdf",
-    "final/figures/actionability_gap_robustness.png",
-    "final/figures/aia_components_robustness.pdf",
-    "final/figures/aia_components_robustness.png",
-    "final/figures/aia_margin_Amazon-Digital-Music_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.pdf",
-    "final/figures/aia_margin_Amazon-Digital-Music_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.png",
-    "final/figures/aia_margin_Amazon-Digital-Music_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
-    "final/figures/aia_margin_Amazon-Digital-Music_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
-    "final/figures/aia_margin_Amazon-Digital-Music_profile_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.pdf",
-    "final/figures/aia_margin_Amazon-Digital-Music_profile_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.png",
-    "final/figures/aia_margin_Amazon-Digital-Music_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
-    "final/figures/aia_margin_Amazon-Digital-Music_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
-    "final/figures/aia_margin_MovieLens-1M_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.pdf",
-    "final/figures/aia_margin_MovieLens-1M_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.png",
-    "final/figures/aia_margin_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_ndcg_sensitivity_utility-ndcg.pdf",
-    "final/figures/aia_margin_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_ndcg_sensitivity_utility-ndcg.png",
-    "final/figures/aia_margin_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
-    "final/figures/aia_margin_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
-    "final/figures/aia_margin_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget1.pdf",
-    "final/figures/aia_margin_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget1.png",
-    "final/figures/aia_margin_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget3.pdf",
-    "final/figures/aia_margin_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget3.png",
-    "final/figures/aia_margin_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates100.pdf",
-    "final/figures/aia_margin_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates100.png",
-    "final/figures/aia_margin_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates500.pdf",
-    "final/figures/aia_margin_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates500.png",
-    "final/figures/aia_margin_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax100.pdf",
-    "final/figures/aia_margin_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax100.png",
-    "final/figures/aia_margin_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax50.pdf",
-    "final/figures/aia_margin_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax50.png",
-    "final/figures/aia_margin_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_rho025.pdf",
-    "final/figures/aia_margin_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_rho025.png",
-    "final/figures/aia_margin_MovieLens-1M_profile_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.pdf",
-    "final/figures/aia_margin_MovieLens-1M_profile_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.png",
-    "final/figures/aia_margin_MovieLens-1M_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
-    "final/figures/aia_margin_MovieLens-1M_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
-    "final/figures/aia_ndcg_Amazon-Digital-Music_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.pdf",
-    "final/figures/aia_ndcg_Amazon-Digital-Music_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.png",
-    "final/figures/aia_ndcg_Amazon-Digital-Music_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
-    "final/figures/aia_ndcg_Amazon-Digital-Music_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
-    "final/figures/aia_ndcg_Amazon-Digital-Music_profile_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.pdf",
-    "final/figures/aia_ndcg_Amazon-Digital-Music_profile_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.png",
-    "final/figures/aia_ndcg_Amazon-Digital-Music_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
-    "final/figures/aia_ndcg_Amazon-Digital-Music_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
-    "final/figures/aia_ndcg_MovieLens-1M_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.pdf",
-    "final/figures/aia_ndcg_MovieLens-1M_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.png",
-    "final/figures/aia_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_ndcg_sensitivity_utility-ndcg.pdf",
-    "final/figures/aia_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_ndcg_sensitivity_utility-ndcg.png",
-    "final/figures/aia_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
-    "final/figures/aia_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
-    "final/figures/aia_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget1.pdf",
-    "final/figures/aia_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget1.png",
-    "final/figures/aia_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget3.pdf",
-    "final/figures/aia_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget3.png",
-    "final/figures/aia_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates100.pdf",
-    "final/figures/aia_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates100.png",
-    "final/figures/aia_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates500.pdf",
-    "final/figures/aia_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates500.png",
-    "final/figures/aia_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax100.pdf",
-    "final/figures/aia_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax100.png",
-    "final/figures/aia_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax50.pdf",
-    "final/figures/aia_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax50.png",
-    "final/figures/aia_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_rho025.pdf",
-    "final/figures/aia_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_rho025.png",
-    "final/figures/aia_ndcg_MovieLens-1M_profile_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.pdf",
-    "final/figures/aia_ndcg_MovieLens-1M_profile_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.png",
-    "final/figures/aia_ndcg_MovieLens-1M_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
-    "final/figures/aia_ndcg_MovieLens-1M_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
-    "final/figures/convergence.pdf",
-    "final/figures/convergence.png",
-    "final/figures/gap_Amazon-Digital-Music_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.pdf",
-    "final/figures/gap_Amazon-Digital-Music_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.png",
-    "final/figures/gap_Amazon-Digital-Music_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
-    "final/figures/gap_Amazon-Digital-Music_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
-    "final/figures/gap_Amazon-Digital-Music_profile_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.pdf",
-    "final/figures/gap_Amazon-Digital-Music_profile_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.png",
-    "final/figures/gap_Amazon-Digital-Music_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
-    "final/figures/gap_Amazon-Digital-Music_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
-    "final/figures/gap_MovieLens-1M_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.pdf",
-    "final/figures/gap_MovieLens-1M_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.png",
-    "final/figures/gap_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_ndcg_sensitivity_utility-ndcg.pdf",
-    "final/figures/gap_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_ndcg_sensitivity_utility-ndcg.png",
-    "final/figures/gap_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
-    "final/figures/gap_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
-    "final/figures/gap_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget1.pdf",
-    "final/figures/gap_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget1.png",
-    "final/figures/gap_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget3.pdf",
-    "final/figures/gap_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget3.png",
-    "final/figures/gap_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates100.pdf",
-    "final/figures/gap_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates100.png",
-    "final/figures/gap_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates500.pdf",
-    "final/figures/gap_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates500.png",
-    "final/figures/gap_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax100.pdf",
-    "final/figures/gap_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax100.png",
-    "final/figures/gap_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax50.pdf",
-    "final/figures/gap_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax50.png",
-    "final/figures/gap_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_rho025.pdf",
-    "final/figures/gap_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_rho025.png",
-    "final/figures/gap_MovieLens-1M_profile_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.pdf",
-    "final/figures/gap_MovieLens-1M_profile_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.png",
-    "final/figures/gap_MovieLens-1M_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
-    "final/figures/gap_MovieLens-1M_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
-    "final/figures/joint_ndcg_Amazon-Digital-Music_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.pdf",
-    "final/figures/joint_ndcg_Amazon-Digital-Music_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.png",
-    "final/figures/joint_ndcg_Amazon-Digital-Music_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
-    "final/figures/joint_ndcg_Amazon-Digital-Music_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
-    "final/figures/joint_ndcg_Amazon-Digital-Music_profile_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.pdf",
-    "final/figures/joint_ndcg_Amazon-Digital-Music_profile_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.png",
-    "final/figures/joint_ndcg_Amazon-Digital-Music_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
-    "final/figures/joint_ndcg_Amazon-Digital-Music_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
-    "final/figures/joint_ndcg_MovieLens-1M_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.pdf",
-    "final/figures/joint_ndcg_MovieLens-1M_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.png",
-    "final/figures/joint_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_ndcg_sensitivity_utility-ndcg.pdf",
-    "final/figures/joint_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_ndcg_sensitivity_utility-ndcg.png",
-    "final/figures/joint_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
-    "final/figures/joint_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
-    "final/figures/joint_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget1.pdf",
-    "final/figures/joint_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget1.png",
-    "final/figures/joint_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget3.pdf",
-    "final/figures/joint_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget3.png",
-    "final/figures/joint_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates100.pdf",
-    "final/figures/joint_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates100.png",
-    "final/figures/joint_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates500.pdf",
-    "final/figures/joint_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates500.png",
-    "final/figures/joint_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax100.pdf",
-    "final/figures/joint_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax100.png",
-    "final/figures/joint_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax50.pdf",
-    "final/figures/joint_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax50.png",
-    "final/figures/joint_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_rho025.pdf",
-    "final/figures/joint_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_rho025.png",
-    "final/figures/joint_ndcg_MovieLens-1M_profile_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.pdf",
-    "final/figures/joint_ndcg_MovieLens-1M_profile_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.png",
-    "final/figures/joint_ndcg_MovieLens-1M_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
-    "final/figures/joint_ndcg_MovieLens-1M_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
-    "final/figures/normalized_regret_ndcg_Amazon-Digital-Music_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.pdf",
-    "final/figures/normalized_regret_ndcg_Amazon-Digital-Music_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.png",
-    "final/figures/normalized_regret_ndcg_Amazon-Digital-Music_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
-    "final/figures/normalized_regret_ndcg_Amazon-Digital-Music_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
-    "final/figures/normalized_regret_ndcg_Amazon-Digital-Music_profile_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.pdf",
-    "final/figures/normalized_regret_ndcg_Amazon-Digital-Music_profile_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.png",
-    "final/figures/normalized_regret_ndcg_Amazon-Digital-Music_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
-    "final/figures/normalized_regret_ndcg_Amazon-Digital-Music_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
-    "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.pdf",
-    "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.png",
-    "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_ndcg_sensitivity_utility-ndcg.pdf",
-    "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_ndcg_sensitivity_utility-ndcg.png",
-    "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
-    "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
-    "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget1.pdf",
-    "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget1.png",
-    "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget3.pdf",
-    "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget3.png",
-    "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates100.pdf",
-    "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates100.png",
-    "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates500.pdf",
-    "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates500.png",
-    "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax100.pdf",
-    "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax100.png",
-    "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax50.pdf",
-    "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax50.png",
-    "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_rho025.pdf",
-    "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_rho025.png",
-    "final/figures/normalized_regret_ndcg_MovieLens-1M_profile_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.pdf",
-    "final/figures/normalized_regret_ndcg_MovieLens-1M_profile_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.png",
-    "final/figures/normalized_regret_ndcg_MovieLens-1M_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
-    "final/figures/normalized_regret_ndcg_MovieLens-1M_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
-    "final/manifests/asset_manifest.json",
-    "final/manifests/validation_report.json",
-    "final/tables/actionability_gap_advantage.csv",
-    "final/tables/actionability_gap_advantage.tex",
-    "final/tables/actionability_gap_robustness.csv",
-    "final/tables/actionability_gap_robustness.tex",
-    "final/tables/aia_components.csv",
-    "final/tables/aia_components.tex",
-    "final/tables/aia_permutation_null.csv",
-    "final/tables/aia_permutation_null.tex",
-    "final/tables/attribution_stability.csv",
-    "final/tables/attribution_stability.tex",
-    "final/tables/convergence.csv",
-    "final/tables/convergence.tex",
-    "final/tables/full_catalogue_results.tex",
-    "final/tables/intervention_outcomes.csv",
-    "final/tables/intervention_outcomes.tex",
-    "final/tables/method_metrics.csv",
-    "final/tables/paired_tests.csv",
-    "final/tables/paired_tests.tex",
-    "final/tables/primary_results.tex",
-    "final/tables/protocol_audit.csv",
-    "final/tables/protocol_audit.tex",
-    "final/tables/sensitivity_results.tex"
-  ]
+  {
+   "path": "external/amazon-digital-music_itemknn_fullcatalog_seed43.json",
+   "sha256": "5364fc5558447f90acbecbe7fbd2f38f55d9e880116f4d711b0de8d3b3fff378",
+   "bytes": 2382143
+  },
+  {
+   "path": "external/amazon-digital-music_itemknn_fullcatalog_seed44.json",
+   "sha256": "918e18e3f545b2dc58add7e7f136c401755a25836c430f7f53ecec5ed60e57ff",
+   "bytes": 2381524
+  },
+  {
+   "path": "external/amazon-digital-music_itemknn_fullcatalog_seed45.json",
+   "sha256": "122c942fd1a6fb7411ad1b41894e320ac3e70c1954d987dc034cf5d5fa56f60f",
+   "bytes": 2381940
+  },
+  {
+   "path": "external/amazon-digital-music_itemknn_fullcatalog_seed46.json",
+   "sha256": "9f88909a5be19a78bf3f0dfab1bc75eb783b2536095bcd8dfb9779666c96a58b",
+   "bytes": 2382744
+  },
+  {
+   "path": "external/amazon-digital-music_itemknn_sampled_seed42.json",
+   "sha256": "bc08c26b9d0544a17ee244e5ba5f02eb0a914ac4bb2db9441d17358acc0d8702",
+   "bytes": 9786848
+  },
+  {
+   "path": "external/amazon-digital-music_itemknn_sampled_seed43.json",
+   "sha256": "cc5d7071cf2c2860c24960ae1e03aec1052c075046c2664e053474acb21794ed",
+   "bytes": 9784638
+  },
+  {
+   "path": "external/amazon-digital-music_itemknn_sampled_seed44.json",
+   "sha256": "9be280bf6f43101aed1e481afce8c7c813c9bd01a81eb8a77e241e12f4b9d43d",
+   "bytes": 9786180
+  },
+  {
+   "path": "external/amazon-digital-music_itemknn_sampled_seed45.json",
+   "sha256": "c7a46d587698dde396219a0d58a1ca2b8430352b906e9f5408e0997b1862675c",
+   "bytes": 9787295
+  },
+  {
+   "path": "external/amazon-digital-music_itemknn_sampled_seed46.json",
+   "sha256": "80848a037781262fc06dae0f9b8bfc960a01ea736bd7e12e2affb3a0e500cdf9",
+   "bytes": 9787022
+  },
+  {
+   "path": "external/amazon-digital-music_profile_fullcatalog_seed42.json",
+   "sha256": "dba529c7ad2f95729b9a9476f07d22a60f18aee2a988fcf80ace70e9f0bd95da",
+   "bytes": 2409056
+  },
+  {
+   "path": "external/amazon-digital-music_profile_fullcatalog_seed43.json",
+   "sha256": "2d0ab0c83d45a7f66f2c36e67e22c503623c4a930aab77821dad8ea443020039",
+   "bytes": 2412197
+  },
+  {
+   "path": "external/amazon-digital-music_profile_fullcatalog_seed44.json",
+   "sha256": "79e97f56d05c38577d3c15b85100645416a52d3ae25df5a573350620865f6e1c",
+   "bytes": 2408968
+  },
+  {
+   "path": "external/amazon-digital-music_profile_fullcatalog_seed45.json",
+   "sha256": "c14b944023d9509bfad0dbf1acd699972d725636735b215fb821b717fb3278ec",
+   "bytes": 2410167
+  },
+  {
+   "path": "external/amazon-digital-music_profile_fullcatalog_seed46.json",
+   "sha256": "33e7d342a3cdff9f068b01394f26467422684daad1b978b8adb96c3e7ab44451",
+   "bytes": 2412249
+  },
+  {
+   "path": "external/amazon-digital-music_profile_sampled_seed42.json",
+   "sha256": "1a9e9fb9703900c697e324c8592c59b275cbae7766b76e78485ac9c90d5be224",
+   "bytes": 9768425
+  },
+  {
+   "path": "external/amazon-digital-music_profile_sampled_seed43.json",
+   "sha256": "597e688bade17af7a7c260c46793425967cc6dfff8fea09c13ea4db6b657b588",
+   "bytes": 9772490
+  },
+  {
+   "path": "external/amazon-digital-music_profile_sampled_seed44.json",
+   "sha256": "4638c38f470e0af09d34f0e7e320e6e6503588819d78b2f8b4885e99fe6f3093",
+   "bytes": 9763033
+  },
+  {
+   "path": "external/amazon-digital-music_profile_sampled_seed45.json",
+   "sha256": "8893fd005e6c0a158ee083164e6024847d104ba75f41d22800d3bfebaf9e6195",
+   "bytes": 9768327
+  },
+  {
+   "path": "external/amazon-digital-music_profile_sampled_seed46.json",
+   "sha256": "9aa4e02d70a7dd2511719b25e2eabbd55997217336764d6b694e087991fbf70d",
+   "bytes": 9767268
+  },
+  {
+   "path": "external/movielens-1m_itemknn_fullcatalog_seed42.json",
+   "sha256": "70b2eeabb56197e22a5482b43055c0bb334e50e5980a352909af136d598cc12e",
+   "bytes": 3349903
+  },
+  {
+   "path": "external/movielens-1m_itemknn_fullcatalog_seed43.json",
+   "sha256": "178cbf6e3293bcffa4387d6479e8bb7cf041de5e04be78d2faeff3b63aaac339",
+   "bytes": 3350611
+  },
+  {
+   "path": "external/movielens-1m_itemknn_fullcatalog_seed44.json",
+   "sha256": "45801e2e703ea34d10ac365baa46b6c22b7ecd397b1923861c0c69fc5c2a120c",
+   "bytes": 3349866
+  },
+  {
+   "path": "external/movielens-1m_itemknn_fullcatalog_seed45.json",
+   "sha256": "870a52978a3be657b1e2c3f89857599285258a1cdcf3b5aef14645facb46cfb9",
+   "bytes": 3349808
+  },
+  {
+   "path": "external/movielens-1m_itemknn_fullcatalog_seed46.json",
+   "sha256": "ede83ef1062974cbc0aa6741ce712b8b4e500ea1e58bb35e79904c6b5e955927",
+   "bytes": 3349930
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sampled_seed42.json",
+   "sha256": "f7e41bb87f7c9ad74942d04bbd9daacfa56fbb730421b1ec52d9a5310649f1bc",
+   "bytes": 13418254
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sampled_seed43.json",
+   "sha256": "3cce32431bbaf98dd90b75aebafba0b4a3a1088764948e9ccbd7bed6f00bfa59",
+   "bytes": 13417784
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sampled_seed44.json",
+   "sha256": "64262e07640fa76ec2c76968af6e2346e05b321a49871579e31f217ecbd5f1e9",
+   "bytes": 13418759
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sampled_seed45.json",
+   "sha256": "a9b9b656626ec64976656ba0f9c93d7d312467e5c5a9728e640b306e4136123e",
+   "bytes": 13418745
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sampled_seed46.json",
+   "sha256": "d6ac78d934369e960abb35b9461821e4d7ea8e7598b48ef94854da42a947a23d",
+   "bytes": 13419618
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-budget1_seed42.json",
+   "sha256": "8a4b6d4fc324b1d07a2bec330784a1594b8afaf36243cb0002e7ea91dbd820b7",
+   "bytes": 3314463
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-budget1_seed43.json",
+   "sha256": "b94b72ffc1b804aab6f2e71d96dac3375df2b6add1f866e1c7c7a7b5e926b428",
+   "bytes": 3314920
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-budget1_seed44.json",
+   "sha256": "1f711cdf24a582fcfba79d4c03b39c5c584e314798483313694c603dd9f3ce14",
+   "bytes": 3314524
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-budget1_seed45.json",
+   "sha256": "7d756cbc618dbb2f20a80aec56549f7277ae623771ce0f9ae3d2a293b4d8462c",
+   "bytes": 3315424
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-budget1_seed46.json",
+   "sha256": "b90a69043347b61af1aa356b2d283dafcc45f5fe4fbbe2ba42e7ddacec48213d",
+   "bytes": 3315630
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-budget3_seed42.json",
+   "sha256": "8e02ceceb4a2bae015be3d129078dd7f77c295e514b70c375bd56e5c74714b2a",
+   "bytes": 3342694
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-budget3_seed43.json",
+   "sha256": "01e08d7a53d39ca1d35651bf3be6ac70ca42c7e348496d19214a471e0557c0ec",
+   "bytes": 3343085
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-budget3_seed44.json",
+   "sha256": "a352d380c766e185835d7f183d85ae066d727e134bb7d83a73234e3d3c012512",
+   "bytes": 3342901
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-budget3_seed45.json",
+   "sha256": "82e110b60bc61b830f0e7abf0ece52fa2c8493b3d6b8e1bfc3483208d85a6d9a",
+   "bytes": 3343455
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-budget3_seed46.json",
+   "sha256": "28ab44d8567b874f80de698d766f67b53a27ae8d656e4b5ab444d550d2d56f02",
+   "bytes": 3343620
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-candidates100_seed42.json",
+   "sha256": "d6cff440a11bfa0a5753dbfc290b2aa5d0bb15b9adb7f784226d533d0d0b51bb",
+   "bytes": 3387511
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-candidates100_seed43.json",
+   "sha256": "a841dcb5a3ca02e05328ec1b5d58390aab641e5989687681b5c25f1f418c06fb",
+   "bytes": 3387810
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-candidates100_seed44.json",
+   "sha256": "6cd63ae258752d5126daad730351e96808d37c349fe3d8cd944f18b3bdec05ed",
+   "bytes": 3387419
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-candidates100_seed45.json",
+   "sha256": "d44f56d2da67470824e078dca0b50e206fc3175e11c232e4e618bbca03617261",
+   "bytes": 3387519
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-candidates100_seed46.json",
+   "sha256": "d2a876aa9dc481ba5b91d89f8a25b30bc29acf7f7ef0e52cf4df24712641ab27",
+   "bytes": 3387321
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-candidates500_seed42.json",
+   "sha256": "4a6ed79af22d04f7117f96fd5179a7bd20ef58883191bb2ab40676444268dfd2",
+   "bytes": 3371282
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-candidates500_seed43.json",
+   "sha256": "4b5f2b98a559a778a0dc9a7e6a6179b5107ee860ca887095f17ab8605d597a13",
+   "bytes": 3371490
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-candidates500_seed44.json",
+   "sha256": "9f608201e1c2b824083520ffab6df2889139cded81274a789fb417bcf49e86dc",
+   "bytes": 3371333
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-candidates500_seed45.json",
+   "sha256": "bb5c9245d319ffc81a7502cdad4b98fa65a27f6de2d7496ba59ae9e01ccb67a9",
+   "bytes": 3371185
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-candidates500_seed46.json",
+   "sha256": "21f7c6c101f88ebe4387eb22f39b89a47620944c6624c9876701dc124f82ab3a",
+   "bytes": 3371268
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-nmax100_seed42.json",
+   "sha256": "4ec72f5d30830264e730220b3a5cc84f72163f81324b559b99d2c4a0568aea42",
+   "bytes": 6194066
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-nmax100_seed43.json",
+   "sha256": "969779f3f817fd2b606b7e4e85370a7d8a99863ba15a0d872b94542ea614573d",
+   "bytes": 6193018
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-nmax100_seed44.json",
+   "sha256": "91c1557950e4068f705c4f508087bbf8e452af49567cf6d8466d8818b2cd879b",
+   "bytes": 6192986
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-nmax100_seed45.json",
+   "sha256": "5384fa95d4ce13d0f47d92ca6a203675093c8192dedf84ef9c2079877dc1b750",
+   "bytes": 6193597
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-nmax100_seed46.json",
+   "sha256": "c7aa727858b16e1456f0e91a31a369eecbab609b150969f2b0ceca2917b36a0b",
+   "bytes": 6193389
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-nmax50_seed42.json",
+   "sha256": "82a7b6aa6079e190b588106edbb2bb1f2ff2e18951c0ae4cf9933a3d0d3fceb5",
+   "bytes": 4801661
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-nmax50_seed43.json",
+   "sha256": "f2a382725bddec427fc3e9c25fee52fbbb960e19fc933cf26c74563fce227f46",
+   "bytes": 4801735
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-nmax50_seed44.json",
+   "sha256": "579240fcd7af09fa61c87849a70fdaed8f7197bf23d81c4ee06172dbd6328d9f",
+   "bytes": 4801289
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-nmax50_seed45.json",
+   "sha256": "94ca3ccd9eb723c9d8cd4512d76af4afbe7be4d363743c1d6a004d477dcd197a",
+   "bytes": 4802257
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-nmax50_seed46.json",
+   "sha256": "e2e991d1cda5dcaa351a850f762046be4166f3221634fef4d31982854b783438",
+   "bytes": 4801582
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-rho025_seed42.json",
+   "sha256": "d3ca5c94358e09b08bc25a48a4cd9a47588166d8719c64e3ad9f2d5e01874411",
+   "bytes": 3389345
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-rho025_seed43.json",
+   "sha256": "19a8b0a75dae5d809d8eaba66afb72155ae646a1930ac3be7ffa678f055afc68",
+   "bytes": 3389777
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-rho025_seed44.json",
+   "sha256": "29a4de5bdbda6021ac920e5f3cb1b75084494f7e60c825798e13fc981458e82f",
+   "bytes": 3389416
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-rho025_seed45.json",
+   "sha256": "4594d3c0fb372cc9fe6db4c96fde478a96bec138f824cfec9160cfa2ccfcb5bc",
+   "bytes": 3389988
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-rho025_seed46.json",
+   "sha256": "9303cd61ef50d5d22f63acb163f0e02b7c207fe2949cc83cfd20c0b70bd5a5ef",
+   "bytes": 3390044
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-utility-ndcg_seed42.json",
+   "sha256": "8259506c33860631b4f2e0c8fce66af7986e73822506afc005e0fe3c5739ba23",
+   "bytes": 2848990
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-utility-ndcg_seed43.json",
+   "sha256": "e59d3cfe4403472dfbfaa00e8c775faae0131963e6e232f5279e84d7ea9e08f1",
+   "bytes": 2849439
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-utility-ndcg_seed44.json",
+   "sha256": "84db72f1799fcc3b995337e9ce0e697f9177b256c4c7846918cb2bbf650803d2",
+   "bytes": 2849791
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-utility-ndcg_seed45.json",
+   "sha256": "5a6c48f20cf9ad1e72cbac259e2c89521e73aaa8bb5a163d19b54a1d3c144152",
+   "bytes": 2849657
+  },
+  {
+   "path": "external/movielens-1m_itemknn_sensitivity-utility-ndcg_seed46.json",
+   "sha256": "2064e9d0e4a9e7dae884f768bab20baf1828249354abb88b4b5731fd38768a12",
+   "bytes": 2849554
+  },
+  {
+   "path": "external/movielens-1m_profile_fullcatalog_seed42.json",
+   "sha256": "dd1bb30af79a0344660ec4380f685a7e3801a89881f200ec37582de698f9bc19",
+   "bytes": 3294209
+  },
+  {
+   "path": "external/movielens-1m_profile_fullcatalog_seed43.json",
+   "sha256": "7b0583bbbb23fe8aacf11bc06c339b5eaa82dd9dec6b35b9b5af9ac654ab853b",
+   "bytes": 3301909
+  },
+  {
+   "path": "external/movielens-1m_profile_fullcatalog_seed44.json",
+   "sha256": "510beea54a81fca75ff9e1b07874291b0d4f33557198e5d93ce71995d0a341ad",
+   "bytes": 3294788
+  },
+  {
+   "path": "external/movielens-1m_profile_fullcatalog_seed45.json",
+   "sha256": "826bc95ce3a5b50f6090e467227a501198c67024934fbb0f4b4ddf64770a6133",
+   "bytes": 3291478
+  },
+  {
+   "path": "external/movielens-1m_profile_fullcatalog_seed46.json",
+   "sha256": "4480ac128951dcd92e0a8289fca8831cf43c34cb80ceb55e94ac33d7a1cc4a02",
+   "bytes": 3290596
+  },
+  {
+   "path": "external/movielens-1m_profile_sampled_seed42.json",
+   "sha256": "8decf2cfa0d1864ed55c4d02492b3e140355f9e17157ef3e17076b883c12e5a9",
+   "bytes": 13201857
+  },
+  {
+   "path": "external/movielens-1m_profile_sampled_seed43.json",
+   "sha256": "c5f3a9790e7d1283550edfb6a59f227794b8979c03b6aa945f63c2c870710eb4",
+   "bytes": 13252086
+  },
+  {
+   "path": "external/movielens-1m_profile_sampled_seed44.json",
+   "sha256": "d6ddf775bbdd30447dfd15483c45369b3f819fda6152a1a6926e5cf1e25e3f6f",
+   "bytes": 13210545
+  },
+  {
+   "path": "external/movielens-1m_profile_sampled_seed45.json",
+   "sha256": "494726a0e0fe1d247bf865ad6f071e5260faece8c0aa502c77128fd14b873ca2",
+   "bytes": 13172712
+  },
+  {
+   "path": "external/movielens-1m_profile_sampled_seed46.json",
+   "sha256": "d6ad8b12683cf0b0f5744742bfaeea9ecc15ca63e50ae8e8e89235bbc33263b5",
+   "bytes": 13185267
+  },
+  {
+   "path": "external/convergence_amazon-digital-music_itemknn.json",
+   "sha256": "67dfc89d07160290496b74e1334f9ba391e0bd9d1642c1ecec68b96726f45cd3",
+   "bytes": 246854
+  },
+  {
+   "path": "external/convergence_amazon-digital-music_profile.json",
+   "sha256": "c41d784ceb1587530bbb666763d4c6e640e799c2793fbdbe807d00acd18eb6f5",
+   "bytes": 247648
+  },
+  {
+   "path": "external/convergence_movielens-1m_itemknn.json",
+   "sha256": "36ba2af9d532aa52120dc21fdad5d88a29104cb02b34cd93563a64252edb04d9",
+   "bytes": 256621
+  },
+  {
+   "path": "external/convergence_movielens-1m_itemknn_ndcg.json",
+   "sha256": "f8677692efde09696d0c5565498787f06e4e93a67b79b823834e89f352b871b7",
+   "bytes": 254241
+  },
+  {
+   "path": "external/convergence_movielens-1m_profile.json",
+   "sha256": "19c7a4f0ee4467a05c09d6d9f69ec1294db98aa782cb84c1dabc17074d67a069",
+   "bytes": 255740
+  },
+  {
+   "path": "external/movielens_masking_gate.json",
+   "sha256": "18b8157185c552e8cbb6df889064bf0f89739b91a02dbbe0debbacc8962a6b77",
+   "bytes": 15761
+  }
+ ],
+ "analysis": {
+  "unit": "distinct user after averaging repeated seeds",
+  "bootstrap_draws": 10000,
+  "paired_permutation_draws": 10000,
+  "aia_null_draws": 1000,
+  "multiplicity": "Holm-Bonferroni within experiment and metric",
+  "paired_p_value_floor": 9.999000099990002e-05,
+  "aia_null_p_value_floor": 0.000999000999000999
+ },
+ "generated_files": [
+  "final/README.md",
+  "final/RESULTS_SUMMARY.md",
+  "final/data/user_seed_metrics.csv.gz",
+  "final/figures/actionability_gap_robustness.pdf",
+  "final/figures/actionability_gap_robustness.png",
+  "final/figures/aia_components_robustness.pdf",
+  "final/figures/aia_components_robustness.png",
+  "final/figures/aia_margin_Amazon-Digital-Music_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.pdf",
+  "final/figures/aia_margin_Amazon-Digital-Music_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.png",
+  "final/figures/aia_margin_Amazon-Digital-Music_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
+  "final/figures/aia_margin_Amazon-Digital-Music_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
+  "final/figures/aia_margin_Amazon-Digital-Music_profile_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.pdf",
+  "final/figures/aia_margin_Amazon-Digital-Music_profile_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.png",
+  "final/figures/aia_margin_Amazon-Digital-Music_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
+  "final/figures/aia_margin_Amazon-Digital-Music_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
+  "final/figures/aia_margin_MovieLens-1M_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.pdf",
+  "final/figures/aia_margin_MovieLens-1M_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.png",
+  "final/figures/aia_margin_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_ndcg_sensitivity_utility-ndcg.pdf",
+  "final/figures/aia_margin_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_ndcg_sensitivity_utility-ndcg.png",
+  "final/figures/aia_margin_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
+  "final/figures/aia_margin_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
+  "final/figures/aia_margin_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget1.pdf",
+  "final/figures/aia_margin_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget1.png",
+  "final/figures/aia_margin_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget3.pdf",
+  "final/figures/aia_margin_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget3.png",
+  "final/figures/aia_margin_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates100.pdf",
+  "final/figures/aia_margin_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates100.png",
+  "final/figures/aia_margin_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates500.pdf",
+  "final/figures/aia_margin_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates500.png",
+  "final/figures/aia_margin_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax100.pdf",
+  "final/figures/aia_margin_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax100.png",
+  "final/figures/aia_margin_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax50.pdf",
+  "final/figures/aia_margin_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax50.png",
+  "final/figures/aia_margin_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_rho025.pdf",
+  "final/figures/aia_margin_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_rho025.png",
+  "final/figures/aia_margin_MovieLens-1M_profile_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.pdf",
+  "final/figures/aia_margin_MovieLens-1M_profile_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.png",
+  "final/figures/aia_margin_MovieLens-1M_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
+  "final/figures/aia_margin_MovieLens-1M_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
+  "final/figures/aia_ndcg_Amazon-Digital-Music_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.pdf",
+  "final/figures/aia_ndcg_Amazon-Digital-Music_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.png",
+  "final/figures/aia_ndcg_Amazon-Digital-Music_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
+  "final/figures/aia_ndcg_Amazon-Digital-Music_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
+  "final/figures/aia_ndcg_Amazon-Digital-Music_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
+  "final/figures/aia_ndcg_Amazon-Digital-Music_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
+  "final/figures/aia_ndcg_MovieLens-1M_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.pdf",
+  "final/figures/aia_ndcg_MovieLens-1M_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.png",
+  "final/figures/aia_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_ndcg_sensitivity_utility-ndcg.pdf",
+  "final/figures/aia_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_ndcg_sensitivity_utility-ndcg.png",
+  "final/figures/aia_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
+  "final/figures/aia_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
+  "final/figures/aia_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget1.pdf",
+  "final/figures/aia_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget1.png",
+  "final/figures/aia_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget3.pdf",
+  "final/figures/aia_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget3.png",
+  "final/figures/aia_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates100.pdf",
+  "final/figures/aia_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates100.png",
+  "final/figures/aia_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates500.pdf",
+  "final/figures/aia_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates500.png",
+  "final/figures/aia_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax100.pdf",
+  "final/figures/aia_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax100.png",
+  "final/figures/aia_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax50.pdf",
+  "final/figures/aia_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax50.png",
+  "final/figures/aia_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_rho025.pdf",
+  "final/figures/aia_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_rho025.png",
+  "final/figures/aia_ndcg_MovieLens-1M_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
+  "final/figures/aia_ndcg_MovieLens-1M_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
+  "final/figures/convergence.pdf",
+  "final/figures/convergence.png",
+  "final/figures/gap_Amazon-Digital-Music_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.pdf",
+  "final/figures/gap_Amazon-Digital-Music_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.png",
+  "final/figures/gap_Amazon-Digital-Music_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
+  "final/figures/gap_Amazon-Digital-Music_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
+  "final/figures/gap_Amazon-Digital-Music_profile_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.pdf",
+  "final/figures/gap_Amazon-Digital-Music_profile_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.png",
+  "final/figures/gap_Amazon-Digital-Music_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
+  "final/figures/gap_Amazon-Digital-Music_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
+  "final/figures/gap_MovieLens-1M_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.pdf",
+  "final/figures/gap_MovieLens-1M_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.png",
+  "final/figures/gap_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_ndcg_sensitivity_utility-ndcg.pdf",
+  "final/figures/gap_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_ndcg_sensitivity_utility-ndcg.png",
+  "final/figures/gap_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
+  "final/figures/gap_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
+  "final/figures/gap_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget1.pdf",
+  "final/figures/gap_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget1.png",
+  "final/figures/gap_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget3.pdf",
+  "final/figures/gap_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget3.png",
+  "final/figures/gap_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates100.pdf",
+  "final/figures/gap_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates100.png",
+  "final/figures/gap_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates500.pdf",
+  "final/figures/gap_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates500.png",
+  "final/figures/gap_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax100.pdf",
+  "final/figures/gap_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax100.png",
+  "final/figures/gap_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax50.pdf",
+  "final/figures/gap_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax50.png",
+  "final/figures/gap_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_rho025.pdf",
+  "final/figures/gap_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_rho025.png",
+  "final/figures/gap_MovieLens-1M_profile_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.pdf",
+  "final/figures/gap_MovieLens-1M_profile_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.png",
+  "final/figures/gap_MovieLens-1M_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
+  "final/figures/gap_MovieLens-1M_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
+  "final/figures/joint_ndcg_Amazon-Digital-Music_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.pdf",
+  "final/figures/joint_ndcg_Amazon-Digital-Music_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.png",
+  "final/figures/joint_ndcg_Amazon-Digital-Music_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
+  "final/figures/joint_ndcg_Amazon-Digital-Music_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
+  "final/figures/joint_ndcg_Amazon-Digital-Music_profile_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.pdf",
+  "final/figures/joint_ndcg_Amazon-Digital-Music_profile_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.png",
+  "final/figures/joint_ndcg_Amazon-Digital-Music_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
+  "final/figures/joint_ndcg_Amazon-Digital-Music_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
+  "final/figures/joint_ndcg_MovieLens-1M_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.pdf",
+  "final/figures/joint_ndcg_MovieLens-1M_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.png",
+  "final/figures/joint_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_ndcg_sensitivity_utility-ndcg.pdf",
+  "final/figures/joint_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_ndcg_sensitivity_utility-ndcg.png",
+  "final/figures/joint_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
+  "final/figures/joint_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
+  "final/figures/joint_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget1.pdf",
+  "final/figures/joint_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget1.png",
+  "final/figures/joint_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget3.pdf",
+  "final/figures/joint_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget3.png",
+  "final/figures/joint_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates100.pdf",
+  "final/figures/joint_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates100.png",
+  "final/figures/joint_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates500.pdf",
+  "final/figures/joint_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates500.png",
+  "final/figures/joint_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax100.pdf",
+  "final/figures/joint_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax100.png",
+  "final/figures/joint_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax50.pdf",
+  "final/figures/joint_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax50.png",
+  "final/figures/joint_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_rho025.pdf",
+  "final/figures/joint_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_rho025.png",
+  "final/figures/joint_ndcg_MovieLens-1M_profile_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.pdf",
+  "final/figures/joint_ndcg_MovieLens-1M_profile_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.png",
+  "final/figures/joint_ndcg_MovieLens-1M_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
+  "final/figures/joint_ndcg_MovieLens-1M_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
+  "final/figures/normalized_regret_ndcg_Amazon-Digital-Music_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.pdf",
+  "final/figures/normalized_regret_ndcg_Amazon-Digital-Music_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.png",
+  "final/figures/normalized_regret_ndcg_Amazon-Digital-Music_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
+  "final/figures/normalized_regret_ndcg_Amazon-Digital-Music_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
+  "final/figures/normalized_regret_ndcg_Amazon-Digital-Music_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
+  "final/figures/normalized_regret_ndcg_Amazon-Digital-Music_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
+  "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.pdf",
+  "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_full_unseen_catalogue_target_margin_full_catalogue_full_catalogue.png",
+  "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_ndcg_sensitivity_utility-ndcg.pdf",
+  "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_ndcg_sensitivity_utility-ndcg.png",
+  "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
+  "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
+  "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget1.pdf",
+  "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget1.png",
+  "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget3.pdf",
+  "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_budget3.png",
+  "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates100.pdf",
+  "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates100.png",
+  "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates500.pdf",
+  "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_candidates500.png",
+  "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax100.pdf",
+  "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax100.png",
+  "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax50.pdf",
+  "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_nmax50.png",
+  "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_rho025.pdf",
+  "final/figures/normalized_regret_ndcg_MovieLens-1M_itemknn_sampled_unseen_negatives_with_target_target_margin_sensitivity_rho025.png",
+  "final/figures/normalized_regret_ndcg_MovieLens-1M_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.pdf",
+  "final/figures/normalized_regret_ndcg_MovieLens-1M_profile_sampled_unseen_negatives_with_target_target_margin_primary_primary.png",
+  "final/manifests/asset_manifest.json",
+  "final/manifests/validation_report.json",
+  "final/tables/actionability_gap_advantage.csv",
+  "final/tables/actionability_gap_advantage.tex",
+  "final/tables/actionability_gap_robustness.csv",
+  "final/tables/actionability_gap_robustness.tex",
+  "final/tables/aia_components.csv",
+  "final/tables/aia_components.tex",
+  "final/tables/aia_permutation_null.csv",
+  "final/tables/aia_permutation_null.tex",
+  "final/tables/attribution_stability.csv",
+  "final/tables/attribution_stability.tex",
+  "final/tables/convergence.csv",
+  "final/tables/convergence.tex",
+  "final/tables/full_catalogue_results.tex",
+  "final/tables/intervention_outcomes.csv",
+  "final/tables/intervention_outcomes.tex",
+  "final/tables/method_metrics.csv",
+  "final/tables/paired_tests.csv",
+  "final/tables/paired_tests.tex",
+  "final/tables/primary_results.tex",
+  "final/tables/protocol_audit.csv",
+  "final/tables/protocol_audit.tex",
+  "final/tables/sensitivity_results.tex"
+ ],
+ "statistics_schema": {
+  "aia_permutation_null.csv.permutation_p": "aggregate one-sided upper-tail null p (Eq. 19 of the manuscript): seed-averaged observed AIA compared against seed-averaged matched null draws, per dataset-method; unadjusted descriptive calibration control",
+  "method_metrics.csv.aia_permutation_p": "mean over distinct users of per-user within-user null p-values; a user-level descriptive summary, not the aggregate test; values differ by construction"
+ }
 }

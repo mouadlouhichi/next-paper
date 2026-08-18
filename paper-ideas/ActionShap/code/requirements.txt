@@ -23,7 +23,7 @@ lime==0.2.0.1
 # Decomposition: GA2M fit and Lengerich purification.
 # interpret.utils.purify implements the functional-ANOVA purification the
 # identifiability argument in Section 3.7.3 depends on. Do not downgrade.
-interpret-core==0.6.3
+interpret-core>=0.7.4,<0.8   # 0.6.3 fails on numpy>=2 (ctypes.ArgumentError in bin_native_by_dimension)
 
 # Dynamic regime
 torch==2.3.1

@@ -48,3 +48,34 @@ archive deposit must be completed before submission. The exact branch commit and
 archive SHA-256 are recorded in the parent `paper-v3/REPRODUCIBILITY.md`.
 
 The repository does not track stale compiled PDFs. Compile `actionshap.tex` and `supplementary.tex` from this package in Overleaf so the PDF reflects the current source, table sequence, and release metadata.
+
+## Overleaf troubleshooting
+
+- Upload the **entire folder**, including `tables/`, `figures/`, `sn-jnl.cls`,
+  `sn-mathphys-num.bst`, and `latexmkrc`. If `tables/` (or any input asset) is
+  missing, the compiler reports a warning and a bold placeholder instead of the
+  table; re-upload the complete `tables/` directory and recompile.
+- Set the main document to `actionshap.tex` (Menu > Settings > Main file).
+  Compile `supplementary.tex` as a separate project entry point only when the
+  full numerical audit PDF is required.
+- The package was compile-verified end-to-end with pdfLaTeX (29 pages main,
+  37 pages supplement, zero errors) using the pinned `sn-jnl` class.
+
+### Table authoring rule (sn-jnl + threeparttable)
+
+The `sn-jnl` class wraps every `table` environment in the real
+`threeparttable`, which measures the `tabular` body in its own box. Wrapping a
+`tabular` in `\resizebox` (or `\scalebox`) inside these tables breaks group
+balance and triggers "Missing \endgroup", "Division by 0", and vanished tables.
+All manuscript tables are therefore resize-free and use *plain* `tabular`
+only (`tabularx`/`tabular*` inside the threeparttable wrapper are not used);
+width is controlled by font size, `tabcolsep`, wrapping `p{...}` columns, and
+shortened cell text. Keep it that way when editing tables.
+
+For the same reason, never use the `[H]` placement specifier on `table` (or
+`sidewaystable`) environments: `float.sty` implements `[H]` by locally
+redefining `\endtable` to its own `\float@endH`, which bypasses the class's
+threeparttable/closing code and causes "Extra }, or forgotten \\endgroup",
+"\\begin{threeparttable} ... ended by \\end{table}", and a cascade of
+"Not in outer par mode" errors. Use `[!htbp]` plus the existing `\\FloatBarrier`
+commands instead (figures are unaffected because the class does not wrap them).
