@@ -1,0 +1,45 @@
+{
+  "frontier": [
+    [
+      "strict_provider",
+      0.24,
+      -0.08,
+      0.65
+    ],
+    [
+      "tight_relevance",
+      0.28,
+      -0.03,
+      0.65
+    ],
+    [
+      "relaxed_provider",
+      0.34,
+      -0.08,
+      0.65
+    ]
+  ],
+  "selection_seeds": [
+    60,
+    61,
+    62
+  ],
+  "evaluation_seeds": [
+    260,
+    261,
+    262,
+    263,
+    264,
+    265,
+    266,
+    267,
+    268,
+    269
+  ],
+  "runs": [
+    "/Users/mlouhichi/Desktop/CURE-Rec/next-paper/paper-ideas/CURE-Rec/code/runs/divergent-behavioral/reviewer-selector-holdout-20260818T114931Z",
+    "/Users/mlouhichi/Desktop/CURE-Rec/next-paper/paper-ideas/CURE-Rec/code/runs/divergent-behavioral/reviewer-selector-holdout-20260818T143248Z",
+    "/Users/mlouhichi/Desktop/CURE-Rec/next-paper/paper-ideas/CURE-Rec/code/runs/divergent-behavioral/reviewer-selector-holdout-20260818T170743Z"
+  ],
+  "claim_scope": "held-out CURE-Sim behavioural selector comparison; not real causal inference"
+}
