@@ -294,7 +294,7 @@ Figure~\ref{fig:workflow} gives the complete workflow as one narrow vertical pat
 
 \subsection{Exact coalition evaluation and common random numbers}
 
-For a fixed seed and scenario, every coalition begins from the same initial environment state and random-number construction. This common-random-number design reduces the variance of paired coalition differences: an observed difference is attributable to the policy transformation rather than to a different synthetic cohort draw. Seeds are independent across repetitions. Each run writes a manifest, JSONL events, coalition values, attribution regions, interaction regions, decision data, trajectories, and generated tables and figures.
+For a fixed seed and scenario, every coalition begins from the same initial environment state and random-number construction. This common-random-number design aligns paired coalition differences under the same synthetic cohort draw and can reduce their variance when the resulting outcomes are positively correlated; such a reduction is not guaranteed. Seeds are independent across repetitions. Each run writes a manifest, JSONL events, coalition values, attribution regions, interaction regions, decision data, trajectories, and generated tables and figures.
 
 Common random numbers do not guarantee a variance reduction; they align within-seed shocks so that paired differences can be measured. In the dedicated stochastic click-feedback diagnostic, the observed variance ratios were approximately one. A coalition can still reduce utility, violate relevance, or fail a provider constraint; the grand coalition is in fact harmful in the observed behavioural scenarios. The design merely ensures that a comparison between two coalitions is not dominated by an avoidable difference in simulated initial state. We preserve independent seeds because a common-random-number result from one seed is not a stability claim.
 
@@ -500,7 +500,7 @@ Full twenty-seed & 20 & 20/20 & 0.29371 & 0.00258 & 6 improve, 14 repair\\
 \end{tabular}}
 \end{table}
 
-The grand coalition is budget-infeasible ($c(\Players)=0.49>B=0.35$) and has negative robust-game value; it is retained only as a diagnostic, not as a selectable portfolio. This rejects an additive ``more interventions is always better'' interpretation. Interaction analysis explains why: several injection and reranking combinations introduce relevance, cost, or fatigue trade-offs that a single-intervention ablation cannot expose.
+The grand coalition is budget-infeasible ($c(\Players)=0.49>B=0.35$) and has negative robust-game value. Table~\ref{tab:selector-baselines} reports its zero-valued infeasible-fallback diagnostic separately from that raw negative value; it is not a selectable portfolio. This rejects an additive ``more interventions is always better'' interpretation. Interaction analysis explains why: several injection and reranking combinations introduce relevance, cost, or fatigue trade-offs that a single-intervention ablation cannot expose.
 
 \begin{table*}[t]
 \caption{Held-out selector evaluation. Portfolios are selected on five seeds and evaluated on 20 disjoint seeds. The independent inferential unit is the evaluation seed; 100 cross-product rows are retained for traceability but are not treated as 100 independent observations.}\label{tab:selector-baselines}
@@ -519,12 +519,12 @@ Robust Shapley-budget & 0.294584 & 0.002031 & 0.000000 & 1.000000\\
 Greedy robust & 0.294584 & 0.002031 & 0.000000 & 1.000000\\
 Nominal-scenario selector & 0.294584 & 0.002031 & 0.000000 & 1.000000\\
 Random feasible & 0.059153 & 0.112314 & -0.235431 & 0.000002\\
-Grand-coalition diagnostic & 0.000000 & 0.000000 & -0.294584 & 0.000002\\
+Grand-coalition diagnostic (infeasible fallback) & 0.000000 & 0.000000 & -0.294584 & 0.000002\\
 \bottomrule
 \end{tabular}}
 \end{table*}
 
-The selector comparison is intentionally not a manufactured superiority claim. Exact CURE, singleton, robust-Shapley, greedy, and nominal selectors all choose repeat cap for all selection seeds in this configuration, so they are tied on the held-out evaluation. The exact framework is markedly better than random feasible selection; the grand coalition is predominantly infeasible and is reported only as a diagnostic. The value of CURE-Rec in this regime is therefore not that it beats every heuristic, but that it identifies and explains the same simple intervention while retaining principled repair, constraint, and interaction diagnostics for settings in which selectors diverge.
+The selector comparison is intentionally not a manufactured superiority claim. Exact CURE, singleton, robust-Shapley, greedy, and nominal selectors all choose repeat cap for all selection seeds in this configuration, so they are tied on the held-out evaluation. The exact framework is markedly better than random feasible selection; the grand coalition is categorically budget-infeasible under the reported cost and budget values and is reported only as a diagnostic. The value of CURE-Rec in this regime is therefore not that it beats every heuristic, but that it identifies and explains the same simple intervention while retaining principled repair, constraint, and interaction diagnostics for settings in which selectors diverge.
 
 The decision modes are as informative as the selected player. In the full twenty-seed study, the base is infeasible in 14 seeds, principally because provider disparity crosses the declared upper bound. Those 14 outputs are repairs, not failed improvements: repeat cap is chosen because it produces the best feasible maximin policy under the configured scenarios. In the remaining six seeds, the base is feasible and repeat cap is selected as an improvement. A manuscript that reported only the 20/20 selection frequency would hide this operational distinction.
 
@@ -741,7 +741,7 @@ $\mathcal{F}$ & feasible coalitions under declared constraints\\
 \end{table}
 
 \section{OAT and LHS portfolio distributions}\label{app:calibration}
-The OAT study has 75 decisions. Repeat cap is included in all 75 and is the exact portfolio in 74. The joint LHS study has 125 decisions. Its seed-level portfolios are: repeat cap alone (89), repeat cap plus tail slot (12), repeat cap plus exploration slot (8), provider balance alone (6), abstention (4), repeat cap plus diversity (2), repeat cap plus provider balance (2), repeat cap plus exploration plus tail (1), and tail slot alone (1). The 125 decisions comprise 83 repair-mode cases and 42 improvement-mode cases; four decisions are abstentions within the improvement-mode cases. These are status counts, not mutually exclusive portfolio labels. These counts are reported to make the joint-switching result auditable rather than summarized only by a modal portfolio.
+The OAT study has 75 decisions. Repeat cap is included in all 75 and is the exact portfolio in 74. The joint LHS study has 125 decisions. Its seed-level portfolios are: repeat cap alone (89), repeat cap plus tail slot (12), repeat cap plus exploration slot (8), provider balance alone (6), abstention (4), repeat cap plus diversity (2), repeat cap plus provider balance (2), repeat cap plus exploration plus tail (1), and tail slot alone (1). The 125 decisions comprise 83 repair-mode cases and 42 improvement-mode cases; four of the 42 improvement-mode cases abstain. These are status counts, not mutually exclusive portfolio labels. These counts are reported to make the joint-switching result auditable rather than summarized only by a modal portfolio.
 
 \section{External evaluation audit}\label{app:audit}
 For the final SASRec audit, both popularity and SASRec evaluate 1,000 warm targets, count one cold test target, and use candidate sets with mean size 3,436.958 (minimum 2,739; maximum 3,521). Seen-item violations, missing-target violations, candidate-equality violations, and descending-score violations are all zero. SASRec's best validation epoch and restored checkpoint epoch are both 20 for the final audit. The BPR and SASRec seed summaries in the reproducibility snapshot retain all five fixed-seed rows and paired differences against popularity.
