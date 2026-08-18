@@ -201,6 +201,45 @@ class LightGCN(torch.nn.Module):
         return np.concatenate(outs, axis=1)
 
 
+class NGCF(LightGCN):
+    """NGCF-style nonlinear backbone (Wang et al., SIGIR 2019).
+
+    Message from neighbor j to center i at layer l:
+        m = W1_l e_j + W2_l (e_j \\odot e_i),
+    aggregated with the symmetric normalized weights and passed through a
+    LeakyReLU, i.e. a genuinely nonlinear aggregation scheme (in contrast to
+    LightGCN's linear propagation). Layer readout uses the mean of all layers
+    (documented deviation from NGCF's concatenation, keeps the embedding
+    dimension and the downstream attribution/reranking interface identical).
+    Same public interface as LightGCN (propagate/forward/final_embeddings/
+    full_scores) so the frozen attribution and reranking protocol applies
+    unchanged.
+    """
+
+    def __init__(self, n_users: int, n_items: int, edge_index: torch.Tensor, edge_weight: torch.Tensor, dim: int = 64, n_layers: int = 2):
+        super().__init__(n_users, n_items, edge_index, edge_weight, dim=dim, n_layers=n_layers)
+        self.W1 = torch.nn.ModuleList([torch.nn.Linear(dim, dim, bias=False) for _ in range(self.n_layers)])
+        self.W2 = torch.nn.ModuleList([torch.nn.Linear(dim, dim, bias=False) for _ in range(self.n_layers)])
+        for lin in list(self.W1) + list(self.W2):
+            torch.nn.init.xavier_uniform_(lin.weight)
+
+    def propagate(self) -> tuple[torch.Tensor, torch.Tensor]:
+        all_e = torch.cat([self.user_emb.weight, self.item_emb.weight], dim=0)
+        embs = [all_e]
+        src, dst, w = self.edge_src, self.edge_dst, self.edge_weight
+        for l in range(self.n_layers):
+            nbr = all_e[src]
+            ctr = all_e[dst]
+            msg = self.W1[l](nbr) + self.W2[l](nbr * ctr)
+            msg = msg * w.unsqueeze(1)
+            out = torch.zeros_like(all_e)
+            out.index_add_(0, dst, msg)
+            all_e = torch.nn.functional.leaky_relu(out, negative_slope=0.2)
+            embs.append(all_e)
+        final = torch.stack(embs, dim=0).mean(dim=0)
+        return final[: self.n_users], final[self.n_users:]
+
+
 def build_lightgcn_graph(train_df: pd.DataFrame, n_users: int, n_items: int, device: torch.device) -> tuple[torch.Tensor, torch.Tensor]:
     users = train_df.user.values.astype(np.int64)
     items = train_df.item.values.astype(np.int64) + int(n_users)

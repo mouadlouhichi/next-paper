@@ -1,4 +1,14 @@
-# Fixes Applied — Response to Peer Review (2026-08-07)
+# Fixes Applied — Response to Peer Review
+
+> **Round 6 (2026-08-18, manuscript v19):** full response to the three Discovery-AI reviews in
+> `review2/review_v19_round6_response.md` — corrected joint/permutation inference on all tables,
+> Table/figure integrity, conditional game formalization, algorithm fixes, new references, and
+> released scripts for the second backbone, LOO lambda sweep, multi-seed ablations/faithfulness,
+> negative-set sensitivity, and randomization sanity checks (runs pending on authors' hardware).
+
+---
+
+## Round 4/5 fixes (2026-08-07)
 
 This document maps each mandatory revision from the peer review to the concrete artifact.
 

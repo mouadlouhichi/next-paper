@@ -1,0 +1,1034 @@
+{
+ "v3:ml1m:NDCG@20": {
+  "friedman_chi2": 295.4130128271069,
+  "p": 9.699412468940245e-62,
+  "k": 6,
+  "n_users": 6015,
+  "mean_ranks": {
+   "additive-pref": 3.4541147132169576,
+   "attention": 3.4595178719867,
+   "heuristic-pop": 3.4597672485453033,
+   "loo-marginal": 3.5995843724023273,
+   "shapley-mc": 3.5771404821280135,
+   "uniform": 3.449875311720698
+  },
+  "rank_order": [
+   "loo-marginal",
+   "shapley-mc",
+   "heuristic-pop",
+   "attention",
+   "additive-pref",
+   "uniform"
+  ],
+  "nemenyi_pairs": {
+   "additive-pref vs attention": {
+    "p": 0.9999862362682141,
+    "p_holm": 1.0
+   },
+   "additive-pref vs heuristic-pop": {
+    "p": 0.9999827756268481,
+    "p_holm": 1.0
+   },
+   "additive-pref vs loo-marginal": {
+    "p": 0.00028942536949583264,
+    "p_holm": 0.004051955172941657
+   },
+   "additive-pref vs shapley-mc": {
+    "p": 0.004203434073276835,
+    "p_holm": 0.04203434073276835
+   },
+   "additive-pref vs uniform": {
+    "p": 0.999995885249277,
+    "p_holm": 1.0
+   },
+   "attention vs heuristic-pop": {
+    "p": 0.9999999999970771,
+    "p_holm": 1.0
+   },
+   "attention vs loo-marginal": {
+    "p": 0.0005749810871207295,
+    "p_holm": 0.007474754132569483
+   },
+   "attention vs shapley-mc": {
+    "p": 0.007458324154453577,
+    "p_holm": 0.0671249173900822
+   },
+   "attention vs uniform": {
+    "p": 0.9997582962211373,
+    "p_holm": 1.0
+   },
+   "heuristic-pop vs loo-marginal": {
+    "p": 0.0005931112107804282,
+    "p_holm": 0.007474754132569483
+   },
+   "heuristic-pop vs shapley-mc": {
+    "p": 0.007653110154090981,
+    "p_holm": 0.0671249173900822
+   },
+   "heuristic-pop vs uniform": {
+    "p": 0.9997260167054575,
+    "p_holm": 1.0
+   },
+   "loo-marginal vs shapley-mc": {
+    "p": 0.9863802416588332,
+    "p_holm": 1.0
+   },
+   "loo-marginal vs uniform": {
+    "p": 0.0001658324497744168,
+    "p_holm": 0.002487486746616252
+   },
+   "shapley-mc vs uniform": {
+    "p": 0.0026283927434205268,
+    "p_holm": 0.028912320177625794
+   }
+  }
+ },
+ "v3:ml1m:HitRate@20": {
+  "friedman_chi2": 194.36282811163485,
+  "p": 4.561132562918987e-40,
+  "k": 6,
+  "n_users": 6015,
+  "mean_ranks": {
+   "additive-pref": 3.475561097256858,
+   "attention": 3.4815461346633416,
+   "heuristic-pop": 3.475394846217789,
+   "loo-marginal": 3.5466334164588527,
+   "shapley-mc": 3.545137157107232,
+   "uniform": 3.4757273482959268
+  },
+  "rank_order": [
+   "loo-marginal",
+   "shapley-mc",
+   "attention",
+   "uniform",
+   "additive-pref",
+   "heuristic-pop"
+  ],
+  "nemenyi_pairs": {
+   "additive-pref vs attention": {
+    "p": 0.999977119752244,
+    "p_holm": 1.0
+   },
+   "additive-pref vs heuristic-pop": {
+    "p": 0.9999999999996151,
+    "p_holm": 1.0
+   },
+   "additive-pref vs loo-marginal": {
+    "p": 0.2959185217201302,
+    "p_holm": 1.0
+   },
+   "additive-pref vs shapley-mc": {
+    "p": 0.31980517320630586,
+    "p_holm": 1.0
+   },
+   "additive-pref vs uniform": {
+    "p": 0.9999999999996151,
+    "p_holm": 1.0
+   },
+   "attention vs heuristic-pop": {
+    "p": 0.9999737856287296,
+    "p_holm": 1.0
+   },
+   "attention vs loo-marginal": {
+    "p": 0.39712875569575523,
+    "p_holm": 1.0
+   },
+   "attention vs shapley-mc": {
+    "p": 0.4245234796387175,
+    "p_holm": 1.0
+   },
+   "attention vs uniform": {
+    "p": 0.999980107267301,
+    "p_holm": 1.0
+   },
+   "heuristic-pop vs loo-marginal": {
+    "p": 0.29332809148901773,
+    "p_holm": 1.0
+   },
+   "heuristic-pop vs shapley-mc": {
+    "p": 0.317101065164637,
+    "p_holm": 1.0
+   },
+   "heuristic-pop vs uniform": {
+    "p": 0.9999999999876833,
+    "p_holm": 1.0
+   },
+   "loo-marginal vs shapley-mc": {
+    "p": 0.9999999772953303,
+    "p_holm": 1.0
+   },
+   "loo-marginal vs uniform": {
+    "p": 0.29852186630629174,
+    "p_holm": 1.0
+   },
+   "shapley-mc vs uniform": {
+    "p": 0.3225215280880942,
+    "p_holm": 1.0
+   }
+  }
+ },
+ "v3:amazon_books:NDCG@20": {
+  "friedman_chi2": 157.01737656279235,
+  "p": 4.27682260603468e-32,
+  "k": 6,
+  "n_users": 7417,
+  "mean_ranks": {
+   "additive-pref": 3.476540380207631,
+   "attention": 3.4764729675070782,
+   "heuristic-pop": 3.485843332883915,
+   "loo-marginal": 3.549413509505191,
+   "shapley-mc": 3.5339085883780506,
+   "uniform": 3.477821221518134
+  },
+  "rank_order": [
+   "loo-marginal",
+   "shapley-mc",
+   "heuristic-pop",
+   "uniform",
+   "additive-pref",
+   "attention"
+  ],
+  "nemenyi_pairs": {
+   "additive-pref vs attention": {
+    "p": 0.9999999999999929,
+    "p_holm": 1.0
+   },
+   "additive-pref vs heuristic-pop": {
+    "p": 0.9996610965268043,
+    "p_holm": 1.0
+   },
+   "additive-pref vs loo-marginal": {
+    "p": 0.1660563431026718,
+    "p_holm": 1.0
+   },
+   "additive-pref vs shapley-mc": {
+    "p": 0.42242865723127787,
+    "p_holm": 1.0
+   },
+   "additive-pref vs uniform": {
+    "p": 0.9999999823768396,
+    "p_holm": 1.0
+   },
+   "attention vs heuristic-pop": {
+    "p": 0.9996488967588518,
+    "p_holm": 1.0
+   },
+   "attention vs loo-marginal": {
+    "p": 0.165256484857619,
+    "p_holm": 1.0
+   },
+   "attention vs shapley-mc": {
+    "p": 0.42104432761855404,
+    "p_holm": 1.0
+   },
+   "attention vs uniform": {
+    "p": 0.9999999772269886,
+    "p_holm": 1.0
+   },
+   "heuristic-pop vs loo-marginal": {
+    "p": 0.3034896970341995,
+    "p_holm": 1.0
+   },
+   "heuristic-pop vs shapley-mc": {
+    "p": 0.622053621472467,
+    "p_holm": 1.0
+   },
+   "heuristic-pop vs uniform": {
+    "p": 0.9998362969025434,
+    "p_holm": 1.0
+   },
+   "loo-marginal vs shapley-mc": {
+    "p": 0.9960147151774823,
+    "p_holm": 1.0
+   },
+   "loo-marginal vs uniform": {
+    "p": 0.18178582225151063,
+    "p_holm": 1.0
+   },
+   "shapley-mc vs uniform": {
+    "p": 0.44902539187400414,
+    "p_holm": 1.0
+   }
+  }
+ },
+ "v3:amazon_books:HitRate@20": {
+  "friedman_chi2": 110.93506841902881,
+  "p": 2.5993740802415644e-22,
+  "k": 6,
+  "n_users": 7417,
+  "mean_ranks": {
+   "additive-pref": 3.488742079007685,
+   "attention": 3.4838209518673318,
+   "heuristic-pop": 3.4921127140353243,
+   "loo-marginal": 3.523998921396791,
+   "shapley-mc": 3.5200215720641768,
+   "uniform": 3.491303761628691
+  },
+  "rank_order": [
+   "loo-marginal",
+   "shapley-mc",
+   "heuristic-pop",
+   "uniform",
+   "additive-pref",
+   "attention"
+  ],
+  "nemenyi_pairs": {
+   "additive-pref vs attention": {
+    "p": 0.9999854399175001,
+    "p_holm": 1.0
+   },
+   "additive-pref vs heuristic-pop": {
+    "p": 0.9999977885254665,
+    "p_holm": 1.0
+   },
+   "additive-pref vs loo-marginal": {
+    "p": 0.8613376570399758,
+    "p_holm": 1.0
+   },
+   "additive-pref vs shapley-mc": {
+    "p": 0.9120602357521308,
+    "p_holm": 1.0
+   },
+   "additive-pref vs uniform": {
+    "p": 0.9999994376898288,
+    "p_holm": 1.0
+   },
+   "attention vs heuristic-pop": {
+    "p": 0.9998073679499341,
+    "p_holm": 1.0
+   },
+   "attention vs loo-marginal": {
+    "p": 0.7808709049267101,
+    "p_holm": 1.0
+   },
+   "attention vs shapley-mc": {
+    "p": 0.8473513435159299,
+    "p_holm": 1.0
+   },
+   "attention vs uniform": {
+    "p": 0.9998838376998392,
+    "p_holm": 1.0
+   },
+   "heuristic-pop vs loo-marginal": {
+    "p": 0.9051973042151087,
+    "p_holm": 1.0
+   },
+   "heuristic-pop vs shapley-mc": {
+    "p": 0.9444977563689219,
+    "p_holm": 1.0
+   },
+   "heuristic-pop vs uniform": {
+    "p": 0.9999999982279576,
+    "p_holm": 1.0
+   },
+   "loo-marginal vs shapley-mc": {
+    "p": 0.9999949539284019,
+    "p_holm": 1.0
+   },
+   "loo-marginal vs uniform": {
+    "p": 0.895554614353534,
+    "p_holm": 1.0
+   },
+   "shapley-mc vs uniform": {
+    "p": 0.9375783272623419,
+    "p_holm": 1.0
+   }
+  }
+ },
+ "v4b:ml1m:NDCG@20": {
+  "friedman_chi2": 474.0264533873645,
+  "p": 2.619018686088008e-97,
+  "k": 9,
+  "n_users": 6015,
+  "mean_ranks": {
+   "additive-pref": 4.912302576891106,
+   "attention": 4.929509559434747,
+   "heuristic-pop": 4.925270157938487,
+   "loo-marginal": 5.15527847049044,
+   "shapley-mc": 5.118453865336658,
+   "uniform": 4.907730673316708,
+   "unreranked": 4.900332502078138,
+   "valid-linear": 5.097672485453034,
+   "valid-sim": 5.053449709060682
+  },
+  "rank_order": [
+   "loo-marginal",
+   "shapley-mc",
+   "valid-linear",
+   "valid-sim",
+   "attention",
+   "heuristic-pop",
+   "additive-pref",
+   "uniform",
+   "unreranked"
+  ],
+  "nemenyi_pairs": {
+   "additive-pref vs attention": {
+    "p": 0.9999944424335967,
+    "p_holm": 1.0
+   },
+   "additive-pref vs heuristic-pop": {
+    "p": 0.9999993972165062,
+    "p_holm": 1.0
+   },
+   "additive-pref vs loo-marginal": {
+    "p": 4.010150892264086e-05,
+    "p_holm": 0.0013634513033697893
+   },
+   "additive-pref vs shapley-mc": {
+    "p": 0.001215067532451819,
+    "p_holm": 0.03523695844110275
+   },
+   "additive-pref vs uniform": {
+    "p": 0.9999999998490231,
+    "p_holm": 1.0
+   },
+   "additive-pref vs unreranked": {
+    "p": 0.9999996796829489,
+    "p_holm": 1.0
+   },
+   "additive-pref vs valid-linear": {
+    "p": 0.006393887511914498,
+    "p_holm": 0.15345330028594795
+   },
+   "additive-pref vs valid-sim": {
+    "p": 0.10762308277552146,
+    "p_holm": 1.0
+   },
+   "attention vs heuristic-pop": {
+    "p": 0.9999999999173989,
+    "p_holm": 1.0
+   },
+   "attention vs loo-marginal": {
+    "p": 0.0002121865304985926,
+    "p_holm": 0.006789968975954963
+   },
+   "attention vs shapley-mc": {
+    "p": 0.0048744930278807885,
+    "p_holm": 0.12186232569701971
+   },
+   "attention vs uniform": {
+    "p": 0.9999654464075576,
+    "p_holm": 1.0
+   },
+   "attention vs unreranked": {
+    "p": 0.9996823367015991,
+    "p_holm": 1.0
+   },
+   "attention vs valid-linear": {
+    "p": 0.021641551044215723,
+    "p_holm": 0.4761141229727459
+   },
+   "attention vs valid-sim": {
+    "p": 0.2406555160722037,
+    "p_holm": 1.0
+   },
+   "heuristic-pop vs loo-marginal": {
+    "p": 0.00014238675908861964,
+    "p_holm": 0.004698763049924448
+   },
+   "heuristic-pop vs shapley-mc": {
+    "p": 0.0035057552029437167,
+    "p_holm": 0.09465539047948035
+   },
+   "heuristic-pop vs uniform": {
+    "p": 0.9999935470991754,
+    "p_holm": 1.0
+   },
+   "heuristic-pop vs unreranked": {
+    "p": 0.999902633095828,
+    "p_holm": 1.0
+   },
+   "heuristic-pop vs valid-linear": {
+    "p": 0.016246205368619315,
+    "p_holm": 0.37366272347824425
+   },
+   "heuristic-pop vs valid-sim": {
+    "p": 0.2006867546736707,
+    "p_holm": 1.0
+   },
+   "loo-marginal vs shapley-mc": {
+    "p": 0.9982575287752857,
+    "p_holm": 1.0
+   },
+   "loo-marginal vs uniform": {
+    "p": 2.5229488342048967e-05,
+    "p_holm": 0.0008830320919717138
+   },
+   "loo-marginal vs unreranked": {
+    "p": 1.1704505144316535e-05,
+    "p_holm": 0.00042136218519539526
+   },
+   "loo-marginal vs valid-linear": {
+    "p": 0.9657924764748227,
+    "p_holm": 1.0
+   },
+   "loo-marginal vs valid-sim": {
+    "p": 0.5157235447846615,
+    "p_holm": 1.0
+   },
+   "shapley-mc vs uniform": {
+    "p": 0.0008213191145394205,
+    "p_holm": 0.024639573436182616
+   },
+   "shapley-mc vs unreranked": {
+    "p": 0.0004273762123347957,
+    "p_holm": 0.013248662582378667
+   },
+   "shapley-mc vs valid-linear": {
+    "p": 0.9999759255564603,
+    "p_holm": 1.0
+   },
+   "shapley-mc vs valid-sim": {
+    "p": 0.9311915403078885,
+    "p_holm": 1.0
+   },
+   "uniform vs unreranked": {
+    "p": 0.9999999929800644,
+    "p_holm": 1.0
+   },
+   "uniform vs valid-linear": {
+    "p": 0.004514157883851677,
+    "p_holm": 0.1173681049801436
+   },
+   "uniform vs valid-sim": {
+    "p": 0.08438993392022609,
+    "p_holm": 1.0
+   },
+   "unreranked vs valid-linear": {
+    "p": 0.0025172013981618058,
+    "p_holm": 0.07048163914853056
+   },
+   "unreranked vs valid-sim": {
+    "p": 0.055532401089839034,
+    "p_holm": 1.0
+   },
+   "valid-linear vs valid-sim": {
+    "p": 0.9937512842890769,
+    "p_holm": 1.0
+   }
+  }
+ },
+ "v4b:ml1m:HitRate@20": {
+  "friedman_chi2": 273.8079623230113,
+  "p": 1.5275816336091763e-54,
+  "k": 9,
+  "n_users": 6015,
+  "mean_ranks": {
+   "additive-pref": 4.964671654197839,
+   "attention": 4.9809642560266,
+   "heuristic-pop": 4.969825436408978,
+   "loo-marginal": 5.067581047381546,
+   "shapley-mc": 5.065419783873649,
+   "uniform": 4.9619285120532,
+   "unreranked": 4.921030756442228,
+   "valid-linear": 5.040897755610972,
+   "valid-sim": 5.027680798004988
+  },
+  "rank_order": [
+   "loo-marginal",
+   "shapley-mc",
+   "valid-linear",
+   "valid-sim",
+   "attention",
+   "heuristic-pop",
+   "additive-pref",
+   "uniform",
+   "unreranked"
+  ],
+  "nemenyi_pairs": {
+   "additive-pref vs attention": {
+    "p": 0.9999963735195072,
+    "p_holm": 1.0
+   },
+   "additive-pref vs heuristic-pop": {
+    "p": 0.9999999996070476,
+    "p_holm": 1.0
+   },
+   "additive-pref vs loo-marginal": {
+    "p": 0.5005369296487215,
+    "p_holm": 1.0
+   },
+   "additive-pref vs shapley-mc": {
+    "p": 0.5309665308943814,
+    "p_holm": 1.0
+   },
+   "additive-pref vs uniform": {
+    "p": 0.9999999999974531,
+    "p_holm": 1.0
+   },
+   "additive-pref vs unreranked": {
+    "p": 0.9942896204836742,
+    "p_holm": 1.0
+   },
+   "additive-pref vs valid-linear": {
+    "p": 0.8433941885613913,
+    "p_holm": 1.0
+   },
+   "additive-pref vs valid-sim": {
+    "p": 0.9422198144114987,
+    "p_holm": 1.0
+   },
+   "attention vs heuristic-pop": {
+    "p": 0.9999998187680087,
+    "p_holm": 1.0
+   },
+   "attention vs loo-marginal": {
+    "p": 0.7251582626370536,
+    "p_holm": 1.0
+   },
+   "attention vs shapley-mc": {
+    "p": 0.7522085810865831,
+    "p_holm": 1.0
+   },
+   "attention vs uniform": {
+    "p": 0.9999877965903176,
+    "p_holm": 1.0
+   },
+   "attention vs unreranked": {
+    "p": 0.9567125588076403,
+    "p_holm": 1.0
+   },
+   "attention vs valid-linear": {
+    "p": 0.9567125588076403,
+    "p_holm": 1.0
+   },
+   "attention vs valid-sim": {
+    "p": 0.9909650029617532,
+    "p_holm": 1.0
+   },
+   "heuristic-pop vs loo-marginal": {
+    "p": 0.5732922687182788,
+    "p_holm": 1.0
+   },
+   "heuristic-pop vs shapley-mc": {
+    "p": 0.6037602541763242,
+    "p_holm": 1.0
+   },
+   "heuristic-pop vs uniform": {
+    "p": 0.9999999881989384,
+    "p_holm": 1.0
+   },
+   "heuristic-pop vs unreranked": {
+    "p": 0.9879597394508861,
+    "p_holm": 1.0
+   },
+   "heuristic-pop vs valid-linear": {
+    "p": 0.8892296794903061,
+    "p_holm": 1.0
+   },
+   "heuristic-pop vs valid-sim": {
+    "p": 0.9648929965985191,
+    "p_holm": 1.0
+   },
+   "loo-marginal vs shapley-mc": {
+    "p": 0.9999999999996215,
+    "p_holm": 1.0
+   },
+   "loo-marginal vs uniform": {
+    "p": 0.4623797464603626,
+    "p_holm": 1.0
+   },
+   "loo-marginal vs unreranked": {
+    "p": 0.08063665067197823,
+    "p_holm": 1.0
+   },
+   "loo-marginal vs valid-linear": {
+    "p": 0.9998374764620719,
+    "p_holm": 1.0
+   },
+   "loo-marginal vs valid-sim": {
+    "p": 0.9969263206181281,
+    "p_holm": 1.0
+   },
+   "shapley-mc vs uniform": {
+    "p": 0.49239021892693324,
+    "p_holm": 1.0
+   },
+   "shapley-mc vs unreranked": {
+    "p": 0.09068804114759521,
+    "p_holm": 1.0
+   },
+   "shapley-mc vs valid-linear": {
+    "p": 0.9999143182910853,
+    "p_holm": 1.0
+   },
+   "shapley-mc vs valid-sim": {
+    "p": 0.9979248172313936,
+    "p_holm": 1.0
+   },
+   "uniform vs unreranked": {
+    "p": 0.9963482925571547,
+    "p_holm": 1.0
+   },
+   "uniform vs valid-linear": {
+    "p": 0.8153029085864921,
+    "p_holm": 1.0
+   },
+   "uniform vs valid-sim": {
+    "p": 0.9267113904712738,
+    "p_holm": 1.0
+   },
+   "unreranked vs valid-linear": {
+    "p": 0.28352727178179193,
+    "p_holm": 1.0
+   },
+   "unreranked vs valid-sim": {
+    "p": 0.44869123340506667,
+    "p_holm": 1.0
+   },
+   "valid-linear vs valid-sim": {
+    "p": 0.9999992994823143,
+    "p_holm": 1.0
+   }
+  }
+ },
+ "v4b:amazon_books:NDCG@20": {
+  "friedman_chi2": 395.9077452667131,
+  "p": 1.405608612202652e-80,
+  "k": 9,
+  "n_users": 7417,
+  "mean_ranks": {
+   "additive-pref": 4.950990966698126,
+   "attention": 4.942968855332345,
+   "heuristic-pop": 4.959889443171093,
+   "loo-marginal": 5.076446002426858,
+   "shapley-mc": 5.049211271403532,
+   "uniform": 4.957664824052851,
+   "unreranked": 4.956046919239585,
+   "valid-linear": 5.10388297155184,
+   "valid-sim": 5.00289874612377
+  },
+  "rank_order": [
+   "valid-linear",
+   "loo-marginal",
+   "shapley-mc",
+   "valid-sim",
+   "heuristic-pop",
+   "uniform",
+   "unreranked",
+   "additive-pref",
+   "attention"
+  ],
+  "nemenyi_pairs": {
+   "additive-pref vs attention": {
+    "p": 0.9999999692297887,
+    "p_holm": 1.0
+   },
+   "additive-pref vs heuristic-pop": {
+    "p": 0.9999999298936176,
+    "p_holm": 1.0
+   },
+   "additive-pref vs loo-marginal": {
+    "p": 0.11826514557936518,
+    "p_holm": 1.0
+   },
+   "additive-pref vs shapley-mc": {
+    "p": 0.41604671928504156,
+    "p_holm": 1.0
+   },
+   "additive-pref vs uniform": {
+    "p": 0.9999999928829953,
+    "p_holm": 1.0
+   },
+   "additive-pref vs unreranked": {
+    "p": 0.9999999992219227,
+    "p_holm": 1.0
+   },
+   "additive-pref vs valid-linear": {
+    "p": 0.01942290615459441,
+    "p_holm": 0.6798017154108044
+   },
+   "additive-pref vs valid-sim": {
+    "p": 0.96566851172129,
+    "p_holm": 1.0
+   },
+   "attention vs heuristic-pop": {
+    "p": 0.9999889712394374,
+    "p_holm": 1.0
+   },
+   "attention vs loo-marginal": {
+    "p": 0.07351295696347027,
+    "p_holm": 1.0
+   },
+   "attention vs shapley-mc": {
+    "p": 0.30486018372083756,
+    "p_holm": 1.0
+   },
+   "attention vs uniform": {
+    "p": 0.9999963272053622,
+    "p_holm": 1.0
+   },
+   "attention vs unreranked": {
+    "p": 0.9999985291363924,
+    "p_holm": 1.0
+   },
+   "attention vs valid-linear": {
+    "p": 0.010446560761365742,
+    "p_holm": 0.3760761874091667
+   },
+   "attention vs valid-sim": {
+    "p": 0.9217311445659603,
+    "p_holm": 1.0
+   },
+   "heuristic-pop vs loo-marginal": {
+    "p": 0.18982190897025797,
+    "p_holm": 1.0
+   },
+   "heuristic-pop vs shapley-mc": {
+    "p": 0.5530458298982813,
+    "p_holm": 1.0
+   },
+   "heuristic-pop vs uniform": {
+    "p": 0.9999999999988979,
+    "p_holm": 1.0
+   },
+   "heuristic-pop vs unreranked": {
+    "p": 0.9999999999130199,
+    "p_holm": 1.0
+   },
+   "heuristic-pop vs valid-linear": {
+    "p": 0.03686183389076325,
+    "p_holm": 1.0
+   },
+   "heuristic-pop vs valid-sim": {
+    "p": 0.9895417913684257,
+    "p_holm": 1.0
+   },
+   "loo-marginal vs shapley-mc": {
+    "p": 0.9995852256664176,
+    "p_holm": 1.0
+   },
+   "loo-marginal vs uniform": {
+    "p": 0.169572630379073,
+    "p_holm": 1.0
+   },
+   "loo-marginal vs unreranked": {
+    "p": 0.15585492872777662,
+    "p_holm": 1.0
+   },
+   "loo-marginal vs valid-linear": {
+    "p": 0.9995618449261743,
+    "p_holm": 1.0
+   },
+   "loo-marginal vs valid-sim": {
+    "p": 0.7853220720518308,
+    "p_holm": 1.0
+   },
+   "shapley-mc vs uniform": {
+    "p": 0.5181413794290199,
+    "p_holm": 1.0
+   },
+   "shapley-mc vs unreranked": {
+    "p": 0.492915297413137,
+    "p_holm": 1.0
+   },
+   "shapley-mc vs valid-linear": {
+    "p": 0.9533311744149986,
+    "p_holm": 1.0
+   },
+   "shapley-mc vs valid-sim": {
+    "p": 0.9830878534804192,
+    "p_holm": 1.0
+   },
+   "uniform vs unreranked": {
+    "p": 0.9999999999999136,
+    "p_holm": 1.0
+   },
+   "uniform vs valid-linear": {
+    "p": 0.031555878729963016,
+    "p_holm": 1.0
+   },
+   "uniform vs valid-sim": {
+    "p": 0.985463775860527,
+    "p_holm": 1.0
+   },
+   "unreranked vs valid-linear": {
+    "p": 0.02812666897509508,
+    "p_holm": 0.9563067451532328
+   },
+   "unreranked vs valid-sim": {
+    "p": 0.9817930147772588,
+    "p_holm": 1.0
+   },
+   "valid-linear vs valid-sim": {
+    "p": 0.37594635186130565,
+    "p_holm": 1.0
+   }
+  }
+ },
+ "v4b:amazon_books:HitRate@20": {
+  "friedman_chi2": 220.08121281901214,
+  "p": 3.7014540661169145e-43,
+  "k": 9,
+  "n_users": 7417,
+  "mean_ranks": {
+   "additive-pref": 4.9756640151004445,
+   "attention": 4.978090872320345,
+   "heuristic-pop": 4.978764999325873,
+   "loo-marginal": 5.039908318727249,
+   "shapley-mc": 5.0250101119050825,
+   "uniform": 4.97869758662532,
+   "unreranked": 4.982337872455171,
+   "valid-linear": 5.044694620466496,
+   "valid-sim": 4.996831603074019
+  },
+  "rank_order": [
+   "valid-linear",
+   "loo-marginal",
+   "shapley-mc",
+   "valid-sim",
+   "unreranked",
+   "heuristic-pop",
+   "uniform",
+   "attention",
+   "additive-pref"
+  ],
+  "nemenyi_pairs": {
+   "additive-pref vs attention": {
+    "p": 0.99999999999779,
+    "p_holm": 1.0
+   },
+   "additive-pref vs heuristic-pop": {
+    "p": 0.9999999999843189,
+    "p_holm": 1.0
+   },
+   "additive-pref vs loo-marginal": {
+    "p": 0.8870820656844635,
+    "p_holm": 1.0
+   },
+   "additive-pref vs shapley-mc": {
+    "p": 0.974791326740537,
+    "p_holm": 1.0
+   },
+   "additive-pref vs uniform": {
+    "p": 0.9999999999868452,
+    "p_holm": 1.0
+   },
+   "additive-pref vs unreranked": {
+    "p": 0.9999999928829953,
+    "p_holm": 1.0
+   },
+   "additive-pref vs valid-linear": {
+    "p": 0.8391703774395665,
+    "p_holm": 1.0
+   },
+   "additive-pref vs valid-sim": {
+    "p": 0.9999379698051638,
+    "p_holm": 1.0
+   },
+   "attention vs heuristic-pop": {
+    "p": 0.9999999999999999,
+    "p_holm": 1.0
+   },
+   "attention vs loo-marginal": {
+    "p": 0.9075697307277695,
+    "p_holm": 1.0
+   },
+   "attention vs shapley-mc": {
+    "p": 0.9816259588366134,
+    "p_holm": 1.0
+   },
+   "attention vs uniform": {
+    "p": 1.0,
+    "p_holm": 1.0
+   },
+   "attention vs unreranked": {
+    "p": 0.9999999998065482,
+    "p_holm": 1.0
+   },
+   "attention vs valid-linear": {
+    "p": 0.8646942891409181,
+    "p_holm": 1.0
+   },
+   "attention vs valid-sim": {
+    "p": 0.9999756637341124,
+    "p_holm": 1.0
+   },
+   "heuristic-pop vs loo-marginal": {
+    "p": 0.9128042162729104,
+    "p_holm": 1.0
+   },
+   "heuristic-pop vs shapley-mc": {
+    "p": 0.9832445837568631,
+    "p_holm": 1.0
+   },
+   "heuristic-pop vs uniform": {
+    "p": 1.0,
+    "p_holm": 1.0
+   },
+   "heuristic-pop vs unreranked": {
+    "p": 0.9999999999513618,
+    "p_holm": 1.0
+   },
+   "heuristic-pop vs valid-linear": {
+    "p": 0.8713378400755154,
+    "p_holm": 1.0
+   },
+   "heuristic-pop vs valid-sim": {
+    "p": 0.9999816655281718,
+    "p_holm": 1.0
+   },
+   "loo-marginal vs shapley-mc": {
+    "p": 0.9999959126389799,
+    "p_holm": 1.0
+   },
+   "loo-marginal vs uniform": {
+    "p": 0.9122896471383742,
+    "p_holm": 1.0
+   },
+   "loo-marginal vs unreranked": {
+    "p": 0.9373006563239294,
+    "p_holm": 1.0
+   },
+   "loo-marginal vs valid-linear": {
+    "p": 0.999999999497584,
+    "p_holm": 1.0
+   },
+   "loo-marginal vs valid-sim": {
+    "p": 0.9894332074165977,
+    "p_holm": 1.0
+   },
+   "shapley-mc vs uniform": {
+    "p": 0.9830878534804192,
+    "p_holm": 1.0
+   },
+   "shapley-mc vs unreranked": {
+    "p": 0.9900715915277472,
+    "p_holm": 1.0
+   },
+   "shapley-mc vs valid-linear": {
+    "p": 0.9999644624038441,
+    "p_holm": 1.0
+   },
+   "shapley-mc vs valid-sim": {
+    "p": 0.9994663638426439,
+    "p_holm": 1.0
+   },
+   "uniform vs unreranked": {
+    "p": 0.9999999999435277,
+    "p_holm": 1.0
+   },
+   "uniform vs valid-linear": {
+    "p": 0.8706823359671292,
+    "p_holm": 1.0
+   },
+   "uniform vs valid-sim": {
+    "p": 0.9999811293973742,
+    "p_holm": 1.0
+   },
+   "unreranked vs valid-linear": {
+    "p": 0.9032396556941621,
+    "p_holm": 1.0
+   },
+   "unreranked vs valid-sim": {
+    "p": 0.9999967048267914,
+    "p_holm": 1.0
+   },
+   "valid-linear vs valid-sim": {
+    "p": 0.9791617104294403,
+    "p_holm": 1.0
+   }
+  }
+ }
+}

@@ -1,0 +1,42 @@
+{
+ "v3:ml1m:loo-marginal-vs-uniform": {
+  "gained": 0.01762261014131338,
+  "lost": 0.012302576891105569,
+  "changed": 0.02992518703241895
+ },
+ "v3:ml1m:loo-marginal-vs-shapley-mc": {
+  "gained": 0.006483790523690773,
+  "lost": 0.007647547797173733,
+  "changed": 0.014131338320864505
+ },
+ "v4b:ml1m:loo-marginal-vs-valid-linear": {
+  "gained": 0.010141313383208644,
+  "lost": 0.00798004987531172,
+  "changed": 0.018121363258520366
+ },
+ "v4b:ml1m:loo-marginal-vs-valid-sim": {
+  "gained": 0.012967581047381545,
+  "lost": 0.009642560266001663,
+  "changed": 0.02261014131338321
+ },
+ "v3:amazon_books:loo-marginal-vs-uniform": {
+  "gained": 0.00943777807738978,
+  "lost": 0.00471888903869489,
+  "changed": 0.01415666711608467
+ },
+ "v3:amazon_books:loo-marginal-vs-shapley-mc": {
+  "gained": 0.0025616826210057976,
+  "lost": 0.0017527302143723878,
+  "changed": 0.004314412835378185
+ },
+ "v4b:amazon_books:loo-marginal-vs-valid-linear": {
+  "gained": 0.005123365242011595,
+  "lost": 0.0055278414453283,
+  "changed": 0.010651206687339895
+ },
+ "v4b:amazon_books:loo-marginal-vs-valid-sim": {
+  "gained": 0.006201968450856141,
+  "lost": 0.004584063637589322,
+  "changed": 0.010786032088445464
+ }
+}

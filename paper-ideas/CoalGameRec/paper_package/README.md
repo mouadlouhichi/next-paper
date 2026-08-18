@@ -1,19 +1,22 @@
-# CoalGameRec — Springer Nature paper package (v18, ACCEPTED at Reviewer Round 5)
+# CoalGameRec — Springer Nature paper package (v19, under Round-6 major revision)
 
-**Title:** *CoalGameRec: validation-guided interaction attribution for graph recommendation — a frozen LightGCN study of LOO versus bounded Shapley*
+**Title:** *CoalGameRec: When Leave-One-Out Marginals Suffice for Shapley-Based Graph Recommendation Attribution*
 
 **Article type:** Research (Discover Artificial Intelligence, Springer Nature).
 
 ## What this package is
 
-The submission-ready Research paper (v18). The study establishes a boundary result under a frozen
-LightGCN protocol: bounded Shapley (k=24, M=64) beats all matched non-game controls, yet its
-grand-coalition LOO marginal matches or beats it at 13.0-15.7x lower attribution time.
+The submission-ready Research paper (v19, responding to three Round-6 Discovery-AI reviews;
+see `review2/review_v19_round6_response.md`). The study establishes a boundary result under a
+frozen LightGCN protocol: bounded Shapley (k=24, M=64) beats all matched non-game controls, yet
+its grand-coalition LOO marginal matches or beats it at 13.0-15.7x lower attribution time.
 
 Key evidence (all artifact-backed; see `code/results/journal_runs/`):
-- Primary study: 5 seeds 42-46, temporal LOO, full-catalog, paired user bootstrap (B=2000), Holm.
-- TOST equivalence (SESOI declared a priori): Shapley and LOO practically equal on NDCG@20,
-  both intervals entirely on the LOO side.
+- Primary study: 5 seeds 42-46, temporal LOO, full-catalog, joint user-level inference across
+  seeds (sign-flip permutation p-values with +1 correction, B=10,000, seed 20260818), Holm,
+  Wilcoxon sensitivity, d_z with bootstrap CIs, Friedman-Nemenyi omnibus (round6_analysis/).
+- TOST equivalence (SESOI declared a priori): established on Amazon-Book (interval on the LOO
+  side); marginal and underpowered (0.34) on ML-1M under the corrected joint inference.
 - C1b confirmatory re-run (matched validation-informed controls valid-sim / valid-linear AND
   Shapley re-run, both datasets): LOO beats all six matched controls (ML-1M 12/12, Amazon 11/12
   Holm) and is significantly preferred to Shapley on NDCG@20 in the matched environment.

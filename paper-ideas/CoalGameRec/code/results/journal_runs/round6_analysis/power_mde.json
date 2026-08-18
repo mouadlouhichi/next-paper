@@ -1,0 +1,17 @@
+{
+ "ml1m": {
+  "n_users": 6015,
+  "mde_dz_user_level": 0.036123183848646385,
+  "mde_ndcg_user_level": 0.0009215851361059083,
+  "tost_power_delta001": 0.3378135027304232
+ },
+ "amazon_books": {
+  "n_users": 7417,
+  "mde_dz_user_level": 0.032530422044802644,
+  "mde_ndcg_user_level": 0.00039251451337502517,
+  "tost_power_delta001": 0.8460401073900383
+ },
+ "seed_level_5_seeds": {
+  "mde_dz": 1.2529069984918344
+ }
+}

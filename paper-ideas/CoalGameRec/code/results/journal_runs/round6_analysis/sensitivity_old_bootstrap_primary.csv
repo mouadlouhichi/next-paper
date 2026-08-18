@@ -1,0 +1,17 @@
+dataset,comparator,metric,p_old_within_seed_boot
+ml1m,uniform,NDCG@20,0.0
+ml1m,additive-pref,NDCG@20,0.0
+ml1m,attention,NDCG@20,0.0
+ml1m,loo-marginal,NDCG@20,0.0118
+ml1m,uniform,HitRate@20,0.0
+ml1m,additive-pref,HitRate@20,0.0
+ml1m,attention,HitRate@20,0.0
+ml1m,loo-marginal,HitRate@20,0.594
+amazon_books,uniform,NDCG@20,0.0
+amazon_books,additive-pref,NDCG@20,0.0
+amazon_books,attention,NDCG@20,0.0
+amazon_books,loo-marginal,NDCG@20,0.0
+amazon_books,uniform,HitRate@20,0.0
+amazon_books,additive-pref,HitRate@20,0.0
+amazon_books,attention,HitRate@20,0.0
+amazon_books,loo-marginal,HitRate@20,0.0398
