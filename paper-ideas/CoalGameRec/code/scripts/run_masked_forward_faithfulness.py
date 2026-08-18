@@ -214,8 +214,18 @@ def main():
                 say(f"  {fam} | {mode} | frac={frac}: NDCG@20={m['NDCG@20'].mean():.5f} ({time.time()-t0:.0f}s)")
 
     df = pd.DataFrame(rows)
-    df.to_csv(out_tables / "masked_forward_faithfulness.csv", index=False)
-    say("SAVED masked_forward_faithfulness.csv")
+    df.insert(0, "seed", args.seed)
+    df.to_csv(out_tables / f"masked_forward_faithfulness_seed_{args.seed}.csv", index=False)
+    # merge into the canonical multi-seed table (replace any rows from this seed)
+    canon = out_tables / "masked_forward_faithfulness.csv"
+    if canon.exists():
+        prev = pd.read_csv(canon)
+        if "seed" not in prev.columns:
+            prev["seed"] = 42  # canonical table predates multi-seed support (single seed 42)
+        prev = prev[prev["seed"] != args.seed]
+        df = pd.concat([prev, df], ignore_index=True)
+    df.to_csv(canon, index=False)
+    say(f"SAVED masked_forward_faithfulness_seed_{args.seed}.csv + merged masked_forward_faithfulness.csv")
     print(df.to_string(index=False))
 
 

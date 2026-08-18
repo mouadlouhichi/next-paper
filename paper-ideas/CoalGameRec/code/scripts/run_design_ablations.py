@@ -134,8 +134,18 @@ def main():
         record("intervention", "kernel", fam, sh, lo, intervention="kernel")
 
     df = pd.DataFrame(rows)
-    df.to_csv(out_tables / "design_ablations.csv", index=False)
-    say("SAVED design_ablations.csv")
+    df.insert(0, "seed", args.seed)
+    df.to_csv(out_tables / f"design_ablations_seed_{args.seed}.csv", index=False)
+    # merge into the canonical multi-seed table (replace any rows from this seed)
+    canon = out_tables / "design_ablations.csv"
+    if canon.exists():
+        prev = pd.read_csv(canon)
+        if "seed" not in prev.columns:
+            prev["seed"] = 42  # canonical table predates multi-seed support (single seed 42)
+        prev = prev[prev["seed"] != args.seed]
+        df = pd.concat([prev, df], ignore_index=True)
+    df.to_csv(canon, index=False)
+    say(f"SAVED design_ablations_seed_{args.seed}.csv + merged design_ablations.csv")
     print(df.to_string(index=False))
 
 
