@@ -1,0 +1,8 @@
+{
+  "run_all": true,
+  "divergent_selector": "executed_controlled_regimes",
+  "real_intervention": "blocked_no_audited_log",
+  "integrated_scaling": "blocked_missing_distinct_operators",
+  "yaml_changed": false,
+  "claim_discipline": "blocked actions are not converted into claims"
+}

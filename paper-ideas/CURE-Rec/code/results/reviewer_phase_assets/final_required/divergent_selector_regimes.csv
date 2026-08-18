@@ -1,0 +1,10 @@
+regime,description,horizon,expected_status,expected_estimated_selected,oracle_selected,observed_estimated_selected,observed_status,base_feasible,lower_improvement,estimated_selection_match,oracle_selection_match,estimated_jaccard,oracle_jaccard,oracle_regret
+additive,Independent positive interventions with zero interactions.,12,improve_selected,repeat_cap;explore_slot;tail_slot;provider_balance,repeat_cap;explore_slot;tail_slot;provider_balance,repeat_cap;explore_slot;tail_slot;provider_balance,improve_selected,True,0.21000000000000002,True,True,1.0,1.0,0.0
+complementary,Repeat cap and exploration are jointly valuable but weak alone.,12,improve_selected,repeat_cap;explore_slot,repeat_cap;explore_slot,repeat_cap;explore_slot,improve_selected,True,0.27,True,True,1.0,1.0,0.0
+redundant,Long-tail and novelty overlap; one should be selected by tie/cost rule.,12,improve_selected,tail_slot,tail_slot,tail_slot,improve_selected,True,0.15,True,True,1.0,1.0,0.0
+antagonistic,Exploration and diversity are individually useful but jointly harmful.,12,improve_selected,explore_slot,explore_slot,explore_slot,improve_selected,True,0.14,True,True,1.0,1.0,0.0
+delayed_fatigue_short,Repeat cap is costly at short horizon.,4,abstain_keep_base,,,,abstain_keep_base,True,-0.0,True,True,1.0,1.0,0.0
+delayed_fatigue_long,Repeat cap yields delayed benefit at long horizon.,12,improve_selected,repeat_cap,repeat_cap,repeat_cap,improve_selected,True,0.2,True,True,1.0,1.0,0.0
+provider_repair_balancing,Infeasible base repaired most efficiently by provider balancing.,12,repair_selected,provider_balance,provider_balance,provider_balance,repair_selected,False,0.04,True,True,1.0,1.0,0.0
+provider_repair_repeat,Infeasible base repaired most efficiently by repeat suppression.,12,repair_selected,repeat_cap,repeat_cap,repeat_cap,repair_selected,False,0.1,True,True,1.0,1.0,0.0
+misspecified_ambiguity,Estimated model favours repeat cap while true model favours exploration.,12,improve_selected,repeat_cap,explore_slot,repeat_cap,improve_selected,True,0.16,True,False,1.0,0.0,0.19

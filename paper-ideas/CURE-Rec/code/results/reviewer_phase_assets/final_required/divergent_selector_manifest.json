@@ -1,0 +1,16 @@
+{
+  "scope": "controlled oracle regimes; selector divergence diagnostic, not real intervention evidence",
+  "source_run": "runs/curesim-quickstart-20260818T095347Z-08aef92f/benchmark_regimes/20260818T095347Z",
+  "regimes": [
+    "additive",
+    "complementary",
+    "redundant",
+    "antagonistic",
+    "delayed_fatigue_short",
+    "delayed_fatigue_long",
+    "provider_repair_balancing",
+    "provider_repair_repeat",
+    "misspecified_ambiguity"
+  ],
+  "output": "/Users/mlouhichi/Desktop/CURE-Rec/next-paper/paper-ideas/CURE-Rec/code/results/reviewer_phase_assets/final_required/divergent_selector_regimes.csv"
+}
