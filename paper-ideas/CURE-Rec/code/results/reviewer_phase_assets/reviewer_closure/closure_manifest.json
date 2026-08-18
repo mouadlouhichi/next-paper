@@ -1,0 +1,9 @@
+{
+  "run_all": true,
+  "utility_sensitivity": "executed",
+  "constraint_frontier": "executed",
+  "divergent_selector": "protocol_only_primary_tie_retained",
+  "semi_real": "skipped_no_audited_intervention_data",
+  "integrated_scaling": "skipped_no_integrated_8_10_operators",
+  "yaml_changed": false
+}

@@ -1,0 +1,5 @@
+setting,portfolio,status,mode,lower_improvement,base_feasible,source_run
+satisfaction_heavy,repeat_cap,repair_selected,repair,0.25705766941060104,False,/Users/mlouhichi/Desktop/CURE-Rec/next-paper/paper-ideas/CURE-Rec/code/runs/reviewer-closure/utility-satisfaction_heavy-20260818T003828Z-ec4ecb31
+retention_heavy,repeat_cap,repair_selected,repair,0.38184869034466584,False,/Users/mlouhichi/Desktop/CURE-Rec/next-paper/paper-ideas/CURE-Rec/code/runs/reviewer-closure/utility-retention_heavy-20260818T004904Z-f3fff175
+fatigue_averse,repeat_cap,repair_selected,repair,0.46120135642308274,False,/Users/mlouhichi/Desktop/CURE-Rec/next-paper/paper-ideas/CURE-Rec/code/runs/reviewer-closure/utility-fatigue_averse-20260818T010549Z-b1752b5e
+cost_averse,repeat_cap,repair_selected,repair,0.24449497569082046,False,/Users/mlouhichi/Desktop/CURE-Rec/next-paper/paper-ideas/CURE-Rec/code/runs/reviewer-closure/utility-cost_averse-20260818T011905Z-9b781671
