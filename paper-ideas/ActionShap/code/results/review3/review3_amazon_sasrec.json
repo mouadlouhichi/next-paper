@@ -59,9 +59,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.11406218382623626,
+    "default_action_effect": 0.11406218382623626,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.8147058823529412
+    "aia_shapley_prospective": 0.8147058823529412,
+    "aia_lime_binary_prospective": 0.7352941176470589,
+    "aia_bounded_lime_prospective": 0.8676470588235294,
+    "aia_finite_diff_prospective": 0.9588235294117649,
+    "aia_ig_prospective": 0.9529411764705882
    }
   },
   {
@@ -109,9 +118,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0049304563750954275,
+    "default_action_effect": 0.0049304563750954275,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 0.5,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 1.0,
+    "aia_ig_prospective": 1.0
    }
   },
   {
@@ -159,9 +177,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.10400487036030129,
+    "default_action_effect": 0.10400487036030129,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.942857142857143
+    "aia_shapley_prospective": 0.942857142857143,
+    "aia_lime_binary_prospective": 0.6571428571428573,
+    "aia_bounded_lime_prospective": 0.8285714285714287,
+    "aia_finite_diff_prospective": 0.6,
+    "aia_ig_prospective": 0.6
    }
   },
   {
@@ -209,9 +236,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0045174005415466335,
+    "default_action_effect": 0.0045174005415466335,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.8999999999999998
+    "aia_shapley_prospective": 0.8999999999999998,
+    "aia_lime_binary_prospective": 0.7999999999999999,
+    "aia_bounded_lime_prospective": 0.8999999999999998,
+    "aia_finite_diff_prospective": 0.8999999999999998,
+    "aia_ig_prospective": 0.8999999999999998
    }
   },
   {
@@ -259,9 +295,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 4.070745654255665e-06,
+    "default_action_effect": 4.070745654255665e-06,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.7
+    "aia_shapley_prospective": 0.7,
+    "aia_lime_binary_prospective": 0.7,
+    "aia_bounded_lime_prospective": 0.8999999999999998,
+    "aia_finite_diff_prospective": 0.3,
+    "aia_ig_prospective": -0.19999999999999998
    }
   },
   {
@@ -309,9 +354,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.007193518581253825,
+    "default_action_effect": 0.007193518581253825,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.9636363636363635
+    "aia_shapley_prospective": 0.9636363636363635,
+    "aia_lime_binary_prospective": 0.9272727272727272,
+    "aia_bounded_lime_prospective": 0.9878787878787878,
+    "aia_finite_diff_prospective": 0.9030303030303028,
+    "aia_ig_prospective": 0.8787878787878788
    }
   },
   {
@@ -359,9 +413,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 2.0549946548469375e-05,
+    "default_action_effect": -4.483018281858311e-05,
+    "unconditional_regret": 6.538012936705249e-05
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.5
+    "aia_shapley_prospective": 0.5,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": -0.5,
+    "aia_ig_prospective": -0.5
    }
   },
   {
@@ -409,9 +472,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 6.0699364531645805e-05,
+    "default_action_effect": 6.0699364531645805e-05,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.8571428571428573
+    "aia_shapley_prospective": 0.8571428571428573,
+    "aia_lime_binary_prospective": 0.9642857142857145,
+    "aia_bounded_lime_prospective": 0.8571428571428573,
+    "aia_finite_diff_prospective": 0.7500000000000002,
+    "aia_ig_prospective": 0.7500000000000002
    }
   },
   {
@@ -459,9 +531,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 1.5479837790266298e-06,
+    "default_action_effect": -1.253053182396383e-05,
+    "unconditional_regret": 1.407851560299046e-05
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.7999999999999999
+    "aia_shapley_prospective": 0.7999999999999999,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 0.7999999999999999,
+    "aia_ig_prospective": 0.39999999999999997
    }
   },
   {
@@ -503,9 +584,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.2517252295500614,
+    "default_action_effect": 0.2517252295500614,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.8637362637362638
+    "aia_shapley_prospective": 0.8637362637362638,
+    "aia_lime_binary_prospective": 0.8989010989010989,
+    "aia_bounded_lime_prospective": 0.9648351648351648,
+    "aia_finite_diff_prospective": 0.9164835164835166,
+    "aia_ig_prospective": 0.9164835164835166
    }
   },
   {
@@ -553,9 +643,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.4272304612230074,
+    "default_action_effect": 0.4272304612230074,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.9757575757575757
+    "aia_shapley_prospective": 0.9757575757575757,
+    "aia_lime_binary_prospective": 0.9636363636363635,
+    "aia_bounded_lime_prospective": 0.9757575757575757,
+    "aia_finite_diff_prospective": 0.8545454545454544,
+    "aia_ig_prospective": 0.7575757575757575
    }
   },
   {
@@ -603,9 +702,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.004737142401078087,
+    "default_action_effect": 0.00416377673897272,
+    "unconditional_regret": 0.0005733656621053672
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.7999999999999999
+    "aia_shapley_prospective": 0.7999999999999999,
+    "aia_lime_binary_prospective": 0.19999999999999998,
+    "aia_bounded_lime_prospective": 0.7999999999999999,
+    "aia_finite_diff_prospective": 1.0,
+    "aia_ig_prospective": 1.0
    }
   },
   {
@@ -653,9 +761,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0,
+    "default_action_effect": -0.00013988153593375388,
+    "unconditional_regret": 0.00013988153593375388
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.5
+    "aia_shapley_prospective": 0.5,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": -0.5,
+    "aia_ig_prospective": -0.5
    }
   },
   {
@@ -703,9 +820,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.04371978922676774,
+    "default_action_effect": 0.037719068483707326,
+    "unconditional_regret": 0.006000720743060413
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.5
+    "aia_shapley_prospective": 0.5,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": -0.5,
+    "aia_ig_prospective": -0.5
    }
   },
   {
@@ -753,9 +879,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0021860618954101223,
+    "default_action_effect": 0.0021860618954101223,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.9285714285714288
+    "aia_shapley_prospective": 0.9285714285714288,
+    "aia_lime_binary_prospective": 0.9642857142857145,
+    "aia_bounded_lime_prospective": 0.9642857142857145,
+    "aia_finite_diff_prospective": 0.9642857142857145,
+    "aia_ig_prospective": 0.9285714285714288
    }
   },
   {
@@ -803,9 +938,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 5.474748424909023e-06,
+    "default_action_effect": 5.474748424909023e-06,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.6
+    "aia_shapley_prospective": 0.6,
+    "aia_lime_binary_prospective": 0.8999999999999998,
+    "aia_bounded_lime_prospective": 0.7,
+    "aia_finite_diff_prospective": 0.6,
+    "aia_ig_prospective": 0.6
    }
   },
   {
@@ -853,9 +997,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.04500303951312319,
+    "default_action_effect": 0.04500303951312319,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.9285714285714288
+    "aia_shapley_prospective": 0.9285714285714288,
+    "aia_lime_binary_prospective": 0.6785714285714287,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 0.9285714285714288,
+    "aia_ig_prospective": 0.8571428571428573
    }
   },
   {
@@ -903,9 +1056,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 8.130482852039752e-05,
+    "default_action_effect": 5.3433252242250506e-05,
+    "unconditional_regret": 2.7871576278147013e-05
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.5
+    "aia_shapley_prospective": 0.5,
+    "aia_lime_binary_prospective": 0.5,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 1.0,
+    "aia_ig_prospective": 0.5
    }
   },
   {
@@ -953,9 +1115,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.02290696062896099,
+    "default_action_effect": 0.02290696062896099,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.8363636363636365
+    "aia_shapley_prospective": 0.8363636363636365,
+    "aia_lime_binary_prospective": 0.8181818181818182,
+    "aia_bounded_lime_prospective": 0.9636363636363637,
+    "aia_finite_diff_prospective": 0.8545454545454546,
+    "aia_ig_prospective": 0.8545454545454546
    }
   },
   {
@@ -1003,9 +1174,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0029023655259689534,
+    "default_action_effect": 0.0029023655259689534,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.39999999999999997
+    "aia_shapley_prospective": 0.39999999999999997,
+    "aia_lime_binary_prospective": 0.7999999999999999,
+    "aia_bounded_lime_prospective": 0.7999999999999999,
+    "aia_finite_diff_prospective": 0.7999999999999999,
+    "aia_ig_prospective": 0.7999999999999999
    }
   },
   {
@@ -1053,9 +1233,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 6.284768980176957e-05,
+    "default_action_effect": 6.284768980176957e-05,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.39999999999999997
+    "aia_shapley_prospective": 0.39999999999999997,
+    "aia_lime_binary_prospective": 0.7999999999999999,
+    "aia_bounded_lime_prospective": 0.7999999999999999,
+    "aia_finite_diff_prospective": 0.19999999999999998,
+    "aia_ig_prospective": 0.19999999999999998
    }
   },
   {
@@ -1103,9 +1292,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.07412022183232306,
+    "default_action_effect": 0.07412022183232306,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.8214285714285715
+    "aia_shapley_prospective": 0.8214285714285715,
+    "aia_lime_binary_prospective": 0.8928571428571429,
+    "aia_bounded_lime_prospective": 0.9285714285714288,
+    "aia_finite_diff_prospective": 0.8571428571428573,
+    "aia_ig_prospective": 0.8214285714285715
    }
   },
   {
@@ -1153,9 +1351,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0013252137991896149,
+    "default_action_effect": 0.0013252137991896149,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.5428571428571429
+    "aia_shapley_prospective": 0.5428571428571429,
+    "aia_lime_binary_prospective": 0.942857142857143,
+    "aia_bounded_lime_prospective": 0.8285714285714287,
+    "aia_finite_diff_prospective": 0.7142857142857143,
+    "aia_ig_prospective": 0.5428571428571429
    }
   },
   {
@@ -1203,9 +1410,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 3.586065955016531e-05,
+    "default_action_effect": 3.586065955016531e-05,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 0.5,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 1.0,
+    "aia_ig_prospective": 1.0
    }
   },
   {
@@ -1253,9 +1469,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.11444349910960326,
+    "default_action_effect": 0.11444349910960326,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.7
+    "aia_shapley_prospective": 0.7,
+    "aia_lime_binary_prospective": 0.8999999999999998,
+    "aia_bounded_lime_prospective": 0.7,
+    "aia_finite_diff_prospective": 0.7,
+    "aia_ig_prospective": 0.7
    }
   },
   {
@@ -1303,9 +1528,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.00020466316638968936,
+    "default_action_effect": 0.00020466316638968936,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.39999999999999997
+    "aia_shapley_prospective": 0.39999999999999997,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 0.7999999999999999,
+    "aia_finite_diff_prospective": -0.19999999999999998,
+    "aia_ig_prospective": -0.19999999999999998
    }
   },
   {
@@ -1353,9 +1587,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0005708018197836643,
+    "default_action_effect": 0.0005708018197836643,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.39999999999999997
+    "aia_shapley_prospective": 0.39999999999999997,
+    "aia_lime_binary_prospective": 0.7999999999999999,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 0.39999999999999997,
+    "aia_ig_prospective": 0.39999999999999997
    }
   },
   {
@@ -1403,9 +1646,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 2.7926374273037933e-05,
+    "default_action_effect": 2.2005609367327035e-05,
+    "unconditional_regret": 5.920764905710898e-06
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.7999999999999999
+    "aia_shapley_prospective": 0.7999999999999999,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 0.39999999999999997,
+    "aia_ig_prospective": 0.39999999999999997
    }
   },
   {
@@ -1453,9 +1705,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.005350980341952284,
+    "default_action_effect": -0.00642095195889017,
+    "unconditional_regret": 0.011771932300842454
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.942857142857143
+    "aia_shapley_prospective": 0.942857142857143,
+    "aia_lime_binary_prospective": 0.4285714285714286,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 0.6571428571428573,
+    "aia_ig_prospective": 0.6571428571428573
    }
   },
   {
@@ -1497,9 +1758,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.00831161992377907,
+    "default_action_effect": 0.00831161992377907,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.9058823529411765
+    "aia_shapley_prospective": 0.9058823529411765,
+    "aia_lime_binary_prospective": 0.8176470588235294,
+    "aia_bounded_lime_prospective": 0.976470588235294,
+    "aia_finite_diff_prospective": 0.9382352941176471,
+    "aia_ig_prospective": 0.9382352941176471
    }
   },
   {
@@ -1547,9 +1817,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.000936233570354178,
+    "default_action_effect": 0.000936233570354178,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.8999999999999998
+    "aia_shapley_prospective": 0.8999999999999998,
+    "aia_lime_binary_prospective": 0.7,
+    "aia_bounded_lime_prospective": 0.7999999999999999,
+    "aia_finite_diff_prospective": 0.9999999999999999,
+    "aia_ig_prospective": 0.7
    }
   },
   {
@@ -1597,9 +1876,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 2.171521397656801e-06,
+    "default_action_effect": 2.171521397656801e-06,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.5
+    "aia_shapley_prospective": 0.5,
+    "aia_lime_binary_prospective": 0.5,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 0.5,
+    "aia_ig_prospective": 0.5
    }
   },
   {
@@ -1647,9 +1935,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 1.3299382728278022e-06,
+    "default_action_effect": 1.3299382728278022e-06,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 0.5,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 1.0,
+    "aia_ig_prospective": 1.0
    }
   },
   {
@@ -1697,9 +1994,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0018599455153251654,
+    "default_action_effect": 0.0018599455153251654,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.7999999999999999
+    "aia_shapley_prospective": 0.7999999999999999,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 0.7999999999999999,
+    "aia_finite_diff_prospective": 0.7999999999999999,
+    "aia_ig_prospective": 0.39999999999999997
    }
   },
   {
@@ -1747,9 +2053,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.04816186034906698,
+    "default_action_effect": 0.04816186034906698,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.8881118881118882
+    "aia_shapley_prospective": 0.8881118881118882,
+    "aia_lime_binary_prospective": 0.9510489510489512,
+    "aia_bounded_lime_prospective": 0.9510489510489512,
+    "aia_finite_diff_prospective": 0.8181818181818183,
+    "aia_ig_prospective": 0.8181818181818183
    }
   },
   {
@@ -1797,9 +2112,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0005826546847831661,
+    "default_action_effect": 0.0005826546847831661,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.8999999999999998
+    "aia_shapley_prospective": 0.8999999999999998,
+    "aia_lime_binary_prospective": 0.9999999999999999,
+    "aia_bounded_lime_prospective": 0.9999999999999999,
+    "aia_finite_diff_prospective": 0.8999999999999998,
+    "aia_ig_prospective": 0.8999999999999998
    }
   },
   {
@@ -1847,9 +2171,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.00625639551758783,
+    "default_action_effect": 0.00562373756965701,
+    "unconditional_regret": 0.0006326579479308198
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 0.39999999999999997,
+    "aia_ig_prospective": 0.39999999999999997
    }
   },
   {
@@ -1897,9 +2230,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 1.454491986868365e-07,
+    "default_action_effect": 1.454491986868365e-07,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 1.0,
+    "aia_ig_prospective": 1.0
    }
   },
   {
@@ -1947,9 +2289,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.00857507704753592,
+    "default_action_effect": 0.00857507704753592,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.709090909090909
+    "aia_shapley_prospective": 0.709090909090909,
+    "aia_lime_binary_prospective": 0.8666666666666665,
+    "aia_bounded_lime_prospective": 0.8666666666666665,
+    "aia_finite_diff_prospective": 0.6606060606060605,
+    "aia_ig_prospective": 0.6121212121212121
    }
   },
   {
@@ -1997,9 +2348,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0002984859743455361,
+    "default_action_effect": 0.0002984859743455361,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.7857142857142859
+    "aia_shapley_prospective": 0.7857142857142859,
+    "aia_lime_binary_prospective": 0.8928571428571429,
+    "aia_bounded_lime_prospective": 0.9642857142857145,
+    "aia_finite_diff_prospective": 0.7500000000000002,
+    "aia_ig_prospective": 0.6785714285714287
    }
   },
   {
@@ -2041,9 +2401,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.001243201913764461,
+    "default_action_effect": 0.001243201913764461,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.8968008255933952
+    "aia_shapley_prospective": 0.8968008255933952,
+    "aia_lime_binary_prospective": 0.8740970072239421,
+    "aia_bounded_lime_prospective": 0.9195046439628484,
+    "aia_finite_diff_prospective": 0.9318885448916409,
+    "aia_ig_prospective": 0.9277605779153767
    }
   },
   {
@@ -2091,9 +2460,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.02104493315639584,
+    "default_action_effect": 0.02104493315639584,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.9833333333333333
+    "aia_shapley_prospective": 0.9833333333333333,
+    "aia_lime_binary_prospective": 0.8333333333333333,
+    "aia_bounded_lime_prospective": 0.9666666666666667,
+    "aia_finite_diff_prospective": 0.8499999999999999,
+    "aia_ig_prospective": 0.7333333333333334
    }
   },
   {
@@ -2141,9 +2519,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.15004489761884995,
+    "default_action_effect": 0.15004489761884995,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.8041958041958043
+    "aia_shapley_prospective": 0.8041958041958043,
+    "aia_lime_binary_prospective": 0.7132867132867133,
+    "aia_bounded_lime_prospective": 0.9090909090909092,
+    "aia_finite_diff_prospective": 0.7482517482517484,
+    "aia_ig_prospective": 0.7342657342657343
    }
   },
   {
@@ -2185,9 +2572,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0007349667562732529,
+    "default_action_effect": 0.0007349667562732529,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.832967032967033
+    "aia_shapley_prospective": 0.832967032967033,
+    "aia_lime_binary_prospective": 0.8813186813186813,
+    "aia_bounded_lime_prospective": 0.9428571428571428,
+    "aia_finite_diff_prospective": 0.8637362637362638,
+    "aia_ig_prospective": 0.8153846153846154
    }
   },
   {
@@ -2235,9 +2631,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0004191343968352587,
+    "default_action_effect": -0.0009913039454288331,
+    "unconditional_regret": 0.0014104383422640918
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.5
+    "aia_shapley_prospective": 0.5,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 0.5,
+    "aia_finite_diff_prospective": 0.5,
+    "aia_ig_prospective": -0.5
    }
   },
   {
@@ -2285,9 +2690,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.00019410268856513815,
+    "default_action_effect": 0.00019410268856513815,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.7142857142857144
+    "aia_shapley_prospective": 0.7142857142857144,
+    "aia_lime_binary_prospective": 0.9642857142857145,
+    "aia_bounded_lime_prospective": 0.7142857142857144,
+    "aia_finite_diff_prospective": 0.6785714285714287,
+    "aia_ig_prospective": 0.642857142857143
    }
   },
   {
@@ -2335,9 +2749,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.020529649005792114,
+    "default_action_effect": 0.020529649005792114,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.7999999999999999
+    "aia_shapley_prospective": 0.7999999999999999,
+    "aia_lime_binary_prospective": 0.7999999999999999,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 0.7999999999999999,
+    "aia_ig_prospective": -0.19999999999999998
    }
   },
   {
@@ -2385,9 +2808,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.000440163457827117,
+    "default_action_effect": 0.000440163457827117,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.9285714285714287
+    "aia_shapley_prospective": 0.9285714285714287,
+    "aia_lime_binary_prospective": 0.9047619047619048,
+    "aia_bounded_lime_prospective": 0.9047619047619048,
+    "aia_finite_diff_prospective": 0.7619047619047621,
+    "aia_ig_prospective": 0.7619047619047621
    }
   },
   {
@@ -2435,9 +2867,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0016565230183599457,
+    "default_action_effect": 0.0016565230183599457,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": -1.0,
+    "aia_ig_prospective": -1.0
    }
   },
   {
@@ -2485,9 +2926,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.039328172592229114,
+    "default_action_effect": 0.039328172592229114,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 0.5,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 0.5,
+    "aia_ig_prospective": 0.5
    }
   },
   {
@@ -2535,9 +2985,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.03535006581236004,
+    "default_action_effect": -0.04014075403888816,
+    "unconditional_regret": 0.0754908198512482
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.6571428571428573
+    "aia_shapley_prospective": 0.6571428571428573,
+    "aia_lime_binary_prospective": 0.8285714285714287,
+    "aia_bounded_lime_prospective": 0.5428571428571429,
+    "aia_finite_diff_prospective": 0.5428571428571429,
+    "aia_ig_prospective": 0.5428571428571429
    }
   },
   {
@@ -2585,9 +3044,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.1358137640647149,
+    "default_action_effect": 0.1358137640647149,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 1.0,
+    "aia_ig_prospective": 1.0
    }
   },
   {
@@ -2635,9 +3103,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.005154259172704471,
+    "default_action_effect": 0.0013741383765033912,
+    "unconditional_regret": 0.0037801207962010796
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.5
+    "aia_shapley_prospective": 0.5,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 0.5,
+    "aia_finite_diff_prospective": 0.5,
+    "aia_ig_prospective": -0.5
    }
   },
   {
@@ -2685,9 +3162,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.04165791346392349,
+    "default_action_effect": 0.04165791346392349,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.7999999999999999
+    "aia_shapley_prospective": 0.7999999999999999,
+    "aia_lime_binary_prospective": 0.6000000000000001,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 0.39999999999999997,
+    "aia_ig_prospective": 0.39999999999999997
    }
   },
   {
@@ -2729,9 +3215,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0009621789949159154,
+    "default_action_effect": 0.0009621789949159154,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.9203007518796992
+    "aia_shapley_prospective": 0.9203007518796992,
+    "aia_lime_binary_prospective": 0.8902255639097743,
+    "aia_bounded_lime_prospective": 0.9578947368421054,
+    "aia_finite_diff_prospective": 0.9278195488721804,
+    "aia_ig_prospective": 0.9278195488721804
    }
   },
   {
@@ -2779,9 +3274,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.00022852145044768054,
+    "default_action_effect": 0.00022852145044768054,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 0.7999999999999999,
+    "aia_bounded_lime_prospective": 0.7999999999999999,
+    "aia_finite_diff_prospective": 0.19999999999999998,
+    "aia_ig_prospective": 0.7999999999999999
    }
   },
   {
@@ -2829,9 +3333,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.12153723531369753,
+    "default_action_effect": -0.18675681420410017,
+    "unconditional_regret": 0.3082940495177977
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 0.5,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 1.0,
+    "aia_ig_prospective": 1.0
    }
   },
   {
@@ -2879,9 +3392,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.001431345203004114,
+    "default_action_effect": -0.00160207905781624,
+    "unconditional_regret": 0.003033424260820354
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.7999999999999999
+    "aia_shapley_prospective": 0.7999999999999999,
+    "aia_lime_binary_prospective": 0.7999999999999999,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 0.7999999999999999,
+    "aia_ig_prospective": 0.7999999999999999
    }
   },
   {
@@ -2929,9 +3451,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.028798732922281266,
+    "default_action_effect": 0.028798732922281266,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.6666666666666669
+    "aia_shapley_prospective": 0.6666666666666669,
+    "aia_lime_binary_prospective": 0.880952380952381,
+    "aia_bounded_lime_prospective": 0.7857142857142858,
+    "aia_finite_diff_prospective": 0.7619047619047621,
+    "aia_ig_prospective": 0.6190476190476191
    }
   },
   {
@@ -2979,9 +3510,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0017657241407585094,
+    "default_action_effect": 0.0017657241407585094,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.9580419580419581
+    "aia_shapley_prospective": 0.9580419580419581,
+    "aia_lime_binary_prospective": 0.8951048951048951,
+    "aia_bounded_lime_prospective": 0.9720279720279721,
+    "aia_finite_diff_prospective": 0.9020979020979022,
+    "aia_ig_prospective": 0.9020979020979022
    }
   },
   {
@@ -3029,9 +3569,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 3.190941592853907e-06,
+    "default_action_effect": 3.190941592853907e-06,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.7
+    "aia_shapley_prospective": 0.7,
+    "aia_lime_binary_prospective": 0.7,
+    "aia_bounded_lime_prospective": 0.9999999999999999,
+    "aia_finite_diff_prospective": 0.7,
+    "aia_ig_prospective": 0.7
    }
   },
   {
@@ -3079,9 +3628,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0012252105373614657,
+    "default_action_effect": 0.0012252105373614657,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.8285714285714287
+    "aia_shapley_prospective": 0.8285714285714287,
+    "aia_lime_binary_prospective": 0.7714285714285715,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 0.7714285714285715,
+    "aia_ig_prospective": 0.7714285714285715
    }
   },
   {
@@ -3129,9 +3687,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.019422199129767538,
+    "default_action_effect": 0.019422199129767538,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.7
+    "aia_shapley_prospective": 0.7,
+    "aia_lime_binary_prospective": 0.65,
+    "aia_bounded_lime_prospective": 0.9,
+    "aia_finite_diff_prospective": 0.6833333333333333,
+    "aia_ig_prospective": 0.6833333333333333
    }
   },
   {
@@ -3179,9 +3746,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0025494398313765224,
+    "default_action_effect": -0.0022435989059799077,
+    "unconditional_regret": 0.004793038737356431
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 1.0,
+    "aia_ig_prospective": 0.5
    }
   },
   {
@@ -3229,9 +3805,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0,
+    "default_action_effect": -0.0003816840075230703,
+    "unconditional_regret": 0.0003816840075230703
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 1.0,
+    "aia_ig_prospective": 1.0
    }
   },
   {
@@ -3279,9 +3864,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.15883006437181796,
+    "default_action_effect": 0.15883006437181796,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.39999999999999997
+    "aia_shapley_prospective": 0.39999999999999997,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 0.39999999999999997,
+    "aia_finite_diff_prospective": -0.19999999999999998,
+    "aia_ig_prospective": -0.19999999999999998
    }
   },
   {
@@ -3329,9 +3923,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.015691203674782554,
+    "default_action_effect": 0.015691203674782554,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": -0.5,
+    "aia_ig_prospective": -0.5
    }
   },
   {
@@ -3379,9 +3982,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.05128409918795959,
+    "default_action_effect": 0.030347790632955004,
+    "unconditional_regret": 0.020936308555004588
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.7999999999999999
+    "aia_shapley_prospective": 0.7999999999999999,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 0.39999999999999997,
+    "aia_ig_prospective": 0.39999999999999997
    }
   },
   {
@@ -3429,9 +4041,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.01818403379146195,
+    "default_action_effect": 0.01818403379146195,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.8787878787878788
+    "aia_shapley_prospective": 0.8787878787878788,
+    "aia_lime_binary_prospective": 0.8181818181818182,
+    "aia_bounded_lime_prospective": 0.9393939393939393,
+    "aia_finite_diff_prospective": 0.8060606060606059,
+    "aia_ig_prospective": 0.7818181818181817
    }
   },
   {
@@ -3473,9 +4094,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.030288622195051525,
+    "default_action_effect": 0.030288622195051525,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.8736263736263737
+    "aia_shapley_prospective": 0.8736263736263737,
+    "aia_lime_binary_prospective": 0.9230769230769231,
+    "aia_bounded_lime_prospective": 0.9120879120879121,
+    "aia_finite_diff_prospective": 0.8681318681318682,
+    "aia_ig_prospective": 0.8131868131868131
    }
   },
   {
@@ -3523,9 +4153,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.029038444784946035,
+    "default_action_effect": -0.03649071881081706,
+    "unconditional_regret": 0.06552916359576309
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.7999999999999999
+    "aia_shapley_prospective": 0.7999999999999999,
+    "aia_lime_binary_prospective": 0.7999999999999999,
+    "aia_bounded_lime_prospective": 0.7999999999999999,
+    "aia_finite_diff_prospective": 0.39999999999999997,
+    "aia_ig_prospective": 0.0
    }
   },
   {
@@ -3573,9 +4212,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.10573093207664783,
+    "default_action_effect": 0.10573093207664783,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.9
+    "aia_shapley_prospective": 0.9,
+    "aia_lime_binary_prospective": 0.8833333333333333,
+    "aia_bounded_lime_prospective": 0.9666666666666667,
+    "aia_finite_diff_prospective": 0.9166666666666666,
+    "aia_ig_prospective": 0.8499999999999999
    }
   },
   {
@@ -3623,9 +4271,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.12381465589904414,
+    "default_action_effect": 0.12381465589904414,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.8928571428571429
+    "aia_shapley_prospective": 0.8928571428571429,
+    "aia_lime_binary_prospective": 0.8571428571428573,
+    "aia_bounded_lime_prospective": 0.9642857142857145,
+    "aia_finite_diff_prospective": 0.6785714285714287,
+    "aia_ig_prospective": 0.7142857142857144
    }
   },
   {
@@ -3673,9 +4330,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0004384087438921137,
+    "default_action_effect": 0.0004384087438921137,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.6
+    "aia_shapley_prospective": 0.6,
+    "aia_lime_binary_prospective": 0.9999999999999999,
+    "aia_bounded_lime_prospective": 0.7,
+    "aia_finite_diff_prospective": 0.3,
+    "aia_ig_prospective": 0.0
    }
   },
   {
@@ -3717,9 +4383,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.11028228764926387,
+    "default_action_effect": 0.11028228764926387,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.8721804511278194
+    "aia_shapley_prospective": 0.8721804511278194,
+    "aia_lime_binary_prospective": 0.9203007518796992,
+    "aia_bounded_lime_prospective": 0.9609022556390976,
+    "aia_finite_diff_prospective": 0.9443609022556391,
+    "aia_ig_prospective": 0.9428571428571428
    }
   },
   {
@@ -3767,9 +4442,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.00011487514226165904,
+    "default_action_effect": 0.00011487514226165904,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.9285714285714288
+    "aia_shapley_prospective": 0.9285714285714288,
+    "aia_lime_binary_prospective": 0.8928571428571429,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 0.8928571428571429,
+    "aia_ig_prospective": 0.8928571428571429
    }
   },
   {
@@ -3817,9 +4501,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.006133721039318484,
+    "default_action_effect": 0.006133721039318484,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.6785714285714287
+    "aia_shapley_prospective": 0.6785714285714287,
+    "aia_lime_binary_prospective": 0.9285714285714288,
+    "aia_bounded_lime_prospective": 0.8214285714285715,
+    "aia_finite_diff_prospective": 0.7142857142857144,
+    "aia_ig_prospective": 0.7142857142857144
    }
   },
   {
@@ -3867,9 +4560,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0005356803836974012,
+    "default_action_effect": 0.0005356803836974012,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.8214285714285715
+    "aia_shapley_prospective": 0.8214285714285715,
+    "aia_lime_binary_prospective": 0.8214285714285715,
+    "aia_bounded_lime_prospective": 0.9642857142857145,
+    "aia_finite_diff_prospective": 0.7857142857142859,
+    "aia_ig_prospective": 0.7857142857142859
    }
   },
   {
@@ -3917,9 +4619,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.00010169766440083014,
+    "default_action_effect": 0.00010169766440083014,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.4642857142857144
+    "aia_shapley_prospective": 0.4642857142857144,
+    "aia_lime_binary_prospective": 0.8571428571428573,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 0.9285714285714288,
+    "aia_ig_prospective": 0.8571428571428573
    }
   },
   {
@@ -3967,9 +4678,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0027476404402733395,
+    "default_action_effect": 0.0005917174976457797,
+    "unconditional_regret": 0.0021559229426275596
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.5
+    "aia_shapley_prospective": 0.5,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 0.5,
+    "aia_ig_prospective": 0.5
    }
   },
   {
@@ -4011,9 +4731,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.00048410594788859235,
+    "default_action_effect": 0.00048410594788859235,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.9256965944272446
+    "aia_shapley_prospective": 0.9256965944272446,
+    "aia_lime_binary_prospective": 0.8844169246646028,
+    "aia_bounded_lime_prospective": 0.9504643962848297,
+    "aia_finite_diff_prospective": 0.9463364293085655,
+    "aia_ig_prospective": 0.9401444788441692
    }
   },
   {
@@ -4061,9 +4790,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0004774838604805552,
+    "default_action_effect": -0.0008203336165168128,
+    "unconditional_regret": 0.001297817476997368
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.3
+    "aia_shapley_prospective": 0.3,
+    "aia_lime_binary_prospective": 0.0,
+    "aia_bounded_lime_prospective": 0.7999999999999999,
+    "aia_finite_diff_prospective": 0.8999999999999998,
+    "aia_ig_prospective": 0.6
    }
   },
   {
@@ -4111,9 +4849,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 8.529974643129186e-06,
+    "default_action_effect": -5.3294756680454634e-06,
+    "unconditional_regret": 1.385945031117465e-05
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 1.0,
+    "aia_ig_prospective": 0.5
    }
   },
   {
@@ -4161,9 +4908,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.035240045880100476,
+    "default_action_effect": 0.035240045880100476,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.9333333333333332
+    "aia_shapley_prospective": 0.9333333333333332,
+    "aia_lime_binary_prospective": 0.9833333333333333,
+    "aia_bounded_lime_prospective": 0.9833333333333333,
+    "aia_finite_diff_prospective": 0.8833333333333333,
+    "aia_ig_prospective": 0.8166666666666667
    }
   },
   {
@@ -4211,9 +4967,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.00034760312063623433,
+    "default_action_effect": 0.00034760312063623433,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.7999999999999999
+    "aia_shapley_prospective": 0.7999999999999999,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 0.7999999999999999,
+    "aia_finite_diff_prospective": 0.7999999999999999,
+    "aia_ig_prospective": 0.39999999999999997
    }
   },
   {
@@ -4261,9 +5026,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 8.13084081679039e-05,
+    "default_action_effect": 8.13084081679039e-05,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.39999999999999997
+    "aia_shapley_prospective": 0.39999999999999997,
+    "aia_lime_binary_prospective": 0.39999999999999997,
+    "aia_bounded_lime_prospective": 0.7999999999999999,
+    "aia_finite_diff_prospective": 0.7999999999999999,
+    "aia_ig_prospective": 0.7999999999999999
    }
   },
   {
@@ -4305,9 +5079,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.15625252334871326,
+    "default_action_effect": 0.15625252334871326,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.8932330827067668
+    "aia_shapley_prospective": 0.8932330827067668,
+    "aia_lime_binary_prospective": 0.8586466165413533,
+    "aia_bounded_lime_prospective": 0.9473684210526315,
+    "aia_finite_diff_prospective": 0.9548872180451128,
+    "aia_ig_prospective": 0.9218045112781955
    }
   },
   {
@@ -4355,9 +5138,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 5.9752668838555645e-05,
+    "default_action_effect": -7.284081317058558e-05,
+    "unconditional_regret": 0.00013259348200914123
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 0.5,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 1.0,
+    "aia_ig_prospective": 1.0
    }
   },
   {
@@ -4399,9 +5191,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0678158611256764,
+    "default_action_effect": 0.0678158611256764,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.9285714285714285
+    "aia_shapley_prospective": 0.9285714285714285,
+    "aia_lime_binary_prospective": 0.8846153846153846,
+    "aia_bounded_lime_prospective": 0.9725274725274725,
+    "aia_finite_diff_prospective": 0.8296703296703297,
+    "aia_ig_prospective": 0.8021978021978022
    }
   },
   {
@@ -4449,9 +5250,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.013381440116172705,
+    "default_action_effect": 0.013381440116172705,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.6571428571428573
+    "aia_shapley_prospective": 0.6571428571428573,
+    "aia_lime_binary_prospective": 0.942857142857143,
+    "aia_bounded_lime_prospective": 0.8285714285714287,
+    "aia_finite_diff_prospective": 0.8285714285714287,
+    "aia_ig_prospective": 0.8285714285714287
    }
   },
   {
@@ -4499,9 +5309,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.00015523864724707794,
+    "default_action_effect": 0.00015523864724707794,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.7142857142857144
+    "aia_shapley_prospective": 0.7142857142857144,
+    "aia_lime_binary_prospective": 0.9642857142857145,
+    "aia_bounded_lime_prospective": 0.6071428571428572,
+    "aia_finite_diff_prospective": 0.3214285714285715,
+    "aia_ig_prospective": 0.03571428571428572
    }
   },
   {
@@ -4549,9 +5368,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 8.441190926752553e-05,
+    "default_action_effect": 8.441190926752553e-05,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.5
+    "aia_shapley_prospective": 0.5,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": -0.5,
+    "aia_ig_prospective": -0.5
    }
   },
   {
@@ -4599,9 +5427,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0003566478129168636,
+    "default_action_effect": 0.0003566478129168636,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.8999999999999998
+    "aia_shapley_prospective": 0.8999999999999998,
+    "aia_lime_binary_prospective": 0.8999999999999998,
+    "aia_bounded_lime_prospective": 0.8999999999999998,
+    "aia_finite_diff_prospective": 0.7,
+    "aia_ig_prospective": 0.7
    }
   },
   {
@@ -4649,9 +5486,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.036857278669789176,
+    "default_action_effect": 0.036857278669789176,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": -0.5,
+    "aia_ig_prospective": -1.0
    }
   },
   {
@@ -4699,9 +5545,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.004212464812284937,
+    "default_action_effect": 0.004212464812284937,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.8857142857142858
+    "aia_shapley_prospective": 0.8857142857142858,
+    "aia_lime_binary_prospective": 0.8857142857142858,
+    "aia_bounded_lime_prospective": 0.942857142857143,
+    "aia_finite_diff_prospective": 0.7714285714285715,
+    "aia_ig_prospective": 0.7714285714285715
    }
   },
   {
@@ -4749,9 +5604,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.000350555680243162,
+    "default_action_effect": 0.000350555680243162,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.19999999999999998
+    "aia_shapley_prospective": 0.19999999999999998,
+    "aia_lime_binary_prospective": 0.39999999999999997,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 0.7999999999999999,
+    "aia_ig_prospective": 0.7999999999999999
    }
   },
   {
@@ -4793,9 +5657,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.02774797256822603,
+    "default_action_effect": 0.02774797256822603,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.8796992481203006
+    "aia_shapley_prospective": 0.8796992481203006,
+    "aia_lime_binary_prospective": 0.8210526315789473,
+    "aia_bounded_lime_prospective": 0.9398496240601503,
+    "aia_finite_diff_prospective": 0.9729323308270676,
+    "aia_ig_prospective": 0.9729323308270676
    }
   },
   {
@@ -4837,9 +5710,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.02538773041466015,
+    "default_action_effect": 0.02538773041466015,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.9175824175824175
+    "aia_shapley_prospective": 0.9175824175824175,
+    "aia_lime_binary_prospective": 0.8791208791208791,
+    "aia_bounded_lime_prospective": 0.9835164835164836,
+    "aia_finite_diff_prospective": 0.9725274725274725,
+    "aia_ig_prospective": 0.9285714285714285
    }
   },
   {
@@ -4887,9 +5769,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.3607045253502297,
+    "default_action_effect": -0.3535095007867581,
+    "unconditional_regret": 0.7142140261369878
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 0.5,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 1.0,
+    "aia_ig_prospective": 0.5
    }
   },
   {
@@ -4937,9 +5828,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.015697971786774012,
+    "default_action_effect": 0.015697971786774012,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.9285714285714288
+    "aia_shapley_prospective": 0.9285714285714288,
+    "aia_lime_binary_prospective": 0.9285714285714288,
+    "aia_bounded_lime_prospective": 0.8571428571428573,
+    "aia_finite_diff_prospective": 0.3571428571428572,
+    "aia_ig_prospective": 0.3571428571428572
    }
   },
   {
@@ -4981,9 +5881,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.02062151889683081,
+    "default_action_effect": 0.02062151889683081,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.8951048951048951
+    "aia_shapley_prospective": 0.8951048951048951,
+    "aia_lime_binary_prospective": 0.965034965034965,
+    "aia_bounded_lime_prospective": 0.9370629370629372,
+    "aia_finite_diff_prospective": 0.8601398601398602,
+    "aia_ig_prospective": 0.7692307692307694
    }
   },
   {
@@ -5025,9 +5934,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0020506213677680997,
+    "default_action_effect": 0.0020506213677680997,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 0.7999999999999999,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 0.7999999999999999,
+    "aia_ig_prospective": 0.39999999999999997
    }
   },
   {
@@ -5069,9 +5987,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.00014462276908166038,
+    "default_action_effect": 0.00014462276908166038,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.9999999999999999
+    "aia_shapley_prospective": 0.9999999999999999,
+    "aia_lime_binary_prospective": 0.8999999999999998,
+    "aia_bounded_lime_prospective": 0.9999999999999999,
+    "aia_finite_diff_prospective": 0.49999999999999994,
+    "aia_ig_prospective": 0.19999999999999998
    }
   },
   {
@@ -5113,9 +6040,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 1.2132440260313819e-07,
+    "default_action_effect": -1.7817851899529711e-07,
+    "unconditional_regret": 2.995029215984353e-07
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.5
+    "aia_shapley_prospective": 0.5,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 0.5,
+    "aia_finite_diff_prospective": 0.5,
+    "aia_ig_prospective": 0.5
    }
   },
   {
@@ -5157,9 +6093,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 1.7031921887283326e-05,
+    "default_action_effect": 1.7031921887283326e-05,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.942857142857143
+    "aia_shapley_prospective": 0.942857142857143,
+    "aia_lime_binary_prospective": 0.7714285714285715,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 0.7714285714285715,
+    "aia_ig_prospective": 0.7714285714285715
    }
   },
   {
@@ -5201,9 +6146,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0010970862176568554,
+    "default_action_effect": 0.0010970862176568554,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.6
+    "aia_shapley_prospective": 0.6,
+    "aia_lime_binary_prospective": 0.7999999999999999,
+    "aia_bounded_lime_prospective": 0.8999999999999998,
+    "aia_finite_diff_prospective": 0.8999999999999998,
+    "aia_ig_prospective": 0.8999999999999998
    }
   },
   {
@@ -5245,9 +6199,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.05966839972134466,
+    "default_action_effect": 0.05966839972134466,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.9999999999999999
+    "aia_shapley_prospective": 0.9999999999999999,
+    "aia_lime_binary_prospective": 0.8999999999999998,
+    "aia_bounded_lime_prospective": 0.8999999999999998,
+    "aia_finite_diff_prospective": 0.7,
+    "aia_ig_prospective": 0.7
    }
   },
   {
@@ -5289,9 +6252,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 3.1307185597644204e-05,
+    "default_action_effect": 2.0465469202951826e-05,
+    "unconditional_regret": 1.0841716394692378e-05
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 0.7999999999999999,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 0.7999999999999999,
+    "aia_ig_prospective": 0.7999999999999999
    }
   },
   {
@@ -5333,9 +6305,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 9.600389227212525e-05,
+    "default_action_effect": 9.600389227212525e-05,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.5428571428571429
+    "aia_shapley_prospective": 0.5428571428571429,
+    "aia_lime_binary_prospective": 0.942857142857143,
+    "aia_bounded_lime_prospective": 0.6,
+    "aia_finite_diff_prospective": 0.3714285714285715,
+    "aia_ig_prospective": 0.08571428571428573
    }
   },
   {
@@ -5377,9 +6358,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 8.599277351272853e-05,
+    "default_action_effect": 8.599277351272853e-05,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.5
+    "aia_shapley_prospective": 0.5,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": -1.0,
+    "aia_ig_prospective": -1.0
    }
   },
   {
@@ -5421,9 +6411,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.012515441010046695,
+    "default_action_effect": 0.012515441010046695,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.39999999999999997
+    "aia_shapley_prospective": 0.39999999999999997,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 0.7999999999999999,
+    "aia_finite_diff_prospective": -0.19999999999999998,
+    "aia_ig_prospective": -0.19999999999999998
    }
   },
   {
@@ -5465,9 +6464,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.07762930257315495,
+    "default_action_effect": 0.07762930257315495,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.6
+    "aia_shapley_prospective": 0.6,
+    "aia_lime_binary_prospective": 0.9272727272727272,
+    "aia_bounded_lime_prospective": 0.9151515151515152,
+    "aia_finite_diff_prospective": 0.8060606060606059,
+    "aia_ig_prospective": 0.7939393939393938
    }
   },
   {
@@ -5509,9 +6517,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.04285237313008982,
+    "default_action_effect": 0.04285237313008982,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.9090909090909092
+    "aia_shapley_prospective": 0.9090909090909092,
+    "aia_lime_binary_prospective": 0.9580419580419581,
+    "aia_bounded_lime_prospective": 0.8881118881118882,
+    "aia_finite_diff_prospective": 0.9090909090909092,
+    "aia_ig_prospective": 0.8881118881118882
    }
   },
   {
@@ -5553,9 +6570,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.004369871398025701,
+    "default_action_effect": 0.004369871398025701,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 1.0,
+    "aia_ig_prospective": 0.942857142857143
    }
   },
   {
@@ -5597,9 +6623,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.030462908875474856,
+    "default_action_effect": 0.030462908875474856,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 1.0,
+    "aia_ig_prospective": 1.0
    }
   },
   {
@@ -5641,9 +6676,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.05521514414303036,
+    "default_action_effect": 0.05521514414303036,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.8285714285714287
+    "aia_shapley_prospective": 0.8285714285714287,
+    "aia_lime_binary_prospective": 0.48571428571428577,
+    "aia_bounded_lime_prospective": 0.7714285714285715,
+    "aia_finite_diff_prospective": 0.6,
+    "aia_ig_prospective": 0.5428571428571429
    }
   },
   {
@@ -5685,9 +6729,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 8.461482294432378e-05,
+    "default_action_effect": 3.592649879427034e-05,
+    "unconditional_regret": 4.8688324150053443e-05
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.5
+    "aia_shapley_prospective": 0.5,
+    "aia_lime_binary_prospective": 0.5,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 1.0,
+    "aia_ig_prospective": 1.0
    }
   },
   {
@@ -5729,9 +6782,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 1.6909394303218274e-05,
+    "default_action_effect": -3.6874420596866254e-05,
+    "unconditional_regret": 5.378381490008453e-05
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 1.0,
+    "aia_ig_prospective": 1.0
    }
   },
   {
@@ -5773,9 +6835,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0004117537249416158,
+    "default_action_effect": -0.0009676270087179772,
+    "unconditional_regret": 0.001379380733659593
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.5
+    "aia_shapley_prospective": 0.5,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 1.0,
+    "aia_ig_prospective": 1.0
    }
   },
   {
@@ -5817,9 +6888,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.1532047437154418,
+    "default_action_effect": 0.1532047437154418,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.8571428571428571
+    "aia_shapley_prospective": 0.8571428571428571,
+    "aia_lime_binary_prospective": 0.9107142857142855,
+    "aia_bounded_lime_prospective": 0.9749999999999999,
+    "aia_finite_diff_prospective": 0.914285714285714,
+    "aia_ig_prospective": 0.914285714285714
    }
   },
   {
@@ -5861,9 +6941,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.022452815630782903,
+    "default_action_effect": -0.005078415316560831,
+    "unconditional_regret": 0.027531230947343735
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.5
+    "aia_shapley_prospective": 0.5,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 0.5,
+    "aia_finite_diff_prospective": 0.5,
+    "aia_ig_prospective": 0.5
    }
   },
   {
@@ -5905,9 +6994,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0023991375239881545,
+    "default_action_effect": 0.0023991375239881545,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.6666666666666667
+    "aia_shapley_prospective": 0.6666666666666667,
+    "aia_lime_binary_prospective": 0.9166666666666666,
+    "aia_bounded_lime_prospective": 0.9333333333333332,
+    "aia_finite_diff_prospective": 0.7999999999999999,
+    "aia_ig_prospective": 0.7999999999999999
    }
   },
   {
@@ -5949,9 +7047,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.010775207870753405,
+    "default_action_effect": 0.010775207870753405,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.8272727272727273
+    "aia_shapley_prospective": 0.8272727272727273,
+    "aia_lime_binary_prospective": 0.9454545454545454,
+    "aia_bounded_lime_prospective": 0.9727272727272729,
+    "aia_finite_diff_prospective": 0.8545454545454546,
+    "aia_ig_prospective": 0.8545454545454546
    }
   },
   {
@@ -5993,9 +7100,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.05912256961841371,
+    "default_action_effect": 0.05912256961841371,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.8596491228070176
+    "aia_shapley_prospective": 0.8596491228070176,
+    "aia_lime_binary_prospective": 0.9463364293085655,
+    "aia_bounded_lime_prospective": 0.9525283797729618,
+    "aia_finite_diff_prospective": 0.8204334365325078,
+    "aia_ig_prospective": 0.8204334365325078
    }
   },
   {
@@ -6037,9 +7153,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 3.211683416035226e-05,
+    "default_action_effect": 3.211683416035226e-05,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.7999999999999999
+    "aia_shapley_prospective": 0.7999999999999999,
+    "aia_lime_binary_prospective": 0.3,
+    "aia_bounded_lime_prospective": 0.8999999999999998,
+    "aia_finite_diff_prospective": 0.7,
+    "aia_ig_prospective": 0.7
    }
   },
   {
@@ -6081,9 +7206,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.21182942429120083,
+    "default_action_effect": -0.1669107790905376,
+    "unconditional_regret": 0.3787402033817384
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.19999999999999998
+    "aia_shapley_prospective": 0.19999999999999998,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 0.7999999999999999,
+    "aia_finite_diff_prospective": -0.19999999999999998,
+    "aia_ig_prospective": -0.19999999999999998
    }
   },
   {
@@ -6125,9 +7259,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0,
+    "default_action_effect": -0.0010609033192533774,
+    "unconditional_regret": 0.0010609033192533774
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.5
+    "aia_shapley_prospective": 0.5,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 0.5,
+    "aia_ig_prospective": -0.5
    }
   },
   {
@@ -6169,9 +7312,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 7.957196672049454e-05,
+    "default_action_effect": 7.957196672049454e-05,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.7999999999999999
+    "aia_shapley_prospective": 0.7999999999999999,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 0.39999999999999997,
+    "aia_ig_prospective": 0.39999999999999997
    }
   },
   {
@@ -6213,9 +7365,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.004028786835061748,
+    "default_action_effect": 0.0036386026678506,
+    "unconditional_regret": 0.0003901841672111486
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.3714285714285715
+    "aia_shapley_prospective": 0.3714285714285715,
+    "aia_lime_binary_prospective": 0.48571428571428577,
+    "aia_bounded_lime_prospective": 0.8857142857142858,
+    "aia_finite_diff_prospective": 0.6,
+    "aia_ig_prospective": 0.6
    }
   },
   {
@@ -6257,9 +7418,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.013310140023032557,
+    "default_action_effect": 0.013310140023032557,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.39999999999999997
+    "aia_shapley_prospective": 0.39999999999999997,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 0.7999999999999999,
+    "aia_ig_prospective": 0.39999999999999997
    }
   },
   {
@@ -6301,9 +7471,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0004238300645435226,
+    "default_action_effect": 0.00021903397778939415,
+    "unconditional_regret": 0.00020479608675412844
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 1.0,
+    "aia_ig_prospective": 1.0
    }
   },
   {
@@ -6345,9 +7524,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.001947862371180009,
+    "default_action_effect": 0.001947862371180009,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.8857142857142858
+    "aia_shapley_prospective": 0.8857142857142858,
+    "aia_lime_binary_prospective": 0.942857142857143,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 0.942857142857143,
+    "aia_ig_prospective": 0.942857142857143
    }
   },
   {
@@ -6389,9 +7577,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.00014391860146636818,
+    "default_action_effect": 6.700180107935169e-05,
+    "unconditional_regret": 7.691680038701649e-05
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 0.5,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 1.0,
+    "aia_ig_prospective": 1.0
    }
   },
   {
@@ -6433,9 +7630,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.15738182448244226,
+    "default_action_effect": 0.15738182448244226,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 0.5,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 1.0,
+    "aia_ig_prospective": 0.5
    }
   },
   {
@@ -6476,6 +7682,11 @@
      "delta_vs_default": 0.19931508636788287,
      "action_changed": true
     }
+   },
+   "unconditional": {
+    "oracle_effect": 0.05809969861476827,
+    "default_action_effect": -0.19931508636788287,
+    "unconditional_regret": 0.25741478498265113
    },
    "prospective": {
     "target_is_generated_top1": false
@@ -6520,9 +7731,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 4.275080195261595e-06,
+    "default_action_effect": 4.275080195261595e-06,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.7999999999999999
+    "aia_shapley_prospective": 0.7999999999999999,
+    "aia_lime_binary_prospective": 0.7999999999999999,
+    "aia_bounded_lime_prospective": 0.7999999999999999,
+    "aia_finite_diff_prospective": 0.7999999999999999,
+    "aia_ig_prospective": 0.7999999999999999
    }
   },
   {
@@ -6564,9 +7784,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 1.478380800372784e-07,
+    "default_action_effect": 1.478380800372784e-07,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.8571428571428573
+    "aia_shapley_prospective": 0.8571428571428573,
+    "aia_lime_binary_prospective": 0.9642857142857145,
+    "aia_bounded_lime_prospective": 0.9285714285714288,
+    "aia_finite_diff_prospective": 0.642857142857143,
+    "aia_ig_prospective": 0.642857142857143
    }
   },
   {
@@ -6608,9 +7837,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.000998355891923501,
+    "default_action_effect": -0.0016852796971608686,
+    "unconditional_regret": 0.0026836355890843696
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 0.5,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 1.0,
+    "aia_ig_prospective": 1.0
    }
   },
   {
@@ -6652,9 +7890,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0007259712515396325,
+    "default_action_effect": 0.00033242034914696724,
+    "unconditional_regret": 0.00039355090239266526
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": -0.5,
+    "aia_ig_prospective": -0.5
    }
   },
   {
@@ -6696,9 +7943,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 7.213379080444642e-05,
+    "default_action_effect": 7.213379080444642e-05,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 1.0,
+    "aia_ig_prospective": 1.0
    }
   },
   {
@@ -6740,9 +7996,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0031047560318707883,
+    "default_action_effect": 0.0031047560318707883,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.8999999999999998
+    "aia_shapley_prospective": 0.8999999999999998,
+    "aia_lime_binary_prospective": 0.7,
+    "aia_bounded_lime_prospective": 0.8999999999999998,
+    "aia_finite_diff_prospective": 0.8999999999999998,
+    "aia_ig_prospective": 0.7
    }
   },
   {
@@ -6784,9 +8049,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0009592640166484687,
+    "default_action_effect": 0.0009592640166484687,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.5428571428571429
+    "aia_shapley_prospective": 0.5428571428571429,
+    "aia_lime_binary_prospective": 0.6,
+    "aia_bounded_lime_prospective": 0.8857142857142858,
+    "aia_finite_diff_prospective": 0.6571428571428573,
+    "aia_ig_prospective": 0.6571428571428573
    }
   },
   {
@@ -6828,9 +8102,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 3.977583232255219e-06,
+    "default_action_effect": -5.9604151045313305e-06,
+    "unconditional_regret": 9.93799833678655e-06
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.6
+    "aia_shapley_prospective": 0.6,
+    "aia_lime_binary_prospective": 0.8999999999999998,
+    "aia_bounded_lime_prospective": 0.6,
+    "aia_finite_diff_prospective": 0.6,
+    "aia_ig_prospective": 0.7
    }
   },
   {
@@ -6872,9 +8155,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0030369574405041326,
+    "default_action_effect": 0.0030369574405041326,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.9285714285714288
+    "aia_shapley_prospective": 0.9285714285714288,
+    "aia_lime_binary_prospective": 0.8928571428571429,
+    "aia_bounded_lime_prospective": 0.9285714285714288,
+    "aia_finite_diff_prospective": 0.642857142857143,
+    "aia_ig_prospective": 0.642857142857143
    }
   },
   {
@@ -6916,9 +8208,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 1.788136730225935e-05,
+    "default_action_effect": 1.788136730225935e-05,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.5
+    "aia_shapley_prospective": 0.5,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": -1.0,
+    "aia_ig_prospective": -0.5
    }
   },
   {
@@ -6960,9 +8261,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.016812354949414007,
+    "default_action_effect": 0.016812354949414007,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.8390977443609022
+    "aia_shapley_prospective": 0.8390977443609022,
+    "aia_lime_binary_prospective": 0.8766917293233082,
+    "aia_bounded_lime_prospective": 0.9578947368421054,
+    "aia_finite_diff_prospective": 0.9398496240601503,
+    "aia_ig_prospective": 0.9263157894736842
    }
   },
   {
@@ -7004,9 +8314,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.00010754629309366346,
+    "default_action_effect": 0.00010754629309366346,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.9642857142857145
+    "aia_shapley_prospective": 0.9642857142857145,
+    "aia_lime_binary_prospective": 0.6785714285714287,
+    "aia_bounded_lime_prospective": 0.9642857142857145,
+    "aia_finite_diff_prospective": 0.9642857142857145,
+    "aia_ig_prospective": 0.9285714285714288
    }
   },
   {
@@ -7048,9 +8367,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.00033420747248506517,
+    "default_action_effect": -0.0006315597784645036,
+    "unconditional_regret": 0.0009657672509495688
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.5
+    "aia_shapley_prospective": 0.5,
+    "aia_lime_binary_prospective": 0.5,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": -0.5,
+    "aia_ig_prospective": -0.5
    }
   },
   {
@@ -7092,9 +8420,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 2.2244375909139068e-05,
+    "default_action_effect": 2.2244375909139068e-05,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.942857142857143
+    "aia_shapley_prospective": 0.942857142857143,
+    "aia_lime_binary_prospective": 0.3714285714285715,
+    "aia_bounded_lime_prospective": 0.942857142857143,
+    "aia_finite_diff_prospective": 1.0,
+    "aia_ig_prospective": 1.0
    }
   },
   {
@@ -7136,9 +8473,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.023886583410177062,
+    "default_action_effect": 0.023886583410177062,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.8285714285714287
+    "aia_shapley_prospective": 0.8285714285714287,
+    "aia_lime_binary_prospective": 0.5428571428571429,
+    "aia_bounded_lime_prospective": 0.7142857142857143,
+    "aia_finite_diff_prospective": 0.3142857142857143,
+    "aia_ig_prospective": 0.3142857142857143
    }
   },
   {
@@ -7180,9 +8526,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.036794395176087076,
+    "default_action_effect": 0.036794395176087076,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.9353383458646616
+    "aia_shapley_prospective": 0.9353383458646616,
+    "aia_lime_binary_prospective": 0.819548872180451,
+    "aia_bounded_lime_prospective": 0.956390977443609,
+    "aia_finite_diff_prospective": 0.9714285714285714,
+    "aia_ig_prospective": 0.9639097744360902
    }
   },
   {
@@ -7224,9 +8579,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.10622811799226853,
+    "default_action_effect": 0.10622811799226853,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.9151515151515152
+    "aia_shapley_prospective": 0.9151515151515152,
+    "aia_lime_binary_prospective": 0.7939393939393938,
+    "aia_bounded_lime_prospective": 0.9757575757575757,
+    "aia_finite_diff_prospective": 0.8545454545454544,
+    "aia_ig_prospective": 0.8545454545454544
    }
   },
   {
@@ -7268,9 +8632,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.010507486433867928,
+    "default_action_effect": 0.010507486433867928,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.8360902255639097
+    "aia_shapley_prospective": 0.8360902255639097,
+    "aia_lime_binary_prospective": 0.8796992481203006,
+    "aia_bounded_lime_prospective": 0.900751879699248,
+    "aia_finite_diff_prospective": 0.837593984962406,
+    "aia_ig_prospective": 0.8300751879699247
    }
   },
   {
@@ -7312,9 +8685,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.000860645320827976,
+    "default_action_effect": 0.000860645320827976,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": -1.0,
+    "aia_ig_prospective": -1.0
    }
   },
   {
@@ -7356,9 +8738,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.005274066005521192,
+    "default_action_effect": 0.005274066005521192,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.8090909090909091
+    "aia_shapley_prospective": 0.8090909090909091,
+    "aia_lime_binary_prospective": 0.9727272727272729,
+    "aia_bounded_lime_prospective": 0.9636363636363637,
+    "aia_finite_diff_prospective": 0.7636363636363637,
+    "aia_ig_prospective": 0.7636363636363637
    }
   },
   {
@@ -7400,9 +8791,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0965437772738862,
+    "default_action_effect": 0.0965437772738862,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.9340659340659341
+    "aia_shapley_prospective": 0.9340659340659341,
+    "aia_lime_binary_prospective": 0.7714285714285714,
+    "aia_bounded_lime_prospective": 0.9164835164835166,
+    "aia_finite_diff_prospective": 0.956043956043956,
+    "aia_ig_prospective": 0.956043956043956
    }
   },
   {
@@ -7444,9 +8844,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.3243057402321497,
+    "default_action_effect": 0.2024754041786776,
+    "unconditional_regret": 0.1218303360534721
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 0.5,
+    "aia_finite_diff_prospective": -0.5,
+    "aia_ig_prospective": -0.5
    }
   },
   {
@@ -7488,9 +8897,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0025923696052784157,
+    "default_action_effect": 0.0025923696052784157,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 1.0,
+    "aia_ig_prospective": 1.0
    }
   },
   {
@@ -7532,9 +8950,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0002614888625598543,
+    "default_action_effect": 0.0002614888625598543,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 0.7999999999999999,
+    "aia_bounded_lime_prospective": 0.7999999999999999,
+    "aia_finite_diff_prospective": 0.7999999999999999,
+    "aia_ig_prospective": 0.39999999999999997
    }
   },
   {
@@ -7576,9 +9003,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.34267966911626524,
+    "default_action_effect": 0.34267966911626524,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.8999999999999998
+    "aia_shapley_prospective": 0.8999999999999998,
+    "aia_lime_binary_prospective": 0.6,
+    "aia_bounded_lime_prospective": 0.9999999999999999,
+    "aia_finite_diff_prospective": 0.49999999999999994,
+    "aia_ig_prospective": 0.49999999999999994
    }
   },
   {
@@ -7620,9 +9056,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 1.5362742916521155e-05,
+    "default_action_effect": 1.5362742916521155e-05,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 0.5,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 1.0,
+    "aia_ig_prospective": 1.0
    }
   },
   {
@@ -7664,9 +9109,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.021005274311095487,
+    "default_action_effect": -0.022534941363910117,
+    "unconditional_regret": 0.0435402156750056
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.7999999999999999
+    "aia_shapley_prospective": 0.7999999999999999,
+    "aia_lime_binary_prospective": 0.9999999999999999,
+    "aia_bounded_lime_prospective": 0.7999999999999999,
+    "aia_finite_diff_prospective": 0.7,
+    "aia_ig_prospective": 0.7
    }
   },
   {
@@ -7708,9 +9162,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.027908875259487022,
+    "default_action_effect": 0.027908875259487022,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.7999999999999999
+    "aia_shapley_prospective": 0.7999999999999999,
+    "aia_lime_binary_prospective": 0.7999999999999999,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 0.39999999999999997,
+    "aia_ig_prospective": 0.39999999999999997
    }
   },
   {
@@ -7752,9 +9215,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0003900685686937739,
+    "default_action_effect": 0.0003900685686937739,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.5
+    "aia_shapley_prospective": 0.5,
+    "aia_lime_binary_prospective": 0.5,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 1.0,
+    "aia_ig_prospective": 1.0
    }
   },
   {
@@ -7796,9 +9268,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.018970969486155478,
+    "default_action_effect": 0.018970969486155478,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.9166666666666666
+    "aia_shapley_prospective": 0.9166666666666666,
+    "aia_lime_binary_prospective": 0.6833333333333333,
+    "aia_bounded_lime_prospective": 0.9166666666666666,
+    "aia_finite_diff_prospective": 0.7666666666666667,
+    "aia_ig_prospective": 0.7666666666666667
    }
   },
   {
@@ -7840,9 +9321,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 6.364359860122967e-05,
+    "default_action_effect": 6.364359860122967e-05,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.6571428571428573
+    "aia_shapley_prospective": 0.6571428571428573,
+    "aia_lime_binary_prospective": 0.7714285714285715,
+    "aia_bounded_lime_prospective": 0.942857142857143,
+    "aia_finite_diff_prospective": 0.5428571428571429,
+    "aia_ig_prospective": 0.3714285714285715
    }
   },
   {
@@ -7884,9 +9374,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0006044480518245773,
+    "default_action_effect": 0.0006044480518245773,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.7714285714285715
+    "aia_shapley_prospective": 0.7714285714285715,
+    "aia_lime_binary_prospective": 0.7714285714285715,
+    "aia_bounded_lime_prospective": 0.7714285714285715,
+    "aia_finite_diff_prospective": 0.8285714285714287,
+    "aia_ig_prospective": 0.7714285714285715
    }
   },
   {
@@ -7928,9 +9427,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.003926537793522554,
+    "default_action_effect": 0.003926537793522554,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.8999999999999998
+    "aia_shapley_prospective": 0.8999999999999998,
+    "aia_lime_binary_prospective": 0.7999999999999999,
+    "aia_bounded_lime_prospective": 0.9999999999999999,
+    "aia_finite_diff_prospective": 0.7,
+    "aia_ig_prospective": 0.6
    }
   },
   {
@@ -7972,9 +9480,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0743649306830986,
+    "default_action_effect": 0.0743649306830986,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.39999999999999997
+    "aia_shapley_prospective": 0.39999999999999997,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 0.7999999999999999,
+    "aia_finite_diff_prospective": 0.39999999999999997,
+    "aia_ig_prospective": 0.39999999999999997
    }
   },
   {
@@ -8016,9 +9533,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.05019566926131634,
+    "default_action_effect": 0.05019566926131634,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.6
+    "aia_shapley_prospective": 0.6,
+    "aia_lime_binary_prospective": 0.5428571428571429,
+    "aia_bounded_lime_prospective": 0.942857142857143,
+    "aia_finite_diff_prospective": 0.942857142857143,
+    "aia_ig_prospective": 0.8857142857142858
    }
   },
   {
@@ -8060,9 +9586,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 3.7522935758798078e-06,
+    "default_action_effect": -4.541644356136043e-06,
+    "unconditional_regret": 8.29393793201585e-06
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.5
+    "aia_shapley_prospective": 0.5,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 0.5,
+    "aia_finite_diff_prospective": -0.5,
+    "aia_ig_prospective": -0.5
    }
   },
   {
@@ -8104,9 +9639,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.24313763633151764,
+    "default_action_effect": -0.3800432765313431,
+    "unconditional_regret": 0.6231809128628607
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 0.39999999999999997,
+    "aia_bounded_lime_prospective": 0.7999999999999999,
+    "aia_finite_diff_prospective": 0.39999999999999997,
+    "aia_ig_prospective": 0.39999999999999997
    }
   },
   {
@@ -8148,9 +9692,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.00026149680626666384,
+    "default_action_effect": 0.00026149680626666384,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.9515151515151514
+    "aia_shapley_prospective": 0.9515151515151514,
+    "aia_lime_binary_prospective": 0.6606060606060605,
+    "aia_bounded_lime_prospective": 0.9636363636363635,
+    "aia_finite_diff_prospective": 0.9393939393939393,
+    "aia_ig_prospective": 0.9393939393939393
    }
   },
   {
@@ -8192,9 +9745,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.00045719612130189446,
+    "default_action_effect": 0.00045719612130189446,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.9642857142857145
+    "aia_shapley_prospective": 0.9642857142857145,
+    "aia_lime_binary_prospective": 0.9285714285714288,
+    "aia_bounded_lime_prospective": 0.9642857142857145,
+    "aia_finite_diff_prospective": 0.7500000000000002,
+    "aia_ig_prospective": 0.7500000000000002
    }
   },
   {
@@ -8236,9 +9798,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0,
+    "default_action_effect": -0.002035445528077027,
+    "unconditional_regret": 0.002035445528077027
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 0.5,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": -0.5,
+    "aia_ig_prospective": -0.5
    }
   },
   {
@@ -8280,9 +9851,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.011779477180333106,
+    "default_action_effect": 0.011779477180333106,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.6785714285714287
+    "aia_shapley_prospective": 0.6785714285714287,
+    "aia_lime_binary_prospective": 0.9642857142857145,
+    "aia_bounded_lime_prospective": 0.8928571428571429,
+    "aia_finite_diff_prospective": 0.39285714285714296,
+    "aia_ig_prospective": 0.39285714285714296
    }
   },
   {
@@ -8324,9 +9904,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.044418270220570294,
+    "default_action_effect": 0.044418270220570294,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.942857142857143
+    "aia_shapley_prospective": 0.942857142857143,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 1.0,
+    "aia_ig_prospective": 1.0
    }
   },
   {
@@ -8368,9 +9957,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.08416242624392459,
+    "default_action_effect": 0.08416242624392459,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.9047619047619048
+    "aia_shapley_prospective": 0.9047619047619048,
+    "aia_lime_binary_prospective": 0.9047619047619048,
+    "aia_bounded_lime_prospective": 0.880952380952381,
+    "aia_finite_diff_prospective": 0.6666666666666669,
+    "aia_ig_prospective": 0.6666666666666669
    }
   },
   {
@@ -8412,9 +10010,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0004828318077879197,
+    "default_action_effect": 0.0004828318077879197,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.9761904761904763
+    "aia_shapley_prospective": 0.9761904761904763,
+    "aia_lime_binary_prospective": 0.880952380952381,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 0.9523809523809524,
+    "aia_ig_prospective": 0.9523809523809524
    }
   },
   {
@@ -8456,9 +10063,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.13440009809336595,
+    "default_action_effect": -0.2883620211050714,
+    "unconditional_regret": 0.42276211919843737
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": -0.5,
+    "aia_ig_prospective": -0.5
    }
   },
   {
@@ -8500,9 +10116,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0009842579404376241,
+    "default_action_effect": 0.0009842579404376241,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.8166666666666667
+    "aia_shapley_prospective": 0.8166666666666667,
+    "aia_lime_binary_prospective": 0.7,
+    "aia_bounded_lime_prospective": 0.9166666666666666,
+    "aia_finite_diff_prospective": 0.8833333333333333,
+    "aia_ig_prospective": 0.8833333333333333
    }
   },
   {
@@ -8544,9 +10169,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 9.16294579104433e-05,
+    "default_action_effect": 9.16294579104433e-05,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 0.5,
+    "aia_finite_diff_prospective": 0.5,
+    "aia_ig_prospective": 0.5
    }
   },
   {
@@ -8588,9 +10222,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0014104944453597545,
+    "default_action_effect": 0.0014104944453597545,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 0.5,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 0.5,
+    "aia_ig_prospective": 0.5
    }
   },
   {
@@ -8632,9 +10275,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.05476397823366477,
+    "default_action_effect": 0.05476397823366477,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.9127819548872179
+    "aia_shapley_prospective": 0.9127819548872179,
+    "aia_lime_binary_prospective": 0.8421052631578947,
+    "aia_bounded_lime_prospective": 0.9308270676691727,
+    "aia_finite_diff_prospective": 0.8917293233082706,
+    "aia_ig_prospective": 0.8842105263157894
    }
   },
   {
@@ -8676,9 +10328,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.5078406018967139,
+    "default_action_effect": 0.5078406018967139,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 0.8857142857142858,
+    "aia_bounded_lime_prospective": 0.942857142857143,
+    "aia_finite_diff_prospective": 0.3714285714285715,
+    "aia_ig_prospective": 0.2571428571428572
    }
   },
   {
@@ -8720,9 +10381,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.010579344998694624,
+    "default_action_effect": 0.010579344998694624,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.5
+    "aia_shapley_prospective": 0.5,
+    "aia_lime_binary_prospective": 0.5,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 0.5,
+    "aia_ig_prospective": 0.5
    }
   },
   {
@@ -8764,9 +10434,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.00014740499076529038,
+    "default_action_effect": 0.00014740499076529038,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.8999999999999998
+    "aia_shapley_prospective": 0.8999999999999998,
+    "aia_lime_binary_prospective": 0.8999999999999998,
+    "aia_bounded_lime_prospective": 0.8999999999999998,
+    "aia_finite_diff_prospective": 0.7,
+    "aia_ig_prospective": 0.7
    }
   },
   {
@@ -8808,9 +10487,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0011219157227912613,
+    "default_action_effect": -0.001086925806283679,
+    "unconditional_regret": 0.0022088415290749406
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.9999999999999999
+    "aia_shapley_prospective": 0.9999999999999999,
+    "aia_lime_binary_prospective": 0.7,
+    "aia_bounded_lime_prospective": 0.8999999999999998,
+    "aia_finite_diff_prospective": 0.6,
+    "aia_ig_prospective": 0.6
    }
   },
   {
@@ -8852,9 +10540,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.17267736242030915,
+    "default_action_effect": 0.17267736242030915,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.7
+    "aia_shapley_prospective": 0.7,
+    "aia_lime_binary_prospective": 0.7,
+    "aia_bounded_lime_prospective": 0.8999999999999998,
+    "aia_finite_diff_prospective": 0.6,
+    "aia_ig_prospective": 0.6
    }
   },
   {
@@ -8896,9 +10593,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 4.651859140116058e-05,
+    "default_action_effect": 4.651859140116058e-05,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.5
+    "aia_shapley_prospective": 0.5,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 1.0,
+    "aia_ig_prospective": 1.0
    }
   },
   {
@@ -8940,9 +10646,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.006070114996054035,
+    "default_action_effect": 0.006070114996054035,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.9181818181818183
+    "aia_shapley_prospective": 0.9181818181818183,
+    "aia_lime_binary_prospective": 0.9636363636363637,
+    "aia_bounded_lime_prospective": 0.9636363636363637,
+    "aia_finite_diff_prospective": 0.8181818181818182,
+    "aia_ig_prospective": 0.8000000000000002
    }
   },
   {
@@ -8984,9 +10699,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.00028467920313280054,
+    "default_action_effect": 0.00028062106446335327,
+    "unconditional_regret": 4.05813866944727e-06
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.7999999999999999
+    "aia_shapley_prospective": 0.7999999999999999,
+    "aia_lime_binary_prospective": 0.9999999999999999,
+    "aia_bounded_lime_prospective": 0.8999999999999998,
+    "aia_finite_diff_prospective": 0.3,
+    "aia_ig_prospective": 0.3
    }
   },
   {
@@ -9028,9 +10752,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.11777185918626513,
+    "default_action_effect": 0.11777185918626513,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.8999999999999998
+    "aia_shapley_prospective": 0.8999999999999998,
+    "aia_lime_binary_prospective": 0.7,
+    "aia_bounded_lime_prospective": 0.9999999999999999,
+    "aia_finite_diff_prospective": 0.7,
+    "aia_ig_prospective": 0.49999999999999994
    }
   },
   {
@@ -9072,9 +10805,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 4.046560769935897e-05,
+    "default_action_effect": 2.5292263303679154e-05,
+    "unconditional_regret": 1.5173344395679813e-05
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.5
+    "aia_shapley_prospective": 0.5,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": -1.0,
+    "aia_ig_prospective": -1.0
    }
   },
   {
@@ -9116,9 +10858,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 9.200374119796987e-07,
+    "default_action_effect": 2.5566154354064846e-07,
+    "unconditional_regret": 6.643758684390503e-07
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": -0.5,
+    "aia_ig_prospective": -0.5
    }
   },
   {
@@ -9160,9 +10911,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.0038519839418703823,
+    "default_action_effect": 0.0026083230963927693,
+    "unconditional_regret": 0.001243660845477613
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 1.0,
+    "aia_ig_prospective": 1.0
    }
   },
   {
@@ -9204,9 +10964,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.003536613308523451,
+    "default_action_effect": -0.18951792796388806,
+    "unconditional_regret": 0.1930545412724115
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 1.0,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": 1.0,
+    "aia_ig_prospective": 1.0
    }
   },
   {
@@ -9248,9 +11017,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 7.239618206191843e-09,
+    "default_action_effect": 3.030515243837828e-09,
+    "unconditional_regret": 4.209102962354015e-09
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.5
+    "aia_shapley_prospective": 0.5,
+    "aia_lime_binary_prospective": 0.5,
+    "aia_bounded_lime_prospective": 1.0,
+    "aia_finite_diff_prospective": -0.5,
+    "aia_ig_prospective": -0.5
    }
   },
   {
@@ -9292,9 +11070,18 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 8.162387490901114e-05,
+    "default_action_effect": -0.00019329234081032123,
+    "unconditional_regret": 0.00027491621571933237
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 0.7999999999999999
+    "aia_shapley_prospective": 0.7999999999999999,
+    "aia_lime_binary_prospective": 0.7999999999999999,
+    "aia_bounded_lime_prospective": 0.7999999999999999,
+    "aia_finite_diff_prospective": 0.39999999999999997,
+    "aia_ig_prospective": 0.39999999999999997
    }
   },
   {
@@ -9336,28 +11123,147 @@
      "action_changed": true
     }
    },
+   "unconditional": {
+    "oracle_effect": 0.00038381915100742925,
+    "default_action_effect": 0.00038381915100742925,
+    "unconditional_regret": 0.0
+   },
    "prospective": {
     "target_is_generated_top1": true,
-    "aia_shapley_prospective": 1.0
+    "aia_shapley_prospective": 1.0,
+    "aia_lime_binary_prospective": 0.7714285714285715,
+    "aia_bounded_lime_prospective": 0.8285714285714287,
+    "aia_finite_diff_prospective": 0.8285714285714287,
+    "aia_ig_prospective": 0.8285714285714287
    }
   }
  ],
  "timings": {
   "mc_shapley": {
-   "median_wall_seconds": 1.1817682500113733,
-   "peak_rss_mib": 431120.0,
+   "median_wall_seconds": 0.912857957999222,
+   "peak_rss_mib": 425888.0,
    "repeat": 3
   },
   "bounded_lime": {
-   "median_wall_seconds": 0.11136766598792747,
-   "peak_rss_mib": 431120.0,
+   "median_wall_seconds": 0.08723512501455843,
+   "peak_rss_mib": 425888.0,
    "repeat": 3
   },
   "loo": {
-   "median_wall_seconds": 0.003541833022609353,
-   "peak_rss_mib": 431120.0,
+   "median_wall_seconds": 0.0027247919933870435,
+   "peak_rss_mib": 425888.0,
    "repeat": 3
   },
-  "recorded_at": "2026-08-10T02:30:57"
+  "recorded_at": "2026-08-18T04:00:25"
+ },
+ "curves": {
+  "equal_budget": [
+   {
+    "method": "shapley",
+    "budget": 4200,
+    "M_pair": 100,
+    "mean_bounded_aia": 0.1089204026108051
+   },
+   {
+    "method": "shapley",
+    "budget": 10500,
+    "M_pair": 250,
+    "mean_bounded_aia": 0.15425245909920834
+   },
+   {
+    "method": "shapley",
+    "budget": 21000,
+    "M_pair": 500,
+    "mean_bounded_aia": 0.16057825353181393
+   },
+   {
+    "method": "shapley",
+    "budget": 42000,
+    "M_pair": 1000,
+    "mean_bounded_aia": 0.1551185682222834
+   },
+   {
+    "method": "lime",
+    "budget": 128,
+    "M_pair": null,
+    "mean_bounded_aia": 0.7022476336872622
+   },
+   {
+    "method": "lime",
+    "budget": 512,
+    "M_pair": null,
+    "mean_bounded_aia": 0.7447811976465227
+   },
+   {
+    "method": "lime",
+    "budget": 1024,
+    "M_pair": null,
+    "mean_bounded_aia": 0.742525997738072
+   },
+   {
+    "method": "lime",
+    "budget": 2048,
+    "M_pair": null,
+    "mean_bounded_aia": 0.739636757463383
+   }
+  ],
+  "rho_curve": [
+   {
+    "rho": 0.0,
+    "mean_bounded_aia": 0.09692304857165539,
+    "mean_abs_effect": 0.025769330480716723
+   },
+   {
+    "rho": 0.1,
+    "mean_bounded_aia": 0.10996296428030176,
+    "mean_abs_effect": 0.022511490604545034
+   },
+   {
+    "rho": 0.25,
+    "mean_bounded_aia": 0.12030501851090086,
+    "mean_abs_effect": 0.018161259396752383
+   },
+   {
+    "rho": 0.5,
+    "mean_bounded_aia": 0.15425245909920834,
+    "mean_abs_effect": 0.011484050574066283
+   },
+   {
+    "rho": 0.75,
+    "mean_bounded_aia": 0.1704119270822057,
+    "mean_abs_effect": 0.005604060501209734
+   },
+   {
+    "rho": 0.9,
+    "mean_bounded_aia": 0.155324068088774,
+    "mean_abs_effect": 0.0021878702037222207
+   }
+  ],
+  "kappa_curve": [
+   {
+    "kappa": 0.1,
+    "mean_bounded_aia": 0.8933449909223903
+   },
+   {
+    "kappa": 0.25,
+    "mean_bounded_aia": 0.9361720462200338
+   },
+   {
+    "kappa": 0.5,
+    "mean_bounded_aia": 0.8765845331139451
+   },
+   {
+    "kappa": 1.0,
+    "mean_bounded_aia": 0.8218138863200783
+   }
+  ],
+  "dataset_audit": {
+   "eligible_users": 7621,
+   "history_median": 6.0,
+   "history_iqr": [
+    5.0,
+    11.0
+   ]
+  }
  }
 }
