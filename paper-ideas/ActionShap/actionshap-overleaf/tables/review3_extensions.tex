@@ -1,11 +1,13 @@
-% Extension tables (generated).
+% Extension table (generated).
 \begin{table}[t]\centering\scriptsize\setlength{\tabcolsep}{2.5pt}
-\caption{Review-3 extensions: unconditional (full-cohort) regret and
-prospective bounded AIA per explainer (non-target-conditioned audits).}
+\caption{Review-3 extensions: unconditional (full-cohort) regret and prospective
+bounded AIA per explainer (non-target-conditioned audits). Equal-budget,
+kernel-width and $\rho$-response summaries per run: Amazon ItemKNN: Shapley bounded AIA 0.71--0.71 over $M_{pair}\in\{100,1000\}$ vs LIME 0.75--0.76 over masks $\in\{128,2048\}$; $\rho$-response flat (0.708--0.708); kappa sensitivity 0.71--0.76; Amazon SASRec: Shapley bounded AIA 0.11--0.16 over $M_{pair}\in\{100,1000\}$ vs LIME 0.70--0.74 over masks $\in\{128,2048\}$; $\rho$-response flat (0.097--0.170); kappa sensitivity 0.82--0.94; ML-1M ItemKNN: Shapley bounded AIA 0.64--0.68 over $M_{pair}\in\{100,1000\}$ vs LIME 0.84--0.91 over masks $\in\{128,2048\}$; $\rho$-response flat (0.647--0.699); kappa sensitivity 0.94--0.96; ML-1M SASRec: Shapley bounded AIA 0.20--0.21 over $M_{pair}\in\{100,1000\}$ vs LIME 0.80--0.89 over masks $\in\{128,2048\}$; $\rho$-response flat (0.159--0.209); kappa sensitivity 0.94--0.96.}
+
 \label{tab:review3-ext}
-\begin{tabular}{@{}lrrrrrrr@{}}
+\begin{tabular}{@{}lrrrrrr@{}}
 \toprule
-Run & uncond.\ regret & prosp.\ Shap. & prosp.\ LIME b. & prosp.\ bLIME & prosp.\ FD & prosp.\ IG \
+Run & uncond.\ regret & prosp.\ Shap. & prosp.\ LIME b. & prosp.\ bLIME & prosp.\ FD & prosp.\ IG \\
 \midrule
 Amazon ItemKNN & 0.000 & 0.727 & 0.744 & 0.744 & 1.000 & 0.929 \\
 Amazon SASRec & 0.017 & 0.798 & 0.824 & 0.912 & 0.610 & 0.542 \\
@@ -13,83 +15,5 @@ ML-1M ItemKNN & 0.001 & 0.796 & 0.933 & 0.947 & 0.974 & 0.969 \\
 ML-1M SASRec & 0.003 & 0.870 & 0.848 & 0.937 & 0.920 & 0.906 \\
 \bottomrule
 \end{tabular}
-\par\vspace{2mm}
-\begin{tabular}{@{}lllr@{}}
-\toprule
-Run & Curve & Point & Bounded AIA \
-\midrule
-Amazon ItemKNN & budget & shapley B=4200 & 0.708 \\
-Amazon ItemKNN & budget & shapley B=10500 & 0.708 \\
-Amazon ItemKNN & budget & shapley B=21000 & 0.708 \\
-Amazon ItemKNN & budget & shapley B=42000 & 0.714 \\
-Amazon ItemKNN & budget & lime B=128 & 0.754 \\
-Amazon ItemKNN & budget & lime B=512 & 0.757 \\
-Amazon ItemKNN & budget & lime B=1024 & 0.758 \\
-Amazon ItemKNN & budget & lime B=2048 & 0.759 \\
-Amazon ItemKNN & rho & rho=0.0 & 0.708 \\
-Amazon ItemKNN & rho & rho=0.1 & 0.708 \\
-Amazon ItemKNN & rho & rho=0.25 & 0.708 \\
-Amazon ItemKNN & rho & rho=0.5 & 0.708 \\
-Amazon ItemKNN & rho & rho=0.75 & 0.708 \\
-Amazon ItemKNN & rho & rho=0.9 & 0.708 \\
-Amazon ItemKNN & kappa & kappa=0.1 & 0.711 \\
-Amazon ItemKNN & kappa & kappa=0.25 & 0.756 \\
-Amazon ItemKNN & kappa & kappa=0.5 & 0.758 \\
-Amazon ItemKNN & kappa & kappa=1.0 & 0.748 \\
-Amazon SASRec & budget & shapley B=4200 & 0.109 \\
-Amazon SASRec & budget & shapley B=10500 & 0.154 \\
-Amazon SASRec & budget & shapley B=21000 & 0.161 \\
-Amazon SASRec & budget & shapley B=42000 & 0.155 \\
-Amazon SASRec & budget & lime B=128 & 0.702 \\
-Amazon SASRec & budget & lime B=512 & 0.745 \\
-Amazon SASRec & budget & lime B=1024 & 0.743 \\
-Amazon SASRec & budget & lime B=2048 & 0.740 \\
-Amazon SASRec & rho & rho=0.0 & 0.097 \\
-Amazon SASRec & rho & rho=0.1 & 0.110 \\
-Amazon SASRec & rho & rho=0.25 & 0.120 \\
-Amazon SASRec & rho & rho=0.5 & 0.154 \\
-Amazon SASRec & rho & rho=0.75 & 0.170 \\
-Amazon SASRec & rho & rho=0.9 & 0.155 \\
-Amazon SASRec & kappa & kappa=0.1 & 0.893 \\
-Amazon SASRec & kappa & kappa=0.25 & 0.936 \\
-Amazon SASRec & kappa & kappa=0.5 & 0.877 \\
-Amazon SASRec & kappa & kappa=1.0 & 0.822 \\
-ML-1M ItemKNN & budget & shapley B=4200 & 0.639 \\
-ML-1M ItemKNN & budget & shapley B=10500 & 0.671 \\
-ML-1M ItemKNN & budget & shapley B=21000 & 0.672 \\
-ML-1M ItemKNN & budget & shapley B=42000 & 0.676 \\
-ML-1M ItemKNN & budget & lime B=128 & 0.838 \\
-ML-1M ItemKNN & budget & lime B=512 & 0.908 \\
-ML-1M ItemKNN & budget & lime B=1024 & 0.912 \\
-ML-1M ItemKNN & budget & lime B=2048 & 0.911 \\
-ML-1M ItemKNN & rho & rho=0.0 & 0.647 \\
-ML-1M ItemKNN & rho & rho=0.1 & 0.651 \\
-ML-1M ItemKNN & rho & rho=0.25 & 0.660 \\
-ML-1M ItemKNN & rho & rho=0.5 & 0.671 \\
-ML-1M ItemKNN & rho & rho=0.75 & 0.691 \\
-ML-1M ItemKNN & rho & rho=0.9 & 0.699 \\
-ML-1M ItemKNN & kappa & kappa=0.1 & 0.957 \\
-ML-1M ItemKNN & kappa & kappa=0.25 & 0.936 \\
-ML-1M ItemKNN & kappa & kappa=0.5 & 0.961 \\
-ML-1M ItemKNN & kappa & kappa=1.0 & 0.958 \\
-ML-1M SASRec & budget & shapley B=4200 & 0.203 \\
-ML-1M SASRec & budget & shapley B=10500 & 0.197 \\
-ML-1M SASRec & budget & shapley B=21000 & 0.202 \\
-ML-1M SASRec & budget & shapley B=42000 & 0.211 \\
-ML-1M SASRec & budget & lime B=128 & 0.802 \\
-ML-1M SASRec & budget & lime B=512 & 0.855 \\
-ML-1M SASRec & budget & lime B=1024 & 0.880 \\
-ML-1M SASRec & budget & lime B=2048 & 0.891 \\
-ML-1M SASRec & rho & rho=0.0 & 0.159 \\
-ML-1M SASRec & rho & rho=0.1 & 0.165 \\
-ML-1M SASRec & rho & rho=0.25 & 0.179 \\
-ML-1M SASRec & rho & rho=0.5 & 0.197 \\
-ML-1M SASRec & rho & rho=0.75 & 0.209 \\
-ML-1M SASRec & rho & rho=0.9 & 0.209 \\
-ML-1M SASRec & kappa & kappa=0.1 & 0.963 \\
-ML-1M SASRec & kappa & kappa=0.25 & 0.939 \\
-ML-1M SASRec & kappa & kappa=0.5 & 0.946 \\
-ML-1M SASRec & kappa & kappa=1.0 & 0.938 \\
-\bottomrule
-\end{tabular}
-\end{table}
+\par\scriptsize Equal-budget,
+kernel-width and $\rho$-response summaries per run: Amazon ItemKNN: Shapley bounded AIA 0.71--0.71 over $M_{pair}\in\{100,1000\}$ vs LIME 0.75--0.76 over masks $\in\{128,2048\}$; $\rho$-response flat (0.708--0.708); kappa sensitivity 0.71--0.76; Amazon SASRec: Shapley bounded AIA 0.11--0.16 over $M_{pair}\in\{100,1000\}$ vs LIME 0.70--0.74 over masks $\in\{128,2048\}$; $\rho$-response flat (0.097--0.170); kappa sensitivity 0.82--0.94; ML-1M ItemKNN: Shapley bounded AIA 0.64--0.68 over $M_{pair}\in\{100,1000\}$ vs LIME 0.84--0.91 over masks $\in\{128,2048\}$; $\rho$-response flat (0.647--0.699); kappa sensitivity 0.94--0.96; ML-1M SASRec: Shapley bounded AIA 0.20--0.21 over $M_{pair}\in\{100,1000\}$ vs LIME 0.80--0.89 over masks $\in\{128,2048\}$; $\rho$-response flat (0.159--0.209); kappa sensitivity 0.94--0.96.\end{table}
