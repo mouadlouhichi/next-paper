@@ -1,7 +1,11 @@
 % Extension tables (generated).
 \begin{table}[t]\centering\scriptsize\setlength{\tabcolsep}{2.5pt}
 \caption{Review-3 extensions: unconditional (full-cohort) regret and
-prospective bounded AIA per explainer (non-target-conditioned audits).}
+prospective bounded AIA per explainer (non-target-conditioned audits),
+followed by point-by-point curves per run: equal-scorer-budget bounded AIA
+for Monte Carlo Shapley (budget in scored coalitions) and bounded LIME
+(budget in masks), the $\rho$-response of Monte Carlo Shapley, and the
+kernel-width ($\kappa$) sensitivity of bounded LIME.}
 \label{tab:review3-ext}
 \begin{tabular}{@{}lrrrrrr@{}}
 \toprule
@@ -14,82 +18,36 @@ ML-1M SASRec & 0.003 & 0.870 & 0.848 & 0.937 & 0.920 & 0.906 \\
 \bottomrule
 \end{tabular}
 \par\vspace{2mm}
-\begin{tabular}{@{}lllr@{}}
+\begin{tabular}{@{}lrrrrrrrr@{}}
 \toprule
-Run & Curve & Point & Bounded AIA \
+Run & Shapley $B{=}4200$ & Shapley $B{=}10500$ & Shapley $B{=}21000$ & Shapley $B{=}42000$ & LIME $B{=}128$ & LIME $B{=}512$ & LIME $B{=}1024$ & LIME $B{=}2048$ \\
 \midrule
-Amazon ItemKNN & budget & shapley B=4200 & 0.708 \\
-Amazon ItemKNN & budget & shapley B=10500 & 0.708 \\
-Amazon ItemKNN & budget & shapley B=21000 & 0.708 \\
-Amazon ItemKNN & budget & shapley B=42000 & 0.714 \\
-Amazon ItemKNN & budget & lime B=128 & 0.754 \\
-Amazon ItemKNN & budget & lime B=512 & 0.757 \\
-Amazon ItemKNN & budget & lime B=1024 & 0.758 \\
-Amazon ItemKNN & budget & lime B=2048 & 0.759 \\
-Amazon ItemKNN & rho & rho=0.0 & 0.708 \\
-Amazon ItemKNN & rho & rho=0.1 & 0.708 \\
-Amazon ItemKNN & rho & rho=0.25 & 0.708 \\
-Amazon ItemKNN & rho & rho=0.5 & 0.708 \\
-Amazon ItemKNN & rho & rho=0.75 & 0.708 \\
-Amazon ItemKNN & rho & rho=0.9 & 0.708 \\
-Amazon ItemKNN & kappa & kappa=0.1 & 0.711 \\
-Amazon ItemKNN & kappa & kappa=0.25 & 0.756 \\
-Amazon ItemKNN & kappa & kappa=0.5 & 0.758 \\
-Amazon ItemKNN & kappa & kappa=1.0 & 0.748 \\
-Amazon SASRec & budget & shapley B=4200 & 0.109 \\
-Amazon SASRec & budget & shapley B=10500 & 0.154 \\
-Amazon SASRec & budget & shapley B=21000 & 0.161 \\
-Amazon SASRec & budget & shapley B=42000 & 0.155 \\
-Amazon SASRec & budget & lime B=128 & 0.702 \\
-Amazon SASRec & budget & lime B=512 & 0.745 \\
-Amazon SASRec & budget & lime B=1024 & 0.743 \\
-Amazon SASRec & budget & lime B=2048 & 0.740 \\
-Amazon SASRec & rho & rho=0.0 & 0.097 \\
-Amazon SASRec & rho & rho=0.1 & 0.110 \\
-Amazon SASRec & rho & rho=0.25 & 0.120 \\
-Amazon SASRec & rho & rho=0.5 & 0.154 \\
-Amazon SASRec & rho & rho=0.75 & 0.170 \\
-Amazon SASRec & rho & rho=0.9 & 0.155 \\
-Amazon SASRec & kappa & kappa=0.1 & 0.893 \\
-Amazon SASRec & kappa & kappa=0.25 & 0.936 \\
-Amazon SASRec & kappa & kappa=0.5 & 0.877 \\
-Amazon SASRec & kappa & kappa=1.0 & 0.822 \\
-ML-1M ItemKNN & budget & shapley B=4200 & 0.639 \\
-ML-1M ItemKNN & budget & shapley B=10500 & 0.671 \\
-ML-1M ItemKNN & budget & shapley B=21000 & 0.672 \\
-ML-1M ItemKNN & budget & shapley B=42000 & 0.676 \\
-ML-1M ItemKNN & budget & lime B=128 & 0.838 \\
-ML-1M ItemKNN & budget & lime B=512 & 0.908 \\
-ML-1M ItemKNN & budget & lime B=1024 & 0.912 \\
-ML-1M ItemKNN & budget & lime B=2048 & 0.911 \\
-ML-1M ItemKNN & rho & rho=0.0 & 0.647 \\
-ML-1M ItemKNN & rho & rho=0.1 & 0.651 \\
-ML-1M ItemKNN & rho & rho=0.25 & 0.660 \\
-ML-1M ItemKNN & rho & rho=0.5 & 0.671 \\
-ML-1M ItemKNN & rho & rho=0.75 & 0.691 \\
-ML-1M ItemKNN & rho & rho=0.9 & 0.699 \\
-ML-1M ItemKNN & kappa & kappa=0.1 & 0.957 \\
-ML-1M ItemKNN & kappa & kappa=0.25 & 0.936 \\
-ML-1M ItemKNN & kappa & kappa=0.5 & 0.961 \\
-ML-1M ItemKNN & kappa & kappa=1.0 & 0.958 \\
-ML-1M SASRec & budget & shapley B=4200 & 0.203 \\
-ML-1M SASRec & budget & shapley B=10500 & 0.197 \\
-ML-1M SASRec & budget & shapley B=21000 & 0.202 \\
-ML-1M SASRec & budget & shapley B=42000 & 0.211 \\
-ML-1M SASRec & budget & lime B=128 & 0.802 \\
-ML-1M SASRec & budget & lime B=512 & 0.855 \\
-ML-1M SASRec & budget & lime B=1024 & 0.880 \\
-ML-1M SASRec & budget & lime B=2048 & 0.891 \\
-ML-1M SASRec & rho & rho=0.0 & 0.159 \\
-ML-1M SASRec & rho & rho=0.1 & 0.165 \\
-ML-1M SASRec & rho & rho=0.25 & 0.179 \\
-ML-1M SASRec & rho & rho=0.5 & 0.197 \\
-ML-1M SASRec & rho & rho=0.75 & 0.209 \\
-ML-1M SASRec & rho & rho=0.9 & 0.209 \\
-ML-1M SASRec & kappa & kappa=0.1 & 0.963 \\
-ML-1M SASRec & kappa & kappa=0.25 & 0.939 \\
-ML-1M SASRec & kappa & kappa=0.5 & 0.946 \\
-ML-1M SASRec & kappa & kappa=1.0 & 0.938 \\
+Amazon ItemKNN & 0.708 & 0.708 & 0.708 & 0.714 & 0.754 & 0.757 & 0.758 & 0.759 \\
+Amazon SASRec & 0.109 & 0.154 & 0.161 & 0.155 & 0.702 & 0.745 & 0.743 & 0.740 \\
+ML-1M ItemKNN & 0.639 & 0.671 & 0.672 & 0.676 & 0.838 & 0.908 & 0.912 & 0.911 \\
+ML-1M SASRec & 0.203 & 0.197 & 0.202 & 0.211 & 0.802 & 0.855 & 0.880 & 0.891 \\
+\bottomrule
+\end{tabular}
+\par\vspace{2mm}
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+Run ($\rho$-response, Shapley) & $\rho=0.0$ & $\rho=0.1$ & $\rho=0.25$ & $\rho=0.5$ & $\rho=0.75$ & $\rho=0.9$ \\
+\midrule
+Amazon ItemKNN & 0.708 & 0.708 & 0.708 & 0.708 & 0.708 & 0.708 \\
+Amazon SASRec & 0.097 & 0.110 & 0.120 & 0.154 & 0.170 & 0.155 \\
+ML-1M ItemKNN & 0.647 & 0.651 & 0.660 & 0.671 & 0.691 & 0.699 \\
+ML-1M SASRec & 0.159 & 0.165 & 0.179 & 0.197 & 0.209 & 0.209 \\
+\bottomrule
+\end{tabular}
+\par\vspace{2mm}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Run ($\kappa$-sensitivity, LIME) & $\kappa=0.1$ & $\kappa=0.25$ & $\kappa=0.5$ & $\kappa=1.0$ \\
+\midrule
+Amazon ItemKNN & 0.711 & 0.756 & 0.758 & 0.748 \\
+Amazon SASRec & 0.893 & 0.936 & 0.877 & 0.822 \\
+ML-1M ItemKNN & 0.957 & 0.936 & 0.961 & 0.958 \\
+ML-1M SASRec & 0.963 & 0.939 & 0.946 & 0.938 \\
 \bottomrule
 \end{tabular}
 \end{table}
