@@ -1206,7 +1206,7 @@ def write_compact_gap_table(summary: pd.DataFrame, path: Path) -> None:
     lines = [
         "% Complete intervals and valid-user counts are in actionability_gap_robustness.csv.",
         r"\begin{table}[t]\centering\scriptsize",
-        r"\caption{Actionability Gap (bounded AIA minus deletion AIA) across predeclared ItemKNN conditions.}",
+        r"\caption{Bounded-minus-deletion magnitude-alignment difference (bounded AIA minus deletion AIA) across predeclared ItemKNN conditions.}",
         r"\label{tab:gap-robustness}",
         r"\begin{tabular}{lrrrrr}",
         r"\toprule",
@@ -1364,7 +1364,7 @@ def make_actionability_gap_assets(
             ]
         ],
         table_root / "actionability_gap_robustness.tex",
-        "Actionability Gap across all predeclared ItemKNN conditions.",
+        "Bounded-minus-deletion difference across all predeclared ItemKNN conditions.",
         "tab:gap-robustness",
     )
     write_tex(
@@ -1381,7 +1381,7 @@ def make_actionability_gap_assets(
             ]
         ],
         table_root / "actionability_gap_advantage.tex",
-        "Paired Shapley Actionability Gap advantage over local baselines.",
+        "Paired Shapley bounded-minus-deletion advantage over local baselines.",
         "tab:gap-advantage",
     )
 
@@ -1438,7 +1438,7 @@ def make_actionability_gap_assets(
         except (KeyError, IndexError):
             pass
     gap.to_csv(table_root / "actionability_gap_robustness.csv", index=False)
-    write_tex(gap[["condition_label", "method_label", "mean", "ci95_low", "ci95_high", "n_users", "missing_users"]], table_root / "actionability_gap_robustness.tex", "Actionability Gap defined as bounded AIA minus deletion AIA; budgets excluded.", "tab:gap-robustness")
+    write_tex(gap[["condition_label", "method_label", "mean", "ci95_low", "ci95_high", "n_users", "missing_users"]], table_root / "actionability_gap_robustness.tex", "Bounded-minus-deletion difference (bounded AIA minus deletion AIA); budgets excluded.", "tab:gap-robustness")
     component.to_csv(table_root / "aia_components.csv", index=False)
     write_tex(component[["condition_label", "method_label", "component", "mean", "ci95_low", "ci95_high", "n_users", "missing_users"]], table_root / "aia_components.tex", "Deletion AIA, bounded-intervention AIA, and their difference; all five methods.", "tab:aia-components")
 
@@ -1457,7 +1457,7 @@ Across **{len(shapley_gap)} distinct singleton target-margin ItemKNN conditions*
 (budgets are excluded because they do not enter singleton AIA), Shapley's
 bounded AIA changed relative to deletion. This change was not unique: the
 random control was also positive in displayed conditions and greedy was positive
-in some. The Actionability Gap is therefore a descriptive perturbation-
+in some. The bounded-minus-deletion difference is therefore a descriptive perturbation-
 sensitivity statistic, not standalone evidence of explanation validity.
 
 LOO is reported as the deletion oracle only. For every nonconstant valid user,
@@ -1509,7 +1509,7 @@ NDCG effect, success, harm/abstention, and normalized regret.
         axes[0].set_yticks(list(sorted(condition_labels)), labels)
         axes[0].invert_yaxis()
         axes[-1].legend(frameon=False, bbox_to_anchor=(1.02, 1), loc="upper left", fontsize=8)
-        fig.suptitle("AIA components and Actionability Gap (singleton estimand; budgets excluded)", y=1.01)
+        fig.suptitle("AIA components and bounded-minus-deletion difference (singleton estimand; budgets excluded)", y=1.01)
         fig.tight_layout()
         for extension in ("png", "pdf"):
             fig.savefig(figure_root / f"aia_components_robustness.{extension}", bbox_inches="tight")

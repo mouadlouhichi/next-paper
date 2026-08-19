@@ -58,7 +58,7 @@ The repository does not track stale compiled PDFs. Compile `actionshap.tex` and 
 - Set the main document to `actionshap.tex` (Menu > Settings > Main file).
   Compile `supplementary.tex` as a separate project entry point only when the
   full numerical audit PDF is required.
-- The package was compile-verified end-to-end with pdfLaTeX (40 pages main,
+- The package was compile-verified end-to-end with pdfLaTeX (42 pages main,
   35 pages supplement, zero errors) using the pinned `sn-jnl` class.
 
 ### Table authoring rule (sn-jnl + threeparttable)
