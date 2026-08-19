@@ -73,6 +73,33 @@ enumeration code path).
 - 2-3 qualitative per-user case studies (profile items, attributions,
   deletion vs bounded effects, selected pair vs oracle pair, rank before/after).
 
+## Status after the 2026-08-19 push (commit 03cfec2)
+
+Integrated into the manuscript: sasrec_quality (both datasets), exact-dist
+(both datasets), lime_mask_ablation (MovieLens), variance_components (both
+datasets), full-catalogue 1,000-user Amazon (5 seeds) -> see appendix
+subsection "Validation extensions (review round 5)".
+
+Still required:
+
+1. **sasrec-quality with full-corpus training** (the cohort-trained model is
+   below popularity; this rerun establishes competitiveness):
+   ```
+   python scripts/run_review5_experiments.py sasrec-quality --dataset amazon    --train-all --epochs 30
+   python scripts/run_review5_experiments.py sasrec-quality --dataset movielens --train-all --epochs 30
+   ```
+   Writes results/review5/sasrec_quality_trainall_<dataset>.json.
+2. **LIME mask ablation on Amazon** (the decisive dataset for duplication,
+   median n_u = 5):
+   ```
+   python scripts/run_review5_experiments.py lime-masks --dataset amazon
+   ```
+3. **Convergence quantiles** (needs the raw convergence JSON from the
+   original run; if it was not kept, rerun scripts/run_convergence.py first):
+   ```
+   python scripts/run_review5_experiments.py convergence-quantiles --raw results/raw/convergence_seed42.json
+   ```
+
 ## Push-back contract
 
 After each run, commit the JSON(s) under `code/results/review5/` and ping me;

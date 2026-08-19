@@ -143,14 +143,20 @@ def cmd_sasrec_quality(args) -> None:
 
     data = load_data(args)
     cohort = sample_evaluation_users(data, args.users, seed=args.user_seed)
-    histories = {u: data.seen_before_test(u) for u in cohort}
+    if args.train_all:
+        train_users = [u for u in data.test if len(data.train[u]) >= 4]
+        histories = {u: data.seen_before_test(u) for u in train_users}
+        print(f"[sasrec-quality] training on all {len(histories)} eligible users", flush=True)
+    else:
+        histories = {u: data.seen_before_test(u) for u in cohort}
     popularity = np.zeros(data.n_items)
     for u in data.train:
         for it in np.unique(data.train[u]):
             popularity[it] += 1
     results = []
     for seed in range(args.seeds):
-        adapter = srec.fit_sasrec(histories, data.n_items, seed=42 + seed)
+        adapter = srec.fit_sasrec(histories, data.n_items, seed=42 + seed,
+                                  epochs=args.epochs)
         stats = dict(ndcg=[], hr=[], mrr=[], ndcg_pop=[], hr_pop=[], mrr_pop=[],
                      mask_delta=[])
         for u in cohort:
@@ -192,10 +198,14 @@ def cmd_sasrec_quality(args) -> None:
     payload = {
         "dataset": args.dataset, "n_users": len(cohort), "seeds": args.seeds,
         "max_len": args.max_len, "user_seed": args.user_seed,
+        "train_all": bool(args.train_all), "epochs": args.epochs,
         "results": results,
         "recorded_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
     }
-    save(Path(args.out), f"sasrec_quality_{args.dataset}.json", payload)
+    suffix = "trainall" if args.train_all else args.dataset
+    name = (f"sasrec_quality_trainall_{args.dataset}.json" if args.train_all
+            else f"sasrec_quality_{args.dataset}.json")
+    save(Path(args.out), name, payload)
 
 
 # --------------------------------------------------------------------------
@@ -382,6 +392,9 @@ def main() -> None:
     p.add_argument("--users", type=int, default=1000)
     p.add_argument("--seeds", type=int, default=5)
     p.add_argument("--max-len", type=int, default=20)
+    p.add_argument("--epochs", type=int, default=10)
+    p.add_argument("--train-all", action="store_true",
+                   help="train on every eligible user's history (competitive-model audit)")
     p.set_defaults(func=cmd_sasrec_quality)
 
     p = sub.add_parser("exact-dist")
