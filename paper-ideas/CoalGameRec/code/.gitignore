@@ -26,5 +26,7 @@ __pycache__/
 .DS_Store
 **/.DS_Store
 paper-ideas/CoalGameRec/code/.DS_Store
-**.gz
+# NOTE: the blanket "**.gz" rule was removed in round 6 — the released per-user
+# inference artifacts (per_user_metrics*.csv.gz) are REQUIRED for the paper's
+# statistical tables and must be committed.
 next-paper/**/.DS_Store

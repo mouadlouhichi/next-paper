@@ -8,6 +8,11 @@
 
 ---
 
+> **v20 addendum (2026-08-19):** the authors executed round-6 cells 3–4 (NGCF second backbone,
+> LOO λ-sweep + validation-tuned λ); results integrated in manuscript v20 — see
+> `review2/round6_v20_addendum.md`. Reviewer Round-7 verdict on v20: **MINOR REVISION**, see
+> `review2/review_v20_round7.md` (remaining: per-user NGCF artifact push + cells 5–8).
+
 ## Round 4/5 fixes (2026-08-07)
 
 This document maps each mandatory revision from the peer review to the concrete artifact.
