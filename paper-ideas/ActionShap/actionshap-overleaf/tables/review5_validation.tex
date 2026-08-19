@@ -14,9 +14,9 @@ is precisely to flag this, and the tuning gap is reported as a limitation.}
 Run & NDCG@10 & HR@10 & MRR & Pop.\ NDCG@10 & Masking $\Delta$ & Gate \\
 \midrule
 Amazon (cohort, 10 ep) & 0.0002 & 0.0006 & 0.0009 & 0.0074 & 0.0004 & 0/5 \\
-Amazon (full corpus, 30 ep) & 0.0003 & 0.0008 & 0.0009 & 0.0074 & 0.0009 & 2/5 \\
+Amazon (full corpus, 30 ep) & 0.0002 & 0.0006 & 0.0009 & 0.0074 & 0.0004 & 1/5 \\
 ML-1M (cohort, 10 ep) & 0.0019 & 0.0036 & 0.0030 & 0.0191 & 0.0029 & 5/5 \\
-ML-1M (full corpus, 30 ep) & 0.0023 & 0.0046 & 0.0035 & 0.0191 & 0.0037 & 5/5 \\
+ML-1M (full corpus, 30 ep) & 0.0015 & 0.0040 & 0.0027 & 0.0191 & 0.0026 & 5/5 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -51,6 +51,11 @@ ML-1M & Unique masks & 1 & 200/200 & 0.907 & 0.092 \\
 ML-1M & Enumerate ($n_u\le9$) & 1 & 7/7 & 0.930 & 0.093 \\
 ML-1M & Bernoulli & 0.1 & 200/200 & 0.913 & 0.089 \\
 ML-1M & Bernoulli & 10 & 200/200 & 0.794 & 0.169 \\
+Amazon & Bernoulli (primary) & 1 & 144/400 & 0.669 & 0.205 \\
+Amazon & Unique masks & 1 & 72/200 & 0.703 & 0.173 \\
+Amazon & Enumerate ($n_u\le9$) & 1 & 47/164 & 0.776 & 0.124 \\
+Amazon & Bernoulli & 0.1 & 72/200 & 0.663 & 0.244 \\
+Amazon & Bernoulli & 10 & 72/200 & 0.673 & 0.176 \\
 \bottomrule
 \end{tabular}
 \end{table}
