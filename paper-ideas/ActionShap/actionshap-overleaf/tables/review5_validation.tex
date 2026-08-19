@@ -36,20 +36,21 @@ ML-1M & 73 & 1.23e-03 & 2.36e-03 & 0.963 & 0.73 & 0.019 \\
 \end{tabular}
 \end{table}
 \begin{table}[!htbp]\centering\scriptsize\setlength{\tabcolsep}{3pt}
-\caption{LIME mask-design ablation (MovieLens ItemKNN, 200 users,
-target margin): the seeded Bernoulli design with replacement, distinct masks
-without replacement, and full enumeration where feasible, plus the ridge
-penalty sweep under the Bernoulli design.}
+\caption{LIME mask-design ablation (ItemKNN, 200 users, target margin):
+the seeded Bernoulli design with replacement, distinct masks without
+replacement, and full enumeration where feasible, plus the ridge penalty
+sweep under the Bernoulli design. Users whose attribution or effect vector
+is constant are excluded (valid/$n$).}
 \label{tab:review5-lime-masks}
-\begin{tabular}{@{}llrrr@{}}
+\begin{tabular}{@{}lllrrr@{}}
 \toprule
-Design & Ridge $\alpha$ & $n$ users & Bounded AIA & SD \\
+Dataset & Design & Ridge $\alpha$ & valid/$n$ users & Bounded AIA & SD \\
 \midrule
-Bernoulli (primary) & 1 & 400 & 0.906 & 0.092 \\
-Unique masks & 1 & 200 & 0.907 & 0.092 \\
-Enumerate ($n_u\le9$) & 1 & 7 & 0.930 & 0.093 \\
-Bernoulli & 0.1 & 200 & 0.913 & 0.089 \\
-Bernoulli & 10 & 200 & 0.794 & 0.169 \\
+ML-1M & Bernoulli (primary) & 1 & 400/400 & 0.906 & 0.092 \\
+ML-1M & Unique masks & 1 & 200/200 & 0.907 & 0.092 \\
+ML-1M & Enumerate ($n_u\le9$) & 1 & 7/7 & 0.930 & 0.093 \\
+ML-1M & Bernoulli & 0.1 & 200/200 & 0.913 & 0.089 \\
+ML-1M & Bernoulli & 10 & 200/200 & 0.794 & 0.169 \\
 \bottomrule
 \end{tabular}
 \end{table}

@@ -83,30 +83,42 @@ def main() -> None:
     L.append(r"\end{table}")
 
     # --- LIME mask design -----------------------------------------------
-    d = json.load(open(R5 / "lime_mask_ablation_movielens.json"))
-    agg = collections.defaultdict(list)
-    for r in d["records"]:
-        agg[(r["design"], r["ridge_alpha"])].append(r["bounded_aia"])
-    L.append(r"\begin{table}[!htbp]\centering\scriptsize\setlength{\tabcolsep}{3pt}")
-    L.append(
-        "\\caption{LIME mask-design ablation (MovieLens ItemKNN, 200 users,\n"
-        "target margin): the seeded Bernoulli design with replacement, distinct masks\n"
-        "without replacement, and full enumeration where feasible, plus the ridge\n"
-        "penalty sweep under the Bernoulli design.}"
-    )
-    L.append(r"\label{tab:review5-lime-masks}")
-    L.append(r"\begin{tabular}{@{}llrrr@{}}")
-    L.append(r"\toprule")
-    L.append("Design & Ridge $\\alpha$ & $n$ users & Bounded AIA & SD " + BS)
-    L.append(r"\midrule")
     order = [("bernoulli", 1.0), ("unique", 1.0), ("enumerate", 1.0),
              ("bernoulli", 0.1), ("bernoulli", 10.0)]
     lbl = {("bernoulli", 1.0): "Bernoulli (primary)", ("unique", 1.0): "Unique masks",
-           ("enumerate", 1.0): "Enumerate ($n_u\\le9$)", ("bernoulli", 0.1): "Bernoulli",
+           ("enumerate", 1.0): "Enumerate ($n_u\le9$)", ("bernoulli", 0.1): "Bernoulli",
            ("bernoulli", 10.0): "Bernoulli"}
-    for k in order:
-        v = np.array(agg[k])
-        L.append(f"{lbl[k]} & {k[1]:g} & {len(v)} & {v.mean():.3f} & {v.std(ddof=1):.3f} {BS}")
+    L.append(r"\begin{table}[!htbp]\centering\scriptsize\setlength{\tabcolsep}{3pt}")
+    L.append(
+        "\\caption{LIME mask-design ablation (ItemKNN, 200 users, target margin):\n"
+        "the seeded Bernoulli design with replacement, distinct masks without\n"
+        "replacement, and full enumeration where feasible, plus the ridge penalty\n"
+        "sweep under the Bernoulli design. Users whose attribution or effect vector\n"
+        "is constant are excluded (valid/$n$).}"
+    )
+    L.append(r"\label{tab:review5-lime-masks}")
+    L.append(r"\begin{tabular}{@{}lllrrr@{}}")
+    L.append(r"\toprule")
+    L.append(r"Dataset & Design & Ridge $\alpha$ & valid/$n$ users & Bounded AIA & SD " + BS)
+    L.append(r"\midrule")
+    for ds, f in [("ML-1M", "lime_mask_ablation_movielens.json"),
+                  ("Amazon", "lime_mask_ablation_amazon.json")]:
+        path = R5 / f
+        if not path.exists():
+            continue
+        d = json.load(open(path))
+        agg = collections.defaultdict(list)
+        for r in d["records"]:
+            agg[(r["design"], r["ridge_alpha"])].append(r["bounded_aia"])
+        for k in order:
+            tot = agg.get(k, [])
+            if not tot:
+                continue
+            vals = np.array([x for x in tot if x is not None], dtype=float)
+            if len(vals) == 0:
+                continue
+            L.append(f"{ds} & {lbl[k]} & {k[1]:g} & {len(vals)}/{len(tot)} & "
+                     f"{vals.mean():.3f} & {vals.std(ddof=1):.3f} {BS}")
     L.append(r"\bottomrule")
     L.append(r"\end{tabular}")
     L.append(r"\end{table}")

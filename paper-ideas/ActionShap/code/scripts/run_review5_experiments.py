@@ -83,10 +83,28 @@ def quantiles(values, qs=(0.5, 0.9, 0.95)):
     return {f"p{int(q*100)}": float(np.quantile(values, q)) for q in qs}
 
 
+def _sanitize(obj):
+    """Replace non-finite floats with None so payloads are strict JSON."""
+    if isinstance(obj, dict):
+        return {k: _sanitize(v) for k, v in obj.items()}
+    if isinstance(obj, (list, tuple)):
+        return [_sanitize(v) for v in obj]
+    if isinstance(obj, float) and not np.isfinite(obj):
+        return None
+    if isinstance(obj, (np.floating,)):
+        f = float(obj)
+        return None if not np.isfinite(f) else f
+    if isinstance(obj, (np.integer,)):
+        return int(obj)
+    if isinstance(obj, (np.bool_,)):
+        return bool(obj)
+    return obj
+
+
 def save(out_dir: Path, name: str, payload: dict) -> Path:
     out_dir.mkdir(parents=True, exist_ok=True)
     path = out_dir / name
-    path.write_text(json.dumps(payload, indent=1, allow_nan=False))
+    path.write_text(json.dumps(_sanitize(payload), indent=1, allow_nan=False))
     print(f"wrote {path}")
     return path
 
