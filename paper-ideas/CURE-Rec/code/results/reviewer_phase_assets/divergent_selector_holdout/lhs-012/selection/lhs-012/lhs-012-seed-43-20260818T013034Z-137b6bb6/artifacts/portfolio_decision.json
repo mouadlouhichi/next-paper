@@ -1,0 +1,16 @@
+{
+  "action": "abstain_keep_base",
+  "base_feasible": true,
+  "cost": 0.0,
+  "fatigue_upper": 0.0,
+  "feasible": true,
+  "lower_improvement": 0.0,
+  "mode": "improvement",
+  "provider_disparity_upper": 0.22243055555555546,
+  "reason": "Base policy is feasible and no feasible portfolio has positive worst-case improvement.",
+  "relevance_delta_lower": 0.0,
+  "selected_interventions": [],
+  "selected_mask": 0,
+  "status": "abstain_keep_base",
+  "upper_improvement": 0.0
+}

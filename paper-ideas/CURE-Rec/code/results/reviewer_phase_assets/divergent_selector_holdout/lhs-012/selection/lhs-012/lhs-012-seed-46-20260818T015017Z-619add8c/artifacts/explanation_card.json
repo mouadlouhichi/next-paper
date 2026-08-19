@@ -1,0 +1,208 @@
+{
+  "decision": {
+    "action": "repair_selected",
+    "base_feasible": false,
+    "cost": 0.12,
+    "fatigue_upper": 0.0,
+    "feasible": true,
+    "lower_improvement": -0.12061414505454227,
+    "mode": "repair",
+    "provider_disparity_upper": 0.047499999999999876,
+    "reason": "Base policy violates robust constraints; selected the best feasible repair by maximin improvement.",
+    "relevance_delta_lower": -0.0014258962640981698,
+    "selected_interventions": [
+      "provider_balance"
+    ],
+    "selected_mask": 32,
+    "status": "repair_selected",
+    "upper_improvement": -0.11867961996344889
+  },
+  "interpretation": {
+    "budget_feasible_semivalue": "psi is the mean marginal contribution over budget-feasible predecessor coalitions only; it is a diagnostic, not the planner objective.",
+    "improvement_mode": "A feasible base policy may be retained when no portfolio robustly improves it.",
+    "repair_mode": "An infeasible base policy cannot be retained; select a feasible repair or certify no feasible portfolio.",
+    "robust_phi": "robust_phi is the exact Shapley allocation of the maximin characteristic function used by the planner.",
+    "scenario_region": "phi_lower and phi_upper are scenario-sensitivity envelopes, not a decomposition of the maximin objective.",
+    "selection_rule": "Portfolio selection used direct robust improvement, not summed Shapley lower bounds."
+  },
+  "rejected_or_deferred": [
+    {
+      "intervention": "repeat_cap",
+      "phi_lower": -0.05548671907294783,
+      "phi_mean": -0.05503739494569482,
+      "phi_psi_sign_agree": true,
+      "phi_upper": -0.05430594086532571,
+      "psi_feasible_lower": -0.055439886078816836,
+      "psi_feasible_upper": -0.05432280178749538
+    },
+    {
+      "intervention": "explore_slot",
+      "phi_lower": -0.1729655305237687,
+      "phi_mean": -0.17282711422229707,
+      "phi_psi_sign_agree": true,
+      "phi_upper": -0.1726721462024589,
+      "psi_feasible_lower": -0.17410758917106112,
+      "psi_feasible_upper": -0.17393615027672504
+    },
+    {
+      "intervention": "tail_slot",
+      "phi_lower": -0.08099890058959866,
+      "phi_mean": -0.08075403504037948,
+      "phi_psi_sign_agree": true,
+      "phi_upper": -0.08037716621494766,
+      "psi_feasible_lower": -0.08215611925673443,
+      "psi_feasible_upper": -0.0812127900145117
+    },
+    {
+      "intervention": "diversify",
+      "phi_lower": -0.06004654362262714,
+      "phi_mean": -0.059284598354460025,
+      "phi_psi_sign_agree": true,
+      "phi_upper": -0.05854110008733865,
+      "psi_feasible_lower": -0.059676181123862394,
+      "psi_feasible_upper": -0.05810795253566207
+    },
+    {
+      "intervention": "novel_slot",
+      "phi_lower": -0.09034949276359638,
+      "phi_mean": -0.08906426719432858,
+      "phi_psi_sign_agree": true,
+      "phi_upper": -0.08781988015706782,
+      "psi_feasible_lower": -0.09162317147248165,
+      "psi_feasible_upper": -0.08938763051484803
+    }
+  ],
+  "relevant_interactions": [
+    {
+      "interaction_lower": -0.0006780509719214428,
+      "interaction_mean": -0.00020927241805694617,
+      "interaction_upper": 0.0001110491434598247,
+      "intervention_i": "repeat_cap",
+      "intervention_j": "provider_balance"
+    },
+    {
+      "interaction_lower": -5.1493384912532135e-05,
+      "interaction_mean": 0.0002689065584330936,
+      "interaction_upper": 0.0005411565012537795,
+      "intervention_i": "explore_slot",
+      "intervention_j": "provider_balance"
+    },
+    {
+      "interaction_lower": -0.0006811765290383049,
+      "interaction_mean": -8.519890675327549e-05,
+      "interaction_upper": 0.0006329313260392129,
+      "intervention_i": "tail_slot",
+      "intervention_j": "provider_balance"
+    },
+    {
+      "interaction_lower": -0.001904585687393522,
+      "interaction_mean": -0.0017423330806696337,
+      "interaction_upper": -0.0015488333930202796,
+      "intervention_i": "diversify",
+      "intervention_j": "provider_balance"
+    },
+    {
+      "interaction_lower": 0.0038581683912944057,
+      "interaction_mean": 0.0048696888792051415,
+      "interaction_upper": 0.006152500181082667,
+      "intervention_i": "novel_slot",
+      "intervention_j": "provider_balance"
+    }
+  ],
+  "robust_characteristic_function": "min_scenario_improvement",
+  "robust_rejected_or_deferred": [
+    {
+      "intervention": "repeat_cap",
+      "robust_phi": -0.05538561334046843
+    },
+    {
+      "intervention": "explore_slot",
+      "robust_phi": -0.17291811412196453
+    },
+    {
+      "intervention": "tail_slot",
+      "robust_phi": -0.08095857859485582
+    },
+    {
+      "intervention": "diversify",
+      "robust_phi": -0.05934948474003581
+    },
+    {
+      "intervention": "novel_slot",
+      "robust_phi": -0.09015618561789418
+    }
+  ],
+  "robust_selected_attributions": [
+    {
+      "intervention": "provider_balance",
+      "robust_phi": -0.11730124070072555
+    }
+  ],
+  "scenario_region_attributions": [
+    {
+      "intervention": "repeat_cap",
+      "phi_lower": -0.05548671907294783,
+      "phi_mean": -0.05503739494569482,
+      "phi_psi_sign_agree": true,
+      "phi_upper": -0.05430594086532571,
+      "psi_feasible_lower": -0.055439886078816836,
+      "psi_feasible_upper": -0.05432280178749538
+    },
+    {
+      "intervention": "explore_slot",
+      "phi_lower": -0.1729655305237687,
+      "phi_mean": -0.17282711422229707,
+      "phi_psi_sign_agree": true,
+      "phi_upper": -0.1726721462024589,
+      "psi_feasible_lower": -0.17410758917106112,
+      "psi_feasible_upper": -0.17393615027672504
+    },
+    {
+      "intervention": "tail_slot",
+      "phi_lower": -0.08099890058959866,
+      "phi_mean": -0.08075403504037948,
+      "phi_psi_sign_agree": true,
+      "phi_upper": -0.08037716621494766,
+      "psi_feasible_lower": -0.08215611925673443,
+      "psi_feasible_upper": -0.0812127900145117
+    },
+    {
+      "intervention": "diversify",
+      "phi_lower": -0.06004654362262714,
+      "phi_mean": -0.059284598354460025,
+      "phi_psi_sign_agree": true,
+      "phi_upper": -0.05854110008733865,
+      "psi_feasible_lower": -0.059676181123862394,
+      "psi_feasible_upper": -0.05810795253566207
+    },
+    {
+      "intervention": "novel_slot",
+      "phi_lower": -0.09034949276359638,
+      "phi_mean": -0.08906426719432858,
+      "phi_psi_sign_agree": true,
+      "phi_upper": -0.08781988015706782,
+      "psi_feasible_lower": -0.09162317147248165,
+      "psi_feasible_upper": -0.08938763051484803
+    },
+    {
+      "intervention": "provider_balance",
+      "phi_lower": -0.1175534361317851,
+      "phi_mean": -0.11684810871909673,
+      "phi_psi_sign_agree": true,
+      "phi_upper": -0.11564878516880242,
+      "psi_feasible_lower": -0.11717663661564874,
+      "psi_feasible_upper": -0.11535832569280259
+    }
+  ],
+  "selected_attributions": [
+    {
+      "intervention": "provider_balance",
+      "phi_lower": -0.1175534361317851,
+      "phi_mean": -0.11684810871909673,
+      "phi_psi_sign_agree": true,
+      "phi_upper": -0.11564878516880242,
+      "psi_feasible_lower": -0.11717663661564874,
+      "psi_feasible_upper": -0.11535832569280259
+    }
+  ]
+}

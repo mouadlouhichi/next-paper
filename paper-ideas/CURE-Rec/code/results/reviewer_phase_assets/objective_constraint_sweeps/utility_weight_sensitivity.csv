@@ -1,0 +1,15 @@
+label,w_s,w_r,w_f,w_c,selected_mask,selected_portfolio,mode,status,robust_lower_improvement,grand_coalition_lower
+baseline,0.7,0.3,0.35,1.0,1,repeat_cap,repair,repair_selected,0.2985139280765191,-0.1442994774717976
+satisfaction_half,0.35,0.3,0.35,1.0,1,repeat_cap,repair,repair_selected,0.26147827957341485,-0.17992842320074348
+satisfaction_double,1.4,0.3,0.35,1.0,1,repeat_cap,repair,repair_selected,0.3722667285238266,-0.07304158601390609
+retention_half,0.7,0.15,0.35,1.0,1,repeat_cap,repair,repair_selected,0.2451800199999059,-0.1976333855484108
+retention_double,0.7,0.6,0.35,1.0,1,repeat_cap,repair,repair_selected,0.405027749902789,-0.03763166131857143
+fatigue_half,0.7,0.3,0.175,1.0,1,repeat_cap,repair,repair_selected,0.21438515226364963,-0.22818688493033984
+fatigue_double,0.7,0.3,0.7,1.0,1,repeat_cap,repair,repair_selected,0.46628874299360357,0.023475337445286848
+cost_half,0.7,0.3,0.35,0.5,1,repeat_cap,repair,repair_selected,0.32351392807651913,0.10070052252820239
+cost_double,0.7,0.3,0.35,2.0,1,repeat_cap,repair,repair_selected,0.24851392807651917,-0.6342994774717976
+satisfaction_only,1.0,0.0,0.0,1.0,1,repeat_cap,repair,repair_selected,0.055346506606443246,-0.388203012203012
+retention_only,0.0,1.0,0.0,1.0,1,repeat_cap,repair,repair_selected,0.3050119200115756,-0.13498807998842433
+fatigue_aversion_only,0.0,0.0,1.0,1.0,1,repeat_cap,repair,repair_selected,0.4293566140488128,-0.01064338595118719
+equal_stakeholder,0.45,0.45,0.45,1.0,1,repeat_cap,repair,repair_selected,0.37332946291293906,-0.0684791549395502
+cost_insensitive,0.7,0.3,0.35,0.0,5,repeat_cap;tail_slot,repair,repair_selected,0.3536234032309218,0.3457005225282024

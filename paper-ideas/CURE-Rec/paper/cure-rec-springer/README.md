@@ -51,6 +51,12 @@ All numerical claims in `cure-rec.tex` are drawn from
 - completed OAT and 24-point LHS calibration studies;
 - final BPR and SASRec audited five-seed replications.
 
+Second-round revision evidence (utility-weight sensitivity, constraint frontier,
+divergent-configuration selector screening and held-out comparison) is drawn from
+`../../code/results/reviewer_phase_assets/` (`objective_constraint_sweeps/` and
+`divergent_selector_holdout/`), each with its own manifest; generation scripts live
+in `../../code/scripts_review/`.
+
 CURE-Sim claims are controlled causal/behavioural benchmark claims. MovieLens-1M
 claims are explicitly limited to audited chronological ranking robustness; the
 manuscript does not treat MovieLens ratings as complete causal policy logs.

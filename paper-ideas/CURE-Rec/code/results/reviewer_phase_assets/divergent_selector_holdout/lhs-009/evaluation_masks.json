@@ -1,0 +1,61 @@
+{
+  "masks": [
+    0,
+    1,
+    5,
+    7,
+    9,
+    32,
+    33,
+    34,
+    37,
+    49,
+    60
+  ],
+  "names": {
+    "0": [],
+    "1": [
+      "repeat_cap"
+    ],
+    "5": [
+      "repeat_cap",
+      "tail_slot"
+    ],
+    "7": [
+      "repeat_cap",
+      "explore_slot",
+      "tail_slot"
+    ],
+    "9": [
+      "repeat_cap",
+      "diversify"
+    ],
+    "32": [
+      "provider_balance"
+    ],
+    "33": [
+      "repeat_cap",
+      "provider_balance"
+    ],
+    "34": [
+      "explore_slot",
+      "provider_balance"
+    ],
+    "37": [
+      "repeat_cap",
+      "tail_slot",
+      "provider_balance"
+    ],
+    "49": [
+      "repeat_cap",
+      "novel_slot",
+      "provider_balance"
+    ],
+    "60": [
+      "tail_slot",
+      "diversify",
+      "novel_slot",
+      "provider_balance"
+    ]
+  }
+}

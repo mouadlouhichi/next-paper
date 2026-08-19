@@ -1,0 +1,16 @@
+intervention_i,intervention_j,robust_interaction
+repeat_cap,explore_slot,0.00035787829019996725
+repeat_cap,tail_slot,0.0002852452428335483
+repeat_cap,diversify,8.05130914829644e-05
+repeat_cap,novel_slot,0.00023203246301259356
+repeat_cap,provider_balance,-0.00032943795771954443
+explore_slot,tail_slot,0.0018277449890192802
+explore_slot,diversify,0.0006029408322970285
+explore_slot,novel_slot,0.002526107373894901
+explore_slot,provider_balance,0.0006784552925319931
+tail_slot,diversify,0.00018585350376073192
+tail_slot,novel_slot,0.001620356453962968
+tail_slot,provider_balance,-2.3143626166950205e-05
+diversify,novel_slot,0.0026533049512670694
+diversify,provider_balance,-0.0015776203788083708
+novel_slot,provider_balance,0.004815727603720238

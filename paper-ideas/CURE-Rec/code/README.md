@@ -236,6 +236,20 @@ cure_rec/
 
 Generated data and artifacts stay outside Git under `data/` and `runs/`.
 
+## Second-round reviewer revision scripts
+
+`scripts_review/` contains the experiment drivers added for the second revision
+round; their archived outputs live under `results/reviewer_phase_assets/`:
+
+- `phase_e_offline_sweeps.py` — utility-weight sensitivity grid and constraint
+  frontier phase diagram, recomputed offline from one archived exact game.
+- `phase_e_divergence.py` / `phase_e_focus.py` — predeclared screening for
+  configurations in which the substantive selectors disagree, followed by the
+  held-out selector protocol (selection seeds 42–46, evaluation seeds 200–219).
+
+These scripts are simulator-conditional decision experiments; they do not create
+external causal evidence.
+
 ## Observability contract
 
 Every run writes an immutable manifest, including:

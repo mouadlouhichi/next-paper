@@ -1,0 +1,5 @@
+method,mask,active_interventions,lower_improvement,mean_improvement,upper_improvement,cost
+base,0,,0.0,0.0,0.0,0.0
+best_single,1,repeat_cap,0.2655786495550228,0.2758392997927509,0.2815278776729382,0.05
+full_coalition,63,repeat_cap;explore_slot;tail_slot;diversify;novel_slot;provider_balance,-0.26935134461633764,-0.2574182067548929,-0.25130506305699885,0.5789309178986962
+direct_robust,1,repeat_cap,0.2655786495550228,0.2758392997927509,0.2815278776729382,0.05

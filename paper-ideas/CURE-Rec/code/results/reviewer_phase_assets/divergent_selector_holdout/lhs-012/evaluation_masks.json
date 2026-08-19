@@ -1,0 +1,48 @@
+{
+  "masks": [
+    0,
+    1,
+    4,
+    6,
+    14,
+    32,
+    40,
+    48,
+    60
+  ],
+  "names": {
+    "0": [],
+    "1": [
+      "repeat_cap"
+    ],
+    "4": [
+      "tail_slot"
+    ],
+    "6": [
+      "explore_slot",
+      "tail_slot"
+    ],
+    "14": [
+      "explore_slot",
+      "tail_slot",
+      "diversify"
+    ],
+    "32": [
+      "provider_balance"
+    ],
+    "40": [
+      "diversify",
+      "provider_balance"
+    ],
+    "48": [
+      "novel_slot",
+      "provider_balance"
+    ],
+    "60": [
+      "tail_slot",
+      "diversify",
+      "novel_slot",
+      "provider_balance"
+    ]
+  }
+}

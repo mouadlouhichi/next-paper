@@ -1,0 +1,51 @@
+{
+  "created_at_utc": "2026-08-18T01:30:34.020698+00:00",
+  "screening_order": [
+    "baseline",
+    "lhs-012",
+    "lhs-009",
+    "lhs-014",
+    "lhs-003",
+    "lhs-010",
+    "lhs-008",
+    "lhs-002"
+  ],
+  "selection_seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "evaluation_seeds": [
+    200,
+    201,
+    202,
+    203,
+    204,
+    205,
+    206,
+    207,
+    208,
+    209,
+    210,
+    211,
+    212,
+    213,
+    214,
+    215,
+    216,
+    217,
+    218,
+    219
+  ],
+  "protocol": "selection games are full exact games; evaluation games are lean games over the union of selected masks",
+  "claim_scope": "Simulator-conditional held-out seed comparison; not external causal inference.",
+  "screened_points": [
+    "baseline",
+    "lhs-012"
+  ],
+  "divergent_points": [
+    "lhs-012"
+  ]
+}

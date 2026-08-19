@@ -1,0 +1,19 @@
+id,path,scope,purpose,exists
+Table 1,tables/table_01_asset_registry.csv,generated,"Asset provenance, scope, and readiness",True
+Table 2,tables/table_02_benchmark_configuration.csv,generated,CURE-Sim and policy configuration,True
+Table 3,tables/table_03_attribution_regions.csv,generated,Full-game Shapley and feasibility-aware semivalue regions,True
+Table 4,tables/table_04_uncertainty_summary.csv,generated,Scenario uncertainty widths and attribution signs,True
+Table 5,tables/table_05_portfolio_decision.csv,generated,Robust selected portfolio and constraint diagnostics,True
+Table 6,tables/table_06_long_term_tradeoffs.csv,generated,Base versus selected policy outcomes by scenario,True
+Table 7,tables/table_07_selection_comparison.csv,generated,"Base, best-single, full, and robust portfolio comparison",True
+Table 8,tables/table_08_runtime_summary.csv,generated,Coalition evaluation runtime by scenario and cardinality,True
+Figure 1,figures/figure_01_framework.png,generated,CURE-Rec execution flow,True
+Figure 2,figures/figure_02_shapley_regions.png,generated,Shapley regions and selected interventions,True
+Figure 3,figures/figure_03_uncertainty_widths.png,generated,Scenario-induced attribution-width profile,True
+Figure 4,figures/figure_04_interaction_heatmap.png,generated,Pairwise interaction regions,True
+Figure 5,figures/figure_05_trajectory_comparison.png,generated,Selected versus base long-term trajectories,True
+Figure 6,figures/figure_06_decision_card.png,generated,Deployment/explanation decision card,True
+Figure 7,figures/figure_07_runtime_by_cardinality.png,generated,Exact-game runtime profile,True
+Figure 8,figures/figure_08_scenario_sensitivity.png,generated,Policy-improvement sensitivity across scenarios,True
+Manual literature table,manuscript only,manual,"Prior-work positioning must be literature-reviewed, not generated from a run",False
+Real-log OPE assets,future audited-log run,future,Generated only after support and causal-log audit passes,False

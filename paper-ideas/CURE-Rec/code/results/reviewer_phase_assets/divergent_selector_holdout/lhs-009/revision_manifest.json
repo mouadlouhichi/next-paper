@@ -1,0 +1,43 @@
+{
+  "point_id": "lhs-009",
+  "point_values": {
+    "fatigue_strength": 1.094093993168786,
+    "repeat_threshold": 3,
+    "horizon": 11,
+    "provider_threshold": 0.2133792875946463,
+    "provider_balance_strength": 0.3486192436263067,
+    "novelty_delayed_benefit": 0.0188671544209984,
+    "exploration_cost": 0.1889309178986963
+  },
+  "selection_seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "evaluation_seeds": [
+    200,
+    201,
+    202,
+    203,
+    204,
+    205,
+    206,
+    207,
+    208,
+    209,
+    210,
+    211,
+    212,
+    213,
+    214,
+    215,
+    216,
+    217,
+    218,
+    219
+  ],
+  "created_at_utc": "2026-08-18T11:31:17.785848+00:00",
+  "claim_scope": "Simulator-conditional held-out seed comparison; not external causal inference."
+}

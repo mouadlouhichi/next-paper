@@ -1,16 +1,18 @@
-@article{shapley1953,
+@incollection{shapley1953,
   author={Shapley, Lloyd S.},
   title={A Value for $n$-Person Games},
   booktitle={Contributions to the Theory of Games II},
+  editor={Kuhn, Harold W. and Tucker, Albert W.},
   pages={307--317},
   publisher={Princeton University Press},
+  address={Princeton, NJ},
   year={1953}
 }
 
-@article{rendle2009bpr,
+@inproceedings{rendle2009bpr,
   author={Rendle, Steffen and Freudenthaler, Christoph and Gantner, Zeno and Schmidt-Thieme, Lars},
   title={BPR: Bayesian Personalized Ranking from Implicit Feedback},
-  booktitle={Proceedings of UAI},
+  booktitle={Proceedings of the Twenty-Fifth Conference on Uncertainty in Artificial Intelligence (UAI)},
   pages={452--461},
   year={2009}
 }
@@ -90,12 +92,18 @@
   year={2013}
 }
 
-@inproceedings{fogel2018practical,
-  author={Fogel, F{\'e}lix and Jenatton, Rodolphe and Bach, Francis and d'Aspremont, Alexandre},
-  title={Convex Optimization for Recommendation with Multiple Constraints},
-  booktitle={Proceedings of ICML},
-  pages={1533--1542},
-  year={2018}
+% Replaces an earlier unverifiable entry (Fogel et al., ICML 2018, which could not
+% be located in the ICML proceedings). Multi-FR is a peer-reviewed constrained
+% multi-objective recommendation framework with the intended citation role.
+@article{wu2023multifr,
+  author={Wu, Haolun and Ma, Chen and Mitra, Bhaskar and Diaz, Fernando and Liu, Xue},
+  title={A Multi-Objective Optimization Framework for Multi-Stakeholder Fairness-Aware Recommendation},
+  journal={ACM Transactions on Information Systems},
+  volume={41},
+  number={2},
+  pages={47:1--47:29},
+  year={2023},
+  doi={10.1145/3564285}
 }
 
 @inproceedings{abdollahpouri2019popularity,
@@ -169,11 +177,25 @@
   year={2018}
 }
 
-@article{wang2023causal,
-  author={Wang, Wenjie and Feng, Fuli and He, Xiangnan and others},
+@inproceedings{wang2023causal,
+  author={Wang, Wenjie and Zhang, Yang and Li, Haoxuan and Wu, Peng and Feng, Fuli and He, Xiangnan},
   title={Causal Recommendation: Progresses and Future Directions},
+  booktitle={Proceedings of the 46th International ACM SIGIR Conference on Research and Development in Information Retrieval},
+  pages={3432--3435},
+  year={2023},
+  note={Tutorial},
+  doi={10.1145/3539618.3594245}
+}
+
+@article{gao2024causal,
+  author={Gao, Chen and Zheng, Yu and Wang, Wenjie and Feng, Fuli and He, Xiangnan and Li, Yong},
+  title={Causal Inference in Recommender Systems: A Survey and Future Directions},
   journal={ACM Transactions on Information Systems},
-  year={2023}
+  volume={42},
+  number={4},
+  pages={88:1--88:32},
+  year={2024},
+  doi={10.1145/3639048}
 }
 
 @article{jarvelin2002cumulated,
@@ -457,11 +479,15 @@
   year={2014}
 }
 
-@inproceedings{kallus2020efficient,
+@article{kallus2020efficient,
   author={Kallus, Nathan and Uehara, Masatoshi},
   title={Efficiently Breaking the Curse of Horizon in Off-Policy Evaluation with Double Reinforcement Learning},
-  booktitle={Operations Research},
-  year={2020}
+  journal={Operations Research},
+  volume={70},
+  number={6},
+  pages={3282--3302},
+  year={2022},
+  doi={10.1287/opre.2021.2249}
 }
 
 @inproceedings{agarwal2016taming,
@@ -495,4 +521,61 @@
   booktitle={Proceedings of ICML},
   pages={3319--3328},
   year={2017}
+}
+
+%%% --- 2024+ literature added for the revised submission --- %%%
+
+@inproceedings{fumagalli2024kernelshapiq,
+  author={Fumagalli, Fabian and Muschalik, Maximilian and Kolpaczki, Patrick and H{\"u}llermeier, Eyke and Hammer, Barbara},
+  title={KernelSHAP-IQ: Weighted Least Square Optimization for Shapley Interactions},
+  booktitle={Proceedings of the Forty-first International Conference on Machine Learning (ICML)},
+  series={Proceedings of Machine Learning Research},
+  volume={235},
+  year={2024}
+}
+
+@inproceedings{kolpaczki2024svarmiq,
+  author={Kolpaczki, Patrick and Muschalik, Maximilian and Fumagalli, Fabian and Hammer, Barbara and H{\"u}llermeier, Eyke},
+  title={SVARM-IQ: Efficient Approximation of Any-order Shapley Interactions through Stratification},
+  booktitle={Proceedings of the Twenty-Seventh International Conference on Artificial Intelligence and Statistics (AISTATS)},
+  series={Proceedings of Machine Learning Research},
+  volume={238},
+  pages={3520--3528},
+  year={2024}
+}
+
+@inproceedings{lin2024polarization,
+  author={Lin, Tao and Jin, Kun and Estornell, Andrew and Zhang, Xiaoying and Chen, Yiling and Liu, Yang},
+  title={User-Creator Feature Polarization in Recommender Systems with Dual Influence},
+  booktitle={Advances in Neural Information Processing Systems 37 (NeurIPS)},
+  year={2024}
+}
+
+@inproceedings{yao2024satisfaction,
+  author={Yao, Fan and Liao, Yiming and Liu, Jingzhou and Nie, Shaoliang and Wang, Qifan and Xu, Haifeng and Wang, Hongning},
+  title={Unveiling User Satisfaction and Creator Productivity Trade-Offs in Recommendation Platforms},
+  booktitle={Advances in Neural Information Processing Systems 37 (NeurIPS)},
+  year={2024}
+}
+
+@inproceedings{chen2024interpolating,
+  author={Chen, Qinyi and Liang, Jason Cheuk Nam and Golrezaei, Negin and Bouneffouf, Djallel},
+  title={Interpolating Item and User Fairness in Multi-Sided Recommendations},
+  booktitle={Advances in Neural Information Processing Systems 37 (NeurIPS)},
+  year={2024}
+}
+
+@inproceedings{greenwood2024fairness,
+  author={Greenwood, Sophie and Chiniah, Sudalakshmee and Garg, Nikhil},
+  title={User-Item Fairness Tradeoffs in Recommendations},
+  booktitle={Advances in Neural Information Processing Systems 37 (NeurIPS)},
+  pages={114236--114288},
+  year={2024}
+}
+
+@inproceedings{baumann2024collective,
+  author={Baumann, Joachim and Mendler-D{\"u}nner, Celestine},
+  title={Algorithmic Collective Action in Recommender Systems: Promoting Songs by Reordering Playlists},
+  booktitle={Advances in Neural Information Processing Systems 37 (NeurIPS)},
+  year={2024}
 }

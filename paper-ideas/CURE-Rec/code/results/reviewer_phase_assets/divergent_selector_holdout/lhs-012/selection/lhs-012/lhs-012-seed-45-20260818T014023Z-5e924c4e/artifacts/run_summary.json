@@ -1,0 +1,32 @@
+{
+  "decision": {
+    "action": "repair_selected",
+    "base_feasible": false,
+    "cost": 0.12,
+    "fatigue_upper": 0.0,
+    "feasible": true,
+    "lower_improvement": -0.1214070734905699,
+    "mode": "repair",
+    "provider_disparity_upper": 0.06273148148148144,
+    "reason": "Base policy violates robust constraints; selected the best feasible repair by maximin improvement.",
+    "relevance_delta_lower": -0.010318533790070195,
+    "selected_interventions": [
+      "provider_balance"
+    ],
+    "selected_mask": 32,
+    "status": "repair_selected",
+    "upper_improvement": -0.1182207516040108
+  },
+  "run_dir": "/home/user/next-paper/paper-ideas/CURE-Rec/code/results/reviewer_phase_assets/divergent_selector_holdout/lhs-012/selection/lhs-012/lhs-012-seed-45-20260818T014023Z-5e924c4e",
+  "selected_attributions": [
+    {
+      "intervention": "provider_balance",
+      "phi_lower": -0.11822062037860939,
+      "phi_mean": -0.11654121763851538,
+      "phi_psi_sign_agree": true,
+      "phi_upper": -0.11537327142080525,
+      "psi_feasible_lower": -0.11829615576836006,
+      "psi_feasible_upper": -0.11503496354892
+    }
+  ]
+}

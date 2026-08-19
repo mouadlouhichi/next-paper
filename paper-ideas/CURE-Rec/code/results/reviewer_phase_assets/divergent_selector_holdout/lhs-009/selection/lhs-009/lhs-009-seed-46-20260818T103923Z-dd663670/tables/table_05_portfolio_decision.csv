@@ -1,0 +1,2 @@
+mode,status,base_feasible,selected_mask,selected_interventions,lower_improvement,upper_improvement,cost,relevance_delta_lower,provider_disparity_upper,fatigue_upper,feasible,reason,action
+repair,repair_selected,False,5,"('repeat_cap', 'tail_slot')",0.18705757809110957,0.20276601608047862,0.13,-0.0305270678628623,0.20579966329966326,0.0,True,Base policy violates robust constraints; selected the best feasible repair by maximin improvement.,repair_selected

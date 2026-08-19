@@ -1,0 +1,128 @@
+[
+  {
+    "exists": true,
+    "id": "Table 1",
+    "path": "tables/table_01_asset_registry.csv",
+    "purpose": "Asset provenance, scope, and readiness",
+    "scope": "generated"
+  },
+  {
+    "exists": true,
+    "id": "Table 2",
+    "path": "tables/table_02_benchmark_configuration.csv",
+    "purpose": "CURE-Sim and policy configuration",
+    "scope": "generated"
+  },
+  {
+    "exists": true,
+    "id": "Table 3",
+    "path": "tables/table_03_attribution_regions.csv",
+    "purpose": "Full-game Shapley and feasibility-aware semivalue regions",
+    "scope": "generated"
+  },
+  {
+    "exists": true,
+    "id": "Table 4",
+    "path": "tables/table_04_uncertainty_summary.csv",
+    "purpose": "Scenario uncertainty widths and attribution signs",
+    "scope": "generated"
+  },
+  {
+    "exists": true,
+    "id": "Table 5",
+    "path": "tables/table_05_portfolio_decision.csv",
+    "purpose": "Robust selected portfolio and constraint diagnostics",
+    "scope": "generated"
+  },
+  {
+    "exists": true,
+    "id": "Table 6",
+    "path": "tables/table_06_long_term_tradeoffs.csv",
+    "purpose": "Base versus selected policy outcomes by scenario",
+    "scope": "generated"
+  },
+  {
+    "exists": true,
+    "id": "Table 7",
+    "path": "tables/table_07_selection_comparison.csv",
+    "purpose": "Base, best-single, full, and robust portfolio comparison",
+    "scope": "generated"
+  },
+  {
+    "exists": true,
+    "id": "Table 8",
+    "path": "tables/table_08_runtime_summary.csv",
+    "purpose": "Coalition evaluation runtime by scenario and cardinality",
+    "scope": "generated"
+  },
+  {
+    "exists": true,
+    "id": "Figure 1",
+    "path": "figures/figure_01_framework.png",
+    "purpose": "CURE-Rec execution flow",
+    "scope": "generated"
+  },
+  {
+    "exists": true,
+    "id": "Figure 2",
+    "path": "figures/figure_02_shapley_regions.png",
+    "purpose": "Shapley regions and selected interventions",
+    "scope": "generated"
+  },
+  {
+    "exists": true,
+    "id": "Figure 3",
+    "path": "figures/figure_03_uncertainty_widths.png",
+    "purpose": "Scenario-induced attribution-width profile",
+    "scope": "generated"
+  },
+  {
+    "exists": true,
+    "id": "Figure 4",
+    "path": "figures/figure_04_interaction_heatmap.png",
+    "purpose": "Pairwise interaction regions",
+    "scope": "generated"
+  },
+  {
+    "exists": true,
+    "id": "Figure 5",
+    "path": "figures/figure_05_trajectory_comparison.png",
+    "purpose": "Selected versus base long-term trajectories",
+    "scope": "generated"
+  },
+  {
+    "exists": true,
+    "id": "Figure 6",
+    "path": "figures/figure_06_decision_card.png",
+    "purpose": "Deployment/explanation decision card",
+    "scope": "generated"
+  },
+  {
+    "exists": true,
+    "id": "Figure 7",
+    "path": "figures/figure_07_runtime_by_cardinality.png",
+    "purpose": "Exact-game runtime profile",
+    "scope": "generated"
+  },
+  {
+    "exists": true,
+    "id": "Figure 8",
+    "path": "figures/figure_08_scenario_sensitivity.png",
+    "purpose": "Policy-improvement sensitivity across scenarios",
+    "scope": "generated"
+  },
+  {
+    "exists": false,
+    "id": "Manual literature table",
+    "path": "manuscript only",
+    "purpose": "Prior-work positioning must be literature-reviewed, not generated from a run",
+    "scope": "manual"
+  },
+  {
+    "exists": false,
+    "id": "Real-log OPE assets",
+    "path": "future audited-log run",
+    "purpose": "Generated only after support and causal-log audit passes",
+    "scope": "future"
+  }
+]

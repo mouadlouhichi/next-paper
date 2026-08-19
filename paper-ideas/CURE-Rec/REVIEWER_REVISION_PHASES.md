@@ -202,3 +202,27 @@ Use a tag and archive DOI rather than only a moving working branch.
 Run one expensive action at a time. After each completed action: inspect output,
 archive it, commit it, and push it before enabling the next action. Never use an
 unfinished or stale kernel result in the manuscript.
+
+## Phase E/F — second-round reviewer revision (2026-08-18)
+
+New evidence produced for the Major-Revision round, archived under
+`code/results/reviewer_phase_assets/`:
+
+1. `objective_constraint_sweeps/` — utility-weight sensitivity grid (14 predeclared
+   weight vectors) and constraint-frontier phase diagram (135 combinations of
+   B, r_min, d_max, f_max), recomputed offline from the archived seed-42 exact game
+   (no new rollouts). Scripts: `code/scripts_review/phase_e_offline_sweeps.py`.
+2. `divergent_selector_holdout/` — predeclared screening of the baseline and the
+   archived LHS design points whose seed-level decisions were not always repeat-cap,
+   followed by the full held-out selector protocol (selection seeds 42–46, disjoint
+   evaluation seeds 200–219) on the first two divergent configurations in design
+   order (`lhs-012` and `lhs-009`). Both held-out studies are complete; summary CSVs
+   are checksummed in `SHA256SUMS.txt`. Scripts: `code/scripts_review/phase_e_divergence.py`,
+   `phase_e_focus.py`, `phase_e_resume_holdout.py`, `finalize_holdout.py`.
+
+Manuscript claims that depend on these assets are limited to simulator-conditional
+decision sensitivity and held-out seed generalization. No external causal claim is
+upgraded. The MovieLens-1M user-level paired inference remains blocked on re-running
+the audited pipeline with per-user export (dataset download unavailable in the
+current environment); the analysis plan is pre-specified in the manuscript
+limitations instead.

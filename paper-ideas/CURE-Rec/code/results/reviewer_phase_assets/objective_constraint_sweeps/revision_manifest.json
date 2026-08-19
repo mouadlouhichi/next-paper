@@ -1,0 +1,137 @@
+{
+  "created_at_utc": "2026-08-18T01:21:31.529290+00:00",
+  "source_coalition_table": "/home/user/next-paper/paper-ideas/CURE-Rec/code/results/reviewer_phase_assets/divergent_selector_holdout/screening/baseline/baseline-seed-42-20260818T005038Z-a65e43a6/tables/coalition_values.csv",
+  "method": "offline recombination of archived exact-game outcomes; no new rollouts",
+  "utility_grid": [
+    {
+      "label": "baseline",
+      "w_s": 0.7,
+      "w_r": 0.3,
+      "w_f": 0.35,
+      "w_c": 1.0
+    },
+    {
+      "label": "satisfaction_half",
+      "w_s": 0.35,
+      "w_r": 0.3,
+      "w_f": 0.35,
+      "w_c": 1.0
+    },
+    {
+      "label": "satisfaction_double",
+      "w_s": 1.4,
+      "w_r": 0.3,
+      "w_f": 0.35,
+      "w_c": 1.0
+    },
+    {
+      "label": "retention_half",
+      "w_s": 0.7,
+      "w_r": 0.15,
+      "w_f": 0.35,
+      "w_c": 1.0
+    },
+    {
+      "label": "retention_double",
+      "w_s": 0.7,
+      "w_r": 0.6,
+      "w_f": 0.35,
+      "w_c": 1.0
+    },
+    {
+      "label": "fatigue_half",
+      "w_s": 0.7,
+      "w_r": 0.3,
+      "w_f": 0.175,
+      "w_c": 1.0
+    },
+    {
+      "label": "fatigue_double",
+      "w_s": 0.7,
+      "w_r": 0.3,
+      "w_f": 0.7,
+      "w_c": 1.0
+    },
+    {
+      "label": "cost_half",
+      "w_s": 0.7,
+      "w_r": 0.3,
+      "w_f": 0.35,
+      "w_c": 0.5
+    },
+    {
+      "label": "cost_double",
+      "w_s": 0.7,
+      "w_r": 0.3,
+      "w_f": 0.35,
+      "w_c": 2.0
+    },
+    {
+      "label": "satisfaction_only",
+      "w_s": 1.0,
+      "w_r": 0.0,
+      "w_f": 0.0,
+      "w_c": 1.0
+    },
+    {
+      "label": "retention_only",
+      "w_s": 0.0,
+      "w_r": 1.0,
+      "w_f": 0.0,
+      "w_c": 1.0
+    },
+    {
+      "label": "fatigue_aversion_only",
+      "w_s": 0.0,
+      "w_r": 0.0,
+      "w_f": 1.0,
+      "w_c": 1.0
+    },
+    {
+      "label": "equal_stakeholder",
+      "w_s": 0.45,
+      "w_r": 0.45,
+      "w_f": 0.45,
+      "w_c": 1.0
+    },
+    {
+      "label": "cost_insensitive",
+      "w_s": 0.7,
+      "w_r": 0.3,
+      "w_f": 0.35,
+      "w_c": 0.0
+    }
+  ],
+  "constraint_grid": {
+    "budget": [
+      0.15,
+      0.25,
+      0.35,
+      0.45,
+      0.55
+    ],
+    "min_relevance_delta": [
+      -0.02,
+      -0.08,
+      -0.15
+    ],
+    "max_provider_disparity": [
+      0.22,
+      0.28,
+      0.34
+    ],
+    "max_fatigue": [
+      0.55,
+      0.65,
+      0.75
+    ]
+  },
+  "frontier_status_counts": {
+    "repair_selected": 90,
+    "improve_selected": 30,
+    "abstain_keep_base": 15
+  },
+  "grand_coalition_cost": 0.49,
+  "grand_coalition_budget_feasible_fraction_of_frontier": 0.2,
+  "claim_scope": "CURE-Sim decision sensitivity; not external causal evidence"
+}

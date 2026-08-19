@@ -1,0 +1,19 @@
+{
+  "action": "repair_selected",
+  "base_feasible": false,
+  "cost": 0.16999999999999998,
+  "fatigue_upper": 0.0,
+  "feasible": true,
+  "lower_improvement": 0.1430138479974195,
+  "mode": "repair",
+  "provider_disparity_upper": 0.1301346801346801,
+  "reason": "Base policy violates robust constraints; selected the best feasible repair by maximin improvement.",
+  "relevance_delta_lower": -0.03812453596470067,
+  "selected_interventions": [
+    "repeat_cap",
+    "provider_balance"
+  ],
+  "selected_mask": 33,
+  "status": "repair_selected",
+  "upper_improvement": 0.16421318724319656
+}

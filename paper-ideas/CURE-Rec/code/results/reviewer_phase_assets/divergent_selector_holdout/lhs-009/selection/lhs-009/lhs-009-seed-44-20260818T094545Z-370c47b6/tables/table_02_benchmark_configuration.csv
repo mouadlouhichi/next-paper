@@ -1,0 +1,2 @@
+n_users,n_items,n_providers,n_categories,horizon,slate_size,n_interventions,n_coalitions,scenarios,config_hash
+120,240,18,10,11,10,6,64,nominal;fatigue_stress;popularity_stress;mixed_stress,f9df9aa9d3dc8157

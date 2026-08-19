@@ -1,0 +1,2 @@
+mode,status,base_feasible,selected_mask,selected_interventions,lower_improvement,upper_improvement,cost,relevance_delta_lower,provider_disparity_upper,fatigue_upper,feasible,reason,action
+improvement,abstain_keep_base,True,0,(),0.0,0.0,0.0,0.0,0.22243055555555546,0.0,True,Base policy is feasible and no feasible portfolio has positive worst-case improvement.,abstain_keep_base

@@ -1,0 +1,101 @@
+{
+  "config_hash": "c8dc3c8cecc5c1fa",
+  "created_at_utc": "2026-08-18T08:51:35.050295+00:00",
+  "platform": {
+    "machine": "x86_64",
+    "platform": "Linux-6.1.158+-x86_64-with-glibc2.36",
+    "processor": "",
+    "python": "3.11.2 (main, Apr  8 2026, 01:58:00) [GCC 12.2.0]"
+  },
+  "run_id": "lhs-009-seed-42-20260818T085135Z-11adcdc9",
+  "settings": {
+    "constraints": {
+      "budget": 0.35,
+      "max_fatigue": 0.65,
+      "max_provider_disparity": 0.2133792875946463,
+      "min_relevance_delta": -0.08
+    },
+    "interventions": {
+      "costs": {
+        "diversify": 0.06,
+        "explore_slot": 0.1889309178986963,
+        "novel_slot": 0.08,
+        "provider_balance": 0.12,
+        "repeat_cap": 0.05,
+        "tail_slot": 0.08
+      },
+      "diversity_weight": 0.5,
+      "exploration_temperature": 0.2,
+      "injection_capacity": 2,
+      "long_tail_quantile": 0.3,
+      "novelty_threshold": 0.15,
+      "proposal_top_n": 10,
+      "provider_balance_weight": 0.3486192436263067,
+      "repeat_cap": 3
+    },
+    "policy": {
+      "candidate_pool_size": 96,
+      "popularity_weight": 0.3,
+      "profile_weight": 1.0
+    },
+    "run": {
+      "common_random_numbers": true,
+      "log_level": "INFO",
+      "name": "lhs-009-seed-42",
+      "output_root": "/home/user/next-paper/paper-ideas/CURE-Rec/code/results/reviewer_phase_assets/divergent_selector_holdout/lhs-009/selection/lhs-009",
+      "seed": 42
+    },
+    "scenarios": [
+      {
+        "click_feedback_weight": 0.0,
+        "fatigue_multiplier": 1.0,
+        "name": "nominal",
+        "popularity_feedback_multiplier": 1.0,
+        "satisfaction_shift": 0.0
+      },
+      {
+        "click_feedback_weight": 0.0,
+        "fatigue_multiplier": 1.4,
+        "name": "fatigue_stress",
+        "popularity_feedback_multiplier": 1.0,
+        "satisfaction_shift": -0.03
+      },
+      {
+        "click_feedback_weight": 0.0,
+        "fatigue_multiplier": 1.0,
+        "name": "popularity_stress",
+        "popularity_feedback_multiplier": 1.75,
+        "satisfaction_shift": -0.02
+      },
+      {
+        "click_feedback_weight": 0.0,
+        "fatigue_multiplier": 1.3,
+        "name": "mixed_stress",
+        "popularity_feedback_multiplier": 1.5,
+        "satisfaction_shift": -0.04
+      }
+    ],
+    "simulator": {
+      "click_feedback_weight": 0.0,
+      "embedding_dim": 12,
+      "fatigue_multiplier": 1.094093993168786,
+      "horizon": 11,
+      "n_categories": 10,
+      "n_items": 240,
+      "n_providers": 18,
+      "n_users": 120,
+      "novelty_preference_drift": 0.0188671544209984,
+      "popularity_feedback": 0.025,
+      "repeat_fatigue_threshold": 3,
+      "satisfaction_shift": 0.0,
+      "slate_size": 10
+    },
+    "utility": {
+      "cost_weight": 1.0,
+      "fatigue_weight": 0.35,
+      "gamma": 0.97,
+      "retention_weight": 0.3,
+      "satisfaction_weight": 0.7
+    }
+  }
+}
