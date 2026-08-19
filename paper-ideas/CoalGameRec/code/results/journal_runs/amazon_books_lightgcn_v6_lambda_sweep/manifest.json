@@ -1,0 +1,22 @@
+{
+  "device": "mps",
+  "lambdas": [
+    0.0,
+    0.05,
+    0.1,
+    0.2,
+    0.4
+  ],
+  "note": "Round-6 lambda sweep incl. LOO + validation-tuned lambda selection.",
+  "platform": "macOS-26.6-arm64-arm-64bit",
+  "python": "3.12.13",
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "torch": "2.3.1",
+  "total_seconds": 0.03968310356140137
+}

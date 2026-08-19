@@ -1,0 +1,13 @@
+{
+  "device": "mps",
+  "item_vectors_hash_exact_match": true,
+  "item_vectors_shape_nnz_match": true,
+  "n_items": 3114,
+  "n_users": 6015,
+  "note": "Second-backbone confirmatory run (ngcf) under the frozen matched-controls protocol.",
+  "platform": "macOS-26.6-arm64-arm-64bit",
+  "python": "3.12.13",
+  "torch": "2.3.1",
+  "total_seconds": 27873.456612110138,
+  "train_interactions": 562183
+}

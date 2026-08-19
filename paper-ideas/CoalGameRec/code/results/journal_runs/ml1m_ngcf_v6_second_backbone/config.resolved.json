@@ -1,0 +1,46 @@
+{
+  "attribution": {
+    "lambda_attr_value": 0.1,
+    "max_players_per_user": 24,
+    "n_val_negatives": 100,
+    "player_selection": "stratified",
+    "value_mode": "pairwise_logsigmoid"
+  },
+  "backbone": {
+    "batch_size": 4096,
+    "dim": 64,
+    "epochs": 15,
+    "layer_readout": "mean over layers (documented deviation for NGCF)",
+    "lr": 0.002,
+    "n_layers": 2,
+    "n_neg": 2,
+    "name": "ngcf",
+    "score_batch_size": 256,
+    "weight_decay": 1e-05
+  },
+  "dataset": {
+    "name": "ml1m",
+    "source_run": "/Users/mlouhichi/Desktop/CoalGameRec/next-paper/paper-ideas/CoalGameRec/code/results/journal_runs/ml1m_lightgcn_v3_prospective"
+  },
+  "note": "Round-6 second-backbone run: frozen matched-controls protocol, backbone is the only changed factor.",
+  "reranking": {
+    "intervention": "native",
+    "lambda_attr": 0.1,
+    "tau_att": 0.1
+  },
+  "run": {
+    "device": "mps",
+    "ks": [
+      5,
+      10,
+      20
+    ],
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "backbone": "ngcf",
+  "seed": 43,
+  "stages": {
+    "faithfulness_seconds": 362.4966320991516,
+    "loo_seconds": 61.75614404678345,
+    "rerank_eval_seconds": 36.87053894996643,
+    "shapley_seconds": 1618.443913936615,
+    "train_and_score_seconds": 30.782592058181763
+  }
+}
