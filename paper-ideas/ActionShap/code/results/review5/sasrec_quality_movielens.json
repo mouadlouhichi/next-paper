@@ -1,0 +1,70 @@
+{
+ "dataset": "movielens",
+ "n_users": 1000,
+ "seeds": 5,
+ "max_len": 20,
+ "user_seed": 2718,
+ "results": [
+  {
+   "seed": 42,
+   "ndcg10": 0.001,
+   "hr10": 0.001,
+   "mrr": 0.002696381269670277,
+   "ndcg10_popularity": 0.019106160456797763,
+   "hr10_popularity": 0.035,
+   "mrr_popularity": 0.02136030644538991,
+   "mean_abs_masking_delta": 0.002333333333333333,
+   "masking_gate_pass": true,
+   "beats_popularity": false
+  },
+  {
+   "seed": 43,
+   "ndcg10": 0.0022082541375001014,
+   "hr10": 0.004,
+   "mrr": 0.003233238909649094,
+   "ndcg10_popularity": 0.019106160456797763,
+   "hr10_popularity": 0.035,
+   "mrr_popularity": 0.02136030644538991,
+   "mean_abs_masking_delta": 0.003138930695573494,
+   "masking_gate_pass": true,
+   "beats_popularity": false
+  },
+  {
+   "seed": 44,
+   "ndcg10": 0.0006895405204413555,
+   "hr10": 0.002,
+   "mrr": 0.0019316781517147003,
+   "ndcg10_popularity": 0.019106160456797763,
+   "hr10_popularity": 0.035,
+   "mrr_popularity": 0.02136030644538991,
+   "mean_abs_masking_delta": 0.0012682554610654049,
+   "masking_gate_pass": true,
+   "beats_popularity": false
+  },
+  {
+   "seed": 45,
+   "ndcg10": 0.003309812235026178,
+   "hr10": 0.006,
+   "mrr": 0.00415129375683842,
+   "ndcg10_popularity": 0.019106160456797763,
+   "hr10_popularity": 0.035,
+   "mrr_popularity": 0.02136030644538991,
+   "mean_abs_masking_delta": 0.003940741988597635,
+   "masking_gate_pass": true,
+   "beats_popularity": false
+  },
+  {
+   "seed": 46,
+   "ndcg10": 0.0022268419670132323,
+   "hr10": 0.005,
+   "mrr": 0.0030144123222261444,
+   "ndcg10_popularity": 0.019106160456797763,
+   "hr10_popularity": 0.035,
+   "mrr_popularity": 0.02136030644538991,
+   "mean_abs_masking_delta": 0.003934165048260586,
+   "masking_gate_pass": true,
+   "beats_popularity": false
+  }
+ ],
+ "recorded_at": "2026-08-19T17:32:45"
+}

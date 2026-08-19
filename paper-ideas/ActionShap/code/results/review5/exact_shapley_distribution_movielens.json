@@ -1,0 +1,685 @@
+{
+ "dataset": "movielens",
+ "n_users": 73,
+ "config": {
+  "exact_max": 12,
+  "permutations": 250
+ },
+ "aggregate": {
+  "max_abs_error": {
+   "mean": 0.0012638811381460633,
+   "p50": 0.0012297586467688738,
+   "p90": 0.00203327869711564,
+   "p95": 0.0023592885590902
+  },
+  "top2_jaccard": {
+   "mean": 0.9634703196347033,
+   "p50": 1.0,
+   "p90": 1.0,
+   "p95": 1.0
+  },
+  "sign_error": {
+   "mean": 0.018879598331653123
+  }
+ },
+ "records": [
+  {
+   "user": 76,
+   "n_players": 10,
+   "max_abs_error": 0.0005759329000875994,
+   "rank_spearman": 0.9636363636363635,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.7696969696969697
+  },
+  {
+   "user": 93,
+   "n_players": 12,
+   "max_abs_error": 0.0011943223686673057,
+   "rank_spearman": 0.9510489510489512,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.6643356643356644
+  },
+  {
+   "user": 199,
+   "n_players": 11,
+   "max_abs_error": 0.0007597437845455485,
+   "rank_spearman": 0.9727272727272729,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.779849333631172
+  },
+  {
+   "user": 208,
+   "n_players": 7,
+   "max_abs_error": 0.0015329316633030407,
+   "rank_spearman": 0.9285714285714288,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.5
+  },
+  {
+   "user": 218,
+   "n_players": 12,
+   "max_abs_error": 0.0006514062543622572,
+   "rank_spearman": 0.9860139860139862,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.8811188811188813
+  },
+  {
+   "user": 225,
+   "n_players": 9,
+   "max_abs_error": 0.0007992650553380141,
+   "rank_spearman": 0.9666666666666667,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.48333333333333334
+  },
+  {
+   "user": 275,
+   "n_players": 12,
+   "max_abs_error": 0.0020141164329701092,
+   "rank_spearman": 0.9440559440559443,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.4728553661283838
+  },
+  {
+   "user": 303,
+   "n_players": 12,
+   "max_abs_error": 0.0008840890245237535,
+   "rank_spearman": 0.9860139860139862,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.5919448657459025
+  },
+  {
+   "user": 372,
+   "n_players": 11,
+   "max_abs_error": 0.0005754328262734295,
+   "rank_spearman": 1.0,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.9818181818181818
+  },
+  {
+   "user": 393,
+   "n_players": 9,
+   "max_abs_error": 0.0018491486811639708,
+   "rank_spearman": 0.9833333333333333,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.7666666666666667
+  },
+  {
+   "user": 482,
+   "n_players": 9,
+   "max_abs_error": 0.0003050178877401647,
+   "rank_spearman": 1.0,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.45
+  },
+  {
+   "user": 534,
+   "n_players": 11,
+   "max_abs_error": 0.0005267115997036375,
+   "rank_spearman": 0.9545454545454546,
+   "top2_jaccard": 0.3333333333333333,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.8363636363636365
+  },
+  {
+   "user": 744,
+   "n_players": 7,
+   "max_abs_error": 0.0021877259926244806,
+   "rank_spearman": 0.9642857142857145,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.9642857142857145
+  },
+  {
+   "user": 820,
+   "n_players": 5,
+   "max_abs_error": 0.0018153453742978647,
+   "rank_spearman": 0.9999999999999999,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.2,
+   "bounded_aia_exact": 0.6668859288553501
+  },
+  {
+   "user": 834,
+   "n_players": 5,
+   "max_abs_error": 0.0024527444859954936,
+   "rank_spearman": 0.9999999999999999,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.9999999999999999
+  },
+  {
+   "user": 840,
+   "n_players": 10,
+   "max_abs_error": 0.0012104291322490406,
+   "rank_spearman": 0.9878787878787878,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.1,
+   "bounded_aia_exact": 0.8389096502784891
+  },
+  {
+   "user": 946,
+   "n_players": 7,
+   "max_abs_error": 0.0015304943781352248,
+   "rank_spearman": 0.9642857142857145,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.14285714285714285,
+   "bounded_aia_exact": 0.5357142857142858
+  },
+  {
+   "user": 1383,
+   "n_players": 11,
+   "max_abs_error": 0.0006365213234789903,
+   "rank_spearman": 0.990909090909091,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.09090909090909091,
+   "bounded_aia_exact": 0.7636363636363637
+  },
+  {
+   "user": 1428,
+   "n_players": 8,
+   "max_abs_error": 0.0016287605093366422,
+   "rank_spearman": 1.0,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.1666666666666667
+  },
+  {
+   "user": 1459,
+   "n_players": 11,
+   "max_abs_error": 0.0011250932806554613,
+   "rank_spearman": 0.9545454545454546,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.17213957892371712
+  },
+  {
+   "user": 1581,
+   "n_players": 10,
+   "max_abs_error": 0.001307620936376108,
+   "rank_spearman": 0.9878787878787878,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.9636363636363635
+  },
+  {
+   "user": 1614,
+   "n_players": 4,
+   "max_abs_error": 0.00047195967876336245,
+   "rank_spearman": 1.0,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 1.0
+  },
+  {
+   "user": 1620,
+   "n_players": 4,
+   "max_abs_error": 0.000650749628396681,
+   "rank_spearman": 1.0,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 1.0
+  },
+  {
+   "user": 1712,
+   "n_players": 8,
+   "max_abs_error": 0.0009608673764002584,
+   "rank_spearman": 0.9761904761904763,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.8383383833392813
+  },
+  {
+   "user": 1963,
+   "n_players": 11,
+   "max_abs_error": 0.0014803837532561086,
+   "rank_spearman": 0.8727272727272729,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.9339431975353206
+  },
+  {
+   "user": 2051,
+   "n_players": 9,
+   "max_abs_error": 0.0006777857854336142,
+   "rank_spearman": 1.0,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.1111111111111111,
+   "bounded_aia_exact": 0.9831920802501751
+  },
+  {
+   "user": 2127,
+   "n_players": 11,
+   "max_abs_error": 0.0009401469394534016,
+   "rank_spearman": 1.0,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.9181818181818183
+  },
+  {
+   "user": 2132,
+   "n_players": 6,
+   "max_abs_error": 0.0009442318075547525,
+   "rank_spearman": 0.942857142857143,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 1.0
+  },
+  {
+   "user": 2384,
+   "n_players": 10,
+   "max_abs_error": 0.0013791529583428632,
+   "rank_spearman": 0.9757575757575757,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.9030303030303028
+  },
+  {
+   "user": 2398,
+   "n_players": 12,
+   "max_abs_error": 0.0012840191886042025,
+   "rank_spearman": 0.9440559440559443,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.08333333333333333,
+   "bounded_aia_exact": 0.6690306744437988
+  },
+  {
+   "user": 2489,
+   "n_players": 10,
+   "max_abs_error": 0.0012585411716111057,
+   "rank_spearman": 0.9636363636363635,
+   "top2_jaccard": 0.3333333333333333,
+   "sign_error": 0.1,
+   "bounded_aia_exact": 0.6727272727272726
+  },
+  {
+   "user": 2501,
+   "n_players": 12,
+   "max_abs_error": 0.0009203048426202995,
+   "rank_spearman": 0.9860139860139862,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.5996705829064692
+  },
+  {
+   "user": 2583,
+   "n_players": 12,
+   "max_abs_error": 0.0012679748738726538,
+   "rank_spearman": 0.9440559440559443,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.08333333333333333,
+   "bounded_aia_exact": 0.5324001159371432
+  },
+  {
+   "user": 2601,
+   "n_players": 10,
+   "max_abs_error": 0.0013985553455803813,
+   "rank_spearman": 0.9030303030303028,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.6626170426112704
+  },
+  {
+   "user": 2611,
+   "n_players": 11,
+   "max_abs_error": 0.0010385611937601333,
+   "rank_spearman": 0.9727272727272729,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.7818181818181819
+  },
+  {
+   "user": 2617,
+   "n_players": 11,
+   "max_abs_error": 0.002027872552097354,
+   "rank_spearman": 0.9727272727272729,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.8909090909090911
+  },
+  {
+   "user": 2708,
+   "n_players": 9,
+   "max_abs_error": 0.002034630233370211,
+   "rank_spearman": 0.9666666666666667,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.6694619270045785
+  },
+  {
+   "user": 2743,
+   "n_players": 8,
+   "max_abs_error": 0.000579593755064417,
+   "rank_spearman": 0.9761904761904763,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.9940297973880048
+  },
+  {
+   "user": 2842,
+   "n_players": 11,
+   "max_abs_error": 0.001258769875197319,
+   "rank_spearman": 1.0,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.7339758434175736
+  },
+  {
+   "user": 2849,
+   "n_players": 12,
+   "max_abs_error": 0.0015541681477068427,
+   "rank_spearman": 0.9720279720279721,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.46153846153846156
+  },
+  {
+   "user": 2929,
+   "n_players": 9,
+   "max_abs_error": 0.0011369244680509896,
+   "rank_spearman": 0.9666666666666667,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.7615129419677079
+  },
+  {
+   "user": 3042,
+   "n_players": 6,
+   "max_abs_error": 0.0004309686292871418,
+   "rank_spearman": 1.0,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.942857142857143
+  },
+  {
+   "user": 3132,
+   "n_players": 7,
+   "max_abs_error": 0.00041098806874559357,
+   "rank_spearman": 0.9642857142857145,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.9642857142857145
+  },
+  {
+   "user": 3178,
+   "n_players": 7,
+   "max_abs_error": 0.0013257207616527156,
+   "rank_spearman": 1.0,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.8648999641877367
+  },
+  {
+   "user": 3224,
+   "n_players": 10,
+   "max_abs_error": 0.0017921447240311153,
+   "rank_spearman": 0.9515151515151514,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": -0.006060606060606061
+  },
+  {
+   "user": 3235,
+   "n_players": 4,
+   "max_abs_error": 0.0011412833571913432,
+   "rank_spearman": 1.0,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.7999999999999999
+  },
+  {
+   "user": 3251,
+   "n_players": 6,
+   "max_abs_error": 0.001234529875564428,
+   "rank_spearman": 0.7714285714285715,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.6571428571428573
+  },
+  {
+   "user": 3275,
+   "n_players": 9,
+   "max_abs_error": 0.0003450603745264353,
+   "rank_spearman": 0.9833333333333333,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.9205101496312953
+  },
+  {
+   "user": 3547,
+   "n_players": 4,
+   "max_abs_error": 0.0006424868894869158,
+   "rank_spearman": 1.0,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.7999999999999999
+  },
+  {
+   "user": 3569,
+   "n_players": 6,
+   "max_abs_error": 0.000797187170108923,
+   "rank_spearman": 1.0,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.7714285714285715
+  },
+  {
+   "user": 3621,
+   "n_players": 12,
+   "max_abs_error": 0.0009785391666192814,
+   "rank_spearman": 0.9720279720279721,
+   "top2_jaccard": 0.3333333333333333,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.9036791441564668
+  },
+  {
+   "user": 3640,
+   "n_players": 3,
+   "max_abs_error": 0.0022969846078200063,
+   "rank_spearman": 1.0,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": -0.5
+  },
+  {
+   "user": 3800,
+   "n_players": 7,
+   "max_abs_error": 0.0013965973008325723,
+   "rank_spearman": 0.8928571428571429,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.8928571428571429
+  },
+  {
+   "user": 3967,
+   "n_players": 9,
+   "max_abs_error": 0.0017718921854664345,
+   "rank_spearman": 1.0,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.37293492699144576
+  },
+  {
+   "user": 4176,
+   "n_players": 12,
+   "max_abs_error": 0.003092189015655827,
+   "rank_spearman": 0.9370629370629372,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.08333333333333333,
+   "bounded_aia_exact": 0.9225580879172384
+  },
+  {
+   "user": 4257,
+   "n_players": 9,
+   "max_abs_error": 0.0007836232056278591,
+   "rank_spearman": 0.9833333333333333,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.9500000000000001
+  },
+  {
+   "user": 4268,
+   "n_players": 7,
+   "max_abs_error": 0.0012385372029327917,
+   "rank_spearman": 1.0,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.9642857142857145
+  },
+  {
+   "user": 4438,
+   "n_players": 9,
+   "max_abs_error": 0.0014879042201509504,
+   "rank_spearman": 0.9833333333333333,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.7615129419677079
+  },
+  {
+   "user": 4550,
+   "n_players": 9,
+   "max_abs_error": 0.0012297586467688738,
+   "rank_spearman": 0.9833333333333333,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.7
+  },
+  {
+   "user": 4744,
+   "n_players": 10,
+   "max_abs_error": 0.0009467485915802022,
+   "rank_spearman": 0.9030303030303028,
+   "top2_jaccard": 0.3333333333333333,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.44788647697208955
+  },
+  {
+   "user": 4799,
+   "n_players": 5,
+   "max_abs_error": 0.0028688755030681053,
+   "rank_spearman": 0.8999999999999998,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": -0.6
+  },
+  {
+   "user": 4921,
+   "n_players": 10,
+   "max_abs_error": 0.0016176472061777102,
+   "rank_spearman": 0.9878787878787878,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.7841981513472833
+  },
+  {
+   "user": 4986,
+   "n_players": 10,
+   "max_abs_error": 0.001665174641850128,
+   "rank_spearman": 0.9878787878787878,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.1,
+   "bounded_aia_exact": 0.43161293601284584
+  },
+  {
+   "user": 5315,
+   "n_players": 6,
+   "max_abs_error": 0.0008111997570750124,
+   "rank_spearman": 1.0,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.8285714285714287
+  },
+  {
+   "user": 5375,
+   "n_players": 6,
+   "max_abs_error": 0.0007692475061951386,
+   "rank_spearman": 0.942857142857143,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.48571428571428577
+  },
+  {
+   "user": 5404,
+   "n_players": 5,
+   "max_abs_error": 0.002279891034254928,
+   "rank_spearman": 0.9999999999999999,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": -0.6668859288553501
+  },
+  {
+   "user": 5607,
+   "n_players": 12,
+   "max_abs_error": 0.001720802486965596,
+   "rank_spearman": 0.9300699300699302,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.5196552247887519
+  },
+  {
+   "user": 5690,
+   "n_players": 10,
+   "max_abs_error": 0.0008239980701840247,
+   "rank_spearman": 0.9999999999999999,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.1,
+   "bounded_aia_exact": 0.7212121212121211
+  },
+  {
+   "user": 5720,
+   "n_players": 10,
+   "max_abs_error": 0.001434361840046014,
+   "rank_spearman": 0.9999999999999999,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.1,
+   "bounded_aia_exact": 0.6687619998624351
+  },
+  {
+   "user": 5823,
+   "n_players": 7,
+   "max_abs_error": 0.0030525975164139955,
+   "rank_spearman": 1.0,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.8214285714285715
+  },
+  {
+   "user": 5903,
+   "n_players": 9,
+   "max_abs_error": 0.0005323600128726846,
+   "rank_spearman": 1.0,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.8499999999999999
+  },
+  {
+   "user": 5926,
+   "n_players": 10,
+   "max_abs_error": 0.001117457900806116,
+   "rank_spearman": 0.9878787878787878,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.0,
+   "bounded_aia_exact": 0.7333333333333332
+  },
+  {
+   "user": 5961,
+   "n_players": 12,
+   "max_abs_error": 0.0013985181477386764,
+   "rank_spearman": 0.9020979020979022,
+   "top2_jaccard": 1.0,
+   "sign_error": 0.08333333333333333,
+   "bounded_aia_exact": 0.5908408720200878
+  }
+ ],
+ "recorded_at": "2026-08-19T17:49:55"
+}
