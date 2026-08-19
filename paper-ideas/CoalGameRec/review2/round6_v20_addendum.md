@@ -36,3 +36,18 @@ their Mac (commit 84eeced, MPS, torch 2.3.1) and the results are now integrated 
 - Cell 7: attribution stability + model-randomization + perturbation sanity.
 - Cell 8: validation-negative-set sensitivity (50/100/500).
 - Plus: re-push of the NGCF per-user metrics (.gz) for paired inference.
+
+## Update 2 (2026-08-19, evening): R7-1 closed + sandbox execution of remaining runs
+
+- NGCF per-user artifacts pushed by the authors (commit ee7102b); paired inference executed in the
+  sandbox (`analyze_ngcf_second_backbone.py`, B=10,000, seed 20260819) and integrated as
+  `tab:second_backbone_paired` in manuscript v21 (commit 211fa15).
+- Headline NGCF inference: LOO beats all six matched controls on both metrics/datasets (Holm
+  p<=0.0014); Shapley is beaten by LOO on NDCG@20 (Amazon significant, ML-1M permutation
+  p=0.051/Wilcoxon <1e-4); Amazon equivalence holds (CI entirely on LOO side); ML-1M LOO
+  advantage exceeds the margin (larger than negligible, still no Shapley benefit).
+- Remaining R7-2/R7-3 runs are now executing in the sandbox on CPU
+  (`scripts/run_sandbox_round7.sh`, logs under `_notebook_logs/sandbox_*.log`):
+  randomization sanity (amazon, ml1m), masked-forward seeds 43-44 (amazon) + 43 (ml1m),
+  negset sensitivity amazon (1500-user documented subsample). Sandbox CPU deviations will be
+  recorded in each manifest (confirmatory re-execution, as in C1).

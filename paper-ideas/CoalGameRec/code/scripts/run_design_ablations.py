@@ -38,8 +38,11 @@ BACKBONE = dict(dim=64, n_layers=2, lr=0.002, weight_decay=1e-5, epochs=15, batc
 LAM, TAU, M, NNEG = 0.10, 0.10, 64, 100
 
 
+MAX_USERS = None  # optional subsample (documented in output caption when used)
+
+
 def attrib_args(**over):
-    base = dict(max_users=None, exact_threshold=8, checkpoint_path=None, save_every=25,
+    base = dict(max_users=MAX_USERS, exact_threshold=8, checkpoint_path=None, save_every=25,
                 alpha=1.0, beta=0.0, lambda_pref=0.0, lambda_attr_value=LAM,
                 value_mode="pairwise_logsigmoid", n_val_negatives=NNEG)
     base.update(over)
@@ -51,7 +54,11 @@ def main():
     ap.add_argument("--dataset", default="ml1m", choices=["ml1m", "amazon"])
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--source-run", default=None)
+    ap.add_argument("--max-users", type=int, default=None,
+                    help="optional user subsample for feasibility (documented in output)")
     args = ap.parse_args()
+    global MAX_USERS
+    MAX_USERS = args.max_users
 
     source = Path(args.source_run) if args.source_run else RESULTS / SRC_NAME[args.dataset]
     out_tables = source / "tables"
@@ -135,6 +142,7 @@ def main():
 
     df = pd.DataFrame(rows)
     df.insert(0, "seed", args.seed)
+    df.insert(1, "max_users", args.max_users if args.max_users is not None else -1)
     df.to_csv(out_tables / f"design_ablations_seed_{args.seed}.csv", index=False)
     # merge into the canonical multi-seed table (replace any rows from this seed)
     canon = out_tables / "design_ablations.csv"
