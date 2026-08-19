@@ -21,28 +21,38 @@ def main() -> None:
     # --- SASRec quality -------------------------------------------------
     L.append(r"\begin{table}[!htbp]\centering\scriptsize\setlength{\tabcolsep}{3pt}")
     L.append(
-        "\\caption{SASRec recommendation quality under the replication training\n"
-        "protocol (cohort-only histories, ten leave-one-out epochs), five seeds;\n"
-        "full-catalogue ranking against all unseen items on 1,000 users. The minimal\n"
-        "replication-trained model does not beat popularity, so the SASRec results in\n"
-        "Table~\\ref{tab:review3} demonstrate attribution transfer, not competitive\n"
-        "recommendation quality; a full-corpus-trained audit is the declared follow-up.}"
+        "\\caption{SASRec recommendation quality, five seeds; full-catalogue ranking\n"
+        "against all unseen items on 1,000 users. Cohort rows use the replication\n"
+        "training recipe (cohort-only histories, ten leave-one-out epochs); full-corpus\n"
+        "rows train on every eligible user for thirty epochs with the chronological\n"
+        "next-item objective. Neither configuration beats popularity, so the SASRec\n"
+        "results in Table~\\ref{tab:review3} demonstrate attribution transfer under a\n"
+        "sequential scorer, not competitive recommendation; the quality gate's purpose\n"
+        "is precisely to flag this, and the tuning gap is reported as a limitation.}"
     )
     L.append(r"\label{tab:review5-sasrec-quality}")
     L.append(r"\begin{tabular}{@{}lrrrrrr@{}}")
     L.append(r"\toprule")
-    L.append("Dataset & NDCG@10 & HR@10 & MRR & Pop.\\ NDCG@10 & Masking $\\Delta$ & Gate " + BS)
+    L.append("Run & NDCG@10 & HR@10 & MRR & Pop.\\ NDCG@10 & Masking $\\Delta$ & Gate " + BS)
     L.append(r"\midrule")
-    for ds, f in [("Amazon", "sasrec_quality_amazon.json"), ("ML-1M", "sasrec_quality_movielens.json")]:
-        d = json.load(open(R5 / f))
+    runs = [("Amazon", "sasrec_quality_amazon.json", "cohort, 10 ep"),
+            ("Amazon", "sasrec_quality_trainall_amazon.json", "full corpus, 30 ep"),
+            ("ML-1M", "sasrec_quality_movielens.json", "cohort, 10 ep"),
+            ("ML-1M", "sasrec_quality_trainall_movielens.json", "full corpus, 30 ep")]
+    for ds, f, cfg in runs:
+        path = R5 / f
+        if not path.exists():
+            continue
+        d = json.load(open(path))
         nd = float(np.mean([r["ndcg10"] for r in d["results"]]))
         hr = float(np.mean([r["hr10"] for r in d["results"]]))
         mrr = float(np.mean([r["mrr"] for r in d["results"]]))
         pop = float(np.mean([r["ndcg10_popularity"] for r in d["results"]]))
         md = float(np.mean([r["mean_abs_masking_delta"] for r in d["results"]]))
-        gp = all(r["masking_gate_pass"] for r in d["results"])
-        L.append(f"{ds} & {nd:.4f} & {hr:.4f} & {mrr:.4f} & {pop:.4f} & {md:.4f} & "
-                 f"{'Pass' if gp else 'Fail'} {BS}")
+        gates = [r["masking_gate_pass"] for r in d["results"]]
+        gp = f"{sum(gates)}/5"
+        L.append(f"{ds} ({cfg}) & {nd:.4f} & {hr:.4f} & {mrr:.4f} & {pop:.4f} & {md:.4f} & "
+                 f"{gp} {BS}")
     L.append(r"\bottomrule")
     L.append(r"\end{tabular}")
     L.append(r"\end{table}")

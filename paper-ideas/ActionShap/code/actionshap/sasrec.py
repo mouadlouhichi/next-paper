@@ -70,8 +70,17 @@ def fit_sasrec(
     max_len: int = 20,
     seed: int = 0,
     batch_users: int = 256,
+    samples_per_user: int = 1,
+    temporal: bool = True,
 ):
-    """Leave-one-out BPR-style training; returns a numpy scoring adapter."""
+    """Leave-one-out BPR-style training; returns a numpy scoring adapter.
+
+    With ``temporal=True`` (default, used for the recommendation-quality
+    audit) the context is the chronological prefix preceding a sampled
+    position, matching the adapter's evaluation-time scoring of the temporal
+    tail. ``temporal=False`` reproduces the legacy replication recipe, whose
+    context was the ID-sorted history with a random element held out.
+    """
     if not _HAS_TORCH:
         raise RuntimeError("torch is required for fit_sasrec")
     torch.manual_seed(seed)
@@ -85,22 +94,45 @@ def fit_sasrec(
             batch = users[start:start + batch_users]
             ids, weights, pos, neg = [], [], [], []
             for u in batch:
-                items = np.unique(histories[u])
-                if items.size < 2:
-                    continue
-                p = int(rng.integers(items.size))
-                ctx = np.delete(items, p)
-                tail = ctx[-max_len:]
-                pad = max_len - tail.size
-                ids.append(np.concatenate([np.zeros(pad, int), tail]) + 0)
-                w = np.ones(max_len)
-                w[:pad] = 0.0
-                weights.append(w)
-                pos.append(int(items[p]))
-                n_ = int(rng.integers(0, n_items))
-                while n_ in set(items):
-                    n_ = int(rng.integers(0, n_items))
-                neg.append(n_)
+                items = np.asarray(histories[u])
+                if temporal:
+                    order = np.argsort(
+                        np.arange(items.size), kind="stable")  # already temporal
+                    items = items[order]
+                    if items.size < 2:
+                        continue
+                    for _ in range(samples_per_user):
+                        p = int(rng.integers(1, items.size))
+                        ctx = items[:p][-max_len:]
+                        pad = max_len - ctx.size
+                        ids.append(np.concatenate([np.zeros(pad, int), ctx]))
+                        w = np.ones(max_len)
+                        w[:pad] = 0.0
+                        weights.append(w)
+                        pos.append(int(items[p]))
+                        n_ = int(rng.integers(0, n_items))
+                        seen = set(int(x) for x in items)
+                        while n_ in seen:
+                            n_ = int(rng.integers(0, n_items))
+                        neg.append(n_)
+                else:
+                    uniq = np.unique(items)
+                    if uniq.size < 2:
+                        continue
+                    for _ in range(samples_per_user):
+                        p = int(rng.integers(uniq.size))
+                        ctx = np.delete(uniq, p)
+                        tail = ctx[-max_len:]
+                        pad = max_len - tail.size
+                        ids.append(np.concatenate([np.zeros(pad, int), tail]))
+                        w = np.ones(max_len)
+                        w[:pad] = 0.0
+                        weights.append(w)
+                        pos.append(int(uniq[p]))
+                        n_ = int(rng.integers(0, n_items))
+                        while n_ in set(uniq):
+                            n_ = int(rng.integers(0, n_items))
+                        neg.append(n_)
             if not ids:
                 continue
             items_t = torch.from_numpy(np.vstack(ids) + 1)  # 0 = pad

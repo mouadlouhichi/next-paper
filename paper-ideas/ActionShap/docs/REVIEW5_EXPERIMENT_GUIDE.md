@@ -80,21 +80,18 @@ Integrated into the manuscript: sasrec_quality (both datasets), exact-dist
 datasets), full-catalogue 1,000-user Amazon (5 seeds) -> see appendix
 subsection "Validation extensions (review round 5)".
 
+Done in commit cdda610: sasrec-quality --train-all --epochs 30 (both
+datasets) — full-corpus training still ranks below popularity; integrated as
+an honest boundary in the manuscript (Table review5-sasrec-quality).
+
 Still required:
 
-1. **sasrec-quality with full-corpus training** (the cohort-trained model is
-   below popularity; this rerun establishes competitiveness):
-   ```
-   python scripts/run_review5_experiments.py sasrec-quality --dataset amazon    --train-all --epochs 30
-   python scripts/run_review5_experiments.py sasrec-quality --dataset movielens --train-all --epochs 30
-   ```
-   Writes results/review5/sasrec_quality_trainall_<dataset>.json.
-2. **LIME mask ablation on Amazon** (the decisive dataset for duplication,
+1. **LIME mask ablation on Amazon** (the decisive dataset for duplication,
    median n_u = 5):
    ```
    python scripts/run_review5_experiments.py lime-masks --dataset amazon
    ```
-3. **Convergence quantiles** (needs the raw convergence JSON from the
+2. **Convergence quantiles** (needs the raw convergence JSON from the
    original run; if it was not kept, rerun scripts/run_convergence.py first):
    ```
    python scripts/run_review5_experiments.py convergence-quantiles --raw results/raw/convergence_seed42.json
