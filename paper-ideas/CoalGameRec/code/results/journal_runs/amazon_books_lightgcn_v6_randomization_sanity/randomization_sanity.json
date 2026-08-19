@@ -1,0 +1,29 @@
+{
+  "cross_seed_stability_42_vs_43": {
+    "mean_spearman": 0.747827782582068,
+    "n_users": 7411,
+    "top12_overlap": 0.9717765493685677
+  },
+  "dataset": "amazon_books_2018_custom",
+  "model_randomization": {
+    "trained_vs_untrained_attribution": {
+      "mean_spearman": 0.9359084591081345,
+      "n_users": 7411,
+      "top12_overlap": 0.9861036157582299
+    },
+    "untrained_rerank_HitRate@20": 0.0010786032071337104,
+    "untrained_rerank_NDCG@20": 0.0003876581322401762
+  },
+  "perturbation_stability": {
+    "clean_vs_noisy_attribution": {
+      "mean_spearman": 0.9993581040579184,
+      "n_users": 7412,
+      "top12_overlap": 0.999808894284815
+    },
+    "sigma_fraction": 0.1
+  },
+  "trained_seed42": {
+    "HitRate@20": 0.07280571758747101,
+    "NDCG@20": 0.0325707346200943
+  }
+}

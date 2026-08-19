@@ -1,0 +1,7 @@
+{
+  "device": "cpu",
+  "note": "Attribution stability / model-randomization / perturbation sanity checks.",
+  "platform": "Linux-6.1.158+-x86_64-with-glibc2.36",
+  "python": "3.11.2",
+  "torch": "2.13.0+cu130"
+}

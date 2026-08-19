@@ -1,0 +1,12 @@
+/home/user/next-paper/paper-ideas/CoalGameRec/code/scripts/run_second_backbone.py:121: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:822.)
+  print(f"  epoch {epoch+1}/{cfg.epochs} done in {time.time()-t0:.1f}s loss={float(loss):.4f}", flush=True)
+  epoch 1/15 done in 8.3s loss=0.6778
+  epoch 2/15 done in 8.4s loss=0.5672
+  epoch 3/15 done in 8.1s loss=0.4754
+  epoch 4/15 done in 7.7s loss=0.4165
+  epoch 5/15 done in 7.5s loss=0.3750
+  epoch 6/15 done in 7.6s loss=0.3439
+  epoch 7/15 done in 7.5s loss=0.3024
+  epoch 8/15 done in 7.9s loss=0.2791
+  epoch 9/15 done in 8.1s loss=0.2634
