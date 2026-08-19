@@ -1,5 +1,10 @@
 # Review-5 experiment guide (run on your machine)
 
+> **STATUS (2026-08-19): ALL REVIEW-5 EXPERIMENTS COMPLETE AND INTEGRATED.**
+> Every P0/P1 item below has been run, pushed, validated, and woven into the
+> manuscript (Appendix "Validation extensions, review round 5"). This guide is
+> retained as the provenance record of what was run and why.
+
 Reviewer round 5 (Discover Artificial Intelligence, Major Revision) requires
 several new experiments that cannot be computed from the existing release.
 Everything below runs with the existing `actionshap` package; push the result
@@ -84,18 +89,13 @@ Done in commit cdda610: sasrec-quality --train-all --epochs 30 (both
 datasets) — full-corpus training still ranks below popularity; integrated as
 an honest boundary in the manuscript (Table review5-sasrec-quality).
 
-Still required:
+Done in commit a2c431e: convergence studies regenerated on both datasets and
+post-processed into per-budget quantile panels (100 users, independent
+M_pair=1000 reference) — integrated as Table review5-convergence with the
+coverage-based reading in the manuscript.
 
-1. **LIME mask ablation on Amazon** (the decisive dataset for duplication,
-   median n_u = 5):
-   ```
-   python scripts/run_review5_experiments.py lime-masks --dataset amazon
-   ```
-2. **Convergence quantiles** (needs the raw convergence JSON from the
-   original run; if it was not kept, rerun scripts/run_convergence.py first):
-   ```
-   python scripts/run_review5_experiments.py convergence-quantiles --raw results/raw/convergence_seed42.json
-   ```
+All review-5 experiments are now complete and integrated. No further runs
+required unless a new review round requests them.
 
 ## Push-back contract
 

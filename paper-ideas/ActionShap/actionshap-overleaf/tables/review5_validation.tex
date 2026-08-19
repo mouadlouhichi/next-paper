@@ -73,3 +73,29 @@ ML-1M & 0.0045 & 0.0232 & 0.675 \\
 \bottomrule
 \end{tabular}
 \end{table}
+\begin{table}[!htbp]\centering\scriptsize\setlength{\tabcolsep}{3pt}
+\caption{User-level convergence quantiles (review-5 rerun, 100 users per
+dataset, independent $M_{\mathrm{pair}}=1000$ reference): median and 5th/25th
+percentiles of the per-user rank correlation to the reference, median
+budget-two action Jaccard, and the joint-threshold coverage (fraction of
+rank-valid users satisfying rank $\ge0.95$ and Jaccard $\ge0.80$).}
+\label{tab:review5-convergence}
+\begin{tabular}{@{}llrrrrr@{}}
+\toprule
+Dataset & $M_{\mathrm{pair}}$ & rank med & rank p5 & rank p25 & Jaccard med & coverage \\
+\midrule
+ML-1M ItemKNN & 25 & 0.945 & 0.851 & 0.924 & 0.600 & 0.13 \\
+ML-1M ItemKNN & 50 & 0.965 & 0.913 & 0.951 & 0.733 & 0.33 \\
+ML-1M ItemKNN & 100 & 0.977 & 0.946 & 0.968 & 0.867 & 0.52 \\
+ML-1M ItemKNN & 250 & 0.987 & 0.970 & 0.982 & 1.000 & 0.69 \\
+ML-1M ItemKNN & 500 & 0.991 & 0.977 & 0.989 & 1.000 & 0.74 \\
+ML-1M ItemKNN & 1000 & 0.995 & 0.989 & 0.992 & 1.000 & 0.81 \\
+Amazon ItemKNN & 25 & 0.947 & 0.827 & 0.900 & 1.000 & 0.43 \\
+Amazon ItemKNN & 50 & 0.968 & 0.840 & 0.937 & 1.000 & 0.60 \\
+Amazon ItemKNN & 100 & 0.980 & 0.899 & 0.954 & 1.000 & 0.70 \\
+Amazon ItemKNN & 250 & 0.991 & 0.896 & 0.965 & 1.000 & 0.78 \\
+Amazon ItemKNN & 500 & 0.999 & 0.880 & 0.980 & 1.000 & 0.83 \\
+Amazon ItemKNN & 1000 & 1.000 & 0.899 & 0.985 & 1.000 & 0.85 \\
+\bottomrule
+\end{tabular}
+\end{table}

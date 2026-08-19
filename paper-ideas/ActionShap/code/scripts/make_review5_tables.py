@@ -145,6 +145,36 @@ def main() -> None:
     L.append(r"\end{tabular}")
     L.append(r"\end{table}")
 
+    # --- convergence quantiles (review-5 rerun) -------------------------
+    conv_runs = [("ML-1M ItemKNN", "convergence_quantiles_convergence_seed42.json"),
+                 ("Amazon ItemKNN", "convergence_quantiles_convergence_amazon_seed42.json")]
+    have_conv = any((R5 / f).exists() for _, f in conv_runs)
+    if have_conv:
+        L.append(r"\begin{table}[!htbp]\centering\scriptsize\setlength{\tabcolsep}{3pt}")
+        L.append(
+            "\caption{User-level convergence quantiles (review-5 rerun, 100 users per\n"
+            "dataset, independent $M_{\mathrm{pair}}=1000$ reference): median and 5th/25th\n"
+            "percentiles of the per-user rank correlation to the reference, median\n"
+            "budget-two action Jaccard, and the joint-threshold coverage (fraction of\n"
+            "rank-valid users satisfying rank $\ge0.95$ and Jaccard $\ge0.80$).}"
+        )
+        L.append(r"\label{tab:review5-convergence}")
+        L.append(r"\begin{tabular}{@{}llrrrrr@{}}")
+        L.append(r"\toprule")
+        L.append("Dataset & $M_{\mathrm{pair}}$ & rank med & rank p5 & rank p25 & Jaccard med & coverage " + BS)
+        L.append(r"\midrule")
+        for ds, f in conv_runs:
+            path = R5 / f
+            if not path.exists():
+                continue
+            d = json.load(open(path))
+            for r in d["budgets"]:
+                L.append(f"{ds} & {r['budget']} & {r['rank_median']:.3f} & {r['rank_p5']:.3f} & "
+                         f"{r['rank_p25']:.3f} & {r['jaccard_median']:.3f} & {r['threshold_coverage']:.2f} {BS}")
+        L.append(r"\bottomrule")
+        L.append(r"\end{tabular}")
+        L.append(r"\end{table}")
+
     out = TABLES / "review5_validation.tex"
     out.write_text("\n".join(L) + "\n")
     print("wrote", out)
