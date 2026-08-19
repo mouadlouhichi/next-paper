@@ -1,0 +1,8166 @@
+{
+ "dataset": "amazon",
+ "model": "itemknn",
+ "config": {
+  "users": 200,
+  "samples": 512,
+  "rho": 0.5,
+  "ridge_sweep": [
+   0.1,
+   1.0,
+   10.0
+  ],
+  "user_seed": 2718
+ },
+ "records": [
+  {
+   "user": 70,
+   "n_players": 16,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.42008402520840293
+  },
+  {
+   "user": 70,
+   "n_players": 16,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.42008402520840293
+  },
+  {
+   "user": 70,
+   "n_players": 16,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.42008402520840293
+  },
+  {
+   "user": 70,
+   "n_players": 16,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.42008402520840293
+  },
+  {
+   "user": 70,
+   "n_players": 16,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.42008402520840293
+  },
+  {
+   "user": 79,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 79,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 79,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 79,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 79,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 79,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 180,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8451542547285166
+  },
+  {
+   "user": 180,
+   "n_players": 6,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8574929257125441
+  },
+  {
+   "user": 180,
+   "n_players": 6,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8451542547285166
+  },
+  {
+   "user": 180,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.8451542547285166
+  },
+  {
+   "user": 180,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8451542547285166
+  },
+  {
+   "user": 180,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.8451542547285166
+  },
+  {
+   "user": 184,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8944271909999157
+  },
+  {
+   "user": 184,
+   "n_players": 5,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.9176629354822471
+  },
+  {
+   "user": 184,
+   "n_players": 5,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8944271909999157
+  },
+  {
+   "user": 184,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.8944271909999157
+  },
+  {
+   "user": 184,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8944271909999157
+  },
+  {
+   "user": 184,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.8944271909999157
+  },
+  {
+   "user": 245,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 245,
+   "n_players": 5,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 245,
+   "n_players": 5,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 245,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 245,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 245,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 253,
+   "n_players": 10,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5222329678670935
+  },
+  {
+   "user": 253,
+   "n_players": 10,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5222329678670935
+  },
+  {
+   "user": 253,
+   "n_players": 10,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.5222329678670935
+  },
+  {
+   "user": 253,
+   "n_players": 10,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5222329678670935
+  },
+  {
+   "user": 253,
+   "n_players": 10,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.5222329678670935
+  },
+  {
+   "user": 281,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 281,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 281,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 281,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 281,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 281,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 282,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8017837257372733
+  },
+  {
+   "user": 282,
+   "n_players": 7,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8017837257372733
+  },
+  {
+   "user": 282,
+   "n_players": 7,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8090398349558906
+  },
+  {
+   "user": 282,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.8017837257372733
+  },
+  {
+   "user": 282,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8017837257372733
+  },
+  {
+   "user": 282,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.8017837257372733
+  },
+  {
+   "user": 303,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 303,
+   "n_players": 4,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 303,
+   "n_players": 4,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8164965809277261
+  },
+  {
+   "user": 303,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 303,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 303,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 305,
+   "n_players": 14,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 305,
+   "n_players": 14,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 305,
+   "n_players": 14,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 305,
+   "n_players": 14,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 305,
+   "n_players": 14,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 371,
+   "n_players": 10,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6963106238227914
+  },
+  {
+   "user": 371,
+   "n_players": 10,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6963106238227914
+  },
+  {
+   "user": 371,
+   "n_players": 10,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.6963106238227914
+  },
+  {
+   "user": 371,
+   "n_players": 10,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6963106238227914
+  },
+  {
+   "user": 371,
+   "n_players": 10,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.6963106238227914
+  },
+  {
+   "user": 378,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 378,
+   "n_players": 4,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 378,
+   "n_players": 4,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 378,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 378,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 378,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 381,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 381,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 381,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 381,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 381,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 381,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 409,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 409,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 409,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 409,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 409,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 409,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 550,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8017837257372733
+  },
+  {
+   "user": 550,
+   "n_players": 7,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8017837257372733
+  },
+  {
+   "user": 550,
+   "n_players": 7,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8017837257372733
+  },
+  {
+   "user": 550,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.8017837257372733
+  },
+  {
+   "user": 550,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8017837257372733
+  },
+  {
+   "user": 550,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.8017837257372733
+  },
+  {
+   "user": 559,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7071067811865475
+  },
+  {
+   "user": 559,
+   "n_players": 5,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7254762501100117
+  },
+  {
+   "user": 559,
+   "n_players": 5,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7254762501100117
+  },
+  {
+   "user": 559,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.7071067811865475
+  },
+  {
+   "user": 559,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7071067811865475
+  },
+  {
+   "user": 559,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.7071067811865475
+  },
+  {
+   "user": 564,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 564,
+   "n_players": 7,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 564,
+   "n_players": 7,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 564,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 564,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 564,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 587,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 587,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 587,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 587,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 587,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 587,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 663,
+   "n_players": 11,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 663,
+   "n_players": 11,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 663,
+   "n_players": 11,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 663,
+   "n_players": 11,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 663,
+   "n_players": 11,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 740,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 740,
+   "n_players": 4,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8164965809277261
+  },
+  {
+   "user": 740,
+   "n_players": 4,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 740,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 740,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 740,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 742,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 742,
+   "n_players": 4,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 742,
+   "n_players": 4,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 742,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 742,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 742,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 759,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 759,
+   "n_players": 7,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 759,
+   "n_players": 7,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 759,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 759,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 759,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 772,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 772,
+   "n_players": 6,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 772,
+   "n_players": 6,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 772,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 772,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 772,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 808,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 808,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 808,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 808,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 808,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 808,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 815,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 815,
+   "n_players": 5,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 815,
+   "n_players": 5,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 815,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 815,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 815,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 848,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 848,
+   "n_players": 4,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 848,
+   "n_players": 4,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 848,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 848,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 848,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 894,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.9486832980505139
+  },
+  {
+   "user": 894,
+   "n_players": 4,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 1.0
+  },
+  {
+   "user": 894,
+   "n_players": 4,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.9486832980505139
+  },
+  {
+   "user": 894,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.9486832980505139
+  },
+  {
+   "user": 894,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.9486832980505139
+  },
+  {
+   "user": 894,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.9486832980505139
+  },
+  {
+   "user": 936,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 936,
+   "n_players": 4,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 936,
+   "n_players": 4,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 936,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 936,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 936,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1154,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1154,
+   "n_players": 6,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1154,
+   "n_players": 6,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1154,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 1154,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1154,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1196,
+   "n_players": 16,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1196,
+   "n_players": 16,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1196,
+   "n_players": 16,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 1196,
+   "n_players": 16,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1196,
+   "n_players": 16,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1253,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1253,
+   "n_players": 5,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1253,
+   "n_players": 5,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1253,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 1253,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1253,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1271,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1271,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1271,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1271,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 1271,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1271,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1289,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1289,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1289,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1289,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 1289,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1289,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1300,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 1300,
+   "n_players": 4,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 1300,
+   "n_players": 4,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 1300,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 1300,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 1300,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 1366,
+   "n_players": 12,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.4803844614152615
+  },
+  {
+   "user": 1366,
+   "n_players": 12,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.4803844614152615
+  },
+  {
+   "user": 1366,
+   "n_players": 12,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.4803844614152615
+  },
+  {
+   "user": 1366,
+   "n_players": 12,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.4803844614152615
+  },
+  {
+   "user": 1366,
+   "n_players": 12,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.4803844614152615
+  },
+  {
+   "user": 1378,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7071067811865475
+  },
+  {
+   "user": 1378,
+   "n_players": 5,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7071067811865475
+  },
+  {
+   "user": 1378,
+   "n_players": 5,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7453559924999299
+  },
+  {
+   "user": 1378,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.7071067811865475
+  },
+  {
+   "user": 1378,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7071067811865475
+  },
+  {
+   "user": 1378,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.7071067811865475
+  },
+  {
+   "user": 1455,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1455,
+   "n_players": 4,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1455,
+   "n_players": 4,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1455,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 1455,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1455,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1470,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1470,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1470,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1470,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 1470,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1470,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1478,
+   "n_players": 10,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5222329678670935
+  },
+  {
+   "user": 1478,
+   "n_players": 10,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5222329678670935
+  },
+  {
+   "user": 1478,
+   "n_players": 10,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.5222329678670935
+  },
+  {
+   "user": 1478,
+   "n_players": 10,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5222329678670935
+  },
+  {
+   "user": 1478,
+   "n_players": 10,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.5222329678670935
+  },
+  {
+   "user": 1482,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6123724356957945
+  },
+  {
+   "user": 1482,
+   "n_players": 7,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6123724356957945
+  },
+  {
+   "user": 1482,
+   "n_players": 7,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6354889093022424
+  },
+  {
+   "user": 1482,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.6123724356957945
+  },
+  {
+   "user": 1482,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6123724356957945
+  },
+  {
+   "user": 1482,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.6123724356957945
+  },
+  {
+   "user": 1496,
+   "n_players": 18,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6488856845230502
+  },
+  {
+   "user": 1496,
+   "n_players": 18,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6488856845230502
+  },
+  {
+   "user": 1496,
+   "n_players": 18,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.6488856845230502
+  },
+  {
+   "user": 1496,
+   "n_players": 18,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6488856845230502
+  },
+  {
+   "user": 1496,
+   "n_players": 18,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.6488856845230502
+  },
+  {
+   "user": 1518,
+   "n_players": 9,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1518,
+   "n_players": 9,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1518,
+   "n_players": 9,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1518,
+   "n_players": 9,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 1518,
+   "n_players": 9,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1518,
+   "n_players": 9,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1606,
+   "n_players": 12,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6504436355879909
+  },
+  {
+   "user": 1606,
+   "n_players": 12,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6504436355879909
+  },
+  {
+   "user": 1606,
+   "n_players": 12,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.6504436355879909
+  },
+  {
+   "user": 1606,
+   "n_players": 12,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6504436355879909
+  },
+  {
+   "user": 1606,
+   "n_players": 12,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.6504436355879909
+  },
+  {
+   "user": 1613,
+   "n_players": 14,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.4472135954999579
+  },
+  {
+   "user": 1613,
+   "n_players": 14,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.4472135954999579
+  },
+  {
+   "user": 1613,
+   "n_players": 14,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.4472135954999579
+  },
+  {
+   "user": 1613,
+   "n_players": 14,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.4472135954999579
+  },
+  {
+   "user": 1613,
+   "n_players": 14,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.4472135954999579
+  },
+  {
+   "user": 1649,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1649,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1649,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1649,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 1649,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1649,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1658,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1658,
+   "n_players": 7,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1658,
+   "n_players": 7,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1658,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 1658,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1658,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1672,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 1672,
+   "n_players": 4,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8164965809277261
+  },
+  {
+   "user": 1672,
+   "n_players": 4,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8164965809277261
+  },
+  {
+   "user": 1672,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 1672,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 1672,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 1686,
+   "n_players": 8,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5773502691896257
+  },
+  {
+   "user": 1686,
+   "n_players": 8,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5843487097907775
+  },
+  {
+   "user": 1686,
+   "n_players": 8,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5808178695515156
+  },
+  {
+   "user": 1686,
+   "n_players": 8,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.5773502691896257
+  },
+  {
+   "user": 1686,
+   "n_players": 8,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5773502691896257
+  },
+  {
+   "user": 1686,
+   "n_players": 8,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.5773502691896257
+  },
+  {
+   "user": 1721,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 1721,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 1721,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 1721,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 1721,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 1721,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 1814,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1814,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1814,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1814,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 1814,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1814,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1881,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6546536707079772
+  },
+  {
+   "user": 1881,
+   "n_players": 6,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 1881,
+   "n_players": 6,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.674199862463242
+  },
+  {
+   "user": 1881,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.6546536707079772
+  },
+  {
+   "user": 1881,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6546536707079772
+  },
+  {
+   "user": 1881,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.6546536707079772
+  },
+  {
+   "user": 1923,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1923,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1923,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1923,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 1923,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1923,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1966,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1966,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1966,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1966,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 1966,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1966,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1980,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1980,
+   "n_players": 4,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1980,
+   "n_players": 4,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1980,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 1980,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1980,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1992,
+   "n_players": 20,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1992,
+   "n_players": 20,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1992,
+   "n_players": 20,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 1992,
+   "n_players": 20,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 1992,
+   "n_players": 20,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2033,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2033,
+   "n_players": 4,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2033,
+   "n_players": 4,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2033,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 2033,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2033,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2093,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2093,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2093,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2093,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 2093,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2093,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2154,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 2154,
+   "n_players": 4,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 2154,
+   "n_players": 4,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 2154,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 2154,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 2154,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 2245,
+   "n_players": 8,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5773502691896257
+  },
+  {
+   "user": 2245,
+   "n_players": 8,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5916079783099616
+  },
+  {
+   "user": 2245,
+   "n_players": 8,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5953405577875872
+  },
+  {
+   "user": 2245,
+   "n_players": 8,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.5773502691896257
+  },
+  {
+   "user": 2245,
+   "n_players": 8,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5773502691896257
+  },
+  {
+   "user": 2245,
+   "n_players": 8,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.5773502691896257
+  },
+  {
+   "user": 2280,
+   "n_players": 12,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2280,
+   "n_players": 12,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2280,
+   "n_players": 12,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 2280,
+   "n_players": 12,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2280,
+   "n_players": 12,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2576,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2576,
+   "n_players": 5,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2576,
+   "n_players": 5,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2576,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 2576,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2576,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2678,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2678,
+   "n_players": 6,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2678,
+   "n_players": 6,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2678,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 2678,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2678,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2690,
+   "n_players": 9,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2690,
+   "n_players": 9,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2690,
+   "n_players": 9,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2690,
+   "n_players": 9,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 2690,
+   "n_players": 9,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2690,
+   "n_players": 9,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2722,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 2722,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 2722,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 2722,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 2722,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 2722,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 2751,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2751,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2751,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2751,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 2751,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2751,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2764,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 2764,
+   "n_players": 4,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 2764,
+   "n_players": 4,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 2764,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 2764,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 2764,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 2778,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 1.0
+  },
+  {
+   "user": 2778,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 1.0
+  },
+  {
+   "user": 2778,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 1.0
+  },
+  {
+   "user": 2778,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 1.0
+  },
+  {
+   "user": 2778,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 1.0
+  },
+  {
+   "user": 2778,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 1.0
+  },
+  {
+   "user": 2824,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2824,
+   "n_players": 4,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2824,
+   "n_players": 4,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2824,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 2824,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2824,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2850,
+   "n_players": 10,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2850,
+   "n_players": 10,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2850,
+   "n_players": 10,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 2850,
+   "n_players": 10,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2850,
+   "n_players": 10,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2877,
+   "n_players": 13,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7375337578416624
+  },
+  {
+   "user": 2877,
+   "n_players": 13,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7375337578416624
+  },
+  {
+   "user": 2877,
+   "n_players": 13,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.7375337578416624
+  },
+  {
+   "user": 2877,
+   "n_players": 13,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7375337578416624
+  },
+  {
+   "user": 2877,
+   "n_players": 13,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.7375337578416624
+  },
+  {
+   "user": 2925,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 2925,
+   "n_players": 4,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 2925,
+   "n_players": 4,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 1.0
+  },
+  {
+   "user": 2925,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 2925,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 2925,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 2942,
+   "n_players": 9,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5477225575051661
+  },
+  {
+   "user": 2942,
+   "n_players": 9,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5595028849441883
+  },
+  {
+   "user": 2942,
+   "n_players": 9,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.552344770738994
+  },
+  {
+   "user": 2942,
+   "n_players": 9,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.5477225575051661
+  },
+  {
+   "user": 2942,
+   "n_players": 9,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5477225575051661
+  },
+  {
+   "user": 2942,
+   "n_players": 9,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.5477225575051661
+  },
+  {
+   "user": 2989,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2989,
+   "n_players": 7,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2989,
+   "n_players": 7,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2989,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 2989,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 2989,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3008,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3008,
+   "n_players": 5,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3008,
+   "n_players": 5,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3008,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 3008,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3008,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3179,
+   "n_players": 20,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.9048740202266848
+  },
+  {
+   "user": 3179,
+   "n_players": 20,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.9048740202266848
+  },
+  {
+   "user": 3179,
+   "n_players": 20,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.9048740202266848
+  },
+  {
+   "user": 3179,
+   "n_players": 20,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.9048740202266848
+  },
+  {
+   "user": 3179,
+   "n_players": 20,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.8600042340997419
+  },
+  {
+   "user": 3286,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6123724356957945
+  },
+  {
+   "user": 3286,
+   "n_players": 7,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6354889093022424
+  },
+  {
+   "user": 3286,
+   "n_players": 7,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6416889479197478
+  },
+  {
+   "user": 3286,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.6123724356957945
+  },
+  {
+   "user": 3286,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6123724356957945
+  },
+  {
+   "user": 3286,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.6123724356957945
+  },
+  {
+   "user": 3291,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3291,
+   "n_players": 7,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3291,
+   "n_players": 7,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3291,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 3291,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3291,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3295,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6123724356957945
+  },
+  {
+   "user": 3295,
+   "n_players": 7,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6179143806533246
+  },
+  {
+   "user": 3295,
+   "n_players": 7,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6123724356957945
+  },
+  {
+   "user": 3295,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.6123724356957945
+  },
+  {
+   "user": 3295,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6123724356957945
+  },
+  {
+   "user": 3295,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.6123724356957945
+  },
+  {
+   "user": 3363,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3363,
+   "n_players": 7,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3363,
+   "n_players": 7,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3363,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 3363,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3363,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3480,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3480,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3480,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3480,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 3480,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3480,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3482,
+   "n_players": 18,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.3973597071195132
+  },
+  {
+   "user": 3482,
+   "n_players": 18,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.3973597071195132
+  },
+  {
+   "user": 3482,
+   "n_players": 18,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.3973597071195132
+  },
+  {
+   "user": 3482,
+   "n_players": 18,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.3973597071195132
+  },
+  {
+   "user": 3482,
+   "n_players": 18,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.3973597071195132
+  },
+  {
+   "user": 3699,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3699,
+   "n_players": 5,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3699,
+   "n_players": 5,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3699,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 3699,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3699,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3709,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3709,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3709,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3709,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 3709,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3709,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3771,
+   "n_players": 9,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5477225575051661
+  },
+  {
+   "user": 3771,
+   "n_players": 9,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.552344770738994
+  },
+  {
+   "user": 3771,
+   "n_players": 9,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5500190982169268
+  },
+  {
+   "user": 3771,
+   "n_players": 9,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.5477225575051661
+  },
+  {
+   "user": 3771,
+   "n_players": 9,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5477225575051661
+  },
+  {
+   "user": 3771,
+   "n_players": 9,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.5477225575051661
+  },
+  {
+   "user": 3772,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3772,
+   "n_players": 4,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3772,
+   "n_players": 4,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3772,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 3772,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3772,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3867,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3867,
+   "n_players": 4,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3867,
+   "n_players": 4,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3867,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 3867,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3867,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3896,
+   "n_players": 20,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.37796447300922725
+  },
+  {
+   "user": 3896,
+   "n_players": 20,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.37796447300922725
+  },
+  {
+   "user": 3896,
+   "n_players": 20,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.37796447300922725
+  },
+  {
+   "user": 3896,
+   "n_players": 20,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.37796447300922725
+  },
+  {
+   "user": 3896,
+   "n_players": 20,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.37796447300922725
+  },
+  {
+   "user": 3945,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3945,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3945,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3945,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 3945,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3945,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 3954,
+   "n_players": 13,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6289709020331511
+  },
+  {
+   "user": 3954,
+   "n_players": 13,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6289709020331511
+  },
+  {
+   "user": 3954,
+   "n_players": 13,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.6289709020331511
+  },
+  {
+   "user": 3954,
+   "n_players": 13,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6289709020331511
+  },
+  {
+   "user": 3954,
+   "n_players": 13,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.6289709020331511
+  },
+  {
+   "user": 4002,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4002,
+   "n_players": 6,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4002,
+   "n_players": 6,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4002,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 4002,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4002,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4054,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4054,
+   "n_players": 7,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4054,
+   "n_players": 7,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4054,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 4054,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4054,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4065,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 4065,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 1.0
+  },
+  {
+   "user": 4065,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 1.0
+  },
+  {
+   "user": 4065,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 4065,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 4065,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 4092,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4092,
+   "n_players": 5,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4092,
+   "n_players": 5,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4092,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 4092,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4092,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4209,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4209,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4209,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4209,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 4209,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4209,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4262,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6546536707079772
+  },
+  {
+   "user": 4262,
+   "n_players": 6,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6546536707079772
+  },
+  {
+   "user": 4262,
+   "n_players": 6,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.674199862463242
+  },
+  {
+   "user": 4262,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.6546536707079772
+  },
+  {
+   "user": 4262,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6546536707079772
+  },
+  {
+   "user": 4262,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.6546536707079772
+  },
+  {
+   "user": 4384,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 4384,
+   "n_players": 4,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 1.0
+  },
+  {
+   "user": 4384,
+   "n_players": 4,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8164965809277261
+  },
+  {
+   "user": 4384,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 4384,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 4384,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 4386,
+   "n_players": 20,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.37796447300922725
+  },
+  {
+   "user": 4386,
+   "n_players": 20,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.37796447300922725
+  },
+  {
+   "user": 4386,
+   "n_players": 20,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.37796447300922725
+  },
+  {
+   "user": 4386,
+   "n_players": 20,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.37796447300922725
+  },
+  {
+   "user": 4386,
+   "n_players": 20,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.37796447300922725
+  },
+  {
+   "user": 4399,
+   "n_players": 13,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4399,
+   "n_players": 13,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4399,
+   "n_players": 13,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 4399,
+   "n_players": 13,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4399,
+   "n_players": 13,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4527,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4527,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4527,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4527,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 4527,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4527,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4550,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8017837257372733
+  },
+  {
+   "user": 4550,
+   "n_players": 7,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8017837257372733
+  },
+  {
+   "user": 4550,
+   "n_players": 7,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8017837257372733
+  },
+  {
+   "user": 4550,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.8017837257372733
+  },
+  {
+   "user": 4550,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8017837257372733
+  },
+  {
+   "user": 4550,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.8017837257372733
+  },
+  {
+   "user": 4670,
+   "n_players": 12,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6504436355879909
+  },
+  {
+   "user": 4670,
+   "n_players": 12,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6504436355879909
+  },
+  {
+   "user": 4670,
+   "n_players": 12,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.6504436355879909
+  },
+  {
+   "user": 4670,
+   "n_players": 12,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6504436355879909
+  },
+  {
+   "user": 4670,
+   "n_players": 12,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.6504436355879909
+  },
+  {
+   "user": 4758,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 4758,
+   "n_players": 4,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 4758,
+   "n_players": 4,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 4758,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 4758,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 4758,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 4839,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4839,
+   "n_players": 5,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4839,
+   "n_players": 5,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4839,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 4839,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4839,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4852,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4852,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4852,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4852,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 4852,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4852,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4868,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4868,
+   "n_players": 6,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4868,
+   "n_players": 6,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4868,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 4868,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4868,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4927,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4927,
+   "n_players": 5,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4927,
+   "n_players": 5,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4927,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 4927,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4927,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4945,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4945,
+   "n_players": 5,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4945,
+   "n_players": 5,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4945,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 4945,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 4945,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5042,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5042,
+   "n_players": 4,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5042,
+   "n_players": 4,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5042,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 5042,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5042,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5093,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5093,
+   "n_players": 6,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5093,
+   "n_players": 6,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5093,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 5093,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5093,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5186,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5186,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5186,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5186,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 5186,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5186,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5291,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5291,
+   "n_players": 4,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5291,
+   "n_players": 4,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5291,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 5291,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5291,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5309,
+   "n_players": 10,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5309,
+   "n_players": 10,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5309,
+   "n_players": 10,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 5309,
+   "n_players": 10,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5309,
+   "n_players": 10,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5347,
+   "n_players": 12,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7618527288259722
+  },
+  {
+   "user": 5347,
+   "n_players": 12,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7618527288259722
+  },
+  {
+   "user": 5347,
+   "n_players": 12,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.7618527288259722
+  },
+  {
+   "user": 5347,
+   "n_players": 12,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7618527288259722
+  },
+  {
+   "user": 5347,
+   "n_players": 12,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.6241685007248928
+  },
+  {
+   "user": 5382,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5382,
+   "n_players": 6,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5382,
+   "n_players": 6,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5382,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 5382,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5382,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5444,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5444,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5444,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5444,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 5444,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5444,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5545,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5545,
+   "n_players": 6,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5545,
+   "n_players": 6,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5545,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 5545,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5545,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5606,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5606,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5606,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5606,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 5606,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5606,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5653,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5653,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5653,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5653,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 5653,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5653,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5677,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5677,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5677,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5677,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 5677,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5677,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 5698,
+   "n_players": 15,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6994896098482908
+  },
+  {
+   "user": 5698,
+   "n_players": 15,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6994896098482908
+  },
+  {
+   "user": 5698,
+   "n_players": 15,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.6994896098482908
+  },
+  {
+   "user": 5698,
+   "n_players": 15,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6994896098482908
+  },
+  {
+   "user": 5698,
+   "n_players": 15,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.6994896098482908
+  },
+  {
+   "user": 5760,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 5760,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 1.0
+  },
+  {
+   "user": 5760,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 5760,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 5760,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 5760,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 5811,
+   "n_players": 9,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5477225575051661
+  },
+  {
+   "user": 5811,
+   "n_players": 9,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5500190982169268
+  },
+  {
+   "user": 5811,
+   "n_players": 9,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5500190982169268
+  },
+  {
+   "user": 5811,
+   "n_players": 9,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.5477225575051661
+  },
+  {
+   "user": 5811,
+   "n_players": 9,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5477225575051661
+  },
+  {
+   "user": 5811,
+   "n_players": 9,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.5477225575051661
+  },
+  {
+   "user": 5877,
+   "n_players": 11,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5
+  },
+  {
+   "user": 5877,
+   "n_players": 11,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5
+  },
+  {
+   "user": 5877,
+   "n_players": 11,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.5
+  },
+  {
+   "user": 5877,
+   "n_players": 11,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5
+  },
+  {
+   "user": 5877,
+   "n_players": 11,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.5
+  },
+  {
+   "user": 6066,
+   "n_players": 18,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.3973597071195132
+  },
+  {
+   "user": 6066,
+   "n_players": 18,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.3973597071195132
+  },
+  {
+   "user": 6066,
+   "n_players": 18,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.3973597071195132
+  },
+  {
+   "user": 6066,
+   "n_players": 18,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.3973597071195132
+  },
+  {
+   "user": 6066,
+   "n_players": 18,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.3973597071195132
+  },
+  {
+   "user": 6120,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6120,
+   "n_players": 5,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6120,
+   "n_players": 5,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6120,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 6120,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6120,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6127,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6127,
+   "n_players": 4,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6127,
+   "n_players": 4,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6127,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 6127,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6127,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6178,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6178,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6178,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6178,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 6178,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6178,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6247,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6247,
+   "n_players": 4,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6247,
+   "n_players": 4,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6247,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 6247,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6247,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6324,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.9258200997725515
+  },
+  {
+   "user": 6324,
+   "n_players": 6,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.9393364366277243
+  },
+  {
+   "user": 6324,
+   "n_players": 6,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.9258200997725515
+  },
+  {
+   "user": 6324,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.9258200997725515
+  },
+  {
+   "user": 6324,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.9258200997725515
+  },
+  {
+   "user": 6324,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.9258200997725515
+  },
+  {
+   "user": 6507,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 6507,
+   "n_players": 4,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 6507,
+   "n_players": 4,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 6507,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 6507,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 6507,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 6521,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6521,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6521,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6521,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 6521,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6521,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6533,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6533,
+   "n_players": 6,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6533,
+   "n_players": 6,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6533,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 6533,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6533,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6618,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6618,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6618,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6618,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 6618,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6618,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6684,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6684,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6684,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6684,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 6684,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6684,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 6743,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6546536707079772
+  },
+  {
+   "user": 6743,
+   "n_players": 6,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.674199862463242
+  },
+  {
+   "user": 6743,
+   "n_players": 6,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6642111641550715
+  },
+  {
+   "user": 6743,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.6546536707079772
+  },
+  {
+   "user": 6743,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6546536707079772
+  },
+  {
+   "user": 6743,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.6546536707079772
+  },
+  {
+   "user": 6860,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 6860,
+   "n_players": 4,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 6860,
+   "n_players": 4,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8164965809277261
+  },
+  {
+   "user": 6860,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 6860,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 6860,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.7745966692414834
+  },
+  {
+   "user": 6914,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6123724356957945
+  },
+  {
+   "user": 6914,
+   "n_players": 7,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6416889479197478
+  },
+  {
+   "user": 6914,
+   "n_players": 7,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6756639246921762
+  },
+  {
+   "user": 6914,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.6123724356957945
+  },
+  {
+   "user": 6914,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6123724356957945
+  },
+  {
+   "user": 6914,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.6123724356957945
+  },
+  {
+   "user": 7028,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7028,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7028,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7028,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 7028,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7028,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7108,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7108,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7108,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7108,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 7108,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7108,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7175,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7175,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7175,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7175,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 7175,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7175,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7317,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7317,
+   "n_players": 5,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7317,
+   "n_players": 5,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7317,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 7317,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7317,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7446,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7446,
+   "n_players": 6,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7446,
+   "n_players": 6,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7446,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 7446,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7446,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7451,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7451,
+   "n_players": 5,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7451,
+   "n_players": 5,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7451,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 7451,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7451,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7468,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7468,
+   "n_players": 7,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7468,
+   "n_players": 7,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7468,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 7468,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7468,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7572,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7572,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7572,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7572,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 7572,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7572,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7578,
+   "n_players": 20,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5209880722517277
+  },
+  {
+   "user": 7578,
+   "n_players": 20,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5209880722517277
+  },
+  {
+   "user": 7578,
+   "n_players": 20,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.5209880722517277
+  },
+  {
+   "user": 7578,
+   "n_players": 20,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5209880722517277
+  },
+  {
+   "user": 7578,
+   "n_players": 20,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.5209880722517277
+  },
+  {
+   "user": 7583,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7583,
+   "n_players": 7,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7583,
+   "n_players": 7,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7583,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 7583,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7583,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7656,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7656,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7656,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7656,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 7656,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7656,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7730,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7730,
+   "n_players": 6,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7730,
+   "n_players": 6,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7730,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 7730,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7730,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7780,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8451542547285166
+  },
+  {
+   "user": 7780,
+   "n_players": 6,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8451542547285166
+  },
+  {
+   "user": 7780,
+   "n_players": 6,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8703882797784891
+  },
+  {
+   "user": 7780,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.8451542547285166
+  },
+  {
+   "user": 7780,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8451542547285166
+  },
+  {
+   "user": 7780,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.8451542547285166
+  },
+  {
+   "user": 7823,
+   "n_players": 20,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5202659817144719
+  },
+  {
+   "user": 7823,
+   "n_players": 20,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5202659817144719
+  },
+  {
+   "user": 7823,
+   "n_players": 20,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.5202659817144719
+  },
+  {
+   "user": 7823,
+   "n_players": 20,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5202659817144719
+  },
+  {
+   "user": 7823,
+   "n_players": 20,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.5202659817144719
+  },
+  {
+   "user": 7895,
+   "n_players": 10,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7895,
+   "n_players": 10,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7895,
+   "n_players": 10,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 7895,
+   "n_players": 10,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7895,
+   "n_players": 10,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7950,
+   "n_players": 20,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6210590034081187
+  },
+  {
+   "user": 7950,
+   "n_players": 20,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6210590034081187
+  },
+  {
+   "user": 7950,
+   "n_players": 20,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.6210590034081187
+  },
+  {
+   "user": 7950,
+   "n_players": 20,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6210590034081187
+  },
+  {
+   "user": 7950,
+   "n_players": 20,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.6210590034081187
+  },
+  {
+   "user": 7955,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 7955,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 7955,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 7955,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 7955,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 7955,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 7990,
+   "n_players": 11,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7990,
+   "n_players": 11,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7990,
+   "n_players": 11,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 7990,
+   "n_players": 11,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 7990,
+   "n_players": 11,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8024,
+   "n_players": 14,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8024,
+   "n_players": 14,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8024,
+   "n_players": 14,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 8024,
+   "n_players": 14,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8024,
+   "n_players": 14,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8162,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8162,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8162,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8162,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 8162,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8162,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8164,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 8164,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 8164,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 8164,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 8164,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 8164,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 8166,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8166,
+   "n_players": 4,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8166,
+   "n_players": 4,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8166,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 8166,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8166,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8182,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8182,
+   "n_players": 5,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8182,
+   "n_players": 5,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8182,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 8182,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8182,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8397,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8397,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8397,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8397,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 8397,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8397,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8518,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8518,
+   "n_players": 5,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8518,
+   "n_players": 5,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8518,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 8518,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8518,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8529,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": -0.4472135954999579
+  },
+  {
+   "user": 8529,
+   "n_players": 4,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8944271909999159
+  },
+  {
+   "user": 8529,
+   "n_players": 4,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8944271909999159
+  },
+  {
+   "user": 8529,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": -0.8944271909999159
+  },
+  {
+   "user": 8529,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": -0.4472135954999579
+  },
+  {
+   "user": 8529,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.0
+  },
+  {
+   "user": 8554,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8554,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8554,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8554,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 8554,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8554,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8776,
+   "n_players": 9,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8776,
+   "n_players": 9,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8776,
+   "n_players": 9,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8776,
+   "n_players": 9,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 8776,
+   "n_players": 9,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8776,
+   "n_players": 9,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8807,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6546536707079772
+  },
+  {
+   "user": 8807,
+   "n_players": 6,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6956083436402525
+  },
+  {
+   "user": 8807,
+   "n_players": 6,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6642111641550715
+  },
+  {
+   "user": 8807,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.6546536707079772
+  },
+  {
+   "user": 8807,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.6546536707079772
+  },
+  {
+   "user": 8807,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.6546536707079772
+  },
+  {
+   "user": 8813,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8813,
+   "n_players": 6,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8813,
+   "n_players": 6,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8813,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 8813,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8813,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8857,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7071067811865475
+  },
+  {
+   "user": 8857,
+   "n_players": 5,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7071067811865475
+  },
+  {
+   "user": 8857,
+   "n_players": 5,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7071067811865475
+  },
+  {
+   "user": 8857,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.7071067811865475
+  },
+  {
+   "user": 8857,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.7071067811865475
+  },
+  {
+   "user": 8857,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.7071067811865475
+  },
+  {
+   "user": 8891,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8891,
+   "n_players": 4,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8891,
+   "n_players": 4,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8891,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 8891,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8891,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8911,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8911,
+   "n_players": 6,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8911,
+   "n_players": 6,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8911,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 8911,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8911,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8913,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8913,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8913,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8913,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 8913,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8913,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8993,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8993,
+   "n_players": 4,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8993,
+   "n_players": 4,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8993,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 8993,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 8993,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9021,
+   "n_players": 10,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5222329678670935
+  },
+  {
+   "user": 9021,
+   "n_players": 10,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5222329678670935
+  },
+  {
+   "user": 9021,
+   "n_players": 10,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.5222329678670935
+  },
+  {
+   "user": 9021,
+   "n_players": 10,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5222329678670935
+  },
+  {
+   "user": 9021,
+   "n_players": 10,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.5222329678670935
+  },
+  {
+   "user": 9082,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9082,
+   "n_players": 7,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9082,
+   "n_players": 7,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9082,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 9082,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9082,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9120,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9120,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9120,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9120,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 9120,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9120,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9125,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9125,
+   "n_players": 7,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9125,
+   "n_players": 7,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9125,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 9125,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9125,
+   "n_players": 7,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9165,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9165,
+   "n_players": 6,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9165,
+   "n_players": 6,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9165,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 9165,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9165,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9169,
+   "n_players": 8,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5773502691896257
+  },
+  {
+   "user": 9169,
+   "n_players": 8,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5808178695515156
+  },
+  {
+   "user": 9169,
+   "n_players": 8,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5843487097907775
+  },
+  {
+   "user": 9169,
+   "n_players": 8,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.5773502691896257
+  },
+  {
+   "user": 9169,
+   "n_players": 8,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5773502691896257
+  },
+  {
+   "user": 9169,
+   "n_players": 8,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.5773502691896257
+  },
+  {
+   "user": 9270,
+   "n_players": 8,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9270,
+   "n_players": 8,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9270,
+   "n_players": 8,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9270,
+   "n_players": 8,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 9270,
+   "n_players": 8,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9270,
+   "n_players": 8,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9300,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 9300,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 1.0
+  },
+  {
+   "user": 9300,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 9300,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 9300,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 9300,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 9307,
+   "n_players": 9,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9307,
+   "n_players": 9,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9307,
+   "n_players": 9,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9307,
+   "n_players": 9,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 9307,
+   "n_players": 9,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9307,
+   "n_players": 9,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9312,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9312,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9312,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9312,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 9312,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9312,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9313,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9313,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9313,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9313,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 9313,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9313,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9344,
+   "n_players": 20,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.37796447300922725
+  },
+  {
+   "user": 9344,
+   "n_players": 20,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.37796447300922725
+  },
+  {
+   "user": 9344,
+   "n_players": 20,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.37796447300922725
+  },
+  {
+   "user": 9344,
+   "n_players": 20,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.37796447300922725
+  },
+  {
+   "user": 9344,
+   "n_players": 20,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.37796447300922725
+  },
+  {
+   "user": 9381,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9381,
+   "n_players": 6,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9381,
+   "n_players": 6,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9381,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 9381,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9381,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9439,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9439,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9439,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9439,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 9439,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9439,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9462,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9462,
+   "n_players": 5,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9462,
+   "n_players": 5,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9462,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 9462,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9462,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9755,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9755,
+   "n_players": 5,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9755,
+   "n_players": 5,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9755,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 9755,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9755,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9820,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9820,
+   "n_players": 5,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9820,
+   "n_players": 5,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9820,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 9820,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9820,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 9874,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 9874,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 9874,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 9874,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 9874,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 9874,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.8660254037844387
+  },
+  {
+   "user": 9926,
+   "n_players": 11,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5
+  },
+  {
+   "user": 9926,
+   "n_players": 11,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5
+  },
+  {
+   "user": 9926,
+   "n_players": 11,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": 0.5
+  },
+  {
+   "user": 9926,
+   "n_players": 11,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": 0.5
+  },
+  {
+   "user": 9926,
+   "n_players": 11,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": 0.5
+  },
+  {
+   "user": 10057,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10057,
+   "n_players": 5,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10057,
+   "n_players": 5,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10057,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 10057,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10057,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10073,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10073,
+   "n_players": 5,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10073,
+   "n_players": 5,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10073,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 10073,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10073,
+   "n_players": 5,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10121,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10121,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10121,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10121,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 10121,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10121,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10268,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10268,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10268,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10268,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 10268,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10268,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10465,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10465,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10465,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10465,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 10465,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10465,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10481,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10481,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10481,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10481,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 10481,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10481,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10556,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10556,
+   "n_players": 3,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10556,
+   "n_players": 3,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10556,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 10556,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10556,
+   "n_players": 3,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10606,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10606,
+   "n_players": 4,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10606,
+   "n_players": 4,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10606,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 10606,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10606,
+   "n_players": 4,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10620,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10620,
+   "n_players": 6,
+   "design": "unique",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10620,
+   "n_players": 6,
+   "design": "enumerate",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10620,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 0.1,
+   "bounded_aia": null
+  },
+  {
+   "user": 10620,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 1.0,
+   "bounded_aia": null
+  },
+  {
+   "user": 10620,
+   "n_players": 6,
+   "design": "bernoulli",
+   "ridge_alpha": 10.0,
+   "bounded_aia": null
+  }
+ ],
+ "recorded_at": "2026-08-19T19:44:05"
+}

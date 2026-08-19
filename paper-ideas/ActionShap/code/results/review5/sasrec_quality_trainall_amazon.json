@@ -9,21 +9,9 @@
  "results": [
   {
    "seed": 42,
-   "ndcg10": 0.00031546487678572877,
-   "hr10": 0.001,
-   "mrr": 0.0009076358524115795,
-   "ndcg10_popularity": 0.007354428899522155,
-   "hr10_popularity": 0.017,
-   "mrr_popularity": 0.007271615760861698,
-   "mean_abs_masking_delta": 0.0022359531514668752,
-   "masking_gate_pass": true,
-   "beats_popularity": false
-  },
-  {
-   "seed": 43,
    "ndcg10": 0.0,
    "hr10": 0.0,
-   "mrr": 0.0005662822197299313,
+   "mrr": 0.0008265609613126033,
    "ndcg10_popularity": 0.007354428899522155,
    "hr10_popularity": 0.017,
    "mrr_popularity": 0.007271615760861698,
@@ -32,10 +20,22 @@
    "beats_popularity": false
   },
   {
+   "seed": 43,
+   "ndcg10": 0.0007201861405678749,
+   "hr10": 0.002,
+   "mrr": 0.001095524769272783,
+   "ndcg10_popularity": 0.007354428899522155,
+   "hr10_popularity": 0.017,
+   "mrr_popularity": 0.007271615760861698,
+   "mean_abs_masking_delta": 0.0007612961316785147,
+   "masking_gate_pass": false,
+   "beats_popularity": false
+  },
+  {
    "seed": 44,
    "ndcg10": 0.0,
    "hr10": 0.0,
-   "mrr": 0.0007661383722939971,
+   "mrr": 0.0008172738922142232,
    "ndcg10_popularity": 0.007354428899522155,
    "hr10_popularity": 0.017,
    "mrr_popularity": 0.007271615760861698,
@@ -45,28 +45,28 @@
   },
   {
    "seed": 45,
-   "ndcg10": 0.0006309297535714575,
+   "ndcg10": 0.00043067655807339306,
    "hr10": 0.001,
-   "mrr": 0.0012093545320417103,
+   "mrr": 0.0008475977564630119,
    "ndcg10_popularity": 0.007354428899522155,
    "hr10_popularity": 0.017,
    "mrr_popularity": 0.007271615760861698,
-   "mean_abs_masking_delta": 0.001333889542434371,
+   "mean_abs_masking_delta": 0.0011500145252065501,
    "masking_gate_pass": true,
    "beats_popularity": false
   },
   {
    "seed": 46,
-   "ndcg10": 0.0006666666666666666,
-   "hr10": 0.002,
-   "mrr": 0.0011399007896023283,
+   "ndcg10": 0.0,
+   "hr10": 0.0,
+   "mrr": 0.0009282925886385108,
    "ndcg10_popularity": 0.007354428899522155,
    "hr10_popularity": 0.017,
    "mrr_popularity": 0.007271615760861698,
-   "mean_abs_masking_delta": 0.000704721634954193,
+   "mean_abs_masking_delta": 0.0,
    "masking_gate_pass": false,
    "beats_popularity": false
   }
  ],
- "recorded_at": "2026-08-19T19:03:30"
+ "recorded_at": "2026-08-19T19:45:40"
 }
