@@ -524,6 +524,28 @@ Grand-coalition diagnostic (infeasible fallback) & 0.000000 & 0.000000 & -0.2945
 \end{tabular}}
 \end{table*}
 
+The primary configuration produces a deliberately uninformative tie among several selectors because repeat cap is dominant. We therefore ran a second, pre-specified held-out comparison on three constraint-frontier configurations. Selection used seeds 60--62 and frozen portfolios were evaluated on disjoint seeds 260--269. In the strict-provider and tight-relevance settings, best-singleton and robust-Shapley-1 were below the exact selector (for example, mean held-out lower improvements of $-0.07293$ versus $-0.02369$ in one frontier run), whereas nominal and some greedy rules remained tied with the exact selector. In the relaxed-provider setting, the selectors again largely agreed on repeat cap. These results show that the decision rule can matter when feasibility creates nontrivial alternatives, but do not support universal superiority claims.
+
+\begin{table}[t]
+\caption{Held-out selector comparisons under selected constraint-frontier settings. Values are means over disjoint evaluation seeds; only valid portfolio selectors are interpreted, while grand-coalition rows remain diagnostics.}
+\label{tab:divergent-selectors}
+\centering
+\scriptsize
+\begin{tabular}{@{}llrrr@{}}
+\toprule
+Frontier & Selector & Lower improvement & Feasible rate & $\Delta$ vs. CURE\\
+\midrule
+Strict provider & CURE exact maximin & $-0.02369$ & 0.50 & 0.00000\\
+Strict provider & Best singleton & $-0.07293$ & 0.67 & $-0.04924$\\
+Strict provider & Robust Shapley-1 & $-0.07293$ & 0.67 & $-0.04924$\\
+Tight relevance & CURE exact maximin & $-0.02369$ & 0.50 & 0.00000\\
+Tight relevance & Best singleton & $-0.07293$ & 0.67 & $-0.04924$\\
+Relaxed provider & CURE exact maximin & 0.29320 & 1.00 & 0.00000\\
+Relaxed provider & Best singleton & 0.29320 & 1.00 & 0.00000\\
+\bottomrule
+\end{tabular}
+\end{table}
+
 The selector comparison is intentionally not a manufactured superiority claim. Exact CURE, singleton, robust-Shapley, greedy, and nominal selectors all choose repeat cap for all selection seeds in this configuration, so they are tied on the held-out evaluation. The exact framework is markedly better than random feasible selection; the grand coalition is categorically budget-infeasible under the reported cost and budget values and is reported only as a diagnostic. The value of CURE-Rec in this regime is therefore not that it beats every heuristic, but that it identifies and explains the same simple intervention while retaining principled repair, constraint, and interaction diagnostics for settings in which selectors diverge.
 
 The decision modes are as informative as the selected player. In the full twenty-seed study, the base is infeasible in 14 seeds, principally because provider disparity crosses the declared upper bound. Those 14 outputs are repairs, not failed improvements: repeat cap is chosen because it produces the best feasible maximin policy under the configured scenarios. In the remaining six seeds, the base is feasible and repeat cap is selected as an improvement. A manuscript that reported only the 20/20 selection frequency would hide this operational distinction.
