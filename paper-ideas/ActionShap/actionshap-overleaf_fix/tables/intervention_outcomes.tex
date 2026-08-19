@@ -1,0 +1,25 @@
+% Compact principal table. Complete outcomes and uncertainty are in intervention_outcomes.csv.
+\begin{table}[t]\centering\scriptsize
+\setlength{\tabcolsep}{1.5pt}
+\caption{Primary budget-two NDCG decisions. Success is shown over all users and conditional on a positive exact oracle (Active); Harm is the fraction of repetition--user actions with negative realized effect. NRegret is conditional on Active users.}
+\label{tab:intervention-outcomes}
+\begin{tabular}{llrrrrrr}
+\toprule
+Dataset & Method & $\Delta$NDCG & Succ. & Succ.$\mid O>0$ & Harm & Abst. & NRegret ($n$) \\
+\midrule
+MovieLens & Shapley & 0.040 & 27.4\% & 80.9\% & 0.1\% & 0.0\% & 0.268 (339) \\
+MovieLens & LIME & 0.043 & 28.8\% & 84.8\% & 0.0\% & 0.0\% & 0.225 (339) \\
+MovieLens & LOO & 0.043 & 28.9\% & 85.3\% & 0.1\% & 0.0\% & 0.217 (339) \\
+MovieLens & Greedy & 0.006 & 10.3\% & 30.4\% & 7.1\% & 0.0\% & 1.471 (339) \\
+MovieLens & Random & -0.001 & 7.4\% & 21.9\% & 7.6\% & 0.0\% & 1.446 (339) \\
+\midrule
+Amazon & Shapley & 0.033 & 17.0\% & 86.8\% & 0.2\% & 1.0\% & 0.206 (196) \\
+Amazon & LIME & 0.033 & 17.1\% & 87.3\% & 0.1\% & 7.0\% & 0.197 (196) \\
+Amazon & LOO & 0.031 & 16.7\% & 85.2\% & 0.1\% & 8.6\% & 0.232 (196) \\
+Amazon & Greedy & 0.010 & 9.0\% & 45.9\% & 2.8\% & 0.7\% & 0.784 (196) \\
+Amazon & Random & -0.004 & 6.6\% & 33.7\% & 6.2\% & 4.8\% & 1.197 (196) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent\scriptsize Primary NDCG-effect 95\% user-bootstrap CIs: MovieLens Shapley $[.035,.046]$, LIME $[.037,.049]$, LOO $[.037,.050]$; Amazon Shapley $[.027,.040]$, LIME $[.027,.039]$, LOO $[.026,.037]$. NRegret CIs and all valid/missing counts remain in the machine-readable release.

@@ -1,0 +1,62 @@
+\begin{longtable}{@{}p{.24\linewidth}p{.17\linewidth}rrrr@{}}
+\caption{Complete singleton alignment matrix for all predeclared ItemKNN conditions. Means are distinct-user values; confidence intervals and missing-user counts are retained in the CSV release.}\label{tab:S1}\\
+\toprule
+Condition & Method & Deletion & Bounded & Gap & $n$ \\
+\midrule
+\endfirsthead
+\multicolumn{6}{c}{\tablename\ \thetable{} -- continued from previous page}\\
+\toprule
+Condition & Method & Deletion & Bounded & Gap & $n$ \\
+\midrule
+\endhead
+\midrule
+\multicolumn{6}{r}{Continued on next page}\\
+\endfoot
+\bottomrule
+\endlastfoot
+Amazon full catalogue & Greedy sequential deletion & 0.5731 & 0.4494 & -0.1236 & 250 \\
+Amazon full catalogue & LIME & 0.9215 & 0.7215 & -0.2000 & 250 \\
+Amazon full catalogue & Leave-one-out & 1.0000 & 0.7895 & -0.2105 & 250 \\
+Amazon full catalogue & Monte Carlo Shapley & -0.2875 & -0.1186 & 0.1689 & 250 \\
+Amazon full catalogue & Random control & -0.0012 & -0.0041 & -0.0028 & 250 \\
+Amazon sampled & Greedy sequential deletion & 0.1911 & 0.1310 & -0.0600 & 993 \\
+Amazon sampled & LIME & 0.9304 & 0.8271 & -0.1032 & 993 \\
+Amazon sampled & Leave-one-out & 1.0000 & 0.8511 & -0.1489 & 993 \\
+Amazon sampled & Monte Carlo Shapley & 0.2856 & 0.4141 & 0.1285 & 993 \\
+Amazon sampled & Random control & -0.0080 & -0.0103 & -0.0023 & 993 \\
+MovieLens 100 candidates & Greedy sequential deletion & 0.2632 & 0.2605 & -0.0027 & 250 \\
+MovieLens 100 candidates & LIME & 0.9604 & 0.9469 & -0.0136 & 250 \\
+MovieLens 100 candidates & Leave-one-out & 1.0000 & 0.9824 & -0.0176 & 250 \\
+MovieLens 100 candidates & Monte Carlo Shapley & 0.8086 & 0.8209 & 0.0124 & 250 \\
+MovieLens 100 candidates & Random control & -0.0044 & -0.0029 & 0.0015 & 250 \\
+MovieLens 500 candidates & Greedy sequential deletion & 0.3733 & 0.3782 & 0.0049 & 250 \\
+MovieLens 500 candidates & LIME & 0.9445 & 0.9219 & -0.0226 & 250 \\
+MovieLens 500 candidates & Leave-one-out & 1.0000 & 0.9710 & -0.0290 & 250 \\
+MovieLens 500 candidates & Monte Carlo Shapley & 0.6918 & 0.7239 & 0.0321 & 250 \\
+MovieLens 500 candidates & Random control & 0.0018 & 0.0040 & 0.0022 & 250 \\
+MovieLens full catalogue & Greedy sequential deletion & 0.3845 & 0.3819 & -0.0026 & 250 \\
+MovieLens full catalogue & LIME & 0.9256 & 0.8924 & -0.0332 & 250 \\
+MovieLens full catalogue & Leave-one-out & 1.0000 & 0.9580 & -0.0420 & 250 \\
+MovieLens full catalogue & Monte Carlo Shapley & 0.5742 & 0.6180 & 0.0438 & 250 \\
+MovieLens full catalogue & Random control & 0.0033 & 0.0039 & 0.0006 & 250 \\
+MovieLens n\_max=100 & Greedy sequential deletion & 0.3874 & 0.3807 & -0.0067 & 250 \\
+MovieLens n\_max=100 & LIME & 0.9280 & 0.9183 & -0.0097 & 250 \\
+MovieLens n\_max=100 & Leave-one-out & 1.0000 & 0.9872 & -0.0128 & 250 \\
+MovieLens n\_max=100 & Monte Carlo Shapley & 0.8018 & 0.8082 & 0.0064 & 250 \\
+MovieLens n\_max=100 & Random control & 0.0010 & 0.0015 & 0.0005 & 250 \\
+MovieLens n\_max=50 & Greedy sequential deletion & 0.3694 & 0.3636 & -0.0058 & 250 \\
+MovieLens n\_max=50 & LIME & 0.9448 & 0.9344 & -0.0105 & 250 \\
+MovieLens n\_max=50 & Leave-one-out & 1.0000 & 0.9867 & -0.0133 & 250 \\
+MovieLens n\_max=50 & Monte Carlo Shapley & 0.7997 & 0.8079 & 0.0082 & 250 \\
+MovieLens n\_max=50 & Random control & 0.0010 & 0.0013 & 0.0003 & 250 \\
+MovieLens rho=0.25 & Greedy sequential deletion & 0.3780 & 0.3766 & -0.0014 & 250 \\
+MovieLens rho=0.25 & LIME & 0.9551 & 0.9498 & -0.0053 & 250 \\
+MovieLens rho=0.25 & Leave-one-out & 1.0000 & 0.9922 & -0.0078 & 250 \\
+MovieLens rho=0.25 & Monte Carlo Shapley & 0.7596 & 0.7664 & 0.0068 & 250 \\
+MovieLens rho=0.25 & Random control & -0.0038 & -0.0050 & -0.0012 & 250 \\
+MovieLens sampled & Greedy sequential deletion & 0.3205 & 0.3183 & -0.0023 & 1000 \\
+MovieLens sampled & LIME & 0.9509 & 0.9334 & -0.0176 & 1000 \\
+MovieLens sampled & Leave-one-out & 1.0000 & 0.9780 & -0.0220 & 1000 \\
+MovieLens sampled & Monte Carlo Shapley & 0.7617 & 0.7786 & 0.0169 & 1000 \\
+MovieLens sampled & Random control & -0.0010 & 0.0003 & 0.0014 & 1000 \\
+\end{longtable}

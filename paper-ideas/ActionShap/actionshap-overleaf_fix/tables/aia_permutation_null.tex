@@ -1,0 +1,23 @@
+% Compact primary null table; full model-by-method calibration is in release/matrices/aia_permutation_null.csv.
+\begin{table}[t]
+\centering\scriptsize
+\caption{Within-user permutation calibration of primary bounded target-margin AIA. Null summaries average matched draws over five repetitions within user before aggregation.}
+\label{tab:aia-null}
+\begin{tabular}{llrrrr}
+\toprule
+Dataset & Method & Observed AIA & Null mean & Null 95th pct. & $p_{\mathrm{perm}}$ \\
+\midrule
+MovieLens & Shapley & .779 & -.0001 & .0055 & .0010 \\
+MovieLens & LIME & .933 & .0001 & .0059 & .0010 \\
+MovieLens & LOO & .978 & -.0001 & .0059 & .0010 \\
+MovieLens & Greedy & .318 & .0002 & .0061 & .0010 \\
+MovieLens & Random & .000 & .0000 & .0058 & .4635 \\
+\midrule
+Amazon & Shapley & .414 & .0000 & .0128 & .0010 \\
+Amazon & LIME & .827 & -.0004 & .0128 & .0010 \\
+Amazon & LOO & .851 & .0001 & .0126 & .0010 \\
+Amazon & Greedy & .131 & -.0002 & .0124 & .0010 \\
+Amazon & Random & -.010 & .0001 & .0125 & .9091 \\
+\bottomrule
+\end{tabular}
+\end{table}

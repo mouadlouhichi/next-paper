@@ -1,0 +1,174 @@
+{
+  "status": "PASS",
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "amazon-digital-music_profile_fullcatalog_seed42.json: attributed model underperforms popularity (NDCG 0.001262 vs 0.007536; Recall 0.004 vs 0.02)",
+    "amazon-digital-music_profile_fullcatalog_seed43.json: attributed model underperforms popularity (NDCG 0.005047 vs 0.007536; Recall 0.008 vs 0.02)",
+    "amazon-digital-music_profile_fullcatalog_seed44.json: attributed model underperforms popularity (NDCG 0.003204 vs 0.007536; Recall 0.008 vs 0.02)",
+    "amazon-digital-music_profile_fullcatalog_seed45.json: attributed model underperforms popularity (NDCG 0 vs 0.007536; Recall 0 vs 0.02)",
+    "amazon-digital-music_profile_fullcatalog_seed46.json: attributed model underperforms popularity (NDCG 0 vs 0.007536; Recall 0 vs 0.02)",
+    "amazon-digital-music_profile_sampled_seed42.json: attributed model underperforms popularity (NDCG 0.03576 vs 0.08991; Recall 0.068 vs 0.155)",
+    "amazon-digital-music_profile_sampled_seed43.json: attributed model underperforms popularity (NDCG 0.0397 vs 0.08991; Recall 0.075 vs 0.155)",
+    "amazon-digital-music_profile_sampled_seed44.json: attributed model underperforms popularity (NDCG 0.04437 vs 0.08991; Recall 0.081 vs 0.155)",
+    "amazon-digital-music_profile_sampled_seed45.json: attributed model underperforms popularity (NDCG 0.03645 vs 0.08991; Recall 0.073 vs 0.155)",
+    "amazon-digital-music_profile_sampled_seed46.json: attributed model underperforms popularity (NDCG 0.03536 vs 0.08991; Recall 0.069 vs 0.155)",
+    "movielens-1m_profile_fullcatalog_seed42.json: attributed model underperforms popularity (NDCG 0.008985 vs 0.009373; Recall 0.016 vs 0.02)",
+    "movielens-1m_profile_sampled_seed42.json: attributed model underperforms popularity (NDCG 0.1556 vs 0.158; Recall 0.299 vs 0.32)",
+    "movielens-1m_profile_sampled_seed43.json: attributed model underperforms popularity (NDCG 0.1539 vs 0.158; Recall 0.29 vs 0.32)",
+    "movielens-1m_profile_sampled_seed44.json: attributed model underperforms popularity (NDCG 0.1561 vs 0.158; Recall 0.303 vs 0.32)",
+    "movielens-1m_profile_sampled_seed45.json: attributed model underperforms popularity (NDCG 0.1555 vs 0.158; Recall 0.303 vs 0.32)",
+    "movielens-1m_profile_sampled_seed46.json: masking gate did not pass",
+    "movielens-1m_profile_sampled_seed46.json: attributed model underperforms popularity (NDCG 0.1567 vs 0.158; Recall 0.308 vs 0.32)",
+    "('Amazon-Digital-Music', 'itemknn', 'full_unseen_catalogue', 'target_margin', 'full_catalogue', 'full_catalogue'): M=50 reaches both per-user thresholds for 60.0% of rank-valid users",
+    "('Amazon-Digital-Music', 'itemknn', 'sampled_unseen_negatives_with_target', 'target_margin', 'primary', 'primary'): M=50 reaches both per-user thresholds for 60.0% of rank-valid users",
+    "('Amazon-Digital-Music', 'profile', 'full_unseen_catalogue', 'target_margin', 'full_catalogue', 'full_catalogue'): M=100 reaches both per-user thresholds for 66.0% of rank-valid users",
+    "('Amazon-Digital-Music', 'profile', 'sampled_unseen_negatives_with_target', 'target_margin', 'primary', 'primary'): M=100 reaches both per-user thresholds for 66.0% of rank-valid users",
+    "('MovieLens-1M', 'itemknn', 'full_unseen_catalogue', 'target_margin', 'full_catalogue', 'full_catalogue'): M=250 reaches both per-user thresholds for 69.0% of rank-valid users",
+    "('MovieLens-1M', 'itemknn', 'sampled_unseen_negatives_with_target', 'target_margin', 'primary', 'primary'): M=250 reaches both per-user thresholds for 69.0% of rank-valid users",
+    "('MovieLens-1M', 'itemknn', 'sampled_unseen_negatives_with_target', 'target_margin', 'sensitivity', 'budget1'): M=250 reaches both per-user thresholds for 69.0% of rank-valid users",
+    "('MovieLens-1M', 'itemknn', 'sampled_unseen_negatives_with_target', 'target_margin', 'sensitivity', 'budget3'): M=250 reaches both per-user thresholds for 69.0% of rank-valid users",
+    "('MovieLens-1M', 'itemknn', 'sampled_unseen_negatives_with_target', 'target_margin', 'sensitivity', 'candidates100'): M=250 reaches both per-user thresholds for 69.0% of rank-valid users",
+    "('MovieLens-1M', 'itemknn', 'sampled_unseen_negatives_with_target', 'target_margin', 'sensitivity', 'candidates500'): M=250 reaches both per-user thresholds for 69.0% of rank-valid users",
+    "('MovieLens-1M', 'itemknn', 'sampled_unseen_negatives_with_target', 'target_margin', 'sensitivity', 'nmax100'): M=250 reaches both per-user thresholds for 69.0% of rank-valid users",
+    "('MovieLens-1M', 'itemknn', 'sampled_unseen_negatives_with_target', 'target_margin', 'sensitivity', 'nmax50'): M=250 reaches both per-user thresholds for 69.0% of rank-valid users",
+    "('MovieLens-1M', 'itemknn', 'sampled_unseen_negatives_with_target', 'target_margin', 'sensitivity', 'rho025'): M=250 reaches both per-user thresholds for 69.0% of rank-valid users",
+    "('MovieLens-1M', 'itemknn', 'sampled_unseen_negatives_with_target', 'ndcg', 'sensitivity', 'utility-ndcg'): NDCG attribution did not satisfy convergence thresholds; the sensitivity uses the maximum M=1000 and reports failure",
+    "('MovieLens-1M', 'itemknn', 'sampled_unseen_negatives_with_target', 'ndcg', 'sensitivity', 'utility-ndcg'): M=1000 reaches both per-user thresholds for 62.0% of rank-valid users",
+    "('MovieLens-1M', 'profile', 'full_unseen_catalogue', 'target_margin', 'full_catalogue', 'full_catalogue'): M=50 reaches both per-user thresholds for 56.0% of rank-valid users",
+    "('MovieLens-1M', 'profile', 'sampled_unseen_negatives_with_target', 'target_margin', 'primary', 'primary'): M=50 reaches both per-user thresholds for 56.0% of rank-valid users"
+  ],
+  "loo_identity_max_abs_error": 2.220446049250313e-16,
+  "normalized_regret_min": 0.0,
+  "experiment_groups": [
+    [
+      "Amazon-Digital-Music",
+      "itemknn",
+      "full_unseen_catalogue",
+      "target_margin",
+      "full_catalogue",
+      "full_catalogue"
+    ],
+    [
+      "Amazon-Digital-Music",
+      "itemknn",
+      "sampled_unseen_negatives_with_target",
+      "target_margin",
+      "primary",
+      "primary"
+    ],
+    [
+      "Amazon-Digital-Music",
+      "profile",
+      "full_unseen_catalogue",
+      "target_margin",
+      "full_catalogue",
+      "full_catalogue"
+    ],
+    [
+      "Amazon-Digital-Music",
+      "profile",
+      "sampled_unseen_negatives_with_target",
+      "target_margin",
+      "primary",
+      "primary"
+    ],
+    [
+      "MovieLens-1M",
+      "itemknn",
+      "full_unseen_catalogue",
+      "target_margin",
+      "full_catalogue",
+      "full_catalogue"
+    ],
+    [
+      "MovieLens-1M",
+      "itemknn",
+      "sampled_unseen_negatives_with_target",
+      "ndcg",
+      "sensitivity",
+      "utility-ndcg"
+    ],
+    [
+      "MovieLens-1M",
+      "itemknn",
+      "sampled_unseen_negatives_with_target",
+      "target_margin",
+      "primary",
+      "primary"
+    ],
+    [
+      "MovieLens-1M",
+      "itemknn",
+      "sampled_unseen_negatives_with_target",
+      "target_margin",
+      "sensitivity",
+      "budget1"
+    ],
+    [
+      "MovieLens-1M",
+      "itemknn",
+      "sampled_unseen_negatives_with_target",
+      "target_margin",
+      "sensitivity",
+      "budget3"
+    ],
+    [
+      "MovieLens-1M",
+      "itemknn",
+      "sampled_unseen_negatives_with_target",
+      "target_margin",
+      "sensitivity",
+      "candidates100"
+    ],
+    [
+      "MovieLens-1M",
+      "itemknn",
+      "sampled_unseen_negatives_with_target",
+      "target_margin",
+      "sensitivity",
+      "candidates500"
+    ],
+    [
+      "MovieLens-1M",
+      "itemknn",
+      "sampled_unseen_negatives_with_target",
+      "target_margin",
+      "sensitivity",
+      "nmax100"
+    ],
+    [
+      "MovieLens-1M",
+      "itemknn",
+      "sampled_unseen_negatives_with_target",
+      "target_margin",
+      "sensitivity",
+      "nmax50"
+    ],
+    [
+      "MovieLens-1M",
+      "itemknn",
+      "sampled_unseen_negatives_with_target",
+      "target_margin",
+      "sensitivity",
+      "rho025"
+    ],
+    [
+      "MovieLens-1M",
+      "profile",
+      "full_unseen_catalogue",
+      "target_margin",
+      "full_catalogue",
+      "full_catalogue"
+    ],
+    [
+      "MovieLens-1M",
+      "profile",
+      "sampled_unseen_negatives_with_target",
+      "target_margin",
+      "primary",
+      "primary"
+    ]
+  ],
+  "n_files": 80
+}
