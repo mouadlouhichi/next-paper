@@ -1,0 +1,82 @@
+{
+ "source": "convergence_amazon_seed42.json",
+ "budgets": [
+  {
+   "budget": 25,
+   "n_rank_valid": 100,
+   "rank_mean": 0.9348132670734839,
+   "rank_median": 0.9473182957393482,
+   "rank_p5": 0.8271428571428574,
+   "rank_p25": 0.9,
+   "jaccard_mean": 0.8706666666666665,
+   "jaccard_median": 1.0,
+   "threshold_coverage": 0.43,
+   "rank_valid_fraction": 1.0
+  },
+  {
+   "budget": 50,
+   "n_rank_valid": 100,
+   "rank_mean": 0.9532067478445189,
+   "rank_median": 0.9684210526315788,
+   "rank_p5": 0.8400000000000001,
+   "rank_p25": 0.9370040485829959,
+   "jaccard_mean": 0.9089999999999999,
+   "jaccard_median": 1.0,
+   "threshold_coverage": 0.6,
+   "rank_valid_fraction": 1.0
+  },
+  {
+   "budget": 100,
+   "n_rank_valid": 100,
+   "rank_mean": 0.9690345078038577,
+   "rank_median": 0.9799999999999999,
+   "rank_p5": 0.8990476190476191,
+   "rank_p25": 0.954047619047619,
+   "jaccard_mean": 0.9449999999999998,
+   "jaccard_median": 1.0,
+   "threshold_coverage": 0.7,
+   "rank_valid_fraction": 1.0
+  },
+  {
+   "budget": 250,
+   "n_rank_valid": 100,
+   "rank_mean": 0.9739102404303642,
+   "rank_median": 0.9908263305322129,
+   "rank_p5": 0.8962857142857142,
+   "rank_p25": 0.965357142857143,
+   "jaccard_mean": 0.9466666666666668,
+   "jaccard_median": 1.0,
+   "threshold_coverage": 0.78,
+   "rank_valid_fraction": 1.0
+  },
+  {
+   "budget": 500,
+   "n_rank_valid": 100,
+   "rank_mean": 0.9797492202328114,
+   "rank_median": 0.9993006993006992,
+   "rank_p5": 0.8800000000000001,
+   "rank_p25": 0.9796616541353382,
+   "jaccard_mean": 0.9616666666666667,
+   "jaccard_median": 1.0,
+   "threshold_coverage": 0.83,
+   "rank_valid_fraction": 1.0
+  },
+  {
+   "budget": 1000,
+   "n_rank_valid": 100,
+   "rank_mean": 0.9821178437145932,
+   "rank_median": 0.9999999999999998,
+   "rank_p5": 0.8989999999999998,
+   "rank_p25": 0.9852321981424148,
+   "jaccard_mean": 0.9653333333333333,
+   "jaccard_median": 1.0,
+   "threshold_coverage": 0.85,
+   "rank_valid_fraction": 1.0
+  }
+ ],
+ "criterion": {
+  "rank": 0.95,
+  "jaccard": 0.8
+ },
+ "recorded_at": "2026-08-19T21:14:26"
+}
