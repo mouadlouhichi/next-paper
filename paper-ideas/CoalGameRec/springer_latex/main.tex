@@ -775,7 +775,9 @@ $M$ & Attribution time (s) & Efficiency residual & Spearman $\rho$ vs.\ $M=256$ 
 Ranking improvement is not explanation faithfulness. The primary diagnostic is the C1 masked-forward comparison in Table~\ref{tab:c1_faith}, which removes edges, renormalizes degrees, and re-propagates the frozen model. It suggests that LOO and Shapley select influential history more effectively than uniform or random weights, but it uses one training seed per dataset and has no confidence intervals. Given known weaknesses of perturbation fidelity under graph distribution shift \cite{zheng2024robust,fang2023evaluating}, we do not claim full faithfulness without multi-seed curves, stability tests, model randomization, and user-centered evaluation.
 \subsection{Second backbone: NGCF (cross-architecture replication)}\label{subsec:second_backbone}
 
-To test whether the boundary result is an artifact of LightGCN's linear propagation, we re-ran the identical frozen matched-controls protocol with an NGCF-style backbone (nonlinear $W_1e_j+W_2(e_j\odot e_i)$ aggregation with LeakyReLU, mean layer readout; identical hyperparameters, seeds 42--46, $k=24$, 100 validation negatives, native intervention, $\lambda_{\text{attr}}=0.10$; Table~\ref{tab:second_backbone}). The family ordering replicates on both datasets: LOO is the strongest NDCG@20 method, Shapley is second, valid-linear third, and the non-game controls trail, with the unreranked model last. Absolute NDCG@20 is lower than under LightGCN because the shared frozen hyperparameters are not NGCF-tuned; this does not affect the within-run, same-model family comparison, which is the claim under test. Paired per-user permutation inference for this backbone is released with the per-user artifacts.
+To test whether the boundary result is an artifact of LightGCN's linear propagation, we re-ran the identical frozen matched-controls protocol with an NGCF-style backbone (nonlinear $W_1e_j+W_2(e_j\odot e_i)$ aggregation with LeakyReLU, mean layer readout; identical hyperparameters, seeds 42--46, $k=24$, 100 validation negatives, native intervention, $\lambda_{\text{attr}}=0.10$; Table~\ref{tab:second_backbone}). The family ordering replicates on both datasets: LOO is the strongest NDCG@20 method, Shapley is second, valid-linear third, and the non-game controls trail, with the unreranked model last. Absolute NDCG@20 is lower than under LightGCN because the shared frozen hyperparameters are not NGCF-tuned; this does not affect the within-run, same-model family comparison, which is the claim under test.
+
+The paired per-user inference on this backbone (joint seed-mean differences, $B=10{,}000$ sign-flip permutations with $+1$ correction, Holm families declared exactly as in C1b) confirms the replication statistically (Table~\ref{tab:second_backbone_paired}). LOO beats every matched control on both metrics and both datasets (all Holm $p\le0.0014$). Shapley beats uniform and valid-sim everywhere, is indistinguishable from valid-linear on ML-1M, and is beaten by LOO on NDCG@20 --- significantly on Amazon-Book ($p<10^{-3}$ both metrics) and with the same direction on ML-1M (permutation Holm $p=0.051$, Wilcoxon $p<10^{-4}$). An equivalence check on the Shapley--LOO NDCG@20 difference holds on Amazon-Book (90\% CI $[-0.000724,-0.000325]$, inside $\pm0.001$, entirely on the LOO side); on ML-1M the interval lies entirely below zero but exceeds the lower margin, i.e.\ under NGCF the LOO advantage on ML-1M is larger than negligible rather than smaller. The Friedman omnibus again rejects ($p<10^{-35}$) with LOO holding the top mean rank in all four scopes (Nemenyi pairwise n.s., as in the LightGCN study).
 
 \begin{table*}[t]
 \caption{Second-backbone replication under the frozen matched-controls protocol (NGCF, five seeds, mean $\pm$ SD). Only the propagation scheme differs from the C1b protocol.}\label{tab:second_backbone}
@@ -807,6 +809,40 @@ Amazon-Book & \textbf{LOO} & \textbf{0.02885 $\pm$ 0.00647} & \textbf{0.01177 $\
 \end{tabular}
 \end{table*}
 
+\begin{table*}[t]
+\caption{NGCF second backbone: paired contrasts on joint seed-mean user differences ($B=10{,}000$ permutation replicates, $+1$ correction; Holm-adjusted within the declared families $F=12$ (LOO) and $F=8$ (Shapley); Wilcoxon as sensitivity; bootstrap 95\% CI for $d_z$). Positive differences favor the treatment.}\label{tab:second_backbone_paired}
+\centering
+\scriptsize
+\resizebox{\textwidth}{!}{
+\begin{tabular}{llllllll}
+\toprule
+Dataset & Contrast & Metric & Mean diff. & 95\% CI & $p$ (perm., Holm) & $p$ (Wilcoxon, Holm) & $d_z$ [95\% CI] \\
+\midrule
+ML-1M & LOO vs valid-sim & NDCG@20 & +0.004145 & [+0.002612, +0.005609] & 0.0012 & $<10^{-4}$ & +0.069 [+0.042, +0.097] \\
+ML-1M & LOO vs valid-sim & HR@20 & +0.009942 & [+0.006350, +0.013566] & 0.0012 & $<10^{-4}$ & +0.069 [+0.044, +0.094] \\
+ML-1M & LOO vs valid-linear & NDCG@20 & +0.002624 & [+0.001462, +0.003799] & 0.0012 & $<10^{-4}$ & +0.057 [+0.032, +0.083] \\
+ML-1M & LOO vs valid-linear & HR@20 & +0.004289 & [+0.001663, +0.007049] & 0.0014 & 0.0006 & +0.041 [+0.016, +0.066] \\
+Amazon & LOO vs valid-sim & NDCG@20 & +0.001326 & [+0.000946, +0.001715] & 0.0012 & $<10^{-4}$ & +0.078 [+0.059, +0.097] \\
+Amazon & LOO vs valid-sim & HR@20 & +0.002831 & [+0.001780, +0.003883] & 0.0012 & $<10^{-4}$ & +0.063 [+0.041, +0.084] \\
+Amazon & LOO vs valid-linear & NDCG@20 & +0.001379 & [+0.000985, +0.001784] & 0.0012 & $<10^{-4}$ & +0.078 [+0.059, +0.095] \\
+Amazon & LOO vs valid-linear & HR@20 & +0.002777 & [+0.001753, +0.003775] & 0.0012 & $<10^{-4}$ & +0.063 [+0.041, +0.084] \\
+ML-1M & Shapley vs valid-sim & NDCG@20 & +0.002679 & [+0.001784, +0.003559] & 0.0008 & $<10^{-4}$ & +0.078 [+0.050, +0.107] \\
+ML-1M & Shapley vs valid-sim & HR@20 & +0.007215 & [+0.004921, +0.009544] & 0.0008 & $<10^{-4}$ & +0.079 [+0.054, +0.104] \\
+ML-1M & Shapley vs valid-linear & NDCG@20 & +0.001158 & [+0.000173, +0.002156] & 0.0792 & 0.524 & +0.029 [+0.004, +0.053] \\
+ML-1M & Shapley vs valid-linear & HR@20 & +0.001563 & [-0.001097, +0.004123] & 0.2457 & 0.524 & +0.015 [-0.011, +0.040] \\
+ML-1M & Shapley vs LOO & NDCG@20 & -0.001466 & [-0.002603, -0.000319] & 0.0512 & $<10^{-4}$ & -0.032 [-0.059, -0.007] \\
+ML-1M & Shapley vs LOO & HR@20 & -0.002727 & [-0.005686, +0.000166] & 0.1386 & 0.0377 & -0.024 [-0.051, +0.001] \\
+Amazon & Shapley vs valid-sim & NDCG@20 & +0.000804 & [+0.000545, +0.001075] & 0.0008 & $<10^{-4}$ & +0.069 [+0.048, +0.088] \\
+Amazon & Shapley vs valid-sim & HR@20 & +0.001645 & [+0.000890, +0.002427] & 0.0008 & $<10^{-4}$ & +0.049 [+0.027, +0.071] \\
+Amazon & Shapley vs valid-linear & NDCG@20 & +0.000857 & [+0.000555, +0.001180] & 0.0008 & 0.0002 & +0.063 [+0.043, +0.081] \\
+Amazon & Shapley vs valid-linear & HR@20 & +0.001591 & [+0.000755, +0.002427] & 0.001 & 0.0006 & +0.042 [+0.020, +0.064] \\
+Amazon & Shapley vs LOO & NDCG@20 & -0.000522 & [-0.000760, -0.000289] & 0.0008 & $<10^{-4}$ & -0.050 [-0.071, -0.029] \\
+Amazon & Shapley vs LOO & HR@20 & -0.001186 & [-0.001861, -0.000539] & 0.001 & 0.0006 & -0.041 [-0.061, -0.019] \\
+\bottomrule
+\end{tabular}
+}
+\end{table*}
+
 \section{Discussion}\label{sec:discussion}
 The results have three levels, and each now survives a cross-architecture check. First, validation-guided game signals improve ranking over uniform and similarity-style reweighting --- under LightGCN \emph{and} NGCF (\S\ref{subsec:second_backbone}). Second, full coalition-context averaging is not necessary for NDCG@20 under the evaluated protocol: LOO is equivalent within the declared margin, directionally favored, and $13.0$--$15.7\times$ cheaper. Third, ranking utility does not establish explanation faithfulness. The single-seed masked-forward results are diagnostic rather than conclusive.
 
@@ -815,7 +851,7 @@ The synthetic game clarifies why Shapley may still matter. It distributes credit
 Although paired tests are significant, all standardized effects are below $0.10$ with CIs reaching at most $0.12$, well around conventional ``small'' standardized-effect thresholds \cite{cohen1988power}, and the user-level minimum detectable effect ($d_z\approx0.03$) shows the study is powered for exactly these small effects. In practical terms, switching from uniform to LOO reranking changes the top-20 membership of the held-out item for $3.0\%$ of ML-1M users ($1.8\%$ gain, $1.2\%$ loss) and $1.4\%$ of Amazon users; LOO vs.\ Shapley changes it for $1.4\%$ (ML-1M) and $0.4\%$ (Amazon) of users. The absolute NDCG@20 gains are also modest. We therefore interpret the main contribution as a computational boundary result, not evidence of large deployment impact.
 
 \subsection{Limitations and required extensions}\label{sec:negative_result}\label{sec:how_to_read}\label{sec:final_framing}\label{sec:future_work}\label{sec:threats}\label{sec:limitations}
-The evidence covers two backbones (LightGCN primary, NGCF replication), two datasets, and one reranking intervention; no external explainable-recommendation method is evaluated, and a third domain remains future work. Completed in this revision: the NGCF second-backbone replication (\S\ref{subsec:second_backbone}), the LOO $\lambda$-sweep, and the independently validation-tuned $\lambda$ comparison (\S\ref{subsec:design_ablations}). Remaining released scripts whose results are pending: multi-seed design-factor ablations, multi-seed masked-forward faithfulness curves, validation-negative-set-size sensitivity ($|\mathcal{N}_u^-|\in\{50,100,500\}$), and attribution stability / model-randomization sanity checks; until they complete, the design-factor and masked-forward studies use one training seed per dataset and support no multi-seed claim. Paired per-user inference for the NGCF backbone follows with the released per-user artifacts.
+The evidence covers two backbones (LightGCN primary, NGCF replication), two datasets, and one reranking intervention; no external explainable-recommendation method is evaluated, and a third domain remains future work. Completed in this revision: the NGCF second-backbone replication (\S\ref{subsec:second_backbone}), the LOO $\lambda$-sweep, and the independently validation-tuned $\lambda$ comparison (\S\ref{subsec:design_ablations}). Remaining released scripts whose results are pending: multi-seed design-factor ablations, multi-seed masked-forward faithfulness curves, validation-negative-set-size sensitivity ($|\mathcal{N}_u^-|\in\{50,100,500\}$), and attribution stability / model-randomization sanity checks; until they complete, the design-factor and masked-forward studies use one training seed per dataset and support no multi-seed claim.
 
 Inference is conditional on the five trained models (seed-population generalization would require hierarchical modeling or many more seeds; the seed-level minimum detectable $d_z$ at five seeds is $1.25$, i.e.\ seed-level tests are uninformative by construction). The corrected inferential layer --- joint user resampling across seeds, $+1$-corrected permutation p-values, Wilcoxon sensitivity, $d_z$ confidence intervals, Friedman--Nemenyi omnibus, equivalence-test power, and top-20 crossing rates --- is reported in \S\ref{subsec:stat_estimand}, \S\ref{subsec:paired}, \S\ref{subsec:friedman}, and \S\ref{sec:discussion}. The headline conclusion is parameter-dependent by design: it is a statement about the shared $\lambda_{\mathrm{attr}}=0.10$ protocol; Shapley exceeds LOO at larger reranking weights on ML-1M (Table~\ref{tab:lambda_oracle}), $k=24$ bounds the player set, and $M=64$ is validated only on a 1,000-user convergence subset. Validation negatives are fixed at 100 per user; the released sensitivity script tests robustness of attributions to that choice. Finally, cost results cover offline attribution only; serving latency, peak memory, and the retained runtime outlier require dedicated profiling.
 

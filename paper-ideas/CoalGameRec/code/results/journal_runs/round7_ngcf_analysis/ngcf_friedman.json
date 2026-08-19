@@ -1,0 +1,46 @@
+{
+ "ml1m:NDCG@20": {
+  "friedman_chi2": 601.1681177228894,
+  "p": 1.312472280384061e-124,
+  "rank_order": [
+   "loo-marginal",
+   "shapley-mc",
+   "valid-linear",
+   "valid-sim"
+  ],
+  "loo_vs_shapley_nemenyi_p": 0.9944363679675704
+ },
+ "ml1m:HitRate@20": {
+  "friedman_chi2": 403.92683238807416,
+  "p": 2.7073011841892086e-82,
+  "rank_order": [
+   "loo-marginal",
+   "shapley-mc",
+   "valid-linear",
+   "valid-sim"
+  ],
+  "loo_vs_shapley_nemenyi_p": 0.9990876687764347
+ },
+ "amazon_books:NDCG@20": {
+  "friedman_chi2": 220.5133800498412,
+  "p": 2.999583526494818e-43,
+  "rank_order": [
+   "loo-marginal",
+   "shapley-mc",
+   "valid-linear",
+   "valid-sim"
+  ],
+  "loo_vs_shapley_nemenyi_p": 0.9999999952901744
+ },
+ "amazon_books:HitRate@20": {
+  "friedman_chi2": 184.3660175469765,
+  "p": 1.2457703710730056e-35,
+  "rank_order": [
+   "loo-marginal",
+   "shapley-mc",
+   "valid-linear",
+   "valid-sim"
+  ],
+  "loo_vs_shapley_nemenyi_p": 0.9999919619443824
+ }
+}
