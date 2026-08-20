@@ -336,13 +336,17 @@ def compute_attribution_for_users(
     checkpoint_path: str | Path | None = None,
     save_every: int = 25,
     n_val_negatives: int = 100,
+    user_subset: np.ndarray | None = None,
     **kwargs,
 ) -> dict[int, np.ndarray]:
     train_csr = split.train_csr
     val_targets = split.val.sort_values("user").set_index("user").item.to_dict()
-    users = np.arange(split.n_users)
-    if max_users is not None:
-        users = users[:max_users]
+    if user_subset is not None:
+        users = np.asarray(user_subset)
+    else:
+        users = np.arange(split.n_users)
+        if max_users is not None:
+            users = users[:max_users]
     out: dict[int, np.ndarray] = {}
     ckpt = Path(checkpoint_path) if checkpoint_path else None
     if ckpt is not None:

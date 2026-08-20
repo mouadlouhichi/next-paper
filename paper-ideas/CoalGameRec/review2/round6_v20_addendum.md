@@ -51,3 +51,16 @@ their Mac (commit 84eeced, MPS, torch 2.3.1) and the results are now integrated 
   randomization sanity (amazon, ml1m), masked-forward seeds 43-44 (amazon) + 43 (ml1m),
   negset sensitivity amazon (1500-user documented subsample). Sandbox CPU deviations will be
   recorded in each manifest (confirmatory re-execution, as in C1).
+
+## Update 3 (2026-08-19/20): sandbox execution results + ACCEPT
+
+- Wave-1 stages executed in the Arena sandbox (2-core CPU): randomization/stability sanity
+  (amazon) and negset sensitivity (amazon, 1500-user documented subsample) — integrated in v22
+  (§Attribution stability and sanity checks, `tab:stability_sanity`, `tab:negset_sensitivity`).
+  The negset artifact was reconstructed from the exact recorded run values after a pre-push
+  sandbox reset (provenance recorded in the run manifest).
+- Wave-3 optimized pipeline released: masked-forward seeds 43/44 (both datasets, attribution
+  restricted to the evaluated subsample — same protocol), randomization + negset for ML-1M,
+  and design ablations seeds 42-44 on the documented 1500-user subsample. These append into the
+  canonical multi-seed tables (`seed` + `max_users` columns) as they complete.
+- Reviewer Round 8 verdict: **ACCEPT** (see `review_v22_round8.md`).

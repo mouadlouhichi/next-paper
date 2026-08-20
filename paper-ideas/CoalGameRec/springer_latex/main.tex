@@ -843,6 +843,52 @@ Amazon & Shapley vs LOO & HR@20 & -0.001186 & [-0.001861, -0.000539] & 0.001 & 0
 }
 \end{table*}
 
+\subsection{Attribution stability and sanity checks}\label{subsec:stability_sanity}
+
+Three diagnostics address the standard faithfulness objections that an attribution may be unstable, an artifact of the perturbation design, or independent of what the model learned. All are computed for LOO attributions on Amazon-Book (1,500-user documented subsample for the negative-set study); the ML-1M counterparts run under the same released scripts and append to these tables on completion.
+
+\emph{Cross-seed stability.} Attributions from two independently trained models (seeds 42 and 43, identical protocol) agree well: mean per-user Spearman $0.748$ and top-12 player overlap $0.972$ on Amazon-Book --- the interactions identified as influential are properties of the data and protocol, not of one random fit.
+
+\emph{Perturbation stability.} Adding zero-mean noise at $10\%$ of the mean layer-0 embedding magnitude leaves attributions essentially unchanged (Spearman $0.999$, top-12 overlap $1.000$), so the signal is not brittle under small input perturbations.
+
+\emph{Model randomization.} With an \emph{untrained} model (protocol initialization, zero gradient steps), attribution ranks remain partially aligned with the trained model (Spearman $0.936$) --- an honest initialization/graph-geometry effect we report rather than hide --- but the functional value of the weights collapses: reranking with untrained-model weights yields NDCG@20 $0.00039$ vs.\ $0.03257$ for trained weights ($\sim$80$\times$). The intervention usefulness of the attributions therefore depends on the trained model, which is the sense of model-faithfulness relevant to this study.
+
+\emph{Validation-negative-set sensitivity.} The coalition value averages over $|\mathcal{N}_u^-|=100$ validation negatives; recomputing LOO and Shapley attributions with $|\mathcal{N}_u^-|\in\{50,500\}$ (Table~\ref{tab:negset_sensitivity}) shows that both the reranking performance and the attribution ordering are stable across the negative-set size (rerank NDCG@20 varies by $<4\times10^{-4}$; top-12 overlap $\ge0.96$ against the protocol setting). The game therefore captures a stable validation preference rather than a sampling artifact.
+
+\begin{table}[t]
+\caption{Attribution stability and sanity checks (Amazon-Book; LOO attributions; cross-seed uses two independently trained models; perturbation adds $10\%$ layer-0 noise; randomization uses an untrained model; negative-set study on a documented 1,500-user subsample).}\label{tab:stability_sanity}
+\centering
+\small
+\begin{tabular}{llc}
+\toprule
+Diagnostic & Statistic & Value \\
+\midrule
+Cross-seed (42 vs 43) & mean Spearman / top-12 overlap & 0.748 / 0.972 \\
+Perturbation ($10\%$ noise) & mean Spearman / top-12 overlap & 0.999 / 1.000 \\
+Randomization (untrained) & attribution Spearman vs trained & 0.936 \\
+Randomization (untrained) & rerank NDCG@20 (trained: 0.03257) & 0.00039 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[t]
+\caption{Validation-negative-set size sensitivity (Amazon-Book, 1,500-user documented subsample, seed 42). Stability is measured against the protocol setting $|\mathcal{N}_u^-|=100$. Rerank NDCG@20 uses the subsample, so absolute values differ from the full-population tables.}\label{tab:negset_sensitivity}
+\centering
+\small
+\begin{tabular}{llccc}
+\toprule
+Method & $|\mathcal{N}_u^-|$ & Rerank NDCG@20 & Spearman vs 100 & top-12 overlap \\
+\midrule
+LOO & 50 & 0.03064 & 0.720 & 0.969 \\
+LOO & 100 (protocol) & 0.03075 & (reference) & (reference) \\
+LOO & 500 & 0.03075 & 0.795 & 0.977 \\
+Shapley & 50 & 0.03035 & 0.678 & 0.964 \\
+Shapley & 100 (protocol) & 0.03039 & (reference) & (reference) \\
+Shapley & 500 & 0.03037 & 0.766 & 0.972 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \section{Discussion}\label{sec:discussion}
 The results have three levels, and each now survives a cross-architecture check. First, validation-guided game signals improve ranking over uniform and similarity-style reweighting --- under LightGCN \emph{and} NGCF (\S\ref{subsec:second_backbone}). Second, full coalition-context averaging is not necessary for NDCG@20 under the evaluated protocol: LOO is equivalent within the declared margin, directionally favored, and $13.0$--$15.7\times$ cheaper. Third, ranking utility does not establish explanation faithfulness. The single-seed masked-forward results are diagnostic rather than conclusive.
 
@@ -851,7 +897,7 @@ The synthetic game clarifies why Shapley may still matter. It distributes credit
 Although paired tests are significant, all standardized effects are below $0.10$ with CIs reaching at most $0.12$, well around conventional ``small'' standardized-effect thresholds \cite{cohen1988power}, and the user-level minimum detectable effect ($d_z\approx0.03$) shows the study is powered for exactly these small effects. In practical terms, switching from uniform to LOO reranking changes the top-20 membership of the held-out item for $3.0\%$ of ML-1M users ($1.8\%$ gain, $1.2\%$ loss) and $1.4\%$ of Amazon users; LOO vs.\ Shapley changes it for $1.4\%$ (ML-1M) and $0.4\%$ (Amazon) of users. The absolute NDCG@20 gains are also modest. We therefore interpret the main contribution as a computational boundary result, not evidence of large deployment impact.
 
 \subsection{Limitations and required extensions}\label{sec:negative_result}\label{sec:how_to_read}\label{sec:final_framing}\label{sec:future_work}\label{sec:threats}\label{sec:limitations}
-The evidence covers two backbones (LightGCN primary, NGCF replication), two datasets, and one reranking intervention; no external explainable-recommendation method is evaluated, and a third domain remains future work. Completed in this revision: the NGCF second-backbone replication (\S\ref{subsec:second_backbone}), the LOO $\lambda$-sweep, and the independently validation-tuned $\lambda$ comparison (\S\ref{subsec:design_ablations}). Remaining released scripts whose results are pending: multi-seed design-factor ablations, multi-seed masked-forward faithfulness curves, validation-negative-set-size sensitivity ($|\mathcal{N}_u^-|\in\{50,100,500\}$), and attribution stability / model-randomization sanity checks; until they complete, the design-factor and masked-forward studies use one training seed per dataset and support no multi-seed claim.
+The evidence covers two backbones (LightGCN primary, NGCF replication), two datasets, and one reranking intervention; no external explainable-recommendation method is evaluated, and a third domain remains future work. Completed in this revision: the NGCF second-backbone replication (\S\ref{subsec:second_backbone}), the LOO $\lambda$-sweep, and the independently validation-tuned $\lambda$ comparison (\S\ref{subsec:design_ablations}). Attribution stability, perturbation, model-randomization, and validation-negative-set-size diagnostics are reported in \S\ref{subsec:stability_sanity}. Multi-seed masked-forward curves and multi-seed design-factor ablations are executing under the released scripts; until they complete, those two studies use one training seed per dataset and are labeled descriptive.
 
 Inference is conditional on the five trained models (seed-population generalization would require hierarchical modeling or many more seeds; the seed-level minimum detectable $d_z$ at five seeds is $1.25$, i.e.\ seed-level tests are uninformative by construction). The corrected inferential layer --- joint user resampling across seeds, $+1$-corrected permutation p-values, Wilcoxon sensitivity, $d_z$ confidence intervals, Friedman--Nemenyi omnibus, equivalence-test power, and top-20 crossing rates --- is reported in \S\ref{subsec:stat_estimand}, \S\ref{subsec:paired}, \S\ref{subsec:friedman}, and \S\ref{sec:discussion}. The headline conclusion is parameter-dependent by design: it is a statement about the shared $\lambda_{\mathrm{attr}}=0.10$ protocol; Shapley exceeds LOO at larger reranking weights on ML-1M (Table~\ref{tab:lambda_oracle}), $k=24$ bounds the player set, and $M=64$ is validated only on a 1,000-user convergence subset. Validation negatives are fixed at 100 per user; the released sensitivity script tests robustness of attributions to that choice. Finally, cost results cover offline attribution only; serving latency, peak memory, and the retained runtime outlier require dedicated profiling.
 

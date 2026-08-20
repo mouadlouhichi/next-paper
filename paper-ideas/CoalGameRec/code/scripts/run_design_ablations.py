@@ -21,6 +21,7 @@ import sys
 import time
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
 CODE_DIR = Path(__file__).resolve().parent.parent
@@ -150,7 +151,10 @@ def main():
         prev = pd.read_csv(canon)
         if "seed" not in prev.columns:
             prev["seed"] = 42  # canonical table predates multi-seed support (single seed 42)
-        prev = prev[prev["seed"] != args.seed]
+        if "max_users" not in prev.columns:
+            prev["max_users"] = np.nan  # released full-user rows
+        mu = args.max_users if args.max_users is not None else -1
+        prev = prev[~((prev["seed"] == args.seed) & (prev["max_users"].fillna(-1) == mu))]
         df = pd.concat([prev, df], ignore_index=True)
     df.to_csv(canon, index=False)
     say(f"SAVED design_ablations_seed_{args.seed}.csv + merged design_ablations.csv")

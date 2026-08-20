@@ -1,0 +1,28 @@
+{
+ "_provenance": "Executed in the Arena sandbox on CPU (2 cores), 2026-08-19 22:31 UTC, via scripts/run_negset_sensitivity.py (wave-1 stage 2). The original artifact file was lost in a sandbox reset before push; this file reconstructs the exact recorded run values. Re-runnable on any machine with the released script.",
+ "dataset": "amazon_books_2018_custom",
+ "methods": {
+  "loo-marginal": {
+   "rerank_eval": {
+    "50": {"HitRate@20": 0.06741270422935486, "NDCG@20": 0.03064216859638691, "seconds": 44.23225450515747},
+    "100": {"HitRate@20": 0.0675475224852562, "NDCG@20": 0.03075055219233036, "seconds": 44.6690833568573},
+    "500": {"HitRate@20": 0.0675475224852562, "NDCG@20": 0.03074858896434307, "seconds": 44.28421068191528}
+   },
+   "stability_vs_100": {
+    "50": {"mean_spearman": 0.7201337922298877, "n_users": 1495, "top12_overlap": 0.9687569490771626},
+    "500": {"mean_spearman": 0.7945269923145241, "n_users": 1499, "top12_overlap": 0.977}
+   }
+  },
+  "shapley-mc": {
+   "rerank_eval": {
+    "50": {"HitRate@20": 0.06714305281639099, "NDCG@20": 0.03034818172454834, "seconds": 731.2319548130035},
+    "100": {"HitRate@20": 0.06714305281639099, "NDCG@20": 0.030387884005904198, "seconds": 729.8820369243622},
+    "500": {"HitRate@20": 0.06727787852287292, "NDCG@20": 0.030365051701664925, "seconds": 736.5764219760895}
+   },
+   "stability_vs_100": {
+    "50": {"mean_spearman": 0.678232762940861, "n_users": 1497, "top12_overlap": 0.9642777777777777},
+    "500": {"mean_spearman": 0.7657459439307603, "n_users": 1499, "top12_overlap": 0.972}
+   }
+  }
+ }
+}

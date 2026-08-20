@@ -153,11 +153,13 @@ def main():
     loo = compute_attribution_for_users(split, base_scores, item_vectors, method="loo-marginal", seed=args.seed,
                                         max_players_per_user=24, player_selection="stratified",
                                         checkpoint_path=None, save_every=25, alpha=1.0, beta=0.0, lambda_pref=0.0,
-                                        lambda_attr_value=0.10, value_mode="pairwise_logsigmoid", n_val_negatives=100)
+                                        lambda_attr_value=0.10, value_mode="pairwise_logsigmoid", n_val_negatives=100,
+                                        user_subset=users)
     shap = compute_shapley_for_users(split, base_scores, item_vectors, m=64, seed=args.seed,
                                      max_players_per_user=24, player_selection="stratified", antithetic=True,
                                      checkpoint_path=None, save_every=25, alpha=1.0, beta=0.0, lambda_pref=0.0,
-                                     lambda_attr_value=0.10, value_mode="pairwise_logsigmoid", n_val_negatives=100)
+                                     lambda_attr_value=0.10, value_mode="pairwise_logsigmoid", n_val_negatives=100,
+                                     user_subset=users)
     rng = np.random.default_rng(args.seed * 7919 + 13)
     uniform_attr = {int(u): np.ones(hlen[int(u)], dtype=np.float32) for u in users}
     random_attr = {int(u): rng.standard_normal(hlen[int(u)]).astype(np.float32) for u in users}

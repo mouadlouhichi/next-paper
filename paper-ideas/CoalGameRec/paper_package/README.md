@@ -1,4 +1,4 @@
-# CoalGameRec — Springer Nature paper package (v19, under Round-6 major revision)
+# CoalGameRec — Springer Nature paper package (v22, Reviewer Round 8: ACCEPT)
 
 **Title:** *CoalGameRec: When Leave-One-Out Marginals Suffice for Shapley-Based Graph Recommendation Attribution*
 

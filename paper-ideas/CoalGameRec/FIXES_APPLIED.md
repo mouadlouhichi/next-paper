@@ -8,6 +8,14 @@
 
 ---
 
+> **Round 8 (2026-08-19/20, manuscript v22): ACCEPT.** Reviewer verdict in
+> `review2/review_v22_round8.md`. Round-6 mandatory checklist fully satisfied: corrected
+> joint/permutation inference (v19), table & figure integrity (v19), conditional-game
+> formalization and algorithm corrections (v19), NGCF second backbone with paired inference
+> (v21), LOO λ-sweep + validation-tuned λ (v20), attribution stability / model-randomization /
+> perturbation / negative-set diagnostics (v22, executed in the sandbox on CPU). Residual:
+> compute-bound multi-seed replications executing under released scripts (auto-merge tables).
+
 > **v20 addendum (2026-08-19):** the authors executed round-6 cells 3–4 (NGCF second backbone,
 > LOO λ-sweep + validation-tuned λ); results integrated in manuscript v20 — see
 > `review2/round6_v20_addendum.md`. Reviewer Round-7 verdict on v20: **MINOR REVISION**, see

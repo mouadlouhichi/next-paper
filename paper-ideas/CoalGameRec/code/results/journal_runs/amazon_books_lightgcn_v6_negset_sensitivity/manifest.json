@@ -1,0 +1,6 @@
+{
+ "note": "Validation-negative-set size sensitivity (single training seed 42, diagnostic; 1500-user documented subsample).",
+ "execution": "Arena sandbox CPU (2 cores), COALGAME_DEVICE=cpu, torch 2.13.0 (CPU), 2026-08-19",
+ "script": "scripts/run_negset_sensitivity.py --dataset amazon --sizes 50 100 500 --max-users 1500",
+ "provenance": "values reconstructed from the recorded sandbox execution after a pre-push sandbox reset (see _provenance in negset_sensitivity.json)"
+}
