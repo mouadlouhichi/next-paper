@@ -1,0 +1,24 @@
+% Compact principal table. Complete outcomes and uncertainty are in intervention_outcomes.csv.
+\begin{table}[t]\centering\small
+\caption{Primary budget-two intervention decisions. NRegret is conditional on active NDCG oracles; the active-user count is shown in parentheses.}
+\label{tab:intervention-outcomes}
+\begin{tabular}{llrrrr}
+\toprule
+Dataset & Method & $\Delta$NDCG & Success & Abstention & NRegret ($n$) \\
+\midrule
+MovieLens & Shapley & 0.040 & 27.4\% & 0.0\% & 0.268 (339) \\
+MovieLens & LIME & 0.043 & 28.8\% & 0.0\% & 0.225 (339) \\
+MovieLens & LOO & 0.043 & 28.9\% & 0.0\% & 0.217 (339) \\
+MovieLens & Greedy & 0.006 & 10.3\% & 0.0\% & 1.471 (339) \\
+MovieLens & Random & -0.001 & 7.4\% & 0.0\% & 1.446 (339) \\
+\midrule
+Amazon & Shapley & 0.033 & 17.0\% & 1.0\% & 0.206 (196) \\
+Amazon & LIME & 0.033 & 17.1\% & 7.0\% & 0.197 (196) \\
+Amazon & LOO & 0.031 & 16.7\% & 8.6\% & 0.232 (196) \\
+Amazon & Greedy & 0.010 & 9.0\% & 0.7\% & 0.784 (196) \\
+Amazon & Random & -0.004 & 6.6\% & 4.8\% & 1.197 (196) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent Primary NDCG-effect 95\% user-bootstrap CIs: MovieLens Shapley $[.035,.046]$, LIME $[.037,.049]$, LOO $[.037,.050]$; Amazon Shapley $[.027,.040]$, LIME $[.027,.039]$, LOO $[.026,.037]$. Individual-method conditional NRegret 95\% CIs (active-oracle users): MovieLens Shapley $[.227,.309]$, LIME $[.187,.264]$, LOO $[.178,.258]$, Greedy $[1.114,1.895]$, Random $[1.227,1.698]$ ($n=339$); Amazon Shapley $[.158,.256]$, LIME $[.150,.248]$, LOO $[.180,.287]$, Greedy $[.639,.954]$, Random $[1.052,1.369]$ ($n=196$). Active-oracle fractions are $339/1000$ (MovieLens) and $196/993$ (Amazon); pairwise NRegret differences with Holm-adjusted $p$-values are in Table S5.

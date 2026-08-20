@@ -1,0 +1,72 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% ActionShap Supplementary Numerical Audit -- Elsevier IPM version
+%% Double-anonymized review copy (cas-sc).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[a4paper,fleqn]{cas-sc}
+
+\usepackage[authoryear,longnamesfirst]{natbib}
+\usepackage{textcomp}
+\usepackage{longtable}
+\usepackage{pdflscape}
+\usepackage{booktabs}
+\usepackage{multirow}
+\graphicspath{{figures/}}
+\newcommand{\resdir}{tables}
+\hypersetup{pdftitle={ActionShap Supplementary Numerical Audit},pdfsubject={Supplementary numerical audit for ActionShap}}
+
+\newcommand{\safeinput}[1]{\IfFileExists{#1}{\input{#1}}{\typeout{ActionShap: MISSING asset #1}\par{\centering\bfseries[Missing table asset: #1]\par}}}
+\raggedbottom
+
+\begin{document}
+\let\WriteBookmarks\relax
+
+\shorttitle{ActionShap: Supplementary Numerical Audit}
+\shortauthors{Anonymous et al.}
+
+\title[mode = title]{ActionShap: Supplementary Numerical Audit}
+
+%% Double-anonymized review copy.
+\author[1]{\fnm{Anonymous} \sur{Authors}}
+\affiliation[1]{organization={Anonymized for double-blind review},
+                country={}}
+
+\maketitle
+
+\begin{center}\small Schema-v2 audit; source commit \texttt{0673378}; result archive SHA-256 \texttt{ac4c7fb1993458b6b41054974ebff215710e7a8b5894c7aa6af828e94b2a5b0f}. Recorded in \texttt{RELEASE\_METADATA.md}.\end{center}
+
+This supplementary document contains the expanded numerical audit behind the
+compact manuscript tables. It is generated from the schema-v2 release and is
+not required for compiling the main manuscript. The CSV/JSON release remains
+the authoritative machine-readable source.
+
+\appendix
+
+\renewcommand{\thesection}{S\arabic{section}}
+\renewcommand{\thetable}{S\arabic{table}}
+\section{Alignment matrix (Table S1)}
+\input{tables/appendix_aia_full.tex}
+\clearpage
+\begin{landscape}
+\section{Joint outcomes (Table S2)}
+\input{tables/appendix_intervention_full.tex}
+\end{landscape}
+\clearpage
+\section{Paired comparisons (Tables S3--S5)}
+\begin{landscape}
+\subsection*{Table S3: AIA and gap comparisons}
+\input{tables/appendix_s3a_aia.tex}
+\subsection*{Table S4: joint NDCG effect and success comparisons}
+\input{tables/appendix_s3b_effects.tex}
+\subsection*{Table S5: conditional normalized-regret comparisons}
+\input{tables/appendix_s3c_regret.tex}
+\end{landscape}
+\clearpage
+\begin{landscape}
+\section{Convergence matrix (Table S6)}
+\input{tables/appendix_convergence_full.tex}
+\end{landscape}
+\clearpage
+\section{Executable contract (Table S7)}
+\input{tables/appendix_contract_supp.tex}
+\end{document}

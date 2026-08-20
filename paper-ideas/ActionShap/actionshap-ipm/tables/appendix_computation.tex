@@ -1,0 +1,25 @@
+\begin{table}[!htbp]
+\centering\scriptsize
+\caption{Computational cost and release record. Analytical budgets are per user; runtime values are complete-pipeline measurements.}
+\label{tab:app-computation}
+\begin{tabular}{@{}p{.29\textwidth}p{.61\textwidth}@{}}
+\toprule
+Item & Value \\
+\midrule
+Shapley budget & $T(n_u+1)\le21{,}000$ prefix states before cache reuse. \\
+LIME budget & 512 masks. \\
+LOO budget & $n_u+1\le21$ states. \\
+Greedy budget & $1+n_u(n_u+1)/2\le211$ states. \\
+Exact oracle budget & $1+n_u+\binom{n_u}{2}=211$ realized-effect evaluations at $B=2$ ($1{,}351$ at $B=3$), independent of the explainer. \\
+ItemKNN runtime & 29.8--2851.6 s; mean 183.0 s over 60 runs. \\
+Profile runtime & 26.9--299.6 s; mean 95.0 s over 20 runs. \\
+Environment & macOS-26.5.1-arm64; Python 3.12.13; NumPy 2.4.6; SciPy 1.17.1; pandas 2.3.3; scikit-learn 1.9.0; matplotlib 3.11.1; PyYAML 6.0.3. \\
+Release & 80 recommendation runs; 5 convergence studies; result archive SHA-256 is recorded in the release metadata. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent Complete per-user, per-seed, robustness, convergence, and pairwise-comparison matrices are provided in the content-addressed CSV/JSON release. The historical schema did not record processor model, RAM, or peak RSS; the current runner records those fields for future regenerated releases.
+
+\subsection*{Complexity analysis}
+Let $n=n_u$ players, $m=|E_u|$ candidates, $K$ the neighbour cap ($200$), $\bar K\le K$ the mean retained neighbours per candidate, $d$ the embedding dimension, and $T=2M_{\mathrm{pair}}$ evaluated orders. One scorer call costs $O(nK+m\bar K)$ for ItemKNN (weighted neighbour aggregation plus candidate scoring) and $O((n+m)d)$ for the profile model; a bounded intervention changes weights only, and the protocol re-scores from scratch per action so audit cost equals one scorer call. Attribution then costs, in scorer calls per user: Monte Carlo Shapley $O(T(n+1))$ (prefix walks with a coalition cache shared between each order and its reverse), LIME $O(m_{\mathrm{mask}})$, leave-one-out $O(n+1)$, greedy $O(n^2)$, random $O(1)$; the exact $B=2$ oracle adds $1+n+\binom n2$ realized-effect evaluations, and each utility evaluation is $O(m)$ after scoring. With $n\le20$, $T\le1000$, $m=201$ (primary) the Shapley audit dominates ($\le21{,}000$ calls); under full-catalogue evaluation $m$ grows to $10^3$--$10^4$ and the per-call candidate term dominates linearly. Memory is $O(m+n)$ per user for scores, effects, and attributions; the Shapley cache stores scalar coalition utilities for visited prefix states, $O(T(n+1))$ entries. Measured per-user median wall time on MovieLens-1M ItemKNN (replication runner, three repeats): Shapley $0.65$ s, LIME $0.043$ s, LOO $0.0018$ s; these are method-specific attribution times, complementary to the complete-pipeline runtimes in the table above.
