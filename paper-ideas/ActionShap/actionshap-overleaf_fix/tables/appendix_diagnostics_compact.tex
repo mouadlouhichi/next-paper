@@ -1,0 +1,24 @@
+\begin{table}[t]
+\centering\scriptsize
+\setlength{\tabcolsep}{3pt}
+\caption{Primary signed diagnostics for the ItemKNN target-margin analysis. Direction accuracy and top-$3$ precision use signed bounded effects; stability is rank stability across five repetitions.}
+\label{tab:signed-diagnostics}
+\begin{tabular}{@{}p{.14\textwidth}p{.22\textwidth}rrrr@{}}
+\toprule
+Dataset & Method & Direction accuracy & Precision@3 & Stability & Valid $n$ \\
+\midrule
+MovieLens & Shapley & .888 & .820 & .985 & 1000 \\
+MovieLens & LIME & .963 & .920 & .975 & 1000 \\
+MovieLens & LOO & .989 & .967 & 1.000 & 1000 \\
+MovieLens & Greedy sequential deletion & .617 & .296 & 1.000 & 1000 \\
+MovieLens & Random & .502 & .165 & -.001 & 1000 \\
+Amazon & Shapley & .784 & .603 & .971 & 993 \\
+Amazon & LIME & .936 & .596 & .969 & 993 \\
+Amazon & LOO & .941 & .596 & 1.000 & 993 \\
+Amazon & Greedy sequential deletion & .543 & .361 & 1.000 & 993 \\
+Amazon & Random & .507 & .277 & -.010 & 993 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent For deterministic ItemKNN, stability reflects explainer randomness only; LOO and greedy deletion are deterministic. Profile-model stability jointly reflects model and explainer randomness and is retained in the machine-readable release.

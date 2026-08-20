@@ -1,0 +1,21 @@
+% Derived from release/matrices/user_seed_metrics.csv.gz using distinct-user summaries.
+\begin{table}[ht]
+\centering\small
+\caption{History-length-stratified Shapley magnitude-alignment difference. Intervals are descriptive 95\% user-bootstrap intervals; small MovieLens strata should be interpreted cautiously.}
+\label{tab:history-stratified-gap}
+\begin{tabular}{llrr}
+\toprule
+Dataset & Players $n_u$ & Valid $n$ & Gap [95\% CI] \\
+\midrule
+Amazon & 3--5 & 580 & .121 [.094,.150] \\
+Amazon & 6--10 & 262 & .167 [.137,.199] \\
+Amazon & 11--19 & 92 & .099 [.063,.138] \\
+Amazon & 20 & 59 & .076 [.048,.109] \\
+\midrule
+MovieLens & 3--5 & 9 & .373 [.095,.722] \\
+MovieLens & 6--10 & 42 & .028 [.006,.052] \\
+MovieLens & 11--19 & 118 & .012 [.001,.023] \\
+MovieLens & 20 & 831 & .013 [.010,.016] \\
+\bottomrule
+\end{tabular}
+\end{table}

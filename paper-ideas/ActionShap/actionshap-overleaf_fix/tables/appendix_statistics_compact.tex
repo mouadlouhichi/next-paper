@@ -1,0 +1,22 @@
+\begin{table}[ht]
+\centering\scriptsize
+\setlength{\tabcolsep}{2pt}
+\caption{Confirmatory paired comparisons. Bootstrap intervals are descriptive and unadjusted; significance is determined by Holm-adjusted permutation $p$-values.}
+\label{tab:app-statistics}
+\begin{tabular}{@{}llp{.15\textwidth}p{.12\textwidth}rrr@{}}
+\toprule
+Dataset & Metric & Comparison & Difference & Unadjusted CI & Holm $p$ & $d_z$ \\
+\midrule
+Amazon & Gap & Shapley $-$ LIME & .232 & [.202,.263] & .0010 & .473 \\
+Amazon & Gap & Shapley $-$ LOO & .277 & [.245,.311] & .0010 & .525 \\
+Amazon & Bounded AIA & Shapley $-$ LIME & -.413 & [-.449,-.378] & .0010 & -.726 \\
+Amazon & $\Delta$NDCG & Shapley $-$ LIME & .000 & [-.002,.002] & .8983 & .004 \\
+MovieLens & Gap & Shapley $-$ LIME & .034 & [.028,.043] & .0010 & .289 \\
+MovieLens & Gap & Shapley $-$ LOO & .039 & [.032,.047] & .0010 & .319 \\
+MovieLens & Bounded AIA & Shapley $-$ LIME & -.155 & [-.164,-.145] & .0010 & -1.010 \\
+MovieLens & $\Delta$NDCG & Shapley $-$ LIME & -.002 & [-.004,-.001] & .0144 & -.085 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent Full pairwise comparisons remain in the content-addressed machine-readable release.
