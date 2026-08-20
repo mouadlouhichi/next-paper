@@ -67,6 +67,7 @@ from actionshap.recommendation_data import (
 )
 from actionshap.runtime_bench import bench
 from actionshap import sasrec
+from actionshap import lightgcn
 
 
 def build_games(args, data, model, users):
@@ -93,10 +94,11 @@ def build_games(args, data, model, users):
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--dataset", required=True, choices=["movielens", "amazon"])
+    ap.add_argument("--dataset", required=True, choices=["movielens", "amazon", "gowalla"])
     ap.add_argument("--ml-path", default="data/ml-1m/ratings.dat")
     ap.add_argument("--amazon-path", default="data/amazon-digital-music/interactions.csv")
-    ap.add_argument("--model", default="itemknn", choices=["itemknn", "sasrec"])
+    ap.add_argument("--gowalla-path", default="data/gowalla/interactions.csv")
+    ap.add_argument("--model", default="itemknn", choices=["itemknn", "sasrec", "lightgcn"])
     ap.add_argument("--users", type=int, default=250)
     ap.add_argument("--exact-users", type=int, default=100)
     ap.add_argument("--exact-max", type=int, default=12)
@@ -112,6 +114,8 @@ def main() -> None:
 
     if args.dataset == "movielens":
         data = load_movielens_1m(args.ml_path, minimum_interactions=4)
+    elif args.dataset == "gowalla":
+        data = load_interactions_csv(args.gowalla_path, minimum_interactions=4)
     else:
         data = load_interactions_csv(args.amazon_path, minimum_interactions=4)
 
@@ -120,6 +124,8 @@ def main() -> None:
 
     if args.model == "itemknn":
         model = fit_item_knn(histories, data.n_items, neighbours=200)
+    elif args.model == "lightgcn":
+        model = lightgcn.fit_lightgcn(histories, data.n_items, verbose=True)
     else:
         model = sasrec.fit_sasrec(histories, data.n_items)
 

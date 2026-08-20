@@ -156,8 +156,17 @@ def cmd_lime_masks(args) -> None:
 # --------------------------------------------------------------------------
 # sasrec-quality
 # --------------------------------------------------------------------------
-def cmd_sasrec_quality(args) -> None:
+def _fit_quality_model(args, histories, n_items, seed):
+    """Fit the model under quality-gate audit (review-5 / review-6)."""
+    if args.model == "lightgcn":
+        from actionshap import lightgcn as lg
+        return lg.fit_lightgcn(histories, n_items, epochs=args.epochs,
+                               seed=seed, verbose=True)
     from actionshap import sasrec as srec
+    return srec.fit_sasrec(histories, n_items, seed=seed, epochs=args.epochs)
+
+
+def cmd_sasrec_quality(args) -> None:
 
     data = load_data(args)
     cohort = sample_evaluation_users(data, args.users, seed=args.user_seed)
@@ -173,8 +182,7 @@ def cmd_sasrec_quality(args) -> None:
             popularity[it] += 1
     results = []
     for seed in range(args.seeds):
-        adapter = srec.fit_sasrec(histories, data.n_items, seed=42 + seed,
-                                  epochs=args.epochs)
+        adapter = _fit_quality_model(args, histories, data.n_items, seed=42 + seed)
         stats = dict(ndcg=[], hr=[], mrr=[], ndcg_pop=[], hr_pop=[], mrr_pop=[],
                      mask_delta=[])
         for u in cohort:
@@ -221,8 +229,9 @@ def cmd_sasrec_quality(args) -> None:
         "recorded_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
     }
     suffix = "trainall" if args.train_all else args.dataset
-    name = (f"sasrec_quality_trainall_{args.dataset}.json" if args.train_all
-            else f"sasrec_quality_{args.dataset}.json")
+    tag = f"{args.model}_quality"
+    name = (f"{tag}_trainall_{args.dataset}.json" if args.train_all
+            else f"{tag}_{args.dataset}.json")
     save(Path(args.out), name, payload)
 
 
@@ -407,6 +416,7 @@ def main() -> None:
 
     p = sub.add_parser("sasrec-quality")
     common(p)
+    p.add_argument("--model", default="sasrec", choices=["sasrec", "lightgcn"])
     p.add_argument("--users", type=int, default=1000)
     p.add_argument("--seeds", type=int, default=5)
     p.add_argument("--max-len", type=int, default=20)
