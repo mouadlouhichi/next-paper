@@ -175,7 +175,7 @@ Claims without artifacts were removed, not renumbered.
 - λ-figure caption rewritten (no +14.5% claim; points to the 5-seed table).
 - Unreranked row in Table 3 replaced with real λ=0 5-seed values from the sweep artifact
   (ML-1M 0.11415/0.04482/0.62967/0.73045; Amazon 0.06690/0.02982/0.23573/0.92082).
-- Both `paper_package/` and `springer_latex/` copies kept byte-identical.
+- `paper_package/` is the single paper package (the legacy `springer_latex/` mirror was removed on 2026-08-20 to eliminate duplication; `coalgamerec-main.zip` ships the package).
 
 ---
 
