@@ -28,28 +28,55 @@ CANONICAL_ORDER = (
     "provider_balance",
 )
 
+# Extended player library for the integrated scalability revision. The four
+# additional operators are appended after the six core players, so all masks of
+# the core library keep their original meaning. Their semantics are disclosed:
+#   session_length_cap   demote items already present in the user's previous slate
+#                        (windowed, one-step repeat control complementing the
+#                        lifetime repeat cap);
+#   freshness_quota      guarantee at least `freshness_quota` slate positions for
+#                        items never exposed to the user (least-exposed fallback);
+#   provider_cooldown    demote items of any provider that occupied at least half
+#                        of the user's previous slate (concentration cooldown);
+#   category_coverage_quota  greedily enforce at least `category_coverage_quota`
+#                        distinct categories in the final slate.
+EXTRA_PLAYER_NAMES = (
+    "session_length_cap",
+    "freshness_quota",
+    "provider_cooldown",
+    "category_coverage_quota",
+)
+EXTENDED_CANONICAL_ORDER = CANONICAL_ORDER + (
+    "session_length_cap",
+    "provider_cooldown",
+    "freshness_quota",
+    "category_coverage_quota",
+)
+
 
 @dataclass(frozen=True)
 class Coalition:
     active: frozenset[str]
 
     def __post_init__(self) -> None:
-        unknown = self.active.difference(INTERVENTION_NAMES)
+        # Core and extended player names are both accepted; mask semantics are
+        # determined by the name tuple passed to from_mask/names/mask.
+        unknown = self.active.difference(tuple(INTERVENTION_NAMES) + EXTRA_PLAYER_NAMES)
         if unknown:
             raise ValueError(f"Unknown interventions: {sorted(unknown)}")
 
     @classmethod
-    def from_mask(cls, mask: int) -> "Coalition":
-        return cls(frozenset(name for index, name in enumerate(INTERVENTION_NAMES) if mask & (1 << index)))
+    def from_mask(cls, mask: int, names: tuple[str, ...] = INTERVENTION_NAMES) -> "Coalition":
+        return cls(frozenset(name for index, name in enumerate(names) if mask & (1 << index)))
 
-    def mask(self) -> int:
-        return sum(1 << index for index, name in enumerate(INTERVENTION_NAMES) if name in self.active)
+    def mask(self, names: tuple[str, ...] = INTERVENTION_NAMES) -> int:
+        return sum(1 << index for index, name in enumerate(names) if name in self.active)
 
     def cost(self, config: InterventionConfig) -> float:
         return float(sum(config.costs[name] for name in self.active))
 
-    def names(self) -> tuple[str, ...]:
-        return tuple(name for name in INTERVENTION_NAMES if name in self.active)
+    def names(self, names: tuple[str, ...] = INTERVENTION_NAMES) -> tuple[str, ...]:
+        return tuple(name for name in names if name in self.active)
 
 
 @dataclass(frozen=True)
@@ -178,6 +205,97 @@ def _provider_balance(ranked: list[int], providers: np.ndarray, provider_exposur
     return selected
 
 
+def _session_length_cap(ranked: list[int], previous_slate: list[int]) -> list[int]:
+    """Demote items already shown in the user's previous slate (one-step turnover)."""
+    if not previous_slate:
+        return list(ranked)
+    previous = set(int(item) for item in previous_slate)
+    fresh = [item for item in ranked if int(item) not in previous]
+    stale = [item for item in ranked if int(item) in previous]
+    return fresh + stale
+
+
+def _provider_cooldown(ranked: list[int], providers: np.ndarray, previous_slate: list[int], slate_size: int) -> list[int]:
+    """Demote items of providers that concentrated the previous slate (>= half)."""
+    if not previous_slate:
+        return list(ranked)
+    counts: dict[int, int] = {}
+    for item in previous_slate:
+        provider = int(providers[int(item)])
+        counts[provider] = counts.get(provider, 0) + 1
+    hot = {provider for provider, count in counts.items() if count >= max(1, slate_size // 2)}
+    if not hot:
+        return list(ranked)
+    cool = [item for item in ranked if int(providers[int(item)]) not in hot]
+    hot_items = [item for item in ranked if int(providers[int(item)]) in hot]
+    return cool + hot_items
+
+
+def _freshness_quota(slate: list[int], ranked: list[int], exposure_row: np.ndarray, quota: int) -> list[int]:
+    """Swap trailing slate items for never-exposed (then least-exposed) candidates."""
+    if quota <= 0:
+        return slate
+    slate = list(slate)
+    in_slate = set(int(item) for item in slate)
+    never = [int(item) for item in ranked if int(item) not in in_slate and exposure_row[int(item)] == 0]
+    if len(never) < quota:
+        exposed_sorted = sorted(
+            (int(item) for item in ranked if int(item) not in in_slate and exposure_row[int(item)] > 0),
+            key=lambda item: (float(exposure_row[item]), item),
+        )
+        never = never + exposed_sorted
+    candidates = never[: max(0, quota)]
+    if not candidates:
+        return slate
+    # Replace exposed items from the tail first, then any remaining positions.
+    replaced = 0
+    for index in range(len(slate) - 1, -1, -1):
+        if replaced >= len(candidates):
+            break
+        if exposure_row[int(slate[index])] > 0:
+            slate[index] = candidates[replaced]
+            replaced += 1
+    for index in range(len(slate) - 1, -1, -1):
+        if replaced >= len(candidates):
+            break
+        slate[index] = candidates[replaced]
+        replaced += 1
+    return _first_unique(slate, len(slate))
+
+
+def _category_coverage_quota(slate: list[int], ranked: list[int], categories: np.ndarray, quota: int) -> list[int]:
+    """Greedily enforce a minimum number of distinct categories in the slate."""
+    if quota <= 1:
+        return slate
+    slate = list(slate)
+
+    def distinct(items: list[int]) -> set[int]:
+        return {int(categories[int(item)]) for item in items}
+
+    if len(distinct(slate)) >= quota:
+        return slate
+    present = distinct(slate)
+    replacements = [int(item) for item in ranked if int(categories[int(item)]) not in present]
+    seen_replacement_categories: set[int] = set()
+    for position in range(len(slate) - 1, -1, -1):
+        if len(present) >= quota or not replacements:
+            break
+        category_of_position = int(categories[int(slate[position])])
+        duplicated = sum(1 for item in slate if int(categories[int(item)]) == category_of_position) > 1
+        if not duplicated:
+            continue
+        while replacements:
+            candidate = replacements.pop(0)
+            candidate_category = int(categories[candidate])
+            if candidate_category in present or candidate_category in seen_replacement_categories:
+                continue
+            slate[position] = candidate
+            present.add(candidate_category)
+            seen_replacement_categories.add(candidate_category)
+            break
+    return slate
+
+
 def transform_slate(
     policy: HistoryAwarePolicy,
     state: PlatformState,
@@ -252,6 +370,21 @@ def transform_slate(
             slate_size,
             config.provider_balance_weight,
         )
+
+    # 6-9. extended-library operators; inactive for the core six-player library.
+    previous_slate = state.last_slates.get(user_id, [])
+    if "session_length_cap" in coalition.active:
+        before = list(base_slate)
+        base_slate = _session_length_cap(base_slate, previous_slate)
+        stats["session_cap_demoted"] = sum(1 for item in before if int(item) in set(map(int, previous_slate)))
+    if "provider_cooldown" in coalition.active:
+        base_slate = _provider_cooldown(base_slate, policy.simulator.catalog.providers, previous_slate, slate_size)
+    if "freshness_quota" in coalition.active:
+        base_slate = _freshness_quota(base_slate, ranked, state.exposure_counts[user_id], config.freshness_quota)
+        stats["freshness_quota"] = config.freshness_quota
+    if "category_coverage_quota" in coalition.active:
+        base_slate = _category_coverage_quota(base_slate, ranked, policy.simulator.catalog.categories, config.category_coverage_quota)
+        stats["category_coverage_quota"] = config.category_coverage_quota
 
     slate = _first_unique([*base_slate, *ranked], slate_size)
     if len(slate) != slate_size:

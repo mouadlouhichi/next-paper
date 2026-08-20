@@ -63,6 +63,16 @@ class PolicyConfig(BaseModel):
     candidate_pool_size: PositiveInt = 48
 
 
+# Extended library names are imported from interventions lazily (via string
+# constants here) to avoid a circular import at module load time.
+EXTRA_PLAYER_NAMES = (
+    "session_length_cap",
+    "freshness_quota",
+    "provider_cooldown",
+    "category_coverage_quota",
+)
+
+
 class InterventionConfig(BaseModel):
     repeat_cap: PositiveInt = 2
     injection_capacity: PositiveInt = 2
@@ -72,15 +82,22 @@ class InterventionConfig(BaseModel):
     provider_balance_weight: float = Field(default=0.35, ge=0.0, le=2.0)
     exploration_temperature: PositiveFloat = 0.25
     novelty_threshold: float = Field(default=0.15, ge=-1.0, le=1.0)
+    # Extended-library parameters (inactive unless extended_players is true).
+    extended_players: bool = False
+    freshness_quota: PositiveInt = 2
+    category_coverage_quota: PositiveInt = 5
     costs: dict[str, float] = Field(default_factory=lambda: {name: 0.0 for name in INTERVENTION_NAMES})
 
     @field_validator("costs")
     @classmethod
-    def complete_costs(cls, value: dict[str, float]) -> dict[str, float]:
-        missing = set(INTERVENTION_NAMES).difference(value)
-        extra = set(value).difference(INTERVENTION_NAMES)
+    def complete_costs(cls, value: dict[str, float], info) -> dict[str, float]:
+        extended = bool(info.data.get("extended_players", False))
+        required = tuple(INTERVENTION_NAMES) + (EXTRA_PLAYER_NAMES if extended else ())
+        allowed = set(required)
+        missing = allowed.difference(value)
+        extra = set(value).difference(allowed)
         if missing or extra:
-            raise ValueError(f"costs must contain exactly {INTERVENTION_NAMES}; missing={missing}, extra={extra}")
+            raise ValueError(f"costs must contain exactly {required}; missing={missing}, extra={extra}")
         if any(cost < 0 for cost in value.values()):
             raise ValueError("intervention costs must be non-negative")
         return value

@@ -1,0 +1,13 @@
+{
+  "created_at_utc": "2026-08-19T21:34:53.392599+00:00",
+  "seed": 42,
+  "config_hash": "1159eea26fe8617d",
+  "impressions": 14400,
+  "click_rate": 0.5459027777777777,
+  "bpr": {
+    "factors": 32,
+    "max_updates": 60000
+  },
+  "claim_scope": "simulator-conditional semi-real integration; not external causal evidence",
+  "runtime_seconds": 3571.884856939316
+}

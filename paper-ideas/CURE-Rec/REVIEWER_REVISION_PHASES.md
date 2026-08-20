@@ -226,3 +226,24 @@ upgraded. The MovieLens-1M user-level paired inference remains blocked on re-run
 the audited pipeline with per-user export (dataset download unavailable in the
 current environment); the analysis plan is pre-specified in the manuscript
 limitations instead.
+
+### Addendum — semi-real integration and integrated scalability (2026-08-19)
+
+Two further Phase-9 reviewer items are now implemented and executed:
+
+3. `semireal_integration/` — a learned BPR-MF ranker (trained on 14,400
+   simulator-logged impressions) deployed as the CURE-Sim base policy, with the
+   exact intervention game re-run on top of it; the decision (repeat cap, repair
+   mode) and robust attributions are consistent with the hand-crafted base game.
+   Script: `code/scripts_review/phase_f_semireal.py` (`cure_rec/semireal.py`).
+4. `integrated_scalability/players_8/` — the four extended operators
+   (session_length_cap, freshness_quota, provider_cooldown, category_coverage_quota)
+   implemented as real slate transformations in `cure_rec/interventions.py`; the
+   exact integrated n=8 game ran (7,505 s, 114 MB, zero efficiency gap, decision
+   identical to n=6, selection regret 0). n=10 runs through the closure notebook.
+   Script: `code/scripts_review/phase_g_integrated_scalability.py`.
+
+Runs that require data downloads or long compute (MovieLens-1M per-user paired
+inference, Amazon second-domain audit, n=10 integrated game) are gathered in
+`code/notebooks/13_reviewer_closure_runs.ipynb` for execution on a machine with
+network access; the notebook emits manuscript-ready tables.

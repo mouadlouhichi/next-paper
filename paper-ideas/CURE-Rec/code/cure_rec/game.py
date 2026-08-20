@@ -200,9 +200,13 @@ def evaluate_coalition(
     return value
 
 
-def run_scenario_game(settings: Settings, scenario: ScenarioConfig, logger: RunLogger) -> ScenarioGame:
+def run_scenario_game(settings: Settings, scenario: ScenarioConfig, logger: RunLogger, policy_factory=None) -> ScenarioGame:
     simulator = CureSim(settings, scenario)
-    policy = HistoryAwarePolicy(simulator, settings.policy)
+    # policy_factory allows alternative base policies (for example, a ranker
+    # trained on simulator-logged interactions in the semi-real integration)
+    # without changing coalition semantics; it must expose the same interface
+    # as HistoryAwarePolicy: rank_items(state, user_id), .config, .simulator.
+    policy = policy_factory(simulator, settings) if policy_factory is not None else HistoryAwarePolicy(simulator, settings.policy)
     logger.event("simulator_ready", scenario=scenario.name, n_users=settings.simulator.n_users, n_items=settings.simulator.n_items, horizon=settings.simulator.horizon)
     baseline = evaluate_coalition(simulator, scenario, policy, EMPTY_MASK, 0.0, settings, logger)
     # The empty coalition is the deployed base policy. Its improvement is zero
@@ -223,8 +227,8 @@ def run_scenario_game(settings: Settings, scenario: ScenarioConfig, logger: RunL
     return ScenarioGame(scenario.name, values, shapley, interactions, feasible)
 
 
-def run_exact_game(settings: Settings, logger: RunLogger) -> GameResult:
-    scenario_games = {scenario.name: run_scenario_game(settings, scenario, logger) for scenario in settings.scenarios}
+def run_exact_game(settings: Settings, logger: RunLogger, policy_factory=None) -> GameResult:
+    scenario_games = {scenario.name: run_scenario_game(settings, scenario, logger, policy_factory=policy_factory) for scenario in settings.scenarios}
     coalition_rows: list[dict] = []
     for game in scenario_games.values():
         for value in game.values.values():

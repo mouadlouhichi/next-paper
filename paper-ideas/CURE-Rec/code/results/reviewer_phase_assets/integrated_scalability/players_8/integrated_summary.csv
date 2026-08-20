@@ -1,0 +1,2 @@
+players,coalitions,seed,wall_clock_seconds,peak_memory_mb,shapley_efficiency_gap,mode,status,selected_mask,selected_portfolio,selected_robust_value,oracle_best_value,selection_regret_vs_oracle,selection_regret_vs_best_feasible
+8,256,42,7505.204006195068,113.9296875,0.0,repair,repair_selected,1,repeat_cap,0.2985139280765191,0.2985139280765191,0.0,0.0

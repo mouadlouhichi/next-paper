@@ -243,12 +243,22 @@ round; their archived outputs live under `results/reviewer_phase_assets/`:
 
 - `phase_e_offline_sweeps.py` — utility-weight sensitivity grid and constraint
   frontier phase diagram, recomputed offline from one archived exact game.
-- `phase_e_divergence.py` / `phase_e_focus.py` — predeclared screening for
-  configurations in which the substantive selectors disagree, followed by the
-  held-out selector protocol (selection seeds 42–46, evaluation seeds 200–219).
+- `phase_e_divergence.py` / `phase_e_focus.py` / `phase_e_resume_holdout.py` /
+  `finalize_holdout.py` — predeclared screening for configurations in which the
+  substantive selectors disagree, followed by the held-out selector protocol
+  (selection seeds 42–46, evaluation seeds 200–219); archived for `lhs-012`
+  and `lhs-009`.
+- `phase_f_semireal.py` — semi-real integration: a BPR-MF ranker trained on
+  simulator-logged feedback deployed as the CURE-Sim base policy, with the exact
+  intervention game re-run on top of it (`cure_rec/semireal.py`).
+- `phase_g_integrated_scalability.py` — exact integrated game over 6/8/10 players
+  with the extended operators implemented as real slate transformations.
+- `phase_d_ml1m_paired.py` — MovieLens-1M per-user paired inference (needs data
+  download and torch; run via `notebooks/13_reviewer_closure_runs.ipynb`).
 
 These scripts are simulator-conditional decision experiments; they do not create
-external causal evidence.
+external causal evidence. Runs that require downloads or long compute are gathered
+in `notebooks/13_reviewer_closure_runs.ipynb`.
 
 ## Observability contract
 

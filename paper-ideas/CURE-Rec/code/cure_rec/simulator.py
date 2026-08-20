@@ -53,6 +53,9 @@ class PlatformState:
     provider_exposure: np.ndarray
     step: int = 0
     traces: list[dict] = field(default_factory=list)
+    # Most recent slate per user (updated by the simulator after each response);
+    # consumed only by windowed intervention operators.
+    last_slates: dict = field(default_factory=dict)
 
 
 @dataclass
@@ -75,9 +78,14 @@ PolicyFn = Callable[[PlatformState, int, np.random.Generator], tuple[list[int], 
 class CureSim:
     """Finite-horizon recommendation environment with cohort-level outcomes."""
 
-    def __init__(self, settings: Settings, scenario: ScenarioConfig):
+    def __init__(self, settings: Settings, scenario: ScenarioConfig, *, log_interactions: bool = False):
         self.settings = settings
         self.scenario = scenario
+        # Opt-in per-impression interaction log for semi-real base policies:
+        # the logging phase records (user, item, click, step) events generated
+        # by the disclosed simulator, which can then train a learned ranker.
+        self.log_interactions = log_interactions
+        self.interaction_log: list[dict] = []
         cfg = settings.simulator
         self.rng_offset = 0
         self.rng = np.random.default_rng(settings.run.seed + self._scenario_offset(scenario.name) + self.rng_offset)
@@ -202,6 +210,17 @@ class CureSim:
             for key, value in transform_info.get("stats", {}).items():
                 intervention_stats[key] = intervention_stats.get(key, 0) + int(value)
             user_records.append({"user_id": user_id, **response, "transform": transform_info})
+            # Previous-slate memory for windowed operators; deterministic per seed.
+            self.state.last_slates[user_id] = [int(item) for item in items]
+            if self.log_interactions:
+                for position, (item, clicked) in enumerate(zip(items, response["clicks"], strict=True)):
+                    self.interaction_log.append({
+                        "user_id": int(user_id),
+                        "item_id": int(item),
+                        "response": int(clicked),
+                        "timestamp": int(self.state.step),
+                        "position": int(position),
+                    })
 
         provider_disparity = gini(self.state.provider_exposure)
         step_summary = {

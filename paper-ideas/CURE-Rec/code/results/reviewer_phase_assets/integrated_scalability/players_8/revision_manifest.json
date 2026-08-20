@@ -1,0 +1,28 @@
+{
+  "created_at_utc": "2026-08-19T22:49:53.929454+00:00",
+  "players": [
+    "repeat_cap",
+    "explore_slot",
+    "tail_slot",
+    "diversify",
+    "novel_slot",
+    "provider_balance",
+    "session_length_cap",
+    "freshness_quota"
+  ],
+  "seed": 42,
+  "config_hash": "b7b149669a33a73d",
+  "extra_costs": {
+    "session_length_cap": 0.07,
+    "freshness_quota": 0.09,
+    "provider_cooldown": 0.08,
+    "category_coverage_quota": 0.06
+  },
+  "sample_budgets": [
+    32,
+    128,
+    512,
+    2048
+  ],
+  "claim_scope": "integrated CURE-Sim scalability; simulator-conditional, not external causal evidence"
+}
