@@ -10,7 +10,7 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 R5 = ROOT / "results" / "review5"
-TABLES = ROOT.parent / "actionshap-overleaf" / "tables"
+TABLES = ROOT.parent / "actionshap-ipm" / "tables"
 BS = "\\\\"
 
 

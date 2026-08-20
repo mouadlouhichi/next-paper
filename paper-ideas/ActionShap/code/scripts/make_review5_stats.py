@@ -7,7 +7,7 @@ user-bootstrap 95% CIs and paired differences (Holm-uncorrected here; the
 confirmatory family is declared in the manuscript). Writes:
 
 * results/review5/full_catalogue_1000_summary.json
-* paper-ideas/ActionShap/actionshap-overleaf/tables/review5_full_catalogue.tex
+* paper-ideas/ActionShap/actionshap-ipm/tables/review5_full_catalogue.tex
 """
 from __future__ import annotations
 
@@ -19,7 +19,7 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / "results" / "raw"
 OUT = ROOT / "results" / "review5"
-TABLES = ROOT.parent / "actionshap-overleaf" / "tables"
+TABLES = ROOT.parent / "actionshap-ipm" / "tables"
 
 METHODS = [
     ("shapley_mc", "Monte Carlo Shapley"),

@@ -1,3 +1,0 @@
-dataset,left,right,metric,n_users,margin,mean_diff,ci90_low,ci90_high,tost_p,equivalent,aggregation
-Amazon-Digital-Music,shapley_mc,lime,joint_effect_ndcg,1000,0.005,0.00013047613300275605,-0.001616782181164251,0.0018777344471697622,2.517314034914013e-06,True,seed-mean-within-user_then-TOST
-MovieLens-1M,shapley_mc,lime,joint_effect_ndcg,1000,0.005,-0.002266723507661615,-0.0036494094117276903,-0.0008840376035955406,0.0005869326863835694,True,seed-mean-within-user_then-TOST

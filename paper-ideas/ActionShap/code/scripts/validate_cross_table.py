@@ -29,8 +29,8 @@ TOL = 1e-6
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--tables", default="../actionshap-overleaf/tables")
-    ap.add_argument("--matrices", default="../actionshap-overleaf/release/matrices")
+    ap.add_argument("--tables", default="../actionshap-ipm/tables")
+    ap.add_argument("--matrices", default="../actionshap-ipm/release/matrices")
     ap.add_argument("--review3", default="results/review3")
     args = ap.parse_args()
     tables, matrices = Path(args.tables), Path(args.matrices)

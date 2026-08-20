@@ -178,8 +178,8 @@ def power_table(frame: pd.DataFrame) -> pd.DataFrame:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--release", default="../actionshap-overleaf/release/matrices")
-    ap.add_argument("--out", default="../actionshap-overleaf/tables")
+    ap.add_argument("--release", default="../actionshap-ipm/release/matrices")
+    ap.add_argument("--out", default="../actionshap-ipm/tables")
     args = ap.parse_args()
     release = Path(args.release)
     out = Path(args.out)
