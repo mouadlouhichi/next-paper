@@ -4,13 +4,21 @@
 %% Compile with pdfLaTeX -> BibTeX -> pdfLaTeX -> pdfLaTeX.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\documentclass[a4paper,fleqn,longmktitle]{cas-sc}
+%% Compatibility for Elsevier CAS 2.4 with current LaTeX3 releases.
+%% Kept here so the official CAS template files remain unmodified.
+\ExplSyntaxOn
+\cs_if_exist:NF \vbox_unpack_clear:N
+  { \cs_new_eq:NN \vbox_unpack_clear:N \vbox_unpack_drop:N }
+\ExplSyntaxOff
+
+\documentclass[a4paper,fleqn,doubleblind]{cas-sc}
 
 \usepackage[authoryear,longnamesfirst]{natbib}
 \usepackage{amsthm}
 \usepackage{mathrsfs}
 \usepackage{textcomp}
 \usepackage{longtable}
+\usepackage{tabularx}
 \usepackage{algorithm}
 \usepackage{algorithmicx}
 \usepackage{algpseudocode}
@@ -19,7 +27,7 @@
 \usepackage{placeins}
 \graphicspath{{figures/}}
 \newcommand{\resdir}{tables}
-\hypersetup{pdftitle={ActionShap: An Offline Protocol for Evaluating Recommendation Attributions under Bounded Profile Interventions},pdfsubject={Intervention-grounded evaluation of recommendation attributions},pdfkeywords={explainable recommendation, bounded profile intervention, Shapley value, faithfulness, actionability}}
+\hypersetup{hypertexnames=false,pdftitle={ActionShap: An Offline Protocol for Evaluating Recommendation Attributions under Bounded Profile Interventions},pdfsubject={Intervention-grounded evaluation of recommendation attributions},pdfkeywords={explainable recommendation, bounded profile intervention, Shapley value, faithfulness, actionability}}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{proposition}[theorem]{Proposition}
@@ -40,25 +48,23 @@
 \let\WriteBookmarks\relax
 
 \shorttitle{ActionShap: Attribution Evaluation under Bounded Interventions}
-\shortauthors{Anonymous et al.}
+\shortauthors{}
 
 \title[mode = title]{ActionShap: An Offline Protocol for Evaluating Recommendation Attributions under Bounded Profile Interventions}
 
-%% Double-anonymized review copy: author identities are supplied in the
-%% separate title page file, as required by IPM's double-anonymized process.
-\author[1]{\fnm{Anonymous} \sur{Authors}}
-\affiliation[1]{organization={Anonymized for double-blind review},
-                country={}}
+%% Double-anonymized review copy: all author details are confined to the
+%% separate title page file, as required by IPM's review process.
 
 \begin{abstract}
-Recommendation explanations are commonly evaluated by deleting historical interactions, although deployed recommendation systems act through bounded changes to the influence of observed evidence; deletion and a declared system-executable intervention therefore measure different properties. We introduce ActionShap, an offline protocol for retrospective, target-conditioned audits of history-based recommendation attributions. The protocol is architecture-agnostic among history-conditioned recommenders that expose inference-time history weighting, and separates deletion alignment, bounded-policy alignment, signed directional validity, and the quality of the joint action selected under a fixed budget. It fixes temporal splitting, complete pre-test-history exclusion, target-plus-unseen-negative candidates, tie handling, sign-based action eligibility, exact budget-two oracles, convergence diagnostics, and inference over distinct users. Monte Carlo Shapley, locally weighted LIME, leave-one-out, greedy sequential deletion, and a random control are evaluated on MovieLens-1M and Amazon Digital Music. The primary ItemKNN analysis uses 1,000 users and five seeds with exact budget-two oracles; a stochastic latent-profile model and a 1,000-user full-unseen-catalogue audit provide robustness evidence. Shapley shows a positive bounded-minus-deletion difference in both primary conditions, especially on Amazon, while LIME and leave-one-out retain higher absolute bounded alignment and signed directional accuracy, and on MovieLens also achieve slightly higher realized NDCG effects and lower conditional normalized regret. The random control remains near its within-user null. ActionShap thus provides an auditable instrument for separating perturbation sensitivity, directional validity, and intervention decision quality rather than claiming universal superiority for any explainer.
+Recommendation explanations are commonly evaluated by deleting historical interactions, although deployed recommendation systems act through bounded changes to the influence of observed evidence; deletion and a declared system-executable intervention therefore measure different properties. We introduce ActionShap, an offline protocol for retrospective, target-conditioned audits of history-based recommendation attributions. The protocol is architecture-agnostic among history-conditioned recommenders that expose inference-time history weighting, and separates deletion alignment, bounded-policy alignment, signed directional validity, and the quality of the joint action selected under a fixed budget. It fixes temporal splitting, complete pre-test-history exclusion, target-plus-unseen-negative candidates, tie handling, sign-based action eligibility, exact budget-two oracles, convergence diagnostics, and inference over distinct users. Monte Carlo Shapley, local interpretable model-agnostic explanations (LIME), leave-one-out, greedy sequential deletion, and a random control are evaluated on MovieLens-1M and Amazon Digital Music. The primary item-based nearest-neighbor (ItemKNN) analysis uses 1,000 users and five seeds with exact budget-two oracles; a stochastic latent-profile model and a 1,000-user full-unseen-catalogue audit provide robustness evidence. Shapley shows a positive bounded-minus-deletion difference in both primary conditions, especially on Amazon, while LIME and leave-one-out retain higher absolute bounded alignment and signed directional accuracy, and on MovieLens also achieve slightly higher realized normalized discounted cumulative gain (NDCG) effects and lower conditional normalized regret. The random control remains near its within-user null. ActionShap thus provides an auditable instrument for separating perturbation sensitivity, directional validity, and intervention decision quality rather than claiming universal superiority for any explainer.
 \end{abstract}
 
 \begin{keywords}
-Explainable recommender systems \sep Attribution evaluation \sep Intervention evaluation \sep Counterfactual evaluation \sep Recommendation faithfulness \sep Bounded profile intervention \sep Shapley values
+Explainable recommendation \sep Attribution evaluation \sep Intervention evaluation \sep Counterfactual evaluation \sep Recommendation faithfulness \sep Bounded profile intervention \sep Shapley value
 \end{keywords}
 
 \maketitle
+\hypersetup{pdfauthor={},pdfsubject={Intervention-grounded evaluation of recommendation attributions},pdfcreator={LaTeX with Elsevier CAS}}
 
 
 \section{Introduction}
@@ -86,22 +92,74 @@ The paper makes no a priori claim that Shapley, LIME, LOO, or any other explaine
 
 \section{Literature Review}
 \subsection{Explainable recommendation}
-Explainable recommendation includes feature, item, path, attention, sentiment, and natural-language rationales. Surveys emphasize that these forms serve different objectives, including user persuasion, model fidelity, transparency, and preference communication \cite{zhang2020survey}. Latent-factor explanations expose item or feature contributions, while post-hoc methods apply model-agnostic surrogates such as LIME and SHAP \cite{peake2018,nobrega2019,ribeiro2016,lundberg2017}. Sentiment- and phrase-level models construct explanations during recommendation rather than evaluating a post-hoc attribution \cite{zhang2014}. Fidelity-oriented methods now train the explanation mechanism itself against path-integration objectives across multiple recommender architectures and explicitly warn that unrealistic attribution baselines distort sparse-recommendation audits \cite{barkan2026spinrec}; counterfactual reasoning has likewise been used to explain path-based recommendations beyond attention scores \cite{li2024tkde}. ActionShap addresses a complementary question: whether an explanation predicts the outcome of a declared feasible change.
+Explainable recommendation includes feature, item, path, attention, sentiment, and natural-language rationales. Surveys emphasize that these forms serve different objectives, including persuasion, model fidelity, transparency, and preference communication \cite{zhang2020survey}.
+
+Latent-factor and local-surrogate methods expose item or feature contributions \cite{peake2018,nobrega2019}.
+
+General model-agnostic constructions include LIME and SHAP \cite{ribeiro2016,lundberg2017}. Sentiment- and phrase-level models instead construct explanations during recommendation \cite{zhang2014}.
+
+Recent fidelity-oriented work trains explanations against path-integration objectives and warns that unrealistic attribution baselines distort sparse-recommendation audits \cite{barkan2026spinrec}. Counterfactual reasoning has also been used to explain path-based recommendations beyond attention scores \cite{li2024tkde}. ActionShap addresses a complementary question: whether an explanation predicts the outcome of a declared feasible change.
 
 \subsection{Recommender models and offline evaluation}
-Classical matrix factorization and pairwise learning-to-rank remain foundations for offline recommendation \cite{koren2009,joachims2002,rendle2009,burges2005}. Neural collaborative filtering, recurrent session models, self-attentive sequence models, and bidirectional transformer recommenders broaden the architecture space \cite{he2017ncf,hidasi2016gru4rec,kang2018sasrec,sun2019bert4rec}. Graph recommenders introduce a further distinction between a trained graph representation and an inference-time profile intervention \cite{wang2019ngcf,he2020lightgcn}. We use ItemKNN as the primary model because its history dependence is transparent under masking; the profile aggregator is a robustness model, not a claim to cover all architectures.
+Matrix factorization and pairwise ranking remain foundations for offline recommendation \cite{koren2009,rendle2009}.
 
-Offline evaluation depends on temporal leakage, negative sampling, exposure, and the candidate universe. Results on a target-plus-negative set are sampled-ranking results, not catalogue retrieval. Evaluation choices can materially change rankings between methods and models \cite{harper2016,bennett2007,saito2021}. ActionShap fixes these choices before final testing, reports popularity references, and separates sampled ranking from full-unseen-catalogue evaluation.
+Learning-to-rank methods provide a related ranking-oriented foundation \cite{joachims2002,burges2005}.
+
+Neural collaborative filtering and recurrent session models broaden the architecture space \cite{he2017ncf,hidasi2016gru4rec}.
+
+Self-attentive and bidirectional transformer recommenders extend this line to sequential histories \cite{kang2018sasrec,sun2019bert4rec}.
+
+Graph recommenders introduce a further distinction between a trained graph representation and an inference-time profile intervention \cite{wang2019ngcf,he2020lightgcn}. We use ItemKNN as the primary model because its history dependence is transparent under masking; the profile aggregator is a robustness model, not a claim to cover all architectures.
+
+Offline evaluation depends on temporal leakage, negative sampling, exposure, and the candidate universe. MovieLens and the Netflix Prize illustrate distinct dataset and feedback settings \cite{harper2016,bennett2007}. Counterfactual evaluation further requires explicit assumptions about exposure and logged feedback \cite{saito2021}.
+
+Results on a target-plus-negative set are sampled-ranking results, not catalogue retrieval. ActionShap therefore fixes the candidate and temporal rules before final testing, reports popularity references, and separates sampled ranking from full-unseen-catalogue evaluation.
 \FloatBarrier
 
 \subsection{Faithfulness, counterfactual evaluation, and recourse}
-Deletion and insertion tests measure model dependence but can be sensitive to the baseline and perturbation path. Sanity checks show that some attribution maps can appear plausible while failing model or data randomization tests \cite{adebayo2018}. Perturbation-based explanations also raise the question of whether the perturbation remains within a meaningful data manifold \cite{hooker2019}. Counterfactual recommendation and recourse methods instead search for profile or graph changes that alter a ranking or decision \cite{ghazimatin2020,tran2021,tan2021,yao2022,baklanov2024,barkan2024,gurevitch2025,mohammadi2025,nguyen2026,wachter2017,karimi2021}, including minimal-perturbation counterfactuals generated by guided denoising diffusion \cite{mohammadi2026sigir} and plausibility-constrained counterfactuals validated with user studies \cite{cerny2025plausible}; a parallel line argues that automated counterfactual metrics alone do not exhaust explanation evaluation and that human-centric criteria must be included \cite{domnich2025unifying}. Dedicated benchmarks for recommendation explanations, including LLM-powered automatic evaluation \cite{li2025alert}, show that explanation evaluation itself is becoming a standalone scalable task; path-integration attribution \cite{sundararajan2017axiomatic} provides the continuous-path baseline that our bounded-weight semantics approximate discretely. ActionShap does not generate causal recourse. It evaluates an attribution under a fixed intervention policy and makes the policy, cost, authority, and offline limitations explicit.
+Deletion and insertion tests quantify changes in model output along ordered removal and restoration paths \cite{petsiuk2018rise}. Their conclusions can depend on the replacement baseline and perturbation construction \cite{fong2017meaningful}. Such perturbations may also move inputs outside a meaningful data manifold \cite{hooker2019}.
+
+Sanity checks provide a different diagnostic: attribution maps can appear plausible while failing model or data randomization tests \cite{adebayo2018}.
+
+Recommender-specific counterfactual methods search for changes to interaction histories or recommendation graphs \cite{ghazimatin2020,tran2021}.
+
+Other methods formulate counterfactual recommendation directly around altered user evidence or item aspects \cite{tan2021,barkan2024}. Learned explanation models extend this idea across recommendation instances \cite{gurevitch2025}.
+
+Algorithmic recourse is broader than recommendation explanation. It asks which feasible feature changes would alter a consequential decision \cite{wachter2017,karimi2021}. ActionShap does not claim causal recourse or user authority over the audited profile weights.
+
+A related literature evaluates counterfactual explanations rather than generating them. Early work tested whether explanations predict recommendation changes \cite{yao2022,baklanov2024}.
+
+Later studies identified inconsistencies in top-$k$ evaluation and established broader reproducibility benchmarks \cite{mohammadi2025,nguyen2026}.
+
+Recent generators include guided-denoising methods for minimal perturbations \cite{mohammadi2026sigir} and plausibility-constrained explanations validated with a user study \cite{cerny2025plausible}. Human-centric assessment remains necessary because automated counterfactual metrics do not exhaust explanation quality \cite{domnich2025unifying}.
+
+LLM-powered benchmarks make recommendation-explanation assessment increasingly scalable \cite{li2025alert}. Path-integration attribution provides a continuous-path baseline for comparison with our discrete bounded-weight semantics \cite{sundararajan2017axiomatic}. ActionShap evaluates an attribution under a fixed intervention policy and makes the policy, cost, authority, and offline limitations explicit.
 
 \subsection{Evaluation protocols for recommender explanations}
-A distinct literature evaluates recommendation explanations rather than generating them. Deletion-style audits dominate, but recent protocols target other semantics: rank-based attribution fidelity \cite{chowdhury2024rankshap,pliatsika2025sharpl}, event-deletion for sequential outputs \cite{bento2021timeshap}, contrastive explanation benchmarks \cite{mousavi2023clime}, session-model explanation evaluation \cite{bruun2025session}, and LLM-powered automatic explanation assessment \cite{li2025alert}. Two findings are directly relevant to ActionShap's design. First, recommender performance itself changes explainer rankings, so explainer evaluation must be gated on recommendation quality \cite{mohammadi2024recsys}; ActionShap therefore audits model quality against popularity before any attribution result is interpreted (Section~\ref{sec:robustness} shows why this gate matters). Second, fidelity measured along one perturbation semantics need not transfer to another \cite{baklanov2025fidelity,barkan2026spinrec}, which motivates separating deletion alignment from bounded-intervention alignment rather than treating a single deletion score as explanation validity. ActionShap differs from these protocols in three respects: the perturbation is a declared system-executable weight policy rather than a feature- or event-deletion convention; joint actions are scored against an exact common budget oracle; and inference is performed over distinct users with within-user null calibration.
+A distinct literature evaluates recommendation explanations rather than generating them. Rank-oriented protocols assess attribution fidelity for ordered outputs \cite{chowdhury2024rankshap,pliatsika2025sharpl}.
+
+Sequence-oriented protocols use event deletion or audit session-model attributions \cite{bento2021timeshap,bruun2025session}.
+
+Other benchmarks target contrastive completeness or automatic natural-language assessment \cite{mousavi2023clime,li2025alert}.
+
+Recommender performance can change explainer rankings, so explanation evaluation should be gated on recommendation quality \cite{mohammadi2024recsys}. ActionShap therefore audits model quality against popularity before interpreting any attribution result; Section~\ref{sec:robustness} shows why this gate matters.
+
+Fidelity measured under one perturbation semantics need not transfer to another \cite{baklanov2025fidelity,barkan2026spinrec}. This motivates separating deletion alignment from bounded-intervention alignment rather than treating a single deletion score as explanation validity.
+
+ActionShap differs from these protocols in three respects: the perturbation is a declared system-executable weight policy rather than a feature- or event-deletion convention; joint actions are scored against an exact common budget oracle; and inference is performed over distinct users with within-user null calibration.
 
 \subsection{Interpretable machine learning and cooperative attribution}
-Interpretability is not a single property: faithfulness, stability, simulatability, and usefulness can disagree \cite{gilpin2018,arrieta2020,molnar2022,samek2017,deyoung2020}. SHAP connects feature attribution with cooperative-game values, while sampling makes the construction applicable when exact enumeration is infeasible \cite{shapley1953,castro2009,lundberg2020,covert2021}. ActionShap treats Shapley as one interchangeable explainer. Its axioms do not imply causal validity, intervention feasibility, or decision superiority; these are measured separately.
+Interpretability taxonomies distinguish properties such as faithfulness, stability, simulatability, and usefulness \cite{gilpin2018,arrieta2020}.
+
+Benchmarks show that these properties can disagree in practice \cite{samek2017,deyoung2020}. A broader synthesis reports the same tension across interpretability methods \cite{molnar2022}.
+
+Shapley attribution originates in cooperative-game values \cite{shapley1953}.
+
+SHAP adapts this construction to model explanations \cite{lundberg2017,lundberg2020}.
+
+Sampling and regression estimators make it applicable when exact enumeration is infeasible \cite{castro2009,covert2021}.
+
+ActionShap treats Shapley as one interchangeable explainer. Its axioms do not imply causal validity, intervention feasibility, or decision superiority; these are measured separately.
 
 \FloatBarrier
 \begingroup
@@ -109,9 +167,10 @@ Interpretability is not a single property: faithfulness, stability, simulatabili
 \centering
 \scriptsize
 \setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.1}
 \caption{Positioning by evaluation target.}
 \label{tab:positioning}
-\begin{tabular}{@{}lcccc@{}}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{.20\linewidth}*{4}{>{\centering\arraybackslash}X}@{}}
 \toprule
 Approach & Explainer audit & Declared executable policy & Joint regret & Abstention\\
 \midrule
@@ -120,7 +179,7 @@ Counterfactual expl. & Usually & Method-spec. & Sometimes & Method-spec.\\
 Algorithmic recourse & No & Yes & Optim.\ target & Often\\
 ActionShap & Yes & Yes & Yes & Yes\\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \endgroup
 \FloatBarrier
 
@@ -157,7 +216,7 @@ p_u(S,w)=
 Thus the empty coalition and any nonempty all-zero-weight coalition use the same zero-profile convention. The primary full profile uses $w_h=1$ for every retained interaction. All utilities below are functions of the weighted coalition $(S,w)$; for $z\in\{v_u^{\mathrm{attr}},q_u\}$ we write $z_u(S,w)$ and abbreviate $z_u(S):=z_u(S,\mathbf{1})$, $f_u^S(i):=f_u(i\mid S,\mathbf{1})$, and $s_i^{S,w}:=f_u(i\mid S,w)$ with $s_i^S:=s_i^{S,\mathbf{1}}$.
 Its item embeddings are trained once with the leave-one-out BPR-style objective
 \begin{equation}
-\mathcal{L}_{\mathrm{BPR}}=-\sum_{(u,i,j)}\log\sigma\left(p_{u,-i}^{\top}(q_i-q_j)\right)
+\mathcal{L}_{\mathrm{BPR}}=-\sum_{(u,i,j)}\log\sigma\left(r_{u,-i}^{\top}(q_i-q_j)\right)
 +\frac{\lambda}{2}\left(\lVert q_i\rVert_2^2+\lVert q_j\rVert_2^2+\sum_{h\in H_u^{\mathrm{train}}\setminus\{i\}}\lVert q_h\rVert_2^2\right),
 \label{eq:bpr}
 \end{equation}
@@ -168,7 +227,7 @@ The primary characteristic function is the target-margin utility
 \begin{equation}
 v_u^{\mathrm{attr}}(S,w)=\sigma\left(s_y^{S,w}-\frac{1}{L}\sum_{i\in\operatorname{TopL}_{-y}(S,w)}s_i^{S,w}\right),
 \end{equation}
-where $y$ is the temporal target, $L=10$, and $\sigma(t)=(1+e^{-t})^{-1}$ has unit temperature. The competitor set $\operatorname{TopL}_{-y}(S,w)$ is recomputed from the current weighted-coalition scores for every $(S,w)$; it contains the ten highest-scoring candidates in $E_u\setminus\{y\}$. Because $\operatorname{TopL}_{-y}(S,w)$ changes discontinuously, $v_u^{\mathrm{attr}}$ is piecewise smooth and generally non-monotone; this does not affect the Shapley construction but matters for interpretation and for gradient-based baselines. Every retained positive interaction starts with inference-time weight $w_h=1$. No temporal decay or rating-dependent weight is used. An action changes only these inference-time weights and never retrains the model. For the fixed candidate set $E_u$, let $\tau_i$ be the global tie priority and define the one-indexed target rank under a weighted coalition,
+where $y$ is the temporal target, $L=10$, and $\sigma(t)=[1+\exp(-t)]^{-1}$ has unit temperature. The competitor set $\operatorname{TopL}_{-y}(S,w)$ is recomputed from the current weighted-coalition scores for every $(S,w)$; it contains the ten highest-scoring candidates in $E_u\setminus\{y\}$. Because $\operatorname{TopL}_{-y}(S,w)$ changes discontinuously, $v_u^{\mathrm{attr}}$ is piecewise smooth and generally non-monotone; this does not affect the Shapley construction but matters for interpretation and for gradient-based baselines. Every retained positive interaction starts with inference-time weight $w_h=1$. No temporal decay or rating-dependent weight is used. An action changes only these inference-time weights and never retrains the model. For the fixed candidate set $E_u$, let $\tau_i$ be the global tie priority and define the one-indexed target rank under a weighted coalition,
 \begin{equation}
 r_u(y\mid S,w)=1+\sum_{i\in E_u\setminus\{y\}}\mathbf{1}[s_i^{S,w}>s_y^{S,w}]
 +\sum_{i\in E_u\setminus\{y\}}\mathbf{1}[s_i^{S,w}=s_y^{S,w}\ \wedge\ \tau_i<\tau_y].
@@ -195,7 +254,7 @@ Deletion and bounded singleton effects are therefore
 \qquad
 \Delta_{u,p}^{z,\mathrm{bnd}}=\Delta_u^z(\{p\};0.5).
 \end{equation}
-At $\rho=0$ the intervention assigns weight zero to $p$, so deletion is evaluated with the explicit zero-profile convention of Eqs.~(2)--(3) on the identical coalition-evaluation path as leave-one-out. The primary feasible intervention is bounded downweighting,
+At $\rho=0$ the intervention assigns weight zero to $p$, so deletion is evaluated with the explicit zero-profile convention of Eqs.~\eqref{eq:itemknn-weighted} and~\eqref{eq:profile-weighted} on the identical coalition-evaluation path as leave-one-out. The primary feasible intervention is bounded downweighting,
 \begin{equation}
 \mathcal{I}_\rho(p):\ w_p\leftarrow\rho w_p,\qquad \rho=0.5,
 \end{equation}
@@ -232,7 +291,7 @@ Figure~\ref{fig:architecture} summarizes the evaluation pipeline used throughout
 \node[note, right=7mm of g, text width=3.3cm] (q) {\textbf{Decision controls}\\Signed benefit, no-action option, exact $B\le2$ oracle, utility-specific regret, and conditional normalized regret.};
 \draw[edge] (q.west)--++(-4mm,0)|-(g.east);
 \end{tikzpicture}
-\caption{ActionShap evaluation architecture. The target-margin utility is computed against the \emph{held-out temporal target} $y$ (retrospective, target-conditioned audit). The fixed vertical path separates player construction, model scoring, attribution, intervention execution, and outcome measurement. Side panels show controls held constant across methods; stability diagnostics are reported in Table~D3.}
+\caption{ActionShap evaluation architecture. The target-margin utility is computed against the \emph{held-out temporal target} $y$ (retrospective, target-conditioned audit). The fixed vertical path separates player construction, model scoring, attribution, intervention execution, and outcome measurement. Side panels show controls held constant across methods; stability diagnostics are reported in Table~\ref{tab:app-diagnostics}.}
 \label{fig:architecture}
 \end{figure}
 
@@ -254,7 +313,7 @@ As a cooperative-game value, this exact expression satisfies efficiency, symmetr
 For LIME, a binary mask $m_b\in\{0,1\}^{n_u}$ defines coalition $S_b=\{p:m_{b,p}=1\}$ and response $y_b=v_u^{\mathrm{attr}}(S_b)$. With normalized Hamming distance $d_b=n_u^{-1}\sum_p(1-m_{b,p})$, kernel width $\kappa=.25$, and ridge coefficient $\lambda_{\mathrm{LIME}}=1$, the fitted local surrogate is
 \begin{equation}
 (\hat\beta_0,\hat{\boldsymbol\beta})=\arg\min_{\beta_0,\boldsymbol\beta}
-\sum_{b=1}^{512}e^{-d_b^2/\kappa^2}\left(y_b-\beta_0-m_b^{\top}\boldsymbol\beta\right)^2
+\sum_{b=1}^{512}\exp\left(-d_b^2/\kappa^2\right)\left(y_b-\beta_0-m_b^{\top}\boldsymbol\beta\right)^2
 +\lambda_{\mathrm{LIME}}\lVert\boldsymbol\beta\rVert_2^2.
 \label{eq:lime}
 \end{equation}
@@ -315,16 +374,16 @@ p_{\mathrm{null}}=
 \frac{1+\sum_{r=1}^{R_{\mathrm{null}}}\mathbf{1}\left[U^{-1}\textstyle\sum_u \bar A_u^{(r)}\ \ge\ U^{-1}\textstyle\sum_u \bar A_u^{\mathrm{obs}}\right]}{R_{\mathrm{null}}+1},
 \label{eq:null-p}
 \end{equation}
-i.e.\ the dataset-level observed alignment is compared against the dataset-level null distribution of seed-averaged draws. The ten dataset--method null tests in Table~5 are unadjusted descriptive calibration controls (labelled ``Unadj.\ upper-tail null $p$''), not a confirmatory multiplicity family; confirmatory method comparisons use the Holm-adjusted paired tests of Tables~D1/S3--S5. We report null means, null 95th percentiles, plus-one permutation $p$-values, and valid-user counts. Constant vectors are missing, not imputed.
+i.e.\ the dataset-level observed alignment is compared against the dataset-level null distribution of seed-averaged draws. The ten dataset--method null tests in Table~5 are unadjusted descriptive calibration controls (labelled ``Unadj.\ upper-tail null $p$''), not a confirmatory multiplicity family; confirmatory method comparisons use the Holm-adjusted paired tests of Table~\ref{tab:app-statistics} and Supplementary Tables~S3--S5. We report null means, null 95th percentiles, plus-one permutation $p$-values, and valid-user counts. Constant vectors are missing, not imputed.
 
 \FloatBarrier
 \subsection{Decision quality and regret}
-For a method action, define the additive predicted-benefit score (an attribution-ranked action score, not a calibrated estimate of the realized joint effect; Section~\ref{app:replication-sec} quantifies the interaction error of this additivity assumption)
+For a method action, define the additive predicted-benefit score
 \begin{equation}
-\widehat B_u^g(A)=-\sum_{p\in A}\widehat\phi_{u,p}^g,\qquad\text{(additive decision heuristic; realized pair effects may include interactions $I_{pq}=\Delta(\{p,q\})-\Delta(\{p\})-\Delta(\{q\})$ \cite{sundararajan2020shapleytaylor,janizek2021axiomatic}).}
+\widehat B_u^g(A)=-\sum_{p\in A}\widehat\phi_{u,p}^g.
 \label{eq:predicted-benefit}
 \end{equation}
-The method considers an action eligible when $\widehat B_u^g(A)>10^{-12}$; otherwise it abstains. Because this predicted benefit is additive, the implementation obtains the maximizer by sorting strictly positive individual benefits and taking at most $B$ of them; equal scores use the deterministic tie rule below. For utility $z$, the exact budget-two oracle is
+This is an attribution-ranked additive decision heuristic, not a calibrated estimate of the realized joint effect. Realized pair effects may include interactions $I_{pq}=\Delta(\{p,q\})-\Delta(\{p\})-\Delta(\{q\})$ \cite{sundararajan2020shapleytaylor,janizek2021axiomatic}; Section~\ref{app:replication-sec} quantifies the resulting interaction error. The method considers an action eligible when $\widehat B_u^g(A)>10^{-12}$; otherwise it abstains. Because this predicted benefit is additive, the implementation obtains the maximizer by sorting strictly positive individual benefits and taking at most $B$ of them; equal scores use the deterministic tie rule below. For utility $z$, the exact budget-two oracle is
 \begin{equation}
 A_u^{*,z}=\arg\max_{A\in\mathcal A_{u,2}}\Delta_u^z(A),
 \end{equation}
@@ -457,7 +516,7 @@ The contrast is in the change between perturbations. Shapley’s primary gap is 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{aia_components_robustness.pdf}
-\caption{Deletion AIA, bounded-intervention AIA, and their difference for the five methods. Points are distinct-user means and intervals are user-bootstrap 95\% confidence intervals. Budget rows are excluded because budgets do not define singleton gap estimands.}
+\caption{Deletion AIA, bounded-intervention AIA, and their difference for the five methods. Points are distinct-user means and intervals are user-bootstrap 95\% confidence intervals. Budget rows are excluded because budgets do not define singleton gap estimands. The underlying values are also supplied in editable Tables~\ref{tab:aia-components} and~\ref{tab:app-alignment}, so interpretation does not depend on color alone.}
 \label{fig:aia-components}
 \end{figure}
 
@@ -495,7 +554,7 @@ Under the population-average diagnostic criteria, target-margin convergence sele
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{convergence.pdf}
-\caption{Independent Monte Carlo convergence against an independent $M_{\mathrm{pair}}=1000$ \emph{MC reference} (not ground truth; an exact-reference subset is specified in the replication guide). Left: rank agreement with the reference; right: signed $B=2$ action-set Jaccard overlap, the second selection criterion; dashed lines mark the $0.95$ and $0.80$ thresholds. The legend maps every curve to its dataset--model--utility condition. Efficiency is not used as a convergence criterion because the prefix walk telescopes.}
+\caption{Independent Monte Carlo convergence against an independent $M_{\mathrm{pair}}=1000$ \emph{MC reference} (not ground truth; an exact-reference subset is specified in the replication guide). Left: rank agreement with the reference; right: signed $B=2$ action-set Jaccard overlap, the second selection criterion; dashed lines mark the $0.95$ and $0.80$ thresholds. The legend maps every curve to its dataset--model--utility condition. The numerical values are provided in Supplementary Table~S6, so interpretation does not rely on colour alone. Efficiency is not used as a convergence criterion because the prefix walk telescopes.}
 \label{fig:convergence}
 \end{figure}
 \FloatBarrier
@@ -511,7 +570,7 @@ History length explains part, but not all, of the cross-dataset contrast (Table~
 
 
 \subsection{Replication: sequential recommender, intervention-aware baselines, and prospective audits}\label{app:replication-sec}
-To test whether the ItemKNN findings transfer to a competitive sequential architecture, the full audit was replicated with a SASRec-style transformer (item and positional embeddings of dimension $64$, one transformer-encoder layer with a single head and dropout $0.1$, history truncated to the most recent $20$ events, trained by leave-one-out BPR with Adam at learning rate $3\times10^{-4}$ for $10$ epochs; the user representation is the history-weighted mean of encoded positions, recomputed at scoring time so that masking/downweighting acts without retraining; Appendix~\ref{app:replication}). Three patterns emerge (Table~\ref{tab:review3}). First, intervention-aware baselines---bounded binary/continuous LIME, finite differences, and integrated gradients, all trained or integrated along the same weight path used at deployment---reach bounded AIA $0.72$--$1.00$ (bounded binary/continuous LIME $0.73$--$0.95$, finite differences and integrated gradients $0.72$--$1.00$), matching or exceeding binary-mask LIME ($0.74$--$0.91$) and Monte Carlo Shapley ($0.14$--$0.70$): part of binary LIME's weakness is therefore a perturbation-distribution mismatch, exactly the confound the review response targets, and Shapley's coalition averaging does not by itself predict bounded interventions better than path-matched baselines. Second, pair interactions $I_{pq}=\Delta(\{p,q\})-\Delta(\{p\})-\Delta(\{q\})$ are small relative to singleton effects for ItemKNN (mean ratio $0.07$; additive-vs-realized pair ranking $\rho=0.84$--$0.90$), supporting the additive decision heuristic of Eq.~(21) empirically under ItemKNN, but are substantial under SASRec (ratios $0.21$--$0.78$, additive-vs-realized $\rho=0.45$--$0.78$), so interaction-aware selection is recommended whenever the scorer is strongly nonlinear. Third, replacing the held-out target by the model's own top-1 recommendation (a prospective, non-target-conditioned audit) leaves Shapley bounded alignment high (run means $0.73$--$0.87$; $93$--$100\%$ of users attain at least $0.5$ alignment among the $126$--$227$ users per run whose generated top-1 lies in the candidate set), showing that the protocol's conclusions do not depend on future-label conditioning. Finally, a component ablation on the same realized-effect currency shows that the protocol components matter: forcing an action (removing the no-action option) changes the selected action in $82$--$89\%$ of users without improving the mean realized effect (mean $\Delta$ in $[-0.023,+0.001]$, with individual deltas reaching $-0.51$ under SASRec), and magnitude-only selection changes the action in $89$--$96\%$ of users and degrades the mean realized effect under the sequential model (mean $\Delta=-0.013$ on Amazon, $-0.041$ on ML-1M), supporting the signed, abstention-aware selection rule of Algorithm~4.
+To test whether the ItemKNN findings transfer to a competitive sequential architecture, the full audit was replicated with a SASRec-style transformer (item and positional embeddings of dimension $64$, one transformer-encoder layer with a single head and dropout $0.1$, history truncated to the most recent $20$ events, trained by leave-one-out BPR with Adam at learning rate $3\times10^{-4}$ for $10$ epochs; the user representation is the history-weighted mean of encoded positions, recomputed at scoring time so that masking/downweighting acts without retraining; Appendix~\ref{app:replication}). Three patterns emerge (Table~\ref{tab:review3}). First, intervention-aware baselines---bounded binary/continuous LIME, finite differences, and integrated gradients, all trained or integrated along the same weight path used at deployment---reach bounded AIA $0.72$--$1.00$ (bounded binary/continuous LIME $0.73$--$0.95$, finite differences and integrated gradients $0.72$--$1.00$), matching or exceeding binary-mask LIME ($0.74$--$0.91$) and Monte Carlo Shapley ($0.14$--$0.70$): part of binary LIME's weakness is therefore a perturbation-distribution mismatch, exactly the confound the review response targets, and Shapley's coalition averaging does not by itself predict bounded interventions better than path-matched baselines. Second, pair interactions $I_{pq}=\Delta(\{p,q\})-\Delta(\{p\})-\Delta(\{q\})$ are small relative to singleton effects for ItemKNN (mean ratio $0.07$; additive-vs-realized pair ranking $\rho=0.84$--$0.90$), supporting the additive decision heuristic of Eq.~\eqref{eq:predicted-benefit} empirically under ItemKNN, but are substantial under SASRec (ratios $0.21$--$0.78$, additive-vs-realized $\rho=0.45$--$0.78$), so interaction-aware selection is recommended whenever the scorer is strongly nonlinear. Third, replacing the held-out target by the model's own top-1 recommendation (a prospective, non-target-conditioned audit) leaves Shapley bounded alignment high (run means $0.73$--$0.87$; $93$--$100\%$ of users attain at least $0.5$ alignment among the $126$--$227$ users per run whose generated top-1 lies in the candidate set), showing that the protocol's conclusions do not depend on future-label conditioning. Finally, a component ablation on the same realized-effect currency shows that the protocol components matter: forcing an action (removing the no-action option) changes the selected action in $82$--$89\%$ of users without improving the mean realized effect (mean $\Delta$ in $[-0.023,+0.001]$, with individual deltas reaching $-0.51$ under SASRec), and magnitude-only selection changes the action in $89$--$96\%$ of users and degrades the mean realized effect under the sequential model (mean $\Delta=-0.013$ on Amazon, $-0.041$ on ML-1M), supporting the signed, abstention-aware selection rule of Algorithm~4.
 
 \subsection{Coalition and scorer-state budgets, and release provenance}
 Table~\ref{tab:computational-cost} reports allocation-stage coalition/scorer-state budgets. With $m=|E_u|$ candidates and embedding dimension $d$, each scorer call costs $C_{\mathrm{score}}(m,d)$, giving $O(T\,n_u\,C_{\mathrm{score}})$ for Shapley, $O(S_{\mathrm{LIME}}\,C_{\mathrm{score}}+S_{\mathrm{LIME}}n_u^2+n_u^3)$ including the ridge solve, $O(n_u\,C_{\mathrm{score}})$ for LOO, and $O(n_u^2\,C_{\mathrm{score}})$ for greedy and the exact $B\le2$ oracle; method-specific wall-clock times and peak memory from replication runs are reported in the release: on the replication machine the reverse-paired estimator costs $0.3$--$1.6$\,s per user (ItemKNN/SASRec) versus $0.03$--$0.12$\,s for bounded LIME, confirming that the protocol overhead is linear in the scorer cost as analysed. These are analytical scorer-call counts, not claims that every call has identical wall-clock cost; the exact ItemKNN batch implementation reuses cached similarity blocks, while the joint-action oracle is evaluated once per user and shared across methods. Asymptotically in the player count $n_u$, the allocation stage costs $O(T\,n_u)$ cached prefix states for Monte Carlo Shapley with $T=2M_{\mathrm{pair}}$ evaluated orders, $O(S_{\mathrm{LIME}})$ mask evaluations for LIME with $S_{\mathrm{LIME}}=512$, $O(n_u)$ states for leave-one-out, and $O(n_u^2)$ deletion evaluations for greedy sequential deletion; the shared exact $B\le2$ oracle adds $O(n_u^2)$ joint evaluations per user, computed once and reused by every method and utility. All budgets are therefore linear or quadratic in $n_u$ and independent of catalogue size beyond the fixed candidate-set scoring block, which is cached per user.
@@ -537,9 +596,9 @@ The canonical artifact directory is \texttt{paper-ideas/ActionShap/paper-v3/}. T
 \begin{verbatim}
 python scripts/make_paper_assets.py --raw results/raw --out ../paper-v3
 \end{verbatim}
-The schema-v2 archive records total wall-clock duration for the 80 recommendation runs: the 60 ItemKNN runs range from approximately 29.8 to 2,851.6 seconds (mean 183.0 seconds), and the 20 profile runs range from approximately 26.9 to 299.6 seconds (mean 95.0 seconds). These are complete-pipeline durations rather than isolated explainer timings; the analytical call-budget table above is the comparable per-method cost measure. The archived runs record macOS-26.5.1-arm64, Python 3.12.13, NumPy 2.4.6, SciPy 1.17.1, pandas 2.3.3, scikit-learn 1.9.0, matplotlib 3.11.1, and PyYAML 6.0.3. Processor model, RAM, and peak RSS were not serialized in the historical schema-v2 files, so no unsupported hardware claim is inferred; the current runner records those fields for any regenerated release. The schema-v2 result archive SHA-256 is \texttt{ac4c7fb1993458b6b41054974ebff215710e7a8b5894c7aa6af828e94b2a5b0f}.
+The schema-v2 archive records total wall-clock duration for the 80 recommendation runs: the 60 ItemKNN runs range from approximately 29.8 to 2,851.6 seconds (mean 183.0 seconds), and the 20 profile runs range from approximately 26.9 to 299.6 seconds (mean 95.0 seconds). These are complete-pipeline durations rather than isolated explainer timings; the analytical call-budget table above is the comparable per-method cost measure. The archived runs record macOS-26.5.1-arm64, Python 3.12.13, NumPy 2.4.6, SciPy 1.17.1, pandas 2.3.3, scikit-learn 1.9.0, matplotlib 3.11.1, and PyYAML 6.0.3. Processor model, RAM, and peak RSS were not serialized in the historical schema-v2 files, so no unsupported hardware claim is inferred; the current runner records those fields for any regenerated release. The schema-v2 result archive SHA-256 is \texttt{ac4c7fb1\allowbreak 993458b6\allowbreak b4105497\allowbreak 4abff215\allowbreak 710e7a8b\allowbreak 5894c7aa\allowbreak 6af828e9\allowbreak 4b2a5b0f}.
 
-All paths in generated manifests are repository-relative and all release archives are verified by SHA-256. Code, configurations, preprocessing and execution scripts, validation reports, and machine-readable result matrices are publicly available in release \texttt{actionshap-v1} at a public release archive (the release URL is de-anonymized at acceptance; for double-blind review the identical materials ship in the submission package's \texttt{release/} directory); the submission package additionally ships the identical materials in its \texttt{release/} directory (\texttt{validation\_report.json}, \texttt{asset\_manifest.json}, \texttt{config\_final.yaml}, \texttt{requirements-recommendation.lock}, the scripts, and the CSV matrices underlying every table and figure). Provenance uses three distinct identifiers by design (see \texttt{release/README.md}): the numeric source commit \texttt{0673378} (generation/validation of the schema-v2 numbers), the manifest-generation commit \texttt{d4c55b2} (describes the archive), and the packaging tag \texttt{actionshap-v1}. The full packaging commit for this submission is \texttt{f3fc0df64a51f4746b766bc42ece95183b7753f8}; the tag \texttt{actionshap-v1} is frozen at the submission packaging commit from this point onward. The schema-v2 result archive has SHA-256 \texttt{ac4c7fb1993458b6b41054974ebff215710e7a8b5894c7aa6af828e94b2a5b0f}.
+All paths in generated manifests are repository-relative and all release archives are verified by SHA-256. Code, configurations, preprocessing and execution scripts, validation reports, and machine-readable result matrices are publicly available in release \texttt{actionshap-v1} at a public release archive (the release URL is de-anonymized at acceptance; for double-blind review the identical materials ship in the submission package's \texttt{release/} directory); the submission package additionally ships the identical materials in its \texttt{release/} directory (\texttt{validation\_report.json}, \texttt{asset\_manifest.json}, \texttt{config\_final.yaml}, \texttt{requirements-recommendation.lock}, the scripts, and the CSV matrices underlying every table and figure). Provenance uses three distinct identifiers by design (see \texttt{release/\allowbreak README.md}): the numeric source commit \texttt{0673378} (generation/validation of the schema-v2 numbers), the manifest-generation commit \texttt{d4c55b2} (describes the archive), and the packaging tag \texttt{actionshap-v1}. The full packaging commit for this submission is \texttt{f3fc0df6\allowbreak 4a51f474\allowbreak 6b766bc4\allowbreak 2ece9518\allowbreak 3b7753f8}; the tag \texttt{actionshap-v1} is frozen at the submission packaging commit from this point onward. The schema-v2 result archive has SHA-256 \texttt{ac4c7fb1\allowbreak 993458b6\allowbreak b4105497\allowbreak 4abff215\allowbreak 710e7a8b\allowbreak 5894c7aa\allowbreak 6af828e9\allowbreak 4b2a5b0f}.
 
 
 \section{Discussion and Broader Implications}
@@ -553,7 +612,8 @@ ActionShap is an evaluation protocol, not a counterfactual generator or attribut
 \centering\scriptsize
 \caption{Component-level positioning against the closest related evaluation and counterfactual recommendation work.}
 \label{tab:related-work-comparison}
-\begin{tabular}{@{}*{8}{>{\raggedright\arraybackslash}p{.118\textwidth}}@{}}
+\setlength{\tabcolsep}{2pt}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{.14\linewidth}*{7}{>{\raggedright\arraybackslash}X}@{}}
 \toprule
 Work & Players & Policy & Outcome & Oracle & Inference & Bounded/cont. & Null ctrl. \\
 \midrule
@@ -573,7 +633,7 @@ CLIME \cite{mousavi2023clime} & Features & Deletion & Local fidelity & None & Fe
 Session attr.\ \cite{bruun2025session} & Session events & Deletion & Session ranking & None & Feature-level & No & No \\
 ActionShap & History interactions & Bounded downweight & AIA, NDCG, regret & Exact $B=2$; abstain & Distinct-user & Binary+cont. & Within-user \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{table}
 
 The decision results reinforce this distinction. On MovieLens, local methods select slightly better NDCG actions. On Amazon, Shapley and LIME are close, with modest differences in conditional regret. A method can therefore show a positive change between deletion and bounded-intervention alignment without selecting the best action for every operational utility. This is precisely why ActionShap reports pointwise alignment, signed direction, success, abstention, and regret together.
@@ -609,7 +669,7 @@ ActionShap provides a fully specified, release-backed protocol for asking whethe
 %\backmatter % sn-jnl macro, not used by cas-sc
 
 \section*{Declarations}
-\textbf{Funding.} The authors declare that no funds, grants, or other support were received during the preparation of this manuscript.
+\textbf{Funding.} This research did not receive any specific grant from funding agencies in the public, commercial, or not-for-profit sectors.
 
 \textbf{Ethics approval.} Not applicable. The study uses publicly available secondary recommendation data and involves no recruited human participants. Any future online or user study would require independent ethics review. We additionally note responsible-deployment considerations outside the benchmark's scope: profile-weight interventions in production would raise user-consent, provider-fairness, manipulation, and feedback-loop questions that the present offline audit neither resolves nor licenses.
 
@@ -624,12 +684,16 @@ ActionShap provides a fully specified, release-backed protocol for asking whethe
 
 
 \appendix
-% Explicit alphabetic appendix lettering: A--E are the only manuscript appendices.
+% Explicit alphabetic appendix lettering and appendix-specific numbering.
 \setcounter{section}{0}
 \renewcommand{\thesection}{\Alph{section}}
 \renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
-\renewcommand{\thetable}{\thesection\arabic{table}}
-\renewcommand{\theequation}{\thesection\arabic{equation}}
+\renewcommand{\thetable}{\thesection.\arabic{table}}
+\renewcommand{\theequation}{\thesection.\arabic{equation}}
+\renewcommand{\theHsection}{appendix.\Alph{section}}
+\renewcommand{\theHsubsection}{\theHsection.\arabic{subsection}}
+\renewcommand{\theHtable}{\theHsection.\arabic{table}}
+\renewcommand{\theHequation}{\theHsection.\arabic{equation}}
 \setcounter{table}{0}
 \setcounter{equation}{0}
 \section{Formal Guarantees}\label{app:proofs}
@@ -697,13 +761,14 @@ The profile optimizer samples one positive item per user per epoch, excludes tha
 \input{tables/appendix_convergence_compact.tex}
 \input{tables/appendix_diagnostics_compact.tex}
 
-The complete predeclared paired family, proportion CIs, quality-versus-popularity CIs, hierarchical user$\times$seed sensitivity, and minimum-detectable-difference diagnostics are reproduced below from the release matrices (Tables~\ref{tab:paired-full}--\ref{tab:sens-power}); the supplement retains the S-tables for the extended conditions.
+The complete predeclared paired family, proportion CIs, quality-versus-popularity CIs, hierarchical user$\times$seed sensitivity, and minimum-detectable-difference diagnostics are reproduced below from the release matrices (Tables~\ref{tab:paired-full}--\ref{tab:sens-power}); the supplement retains Tables~S3--S5 for the extended conditions.
 \safeinput{tables/review3_statistics.tex}
 
 \section{Notation summary}\label{app:notation}
 Players $p\in P_u$ (distinct interaction records); weights $w\in[0,1]^{P_u}$; embeddings $q_i,r_{u,-i}\in\mathbb R^d$; scores $s_i^{S,w},f_u\in\mathbb R$; utilities $v_u^{\mathrm{attr}},q_u\in\mathbb R$ with $v_u^{\mathrm{attr}}(\varnothing)=0.5$; effects $\Delta_u^z\in\mathbb R$; $\tau$ global tie priority; $R_{\mathrm{seed}}=5$, $R_{\mathrm{null}}=10^3$, $R_{\mathrm{boot}}=R_{\mathrm{perm}}=10^4$; $V_u$ valid unordered seed pairs; $C_{\mathrm{score}}(m,d)$ cost of scoring $m$ candidates.
 
 \section{Replication summaries}\label{app:replication}
+\setcounter{table}{0}
 \safeinput{tables/review3_tableD4.tex}
 \IfFileExists{tables/review3_extensions.tex}{\input{tables/review3_extensions.tex}}{}
 
@@ -714,6 +779,11 @@ Players $p\in P_u$ (distinct interaction records); weights $w\in[0,1]^{P_u}$; em
 \input{tables/appendix_computation.tex}
 \FloatBarrier
 \clearpage
+\section*{Declaration of generative AI and AI-assisted technologies in the manuscript preparation process}
+During the preparation of this work, the authors used OpenAI Codex to assist with LaTeX formatting, consistency checking, and language editing. After using this tool, the authors reviewed and edited the content as needed and take full responsibility for the content of the publication.
+
+% Improve readability while retaining the official Elsevier bibliography style.
+\setlength{\bibsep}{2.5pt plus 0.5pt minus 0.5pt}
 \bibliographystyle{cas-model2-names}
 \bibliography{actionshap-bibliography}
 
