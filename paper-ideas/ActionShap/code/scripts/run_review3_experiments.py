@@ -92,6 +92,15 @@ def build_games(args, data, model, users):
     return games, players
 
 
+def load_data(args):
+    """Load the temporal dataset for the requested benchmark."""
+    if args.dataset == "movielens":
+        return load_movielens_1m(args.ml_path, minimum_interactions=4)
+    if args.dataset == "gowalla":
+        return load_interactions_csv(args.gowalla_path, minimum_interactions=4)
+    return load_interactions_csv(args.amazon_path, minimum_interactions=4)
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--dataset", required=True, choices=["movielens", "amazon", "gowalla"])
@@ -112,12 +121,7 @@ def main() -> None:
     ap.add_argument("--out", default="results/review3")
     args = ap.parse_args()
 
-    if args.dataset == "movielens":
-        data = load_movielens_1m(args.ml_path, minimum_interactions=4)
-    elif args.dataset == "gowalla":
-        data = load_interactions_csv(args.gowalla_path, minimum_interactions=4)
-    else:
-        data = load_interactions_csv(args.amazon_path, minimum_interactions=4)
+    data = load_data(args)
 
     users = sample_evaluation_users(data, args.users, seed=args.user_seed)
     histories = {u: data.seen_before_test(u) for u in users}

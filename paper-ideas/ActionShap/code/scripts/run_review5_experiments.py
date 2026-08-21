@@ -451,9 +451,10 @@ def main() -> None:
     sub = ap.add_subparsers(dest="command", required=True)
 
     def common(p):
-        p.add_argument("--dataset", required=True, choices=["movielens", "amazon"])
+        p.add_argument("--dataset", required=True, choices=["movielens", "amazon", "gowalla"])
         p.add_argument("--ml-path", default="data/ml-1m/ratings.dat")
         p.add_argument("--amazon-path", default="data/amazon-digital-music/interactions.csv")
+        p.add_argument("--gowalla-path", default="data/gowalla/interactions.csv")
         p.add_argument("--n-max", type=int, default=20)
         p.add_argument("--evaluation-size", type=int, default=200)
         p.add_argument("--candidate-seed", type=int, default=1729)
