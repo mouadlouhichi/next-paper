@@ -3,6 +3,11 @@ set -u
 cd "$(dirname "$0")/.."
 mkdir -p results/journal_runs/_notebook_logs
 export COALGAME_DEVICE=cpu COALGAME_THREADS=2 PYTHONUNBUFFERED=1
+if ! python3 -c "import numpy, scipy, pandas, torch" 2>/dev/null; then
+  echo "deps missing, reinstalling..."
+  pip install --break-system-packages -q numpy scipy pandas tqdm pyyaml pyarrow requests torch || \
+  pip install -q numpy scipy pandas tqdm pyyaml pyarrow requests torch
+fi
 echo "CHAIN START ($(date))"
 
 echo "=== [1/4] v7 corrected protocol (amazon) ($(date))"
