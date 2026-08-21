@@ -1,0 +1,6 @@
+/home/user/next-paper/paper-ideas/CoalGameRec/code/scripts/run_matched_controls.py:137: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:822.)
+  print(f"  epoch {epoch+1}/{cfg.epochs} done in {time.time()-t0:.1f}s loss={float(loss):.4f}", flush=True)
+  epoch 1/15 done in 7.8s loss=0.6754
+  epoch 2/15 done in 8.2s loss=0.5600
+  epoch 3/15 done in 8.2s loss=0.4769

@@ -5,10 +5,13 @@ import pandas as pd
 from scipy import sparse
 
 
-def mask_seen(scores: np.ndarray, train_csr: sparse.csr_matrix) -> np.ndarray:
+def mask_seen(scores: np.ndarray, train_csr: sparse.csr_matrix,
+              exclude_by_user: dict[int, int] | None = None) -> np.ndarray:
     out = scores.copy()
     for u in range(out.shape[0]):
         out[u, train_csr[u].indices] = -np.inf
+        if exclude_by_user is not None and u in exclude_by_user:
+            out[u, int(exclude_by_user[u])] = -np.inf
     return out
 
 
@@ -21,8 +24,9 @@ def topk(scores: np.ndarray, k: int) -> np.ndarray:
     return np.take_along_axis(part, order, axis=1)
 
 
-def per_user_hit_ndcg(scores: np.ndarray, target_items: np.ndarray, train_csr: sparse.csr_matrix, ks=(5, 10, 20)) -> dict:
-    masked = mask_seen(scores, train_csr)
+def per_user_hit_ndcg(scores: np.ndarray, target_items: np.ndarray, train_csr: sparse.csr_matrix, ks=(5, 10, 20),
+                      exclude_by_user: dict[int, int] | None = None) -> dict:
+    masked = mask_seen(scores, train_csr, exclude_by_user)
     res = {}
     maxk = max(ks)
     recs = topk(masked, maxk)
@@ -61,12 +65,13 @@ def ild(recs: np.ndarray, item_vectors: sparse.csr_matrix) -> np.ndarray:
     return np.asarray(vals, dtype=np.float32)
 
 
-def evaluate(scores: np.ndarray, split, item_vectors: sparse.csr_matrix, ks=(5, 10, 20)) -> tuple[dict, dict]:
+def evaluate(scores: np.ndarray, split, item_vectors: sparse.csr_matrix, ks=(5, 10, 20),
+             exclude_by_user: dict[int, int] | None = None) -> tuple[dict, dict]:
     train_csr = split.train_csr
     targets = split.test.sort_values("user").item.values.astype(np.int64)
-    per_user = per_user_hit_ndcg(scores, targets, train_csr, ks=ks)
+    per_user = per_user_hit_ndcg(scores, targets, train_csr, ks=ks, exclude_by_user=exclude_by_user)
     summary = summarize_metric_dict(per_user)
-    masked = mask_seen(scores, train_csr)
+    masked = mask_seen(scores, train_csr, exclude_by_user)
     recs20 = topk(masked, max(ks))
     summary[f"Coverage@{max(ks)}"] = catalogue_coverage(recs20, split.n_items)
     summary[f"ILD@{max(ks)}"] = float(np.mean(ild(recs20, item_vectors)))

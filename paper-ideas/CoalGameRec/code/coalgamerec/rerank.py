@@ -22,6 +22,27 @@ def zscore(x: np.ndarray) -> np.ndarray:
     return stable_zscore(x)
 
 
+def zscore_candidates(x: np.ndarray, cand: np.ndarray, eps: float = 1e-12) -> np.ndarray:
+    """z-score computed only over candidate positions; non-candidates get -inf.
+
+    Used by the corrected (v7) protocol so that excluded items (training items
+    and the per-user calibration item) neither receive a score nor influence
+    the normalization statistics.
+    """
+    x = np.asarray(x, dtype=np.float32)
+    out = np.full(x.shape, -np.inf, dtype=np.float32)
+    vals = x[cand]
+    if len(vals) == 0:
+        return out
+    mu = float(vals.mean())
+    sd = float(vals.std())
+    if not np.isfinite(sd) or sd <= eps:
+        out[cand] = 0.0
+        return out
+    out[cand] = (vals - mu) / sd
+    return out
+
+
 def user_profile(train_items: np.ndarray, item_vectors: sparse.csr_matrix) -> sparse.csr_matrix:
     if len(train_items) == 0:
         return sparse.csr_matrix((1, item_vectors.shape[1]), dtype=np.float32)
@@ -149,6 +170,7 @@ def rerank_user_scores(
     lambda_attr: float = 0.10,
     intervention: str = "kernel",
     item_embeddings: np.ndarray | None = None,
+    exclude_item: int | None = None,
 ) -> np.ndarray:
     candidates = np.arange(base_scores_u.shape[0], dtype=np.int64)
     if intervention == "native":
@@ -159,7 +181,14 @@ def rerank_user_scores(
         adj = attribution_adjustment_kernel(train_items, raw_weights, item_vectors, candidates)
     else:
         raise ValueError(f"unknown intervention: {intervention}")
-    return stable_zscore(base_scores_u) + float(lambda_attr) * stable_zscore(adj)
+    if exclude_item is None:
+        return stable_zscore(base_scores_u) + float(lambda_attr) * stable_zscore(adj)
+    # corrected protocol: z-scores computed over the eligible candidate set only
+    cand_mask = np.ones(base_scores_u.shape[0], dtype=bool)
+    cand_mask[train_items] = False
+    cand_mask[int(exclude_item)] = False
+    cand_idx = np.flatnonzero(cand_mask)
+    return zscore_candidates(base_scores_u, cand_idx) + float(lambda_attr) * zscore_candidates(adj, cand_idx)
 
 
 def rerank_all(
@@ -173,6 +202,7 @@ def rerank_all(
     tau_att: float = 0.10,
     intervention: str = "kernel",
     item_embeddings: np.ndarray | None = None,
+    exclude_by_user: dict[int, int] | None = None,
 ) -> np.ndarray:
     train_csr = split.train_csr
     item_degree = np.asarray(train_csr.sum(axis=0)).ravel()
@@ -186,9 +216,11 @@ def rerank_all(
         if family == "loo-marginal" and loo is None:
             loo = np.zeros(len(items), dtype=np.float32)
         w = family_weights(family, items, item_vectors, item_degree, shapley=shap, loo=loo, tau_att=tau_att)
+        excl = None if exclude_by_user is None else exclude_by_user.get(u)
         out[u] = rerank_user_scores(
             base_scores[u], items, w, item_vectors, lambda_attr=lambda_attr,
             intervention=intervention, item_embeddings=item_embeddings,
+            exclude_item=excl,
         )
     return out
 
@@ -207,6 +239,7 @@ def valid_sim_scores_u(
     item_embeddings: np.ndarray,
     lambda_attr: float = 0.10,
     eps: float = 1e-12,
+    exclude_item: int | None = None,
 ) -> np.ndarray:
     """valid-sim: history reweighting by similarity to the validation item.
 
@@ -224,6 +257,7 @@ def valid_sim_scores_u(
     return rerank_user_scores(
         base_scores_u, train_items, w, None,
         lambda_attr=lambda_attr, intervention="native", item_embeddings=item_embeddings,
+        exclude_item=exclude_item,
     )
 
 
@@ -234,17 +268,29 @@ def valid_sim_scores_all(
     item_embeddings: np.ndarray,
     lambda_attr: float = 0.10,
     eps: float = 1e-12,
+    exclude_by_user: dict[int, int] | None = None,
 ) -> np.ndarray:
     out = np.empty_like(base_scores, dtype=np.float32)
     train_csr = split.train_csr
     for u in range(split.n_users):
         items = train_csr[u].indices
         vu = val_by_user.get(int(u))
+        excl = None if exclude_by_user is None else exclude_by_user.get(u)
         if vu is None or len(items) == 0:
-            out[u] = stable_zscore(base_scores[u])
+            out[u] = stable_zscore(base_scores[u]) if excl is None else \
+                zscore_candidates(base_scores[u], _candidate_idx(base_scores[u], items, excl))
             continue
-        out[u] = valid_sim_scores_u(base_scores[u], items, int(vu), item_embeddings, lambda_attr, eps)
+        out[u] = valid_sim_scores_u(base_scores[u], items, int(vu), item_embeddings, lambda_attr, eps,
+                                    exclude_item=excl)
     return out
+
+
+def _candidate_idx(scores_u: np.ndarray, train_items: np.ndarray, exclude_item: int | None) -> np.ndarray:
+    m = np.ones(scores_u.shape[0], dtype=bool)
+    m[train_items] = False
+    if exclude_item is not None:
+        m[int(exclude_item)] = False
+    return np.flatnonzero(m)
 
 
 def valid_linear_scores_all(
@@ -254,6 +300,7 @@ def valid_linear_scores_all(
     item_embeddings: np.ndarray,
     lambda_attr: float = 0.10,
     eps: float = 1e-12,
+    exclude_by_user: dict[int, int] | None = None,
 ) -> np.ndarray:
     """valid-linear: candidate-side linear validation reranker.
 
@@ -264,14 +311,20 @@ def valid_linear_scores_all(
     """
     norms = np.linalg.norm(item_embeddings, axis=1)
     Inorm = item_embeddings / (norms[:, None] + eps)
+    train_csr = split.train_csr
     out = np.empty_like(base_scores, dtype=np.float32)
     for u in range(split.n_users):
         vu = val_by_user.get(int(u))
+        excl = None if exclude_by_user is None else exclude_by_user.get(u)
         if vu is None:
             out[u] = stable_zscore(base_scores[u])
             continue
         ev = item_embeddings[int(vu)]
         nv = float(np.linalg.norm(ev))
         adj = Inorm.dot(ev / (nv + eps)).astype(np.float32)
-        out[u] = stable_zscore(base_scores[u]) + float(lambda_attr) * stable_zscore(adj)
+        if excl is None:
+            out[u] = stable_zscore(base_scores[u]) + float(lambda_attr) * stable_zscore(adj)
+        else:
+            cand = _candidate_idx(base_scores[u], train_csr[u].indices, excl)
+            out[u] = zscore_candidates(base_scores[u], cand) + float(lambda_attr) * zscore_candidates(adj, cand)
     return out
