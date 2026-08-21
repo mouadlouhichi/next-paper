@@ -1,0 +1,25 @@
+% Cover letter for Expert Systems with Applications submission.
+% Render separately (any LaTeX class) or paste into the Editorial Manager letter box.
+\documentclass[11pt]{letter}
+\usepackage[margin=1in]{geometry}
+\signature{Mouad Louhichi\\National Higher School of Computer Science and Systems Analysis (ENSIAS)\\Mohammed V University in Rabat, Morocco\\mouad\_louhichi@um5.ac.ma}
+\address{Mouad Louhichi\\ENSIAS, Mohammed V University in Rabat\\Rabat, Morocco}
+\begin{document}
+\begin{letter}{Editorial Office\\Expert Systems with Applications\\Elsevier}
+\opening{Dear Editor,}
+
+We submit the enclosed manuscript, ``CURE-Rec: Constrained Portfolio Selection for Sequential Recommendation via Fully Enumerated Cooperative Games'', for consideration as a research article in \textit{Expert Systems with Applications}.
+
+Recommendation platforms deploy intervention portfolios (repetition caps, exploration and long-tail slots, diversity reranking, provider balancing), yet these transformations interact, compete for slate capacity, incur costs, and are sometimes required to repair a constraint-violating base policy. Isolated ablations cannot support such portfolio decisions. Our paper introduces a decision layer in which a bounded library of executable policy transformations are the players of a fully enumerated cooperative game: coalition values are produced by disclosed sequential rollouts, explained with exact Shapley values and pairwise interactions, and optimized directly under hard relevance, fatigue, provider-disparity, and budget constraints with explicit improvement/repair/abstention semantics.
+
+The work fits the scope of ESWA because it is an expert-decision support methodology with a complete evaluation programme: nine controlled regimes verifying intended structures and misspecification; a 20-seed behavioural study; one-at-a-time and Latin-hypercube stress tests; sensitivity of the decision to the normative utility weights and the joint constraint frontier; predeclared divergent-configuration hold-outs in which the exact planner demonstrably outperforms singleton and marginal-gain heuristics; a learned-ranker base-policy integration; and an audited MovieLens-1M experiment with user-level paired inference (McNemar, bootstrap, permutation, Holm correction). Claim boundaries are enforced throughout: simulator-conditional results are never presented as real-world causal policy evidence.
+
+All results are reproducible: the code, configurations, checksumed result snapshot, and a closure notebook for the remaining long-compute runs accompany the repository referenced in the manuscript.
+
+The manuscript is original, is not under consideration elsewhere, and all authors have approved the submission. The authors declare no competing interests.
+
+Thank you for your consideration.
+
+\closing{Sincerely,}
+\end{letter}
+\end{document}

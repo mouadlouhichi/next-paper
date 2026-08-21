@@ -1,0 +1,8 @@
+# Highlights (3-5 bullet points, max 85 characters each, incl. spaces)
+# Upload as a separate "Highlights" item in Editorial Manager.
+
+- Policy interventions are players in a fully enumerated cooperative game.
+- Maximin portfolio selection with improvement, repair and abstention modes.
+- Exact Shapley attribution explains decisions without replacing selection.
+- Held-out cases show singleton and marginal-gain heuristics can fail.
+- Learned-base integration and audited rankers bound the evidence claims.
