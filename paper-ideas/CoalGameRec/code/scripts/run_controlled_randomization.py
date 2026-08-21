@@ -74,6 +74,9 @@ def main():
 
     out_dir = Path(args.out)
     out_dir.mkdir(parents=True, exist_ok=True)
+    if (out_dir / "controlled_randomization.json").exists():
+        print("controlled_randomization.json exists, skipping (delete it to re-run)")
+        return
     split = rmc.load_split_from_run(Path(args.source_run))
     item_vectors = rmc.item_user_vectors(split.train_csr)
     device = torch.device(os.environ.get("COALGAME_DEVICE", "cpu"))

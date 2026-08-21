@@ -196,7 +196,7 @@ def run_seed(split: SplitData, item_vectors, seed: int, out_dir: Path) -> None:
         max_users=None, exact_threshold=8, seed=seed,
         max_players_per_user=ATTR["max_players_per_user"],
         player_selection=ATTR["player_selection"],
-        checkpoint_path=None, save_every=25,
+        checkpoint_path=seed_dir / "loo_checkpoint.npz", save_every=25,
         alpha=1.0, beta=0.0, lambda_pref=0.0,
         lambda_attr_value=ATTR["lambda_attr_value"],
         value_mode=ATTR["value_mode"], n_val_negatives=ATTR["n_val_negatives"],
@@ -210,7 +210,7 @@ def run_seed(split: SplitData, item_vectors, seed: int, out_dir: Path) -> None:
         shap = compute_shapley_for_users(
             split, base_scores, item_vectors, max_users=None, m=64, exact_threshold=8, seed=seed,
             max_players_per_user=ATTR["max_players_per_user"], player_selection=ATTR["player_selection"],
-            checkpoint_path=None, save_every=25, alpha=1.0, beta=0.0, lambda_pref=0.0,
+            checkpoint_path=seed_dir / "shapley_checkpoint.npz", save_every=25, alpha=1.0, beta=0.0, lambda_pref=0.0,
             lambda_attr_value=ATTR["lambda_attr_value"], value_mode=ATTR["value_mode"],
             n_val_negatives=ATTR["n_val_negatives"], antithetic=True)
         stages["shapley_seconds"] = time.time() - t

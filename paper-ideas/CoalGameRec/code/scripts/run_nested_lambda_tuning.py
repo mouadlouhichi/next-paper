@@ -84,6 +84,11 @@ def main():
     train_csr = split.train_csr
     rows = []
     for seed in args.seeds:
+        seed_cache = out_dir / f"raw_seed_{seed}.csv"
+        if seed_cache.exists():
+            print(f"seed {seed}: cached, loading {seed_cache.name}")
+            rows.extend(pd.read_csv(seed_cache).to_dict("records"))
+            continue
         torch.manual_seed(seed)
         cfg = TrainConfig(dim=64, lr=0.002, weight_decay=1e-5, epochs=15, batch_size=4096,
                           n_neg=2, seed=seed, device=str(device))
@@ -173,6 +178,7 @@ def main():
             summary.update(seed=seed, family=fam, lambda_selected=lam)
             rows.append(summary)
             print(f"  seed {seed} {fam}: test NDCG@20={summary['NDCG@20']:.5f} at lambda={lam}")
+        pd.DataFrame([r for r in rows if r.get("seed") == seed]).to_csv(seed_cache, index=False)
 
     df = pd.DataFrame(rows)
     df.to_csv(out_dir / "nested_tuning.csv", index=False)
