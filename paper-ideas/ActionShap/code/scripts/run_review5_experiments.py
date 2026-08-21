@@ -161,6 +161,10 @@ def _fit_quality_model(args, histories, n_items, seed):
     if args.model == "lightgcn":
         from actionshap import lightgcn as lg
         return lg.fit_lightgcn(histories, n_items, epochs=args.epochs,
+                               dim=getattr(args, "lgcn_dim", 64),
+                               layers=getattr(args, "lgcn_layers", 2),
+                               lr=getattr(args, "lgcn_lr", 0.01),
+                               reg=getattr(args, "lgcn_reg", 1e-4),
                                seed=seed, verbose=True)
     from actionshap import sasrec as srec
     return srec.fit_sasrec(histories, n_items, seed=seed, epochs=args.epochs)
@@ -629,6 +633,10 @@ def main() -> None:
     p.add_argument("--epochs", type=int, default=10)
     p.add_argument("--train-all", action="store_true",
                    help="train on every eligible user's history (competitive-model audit)")
+    p.add_argument("--lgcn-dim", type=int, default=64)
+    p.add_argument("--lgcn-layers", type=int, default=2)
+    p.add_argument("--lgcn-lr", type=float, default=0.01)
+    p.add_argument("--lgcn-reg", type=float, default=1e-4)
     p.set_defaults(func=cmd_sasrec_quality)
 
     p = sub.add_parser("exact-dist")

@@ -142,7 +142,10 @@ interface; it does not pass the recommendation-quality gate
 (Table~\ref{tab:review8-lightgcn-quality}), so it is reported as an
 architecture-applicability cell rather than a competitive-recommender cell.
 Obtaining a competitive neural model that also exposes the bounded
-history-weighting interface remains an open engineering requirement.
+history-weighting interface remains an open engineering requirement; a tuned
+LightGCN variant (deeper propagation, larger embeddings, longer training) is a
+declared validation extension toward that goal, with the quality-gate outcomes
+to be reported once the tuning sweep completes.
 
 \emph{Monte Carlo error control at the cap.} The reviewer-flagged gap that
 convergence was only validated exactly for $n_u\le12$ while $83.1\%$ of
