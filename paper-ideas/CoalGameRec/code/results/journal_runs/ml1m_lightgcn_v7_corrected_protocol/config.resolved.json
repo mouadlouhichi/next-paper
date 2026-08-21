@@ -1,0 +1,68 @@
+{
+  "attribution": {
+    "lambda_attr_value": 0.1,
+    "max_players_per_user": 24,
+    "n_val_negatives": 100,
+    "player_selection": "stratified",
+    "value_mode": "pairwise_logsigmoid"
+  },
+  "backbone": {
+    "batch_size": 4096,
+    "dim": 64,
+    "epochs": 15,
+    "lr": 0.002,
+    "n_layers": 2,
+    "n_neg": 2,
+    "name": "lightgcn",
+    "score_batch_size": 256,
+    "weight_decay": 1e-05
+  },
+  "dataset": {
+    "name": "ml1m",
+    "source_run": "../results/journal_runs/ml1m_lightgcn_v3_prospective"
+  },
+  "deviations": [
+    "device cpu (original mps); confirmatory re-execution, not bit-identical",
+    "one shared propagation per batch (equivalent gradients; see script docstring)",
+    "negative sampler vectorized (identical per-user degree-proportional distribution; seen sets precomputed)",
+    "shapley-mc not re-run (CPU budget); v3 Shapley artifacts remain primary",
+    "no lambda-sensitivity sweep (protocol lambda=0.10 only)"
+  ],
+  "note": "Confirmatory matched-controls run: frozen v3 hyperparameters, CPU re-execution.",
+  "reranking": {
+    "families": [
+      "unreranked",
+      "uniform",
+      "additive-pref",
+      "attention",
+      "heuristic-pop",
+      "loo-marginal",
+      "valid-sim",
+      "valid-linear"
+    ],
+    "intervention": "native",
+    "lambda_attr": 0.1,
+    "tau_att": 0.1
+  },
+  "run": {
+    "device": "cpu",
+    "faithfulness_fractions": [
+      0.05,
+      0.1,
+      0.2,
+      0.3
+    ],
+    "ks": [
+      5,
+      10,
+      20
+    ],
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ]
+  }
+}

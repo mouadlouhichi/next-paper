@@ -1,0 +1,15 @@
+{
+ "device": "mps",
+ "item_vectors_hash_exact_match": true,
+ "item_vectors_shape_nnz_match": true,
+ "n_items": 3114,
+ "n_users": 6015,
+ "note": "Protocol v7 (corrected temporal protocol): identical to the frozen C1b matched-controls protocol except that the per-user calibration positive is excluded from the test candidate catalog for every family and reranking z-scores are computed over the corrected candidate set. Review round-9 fix #1.",
+ "platform": "macOS-26.6-arm64-arm-64bit",
+ "python": "3.12.13",
+ "torch": "2.3.1",
+ "total_seconds": 58746.86988019943,
+ "train_interactions": 562183,
+ "trainer": "train_lightgcn_shared_prop (equivalent gradients, 1 propagation/batch)",
+ "candidate_exclusion": "candidates = I \\ (H_u_train U {i_u^+})"
+}
