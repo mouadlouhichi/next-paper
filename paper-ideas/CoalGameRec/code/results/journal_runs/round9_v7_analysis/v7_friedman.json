@@ -1,0 +1,20 @@
+{
+ "ml1m:NDCG@20": {
+  "chi2": 494.35383322435297,
+  "p": 1.1444140327874713e-101,
+  "top": [
+   "loo-marginal",
+   "shapley-mc",
+   "valid-linear"
+  ]
+ },
+ "ml1m:HitRate@20": {
+  "chi2": 275.09501861391175,
+  "p": 8.139333104077954e-55,
+  "top": [
+   "shapley-mc",
+   "loo-marginal",
+   "valid-linear"
+  ]
+ }
+}
