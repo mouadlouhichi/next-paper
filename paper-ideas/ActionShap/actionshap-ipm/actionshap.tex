@@ -495,7 +495,7 @@ Because each user has one held-out target, sampled-set HitRate@10 is numerically
 \FloatBarrier
 
 \subsection{Faithfulness versus bounded alignment}
-Table~\ref{tab:aia-components} separates deletion AIA, bounded AIA, and their difference. On MovieLens ItemKNN, Shapley has bounded AIA $0.779$ versus $0.933$ for LIME and $0.978$ for LOO. On Amazon, Shapley has bounded AIA $0.414$ versus $0.827$ and $0.851$. Thus Shapley does not win absolute alignment.
+Table~\ref{tab:aia-components} separates deletion AIA, bounded AIA, and their difference. On MovieLens ItemKNN, Shapley has bounded AIA $0.779$ versus $0.933$ for LIME and $0.978$ for LOO. On Amazon, Shapley has bounded AIA $0.414$ versus $0.827$ and $0.851$. Thus Shapley does not win absolute alignment. This conclusion is estimator-robust: replacing the reverse-paired Monte Carlo estimator with KernelSHAP at LIME's mask budget (256/512 masks) leaves bounded alignment at $0.65$--$0.66$ on MovieLens and $0.63$ on Amazon, far below LIME and LOO in either case, and the two Shapley estimators agree strongly (Pearson $0.78$--$0.98$; Supplementary Table S15).
 
 The contrast is in the change between perturbations. Shapley’s primary gap is $+0.0169$ on MovieLens and $+0.1285$ on Amazon. LIME and LOO are negative. The random control is close to zero and its confidence intervals include zero in the primary conditions. Greedy is negative on the primary conditions. The gap therefore measures a change of evaluation target; it is not an explanation-validity score.
 
