@@ -64,6 +64,10 @@ def main():
     source = Path(args.source_run) if args.source_run else RESULTS / SRC_NAME[args.dataset]
     out_tables = source / "tables"
     out_tables.mkdir(parents=True, exist_ok=True)
+    per_seed_csv = out_tables / f"design_ablations_seed_{args.seed}.csv"
+    if per_seed_csv.exists():
+        print(f"seed {args.seed} already complete ({per_seed_csv.name}), skipping")
+        return
     log = source / "design_ablations.log"
 
     def say(msg):
