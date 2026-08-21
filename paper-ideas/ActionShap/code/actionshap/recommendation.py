@@ -237,6 +237,66 @@ def mc_shapley(
     return values, error
 
 
+
+
+def mc_shapley_with_se(
+    utility: Utility,
+    n_players: int,
+    permutations: int = 500,
+    seed: int = 0,
+    antithetic: bool = True,
+) -> tuple[np.ndarray, np.ndarray, float]:
+    """Monte Carlo Shapley with per-player Monte Carlo standard errors.
+
+    Identical sampling scheme to :func:`mc_shapley`; additionally accumulates
+    the per-player squared marginal contributions so that the Monte Carlo
+    standard error of each player's value is
+    ``sqrt(max(0, E[m^2] - E[m]^2) / (T - 1))`` over the ``T`` evaluated
+    orders. Returns ``(values, standard_errors, efficiency_error)``.
+    """
+    if n_players < 0 or permutations < 1:
+        raise ValueError(
+            "n_players must be non-negative and permutations must be positive"
+        )
+    rng = np.random.default_rng(seed)
+    values = np.zeros(n_players, dtype=float)
+    squares = np.zeros(n_players, dtype=float)
+    cache: dict[frozenset[int], float] = {}
+
+    def cached(coalition: frozenset[int]) -> float:
+        if coalition not in cache:
+            value = float(utility(coalition))
+            if not np.isfinite(value):
+                raise ValueError("utility returned a non-finite value")
+            cache[coalition] = value
+        return cache[coalition]
+
+    empty_set = frozenset()
+    full = frozenset(range(n_players))
+    empty = cached(empty_set)
+    walks = 0
+    for _ in range(permutations):
+        sampled = rng.permutation(n_players)
+        orders = (sampled, sampled[::-1]) if antithetic and n_players else (sampled,)
+        for order in orders:
+            current = empty_set
+            previous = empty
+            for player in order:
+                p = int(player)
+                current = current | {p}
+                now = cached(current)
+                d = now - previous
+                values[p] += d
+                squares[p] += d * d
+                previous = now
+            walks += 1
+    mean = values / walks
+    var = np.maximum(squares / walks - mean * mean, 0.0)
+    se = np.sqrt(var / max(walks - 1, 1))
+    error = abs(float(values.sum() / walks) - float(cached(full) - empty))
+    return mean, se, error
+
+
 def joint_attribution_score(
     values: np.ndarray, action: tuple[int, ...], signed: bool = False
 ) -> float:

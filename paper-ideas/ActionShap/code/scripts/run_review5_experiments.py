@@ -446,6 +446,156 @@ def cmd_kernelschap(args) -> None:
     save(Path(args.out), f"kernelschap_{args.dataset}.json", payload)
 
 
+
+
+def _load_r3():
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "r3", str(Path(__file__).parent / "run_review3_experiments.py"))
+    r3 = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(r3)
+    return r3
+
+
+def _bootstrap_setup(args):
+    r3 = _load_r3()
+    from actionshap.recommendation_data import sample_evaluation_users
+    from actionshap.models.itemknn import fit_item_knn
+    ap = argparse.Namespace(
+        dataset=args.dataset, ml_path=args.ml_path, amazon_path=args.amazon_path,
+        gowalla_path=getattr(args, "gowalla_path", "data/gowalla/interactions.csv"),
+        model="itemknn", users=args.users, exact_users=0, exact_max=12,
+        n_max=args.n_max, evaluation_size=args.evaluation_size,
+        permutations=args.permutations, candidate_seed=args.candidate_seed,
+        tie_seed=args.tie_seed, user_seed=args.user_seed, rho=args.rho,
+        out=args.out)
+    data = r3.load_data(ap)
+    users = sample_evaluation_users(data, args.users, seed=args.user_seed)
+    histories = {u: data.seen_before_test(u) for u in users}
+    model = fit_item_knn(histories, data.n_items, neighbours=200)
+    games, _ = r3.build_games(ap, data, model, users)
+    return r3, data, model, games, users
+
+
+def cmd_mcse_n20(args) -> None:
+    """Per-user Monte Carlo standard errors at the n_max cap + an independent
+    larger-budget reference, closing the n=20 convergence gap (review-7 #5)."""
+    from actionshap.recommendation import mc_shapley_with_se, target_margin_utility
+    from actionshap.evaluation import aia, single_player_effects
+
+    r3, data, model, games, users = _bootstrap_setup(args)
+    cap_users = [u for u in users if games[u].players.size == args.n_max][: args.subsample]
+    records = []
+    for i, u in enumerate(cap_users):
+        g = games[u]
+        n = g.players.size
+        util = (lambda c, _g=g: target_margin_utility(model, _g, c))
+        eff = single_player_effects(model, g, rho=args.rho, utility="target_margin")
+        phi_a, se_a, err_a = mc_shapley_with_se(util, n, permutations=args.permutations, seed=42)
+        phi_b, se_b, err_b = mc_shapley_with_se(util, n, permutations=args.ref_permutations, seed=9999)
+        finite = np.isfinite(phi_a) & np.isfinite(phi_b) & np.isfinite(eff)
+        ra = np.corrcoef(phi_a[finite], phi_b[finite])[0, 1] if finite.sum() > 2 else float("nan")
+        records.append(dict(user=int(u), n_players=int(n),
+                            max_mc_se=float(np.max(se_a)), mean_mc_se=float(np.mean(se_a)),
+                            max_phi_abs=float(np.max(np.abs(phi_a))),
+                            rel_se=float(np.max(se_a) / max(np.max(np.abs(phi_a)), 1e-12)),
+                            cross_budget_rank_corr=float(ra),
+                            bounded_aia_250=float(aia(phi_a, eff)) if finite.sum() > 2 else None,
+                            bounded_aia_1000=float(aia(phi_b, eff)) if finite.sum() > 2 else None,
+                            efficiency_error_a=float(err_a), efficiency_error_b=float(err_b)))
+        if (i + 1) % 10 == 0:
+            print(f"[mcse-n{args.n_max}] {i + 1}/{len(cap_users)} users", flush=True)
+    payload = dict(dataset=args.dataset, model="itemknn",
+                   config=dict(n_max=args.n_max, subsample=len(cap_users),
+                               permutations=args.permutations,
+                               ref_permutations=args.ref_permutations, rho=args.rho),
+                   records=records, recorded_at=time.strftime("%Y-%m-%dT%H:%M:%S"))
+    save(Path(args.out), f"mcse_n{args.n_max}_{args.dataset}.json", payload)
+
+
+def cmd_exhaustive_b3(args) -> None:
+    """Exhaustive budget-3 oracle vs budget-2, plus additive-selection regret
+    at both budgets (review-7 #8)."""
+    from actionshap.evaluation import exhaustive_best_joint_multi, joint_effect
+    from actionshap.recommendation import mc_shapley, select_downweight_action, target_margin_utility
+
+    r3, data, model, games, users = _bootstrap_setup(args)
+    sub = users[: args.subsample]
+    records = []
+    for i, u in enumerate(sub):
+        g = games[u]
+        n = g.players.size
+        util = (lambda c, _g=g: target_margin_utility(model, _g, c))
+        phi, _ = mc_shapley(util, n, permutations=args.permutations, seed=42)
+        method_action = select_downweight_action(phi, budget=args.budget)
+        for budget in (2, 3):
+            b = min(budget, n)
+            oracle = exhaustive_best_joint_multi(model, g, budget=b, rho_grid=(args.rho,),
+                                                 k=10, utilities=("target_margin",))
+            o_action, o_rhos, o_effect = oracle["target_margin"]
+            m_effect = joint_effect(model, g, tuple(method_action[:b]), rho=args.rho,
+                                    k=10, utility="target_margin")
+            records.append(dict(user=int(u), n_players=int(n), budget=b,
+                                oracle_effect=float(o_effect),
+                                method_effect=float(m_effect),
+                                regret=float(o_effect - m_effect),
+                                oracle_action=list(o_action),
+                                method_action=list(method_action[:b])))
+        if (i + 1) % 25 == 0:
+            print(f"[exhaustive-b3] {i + 1}/{len(sub)} users", flush=True)
+    payload = dict(dataset=args.dataset, model="itemknn",
+                   config=dict(subsample=len(sub), budget=args.budget, rho=args.rho,
+                               permutations=args.permutations),
+                   records=records, recorded_at=time.strftime("%Y-%m-%dT%H:%M:%S"))
+    save(Path(args.out), f"exhaustive_b3_{args.dataset}.json", payload)
+
+
+def cmd_worked_example(args) -> None:
+    """Per-user case study: players, top attributions, deletion vs bounded
+    effects, method action vs exact oracle, target rank before/after
+    (review-7 #10 worked example)."""
+    from actionshap.evaluation import exhaustive_best_joint_multi, joint_effect, single_player_effects
+    from actionshap.recommendation import mc_shapley, select_downweight_action, target_margin_utility
+
+    r3, data, model, games, users = _bootstrap_setup(args)
+    chosen = users[: args.examples]
+    records = []
+    for u in chosen:
+        g = games[u]
+        n = g.players.size
+        util = (lambda c, _g=g: target_margin_utility(model, _g, c))
+        eff_del = single_player_effects(model, g, rho=0.0, utility="target_margin")
+        eff_bnd = single_player_effects(model, g, rho=args.rho, utility="target_margin")
+        phi, _ = mc_shapley(util, n, permutations=args.permutations, seed=42)
+        order = np.argsort(-np.abs(phi))
+        top = []
+        for p in order[: args.top_k]:
+            top.append(dict(player=int(p), item_id=int(g.players[p]),
+                            phi=float(phi[p]),
+                            deletion_effect=float(eff_del[p]),
+                            bounded_effect=float(eff_bnd[p])))
+        method_action = select_downweight_action(phi, budget=2)
+        oracle = exhaustive_best_joint_multi(model, g, budget=2, rho_grid=(args.rho,),
+                                             k=10, utilities=("target_margin", "ndcg"))
+        m_effect = joint_effect(model, g, tuple(method_action), rho=args.rho,
+                                k=10, utility="target_margin")
+        records.append(dict(
+            user=int(u), n_players=int(n),
+            target_item=int(g.target_item),
+            top_attributions=top,
+            method_action=[dict(player=int(p), item_id=int(g.players[p])) for p in method_action],
+            method_effect=float(m_effect),
+            oracle_target_margin=dict(action=list(oracle["target_margin"][0]),
+                                      effect=float(oracle["target_margin"][2])),
+            oracle_ndcg=dict(action=list(oracle["ndcg"][0]),
+                             effect=float(oracle["ndcg"][2]))))
+    payload = dict(dataset=args.dataset, model="itemknn",
+                   config=dict(examples=len(chosen), rho=args.rho,
+                               permutations=args.permutations, top_k=args.top_k),
+                   records=records, recorded_at=time.strftime("%Y-%m-%dT%H:%M:%S"))
+    save(Path(args.out), f"worked_examples_{args.dataset}.json", payload)
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     sub = ap.add_subparsers(dest="command", required=True)
@@ -503,6 +653,30 @@ def main() -> None:
     p.add_argument("--permutations", type=int, default=250)
     p.add_argument("--ks-samples", type=int, nargs="+", default=[512])
     p.set_defaults(func=cmd_kernelschap)
+
+    p = sub.add_parser("mcse-n20")
+    common(p)
+    p.add_argument("--users", type=int, default=1000)
+    p.add_argument("--subsample", type=int, default=50)
+    p.add_argument("--permutations", type=int, default=250)
+    p.add_argument("--ref-permutations", type=int, default=1000)
+    p.set_defaults(func=cmd_mcse_n20)
+
+    p = sub.add_parser("exhaustive-b3")
+    common(p)
+    p.add_argument("--users", type=int, default=1000)
+    p.add_argument("--subsample", type=int, default=200)
+    p.add_argument("--permutations", type=int, default=250)
+    p.add_argument("--budget", type=int, default=2)
+    p.set_defaults(func=cmd_exhaustive_b3)
+
+    p = sub.add_parser("worked-example")
+    common(p)
+    p.add_argument("--users", type=int, default=1000)
+    p.add_argument("--examples", type=int, default=3)
+    p.add_argument("--permutations", type=int, default=250)
+    p.add_argument("--top-k", type=int, default=5)
+    p.set_defaults(func=cmd_worked_example)
 
     p = sub.add_parser("convergence-quantiles")
     p.add_argument("--raw", required=True, help="path to raw convergence JSON")
