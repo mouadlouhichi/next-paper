@@ -1,0 +1,13 @@
+dataset,left,right,quantity,mean_diff,p_plusone,n,holm_p
+MovieLens-1M,shapley_mc,lime,Success,-0.013399999999999999,0.0023997600239976003,1000,0.021597840215978402
+MovieLens-1M,shapley_mc,lime,Abstention,0.0,1.0,1000,1.0
+MovieLens-1M,shapley_mc,loo,Success,-0.0148,0.0023997600239976003,1000,0.021597840215978402
+MovieLens-1M,shapley_mc,loo,Abstention,0.0,1.0,1000,1.0
+MovieLens-1M,lime,loo,Success,-0.0014,0.6335366463353664,1000,1.0
+MovieLens-1M,lime,loo,Abstention,0.0,1.0,1000,1.0
+Amazon-Digital-Music,shapley_mc,lime,Success,-0.0010000000000000002,0.7251274872512748,1000,1.0
+Amazon-Digital-Music,shapley_mc,lime,Abstention,-0.06,9.999000099990002e-05,1000,0.0011998800119988001
+Amazon-Digital-Music,shapley_mc,loo,Success,0.0032,0.4520547945205479,1000,1.0
+Amazon-Digital-Music,shapley_mc,loo,Abstention,-0.07579999999999999,9.999000099990002e-05,1000,0.0011998800119988001
+Amazon-Digital-Music,lime,loo,Success,0.004200000000000001,0.071992800719928,1000,0.503949605039496
+Amazon-Digital-Music,lime,loo,Abstention,-0.015799999999999998,0.0010998900109989002,1000,0.010998900109989003

@@ -391,6 +391,61 @@ def cmd_convergence_quantiles(args) -> None:
     save(Path(args.out), f"convergence_quantiles_{Path(args.raw).stem}.json", payload)
 
 
+
+
+def cmd_kernelschap(args) -> None:
+    """KernelSHAP vs MC Shapley bounded AIA at comparable budgets (review-7)."""
+    import importlib.util
+    from actionshap.kernelschap import kernelschap_attribution
+    from actionshap.evaluation import aia, single_player_effects
+    from actionshap.recommendation import mc_shapley, target_margin_utility
+    from actionshap.recommendation_data import sample_evaluation_users
+    from actionshap.models.itemknn import fit_item_knn
+
+    spec = importlib.util.spec_from_file_location(
+        "r3", str(Path(__file__).parent / "run_review3_experiments.py"))
+    r3 = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(r3)
+
+    ap = argparse.Namespace(
+        dataset=args.dataset, ml_path=args.ml_path, amazon_path=args.amazon_path,
+        gowalla_path=getattr(args, "gowalla_path", "data/gowalla/interactions.csv"),
+        model="itemknn", users=args.users, exact_users=0, exact_max=12,
+        n_max=args.n_max, evaluation_size=args.evaluation_size,
+        permutations=args.permutations, candidate_seed=args.candidate_seed,
+        tie_seed=args.tie_seed, user_seed=args.user_seed, rho=args.rho,
+        out=args.out)
+    data = r3.load_data(ap)
+    users = sample_evaluation_users(data, args.users, seed=args.user_seed)
+    histories = {u: data.seen_before_test(u) for u in users}
+    model = fit_item_knn(histories, data.n_items, neighbours=200)
+    games, _ = r3.build_games(ap, data, model, users)
+
+    records = []
+    for i, u in enumerate(users):
+        g = games[u]
+        n = g.players.size
+        util = (lambda c, _g=g: target_margin_utility(model, _g, c))
+        eff = single_player_effects(model, g, rho=args.rho, utility="target_margin")
+        phi_mc, _ = mc_shapley(util, n, permutations=args.permutations, seed=42)
+        ks = {}
+        for S in args.ks_samples:
+            phi_ks = kernelschap_attribution(util, n, samples=S, seed=42)
+            ks[str(S)] = float(aia(phi_ks, eff))
+        records.append(dict(user=int(u), n_players=int(n),
+                            mc_shapley_bounded_aia=float(aia(phi_mc, eff)),
+                            kernelschap_bounded_aia=ks))
+        if (i + 1) % 50 == 0:
+            print(f"[kernelschap] {i + 1}/{len(users)} users", flush=True)
+    payload = dict(dataset=args.dataset, model="itemknn",
+                   config=dict(users=args.users, permutations=args.permutations,
+                               rho=args.rho, ks_samples=args.ks_samples,
+                               n_max=args.n_max, evaluation_size=args.evaluation_size),
+                   records=records,
+                   recorded_at=time.strftime("%Y-%m-%dT%H:%M:%S"))
+    save(Path(args.out), f"kernelschap_{args.dataset}.json", payload)
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     sub = ap.add_subparsers(dest="command", required=True)
@@ -440,6 +495,13 @@ def main() -> None:
     p.add_argument("--model-seeds", type=int, default=5)
     p.add_argument("--permutations", type=int, default=100)
     p.set_defaults(func=cmd_variance_components)
+
+    p = sub.add_parser("kernelschap")
+    common(p)
+    p.add_argument("--users", type=int, default=1000)
+    p.add_argument("--permutations", type=int, default=250)
+    p.add_argument("--ks-samples", type=int, nargs="+", default=[512])
+    p.set_defaults(func=cmd_kernelschap)
 
     p = sub.add_parser("convergence-quantiles")
     p.add_argument("--raw", required=True, help="path to raw convergence JSON")
