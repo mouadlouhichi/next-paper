@@ -126,6 +126,44 @@ The complete declared paired family, proportion CIs, quality-versus-popularity C
 \safeinput{tables/review5_validation.tex}
 \safeinput{tables/review7_kernelschap.tex}
 
+\safeinput{tables/review8_extended_basis.tex}
+
+\subsection*{Extended empirical basis (review round 8)}
+Five additional experiment families extend the empirical basis beyond the
+primary ItemKNN analysis (Tables~\ref{tab:review8-lightgcn-quality}--\ref{tab:review8-b3}).
+
+\emph{Architecture and dataset generality.} The central finding---that
+path-matched baselines (finite differences, integrated gradients, bounded
+LIME) exceed Monte Carlo Shapley on bounded-intervention alignment---replicates
+under a graph architecture (LightGCN, Table~\ref{tab:review8-generalization})
+and on a third dataset from a different domain (Gowalla location check-ins).
+LightGCN is adapted to the protocol's inference-time history-weighting
+interface; it does not pass the recommendation-quality gate
+(Table~\ref{tab:review8-lightgcn-quality}), so it is reported as an
+architecture-applicability cell rather than a competitive-recommender cell.
+Obtaining a competitive neural model that also exposes the bounded
+history-weighting interface remains an open engineering requirement.
+
+\emph{Monte Carlo error control at the cap.} The reviewer-flagged gap that
+convergence was only validated exactly for $n_u\le12$ while $83.1\%$ of
+MovieLens users sit at the $n_{\max}=20$ cap is closed by per-user Monte Carlo
+standard errors plus an independent larger-budget reference
+(Table~\ref{tab:review8-mcse}): relative standard errors are small (mean
+$0.06$--$0.08$ of the largest $|\phi|$) and the primary-budget estimate agrees
+with the independent $M_{\mathrm{pair}}=1000$ reference at rank correlation
+$\ge0.95$ for every user (mean $\ge0.989$).
+
+\emph{Exhaustive budget-3 oracle.} The greedy budget-3 lower bound is replaced
+by exhaustive enumeration of all $\le3$ actions ($1{,}351$ at $n=20$,
+Table~\ref{tab:review8-b3}); additive selection attains low regret at both
+$B=2$ and $B=3$.
+
+\emph{Worked example.} A representative MovieLens user (target item $1344$,
+$n_u=20$) illustrates the knowledge-level output: the two most-beneficial
+interactions by attribution (items $336$ and $2094$, both negative $\phi$) are
+selected by the additive rule, and the resulting joint action coincides exactly
+with the exact budget-2 oracle (realized target-margin effect $+0.0031$).
+
 \FloatBarrier
 \clearpage
 
