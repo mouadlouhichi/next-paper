@@ -5,53 +5,53 @@
  "max_len": 20,
  "user_seed": 2718,
  "train_all": true,
- "epochs": 30,
+ "epochs": 80,
  "results": [
   {
    "seed": 42,
-   "ndcg10": 0.0028010299956639814,
+   "ndcg10": 0.0024463946303571868,
    "hr10": 0.004,
-   "mrr": 0.0035324588073936862,
+   "mrr": 0.0030444352307455926,
    "ndcg10_popularity": 0.007354428899522155,
    "hr10_popularity": 0.017,
    "mrr_popularity": 0.007271615760861698,
-   "mean_abs_masking_delta": 0.0015136995235046921,
+   "mean_abs_masking_delta": 0.001528958383041423,
    "masking_gate_pass": true,
    "beats_popularity": false
   },
   {
    "seed": 43,
-   "ndcg10": 0.005419994579889346,
+   "ndcg10": 0.005377071188430579,
    "hr10": 0.007,
-   "mrr": 0.005956901900150537,
+   "mrr": 0.005915287298860302,
    "ndcg10_popularity": 0.007354428899522155,
    "hr10_popularity": 0.017,
    "mrr_popularity": 0.007271615760861698,
-   "mean_abs_masking_delta": 0.002642706131078224,
+   "mean_abs_masking_delta": 0.002569425537075468,
    "masking_gate_pass": true,
    "beats_popularity": false
   },
   {
    "seed": 44,
-   "ndcg10": 0.00404874325232433,
+   "ndcg10": 0.003979419810397723,
    "hr10": 0.007,
-   "mrr": 0.00411703357848114,
+   "mrr": 0.004036684564330967,
    "ndcg10_popularity": 0.007354428899522155,
    "hr10_popularity": 0.017,
    "mrr_popularity": 0.007271615760861698,
-   "mean_abs_masking_delta": 0.0023500863481425234,
+   "mean_abs_masking_delta": 0.0022768057541397687,
    "masking_gate_pass": true,
    "beats_popularity": false
   },
   {
    "seed": 45,
-   "ndcg10": 0.0019428684336640343,
+   "ndcg10": 0.0019249999771164296,
    "hr10": 0.005,
-   "mrr": 0.0018803683873865075,
+   "mrr": 0.0018652841138126612,
    "ndcg10_popularity": 0.007354428899522155,
    "hr10_popularity": 0.017,
    "mrr_popularity": 0.007271615760861698,
-   "mean_abs_masking_delta": 0.0009725101267329233,
+   "mean_abs_masking_delta": 0.0009536216948644195,
    "masking_gate_pass": false,
    "beats_popularity": false
   },
@@ -59,7 +59,7 @@
    "seed": 46,
    "ndcg10": 0.004004919501485479,
    "hr10": 0.006,
-   "mrr": 0.004163789143485603,
+   "mrr": 0.004164162658445969,
    "ndcg10_popularity": 0.007354428899522155,
    "hr10_popularity": 0.017,
    "mrr_popularity": 0.007271615760861698,
@@ -68,5 +68,5 @@
    "beats_popularity": false
   }
  ],
- "recorded_at": "2026-08-21T09:29:03"
+ "recorded_at": "2026-08-21T14:38:26"
 }

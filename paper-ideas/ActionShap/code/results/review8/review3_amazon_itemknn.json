@@ -13798,21 +13798,21 @@
  ],
  "timings": {
   "mc_shapley": {
-   "median_wall_seconds": 0.32074179199844366,
-   "peak_rss_mib": 343920.0,
+   "median_wall_seconds": 0.757695957996475,
+   "peak_rss_mib": 338736.0,
    "repeat": 3
   },
   "bounded_lime": {
-   "median_wall_seconds": 0.032216042003710754,
-   "peak_rss_mib": 343920.0,
+   "median_wall_seconds": 0.0964308330003405,
+   "peak_rss_mib": 338736.0,
    "repeat": 3
   },
   "loo": {
-   "median_wall_seconds": 0.0010036250023404136,
-   "peak_rss_mib": 343920.0,
+   "median_wall_seconds": 0.002755582994723227,
+   "peak_rss_mib": 338736.0,
    "repeat": 3
   },
-  "recorded_at": "2026-08-21T10:32:52"
+  "recorded_at": "2026-08-21T15:53:23"
  },
  "curves": {
   "equal_budget": [
