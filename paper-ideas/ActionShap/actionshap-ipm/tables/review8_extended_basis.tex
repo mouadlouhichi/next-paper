@@ -1,9 +1,10 @@
 % Review-8 extended empirical basis (generated from results/review8/).
 \begin{table}[t]\centering\scriptsize\setlength{\tabcolsep}{3pt}
-\caption{LightGCN recommendation-quality gate (full-corpus training, 30 epochs,
-five seeds). LightGCN is adapted to the protocol's inference-time
-history-weighting interface (user vector recomputed as the weighted mean of
-propagated item embeddings). It does not beat the popularity reference on
+\caption{LightGCN recommendation-quality gate (full-corpus training, tuned:
+deeper propagation, larger embeddings, higher learning rate, 80 epochs, five
+seeds). LightGCN is adapted to the protocol's inference-time history-weighting
+interface (user vector recomputed as the weighted mean of propagated item
+embeddings). Even after tuning it does not beat the popularity reference on
 NDCG@10 on either dataset, so---like the SASRec-style replication---it serves
 as an architecture-applicability cell rather than a competitive-recommender
 robustness cell.}
@@ -12,8 +13,8 @@ robustness cell.}
 \toprule
 Dataset & NDCG@10 & Popularity & Gate passes \\
 \midrule
-MovieLens-1M & 0.0040 & 0.0191 & 5/5 masking \\
-Amazon & 0.0036 & 0.0074 & 4/5 masking \\
+MovieLens-1M & 0.0042 & 0.0191 & 5/5 masking \\
+Amazon & 0.0035 & 0.0074 & 4/5 masking \\
 \bottomrule\end{tabular}\end{table}
 \begin{table}[t]\centering\scriptsize\setlength{\tabcolsep}{3pt}
 \caption{Generalization of the central finding to a graph architecture
