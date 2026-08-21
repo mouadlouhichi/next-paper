@@ -1,0 +1,207 @@
+{
+ "dataset": "movielens",
+ "model": "itemknn",
+ "config": {
+  "examples": 3,
+  "rho": 0.5,
+  "permutations": 250,
+  "top_k": 5
+ },
+ "records": [
+  {
+   "user": 1,
+   "n_players": 20,
+   "target_item": 1344,
+   "top_attributions": [
+    {
+     "player": 3,
+     "item_id": 336,
+     "phi": -0.009927581471030332,
+     "deletion_effect": 0.0028792657451320314,
+     "bounded_effect": 0.0014176696015603119
+    },
+    {
+     "player": 19,
+     "item_id": 668,
+     "phi": 0.00976526582343859,
+     "deletion_effect": -0.0032613735450401915,
+     "bounded_effect": -0.0015889604407539615
+    },
+    {
+     "player": 2,
+     "item_id": 2094,
+     "phi": -0.009405758243229655,
+     "deletion_effect": 0.0030612969164591775,
+     "bounded_effect": 0.0014913545280987872
+    },
+    {
+     "player": 12,
+     "item_id": 3036,
+     "phi": -0.006292426912312613,
+     "deletion_effect": 0.0012692909110218475,
+     "bounded_effect": 0.0006183630645851812
+    },
+    {
+     "player": 14,
+     "item_id": 1333,
+     "phi": 0.005927951480052801,
+     "deletion_effect": -0.0018894819845667321,
+     "bounded_effect": -0.0009205433518413297
+    }
+   ],
+   "method_action": [
+    {
+     "player": 3,
+     "item_id": 336
+    },
+    {
+     "player": 2,
+     "item_id": 2094
+    }
+   ],
+   "method_effect": 0.003051481624036345,
+   "oracle_target_margin": {
+    "action": [
+     2,
+     3
+    ],
+    "effect": 0.003051481624036345
+   },
+   "oracle_ndcg": {
+    "action": [],
+    "effect": 0.0
+   }
+  },
+  {
+   "user": 4,
+   "n_players": 20,
+   "target_item": 1755,
+   "top_attributions": [
+    {
+     "player": 16,
+     "item_id": 1370,
+     "phi": -0.006363049549092545,
+     "deletion_effect": 0.00124190947187236,
+     "bounded_effect": 0.0007488827378090979
+    },
+    {
+     "player": 0,
+     "item_id": 2558,
+     "phi": -0.005658660473360424,
+     "deletion_effect": 0.0016660839493175539,
+     "bounded_effect": 0.0008635325088876544
+    },
+    {
+     "player": 7,
+     "item_id": 1399,
+     "phi": -0.004721683180014527,
+     "deletion_effect": 0.0003077288131148048,
+     "bounded_effect": 0.000267426146104921
+    },
+    {
+     "player": 13,
+     "item_id": 1486,
+     "phi": 0.0041687818900306315,
+     "deletion_effect": -0.0009684876580233759,
+     "bounded_effect": -0.00047184506132419424
+    },
+    {
+     "player": 4,
+     "item_id": 1325,
+     "phi": -0.003996605588250998,
+     "deletion_effect": 0.0005625510211109686,
+     "bounded_effect": 0.0002805155003760551
+    }
+   ],
+   "method_action": [
+    {
+     "player": 16,
+     "item_id": 1370
+    },
+    {
+     "player": 0,
+     "item_id": 2558
+    }
+   ],
+   "method_effect": 0.001654945746787484,
+   "oracle_target_margin": {
+    "action": [
+     0,
+     16
+    ],
+    "effect": 0.001654945746787484
+   },
+   "oracle_ndcg": {
+    "action": [],
+    "effect": 0.0
+   }
+  },
+  {
+   "user": 5,
+   "n_players": 20,
+   "target_item": 567,
+   "top_attributions": [
+    {
+     "player": 2,
+     "item_id": 1212,
+     "phi": 0.011253445098849124,
+     "deletion_effect": -0.0031280092213245014,
+     "bounded_effect": -0.0014378854425373122
+    },
+    {
+     "player": 5,
+     "item_id": 1674,
+     "phi": -0.009213590725468077,
+     "deletion_effect": 0.00265772733580949,
+     "bounded_effect": 0.0013431886622887745
+    },
+    {
+     "player": 14,
+     "item_id": 3147,
+     "phi": 0.008432304719009269,
+     "deletion_effect": -0.0027251463131262588,
+     "bounded_effect": -0.0013128223516314375
+    },
+    {
+     "player": 15,
+     "item_id": 3027,
+     "phi": 0.007262329791156483,
+     "deletion_effect": -0.002481494281059926,
+     "bounded_effect": -0.0011550807023629206
+    },
+    {
+     "player": 3,
+     "item_id": 917,
+     "phi": -0.006780798884349762,
+     "deletion_effect": 0.0023992097589651262,
+     "bounded_effect": 0.0011948520665890916
+    }
+   ],
+   "method_action": [
+    {
+     "player": 5,
+     "item_id": 1674
+    },
+    {
+     "player": 3,
+     "item_id": 917
+    }
+   ],
+   "method_effect": 0.0026070607243317,
+   "oracle_target_margin": {
+    "action": [
+     3,
+     5
+    ],
+    "effect": 0.0026070607243317
+   },
+   "oracle_ndcg": {
+    "action": [
+     3
+    ],
+    "effect": 0.36907024642854247
+   }
+  }
+ ],
+ "recorded_at": "2026-08-21T10:35:26"
+}

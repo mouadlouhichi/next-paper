@@ -1,0 +1,6613 @@
+{
+ "dataset": "movielens",
+ "model": "itemknn",
+ "config": {
+  "subsample": 200,
+  "budget": 2,
+  "rho": 0.5,
+  "permutations": 250
+ },
+ "records": [
+  {
+   "user": 1,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.003051481624036345,
+   "method_effect": 0.003051481624036345,
+   "regret": 0.0,
+   "oracle_action": [
+    2,
+    3
+   ],
+   "method_action": [
+    3,
+    2
+   ]
+  },
+  {
+   "user": 1,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.004072868053281664,
+   "method_effect": 0.003051481624036345,
+   "regret": 0.001021386429245319,
+   "oracle_action": [
+    2,
+    3,
+    7
+   ],
+   "method_action": [
+    3,
+    2
+   ]
+  },
+  {
+   "user": 4,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.001654945746787484,
+   "method_effect": 0.001654945746787484,
+   "regret": 0.0,
+   "oracle_action": [
+    0,
+    16
+   ],
+   "method_action": [
+    16,
+    0
+   ]
+  },
+  {
+   "user": 4,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0019818110095710106,
+   "method_effect": 0.001654945746787484,
+   "regret": 0.0003268652627835267,
+   "oracle_action": [
+    0,
+    4,
+    16
+   ],
+   "method_action": [
+    16,
+    0
+   ]
+  },
+  {
+   "user": 5,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0026070607243317,
+   "method_effect": 0.0026070607243317,
+   "regret": 0.0,
+   "oracle_action": [
+    3,
+    5
+   ],
+   "method_action": [
+    5,
+    3
+   ]
+  },
+  {
+   "user": 5,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.003416236202176459,
+   "method_effect": 0.0026070607243317,
+   "regret": 0.0008091754778447591,
+   "oracle_action": [
+    3,
+    5,
+    12
+   ],
+   "method_action": [
+    5,
+    3
+   ]
+  },
+  {
+   "user": 18,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.00264725281719691,
+   "method_effect": 0.00264725281719691,
+   "regret": 0.0,
+   "oracle_action": [
+    10,
+    18
+   ],
+   "method_action": [
+    10,
+    18
+   ]
+  },
+  {
+   "user": 18,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0038924224150569398,
+   "method_effect": 0.00264725281719691,
+   "regret": 0.0012451695978600297,
+   "oracle_action": [
+    0,
+    10,
+    18
+   ],
+   "method_action": [
+    10,
+    18
+   ]
+  },
+  {
+   "user": 34,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0027097547292667667,
+   "method_effect": 0.0027097547292667667,
+   "regret": 0.0,
+   "oracle_action": [
+    10,
+    12
+   ],
+   "method_action": [
+    10,
+    12
+   ]
+  },
+  {
+   "user": 34,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0035478179732355564,
+   "method_effect": 0.0027097547292667667,
+   "regret": 0.0008380632439687896,
+   "oracle_action": [
+    10,
+    12,
+    14
+   ],
+   "method_action": [
+    10,
+    12
+   ]
+  },
+  {
+   "user": 38,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0015530613548797034,
+   "method_effect": 0.0014086886633011275,
+   "regret": 0.0001443726915785759,
+   "oracle_action": [
+    3,
+    5
+   ],
+   "method_action": [
+    5,
+    16
+   ]
+  },
+  {
+   "user": 38,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0023012602895013945,
+   "method_effect": 0.0014086886633011275,
+   "regret": 0.000892571626200267,
+   "oracle_action": [
+    3,
+    5,
+    16
+   ],
+   "method_action": [
+    5,
+    16
+   ]
+  },
+  {
+   "user": 41,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0036080507725194666,
+   "method_effect": 0.0036080507725194666,
+   "regret": 0.0,
+   "oracle_action": [
+    1,
+    4
+   ],
+   "method_action": [
+    4,
+    1
+   ]
+  },
+  {
+   "user": 41,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.005308920944420703,
+   "method_effect": 0.0036080507725194666,
+   "regret": 0.0017008701719012365,
+   "oracle_action": [
+    0,
+    1,
+    4
+   ],
+   "method_action": [
+    4,
+    1
+   ]
+  },
+  {
+   "user": 42,
+   "n_players": 18,
+   "budget": 2,
+   "oracle_effect": 0.0022100655831930327,
+   "method_effect": 0.002020534499191151,
+   "regret": 0.00018953108400188157,
+   "oracle_action": [
+    1,
+    12
+   ],
+   "method_action": [
+    1,
+    4
+   ]
+  },
+  {
+   "user": 42,
+   "n_players": 18,
+   "budget": 3,
+   "oracle_effect": 0.0029225838230051426,
+   "method_effect": 0.002020534499191151,
+   "regret": 0.0009020493238139915,
+   "oracle_action": [
+    1,
+    4,
+    12
+   ],
+   "method_action": [
+    1,
+    4
+   ]
+  },
+  {
+   "user": 54,
+   "n_players": 16,
+   "budget": 2,
+   "oracle_effect": 0.002302287139181014,
+   "method_effect": 0.001966642636441085,
+   "regret": 0.0003356445027399291,
+   "oracle_action": [
+    5,
+    13
+   ],
+   "method_action": [
+    3,
+    13
+   ]
+  },
+  {
+   "user": 54,
+   "n_players": 16,
+   "budget": 3,
+   "oracle_effect": 0.003368569339326166,
+   "method_effect": 0.001966642636441085,
+   "regret": 0.0014019267028850813,
+   "oracle_action": [
+    4,
+    5,
+    13
+   ],
+   "method_action": [
+    3,
+    13
+   ]
+  },
+  {
+   "user": 56,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0023736220029025867,
+   "method_effect": 0.0023736220029025867,
+   "regret": 0.0,
+   "oracle_action": [
+    4,
+    5
+   ],
+   "method_action": [
+    5,
+    4
+   ]
+  },
+  {
+   "user": 56,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.003241763949475618,
+   "method_effect": 0.0023736220029025867,
+   "regret": 0.0008681419465730311,
+   "oracle_action": [
+    2,
+    4,
+    5
+   ],
+   "method_action": [
+    5,
+    4
+   ]
+  },
+  {
+   "user": 68,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.001831499400349379,
+   "method_effect": 0.001831499400349379,
+   "regret": 0.0,
+   "oracle_action": [
+    2,
+    7
+   ],
+   "method_action": [
+    7,
+    2
+   ]
+  },
+  {
+   "user": 68,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0025903856677553794,
+   "method_effect": 0.001831499400349379,
+   "regret": 0.0007588862674060004,
+   "oracle_action": [
+    2,
+    7,
+    12
+   ],
+   "method_action": [
+    7,
+    2
+   ]
+  },
+  {
+   "user": 76,
+   "n_players": 10,
+   "budget": 2,
+   "oracle_effect": 0.0045059768841070325,
+   "method_effect": 0.0045059768841070325,
+   "regret": 0.0,
+   "oracle_action": [
+    4,
+    8
+   ],
+   "method_action": [
+    4,
+    8
+   ]
+  },
+  {
+   "user": 76,
+   "n_players": 10,
+   "budget": 3,
+   "oracle_effect": 0.005408858392438098,
+   "method_effect": 0.0045059768841070325,
+   "regret": 0.000902881508331066,
+   "oracle_action": [
+    4,
+    5,
+    8
+   ],
+   "method_action": [
+    4,
+    8
+   ]
+  },
+  {
+   "user": 77,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0016363500291277644,
+   "method_effect": 0.0004511694255680543,
+   "regret": 0.0011851806035597101,
+   "oracle_action": [
+    11,
+    14
+   ],
+   "method_action": [
+    16,
+    18
+   ]
+  },
+  {
+   "user": 77,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0024124901590740766,
+   "method_effect": 0.0004511694255680543,
+   "regret": 0.0019613207335060223,
+   "oracle_action": [
+    11,
+    14,
+    18
+   ],
+   "method_action": [
+    16,
+    18
+   ]
+  },
+  {
+   "user": 89,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0028964372860472154,
+   "method_effect": 0.0028964372860472154,
+   "regret": 0.0,
+   "oracle_action": [
+    8,
+    9
+   ],
+   "method_action": [
+    8,
+    9
+   ]
+  },
+  {
+   "user": 89,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0040741169732716465,
+   "method_effect": 0.0028964372860472154,
+   "regret": 0.001177679687224431,
+   "oracle_action": [
+    8,
+    9,
+    14
+   ],
+   "method_action": [
+    8,
+    9
+   ]
+  },
+  {
+   "user": 93,
+   "n_players": 12,
+   "budget": 2,
+   "oracle_effect": 0.0036571129375775335,
+   "method_effect": 0.0036571129375775335,
+   "regret": 0.0,
+   "oracle_action": [
+    0,
+    5
+   ],
+   "method_action": [
+    0,
+    5
+   ]
+  },
+  {
+   "user": 93,
+   "n_players": 12,
+   "budget": 3,
+   "oracle_effect": 0.004491489047624364,
+   "method_effect": 0.0036571129375775335,
+   "regret": 0.0008343761100468305,
+   "oracle_action": [
+    0,
+    2,
+    5
+   ],
+   "method_action": [
+    0,
+    5
+   ]
+  },
+  {
+   "user": 94,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.002059508356851425,
+   "method_effect": 0.0020029951433491178,
+   "regret": 5.65132135023072e-05,
+   "oracle_action": [
+    7,
+    17
+   ],
+   "method_action": [
+    7,
+    1
+   ]
+  },
+  {
+   "user": 94,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0027054287216867756,
+   "method_effect": 0.0020029951433491178,
+   "regret": 0.0007024335783376578,
+   "oracle_action": [
+    1,
+    7,
+    17
+   ],
+   "method_action": [
+    7,
+    1
+   ]
+  },
+  {
+   "user": 117,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.002842969498502157,
+   "method_effect": 0.002842969498502157,
+   "regret": 0.0,
+   "oracle_action": [
+    0,
+    17
+   ],
+   "method_action": [
+    0,
+    17
+   ]
+  },
+  {
+   "user": 117,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0040002644586449865,
+   "method_effect": 0.002842969498502157,
+   "regret": 0.0011572949601428295,
+   "oracle_action": [
+    0,
+    5,
+    17
+   ],
+   "method_action": [
+    0,
+    17
+   ]
+  },
+  {
+   "user": 119,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0031716091169728955,
+   "method_effect": 0.003033558886272547,
+   "regret": 0.00013805023070034839,
+   "oracle_action": [
+    1,
+    11
+   ],
+   "method_action": [
+    1,
+    10
+   ]
+  },
+  {
+   "user": 119,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.004558096700223557,
+   "method_effect": 0.003033558886272547,
+   "regret": 0.0015245378139510102,
+   "oracle_action": [
+    1,
+    10,
+    11
+   ],
+   "method_action": [
+    1,
+    10
+   ]
+  },
+  {
+   "user": 124,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.002174650202626527,
+   "method_effect": 0.002174650202626527,
+   "regret": 0.0,
+   "oracle_action": [
+    6,
+    15
+   ],
+   "method_action": [
+    15,
+    6
+   ]
+  },
+  {
+   "user": 124,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.003110219240758938,
+   "method_effect": 0.002174650202626527,
+   "regret": 0.0009355690381324111,
+   "oracle_action": [
+    6,
+    12,
+    15
+   ],
+   "method_action": [
+    15,
+    6
+   ]
+  },
+  {
+   "user": 126,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.004090359558751699,
+   "method_effect": 0.004090359558751699,
+   "regret": 0.0,
+   "oracle_action": [
+    14,
+    15
+   ],
+   "method_action": [
+    14,
+    15
+   ]
+  },
+  {
+   "user": 126,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.005461348811899747,
+   "method_effect": 0.004090359558751699,
+   "regret": 0.0013709892531480472,
+   "oracle_action": [
+    14,
+    15,
+    18
+   ],
+   "method_action": [
+    14,
+    15
+   ]
+  },
+  {
+   "user": 136,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0016226082827979216,
+   "method_effect": 0.0016226082827979216,
+   "regret": 0.0,
+   "oracle_action": [
+    8,
+    16
+   ],
+   "method_action": [
+    16,
+    8
+   ]
+  },
+  {
+   "user": 136,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0022762878677315967,
+   "method_effect": 0.0016226082827979216,
+   "regret": 0.0006536795849336752,
+   "oracle_action": [
+    4,
+    8,
+    16
+   ],
+   "method_action": [
+    16,
+    8
+   ]
+  },
+  {
+   "user": 137,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0033660795455440207,
+   "method_effect": 0.0033660795455440207,
+   "regret": 0.0,
+   "oracle_action": [
+    7,
+    13
+   ],
+   "method_action": [
+    13,
+    7
+   ]
+  },
+  {
+   "user": 137,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0042496585988666125,
+   "method_effect": 0.0033660795455440207,
+   "regret": 0.0008835790533225918,
+   "oracle_action": [
+    7,
+    13,
+    15
+   ],
+   "method_action": [
+    13,
+    7
+   ]
+  },
+  {
+   "user": 138,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0022713407548157205,
+   "method_effect": 0.0021218663675004468,
+   "regret": 0.00014947438731527374,
+   "oracle_action": [
+    2,
+    3
+   ],
+   "method_action": [
+    3,
+    5
+   ]
+  },
+  {
+   "user": 138,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.00310884887481927,
+   "method_effect": 0.0021218663675004468,
+   "regret": 0.0009869825073188232,
+   "oracle_action": [
+    2,
+    3,
+    5
+   ],
+   "method_action": [
+    3,
+    5
+   ]
+  },
+  {
+   "user": 144,
+   "n_players": 13,
+   "budget": 2,
+   "oracle_effect": 0.002540271449905318,
+   "method_effect": 0.0023241128617350615,
+   "regret": 0.00021615858817025657,
+   "oracle_action": [
+    1,
+    3
+   ],
+   "method_action": [
+    3,
+    4
+   ]
+  },
+  {
+   "user": 144,
+   "n_players": 13,
+   "budget": 3,
+   "oracle_effect": 0.0038554264526038384,
+   "method_effect": 0.0023241128617350615,
+   "regret": 0.001531313590868777,
+   "oracle_action": [
+    1,
+    3,
+    4
+   ],
+   "method_action": [
+    3,
+    4
+   ]
+  },
+  {
+   "user": 148,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.001691766545503126,
+   "method_effect": 0.0010668482163758153,
+   "regret": 0.0006249183291273108,
+   "oracle_action": [
+    14,
+    19
+   ],
+   "method_action": [
+    19,
+    0
+   ]
+  },
+  {
+   "user": 148,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0021194268761760005,
+   "method_effect": 0.0010668482163758153,
+   "regret": 0.0010525786598001852,
+   "oracle_action": [
+    12,
+    14,
+    19
+   ],
+   "method_action": [
+    19,
+    0
+   ]
+  },
+  {
+   "user": 150,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0020523305924260993,
+   "method_effect": 0.002032243740704376,
+   "regret": 2.008685172172342e-05,
+   "oracle_action": [
+    10,
+    17
+   ],
+   "method_action": [
+    17,
+    16
+   ]
+  },
+  {
+   "user": 150,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0027231503345830355,
+   "method_effect": 0.002032243740704376,
+   "regret": 0.0006909065938786596,
+   "oracle_action": [
+    10,
+    16,
+    17
+   ],
+   "method_action": [
+    17,
+    16
+   ]
+  },
+  {
+   "user": 178,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0030750708885339817,
+   "method_effect": 0.0030750708885339817,
+   "regret": 0.0,
+   "oracle_action": [
+    7,
+    9
+   ],
+   "method_action": [
+    9,
+    7
+   ]
+  },
+  {
+   "user": 178,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.004608953426879059,
+   "method_effect": 0.0030750708885339817,
+   "regret": 0.0015338825383450772,
+   "oracle_action": [
+    5,
+    7,
+    9
+   ],
+   "method_action": [
+    9,
+    7
+   ]
+  },
+  {
+   "user": 180,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.00266899978166929,
+   "method_effect": 0.0021273341731460893,
+   "regret": 0.0005416656085232008,
+   "oracle_action": [
+    2,
+    4
+   ],
+   "method_action": [
+    7,
+    1
+   ]
+  },
+  {
+   "user": 180,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.003919701666912301,
+   "method_effect": 0.0021273341731460893,
+   "regret": 0.0017923674937662115,
+   "oracle_action": [
+    2,
+    4,
+    6
+   ],
+   "method_action": [
+    7,
+    1
+   ]
+  },
+  {
+   "user": 184,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.001601009022116684,
+   "method_effect": 0.001601009022116684,
+   "regret": 0.0,
+   "oracle_action": [
+    10,
+    11
+   ],
+   "method_action": [
+    11,
+    10
+   ]
+  },
+  {
+   "user": 184,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.002327780932312451,
+   "method_effect": 0.001601009022116684,
+   "regret": 0.000726771910195767,
+   "oracle_action": [
+    3,
+    10,
+    11
+   ],
+   "method_action": [
+    11,
+    10
+   ]
+  },
+  {
+   "user": 186,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0011545958471089746,
+   "method_effect": 0.0007945030843323764,
+   "regret": 0.0003600927627765982,
+   "oracle_action": [
+    12,
+    17
+   ],
+   "method_action": [
+    4,
+    17
+   ]
+  },
+  {
+   "user": 186,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0015333587338626775,
+   "method_effect": 0.0007945030843323764,
+   "regret": 0.0007388556495303011,
+   "oracle_action": [
+    6,
+    12,
+    17
+   ],
+   "method_action": [
+    4,
+    17
+   ]
+  },
+  {
+   "user": 187,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0011019915270783498,
+   "method_effect": 0.000929204917030857,
+   "regret": 0.00017278661004749285,
+   "oracle_action": [
+    0,
+    9
+   ],
+   "method_action": [
+    0,
+    15
+   ]
+  },
+  {
+   "user": 187,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0015034880009485718,
+   "method_effect": 0.000929204917030857,
+   "regret": 0.0005742830839177149,
+   "oracle_action": [
+    0,
+    8,
+    9
+   ],
+   "method_action": [
+    0,
+    15
+   ]
+  },
+  {
+   "user": 189,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0024486833601284896,
+   "method_effect": 0.0024486833601284896,
+   "regret": 0.0,
+   "oracle_action": [
+    7,
+    17
+   ],
+   "method_action": [
+    7,
+    17
+   ]
+  },
+  {
+   "user": 189,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.003156251590537451,
+   "method_effect": 0.0024486833601284896,
+   "regret": 0.0007075682304089614,
+   "oracle_action": [
+    7,
+    15,
+    17
+   ],
+   "method_action": [
+    7,
+    17
+   ]
+  },
+  {
+   "user": 198,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0011595617743599407,
+   "method_effect": 0.0005197693028189954,
+   "regret": 0.0006397924715409453,
+   "oracle_action": [
+    1,
+    12
+   ],
+   "method_action": [
+    15,
+    1
+   ]
+  },
+  {
+   "user": 198,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.001672556789319768,
+   "method_effect": 0.0005197693028189954,
+   "regret": 0.0011527874865007726,
+   "oracle_action": [
+    1,
+    7,
+    12
+   ],
+   "method_action": [
+    15,
+    1
+   ]
+  },
+  {
+   "user": 199,
+   "n_players": 11,
+   "budget": 2,
+   "oracle_effect": 0.0035563881907503814,
+   "method_effect": 0.0035563881907503814,
+   "regret": 0.0,
+   "oracle_action": [
+    5,
+    9
+   ],
+   "method_action": [
+    5,
+    9
+   ]
+  },
+  {
+   "user": 199,
+   "n_players": 11,
+   "budget": 3,
+   "oracle_effect": 0.004234776011894648,
+   "method_effect": 0.0035563881907503814,
+   "regret": 0.0006783878211442662,
+   "oracle_action": [
+    4,
+    5,
+    9
+   ],
+   "method_action": [
+    5,
+    9
+   ]
+  },
+  {
+   "user": 208,
+   "n_players": 7,
+   "budget": 2,
+   "oracle_effect": 0.005069622134709406,
+   "method_effect": 0.005069622134709406,
+   "regret": 0.0,
+   "oracle_action": [
+    0,
+    2
+   ],
+   "method_action": [
+    0,
+    2
+   ]
+  },
+  {
+   "user": 208,
+   "n_players": 7,
+   "budget": 3,
+   "oracle_effect": 0.006307148294032783,
+   "method_effect": 0.005069622134709406,
+   "regret": 0.0012375261593233766,
+   "oracle_action": [
+    0,
+    1,
+    2
+   ],
+   "method_action": [
+    0,
+    2
+   ]
+  },
+  {
+   "user": 215,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0007575412451165664,
+   "method_effect": 0.0007043376025777093,
+   "regret": 5.320364253885712e-05,
+   "oracle_action": [
+    9,
+    10
+   ],
+   "method_action": [
+    4,
+    11
+   ]
+  },
+  {
+   "user": 215,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.001157565529306237,
+   "method_effect": 0.0007043376025777093,
+   "regret": 0.00045322792672852774,
+   "oracle_action": [
+    4,
+    9,
+    10
+   ],
+   "method_action": [
+    4,
+    11
+   ]
+  },
+  {
+   "user": 218,
+   "n_players": 12,
+   "budget": 2,
+   "oracle_effect": 0.00466218426568743,
+   "method_effect": 0.00466218426568743,
+   "regret": 0.0,
+   "oracle_action": [
+    6,
+    11
+   ],
+   "method_action": [
+    11,
+    6
+   ]
+  },
+  {
+   "user": 218,
+   "n_players": 12,
+   "budget": 3,
+   "oracle_effect": 0.006283060118676853,
+   "method_effect": 0.00466218426568743,
+   "regret": 0.001620875852989423,
+   "oracle_action": [
+    5,
+    6,
+    11
+   ],
+   "method_action": [
+    11,
+    6
+   ]
+  },
+  {
+   "user": 225,
+   "n_players": 9,
+   "budget": 2,
+   "oracle_effect": 0.0019883929174608905,
+   "method_effect": 0.0015816264356424137,
+   "regret": 0.00040676648181847685,
+   "oracle_action": [
+    3,
+    6
+   ],
+   "method_action": [
+    0,
+    3
+   ]
+  },
+  {
+   "user": 225,
+   "n_players": 9,
+   "budget": 3,
+   "oracle_effect": 0.0030353701275649403,
+   "method_effect": 0.0015816264356424137,
+   "regret": 0.0014537436919225266,
+   "oracle_action": [
+    1,
+    3,
+    6
+   ],
+   "method_action": [
+    0,
+    3
+   ]
+  },
+  {
+   "user": 233,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0031297502419697643,
+   "method_effect": 0.0029449593250429618,
+   "regret": 0.0001847909169268025,
+   "oracle_action": [
+    0,
+    1
+   ],
+   "method_action": [
+    0,
+    4
+   ]
+  },
+  {
+   "user": 233,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.004602511977960078,
+   "method_effect": 0.0029449593250429618,
+   "regret": 0.0016575526529171158,
+   "oracle_action": [
+    0,
+    1,
+    5
+   ],
+   "method_action": [
+    0,
+    4
+   ]
+  },
+  {
+   "user": 238,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.003174949820578532,
+   "method_effect": 0.003086781425550522,
+   "regret": 8.816839502800988e-05,
+   "oracle_action": [
+    4,
+    6
+   ],
+   "method_action": [
+    4,
+    3
+   ]
+  },
+  {
+   "user": 238,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.004673574696541116,
+   "method_effect": 0.003086781425550522,
+   "regret": 0.001586793270990594,
+   "oracle_action": [
+    4,
+    6,
+    8
+   ],
+   "method_action": [
+    4,
+    3
+   ]
+  },
+  {
+   "user": 256,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.002677180329474782,
+   "method_effect": 0.002677180329474782,
+   "regret": 0.0,
+   "oracle_action": [
+    4,
+    5
+   ],
+   "method_action": [
+    4,
+    5
+   ]
+  },
+  {
+   "user": 256,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.003572972459401691,
+   "method_effect": 0.002677180329474782,
+   "regret": 0.0008957921299269089,
+   "oracle_action": [
+    4,
+    5,
+    6
+   ],
+   "method_action": [
+    4,
+    5
+   ]
+  },
+  {
+   "user": 259,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0009950644515808182,
+   "method_effect": 0.000875227764194908,
+   "regret": 0.00011983668738591025,
+   "oracle_action": [
+    10,
+    11
+   ],
+   "method_action": [
+    16,
+    0
+   ]
+  },
+  {
+   "user": 259,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0014922654269256541,
+   "method_effect": 0.000875227764194908,
+   "regret": 0.0006170376627307461,
+   "oracle_action": [
+    0,
+    10,
+    11
+   ],
+   "method_action": [
+    16,
+    0
+   ]
+  },
+  {
+   "user": 260,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0014144333821878297,
+   "method_effect": 0.0014144333821878297,
+   "regret": 0.0,
+   "oracle_action": [
+    7,
+    11
+   ],
+   "method_action": [
+    7,
+    11
+   ]
+  },
+  {
+   "user": 260,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.00182073565136337,
+   "method_effect": 0.0014144333821878297,
+   "regret": 0.00040630226917554024,
+   "oracle_action": [
+    7,
+    11,
+    16
+   ],
+   "method_action": [
+    7,
+    11
+   ]
+  },
+  {
+   "user": 261,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0014656435798885425,
+   "method_effect": 0.0011690130063558568,
+   "regret": 0.00029663057353268574,
+   "oracle_action": [
+    1,
+    8
+   ],
+   "method_action": [
+    8,
+    11
+   ]
+  },
+  {
+   "user": 261,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0021541873278698165,
+   "method_effect": 0.0011690130063558568,
+   "regret": 0.0009851743215139597,
+   "oracle_action": [
+    1,
+    8,
+    19
+   ],
+   "method_action": [
+    8,
+    11
+   ]
+  },
+  {
+   "user": 262,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0026830301935348855,
+   "method_effect": 0.0026830301935348855,
+   "regret": 0.0,
+   "oracle_action": [
+    8,
+    16
+   ],
+   "method_action": [
+    16,
+    8
+   ]
+  },
+  {
+   "user": 262,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.003649667091296327,
+   "method_effect": 0.0026830301935348855,
+   "regret": 0.0009666368977614415,
+   "oracle_action": [
+    3,
+    8,
+    16
+   ],
+   "method_action": [
+    16,
+    8
+   ]
+  },
+  {
+   "user": 266,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0018752228457223907,
+   "method_effect": 0.0018752228457223907,
+   "regret": 0.0,
+   "oracle_action": [
+    0,
+    4
+   ],
+   "method_action": [
+    0,
+    4
+   ]
+  },
+  {
+   "user": 266,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0024109406900919006,
+   "method_effect": 0.0018752228457223907,
+   "regret": 0.0005357178443695099,
+   "oracle_action": [
+    0,
+    4,
+    9
+   ],
+   "method_action": [
+    0,
+    4
+   ]
+  },
+  {
+   "user": 268,
+   "n_players": 17,
+   "budget": 2,
+   "oracle_effect": 0.0015350530190776368,
+   "method_effect": 0.001287508198734133,
+   "regret": 0.0002475448203435038,
+   "oracle_action": [
+    5,
+    7
+   ],
+   "method_action": [
+    7,
+    1
+   ]
+  },
+  {
+   "user": 268,
+   "n_players": 17,
+   "budget": 3,
+   "oracle_effect": 0.0022503691773472223,
+   "method_effect": 0.001287508198734133,
+   "regret": 0.0009628609786130893,
+   "oracle_action": [
+    5,
+    6,
+    7
+   ],
+   "method_action": [
+    7,
+    1
+   ]
+  },
+  {
+   "user": 271,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0031809626120196666,
+   "method_effect": 0.0031809626120196666,
+   "regret": 0.0,
+   "oracle_action": [
+    12,
+    14
+   ],
+   "method_action": [
+    12,
+    14
+   ]
+  },
+  {
+   "user": 271,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.004603409632041977,
+   "method_effect": 0.0031809626120196666,
+   "regret": 0.0014224470200223105,
+   "oracle_action": [
+    12,
+    13,
+    14
+   ],
+   "method_action": [
+    12,
+    14
+   ]
+  },
+  {
+   "user": 273,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.004563962709236868,
+   "method_effect": 0.004563962709236868,
+   "regret": 0.0,
+   "oracle_action": [
+    5,
+    10
+   ],
+   "method_action": [
+    5,
+    10
+   ]
+  },
+  {
+   "user": 273,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.005576005946147378,
+   "method_effect": 0.004563962709236868,
+   "regret": 0.0010120432369105092,
+   "oracle_action": [
+    5,
+    6,
+    10
+   ],
+   "method_action": [
+    5,
+    10
+   ]
+  },
+  {
+   "user": 275,
+   "n_players": 12,
+   "budget": 2,
+   "oracle_effect": 0.004536904159228972,
+   "method_effect": 0.004536904159228972,
+   "regret": 0.0,
+   "oracle_action": [
+    2,
+    7
+   ],
+   "method_action": [
+    2,
+    7
+   ]
+  },
+  {
+   "user": 275,
+   "n_players": 12,
+   "budget": 3,
+   "oracle_effect": 0.006356114339834462,
+   "method_effect": 0.004536904159228972,
+   "regret": 0.0018192101806054906,
+   "oracle_action": [
+    0,
+    2,
+    7
+   ],
+   "method_action": [
+    2,
+    7
+   ]
+  },
+  {
+   "user": 287,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0024238963685024317,
+   "method_effect": 0.0024238963685024317,
+   "regret": 0.0,
+   "oracle_action": [
+    3,
+    8
+   ],
+   "method_action": [
+    8,
+    3
+   ]
+  },
+  {
+   "user": 287,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0031649473516264237,
+   "method_effect": 0.0024238963685024317,
+   "regret": 0.000741050983123992,
+   "oracle_action": [
+    3,
+    7,
+    8
+   ],
+   "method_action": [
+    8,
+    3
+   ]
+  },
+  {
+   "user": 293,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0028783892136811096,
+   "method_effect": 0.00277744931679913,
+   "regret": 0.00010093989688197968,
+   "oracle_action": [
+    2,
+    5
+   ],
+   "method_action": [
+    5,
+    6
+   ]
+  },
+  {
+   "user": 293,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.003901100537633151,
+   "method_effect": 0.00277744931679913,
+   "regret": 0.001123651220834021,
+   "oracle_action": [
+    2,
+    5,
+    6
+   ],
+   "method_action": [
+    5,
+    6
+   ]
+  },
+  {
+   "user": 295,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.003264892085153903,
+   "method_effect": 0.003011998317293707,
+   "regret": 0.00025289376786019613,
+   "oracle_action": [
+    7,
+    9
+   ],
+   "method_action": [
+    9,
+    8
+   ]
+  },
+  {
+   "user": 295,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.004833521021296305,
+   "method_effect": 0.003011998317293707,
+   "regret": 0.0018215227040025983,
+   "oracle_action": [
+    5,
+    7,
+    9
+   ],
+   "method_action": [
+    9,
+    8
+   ]
+  },
+  {
+   "user": 303,
+   "n_players": 12,
+   "budget": 2,
+   "oracle_effect": 0.003580298640697699,
+   "method_effect": 0.003580298640697699,
+   "regret": 0.0,
+   "oracle_action": [
+    5,
+    6
+   ],
+   "method_action": [
+    5,
+    6
+   ]
+  },
+  {
+   "user": 303,
+   "n_players": 12,
+   "budget": 3,
+   "oracle_effect": 0.004599120120360789,
+   "method_effect": 0.003580298640697699,
+   "regret": 0.0010188214796630901,
+   "oracle_action": [
+    0,
+    5,
+    6
+   ],
+   "method_action": [
+    5,
+    6
+   ]
+  },
+  {
+   "user": 314,
+   "n_players": 13,
+   "budget": 2,
+   "oracle_effect": 0.003259106899922426,
+   "method_effect": 0.003213431739045647,
+   "regret": 4.567516087677914e-05,
+   "oracle_action": [
+    4,
+    5
+   ],
+   "method_action": [
+    4,
+    1
+   ]
+  },
+  {
+   "user": 314,
+   "n_players": 13,
+   "budget": 3,
+   "oracle_effect": 0.005032272865733878,
+   "method_effect": 0.003213431739045647,
+   "regret": 0.001818841126688231,
+   "oracle_action": [
+    2,
+    4,
+    5
+   ],
+   "method_action": [
+    4,
+    1
+   ]
+  },
+  {
+   "user": 323,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.002188029609078157,
+   "method_effect": 0.002188029609078157,
+   "regret": 0.0,
+   "oracle_action": [
+    17,
+    18
+   ],
+   "method_action": [
+    18,
+    17
+   ]
+  },
+  {
+   "user": 323,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.003125546717855865,
+   "method_effect": 0.002188029609078157,
+   "regret": 0.0009375171087777079,
+   "oracle_action": [
+    5,
+    17,
+    18
+   ],
+   "method_action": [
+    18,
+    17
+   ]
+  },
+  {
+   "user": 334,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0019061884959557518,
+   "method_effect": 0.00183068882815568,
+   "regret": 7.549966780007189e-05,
+   "oracle_action": [
+    1,
+    14
+   ],
+   "method_action": [
+    1,
+    18
+   ]
+  },
+  {
+   "user": 334,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0026938914017413107,
+   "method_effect": 0.00183068882815568,
+   "regret": 0.0008632025735856308,
+   "oracle_action": [
+    1,
+    14,
+    17
+   ],
+   "method_action": [
+    1,
+    18
+   ]
+  },
+  {
+   "user": 353,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0024699894494096264,
+   "method_effect": 0.0018638149248688118,
+   "regret": 0.0006061745245408146,
+   "oracle_action": [
+    3,
+    17
+   ],
+   "method_action": [
+    17,
+    5
+   ]
+  },
+  {
+   "user": 353,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0032255464115066856,
+   "method_effect": 0.0018638149248688118,
+   "regret": 0.0013617314866378738,
+   "oracle_action": [
+    3,
+    5,
+    17
+   ],
+   "method_action": [
+    17,
+    5
+   ]
+  },
+  {
+   "user": 362,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0017715324005472266,
+   "method_effect": 0.0016981191266288165,
+   "regret": 7.341327391841013e-05,
+   "oracle_action": [
+    2,
+    8
+   ],
+   "method_action": [
+    8,
+    3
+   ]
+  },
+  {
+   "user": 362,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0025321746066442885,
+   "method_effect": 0.0016981191266288165,
+   "regret": 0.000834055480015472,
+   "oracle_action": [
+    2,
+    8,
+    10
+   ],
+   "method_action": [
+    8,
+    3
+   ]
+  },
+  {
+   "user": 364,
+   "n_players": 18,
+   "budget": 2,
+   "oracle_effect": 0.00280219854038527,
+   "method_effect": 0.0013918003739838425,
+   "regret": 0.0014103981664014276,
+   "oracle_action": [
+    7,
+    11
+   ],
+   "method_action": [
+    0,
+    11
+   ]
+  },
+  {
+   "user": 364,
+   "n_players": 18,
+   "budget": 3,
+   "oracle_effect": 0.003448194327178966,
+   "method_effect": 0.0013918003739838425,
+   "regret": 0.0020563939531951236,
+   "oracle_action": [
+    7,
+    11,
+    12
+   ],
+   "method_action": [
+    0,
+    11
+   ]
+  },
+  {
+   "user": 372,
+   "n_players": 11,
+   "budget": 2,
+   "oracle_effect": 0.0062322785901476885,
+   "method_effect": 0.0062322785901476885,
+   "regret": 0.0,
+   "oracle_action": [
+    4,
+    6
+   ],
+   "method_action": [
+    4,
+    6
+   ]
+  },
+  {
+   "user": 372,
+   "n_players": 11,
+   "budget": 3,
+   "oracle_effect": 0.0066263864785422455,
+   "method_effect": 0.0062322785901476885,
+   "regret": 0.000394107888394557,
+   "oracle_action": [
+    4,
+    6,
+    9
+   ],
+   "method_action": [
+    4,
+    6
+   ]
+  },
+  {
+   "user": 376,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.002937615895599599,
+   "method_effect": 0.002937615895599599,
+   "regret": 0.0,
+   "oracle_action": [
+    1,
+    3
+   ],
+   "method_action": [
+    1,
+    3
+   ]
+  },
+  {
+   "user": 376,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.00431599116475323,
+   "method_effect": 0.002937615895599599,
+   "regret": 0.001378375269153631,
+   "oracle_action": [
+    1,
+    3,
+    11
+   ],
+   "method_action": [
+    1,
+    3
+   ]
+  },
+  {
+   "user": 387,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.002966172007765111,
+   "method_effect": 0.002966172007765111,
+   "regret": 0.0,
+   "oracle_action": [
+    0,
+    6
+   ],
+   "method_action": [
+    0,
+    6
+   ]
+  },
+  {
+   "user": 387,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.004112629429318004,
+   "method_effect": 0.002966172007765111,
+   "regret": 0.0011464574215528933,
+   "oracle_action": [
+    0,
+    6,
+    17
+   ],
+   "method_action": [
+    0,
+    6
+   ]
+  },
+  {
+   "user": 390,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0015794065156458093,
+   "method_effect": 0.00016869553683601657,
+   "regret": 0.0014107109788097927,
+   "oracle_action": [
+    1,
+    3
+   ],
+   "method_action": [
+    18,
+    4
+   ]
+  },
+  {
+   "user": 390,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0020350593582265653,
+   "method_effect": 0.00016869553683601657,
+   "regret": 0.0018663638213905487,
+   "oracle_action": [
+    1,
+    3,
+    14
+   ],
+   "method_action": [
+    18,
+    4
+   ]
+  },
+  {
+   "user": 391,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0014794226168359792,
+   "method_effect": 0.001329272997565245,
+   "regret": 0.00015014961927073411,
+   "oracle_action": [
+    4,
+    6
+   ],
+   "method_action": [
+    6,
+    18
+   ]
+  },
+  {
+   "user": 391,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0020106310984813747,
+   "method_effect": 0.001329272997565245,
+   "regret": 0.0006813581009161296,
+   "oracle_action": [
+    4,
+    6,
+    14
+   ],
+   "method_action": [
+    6,
+    18
+   ]
+  },
+  {
+   "user": 393,
+   "n_players": 9,
+   "budget": 2,
+   "oracle_effect": 0.006318661470837261,
+   "method_effect": 0.006318661470837261,
+   "regret": 0.0,
+   "oracle_action": [
+    3,
+    8
+   ],
+   "method_action": [
+    3,
+    8
+   ]
+  },
+  {
+   "user": 393,
+   "n_players": 9,
+   "budget": 3,
+   "oracle_effect": 0.0076708976932783335,
+   "method_effect": 0.006318661470837261,
+   "regret": 0.0013522362224410722,
+   "oracle_action": [
+    3,
+    5,
+    8
+   ],
+   "method_action": [
+    3,
+    8
+   ]
+  },
+  {
+   "user": 396,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0013037196587121214,
+   "method_effect": 0.0010235922502738193,
+   "regret": 0.0002801274084383021,
+   "oracle_action": [
+    4,
+    6
+   ],
+   "method_action": [
+    4,
+    15
+   ]
+  },
+  {
+   "user": 396,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0018680632107590522,
+   "method_effect": 0.0010235922502738193,
+   "regret": 0.000844470960485233,
+   "oracle_action": [
+    4,
+    6,
+    8
+   ],
+   "method_action": [
+    4,
+    15
+   ]
+  },
+  {
+   "user": 399,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.003801449030120918,
+   "method_effect": 0.003801449030120918,
+   "regret": 0.0,
+   "oracle_action": [
+    7,
+    8
+   ],
+   "method_action": [
+    8,
+    7
+   ]
+  },
+  {
+   "user": 399,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.004596128929754473,
+   "method_effect": 0.003801449030120918,
+   "regret": 0.0007946798996335547,
+   "oracle_action": [
+    7,
+    8,
+    9
+   ],
+   "method_action": [
+    8,
+    7
+   ]
+  },
+  {
+   "user": 400,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0016049890323078242,
+   "method_effect": 0.0014369537542494037,
+   "regret": 0.00016803527805842045,
+   "oracle_action": [
+    5,
+    9
+   ],
+   "method_action": [
+    5,
+    3
+   ]
+  },
+  {
+   "user": 400,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0020681627129370272,
+   "method_effect": 0.0014369537542494037,
+   "regret": 0.0006312089586876235,
+   "oracle_action": [
+    3,
+    5,
+    9
+   ],
+   "method_action": [
+    5,
+    3
+   ]
+  },
+  {
+   "user": 407,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.002675970500814806,
+   "method_effect": 0.002675970500814806,
+   "regret": 0.0,
+   "oracle_action": [
+    9,
+    12
+   ],
+   "method_action": [
+    9,
+    12
+   ]
+  },
+  {
+   "user": 407,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.003814370251917054,
+   "method_effect": 0.002675970500814806,
+   "regret": 0.0011383997511022481,
+   "oracle_action": [
+    2,
+    9,
+    12
+   ],
+   "method_action": [
+    9,
+    12
+   ]
+  },
+  {
+   "user": 408,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0012898501193145395,
+   "method_effect": 0.0006848633671136528,
+   "regret": 0.0006049867522008867,
+   "oracle_action": [
+    4,
+    8
+   ],
+   "method_action": [
+    11,
+    8
+   ]
+  },
+  {
+   "user": 408,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.001916997995427383,
+   "method_effect": 0.0006848633671136528,
+   "regret": 0.0012321346283137302,
+   "oracle_action": [
+    4,
+    8,
+    17
+   ],
+   "method_action": [
+    11,
+    8
+   ]
+  },
+  {
+   "user": 409,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.002877363300059055,
+   "method_effect": 0.002877363300059055,
+   "regret": 0.0,
+   "oracle_action": [
+    3,
+    8
+   ],
+   "method_action": [
+    8,
+    3
+   ]
+  },
+  {
+   "user": 409,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0041082334230245765,
+   "method_effect": 0.002877363300059055,
+   "regret": 0.0012308701229655217,
+   "oracle_action": [
+    3,
+    8,
+    10
+   ],
+   "method_action": [
+    8,
+    3
+   ]
+  },
+  {
+   "user": 411,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0008013439213518381,
+   "method_effect": 0.000698803075680765,
+   "regret": 0.00010254084567107302,
+   "oracle_action": [
+    12,
+    14
+   ],
+   "method_action": [
+    9,
+    12
+   ]
+  },
+  {
+   "user": 411,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0011674658674045157,
+   "method_effect": 0.000698803075680765,
+   "regret": 0.0004686627917237507,
+   "oracle_action": [
+    9,
+    12,
+    14
+   ],
+   "method_action": [
+    9,
+    12
+   ]
+  },
+  {
+   "user": 423,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0010361633424506578,
+   "method_effect": 4.0116883188612285e-05,
+   "regret": 0.0009960464592620455,
+   "oracle_action": [
+    9,
+    13
+   ],
+   "method_action": [
+    2,
+    18
+   ]
+  },
+  {
+   "user": 423,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0012840244441155724,
+   "method_effect": 4.0116883188612285e-05,
+   "regret": 0.00124390756092696,
+   "oracle_action": [
+    9,
+    10,
+    13
+   ],
+   "method_action": [
+    2,
+    18
+   ]
+  },
+  {
+   "user": 428,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0016935550221221507,
+   "method_effect": 0.0016935550221221507,
+   "regret": 0.0,
+   "oracle_action": [
+    9,
+    17
+   ],
+   "method_action": [
+    17,
+    9
+   ]
+  },
+  {
+   "user": 428,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0023664778524948304,
+   "method_effect": 0.0016935550221221507,
+   "regret": 0.0006729228303726797,
+   "oracle_action": [
+    8,
+    9,
+    17
+   ],
+   "method_action": [
+    17,
+    9
+   ]
+  },
+  {
+   "user": 433,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0022188146804300035,
+   "method_effect": 0.0022188146804300035,
+   "regret": 0.0,
+   "oracle_action": [
+    0,
+    15
+   ],
+   "method_action": [
+    0,
+    15
+   ]
+  },
+  {
+   "user": 433,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0031546882963898737,
+   "method_effect": 0.0022188146804300035,
+   "regret": 0.0009358736159598702,
+   "oracle_action": [
+    0,
+    5,
+    15
+   ],
+   "method_action": [
+    0,
+    15
+   ]
+  },
+  {
+   "user": 443,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.002200719667418971,
+   "method_effect": 0.002200719667418971,
+   "regret": 0.0,
+   "oracle_action": [
+    8,
+    18
+   ],
+   "method_action": [
+    8,
+    18
+   ]
+  },
+  {
+   "user": 443,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0027710684148204434,
+   "method_effect": 0.002200719667418971,
+   "regret": 0.0005703487474014723,
+   "oracle_action": [
+    2,
+    8,
+    18
+   ],
+   "method_action": [
+    8,
+    18
+   ]
+  },
+  {
+   "user": 452,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0019111866583435,
+   "method_effect": 0.0019111866583435,
+   "regret": 0.0,
+   "oracle_action": [
+    9,
+    18
+   ],
+   "method_action": [
+    18,
+    9
+   ]
+  },
+  {
+   "user": 452,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.002846348611115712,
+   "method_effect": 0.0019111866583435,
+   "regret": 0.0009351619527722121,
+   "oracle_action": [
+    0,
+    9,
+    18
+   ],
+   "method_action": [
+    18,
+    9
+   ]
+  },
+  {
+   "user": 455,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0023863013167151337,
+   "method_effect": 0.0023863013167151337,
+   "regret": 0.0,
+   "oracle_action": [
+    11,
+    12
+   ],
+   "method_action": [
+    11,
+    12
+   ]
+  },
+  {
+   "user": 455,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.003270885702515547,
+   "method_effect": 0.0023863013167151337,
+   "regret": 0.0008845843858004132,
+   "oracle_action": [
+    6,
+    11,
+    12
+   ],
+   "method_action": [
+    11,
+    12
+   ]
+  },
+  {
+   "user": 457,
+   "n_players": 18,
+   "budget": 2,
+   "oracle_effect": 0.0024054459525013616,
+   "method_effect": 0.0023569127164188575,
+   "regret": 4.853323608250415e-05,
+   "oracle_action": [
+    1,
+    5
+   ],
+   "method_action": [
+    1,
+    7
+   ]
+  },
+  {
+   "user": 457,
+   "n_players": 18,
+   "budget": 3,
+   "oracle_effect": 0.0035054164930079512,
+   "method_effect": 0.0023569127164188575,
+   "regret": 0.0011485037765890938,
+   "oracle_action": [
+    1,
+    5,
+    7
+   ],
+   "method_action": [
+    1,
+    7
+   ]
+  },
+  {
+   "user": 465,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.001862662082488864,
+   "method_effect": 0.001862662082488864,
+   "regret": 0.0,
+   "oracle_action": [
+    12,
+    14
+   ],
+   "method_action": [
+    14,
+    12
+   ]
+  },
+  {
+   "user": 465,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.002369325998522742,
+   "method_effect": 0.001862662082488864,
+   "regret": 0.0005066639160338782,
+   "oracle_action": [
+    0,
+    12,
+    14
+   ],
+   "method_action": [
+    14,
+    12
+   ]
+  },
+  {
+   "user": 478,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.002275097381121749,
+   "method_effect": 0.002275097381121749,
+   "regret": 0.0,
+   "oracle_action": [
+    12,
+    14
+   ],
+   "method_action": [
+    12,
+    14
+   ]
+  },
+  {
+   "user": 478,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0032034489539450872,
+   "method_effect": 0.002275097381121749,
+   "regret": 0.0009283515728233382,
+   "oracle_action": [
+    6,
+    12,
+    14
+   ],
+   "method_action": [
+    12,
+    14
+   ]
+  },
+  {
+   "user": 482,
+   "n_players": 9,
+   "budget": 2,
+   "oracle_effect": 0.0022306575351724867,
+   "method_effect": 0.0017484062954763457,
+   "regret": 0.0004822512396961409,
+   "oracle_action": [
+    5,
+    8
+   ],
+   "method_action": [
+    5,
+    2
+   ]
+  },
+  {
+   "user": 482,
+   "n_players": 9,
+   "budget": 3,
+   "oracle_effect": 0.0030768268143963606,
+   "method_effect": 0.0017484062954763457,
+   "regret": 0.001328420518920015,
+   "oracle_action": [
+    3,
+    5,
+    8
+   ],
+   "method_action": [
+    5,
+    2
+   ]
+  },
+  {
+   "user": 486,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0012920442092246853,
+   "method_effect": 0.0008233100416596972,
+   "regret": 0.0004687341675649881,
+   "oracle_action": [
+    2,
+    12
+   ],
+   "method_action": [
+    12,
+    10
+   ]
+  },
+  {
+   "user": 486,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0019368608224346606,
+   "method_effect": 0.0008233100416596972,
+   "regret": 0.0011135507807749634,
+   "oracle_action": [
+    2,
+    12,
+    17
+   ],
+   "method_action": [
+    12,
+    10
+   ]
+  },
+  {
+   "user": 511,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0035076858217566453,
+   "method_effect": 0.0035076858217566453,
+   "regret": 0.0,
+   "oracle_action": [
+    0,
+    7
+   ],
+   "method_action": [
+    7,
+    0
+   ]
+  },
+  {
+   "user": 511,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.005265273693132344,
+   "method_effect": 0.0035076858217566453,
+   "regret": 0.0017575878713756987,
+   "oracle_action": [
+    0,
+    6,
+    7
+   ],
+   "method_action": [
+    7,
+    0
+   ]
+  },
+  {
+   "user": 512,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0020880705808019595,
+   "method_effect": 0.0020399944788630497,
+   "regret": 4.8076101938909765e-05,
+   "oracle_action": [
+    8,
+    17
+   ],
+   "method_action": [
+    17,
+    4
+   ]
+  },
+  {
+   "user": 512,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0030587424523166318,
+   "method_effect": 0.0020399944788630497,
+   "regret": 0.001018747973453582,
+   "oracle_action": [
+    8,
+    17,
+    19
+   ],
+   "method_action": [
+    17,
+    4
+   ]
+  },
+  {
+   "user": 517,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0013756590031995808,
+   "method_effect": 0.0013756590031995808,
+   "regret": 0.0,
+   "oracle_action": [
+    0,
+    16
+   ],
+   "method_action": [
+    16,
+    0
+   ]
+  },
+  {
+   "user": 517,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.001790535735939347,
+   "method_effect": 0.0013756590031995808,
+   "regret": 0.0004148767327397662,
+   "oracle_action": [
+    0,
+    13,
+    16
+   ],
+   "method_action": [
+    16,
+    0
+   ]
+  },
+  {
+   "user": 525,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0021122067186024607,
+   "method_effect": 0.0016894621348783057,
+   "regret": 0.000422744583724155,
+   "oracle_action": [
+    10,
+    17
+   ],
+   "method_action": [
+    10,
+    7
+   ]
+  },
+  {
+   "user": 525,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0029431579777235983,
+   "method_effect": 0.0016894621348783057,
+   "regret": 0.0012536958428452927,
+   "oracle_action": [
+    10,
+    11,
+    17
+   ],
+   "method_action": [
+    10,
+    7
+   ]
+  },
+  {
+   "user": 534,
+   "n_players": 11,
+   "budget": 2,
+   "oracle_effect": 0.003089650970702462,
+   "method_effect": 0.0028336647333719878,
+   "regret": 0.00025598623733047443,
+   "oracle_action": [
+    2,
+    8
+   ],
+   "method_action": [
+    2,
+    10
+   ]
+  },
+  {
+   "user": 534,
+   "n_players": 11,
+   "budget": 3,
+   "oracle_effect": 0.004519449917001039,
+   "method_effect": 0.0028336647333719878,
+   "regret": 0.0016857851836290516,
+   "oracle_action": [
+    2,
+    8,
+    10
+   ],
+   "method_action": [
+    2,
+    10
+   ]
+  },
+  {
+   "user": 561,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0010130973448077008,
+   "method_effect": 0.0008112203245795868,
+   "regret": 0.00020187702022811393,
+   "oracle_action": [
+    7,
+    15
+   ],
+   "method_action": [
+    15,
+    1
+   ]
+  },
+  {
+   "user": 561,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.001478508854254823,
+   "method_effect": 0.0008112203245795868,
+   "regret": 0.0006672885296752362,
+   "oracle_action": [
+    0,
+    7,
+    15
+   ],
+   "method_action": [
+    15,
+    1
+   ]
+  },
+  {
+   "user": 563,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.003058151866030867,
+   "method_effect": 0.002837997028882877,
+   "regret": 0.00022015483714799,
+   "oracle_action": [
+    2,
+    17
+   ],
+   "method_action": [
+    7,
+    17
+   ]
+  },
+  {
+   "user": 563,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0047046548956679035,
+   "method_effect": 0.002837997028882877,
+   "regret": 0.0018666578667850264,
+   "oracle_action": [
+    2,
+    17,
+    19
+   ],
+   "method_action": [
+    7,
+    17
+   ]
+  },
+  {
+   "user": 564,
+   "n_players": 13,
+   "budget": 2,
+   "oracle_effect": 0.0031327332590706525,
+   "method_effect": 0.0031327332590706525,
+   "regret": 0.0,
+   "oracle_action": [
+    6,
+    11
+   ],
+   "method_action": [
+    6,
+    11
+   ]
+  },
+  {
+   "user": 564,
+   "n_players": 13,
+   "budget": 3,
+   "oracle_effect": 0.0042043638864262545,
+   "method_effect": 0.0031327332590706525,
+   "regret": 0.001071630627355602,
+   "oracle_action": [
+    3,
+    6,
+    11
+   ],
+   "method_action": [
+    6,
+    11
+   ]
+  },
+  {
+   "user": 567,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0032297701161205783,
+   "method_effect": 0.0032297701161205783,
+   "regret": 0.0,
+   "oracle_action": [
+    4,
+    10
+   ],
+   "method_action": [
+    10,
+    4
+   ]
+  },
+  {
+   "user": 567,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0038846926989454245,
+   "method_effect": 0.0032297701161205783,
+   "regret": 0.0006549225828248462,
+   "oracle_action": [
+    3,
+    4,
+    10
+   ],
+   "method_action": [
+    10,
+    4
+   ]
+  },
+  {
+   "user": 568,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.001361251300913302,
+   "method_effect": 0.0006107437044991504,
+   "regret": 0.0007505075964141517,
+   "oracle_action": [
+    2,
+    16
+   ],
+   "method_action": [
+    4,
+    16
+   ]
+  },
+  {
+   "user": 568,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0019578435693995977,
+   "method_effect": 0.0006107437044991504,
+   "regret": 0.0013470998649004473,
+   "oracle_action": [
+    2,
+    16,
+    18
+   ],
+   "method_action": [
+    4,
+    16
+   ]
+  },
+  {
+   "user": 572,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0019275371266616048,
+   "method_effect": 0.0014978090311056347,
+   "regret": 0.00042972809555597014,
+   "oracle_action": [
+    11,
+    17
+   ],
+   "method_action": [
+    15,
+    17
+   ]
+  },
+  {
+   "user": 572,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0027344825161886854,
+   "method_effect": 0.0014978090311056347,
+   "regret": 0.0012366734850830507,
+   "oracle_action": [
+    11,
+    13,
+    17
+   ],
+   "method_action": [
+    15,
+    17
+   ]
+  },
+  {
+   "user": 584,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.003580789785145533,
+   "method_effect": 0.003580789785145533,
+   "regret": 0.0,
+   "oracle_action": [
+    3,
+    8
+   ],
+   "method_action": [
+    8,
+    3
+   ]
+  },
+  {
+   "user": 584,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.004637414329780043,
+   "method_effect": 0.003580789785145533,
+   "regret": 0.0010566245446345102,
+   "oracle_action": [
+    3,
+    8,
+    14
+   ],
+   "method_action": [
+    8,
+    3
+   ]
+  },
+  {
+   "user": 587,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0023712924599795793,
+   "method_effect": 0.0023712924599795793,
+   "regret": 0.0,
+   "oracle_action": [
+    3,
+    7
+   ],
+   "method_action": [
+    7,
+    3
+   ]
+  },
+  {
+   "user": 587,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0029483803197754566,
+   "method_effect": 0.0023712924599795793,
+   "regret": 0.0005770878597958773,
+   "oracle_action": [
+    3,
+    7,
+    14
+   ],
+   "method_action": [
+    7,
+    3
+   ]
+  },
+  {
+   "user": 592,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.001085535968371909,
+   "method_effect": 0.001058428549015833,
+   "regret": 2.710741935607608e-05,
+   "oracle_action": [
+    1,
+    19
+   ],
+   "method_action": [
+    12,
+    1
+   ]
+  },
+  {
+   "user": 592,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0015607561061028452,
+   "method_effect": 0.001058428549015833,
+   "regret": 0.0005023275570870123,
+   "oracle_action": [
+    1,
+    12,
+    19
+   ],
+   "method_action": [
+    12,
+    1
+   ]
+  },
+  {
+   "user": 597,
+   "n_players": 17,
+   "budget": 2,
+   "oracle_effect": 0.001259282849303156,
+   "method_effect": 0.0008379985539834767,
+   "regret": 0.00042128429531967937,
+   "oracle_action": [
+    7,
+    10
+   ],
+   "method_action": [
+    7,
+    1
+   ]
+  },
+  {
+   "user": 597,
+   "n_players": 17,
+   "budget": 3,
+   "oracle_effect": 0.0016550806516628103,
+   "method_effect": 0.0008379985539834767,
+   "regret": 0.0008170820976793336,
+   "oracle_action": [
+    2,
+    7,
+    10
+   ],
+   "method_action": [
+    7,
+    1
+   ]
+  },
+  {
+   "user": 600,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0024739649476740455,
+   "method_effect": 0.0023650926819070994,
+   "regret": 0.00010887226576694609,
+   "oracle_action": [
+    14,
+    15
+   ],
+   "method_action": [
+    15,
+    0
+   ]
+  },
+  {
+   "user": 600,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.00336012480882919,
+   "method_effect": 0.0023650926819070994,
+   "regret": 0.0009950321269220908,
+   "oracle_action": [
+    0,
+    14,
+    15
+   ],
+   "method_action": [
+    15,
+    0
+   ]
+  },
+  {
+   "user": 604,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0013554963886309723,
+   "method_effect": 0.0012023421422184821,
+   "regret": 0.0001531542464124902,
+   "oracle_action": [
+    11,
+    17
+   ],
+   "method_action": [
+    9,
+    3
+   ]
+  },
+  {
+   "user": 604,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0020778817008036965,
+   "method_effect": 0.0012023421422184821,
+   "regret": 0.0008755395585852144,
+   "oracle_action": [
+    9,
+    11,
+    17
+   ],
+   "method_action": [
+    9,
+    3
+   ]
+  },
+  {
+   "user": 605,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.002014639546668917,
+   "method_effect": 0.001832627652617047,
+   "regret": 0.00018201189405187002,
+   "oracle_action": [
+    8,
+    17
+   ],
+   "method_action": [
+    8,
+    9
+   ]
+  },
+  {
+   "user": 605,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.002762739081385357,
+   "method_effect": 0.001832627652617047,
+   "regret": 0.0009301114287683099,
+   "oracle_action": [
+    8,
+    9,
+    17
+   ],
+   "method_action": [
+    8,
+    9
+   ]
+  },
+  {
+   "user": 606,
+   "n_players": 17,
+   "budget": 2,
+   "oracle_effect": 0.003708749006945511,
+   "method_effect": 0.003708749006945511,
+   "regret": 0.0,
+   "oracle_action": [
+    1,
+    11
+   ],
+   "method_action": [
+    1,
+    11
+   ]
+  },
+  {
+   "user": 606,
+   "n_players": 17,
+   "budget": 3,
+   "oracle_effect": 0.004492092318741703,
+   "method_effect": 0.003708749006945511,
+   "regret": 0.0007833433117961919,
+   "oracle_action": [
+    0,
+    1,
+    11
+   ],
+   "method_action": [
+    1,
+    11
+   ]
+  },
+  {
+   "user": 607,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0020360259037263684,
+   "method_effect": 0.0020360259037263684,
+   "regret": 0.0,
+   "oracle_action": [
+    0,
+    3
+   ],
+   "method_action": [
+    3,
+    0
+   ]
+  },
+  {
+   "user": 607,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0028828589778220892,
+   "method_effect": 0.0020360259037263684,
+   "regret": 0.0008468330740957208,
+   "oracle_action": [
+    0,
+    3,
+    4
+   ],
+   "method_action": [
+    3,
+    0
+   ]
+  },
+  {
+   "user": 618,
+   "n_players": 13,
+   "budget": 2,
+   "oracle_effect": 0.0025015998698180164,
+   "method_effect": 0.0021399686596479395,
+   "regret": 0.00036163121017007693,
+   "oracle_action": [
+    2,
+    9
+   ],
+   "method_action": [
+    6,
+    2
+   ]
+  },
+  {
+   "user": 618,
+   "n_players": 13,
+   "budget": 3,
+   "oracle_effect": 0.003567650065897432,
+   "method_effect": 0.0021399686596479395,
+   "regret": 0.0014276814062494925,
+   "oracle_action": [
+    2,
+    6,
+    9
+   ],
+   "method_action": [
+    6,
+    2
+   ]
+  },
+  {
+   "user": 621,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.002260832752554065,
+   "method_effect": 0.001975310961150223,
+   "regret": 0.00028552179140384215,
+   "oracle_action": [
+    6,
+    8
+   ],
+   "method_action": [
+    8,
+    7
+   ]
+  },
+  {
+   "user": 621,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0032747385329697787,
+   "method_effect": 0.001975310961150223,
+   "regret": 0.0012994275718195558,
+   "oracle_action": [
+    6,
+    8,
+    13
+   ],
+   "method_action": [
+    8,
+    7
+   ]
+  },
+  {
+   "user": 622,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0029585864528458017,
+   "method_effect": 0.0029585864528458017,
+   "regret": 0.0,
+   "oracle_action": [
+    1,
+    10
+   ],
+   "method_action": [
+    1,
+    10
+   ]
+  },
+  {
+   "user": 622,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.004482762908071425,
+   "method_effect": 0.0029585864528458017,
+   "regret": 0.0015241764552256232,
+   "oracle_action": [
+    1,
+    10,
+    17
+   ],
+   "method_action": [
+    1,
+    10
+   ]
+  },
+  {
+   "user": 626,
+   "n_players": 15,
+   "budget": 2,
+   "oracle_effect": 0.002996919608760251,
+   "method_effect": 0.002613903647264104,
+   "regret": 0.00038301596149614703,
+   "oracle_action": [
+    0,
+    1
+   ],
+   "method_action": [
+    1,
+    2
+   ]
+  },
+  {
+   "user": 626,
+   "n_players": 15,
+   "budget": 3,
+   "oracle_effect": 0.004264087910554992,
+   "method_effect": 0.002613903647264104,
+   "regret": 0.001650184263290888,
+   "oracle_action": [
+    0,
+    1,
+    13
+   ],
+   "method_action": [
+    1,
+    2
+   ]
+  },
+  {
+   "user": 630,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0021895474336716125,
+   "method_effect": 0.0018013258167781654,
+   "regret": 0.00038822161689344714,
+   "oracle_action": [
+    3,
+    11
+   ],
+   "method_action": [
+    3,
+    7
+   ]
+  },
+  {
+   "user": 630,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0028164265990338055,
+   "method_effect": 0.0018013258167781654,
+   "regret": 0.0010151007822556402,
+   "oracle_action": [
+    3,
+    7,
+    11
+   ],
+   "method_action": [
+    3,
+    7
+   ]
+  },
+  {
+   "user": 631,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.00307430451316143,
+   "method_effect": 0.003034553859906086,
+   "regret": 3.975065325534377e-05,
+   "oracle_action": [
+    2,
+    5
+   ],
+   "method_action": [
+    5,
+    8
+   ]
+  },
+  {
+   "user": 631,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.00465970688614098,
+   "method_effect": 0.003034553859906086,
+   "regret": 0.0016251530262348934,
+   "oracle_action": [
+    2,
+    5,
+    8
+   ],
+   "method_action": [
+    5,
+    8
+   ]
+  },
+  {
+   "user": 649,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.001662134220228595,
+   "method_effect": 0.001599431524596684,
+   "regret": 6.2702695631911e-05,
+   "oracle_action": [
+    3,
+    5
+   ],
+   "method_action": [
+    4,
+    5
+   ]
+  },
+  {
+   "user": 649,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0025118799930312075,
+   "method_effect": 0.001599431524596684,
+   "regret": 0.0009124484684345235,
+   "oracle_action": [
+    0,
+    3,
+    5
+   ],
+   "method_action": [
+    4,
+    5
+   ]
+  },
+  {
+   "user": 659,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0007663159512639184,
+   "method_effect": 0.00010057642429361913,
+   "regret": 0.0006657395269702993,
+   "oracle_action": [
+    5,
+    18
+   ],
+   "method_action": [
+    13,
+    4
+   ]
+  },
+  {
+   "user": 659,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0008976603614389012,
+   "method_effect": 0.00010057642429361913,
+   "regret": 0.000797083937145282,
+   "oracle_action": [
+    5,
+    13,
+    18
+   ],
+   "method_action": [
+    13,
+    4
+   ]
+  },
+  {
+   "user": 662,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0019613708973750255,
+   "method_effect": 0.0017668841339177899,
+   "regret": 0.0001944867634572356,
+   "oracle_action": [
+    2,
+    11
+   ],
+   "method_action": [
+    2,
+    7
+   ]
+  },
+  {
+   "user": 662,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0027015611502756443,
+   "method_effect": 0.0017668841339177899,
+   "regret": 0.0009346770163578544,
+   "oracle_action": [
+    0,
+    2,
+    11
+   ],
+   "method_action": [
+    2,
+    7
+   ]
+  },
+  {
+   "user": 663,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.002568552755867426,
+   "method_effect": 0.002568552755867426,
+   "regret": 0.0,
+   "oracle_action": [
+    0,
+    16
+   ],
+   "method_action": [
+    0,
+    16
+   ]
+  },
+  {
+   "user": 663,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0033764700747433984,
+   "method_effect": 0.002568552755867426,
+   "regret": 0.0008079173188759725,
+   "oracle_action": [
+    0,
+    16,
+    18
+   ],
+   "method_action": [
+    0,
+    16
+   ]
+  },
+  {
+   "user": 666,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.002650306231274102,
+   "method_effect": 0.002650306231274102,
+   "regret": 0.0,
+   "oracle_action": [
+    12,
+    18
+   ],
+   "method_action": [
+    18,
+    12
+   ]
+  },
+  {
+   "user": 666,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0036991523047937847,
+   "method_effect": 0.002650306231274102,
+   "regret": 0.0010488460735196825,
+   "oracle_action": [
+    12,
+    17,
+    18
+   ],
+   "method_action": [
+    18,
+    12
+   ]
+  },
+  {
+   "user": 694,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0013620770845149122,
+   "method_effect": 0.0002639820568782203,
+   "regret": 0.0010980950276366919,
+   "oracle_action": [
+    13,
+    14
+   ],
+   "method_action": [
+    10,
+    9
+   ]
+  },
+  {
+   "user": 694,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0018152880843341213,
+   "method_effect": 0.0002639820568782203,
+   "regret": 0.001551306027455901,
+   "oracle_action": [
+    12,
+    13,
+    14
+   ],
+   "method_action": [
+    10,
+    9
+   ]
+  },
+  {
+   "user": 710,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0024432877303848244,
+   "method_effect": 0.0021881292520792295,
+   "regret": 0.0002551584783055949,
+   "oracle_action": [
+    8,
+    15
+   ],
+   "method_action": [
+    15,
+    1
+   ]
+  },
+  {
+   "user": 710,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0034158231683557583,
+   "method_effect": 0.0021881292520792295,
+   "regret": 0.0012276939162765288,
+   "oracle_action": [
+    1,
+    8,
+    15
+   ],
+   "method_action": [
+    15,
+    1
+   ]
+  },
+  {
+   "user": 711,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.002019619218547042,
+   "method_effect": 0.002019619218547042,
+   "regret": 0.0,
+   "oracle_action": [
+    3,
+    9
+   ],
+   "method_action": [
+    3,
+    9
+   ]
+  },
+  {
+   "user": 711,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0028350390202037667,
+   "method_effect": 0.002019619218547042,
+   "regret": 0.0008154198016567249,
+   "oracle_action": [
+    2,
+    3,
+    9
+   ],
+   "method_action": [
+    3,
+    9
+   ]
+  },
+  {
+   "user": 715,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0009987958216759463,
+   "method_effect": 0.0009987958216759463,
+   "regret": 0.0,
+   "oracle_action": [
+    6,
+    7
+   ],
+   "method_action": [
+    6,
+    7
+   ]
+  },
+  {
+   "user": 715,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0014674224775437783,
+   "method_effect": 0.0009987958216759463,
+   "regret": 0.00046862665586783203,
+   "oracle_action": [
+    1,
+    6,
+    7
+   ],
+   "method_action": [
+    6,
+    7
+   ]
+  },
+  {
+   "user": 720,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0017104967712707753,
+   "method_effect": 0.0017104967712707753,
+   "regret": 0.0,
+   "oracle_action": [
+    0,
+    15
+   ],
+   "method_action": [
+    0,
+    15
+   ]
+  },
+  {
+   "user": 720,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.002549587959152777,
+   "method_effect": 0.0017104967712707753,
+   "regret": 0.0008390911878820018,
+   "oracle_action": [
+    0,
+    2,
+    15
+   ],
+   "method_action": [
+    0,
+    15
+   ]
+  },
+  {
+   "user": 727,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0018253321972170888,
+   "method_effect": 0.0017138986504583453,
+   "regret": 0.00011143354675874351,
+   "oracle_action": [
+    3,
+    12
+   ],
+   "method_action": [
+    8,
+    3
+   ]
+  },
+  {
+   "user": 727,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.002681501697058608,
+   "method_effect": 0.0017138986504583453,
+   "regret": 0.0009676030466002628,
+   "oracle_action": [
+    3,
+    8,
+    12
+   ],
+   "method_action": [
+    8,
+    3
+   ]
+  },
+  {
+   "user": 728,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0016030247184780078,
+   "method_effect": 0.0016030247184780078,
+   "regret": 0.0,
+   "oracle_action": [
+    6,
+    9
+   ],
+   "method_action": [
+    9,
+    6
+   ]
+  },
+  {
+   "user": 728,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.002317141443266779,
+   "method_effect": 0.0016030247184780078,
+   "regret": 0.0007141167247887714,
+   "oracle_action": [
+    6,
+    9,
+    12
+   ],
+   "method_action": [
+    9,
+    6
+   ]
+  },
+  {
+   "user": 738,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0016711800266827614,
+   "method_effect": 0.0016711800266827614,
+   "regret": 0.0,
+   "oracle_action": [
+    4,
+    5
+   ],
+   "method_action": [
+    4,
+    5
+   ]
+  },
+  {
+   "user": 738,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.002467401300694727,
+   "method_effect": 0.0016711800266827614,
+   "regret": 0.0007962212740119656,
+   "oracle_action": [
+    0,
+    4,
+    5
+   ],
+   "method_action": [
+    4,
+    5
+   ]
+  },
+  {
+   "user": 740,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.00266646290328465,
+   "method_effect": 0.002381448033807243,
+   "regret": 0.00028501486947740684,
+   "oracle_action": [
+    14,
+    15
+   ],
+   "method_action": [
+    15,
+    6
+   ]
+  },
+  {
+   "user": 740,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0037915964374375943,
+   "method_effect": 0.002381448033807243,
+   "regret": 0.0014101484036303513,
+   "oracle_action": [
+    14,
+    15,
+    16
+   ],
+   "method_action": [
+    15,
+    6
+   ]
+  },
+  {
+   "user": 744,
+   "n_players": 7,
+   "budget": 2,
+   "oracle_effect": 0.010801537553989493,
+   "method_effect": 0.010801537553989493,
+   "regret": 0.0,
+   "oracle_action": [
+    2,
+    3
+   ],
+   "method_action": [
+    2,
+    3
+   ]
+  },
+  {
+   "user": 744,
+   "n_players": 7,
+   "budget": 3,
+   "oracle_effect": 0.01361599852860751,
+   "method_effect": 0.010801537553989493,
+   "regret": 0.002814460974618016,
+   "oracle_action": [
+    2,
+    3,
+    4
+   ],
+   "method_action": [
+    2,
+    3
+   ]
+  },
+  {
+   "user": 745,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0029998157462945985,
+   "method_effect": 0.0029998157462945985,
+   "regret": 0.0,
+   "oracle_action": [
+    11,
+    15
+   ],
+   "method_action": [
+    11,
+    15
+   ]
+  },
+  {
+   "user": 745,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.003821750220591169,
+   "method_effect": 0.0029998157462945985,
+   "regret": 0.0008219344742965706,
+   "oracle_action": [
+    5,
+    11,
+    15
+   ],
+   "method_action": [
+    11,
+    15
+   ]
+  },
+  {
+   "user": 746,
+   "n_players": 18,
+   "budget": 2,
+   "oracle_effect": 0.0030507360046582166,
+   "method_effect": 0.0028777804628312698,
+   "regret": 0.00017295554182694683,
+   "oracle_action": [
+    1,
+    8
+   ],
+   "method_action": [
+    1,
+    16
+   ]
+  },
+  {
+   "user": 746,
+   "n_players": 18,
+   "budget": 3,
+   "oracle_effect": 0.0035968546020765935,
+   "method_effect": 0.0028777804628312698,
+   "regret": 0.0007190741392453237,
+   "oracle_action": [
+    1,
+    8,
+    16
+   ],
+   "method_action": [
+    1,
+    16
+   ]
+  },
+  {
+   "user": 748,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0010901477004207072,
+   "method_effect": 0.0010671149084211518,
+   "regret": 2.3032791999555435e-05,
+   "oracle_action": [
+    5,
+    18
+   ],
+   "method_action": [
+    18,
+    9
+   ]
+  },
+  {
+   "user": 748,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.001628150973179976,
+   "method_effect": 0.0010671149084211518,
+   "regret": 0.0005610360647588242,
+   "oracle_action": [
+    5,
+    6,
+    18
+   ],
+   "method_action": [
+    18,
+    9
+   ]
+  },
+  {
+   "user": 763,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0010217352918306388,
+   "method_effect": 0.0007071418215164327,
+   "regret": 0.00031459347031420615,
+   "oracle_action": [
+    0,
+    18
+   ],
+   "method_action": [
+    18,
+    9
+   ]
+  },
+  {
+   "user": 763,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0013928675156038572,
+   "method_effect": 0.0007071418215164327,
+   "regret": 0.0006857256940874246,
+   "oracle_action": [
+    0,
+    9,
+    18
+   ],
+   "method_action": [
+    18,
+    9
+   ]
+  },
+  {
+   "user": 780,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0031738701893723187,
+   "method_effect": 0.0031663890370641212,
+   "regret": 7.4811523081974585e-06,
+   "oracle_action": [
+    10,
+    13
+   ],
+   "method_action": [
+    10,
+    12
+   ]
+  },
+  {
+   "user": 780,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0047735404794641,
+   "method_effect": 0.0031663890370641212,
+   "regret": 0.0016071514423999789,
+   "oracle_action": [
+    10,
+    12,
+    13
+   ],
+   "method_action": [
+    10,
+    12
+   ]
+  },
+  {
+   "user": 783,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0017042783715668364,
+   "method_effect": 0.0016036988556779042,
+   "regret": 0.00010057951588893221,
+   "oracle_action": [
+    0,
+    18
+   ],
+   "method_action": [
+    18,
+    8
+   ]
+  },
+  {
+   "user": 783,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.002505513171553786,
+   "method_effect": 0.0016036988556779042,
+   "regret": 0.0009018143158758818,
+   "oracle_action": [
+    0,
+    8,
+    18
+   ],
+   "method_action": [
+    18,
+    8
+   ]
+  },
+  {
+   "user": 784,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0016620688512839488,
+   "method_effect": 0.0013358506222307387,
+   "regret": 0.0003262182290532101,
+   "oracle_action": [
+    6,
+    15
+   ],
+   "method_action": [
+    17,
+    3
+   ]
+  },
+  {
+   "user": 784,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.002439623112006295,
+   "method_effect": 0.0013358506222307387,
+   "regret": 0.0011037724897755563,
+   "oracle_action": [
+    3,
+    15,
+    17
+   ],
+   "method_action": [
+    17,
+    3
+   ]
+  },
+  {
+   "user": 788,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.001211299551055478,
+   "method_effect": 0.001211299551055478,
+   "regret": 0.0,
+   "oracle_action": [
+    1,
+    7
+   ],
+   "method_action": [
+    7,
+    1
+   ]
+  },
+  {
+   "user": 788,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0017827801013922118,
+   "method_effect": 0.001211299551055478,
+   "regret": 0.0005714805503367337,
+   "oracle_action": [
+    1,
+    3,
+    7
+   ],
+   "method_action": [
+    7,
+    1
+   ]
+  },
+  {
+   "user": 800,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.003611496275704673,
+   "method_effect": 0.003611496275704673,
+   "regret": 0.0,
+   "oracle_action": [
+    13,
+    14
+   ],
+   "method_action": [
+    14,
+    13
+   ]
+  },
+  {
+   "user": 800,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.004289374194073048,
+   "method_effect": 0.003611496275704673,
+   "regret": 0.0006778779183683747,
+   "oracle_action": [
+    10,
+    13,
+    14
+   ],
+   "method_action": [
+    14,
+    13
+   ]
+  },
+  {
+   "user": 801,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0015207435370138134,
+   "method_effect": 0.0015207435370138134,
+   "regret": 0.0,
+   "oracle_action": [
+    0,
+    9
+   ],
+   "method_action": [
+    9,
+    0
+   ]
+  },
+  {
+   "user": 801,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.00207922793324844,
+   "method_effect": 0.0015207435370138134,
+   "regret": 0.0005584843962346264,
+   "oracle_action": [
+    0,
+    2,
+    9
+   ],
+   "method_action": [
+    9,
+    0
+   ]
+  },
+  {
+   "user": 802,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0020250297409553086,
+   "method_effect": 0.0020250297409553086,
+   "regret": 0.0,
+   "oracle_action": [
+    3,
+    16
+   ],
+   "method_action": [
+    3,
+    16
+   ]
+  },
+  {
+   "user": 802,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0026515251288633523,
+   "method_effect": 0.0020250297409553086,
+   "regret": 0.0006264953879080437,
+   "oracle_action": [
+    3,
+    10,
+    16
+   ],
+   "method_action": [
+    3,
+    16
+   ]
+  },
+  {
+   "user": 808,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0017866574457592876,
+   "method_effect": 0.0017866574457592876,
+   "regret": 0.0,
+   "oracle_action": [
+    7,
+    11
+   ],
+   "method_action": [
+    11,
+    7
+   ]
+  },
+  {
+   "user": 808,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.002712121087063757,
+   "method_effect": 0.0017866574457592876,
+   "regret": 0.0009254636413044692,
+   "oracle_action": [
+    4,
+    7,
+    11
+   ],
+   "method_action": [
+    11,
+    7
+   ]
+  },
+  {
+   "user": 809,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.002158370727929515,
+   "method_effect": 0.002158370727929515,
+   "regret": 0.0,
+   "oracle_action": [
+    16,
+    18
+   ],
+   "method_action": [
+    18,
+    16
+   ]
+  },
+  {
+   "user": 809,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0032441404049667333,
+   "method_effect": 0.002158370727929515,
+   "regret": 0.0010857696770372183,
+   "oracle_action": [
+    12,
+    16,
+    18
+   ],
+   "method_action": [
+    18,
+    16
+   ]
+  },
+  {
+   "user": 810,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.002484073818540433,
+   "method_effect": 0.002484073818540433,
+   "regret": 0.0,
+   "oracle_action": [
+    0,
+    6
+   ],
+   "method_action": [
+    0,
+    6
+   ]
+  },
+  {
+   "user": 810,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.003365269750821076,
+   "method_effect": 0.002484073818540433,
+   "regret": 0.0008811959322806429,
+   "oracle_action": [
+    0,
+    6,
+    19
+   ],
+   "method_action": [
+    0,
+    6
+   ]
+  },
+  {
+   "user": 812,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.00282942693937116,
+   "method_effect": 0.00282942693937116,
+   "regret": 0.0,
+   "oracle_action": [
+    2,
+    18
+   ],
+   "method_action": [
+    2,
+    18
+   ]
+  },
+  {
+   "user": 812,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0035378410303037455,
+   "method_effect": 0.00282942693937116,
+   "regret": 0.0007084140909325853,
+   "oracle_action": [
+    2,
+    18,
+    19
+   ],
+   "method_action": [
+    2,
+    18
+   ]
+  },
+  {
+   "user": 814,
+   "n_players": 18,
+   "budget": 2,
+   "oracle_effect": 0.0024322423779536972,
+   "method_effect": 0.0024322423779536972,
+   "regret": 0.0,
+   "oracle_action": [
+    4,
+    16
+   ],
+   "method_action": [
+    16,
+    4
+   ]
+  },
+  {
+   "user": 814,
+   "n_players": 18,
+   "budget": 3,
+   "oracle_effect": 0.00329786076166827,
+   "method_effect": 0.0024322423779536972,
+   "regret": 0.0008656183837145726,
+   "oracle_action": [
+    4,
+    10,
+    16
+   ],
+   "method_action": [
+    16,
+    4
+   ]
+  },
+  {
+   "user": 816,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0028835012410622918,
+   "method_effect": 0.0028835012410622918,
+   "regret": 0.0,
+   "oracle_action": [
+    2,
+    4
+   ],
+   "method_action": [
+    4,
+    2
+   ]
+  },
+  {
+   "user": 816,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.003810727351083343,
+   "method_effect": 0.0028835012410622918,
+   "regret": 0.000927226110021051,
+   "oracle_action": [
+    2,
+    4,
+    10
+   ],
+   "method_action": [
+    4,
+    2
+   ]
+  },
+  {
+   "user": 818,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0024261105134927297,
+   "method_effect": 0.0024261105134927297,
+   "regret": 0.0,
+   "oracle_action": [
+    0,
+    18
+   ],
+   "method_action": [
+    18,
+    0
+   ]
+  },
+  {
+   "user": 818,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0035727147330154585,
+   "method_effect": 0.0024261105134927297,
+   "regret": 0.0011466042195227288,
+   "oracle_action": [
+    0,
+    17,
+    18
+   ],
+   "method_action": [
+    18,
+    0
+   ]
+  },
+  {
+   "user": 820,
+   "n_players": 5,
+   "budget": 2,
+   "oracle_effect": 0.009277657149825425,
+   "method_effect": 0.007831039651987282,
+   "regret": 0.001446617497838143,
+   "oracle_action": [
+    1,
+    3
+   ],
+   "method_action": [
+    1,
+    0
+   ]
+  },
+  {
+   "user": 820,
+   "n_players": 5,
+   "budget": 3,
+   "oracle_effect": 0.010183434931705482,
+   "method_effect": 0.007831039651987282,
+   "regret": 0.0023523952797182,
+   "oracle_action": [
+    0,
+    1,
+    3
+   ],
+   "method_action": [
+    1,
+    0
+   ]
+  },
+  {
+   "user": 825,
+   "n_players": 14,
+   "budget": 2,
+   "oracle_effect": 0.0015696610009452994,
+   "method_effect": 0.0015696610009452994,
+   "regret": 0.0,
+   "oracle_action": [
+    3,
+    6
+   ],
+   "method_action": [
+    6,
+    3
+   ]
+  },
+  {
+   "user": 825,
+   "n_players": 14,
+   "budget": 3,
+   "oracle_effect": 0.0019446620460926711,
+   "method_effect": 0.0015696610009452994,
+   "regret": 0.00037500104514737176,
+   "oracle_action": [
+    1,
+    3,
+    6
+   ],
+   "method_action": [
+    6,
+    3
+   ]
+  },
+  {
+   "user": 834,
+   "n_players": 5,
+   "budget": 2,
+   "oracle_effect": 0.011080635365861236,
+   "method_effect": 0.011080635365861236,
+   "regret": 0.0,
+   "oracle_action": [
+    0,
+    1
+   ],
+   "method_action": [
+    0,
+    1
+   ]
+  },
+  {
+   "user": 834,
+   "n_players": 5,
+   "budget": 3,
+   "oracle_effect": 0.011351227877637649,
+   "method_effect": 0.011080635365861236,
+   "regret": 0.00027059251177641297,
+   "oracle_action": [
+    0,
+    1,
+    4
+   ],
+   "method_action": [
+    0,
+    1
+   ]
+  },
+  {
+   "user": 840,
+   "n_players": 10,
+   "budget": 2,
+   "oracle_effect": 0.005573443589334093,
+   "method_effect": 0.005573443589334093,
+   "regret": 0.0,
+   "oracle_action": [
+    0,
+    1
+   ],
+   "method_action": [
+    0,
+    1
+   ]
+  },
+  {
+   "user": 840,
+   "n_players": 10,
+   "budget": 3,
+   "oracle_effect": 0.0064077110719991115,
+   "method_effect": 0.005573443589334093,
+   "regret": 0.0008342674826650187,
+   "oracle_action": [
+    0,
+    1,
+    2
+   ],
+   "method_action": [
+    0,
+    1
+   ]
+  },
+  {
+   "user": 845,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0018207517906628778,
+   "method_effect": 0.0017441687024790653,
+   "regret": 7.658308818381254e-05,
+   "oracle_action": [
+    9,
+    10
+   ],
+   "method_action": [
+    9,
+    8
+   ]
+  },
+  {
+   "user": 845,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0027566798514078172,
+   "method_effect": 0.0017441687024790653,
+   "regret": 0.001012511148928752,
+   "oracle_action": [
+    5,
+    9,
+    10
+   ],
+   "method_action": [
+    9,
+    8
+   ]
+  },
+  {
+   "user": 849,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0012241611269228625,
+   "method_effect": 0.0012241611269228625,
+   "regret": 0.0,
+   "oracle_action": [
+    14,
+    17
+   ],
+   "method_action": [
+    17,
+    14
+   ]
+  },
+  {
+   "user": 849,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0016381529977358422,
+   "method_effect": 0.0012241611269228625,
+   "regret": 0.0004139918708129797,
+   "oracle_action": [
+    9,
+    14,
+    17
+   ],
+   "method_action": [
+    17,
+    14
+   ]
+  },
+  {
+   "user": 851,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.003076399197730395,
+   "method_effect": 0.003076399197730395,
+   "regret": 0.0,
+   "oracle_action": [
+    7,
+    18
+   ],
+   "method_action": [
+    18,
+    7
+   ]
+  },
+  {
+   "user": 851,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.004657445347765188,
+   "method_effect": 0.003076399197730395,
+   "regret": 0.0015810461500347928,
+   "oracle_action": [
+    7,
+    18,
+    19
+   ],
+   "method_action": [
+    18,
+    7
+   ]
+  },
+  {
+   "user": 864,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.003649003165344611,
+   "method_effect": 0.0036490031653445,
+   "regret": 1.1102230246251565e-16,
+   "oracle_action": [
+    5,
+    15
+   ],
+   "method_action": [
+    5,
+    15
+   ]
+  },
+  {
+   "user": 864,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.005496396685162608,
+   "method_effect": 0.0036490031653445,
+   "regret": 0.001847393519818108,
+   "oracle_action": [
+    1,
+    5,
+    15
+   ],
+   "method_action": [
+    5,
+    15
+   ]
+  },
+  {
+   "user": 886,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.002259343289077287,
+   "method_effect": 0.002259343289077287,
+   "regret": 0.0,
+   "oracle_action": [
+    0,
+    9
+   ],
+   "method_action": [
+    9,
+    0
+   ]
+  },
+  {
+   "user": 886,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0026961316040626793,
+   "method_effect": 0.002259343289077287,
+   "regret": 0.0004367883149853924,
+   "oracle_action": [
+    0,
+    9,
+    11
+   ],
+   "method_action": [
+    9,
+    0
+   ]
+  },
+  {
+   "user": 889,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0009425902379924245,
+   "method_effect": 0.0006886356408005723,
+   "regret": 0.0002539545971918522,
+   "oracle_action": [
+    7,
+    16
+   ],
+   "method_action": [
+    0,
+    7
+   ]
+  },
+  {
+   "user": 889,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0014892146601190315,
+   "method_effect": 0.0006886356408005723,
+   "regret": 0.0008005790193184592,
+   "oracle_action": [
+    7,
+    8,
+    16
+   ],
+   "method_action": [
+    0,
+    7
+   ]
+  },
+  {
+   "user": 892,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.003156804407951186,
+   "method_effect": 0.002931109053742331,
+   "regret": 0.00022569535420885467,
+   "oracle_action": [
+    5,
+    6
+   ],
+   "method_action": [
+    5,
+    7
+   ]
+  },
+  {
+   "user": 892,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.004735445892628587,
+   "method_effect": 0.002931109053742331,
+   "regret": 0.0018043368388862557,
+   "oracle_action": [
+    3,
+    5,
+    6
+   ],
+   "method_action": [
+    5,
+    7
+   ]
+  },
+  {
+   "user": 895,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0011690999436794192,
+   "method_effect": 0.0009935290641707728,
+   "regret": 0.00017557087950864636,
+   "oracle_action": [
+    2,
+    7
+   ],
+   "method_action": [
+    15,
+    0
+   ]
+  },
+  {
+   "user": 895,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0017808532073714245,
+   "method_effect": 0.0009935290641707728,
+   "regret": 0.0007873241432006517,
+   "oracle_action": [
+    2,
+    7,
+    15
+   ],
+   "method_action": [
+    15,
+    0
+   ]
+  },
+  {
+   "user": 896,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.002875092563325188,
+   "method_effect": 0.002875092563325188,
+   "regret": 0.0,
+   "oracle_action": [
+    10,
+    12
+   ],
+   "method_action": [
+    10,
+    12
+   ]
+  },
+  {
+   "user": 896,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.004127320271341994,
+   "method_effect": 0.002875092563325188,
+   "regret": 0.0012522277080168065,
+   "oracle_action": [
+    10,
+    12,
+    17
+   ],
+   "method_action": [
+    10,
+    12
+   ]
+  },
+  {
+   "user": 907,
+   "n_players": 17,
+   "budget": 2,
+   "oracle_effect": 0.0034012179386172514,
+   "method_effect": 0.003250822403553122,
+   "regret": 0.0001503955350641295,
+   "oracle_action": [
+    2,
+    4
+   ],
+   "method_action": [
+    15,
+    4
+   ]
+  },
+  {
+   "user": 907,
+   "n_players": 17,
+   "budget": 3,
+   "oracle_effect": 0.005136360242663063,
+   "method_effect": 0.003250822403553122,
+   "regret": 0.0018855378391099409,
+   "oracle_action": [
+    2,
+    4,
+    15
+   ],
+   "method_action": [
+    15,
+    4
+   ]
+  },
+  {
+   "user": 911,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.002294960891406128,
+   "method_effect": 0.002223250534834409,
+   "regret": 7.17103565717192e-05,
+   "oracle_action": [
+    3,
+    11
+   ],
+   "method_action": [
+    11,
+    12
+   ]
+  },
+  {
+   "user": 911,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.003434567400943278,
+   "method_effect": 0.002223250534834409,
+   "regret": 0.0012113168661088691,
+   "oracle_action": [
+    3,
+    11,
+    12
+   ],
+   "method_action": [
+    11,
+    12
+   ]
+  },
+  {
+   "user": 913,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0025040794466896776,
+   "method_effect": 0.0025040794466896776,
+   "regret": 0.0,
+   "oracle_action": [
+    4,
+    5
+   ],
+   "method_action": [
+    5,
+    4
+   ]
+  },
+  {
+   "user": 913,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0033761134517106828,
+   "method_effect": 0.0025040794466896776,
+   "regret": 0.0008720340050210051,
+   "oracle_action": [
+    4,
+    5,
+    11
+   ],
+   "method_action": [
+    5,
+    4
+   ]
+  },
+  {
+   "user": 917,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0019109332223053443,
+   "method_effect": 0.0018018358553154035,
+   "regret": 0.00010909736698994088,
+   "oracle_action": [
+    1,
+    16
+   ],
+   "method_action": [
+    9,
+    1
+   ]
+  },
+  {
+   "user": 917,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0028104017808776582,
+   "method_effect": 0.0018018358553154035,
+   "regret": 0.0010085659255622548,
+   "oracle_action": [
+    1,
+    14,
+    16
+   ],
+   "method_action": [
+    9,
+    1
+   ]
+  },
+  {
+   "user": 923,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.002545670058480387,
+   "method_effect": 0.002545670058480387,
+   "regret": 0.0,
+   "oracle_action": [
+    7,
+    14
+   ],
+   "method_action": [
+    7,
+    14
+   ]
+  },
+  {
+   "user": 923,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0038088890162749633,
+   "method_effect": 0.002545670058480387,
+   "regret": 0.0012632189577945763,
+   "oracle_action": [
+    7,
+    14,
+    16
+   ],
+   "method_action": [
+    7,
+    14
+   ]
+  },
+  {
+   "user": 924,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.002639463337068104,
+   "method_effect": 0.002639463337068104,
+   "regret": 0.0,
+   "oracle_action": [
+    16,
+    17
+   ],
+   "method_action": [
+    16,
+    17
+   ]
+  },
+  {
+   "user": 924,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.003600625348765485,
+   "method_effect": 0.002639463337068104,
+   "regret": 0.0009611620116973807,
+   "oracle_action": [
+    14,
+    16,
+    17
+   ],
+   "method_action": [
+    16,
+    17
+   ]
+  },
+  {
+   "user": 930,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0025229843216174608,
+   "method_effect": 0.0025229843216174608,
+   "regret": 0.0,
+   "oracle_action": [
+    12,
+    14
+   ],
+   "method_action": [
+    14,
+    12
+   ]
+  },
+  {
+   "user": 930,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0035745078458341295,
+   "method_effect": 0.0025229843216174608,
+   "regret": 0.0010515235242166687,
+   "oracle_action": [
+    3,
+    12,
+    14
+   ],
+   "method_action": [
+    14,
+    12
+   ]
+  },
+  {
+   "user": 939,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0029126732944396716,
+   "method_effect": 0.0029093906174996187,
+   "regret": 3.2826769400529088e-06,
+   "oracle_action": [
+    4,
+    10
+   ],
+   "method_action": [
+    4,
+    6
+   ]
+  },
+  {
+   "user": 939,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.004424655023269886,
+   "method_effect": 0.0029093906174996187,
+   "regret": 0.0015152644057702669,
+   "oracle_action": [
+    4,
+    6,
+    10
+   ],
+   "method_action": [
+    4,
+    6
+   ]
+  },
+  {
+   "user": 941,
+   "n_players": 18,
+   "budget": 2,
+   "oracle_effect": 0.0033699188938646207,
+   "method_effect": 0.0033699188938646207,
+   "regret": 0.0,
+   "oracle_action": [
+    2,
+    11
+   ],
+   "method_action": [
+    2,
+    11
+   ]
+  },
+  {
+   "user": 941,
+   "n_players": 18,
+   "budget": 3,
+   "oracle_effect": 0.004084174442744226,
+   "method_effect": 0.0033699188938646207,
+   "regret": 0.0007142555488796054,
+   "oracle_action": [
+    2,
+    6,
+    11
+   ],
+   "method_action": [
+    2,
+    11
+   ]
+  },
+  {
+   "user": 946,
+   "n_players": 7,
+   "budget": 2,
+   "oracle_effect": 0.002524266270230835,
+   "method_effect": 0.002524266270230835,
+   "regret": 0.0,
+   "oracle_action": [
+    0,
+    5
+   ],
+   "method_action": [
+    0,
+    5
+   ]
+  },
+  {
+   "user": 946,
+   "n_players": 7,
+   "budget": 3,
+   "oracle_effect": 0.0030587999169619517,
+   "method_effect": 0.002524266270230835,
+   "regret": 0.0005345336467311168,
+   "oracle_action": [
+    0,
+    4,
+    5
+   ],
+   "method_action": [
+    0,
+    5
+   ]
+  },
+  {
+   "user": 948,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0018421770205097054,
+   "method_effect": 0.0011102411455442551,
+   "regret": 0.0007319358749654503,
+   "oracle_action": [
+    8,
+    12
+   ],
+   "method_action": [
+    12,
+    18
+   ]
+  },
+  {
+   "user": 948,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0022753554635930318,
+   "method_effect": 0.0011102411455442551,
+   "regret": 0.0011651143180487766,
+   "oracle_action": [
+    8,
+    12,
+    17
+   ],
+   "method_action": [
+    12,
+    18
+   ]
+  },
+  {
+   "user": 951,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0016339572537969471,
+   "method_effect": 0.0016339572537969471,
+   "regret": 0.0,
+   "oracle_action": [
+    6,
+    16
+   ],
+   "method_action": [
+    16,
+    6
+   ]
+  },
+  {
+   "user": 951,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0024273038328355145,
+   "method_effect": 0.0016339572537969471,
+   "regret": 0.0007933465790385674,
+   "oracle_action": [
+    6,
+    7,
+    16
+   ],
+   "method_action": [
+    16,
+    6
+   ]
+  },
+  {
+   "user": 952,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0038818006429244267,
+   "method_effect": 0.003586129006831529,
+   "regret": 0.0002956716360928979,
+   "oracle_action": [
+    0,
+    13
+   ],
+   "method_action": [
+    0,
+    5
+   ]
+  },
+  {
+   "user": 952,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0055253260374292235,
+   "method_effect": 0.003586129006831529,
+   "regret": 0.0019391970305976947,
+   "oracle_action": [
+    0,
+    5,
+    13
+   ],
+   "method_action": [
+    0,
+    5
+   ]
+  },
+  {
+   "user": 962,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0016344937129829096,
+   "method_effect": 0.001045798766598216,
+   "regret": 0.0005886949463846936,
+   "oracle_action": [
+    13,
+    14
+   ],
+   "method_action": [
+    9,
+    7
+   ]
+  },
+  {
+   "user": 962,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0022023111377612037,
+   "method_effect": 0.001045798766598216,
+   "regret": 0.0011565123711629877,
+   "oracle_action": [
+    7,
+    13,
+    14
+   ],
+   "method_action": [
+    9,
+    7
+   ]
+  },
+  {
+   "user": 968,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.003582681981553648,
+   "method_effect": 0.0033089557812418513,
+   "regret": 0.00027372620031179684,
+   "oracle_action": [
+    4,
+    12
+   ],
+   "method_action": [
+    4,
+    7
+   ]
+  },
+  {
+   "user": 968,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.005259817675670242,
+   "method_effect": 0.0033089557812418513,
+   "regret": 0.0019508618944283906,
+   "oracle_action": [
+    1,
+    4,
+    12
+   ],
+   "method_action": [
+    4,
+    7
+   ]
+  },
+  {
+   "user": 981,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.002731192003694205,
+   "method_effect": 0.002731192003694205,
+   "regret": 0.0,
+   "oracle_action": [
+    6,
+    10
+   ],
+   "method_action": [
+    10,
+    6
+   ]
+  },
+  {
+   "user": 981,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.003333121607230316,
+   "method_effect": 0.002731192003694205,
+   "regret": 0.000601929603536111,
+   "oracle_action": [
+    1,
+    6,
+    10
+   ],
+   "method_action": [
+    10,
+    6
+   ]
+  },
+  {
+   "user": 990,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0027914746317234673,
+   "method_effect": 0.0027914746317234673,
+   "regret": 0.0,
+   "oracle_action": [
+    0,
+    16
+   ],
+   "method_action": [
+    16,
+    0
+   ]
+  },
+  {
+   "user": 990,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.003777905825280925,
+   "method_effect": 0.0027914746317234673,
+   "regret": 0.0009864311935574577,
+   "oracle_action": [
+    0,
+    4,
+    16
+   ],
+   "method_action": [
+    16,
+    0
+   ]
+  },
+  {
+   "user": 996,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0025443742446403794,
+   "method_effect": 0.0025443742446403794,
+   "regret": 0.0,
+   "oracle_action": [
+    11,
+    17
+   ],
+   "method_action": [
+    11,
+    17
+   ]
+  },
+  {
+   "user": 996,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0032625753924339085,
+   "method_effect": 0.0025443742446403794,
+   "regret": 0.0007182011477935291,
+   "oracle_action": [
+    11,
+    15,
+    17
+   ],
+   "method_action": [
+    11,
+    17
+   ]
+  },
+  {
+   "user": 1013,
+   "n_players": 19,
+   "budget": 2,
+   "oracle_effect": 0.004791360606844042,
+   "method_effect": 0.004791360606844042,
+   "regret": 0.0,
+   "oracle_action": [
+    0,
+    9
+   ],
+   "method_action": [
+    9,
+    0
+   ]
+  },
+  {
+   "user": 1013,
+   "n_players": 19,
+   "budget": 3,
+   "oracle_effect": 0.006666794794549347,
+   "method_effect": 0.004791360606844042,
+   "regret": 0.001875434187705305,
+   "oracle_action": [
+    0,
+    9,
+    12
+   ],
+   "method_action": [
+    9,
+    0
+   ]
+  },
+  {
+   "user": 1022,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.002933362168249576,
+   "method_effect": 0.0026509376207844437,
+   "regret": 0.0002824245474651321,
+   "oracle_action": [
+    6,
+    16
+   ],
+   "method_action": [
+    16,
+    5
+   ]
+  },
+  {
+   "user": 1022,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.004299360527200369,
+   "method_effect": 0.0026509376207844437,
+   "regret": 0.001648422906415925,
+   "oracle_action": [
+    6,
+    7,
+    16
+   ],
+   "method_action": [
+    16,
+    5
+   ]
+  },
+  {
+   "user": 1023,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0020119076458673946,
+   "method_effect": 0.001786812683455985,
+   "regret": 0.00022509496241140958,
+   "oracle_action": [
+    6,
+    8
+   ],
+   "method_action": [
+    7,
+    8
+   ]
+  },
+  {
+   "user": 1023,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.002835231187639675,
+   "method_effect": 0.001786812683455985,
+   "regret": 0.0010484185041836902,
+   "oracle_action": [
+    6,
+    7,
+    8
+   ],
+   "method_action": [
+    7,
+    8
+   ]
+  },
+  {
+   "user": 1028,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.001227991415081453,
+   "method_effect": 0.001227991415081453,
+   "regret": 0.0,
+   "oracle_action": [
+    8,
+    9
+   ],
+   "method_action": [
+    8,
+    9
+   ]
+  },
+  {
+   "user": 1028,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0016958269579988583,
+   "method_effect": 0.001227991415081453,
+   "regret": 0.00046783554291740526,
+   "oracle_action": [
+    1,
+    8,
+    9
+   ],
+   "method_action": [
+    8,
+    9
+   ]
+  },
+  {
+   "user": 1036,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.002144954757662798,
+   "method_effect": 0.00178011832557734,
+   "regret": 0.000364836432085458,
+   "oracle_action": [
+    6,
+    9
+   ],
+   "method_action": [
+    9,
+    1
+   ]
+  },
+  {
+   "user": 1036,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.002837269315358548,
+   "method_effect": 0.00178011832557734,
+   "regret": 0.0010571509897812081,
+   "oracle_action": [
+    6,
+    9,
+    10
+   ],
+   "method_action": [
+    9,
+    1
+   ]
+  },
+  {
+   "user": 1046,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0020253862472218165,
+   "method_effect": 0.0019804054919221326,
+   "regret": 4.498075529968393e-05,
+   "oracle_action": [
+    0,
+    1
+   ],
+   "method_action": [
+    0,
+    4
+   ]
+  },
+  {
+   "user": 1046,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0028687004108729486,
+   "method_effect": 0.0019804054919221326,
+   "regret": 0.000888294918950816,
+   "oracle_action": [
+    0,
+    1,
+    4
+   ],
+   "method_action": [
+    0,
+    4
+   ]
+  },
+  {
+   "user": 1047,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0032219057928747352,
+   "method_effect": 0.0032219057928747352,
+   "regret": 0.0,
+   "oracle_action": [
+    14,
+    17
+   ],
+   "method_action": [
+    14,
+    17
+   ]
+  },
+  {
+   "user": 1047,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.004465994393369033,
+   "method_effect": 0.0032219057928747352,
+   "regret": 0.0012440886004942975,
+   "oracle_action": [
+    11,
+    14,
+    17
+   ],
+   "method_action": [
+    14,
+    17
+   ]
+  },
+  {
+   "user": 1049,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.001262170755742864,
+   "method_effect": 0.0009665995082069889,
+   "regret": 0.00029557124753587516,
+   "oracle_action": [
+    2,
+    13
+   ],
+   "method_action": [
+    8,
+    4
+   ]
+  },
+  {
+   "user": 1049,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0019068502628536432,
+   "method_effect": 0.0009665995082069889,
+   "regret": 0.0009402507546466543,
+   "oracle_action": [
+    2,
+    13,
+    14
+   ],
+   "method_action": [
+    8,
+    4
+   ]
+  },
+  {
+   "user": 1051,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0025726903333159745,
+   "method_effect": 0.0022360933907903946,
+   "regret": 0.0003365969425255799,
+   "oracle_action": [
+    4,
+    7
+   ],
+   "method_action": [
+    4,
+    1
+   ]
+  },
+  {
+   "user": 1051,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.003604147645485778,
+   "method_effect": 0.0022360933907903946,
+   "regret": 0.0013680542546953833,
+   "oracle_action": [
+    4,
+    7,
+    12
+   ],
+   "method_action": [
+    4,
+    1
+   ]
+  },
+  {
+   "user": 1057,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0017580874406917246,
+   "method_effect": 0.0017415393734958595,
+   "regret": 1.65480671958651e-05,
+   "oracle_action": [
+    0,
+    18
+   ],
+   "method_action": [
+    18,
+    6
+   ]
+  },
+  {
+   "user": 1057,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.002695285383227497,
+   "method_effect": 0.0017415393734958595,
+   "regret": 0.0009537460097316375,
+   "oracle_action": [
+    0,
+    6,
+    18
+   ],
+   "method_action": [
+    18,
+    6
+   ]
+  },
+  {
+   "user": 1068,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0026057252431671007,
+   "method_effect": 0.0026057252431671007,
+   "regret": 0.0,
+   "oracle_action": [
+    6,
+    17
+   ],
+   "method_action": [
+    6,
+    17
+   ]
+  },
+  {
+   "user": 1068,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.00359418901271924,
+   "method_effect": 0.0026057252431671007,
+   "regret": 0.0009884637695521392,
+   "oracle_action": [
+    6,
+    10,
+    17
+   ],
+   "method_action": [
+    6,
+    17
+   ]
+  },
+  {
+   "user": 1071,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0028726006695124484,
+   "method_effect": 0.0028726006695124484,
+   "regret": 0.0,
+   "oracle_action": [
+    12,
+    19
+   ],
+   "method_action": [
+    19,
+    12
+   ]
+  },
+  {
+   "user": 1071,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.003554838570129726,
+   "method_effect": 0.0028726006695124484,
+   "regret": 0.0006822379006172774,
+   "oracle_action": [
+    8,
+    12,
+    19
+   ],
+   "method_action": [
+    19,
+    12
+   ]
+  },
+  {
+   "user": 1076,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0022247599845046095,
+   "method_effect": 0.001999174511607804,
+   "regret": 0.00022558547289680542,
+   "oracle_action": [
+    11,
+    18
+   ],
+   "method_action": [
+    18,
+    9
+   ]
+  },
+  {
+   "user": 1076,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0031638057887899973,
+   "method_effect": 0.001999174511607804,
+   "regret": 0.0011646312771821932,
+   "oracle_action": [
+    9,
+    11,
+    18
+   ],
+   "method_action": [
+    18,
+    9
+   ]
+  },
+  {
+   "user": 1083,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.002495038821089035,
+   "method_effect": 0.002495038821089035,
+   "regret": 0.0,
+   "oracle_action": [
+    0,
+    5
+   ],
+   "method_action": [
+    0,
+    5
+   ]
+  },
+  {
+   "user": 1083,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0034617610252299924,
+   "method_effect": 0.002495038821089035,
+   "regret": 0.0009667222041409573,
+   "oracle_action": [
+    0,
+    1,
+    5
+   ],
+   "method_action": [
+    0,
+    5
+   ]
+  },
+  {
+   "user": 1091,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.001316679934927234,
+   "method_effect": 0.0011917975037133988,
+   "regret": 0.00012488243121383524,
+   "oracle_action": [
+    1,
+    2
+   ],
+   "method_action": [
+    8,
+    1
+   ]
+  },
+  {
+   "user": 1091,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0019257514722466618,
+   "method_effect": 0.0011917975037133988,
+   "regret": 0.000733953968533263,
+   "oracle_action": [
+    1,
+    2,
+    8
+   ],
+   "method_action": [
+    8,
+    1
+   ]
+  },
+  {
+   "user": 1092,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0015427847861493316,
+   "method_effect": 0.0015427847861493316,
+   "regret": 0.0,
+   "oracle_action": [
+    8,
+    9
+   ],
+   "method_action": [
+    9,
+    8
+   ]
+  },
+  {
+   "user": 1092,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0018656150253641979,
+   "method_effect": 0.0015427847861493316,
+   "regret": 0.0003228302392148663,
+   "oracle_action": [
+    4,
+    8,
+    9
+   ],
+   "method_action": [
+    9,
+    8
+   ]
+  },
+  {
+   "user": 1097,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0023549586353047713,
+   "method_effect": 0.0022324099402352138,
+   "regret": 0.00012254869506955757,
+   "oracle_action": [
+    4,
+    12
+   ],
+   "method_action": [
+    5,
+    4
+   ]
+  },
+  {
+   "user": 1097,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0034952036924073004,
+   "method_effect": 0.0022324099402352138,
+   "regret": 0.0012627937521720867,
+   "oracle_action": [
+    4,
+    5,
+    12
+   ],
+   "method_action": [
+    5,
+    4
+   ]
+  },
+  {
+   "user": 1098,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0026328968090029714,
+   "method_effect": 0.0026328968090029714,
+   "regret": 0.0,
+   "oracle_action": [
+    0,
+    6
+   ],
+   "method_action": [
+    0,
+    6
+   ]
+  },
+  {
+   "user": 1098,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0036144418571432135,
+   "method_effect": 0.0026328968090029714,
+   "regret": 0.0009815450481402421,
+   "oracle_action": [
+    0,
+    3,
+    6
+   ],
+   "method_action": [
+    0,
+    6
+   ]
+  },
+  {
+   "user": 1105,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0037628591079232887,
+   "method_effect": 0.0037628591079232887,
+   "regret": 0.0,
+   "oracle_action": [
+    9,
+    12
+   ],
+   "method_action": [
+    9,
+    12
+   ]
+  },
+  {
+   "user": 1105,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.005433171605301934,
+   "method_effect": 0.0037628591079232887,
+   "regret": 0.0016703124973786454,
+   "oracle_action": [
+    9,
+    12,
+    13
+   ],
+   "method_action": [
+    9,
+    12
+   ]
+  },
+  {
+   "user": 1108,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0037345607309954842,
+   "method_effect": 0.0037345607309954842,
+   "regret": 0.0,
+   "oracle_action": [
+    7,
+    8
+   ],
+   "method_action": [
+    7,
+    8
+   ]
+  },
+  {
+   "user": 1108,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.005265391180929446,
+   "method_effect": 0.0037345607309954842,
+   "regret": 0.001530830449933962,
+   "oracle_action": [
+    7,
+    8,
+    11
+   ],
+   "method_action": [
+    7,
+    8
+   ]
+  },
+  {
+   "user": 1124,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.002489369198932334,
+   "method_effect": 0.002489369198932334,
+   "regret": 0.0,
+   "oracle_action": [
+    0,
+    1
+   ],
+   "method_action": [
+    0,
+    1
+   ]
+  },
+  {
+   "user": 1124,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0035730985810248916,
+   "method_effect": 0.002489369198932334,
+   "regret": 0.0010837293820925575,
+   "oracle_action": [
+    0,
+    1,
+    5
+   ],
+   "method_action": [
+    0,
+    1
+   ]
+  },
+  {
+   "user": 1128,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0037483422469781758,
+   "method_effect": 0.003540381242721269,
+   "regret": 0.0002079610042569069,
+   "oracle_action": [
+    2,
+    15
+   ],
+   "method_action": [
+    15,
+    9
+   ]
+  },
+  {
+   "user": 1128,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.005429106822085306,
+   "method_effect": 0.003540381242721269,
+   "regret": 0.0018887255793640367,
+   "oracle_action": [
+    2,
+    9,
+    15
+   ],
+   "method_action": [
+    15,
+    9
+   ]
+  },
+  {
+   "user": 1140,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0026920951537527937,
+   "method_effect": 0.0026920951537527937,
+   "regret": 0.0,
+   "oracle_action": [
+    7,
+    11
+   ],
+   "method_action": [
+    7,
+    11
+   ]
+  },
+  {
+   "user": 1140,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.004029624268400367,
+   "method_effect": 0.0026920951537527937,
+   "regret": 0.0013375291146475732,
+   "oracle_action": [
+    7,
+    11,
+    13
+   ],
+   "method_action": [
+    7,
+    11
+   ]
+  },
+  {
+   "user": 1148,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.003150408139411587,
+   "method_effect": 0.003150408139411587,
+   "regret": 0.0,
+   "oracle_action": [
+    11,
+    13
+   ],
+   "method_action": [
+    11,
+    13
+   ]
+  },
+  {
+   "user": 1148,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.00441200599256214,
+   "method_effect": 0.003150408139411587,
+   "regret": 0.0012615978531505534,
+   "oracle_action": [
+    1,
+    11,
+    13
+   ],
+   "method_action": [
+    11,
+    13
+   ]
+  },
+  {
+   "user": 1158,
+   "n_players": 19,
+   "budget": 2,
+   "oracle_effect": 0.0035505206753026486,
+   "method_effect": 0.0035505206753027596,
+   "regret": -1.1102230246251565e-16,
+   "oracle_action": [
+    1,
+    7
+   ],
+   "method_action": [
+    7,
+    1
+   ]
+  },
+  {
+   "user": 1158,
+   "n_players": 19,
+   "budget": 3,
+   "oracle_effect": 0.005110227786715826,
+   "method_effect": 0.0035505206753027596,
+   "regret": 0.0015597071114130667,
+   "oracle_action": [
+    1,
+    7,
+    11
+   ],
+   "method_action": [
+    7,
+    1
+   ]
+  },
+  {
+   "user": 1160,
+   "n_players": 20,
+   "budget": 2,
+   "oracle_effect": 0.0021872748364598626,
+   "method_effect": 0.0021872748364598626,
+   "regret": 0.0,
+   "oracle_action": [
+    0,
+    1
+   ],
+   "method_action": [
+    0,
+    1
+   ]
+  },
+  {
+   "user": 1160,
+   "n_players": 20,
+   "budget": 3,
+   "oracle_effect": 0.0030219642857751694,
+   "method_effect": 0.0021872748364598626,
+   "regret": 0.0008346894493153068,
+   "oracle_action": [
+    0,
+    1,
+    11
+   ],
+   "method_action": [
+    0,
+    1
+   ]
+  }
+ ],
+ "recorded_at": "2026-08-21T10:35:07"
+}
