@@ -1,0 +1,41 @@
+{
+  "created_at_utc": "2026-08-21T08:51:11.238541+00:00",
+  "dataset": "movielens_1m",
+  "positive_interaction_definition": "rating >= 4",
+  "split": "chronological leave-one-out; users with >= 3 positives; last positive is test, previous is validation",
+  "candidates": "warm training catalogue minus items seen in training; identical for all models",
+  "evaluated_users": 1000,
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "frozen_configs": {
+    "bpr": {
+      "embedding_dim": 128,
+      "batch_size": 8192,
+      "learning_rate": 0.003,
+      "weight_decay": 1e-05,
+      "negative_strategy": "popularity_mixture"
+    },
+    "sasrec": {
+      "embedding_dim": 128,
+      "max_sequence_length": 25,
+      "num_heads": 2,
+      "num_layers": 2,
+      "dropout": 0.1,
+      "batch_size": 1024,
+      "learning_rate": 0.0005,
+      "weight_decay": 1e-05,
+      "negative_strategy": "popularity_mixture"
+    }
+  },
+  "tests": {
+    "hit": "exact McNemar test (sign test on discordant user pairs), Holm-adjusted",
+    "ndcg": "paired bootstrap CI plus paired sign-flip permutation test"
+  },
+  "claim_scope": "chronological warm-item ranking robustness; not causal policy evidence",
+  "runtime_seconds": 23134.424446105957
+}

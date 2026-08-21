@@ -1,0 +1,5 @@
+analysis,model,metric,permutation_p
+seed_42,torch_bpr_mf_bias,ndcg,0.0014
+seed_42,torch_sasrec,ndcg,0.0
+five_seed_user_mean,torch_bpr_mf_bias,ndcg,0.0007
+five_seed_user_mean,torch_sasrec,ndcg,0.0

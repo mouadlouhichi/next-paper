@@ -1,0 +1,9 @@
+model,metric,raw_p,holm_p,analysis
+torch_bpr_mf_bias,hit,1.0,1.0,seed_42
+torch_bpr_mf_bias,ndcg,1.0,1.0,seed_42
+torch_sasrec,hit,1.0,1.0,seed_42
+torch_sasrec,ndcg,1.0,1.0,seed_42
+torch_bpr_mf_bias,hit,1.0,1.0,five_seed_user_mean
+torch_bpr_mf_bias,ndcg,1.0,1.0,five_seed_user_mean
+torch_sasrec,hit,1.0,1.0,five_seed_user_mean
+torch_sasrec,ndcg,1.0,1.0,five_seed_user_mean
