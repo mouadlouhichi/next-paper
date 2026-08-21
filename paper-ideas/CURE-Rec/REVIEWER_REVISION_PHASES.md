@@ -247,3 +247,24 @@ Runs that require data downloads or long compute (MovieLens-1M per-user paired
 inference, Amazon second-domain audit, n=10 integrated game) are gathered in
 `code/notebooks/13_reviewer_closure_runs.ipynb` for execution on a machine with
 network access; the notebook emits manuscript-ready tables.
+
+### Addendum — MovieLens-1M user-level paired inference executed (2026-08-21)
+
+Run A of the closure notebook was executed on a machine with data access
+(commit `40cc0d3`): the frozen BPR and SASRec configurations were re-trained for
+seeds 42-46, per-user hit/NDCG rows exported (1,000 warm users x 11 model-seeds),
+and the paired user-level analysis computed. Results: all four model x metric
+comparisons significant after within-family Holm correction (p <= 1.5e-10 on the
+five-seed per-user means), all bootstrap CIs exclude zero, permutation tests
+p <= 0.0007; effect sizes small-to-moderate (dz 0.099-0.280). Integrated into
+Table 9 of the manuscript (Section 5.4).
+
+A bug was found and fixed during integration: the exact sign/McNemar test in
+`paired_user_statistics` computed only the lower binomial tail, which reports
+p = 1.0 for any positive effect. It now doubles the smaller of the two tails
+(two-sided exact sign test). The MovieLens-25M second-dataset results are
+unaffected (negative effects were already in the correct tail); the ML-1M
+p-values were recomputed from the archived per-user metrics (bootstrap CIs
+unchanged to 1e-16). `phase_d_ml1m_paired.py` additionally gained resume support
+(skips retraining when per-user metrics are already archived) and per-family
+Holm correction.

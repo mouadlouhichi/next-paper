@@ -17,10 +17,10 @@ This notebook gathers **every experiment that must run outside the review sandbo
 
 | Run | What it produces | Reviewer item | Approx. cost |
 |---|---|---|---|
-| A | MovieLens-1M per-user paired inference (McNemar / bootstrap / permutation / Holm) | Phase 8 mandatory tests; Issue #7 | ~1–2 h (GPU) / ~3–5 h (CPU) |
-| B | Semi-real integration (learned BPR base policy inside CURE-Sim) | Phase 9 #4; Issue #2 | ~1 h |
-| C | Integrated scalability with real operator semantics (n=8, n=10) | Phase 9 #5 | n=8 ~1.5 h, n=10 ~6–8 h |
-| D | Second independent domain (Amazon-2014 chronological ranking audit) | Phase 9 #6 | ~1 h |
+| A | MovieLens-1M per-user paired inference (McNemar / bootstrap / permutation / Holm) | Phase 8 mandatory tests; Issue #7 | **DONE** (archived; cell recomputes stats in seconds, or full re-run ~1–5 h) |
+| B | Semi-real integration (learned BPR base policy inside CURE-Sim) | Phase 9 #4; Issue #2 | **DONE** (archived; cell displays) |
+| C | Integrated scalability with real operator semantics (n=8, n=10) | Phase 9 #5 | n=8 **DONE** (archived); n=10 ~6–8 h |
+| D | Second independent domain (Amazon-2014 chronological ranking audit) | Phase 9 #6 | ~1 h (needs download) |
 | E | Aggregation into manuscript-ready tables | — | seconds |
 
 **Claim discipline:** Runs A and D are chronological-ranking evidence only. Run B is simulator-conditional. None of these creates external causal policy evidence for CURE-Rec intervention selection; audited real policy logs remain future work (stated in the manuscript conclusion).
@@ -48,11 +48,11 @@ cells.append(md("""## Run A — MovieLens-1M per-user paired inference (Issue #7
 The archived MovieLens-1M audit stored seed-level aggregates only. This run re-trains the **frozen final configurations** (BPR hash `9875430c235b`, SASRec hash `7aa511398a7f`) for seeds 42–46, exports one hit/NDCG row per evaluated warm user, and computes the pre-specified user-level analysis:
 
 - paired user bootstrap CIs for mean Recall@10 / NDCG@10 differences;
-- exact McNemar tests on per-user hit indicators (sign test on discordant pairs);
+- exact McNemar tests on per-user hit indicators (two-sided sign test on discordant pairs);
 - paired sign-flip permutation tests for NDCG;
-- Cohen d_z; Holm correction across the model × metric family.
+- Cohen d_z; Holm correction within each model × metric family.
 
-Downloads MovieLens-1M automatically (needs internet)."""))
+**Resume support:** if `results/reviewer_phase_assets/movielens_1m_paired/per_user_metrics_ml1m.csv` already exists (it was produced and committed in revision round 2), the script skips the expensive re-training and only recomputes the paired statistics, so this cell finishes in seconds. Delete that file to force a full re-run (downloads MovieLens-1M, needs torch, ~1–5 h)."""))
 
 cells.append(code("""# Run A (blocking). Uses scripts_review/phase_d_ml1m_paired.py
 !{sys.executable} scripts_review/phase_d_ml1m_paired.py"""))

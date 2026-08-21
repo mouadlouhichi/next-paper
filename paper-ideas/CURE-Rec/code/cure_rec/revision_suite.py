@@ -79,7 +79,15 @@ def paired_user_statistics(frame: pd.DataFrame, model_col="model", user_col="use
             means=[]
             for _ in range(bootstrap): means.append(float(rng.choice(d,n,replace=True).mean()))
             lo,hi=np.quantile(means,[.025,.975]); signs=np.sign(d); nonzero=signs[signs!=0]; k=int((nonzero>0).sum()); m=len(nonzero)
-            p=min(1.,2*sum(comb(m,j) for j in range(k+1))/(2**m)) if m else 1.
+            # Two-sided exact sign test: double the smaller of the lower and upper
+            # binomial tails. Using only the lower tail saturates at 1.0 whenever the
+            # effect is positive (k near m), which previously misreported significance.
+            if m:
+                lower_tail=sum(comb(m,j) for j in range(0,k+1))/(2**m)
+                upper_tail=sum(comb(m,j) for j in range(k,m+1))/(2**m)
+                p=min(1.,2*min(lower_tail,upper_tail))
+            else:
+                p=1.
             rows.append({"model":model,"reference":ref,"metric":metric,"n_users":n,"difference_mean":float(d.mean()),"bootstrap_low":float(lo),"bootstrap_high":float(hi),"effect_dz":float(d.mean()/d.std(ddof=1)) if d.std(ddof=1)>0 else float("nan")})
             tests.append({"model":model,"metric":metric,"raw_p":p})
     tests_df=pd.DataFrame(tests); tests_df["holm_p"] = _holm(tests_df.raw_p.to_numpy()) if len(tests_df) else []

@@ -81,50 +81,58 @@ def permutation_p(differences: np.ndarray, permutations: int = 10_000, seed: int
 
 
 def main() -> None:
-    if not torch_available():
-        raise SystemExit("PyTorch is required for this revision script")
     ASSETS.mkdir(parents=True, exist_ok=True)
     started = time.time()
-
-    dataset = load_dataset("movielens_1m", DATA_ROOT, download=True)
-    split = chronological_leave_one_out(dataset.interactions)
-    popularity = PopularityRecommender().fit(split.train)
 
     per_user_frames: list[pd.DataFrame] = []
     aggregate_rows: list[dict] = []
 
-    pop_metrics = export_user_metrics(popularity, split)
-    pop_metrics["model"] = "popularity"
-    pop_metrics["seed"] = -1
-    per_user_frames.append(pop_metrics)
-    aggregate_rows.append({"model": "popularity", "seed": -1, "recall_at_10": float(pop_metrics["hit"].mean()), "ndcg_at_10": float(pop_metrics["ndcg"].mean()), "evaluated_users": len(pop_metrics)})
-    print(f"popularity: recall={pop_metrics['hit'].mean():.5f} ndcg={pop_metrics['ndcg'].mean():.5f} ({time.time()-started:.0f}s)", flush=True)
+    # Resume support: if a previous run already exported per-user metrics, reuse
+    # them and skip the expensive retraining. Delete the file to force a re-run.
+    cached = ASSETS / "per_user_metrics_ml1m.csv"
+    if cached.exists():
+        print(f"RESUME: reusing {cached}; skipping dataset load and model training.", flush=True)
+        per_user = pd.read_csv(cached)
+        split = None
+    else:
+        if not torch_available():
+            raise SystemExit("PyTorch is required to train the frozen configurations")
+        dataset = load_dataset("movielens_1m", DATA_ROOT, download=True)
+        split = chronological_leave_one_out(dataset.interactions)
+        popularity = PopularityRecommender().fit(split.train)
 
-    for seed in SEEDS:
-        bpr = TorchBPRMFWithBias(TorchBPRConfig(max_epochs=200, seed=seed, **BPR_CONFIG))
-        bpr.fit(split.train, validation_split=split, max_eval_users=MAX_EVAL_USERS)
-        metrics = export_user_metrics(bpr, split)
-        metrics["model"] = "torch_bpr_mf_bias"
-        metrics["seed"] = seed
-        per_user_frames.append(metrics)
-        aggregate_rows.append({"model": "torch_bpr_mf_bias", "seed": seed, "recall_at_10": float(metrics["hit"].mean()), "ndcg_at_10": float(metrics["ndcg"].mean()), "evaluated_users": len(metrics), "restored_checkpoint_epoch": getattr(bpr, "restored_checkpoint_epoch", None)})
-        print(f"BPR seed {seed}: recall={metrics['hit'].mean():.5f} ndcg={metrics['ndcg'].mean():.5f} epoch={getattr(bpr,'restored_checkpoint_epoch',None)} ({time.time()-started:.0f}s)", flush=True)
-        del bpr
+        pop_metrics = export_user_metrics(popularity, split)
+        pop_metrics["model"] = "popularity"
+        pop_metrics["seed"] = -1
+        per_user_frames.append(pop_metrics)
+        aggregate_rows.append({"model": "popularity", "seed": -1, "recall_at_10": float(pop_metrics["hit"].mean()), "ndcg_at_10": float(pop_metrics["ndcg"].mean()), "evaluated_users": len(pop_metrics)})
+        print(f"popularity: recall={pop_metrics['hit'].mean():.5f} ndcg={pop_metrics['ndcg'].mean():.5f} ({time.time()-started:.0f}s)", flush=True)
 
-    for seed in SEEDS:
-        sasrec = TorchSASRec(SASRecConfig(max_epochs=120, seed=seed, **SASREC_CONFIG))
-        sasrec.fit(split.train, validation_split=split, max_eval_users=MAX_EVAL_USERS)
-        metrics = export_user_metrics(sasrec, split)
-        metrics["model"] = "torch_sasrec"
-        metrics["seed"] = seed
-        per_user_frames.append(metrics)
-        aggregate_rows.append({"model": "torch_sasrec", "seed": seed, "recall_at_10": float(metrics["hit"].mean()), "ndcg_at_10": float(metrics["ndcg"].mean()), "evaluated_users": len(metrics), "restored_checkpoint_epoch": getattr(sasrec, "restored_checkpoint_epoch", None)})
-        print(f"SASRec seed {seed}: recall={metrics['hit'].mean():.5f} ndcg={metrics['ndcg'].mean():.5f} epoch={getattr(sasrec,'restored_checkpoint_epoch',None)} ({time.time()-started:.0f}s)", flush=True)
-        del sasrec
+        for seed in SEEDS:
+            bpr = TorchBPRMFWithBias(TorchBPRConfig(max_epochs=200, seed=seed, **BPR_CONFIG))
+            bpr.fit(split.train, validation_split=split, max_eval_users=MAX_EVAL_USERS)
+            metrics = export_user_metrics(bpr, split)
+            metrics["model"] = "torch_bpr_mf_bias"
+            metrics["seed"] = seed
+            per_user_frames.append(metrics)
+            aggregate_rows.append({"model": "torch_bpr_mf_bias", "seed": seed, "recall_at_10": float(metrics["hit"].mean()), "ndcg_at_10": float(metrics["ndcg"].mean()), "evaluated_users": len(metrics), "restored_checkpoint_epoch": getattr(bpr, "restored_checkpoint_epoch", None)})
+            print(f"BPR seed {seed}: recall={metrics['hit'].mean():.5f} ndcg={metrics['ndcg'].mean():.5f} epoch={getattr(bpr,'restored_checkpoint_epoch',None)} ({time.time()-started:.0f}s)", flush=True)
+            del bpr
 
-    per_user = pd.concat(per_user_frames, ignore_index=True)
-    per_user.to_csv(ASSETS / "per_user_metrics_ml1m.csv", index=False)
-    pd.DataFrame(aggregate_rows).to_csv(ASSETS / "aggregate_seed_metrics_ml1m.csv", index=False)
+        for seed in SEEDS:
+            sasrec = TorchSASRec(SASRecConfig(max_epochs=120, seed=seed, **SASREC_CONFIG))
+            sasrec.fit(split.train, validation_split=split, max_eval_users=MAX_EVAL_USERS)
+            metrics = export_user_metrics(sasrec, split)
+            metrics["model"] = "torch_sasrec"
+            metrics["seed"] = seed
+            per_user_frames.append(metrics)
+            aggregate_rows.append({"model": "torch_sasrec", "seed": seed, "recall_at_10": float(metrics["hit"].mean()), "ndcg_at_10": float(metrics["ndcg"].mean()), "evaluated_users": len(metrics), "restored_checkpoint_epoch": getattr(sasrec, "restored_checkpoint_epoch", None)})
+            print(f"SASRec seed {seed}: recall={metrics['hit'].mean():.5f} ndcg={metrics['ndcg'].mean():.5f} epoch={getattr(sasrec,'restored_checkpoint_epoch',None)} ({time.time()-started:.0f}s)", flush=True)
+            del sasrec
+
+        per_user = pd.concat(per_user_frames, ignore_index=True)
+        per_user.to_csv(ASSETS / "per_user_metrics_ml1m.csv", index=False)
+        pd.DataFrame(aggregate_rows).to_csv(ASSETS / "aggregate_seed_metrics_ml1m.csv", index=False)
 
     # ------------------------------------------------------------------
     # Paired inference. Seed 42 is the primary frozen audit seed; pooled
@@ -149,12 +157,18 @@ def main() -> None:
         .groupby(["user_id", "model"], as_index=False)[["hit", "ndcg"]]
         .mean()
     )
-    pooled = pd.concat([pop_metrics.assign(model="popularity"), pooled], ignore_index=True)
+    pop_frame = per_user[per_user["model"] == "popularity"][["user_id", "model", "hit", "ndcg"]]
+    pooled = pd.concat([pop_frame, pooled], ignore_index=True)
     add_paired("five_seed_user_mean", pooled)
 
     ci_table = pd.concat(rows_ci, ignore_index=True)
     tests_table = pd.concat(rows_tests, ignore_index=True)
-    tests_table["holm_p"] = _holm(tests_table["raw_p"].to_numpy())
+    # Holm correction is applied within each analysis family (model x metric),
+    # not across the two analysis families combined. paired_user_statistics already
+    # returns a within-family holm_p; recompute per group to keep it explicit.
+    tests_table["holm_p"] = tests_table.groupby("analysis")["raw_p"].transform(
+        lambda p: _holm(p.to_numpy())
+    )
 
     # Permutation tests for NDCG differences (user-level paired differences).
     perm_rows = []

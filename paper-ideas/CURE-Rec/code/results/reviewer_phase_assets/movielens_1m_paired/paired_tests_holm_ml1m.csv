@@ -1,9 +1,9 @@
 model,metric,raw_p,holm_p,analysis
-torch_bpr_mf_bias,hit,1.0,1.0,seed_42
-torch_bpr_mf_bias,ndcg,1.0,1.0,seed_42
-torch_sasrec,hit,1.0,1.0,seed_42
-torch_sasrec,ndcg,1.0,1.0,seed_42
-torch_bpr_mf_bias,hit,1.0,1.0,five_seed_user_mean
-torch_bpr_mf_bias,ndcg,1.0,1.0,five_seed_user_mean
-torch_sasrec,hit,1.0,1.0,five_seed_user_mean
-torch_sasrec,ndcg,1.0,1.0,five_seed_user_mean
+torch_bpr_mf_bias,hit,0.00015323388084216908,0.00015323388084216908,seed_42
+torch_bpr_mf_bias,ndcg,1.9611841673751277e-05,3.922368334750255e-05,seed_42
+torch_sasrec,hit,4.430292479224891e-14,1.3290877437674673e-13,seed_42
+torch_sasrec,ndcg,5.9080892741023026e-15,2.363235709640921e-14,seed_42
+torch_bpr_mf_bias,hit,1.545031483544498e-10,1.545031483544498e-10,five_seed_user_mean
+torch_bpr_mf_bias,ndcg,5.544444497509207e-12,1.1088888995018414e-11,five_seed_user_mean
+torch_sasrec,hit,5.709330674199061e-41,1.7127992022597183e-40,five_seed_user_mean
+torch_sasrec,ndcg,1.863206644414584e-43,7.452826577658336e-43,five_seed_user_mean

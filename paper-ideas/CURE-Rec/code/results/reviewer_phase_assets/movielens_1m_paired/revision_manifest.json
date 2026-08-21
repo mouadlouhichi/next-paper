@@ -1,5 +1,5 @@
 {
-  "created_at_utc": "2026-08-21T08:51:11.238541+00:00",
+  "created_at_utc": "2026-08-21T09:51:42.332157+00:00",
   "dataset": "movielens_1m",
   "positive_interaction_definition": "rating >= 4",
   "split": "chronological leave-one-out; users with >= 3 positives; last positive is test, previous is validation",
@@ -37,5 +37,5 @@
     "ndcg": "paired bootstrap CI plus paired sign-flip permutation test"
   },
   "claim_scope": "chronological warm-item ranking robustness; not causal policy evidence",
-  "runtime_seconds": 23134.424446105957
+  "runtime_seconds": 0.7078976631164551
 }
