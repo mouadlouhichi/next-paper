@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/home/user/next-paper/paper-ideas/CoalGameRec/code/scripts/run_protocol_v7.py", line 34, in <module>
+    import run_matched_controls as rmc  # noqa: E402
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/next-paper/paper-ideas/CoalGameRec/code/scripts/run_matched_controls.py", line 48, in <module>
+    import numpy as np
+ModuleNotFoundError: No module named 'numpy'
+[run_and_commit] command exit=1; committing artifacts in ml1m_lightgcn_v7_corrected_protocol
