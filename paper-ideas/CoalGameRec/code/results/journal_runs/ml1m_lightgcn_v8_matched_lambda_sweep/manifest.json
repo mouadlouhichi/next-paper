@@ -1,0 +1,27 @@
+{
+  "families": [
+    "uniform",
+    "additive-pref",
+    "attention",
+    "heuristic-pop",
+    "valid-sim",
+    "valid-linear",
+    "loo-marginal",
+    "shapley-mc"
+  ],
+  "lambda_grid": [
+    0.0,
+    0.05,
+    0.1,
+    0.2,
+    0.4
+  ],
+  "note": "Round-9 fix #4: matched single-execution lambda sweep \u2014 every family reranked on the same fitted models, cached scores, player sets, and lambda grid; per-user metrics included for paired per-lambda contrasts.",
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ]
+}
