@@ -60,3 +60,24 @@ with the remaining factorials/convergence acceptable as clearly-labeled queued r
 compute is the only blocker.
 
 **Confidence: 9/10.**
+
+---
+
+## Round-11 addendum (2026-08-23, manuscript v25)
+
+The authors delivered the **ML-1M matched single-execution λ sweep** (v8, user-executed on MPS,
+5 seeds, per-user artifacts). Round-9 item #4 is therefore **CLOSED for ML-1M**:
+
+- All eight families reranked on identical fitted models; at λ=0 every family equals the base
+  model (0.04493) — the within-model comparison is exact.
+- LOO is the best family at **every** λ>0: 0.04751 / 0.04968 / 0.05448 / 0.06246 at
+  λ=0.05/0.10/0.20/0.40 (Shapley: 0.04697–0.05946; valid-linear: 0.04673–0.05706).
+- The earlier impression that "Shapley overtakes LOO at large λ" is confirmed to have been a
+  **mixed-execution artifact** (v3 Shapley vs v6 LOO); it does not hold within identical models.
+- Paired per-user LOO−Shapley differences grow with λ and are significant at λ=0.05/0.20/0.40
+  (sign-flip p=0.008/0.004/0.003; Wilcoxon significant at all four points).
+- Manuscript v25: tab:ablation_lambda and Fig 4 rebuilt with the matched ML-1M block (Amazon
+  block retains the mixed-execution caveat until its matched sweep lands); provenance updated.
+
+Remaining for Accept (unchanged from Round 10): v7 Amazon (sandbox), sequential baselines +
+controlled randomization (sandbox queue), Amazon matched sweep + nested tuning (released scripts).
