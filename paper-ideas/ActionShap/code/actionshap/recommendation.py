@@ -188,7 +188,7 @@ def mc_shapley(
     utility: Utility,
     n_players: int,
     permutations: int = 500,
-    seed: int = 0,
+    seed: int | tuple = 0,
     antithetic: bool = True,
 ) -> tuple[np.ndarray, float]:
     """Estimate Shapley values with cached antithetic permutation prefix walks.
@@ -243,7 +243,7 @@ def mc_shapley_with_se(
     utility: Utility,
     n_players: int,
     permutations: int = 500,
-    seed: int = 0,
+    seed: int | tuple = 0,
     antithetic: bool = True,
 ) -> tuple[np.ndarray, np.ndarray, float]:
     """Monte Carlo Shapley with per-player Monte Carlo standard errors.

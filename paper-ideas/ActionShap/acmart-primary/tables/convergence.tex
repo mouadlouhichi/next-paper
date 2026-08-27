@@ -1,15 +1,18 @@
 % Rank-valid fraction and threshold coverage are reported separately.
 \begin{table}[t]\centering\small
-\caption{Selected target-margin Monte Carlo convergence budgets. Only selected rows are shown. $M_{\mathrm{pair}}$ counts base permutations and $T$ counts evaluated forward/reverse orders.}
+\caption{Selected target-margin Monte Carlo convergence budgets, plus the declared final floor. Only selected rows are shown. $M_{\mathrm{pair}}$ counts base permutations and $T$ counts evaluated forward/reverse orders. Floor rows ($\dagger$) report per-user medians from the 100-user quantile validation (Supplementary Section~S8); the selected-budget rows report population means from the selection diagnostic.}
 \label{tab:convergence}
 \begin{tabular}{llrrrrrr}
 \toprule
 Dataset & Model & $M_{\mathrm{pair}}$ & $T$ & Rank & Jaccard & Rank-valid & Coverage \\
 \midrule
-Amazon & itemknn & 50 & 100 & 0.9532 & 0.9090 & 100.0\% & 60.0\% \\
+Amazon & ItemKNN & 50 & 100 & 0.9532 & 0.9090 & 100.0\% & 60.0\% \\
 Amazon & profile & 100 & 200 & 0.9670 & 0.9110 & 100.0\% & 66.0\% \\
-MovieLens & itemknn & 250 & 500 & 0.9853 & 0.8433 & 100.0\% & 69.0\% \\
+MovieLens & ItemKNN & 250 & 500 & 0.9853 & 0.8433 & 100.0\% & 69.0\% \\
 MovieLens & profile & 50 & 100 & 0.9670 & 0.8320 & 100.0\% & 56.0\% \\
+\midrule
+Amazon & ItemKNN & 500$^\dagger$ & 1000 & 0.999 & 1.000 & 100.0\% & 83.0\% \\
+MovieLens & ItemKNN & 500$^\dagger$ & 1000 & 0.991 & 1.000 & 100.0\% & 74.0\% \\
 \bottomrule
 \end{tabular}
 \end{table}

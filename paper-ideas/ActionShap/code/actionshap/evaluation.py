@@ -121,7 +121,7 @@ def model_mc_shapley(
     model,
     game: UserGame,
     permutations: int,
-    seed: int,
+    seed: int | tuple,
     *,
     k: int = 10,
     utility: str = "ndcg",
@@ -439,7 +439,7 @@ def within_user_aia_null(
     attribution: np.ndarray,
     effects: np.ndarray,
     draws: int = 1000,
-    seed: int = 0,
+    seed: int | tuple = 0,
 ) -> np.ndarray:
     """Within-user magnitude-AIA permutation null."""
     if draws < 1:
@@ -467,7 +467,7 @@ def aia_null_summary(
     attribution: np.ndarray,
     effects: np.ndarray,
     draws: int = 1000,
-    seed: int = 0,
+    seed: int | tuple = 0,
 ) -> dict[str, float | int | None]:
     """Observed AIA, calibrated null, and finite-resolution permutation p-value."""
     observed = aia(attribution, effects)
@@ -585,5 +585,5 @@ def attribution_methods(
         "loo": permutation_importance(utility, n_players),
         "lime": lime_attribution(utility, n_players, samples=lime_samples, seed=seed),
         "greedy_cf": greedy_counterfactual_attribution(utility, n_players),
-        "random": random_attribution(n_players, seed=seed + 1_000_000),
+        "random": random_attribution(n_players, seed=(int(seed), 1_000_000, 7)),
     }

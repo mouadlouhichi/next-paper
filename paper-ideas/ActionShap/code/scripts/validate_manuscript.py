@@ -20,8 +20,10 @@ REF_RE = re.compile(r"\\(?:ref|pageref)\{([^}]+)\}")
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--paper", default="../paper-v3/actionshap.tex")
-    parser.add_argument("--bib", default="../paper-v3/paper.bib")
+    parser.add_argument("--paper", default="../acmart-primary/acmmanuscript.tex")
+    parser.add_argument(
+        "--bib", default="../acmart-primary/actionshap-bibliography.bib"
+    )
     parser.add_argument("--require-final", action="store_true")
     args = parser.parse_args()
     code_root = Path(__file__).resolve().parents[1]
@@ -46,8 +48,11 @@ def main() -> None:
         warnings.append(f"unused bibliography keys: {unused}")
     if not bibliography_keys:
         errors.append("bibliography contains no entries")
-    if "\\bibliography{paper}" not in tex:
-        errors.append("manuscript does not point to the pinned paper.bib")
+    bib_stem = bib_path.stem
+    if f"\\bibliography{{{bib_stem}}}" not in tex:
+        errors.append(
+            f"manuscript does not point to the pinned bibliography ({bib_stem})"
+        )
 
     begins = Counter(BEGIN_RE.findall(tex))
     ends = Counter(END_RE.findall(tex))
@@ -70,12 +75,10 @@ def main() -> None:
     missing_refs = sorted(set(REF_RE.findall(tex)) - set(labels))
     if missing_refs:
         errors.append(f"unresolved manuscript references: {missing_refs}")
-    if "ActionShap: Beyond Deletion Faithfulness" not in tex:
-        errors.append("canonical title is missing")
+    if "ActionShap:" not in tex or "\\title{" not in tex:
+        errors.append("canonical ActionShap title is missing")
     if "\\keywords{" not in tex:
         errors.append("Keywords metadata is missing")
-    if "\\date{}" not in tex:
-        warnings.append("explicit empty date is not present; class default may add a date")
     if "paper-v2" in tex:
         errors.append("stale paper-v2 path remains in canonical manuscript")
     if any(token in tex for token in ("0.749152", "0.918817", "0.000584487")):

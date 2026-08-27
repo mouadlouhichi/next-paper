@@ -33,7 +33,7 @@ def lime_attribution(
     utility: Utility,
     n_players: int,
     samples: int = 512,
-    seed: int = 0,
+    seed: int | tuple = 0,
     ridge_alpha: float = 1.0,
     kernel_width: float = 0.25,
     mask_design: str = "bernoulli",
@@ -158,7 +158,16 @@ def greedy_counterfactual_attribution(utility: Utility, n_players: int) -> np.nd
     return attribution
 
 
-def random_attribution(n_players: int, seed: int = 0) -> np.ndarray:
+def random_attribution(n_players: int, seed: int | tuple = 0) -> np.ndarray:
+    """IID standard-normal control scores.
+
+    ``seed`` may be an integer or a tuple of integers. Tuple seeds are passed
+    straight to :class:`numpy.random.SeedSequence`, which mixes every word of
+    the entropy. Callers should therefore derive the random-control stream as a
+    tuple (e.g. ``(experiment_seed, user_id, stream_tag)``) rather than by
+    integer addition, because integer offsets can collide for adjacent
+    ``(user, seed)`` pairs.
+    """
     if n_players < 1:
         raise ValueError("n_players must be positive")
     return np.random.default_rng(seed).normal(size=n_players)

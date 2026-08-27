@@ -32,11 +32,13 @@ Amazon, LightGCN & 0.234 & 0.806 & 0.888 & 0.870 & 0.853 \\
 Gowalla, ItemKNN & 0.663 & 0.734 & 0.722 & 0.992 & 0.977 \\
 \bottomrule\end{tabular}\end{table}
 \begin{table}[t]\centering\scriptsize\setlength{\tabcolsep}{3pt}
-\caption{Monte Carlo error control at the $n_{\max}=20$ cap (review-7 \#5):
-per-user Monte Carlo standard errors of the Shapley values relative to the
-largest $|\phi|$, and rank correlation between the primary-budget estimate
-($M_{\mathrm{pair}}=250$) and an independent larger-budget reference
-($M_{\mathrm{pair}}=1000$, separate seed stream).}
+\caption{Monte Carlo error control at the $n_{\max}=20$ cap (50 sampled
+cap users per dataset): per-user Monte Carlo standard errors of the Shapley
+values relative to the largest $|\phi|$, and rank correlation between the
+estimate at the diagnostic budget $M_{\mathrm{pair}}=250$ and an independent
+larger-budget reference ($M_{\mathrm{pair}}=1000$, separate seed stream).
+$M_{\mathrm{pair}}=250$ is a diagnostic budget for this check; the declared
+final floor is $500$.}
 \label{tab:review8-mcse}
 \begin{tabular}{@{}lrrrrr@{}}
 \toprule

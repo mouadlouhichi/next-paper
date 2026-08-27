@@ -163,7 +163,10 @@ def hierarchical_sensitivity(frame: pd.DataFrame, draws: int) -> pd.DataFrame:
 
 def power_table(frame: pd.DataFrame) -> pd.DataFrame:
     rows = []
-    aia = user_level(frame, "aia")
+    # Restrict to the primary quality-gated model. Pooling across models
+    # (itemknn + profile) averages two AIA values per user and artificially
+    # shrinks the paired-difference SD, understating the MDE.
+    aia = user_level(frame[frame["model"] == "itemknn"], "aia")
     for dataset in sorted(aia["dataset"].unique()):
         wide = aia[aia["dataset"] == dataset].pivot_table(
             index="user", columns="method", values="aia")

@@ -55,11 +55,16 @@ MovieLens-1M & profile & Greedy & Random & 1000 & 0.316 & [0.303,0.330] & 0.0010
 \begin{table}[!htbp]\centering\scriptsize\setlength{\tabcolsep}{3pt}
 \caption{Primary-cohort success and abstention proportions and paired
 quality difference against the popularity reference (Pop.), all on the
-1,000-user primary ItemKNN cohort (993 on Amazon after constant-vector
-exclusion), seed-averaged within user with 10,000-draw user-bootstrap 95\%
-CIs. Success is the fraction of users with positive seed-averaged realized
-NDCG effect; abstention is the fraction selecting no action. These replace the
-earlier replication-cohort (250-user) proportions so that all quality
+1,000-user primary ItemKNN cohort, seed-averaged within user with
+10,000-draw user-bootstrap 95\% CIs. These realized-effect quantities are
+defined for every retained user, so the denominator is the full 1,000 on both
+datasets (the 993 Amazon count applies only to the constant-vector exclusion
+used by attribution-AIA statistics). Success is the fraction of users with
+positive seed-averaged realized NDCG effect; abstention is the fraction
+selecting no action. The NDCG$-$Pop. rows report the model's quality
+difference against the popularity reference, a model-level quantity identical
+across explainers and repeated per method only for readability. These replace
+the earlier replication-cohort (250-user) proportions so that all quality
 quantities are cohort-consistent with Table~3.}
 \label{tab:prop-quality}
 \begin{tabular}{@{}lllrrr@{}}
@@ -128,7 +133,10 @@ Amazon-Digital-Music & LIME & LOO & Abstention & -0.0158 & 0.0110 & 1000 \\
 \begin{table}[!htbp]\centering\scriptsize\setlength{\tabcolsep}{3pt}
 \caption{Sensitivity and power: hierarchical user$\times$seed cluster-bootstrap
 CIs for primary bounded AIA means, and minimum detectable paired difference
-(MDE$_{80}$) for the Shapley--LIME contrast.}
+(MDE$_{80}$) for the Shapley--LIME contrast, $\mathrm{MDE}_{80}=(z_{0.975}+z_{0.8})\,s_d/\sqrt{n}$
+with $s_d$ the SD of the seed-averaged paired user differences over distinct
+users (primary ItemKNN only; $n=993$ on Amazon after the constant-vector
+exclusion). These values match the main-text MDE statement.}
 \label{tab:sens-power}
 \begin{tabular}{@{}llrrrr@{}}
 \toprule
@@ -154,8 +162,8 @@ MovieLens-1M (profile) & Bounded AIA (LIME, hier.) & 0.973 & 0.971 & 0.975 & 100
 MovieLens-1M (profile) & Bounded AIA (LOO, hier.) & 0.994 & 0.992 & 0.995 & 1000 \\
 MovieLens-1M (profile) & Bounded AIA (Random, hier.) & 0.000 & -0.006 & 0.007 & 1000 \\
 MovieLens-1M (profile) & Bounded AIA (Shapley, hier.) & 0.787 & 0.782 & 0.793 & 1000 \\
-Amazon-Digital-Music & MDE$_80$ (Shapley - LIME (bounded AIA)) & 0.032 & -- & -- & 1000 \\
-MovieLens-1M & MDE$_80$ (Shapley - LIME (bounded AIA)) & 0.008 & -- & -- & 1000 \\
+Amazon-Digital-Music & MDE$_80$ (Shapley - LIME (bounded AIA)) & 0.051 & -- & -- & 993 \\
+MovieLens-1M & MDE$_80$ (Shapley - LIME (bounded AIA)) & 0.014 & -- & -- & 1000 \\
 \bottomrule
 \end{tabular}
 \end{table}

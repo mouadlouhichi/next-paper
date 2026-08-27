@@ -111,6 +111,115 @@ class ItemKNNModel:
         return scores
 
 
+@dataclass(frozen=True)
+class FixedDenominatorItemKNN:
+    """Pure-suppression variant of :class:`ItemKNNModel`.
+
+    The primary ItemKNN scorer divides by the sum of retained weights, so
+    downweighting one interaction reallocates normalized profile mass to every
+    other retained interaction (relative profile reweighting), and any uniform
+    positive rescaling of all weights leaves scores unchanged. This adapter
+    instead divides by the number of retained interactions supplied to the call
+    (the full player window), i.e.
+
+        f_i = (1/n_u) * sum_h w_h s(h, i),
+
+    so downweighting player ``p`` from 1 to rho suppresses exactly p's
+    contribution and leaves every other interaction's contribution unchanged.
+    At the full profile (all weights one) the two scorers agree exactly, so
+    only the intervention semantics differ. The adapter exposes the same
+    scoring interface as ``ItemKNNModel`` and is used exclusively by the
+    construct-validity ablation contrasting relative reweighting with pure
+    suppression; it is never substituted into the primary runs.
+    """
+
+    base: ItemKNNModel
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.base, ItemKNNModel):
+            raise ValueError("base must be a fitted ItemKNNModel")
+
+    @property
+    def n_items(self) -> int:
+        return self.base.n_items
+
+    def _validate(
+        self, history_items: np.ndarray, candidate_items: np.ndarray
+    ) -> tuple[np.ndarray, np.ndarray]:
+        history = np.asarray(history_items, dtype=int)
+        candidates = np.asarray(candidate_items, dtype=int)
+        if history.ndim != 1 or candidates.ndim != 1:
+            raise ValueError("history_items and candidate_items must be 1-D")
+        if np.any((history < 0) | (history >= self.n_items)) or np.any(
+            (candidates < 0) | (candidates >= self.n_items)
+        ):
+            raise ValueError("item ID outside similarity matrix")
+        return history, candidates
+
+    def score(
+        self,
+        history_items: np.ndarray,
+        candidate_items: np.ndarray,
+        weights: np.ndarray | None = None,
+    ) -> np.ndarray:
+        history, candidates = self._validate(history_items, candidate_items)
+        if weights is None:
+            w = np.ones(history.size, dtype=float)
+        else:
+            w = np.asarray(weights, dtype=float)
+            if w.shape != history.shape or not np.all(np.isfinite(w)) or np.any(w < 0):
+                raise ValueError(
+                    "weights must be finite, non-negative, and history-aligned"
+                )
+        if history.size == 0:
+            return np.zeros(candidates.size, dtype=float)
+        block = self.base.similarities[candidates][:, history]
+        return np.asarray(block @ w).reshape(-1) / float(history.size)
+
+    def score_masked(
+        self,
+        history_items: np.ndarray,
+        candidate_items: np.ndarray,
+        mask: np.ndarray,
+    ) -> np.ndarray:
+        history, candidates = self._validate(history_items, candidate_items)
+        keep = np.asarray(mask, dtype=bool)
+        if keep.shape != history.shape:
+            raise ValueError("mask must align with history_items")
+        denominator = float(history.size)
+        if denominator == 0.0 or not keep.any():
+            return np.zeros(candidates.size, dtype=float)
+        block = self.base.similarities[candidates][:, history[keep]]
+        return np.asarray(block.sum(axis=1)).reshape(-1) / denominator
+
+    def score_downweighted(
+        self,
+        history_items: np.ndarray,
+        candidate_items: np.ndarray,
+        weights: np.ndarray,
+    ) -> np.ndarray:
+        return self.score(history_items, candidate_items, weights)
+
+    def score_downweighted_batch(
+        self,
+        history_items: np.ndarray,
+        candidate_items: np.ndarray,
+        weight_matrix: np.ndarray,
+    ) -> np.ndarray:
+        history, candidates = self._validate(history_items, candidate_items)
+        weights = np.asarray(weight_matrix, dtype=float)
+        if weights.ndim != 2 or weights.shape[1] != history.size:
+            raise ValueError(
+                "weight_matrix must have one column per history interaction"
+            )
+        if not np.all(np.isfinite(weights)) or np.any(weights < 0):
+            raise ValueError("weight_matrix must be finite and non-negative")
+        if history.size == 0:
+            return np.zeros((weights.shape[0], candidates.size), dtype=float)
+        block = self.base.similarities[candidates][:, history].toarray()
+        return (weights @ block.T) / float(history.size)
+
+
 def _retain_top_k_rows(matrix: sparse.csr_matrix, k: int) -> sparse.csr_matrix:
     """Keep at most the largest ``k`` non-zero values in every CSR row."""
     if k < 1:

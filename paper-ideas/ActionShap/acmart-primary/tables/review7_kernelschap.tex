@@ -4,7 +4,13 @@ efficiency constraint) against the reverse-paired Monte Carlo Shapley
 estimator, bounded AIA, primary ItemKNN conditions, $\rho=0.5$, user-level
 paired comparison with 10,000-draw bootstrap CIs. KernelSHAP uses 256/512
 masks, the same mask budget as the LIME comparison; Monte Carlo Shapley uses
-$M_{\mathrm{pair}}=250$ ($T=500$ evaluated orders). Both estimators agree
+$M_{\mathrm{pair}}=250$ ($T=500$ evaluated orders). The analysis population
+is the intersection of users with finite, nonconstant bounded AIA under both
+estimators: all 1,000 MovieLens users, and 810 of the 993 AIA-eligible
+Amazon users (short, tie-heavy profiles make the kernel fit or the rank
+correlation degenerate for the remainder). Per-user Pearson agreement
+between the two estimators' bounded AIA is $0.78$ ($256$ masks) and $0.81$
+($512$) on MovieLens and $0.97$/$0.98$ on Amazon. Both estimators agree
 qualitatively: Shapley bounded alignment remains far below LIME ($0.93$/$0.83$)
 and LOO ($0.98$/$0.85$) under either estimator.}
 \label{tab:review7-kernelschap}

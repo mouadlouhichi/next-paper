@@ -187,9 +187,10 @@ convergence was only validated exactly for $n_u\le12$ while $83.1\%$ of
 MovieLens users sit at the $n_{\max}=20$ cap---is addressed by per-user Monte Carlo
 standard errors plus an independent larger-budget reference
 (Table~\ref{tab:review8-mcse}): relative standard errors are small (mean
-$0.06$--$0.08$ of the largest $|\phi|$) and the selected convergence-budget estimate agrees
-with the independent $M_{\mathrm{pair}}=1000$ reference at rank correlation
-$\ge0.95$ for every user (mean $\ge0.989$).
+$0.06$--$0.08$ of the largest $|\phi|$) and the estimate at the diagnostic budget
+$M_{\mathrm{pair}}=250$ agrees with the independent $M_{\mathrm{pair}}=1000$ reference
+at rank correlation $\ge0.948$ for every one of the 50 sampled cap users per
+dataset (mean $0.989$ MovieLens, $0.997$ Amazon).
 
 \emph{Exhaustive budget-3 oracle.} The greedy budget-3 lower bound is replaced
 by exhaustive enumeration of all $\le3$ actions ($1{,}351$ at $n=20$,

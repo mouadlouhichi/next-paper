@@ -2,10 +2,17 @@
 \begin{table}[t]\centering\scriptsize\setlength{\tabcolsep}{2.5pt}
 \caption{Review-3 extensions: unconditional (full-cohort) regret and
 prospective bounded AIA per explainer (non-target-conditioned audits),
-followed by point-by-point curves per run: equal-scorer-budget bounded AIA
-for Monte Carlo Shapley (budget in scored coalitions) and bounded LIME
-(budget in masks), the $\rho$-response of Monte Carlo Shapley, and the
-kernel-width ($\kappa$) sensitivity of bounded LIME.}
+followed by point-by-point budget-response curves per run (each column is a
+separate budget point for one method; the Shapley and LIME columns at any
+given row are \emph{not} equal-budget comparisons, and $S$ denotes scorer
+states/masks rather than the action budget $B$): Monte Carlo Shapley bounded
+AIA against scored-coalition budget $S$, bounded LIME bounded AIA against
+mask budget $S$, the $\rho$-response of Monte Carlo Shapley, and the
+kernel-width ($\kappa$) sensitivity of bounded LIME. In the $\rho$-response,
+Amazon ItemKNN Shapley alignment is $0.708$ at every tested strength: under
+the normalized ItemKNN scorer the singleton-effect rank structure is
+$\rho$-stable (relative-reweighting factorization derived in the main text),
+while absolute effect magnitudes scale with $\rho$.}
 \label{tab:review3-ext}
 \begin{tabular}{@{}lrrrrrr@{}}
 \toprule
@@ -20,7 +27,7 @@ ML-1M SASRec & 0.003 & 0.870 & 0.848 & 0.937 & 0.920 & 0.906 \\
 \par\vspace{2mm}
 \begin{tabular}{@{}lrrrrrrrr@{}}
 \toprule
-Run & Shapley $B{=}4200$ & Shapley $B{=}10500$ & Shapley $B{=}21000$ & Shapley $B{=}42000$ & LIME $B{=}128$ & LIME $B{=}512$ & LIME $B{=}1024$ & LIME $B{=}2048$ \\
+Run & Shapley $S{=}4200$ & Shapley $S{=}10500$ & Shapley $S{=}21000$ & Shapley $S{=}42000$ & LIME $S{=}128$ & LIME $S{=}512$ & LIME $S{=}1024$ & LIME $S{=}2048$ \\
 \midrule
 Amazon ItemKNN & 0.708 & 0.708 & 0.708 & 0.714 & 0.754 & 0.757 & 0.758 & 0.759 \\
 Amazon SASRec & 0.109 & 0.154 & 0.161 & 0.155 & 0.702 & 0.745 & 0.743 & 0.740 \\

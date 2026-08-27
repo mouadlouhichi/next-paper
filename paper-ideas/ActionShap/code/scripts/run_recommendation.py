@@ -529,7 +529,7 @@ def main() -> None:
             model,
             game,
             args.permutations,
-            args.seed + user,
+            (int(args.seed), int(user), 2),
             k=args.k,
             utility=args.utility,
         )
@@ -540,11 +540,11 @@ def main() -> None:
                 utility,
                 game.players.size,
                 samples=max(args.lime_samples, game.players.size + 2),
-                seed=args.seed + user,
+                seed=(int(args.seed), int(user), 1),
             ),
             "greedy_cf": greedy_counterfactual_attribution(utility, game.players.size),
             "random": random_attribution(
-                game.players.size, args.seed + 1_000_000 + user
+                game.players.size, (int(args.seed), int(user), 1_000_000)
             ),
         }
 
@@ -657,7 +657,7 @@ def main() -> None:
                 attribution,
                 action_effects,
                 draws=args.null_draws,
-                seed=args.seed + 100_000 + user,
+                seed=(int(args.seed), int(user), 100_000),
             )
             action = select_downweight_action(
                 attribution,

@@ -36,11 +36,15 @@ ML-1M & 73 & 1.23e-03 & 2.36e-03 & 0.963 & 0.73 & 0.019 \\
 \end{tabular}
 \end{table}
 \begin{table}[!htbp]\centering\scriptsize\setlength{\tabcolsep}{3pt}
-\caption{LIME mask-design ablation (ItemKNN, 200 users, target margin):
-the seeded Bernoulli design with replacement, distinct masks without
-replacement, and full enumeration where feasible, plus the ridge penalty
-sweep under the Bernoulli design. Users whose attribution or effect vector
-is constant are excluded (valid/$n$).}
+\caption{LIME mask-design ablation (ItemKNN, target margin): the seeded
+Bernoulli design with replacement (400 users in the ``primary'' rows),
+distinct masks without replacement and the ridge sweep (200 users), and full
+enumeration on the $n_u\le9$ subset where feasible. Users whose attribution
+or effect vector is constant are excluded (valid/$n$); the valid denominators
+therefore differ across designs and datasets, so rows are not paired
+same-user comparisons and the Amazon rows are not directly comparable to the
+primary-cohort bounded AIA of $0.827$, which uses the full 1,000-user cohort
+at the declared design.}
 \label{tab:review5-lime-masks}
 \begin{tabular}{@{}lllrrr@{}}
 \toprule
