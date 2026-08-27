@@ -16,3 +16,19 @@ paper-ideas/ActionShap/code/.ipynb_checkpoints
 paper-ideas/ActionShap/code/actionshap/.ipynb_checkpoints
 paper-ideas/ActionShap/code/actionshap/.DS_Store
 paper-ideas/ActionShap/code/actionshap/**/__pycache__//
+# LaTeX build artifacts (keep .tex/.bbl/.pdf; ignore generated files)
+*.aux
+*.log
+*.blg
+*.out
+*.synctex
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+*.toc
+*.lof
+*.lot
+*.nav
+*.snm
+*.vrb
+comment.cut
