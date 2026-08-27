@@ -1,0 +1,280 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\@writefile{toc}{\contentsline {section}{Abstract}{1}{section*.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}\protected@file@percent }
+\citation{zhang2020survey}
+\citation{zhang2014}
+\citation{peake2018,nobrega2019}
+\citation{ribeiro2016}
+\citation{lundberg2017}
+\citation{barkan2026spinrec}
+\citation{li2024tkde}
+\citation{koren2009}
+\citation{rendle2009}
+\citation{joachims2002,burges2005}
+\citation{he2017ncf}
+\citation{hidasi2016gru4rec}
+\citation{kang2018sasrec}
+\citation{sun2019bert4rec}
+\citation{wang2019ngcf}
+\citation{he2020lightgcn}
+\citation{ying2019gnnexplainer,luo2020pgexplainer}
+\citation{yuan2021subgraphx,duval2021graphsvx}
+\citation{lucic2022cfgnnexplainer}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Literature Review}{3}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Explainable recommendation}{3}{subsection.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Recommender models and offline evaluation}{3}{subsection.2.2}\protected@file@percent }
+\citation{harper2016}
+\citation{bennett2007}
+\citation{saito2021}
+\citation{schnabel2016debias,joachims2017unbiased,saito2020ips}
+\citation{li2011linucb}
+\citation{petsiuk2018rise}
+\citation{fong2017meaningful}
+\citation{hooker2019}
+\citation{adebayo2018}
+\citation{ghazimatin2020}
+\citation{tran2021}
+\citation{tan2021,barkan2024}
+\citation{gurevitch2025}
+\citation{mohammadi2026sigir}
+\citation{cerny2025plausible}
+\citation{wachter2017,karimi2021}
+\citation{yao2022,baklanov2024}
+\citation{mohammadi2025}
+\citation{nguyen2026}
+\citation{domnich2025unifying}
+\citation{li2025alert}
+\citation{sundararajan2017axiomatic}
+\citation{nauta2023survey}
+\citation{hedstrom2023quantus}
+\citation{chowdhury2024rankshap}
+\citation{pliatsika2025sharpl}
+\citation{bento2021timeshap}
+\citation{bruun2025session}
+\citation{mousavi2023clime}
+\citation{li2025alert}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Faithfulness, counterfactual evaluation, and recourse}{4}{subsection.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Evaluation protocols for recommender explanations}{4}{subsection.2.4}\protected@file@percent }
+\citation{mohammadi2024recsys}
+\citation{baklanov2025fidelity,barkan2026spinrec}
+\citation{gilpin2018,arrieta2020}
+\citation{samek2017,deyoung2020}
+\citation{molnar2022}
+\citation{shapley1953}
+\citation{lundberg2017,lundberg2020}
+\citation{castro2009,covert2021,okhrani2021multilinear}
+\citation{sundararajan2020many}
+\citation{covert2020sage}
+\citation{ancona2019unified}
+\citation{heskes2020causal}
+\citation{jethani2022fastshap}
+\citation{ghorbani2019datashapley}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5}Interpretable machine learning and cooperative attribution}{5}{subsection.2.5}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Positioning by evaluation target.}}{5}{table.1}\protected@file@percent }
+\newlabel{tab:positioning}{{1}{5}{Positioning by evaluation target}{table.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Background and Problem Formulation}{6}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Temporal user-specific game}{6}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}History-conditioned recommenders}{6}{subsection.3.2}\protected@file@percent }
+\newlabel{eq:itemknn-weighted}{{2}{6}{History-conditioned recommenders}{equation.2}{}}
+\newlabel{eq:profile-weighted}{{3}{6}{History-conditioned recommenders}{equation.3}{}}
+\newlabel{eq:bpr}{{4}{6}{History-conditioned recommenders}{equation.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Utilities and interventions}{7}{subsection.3.3}\protected@file@percent }
+\newlabel{eq:ndcg-one-target}{{7}{7}{Utilities and interventions}{equation.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Methodology}{8}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Protocol architecture}{8}{subsection.4.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces ActionShap evaluation architecture for a retrospective, target-conditioned audit. The held-out temporal target $y$ defines the target-margin utility; the main path keeps player construction, frozen scoring, attribution, action selection, intervention, and outcome evaluation distinct. Control bands identify quantities fixed across explainers; stability diagnostics appear in the diagnostics tables in Supplementary Section\nonbreakingspace S8.}}{8}{figure.caption.2}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:architecture}{{1}{8}{ActionShap evaluation architecture for a retrospective, target-conditioned audit. The held-out temporal target $y$ defines the target-margin utility; the main path keeps player construction, frozen scoring, attribution, action selection, intervention, and outcome evaluation distinct. Control bands identify quantities fixed across explainers; stability diagnostics appear in the diagnostics tables in Supplementary Section~S8}{figure.caption.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Attribution methods}{8}{subsection.4.2}\protected@file@percent }
+\newlabel{eq:exact-shapley}{{14}{8}{Attribution methods}{equation.14}{}}
+\newlabel{eq:lime}{{15}{9}{Attribution methods}{equation.15}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Metrics}{9}{subsection.4.3}\protected@file@percent }
+\newlabel{eq:aia}{{16}{9}{Metrics}{equation.16}{}}
+\newlabel{eq:diracc}{{17}{10}{Metrics}{equation.17}{}}
+\newlabel{eq:null-p}{{20}{10}{Metrics}{equation.20}{}}
+\citation{sundararajan2020shapleytaylor,janizek2021axiomatic}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Decision quality and regret}{11}{subsection.4.4}\protected@file@percent }
+\newlabel{eq:predicted-benefit}{{21}{11}{Decision quality and regret}{equation.21}{}}
+\newlabel{eq:nregret}{{25}{11}{Decision quality and regret}{equation.25}{}}
+\citation{harper2016}
+\citation{ni2019}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Paired Monte Carlo attribution}}{12}{algorithm.1}\protected@file@percent }
+\newlabel{alg:shapley}{{1}{12}{Paired Monte Carlo attribution}{algorithm.1}{}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces Leakage-free signed action selection and exact budget-two oracle}}{12}{algorithm.2}\protected@file@percent }
+\newlabel{alg:actions}{{2}{12}{Leakage-free signed action selection and exact budget-two oracle}{algorithm.2}{}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {3}{\ignorespaces Distinct-user inference and AIA null}}{12}{algorithm.3}\protected@file@percent }
+\newlabel{alg:inference}{{3}{12}{Distinct-user inference and AIA null}{algorithm.3}{}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {4}{\ignorespaces Independent convergence selection}}{13}{algorithm.4}\protected@file@percent }
+\newlabel{alg:convergence}{{4}{13}{Independent convergence selection}{algorithm.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Primary-cohort profile-window and intervention-opportunity audit. ``At cap'' is the fraction with $n_u=20$; an active NDCG oracle has a positive exact budget-two effect.}}{13}{table.caption.3}\protected@file@percent }
+\newlabel{tab:profile-window-audit}{{2}{13}{Primary-cohort profile-window and intervention-opportunity audit. ``At cap'' is the fraction with $n_u=20$; an active NDCG oracle has a positive exact budget-two effect}{table.caption.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Experimental Protocol}{13}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Datasets and temporal split}{13}{subsection.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Models, candidates, and gates}{13}{subsection.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Statistical analysis}{14}{subsection.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Reproducibility}{15}{subsection.5.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Results}{15}{section.6}\protected@file@percent }
+\newlabel{sec:results}{{6}{15}{Results}{section.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Recommendation quality and protocol audit}{15}{subsection.6.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Recommendation-quality and masking-gate audit on the held-out target plus the stated number of unseen negatives. HitRate@10 is the one-target hit indicator, not catalogue retrieval recall. Values are distinct-user means with 10,000-draw user-bootstrap 95\% CIs; popularity references are per-dataset constants. Gate reports passing model seeds out of five. ML-1M = MovieLens-1M.}}{15}{table.caption.4}\protected@file@percent }
+\newlabel{tab:recommendation-quality}{{3}{15}{Recommendation-quality and masking-gate audit on the held-out target plus the stated number of unseen negatives. HitRate@10 is the one-target hit indicator, not catalogue retrieval recall. Values are distinct-user means with 10,000-draw user-bootstrap 95\% CIs; popularity references are per-dataset constants. Gate reports passing model seeds out of five. ML-1M = MovieLens-1M}{table.caption.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Faithfulness versus bounded alignment}{15}{subsection.6.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Deletion AIA, bounded-intervention AIA, and their difference for the five methods. Points are distinct-user means and intervals are user-bootstrap 95\% confidence intervals. Budget rows are excluded because budgets do not define singleton gap estimands. The underlying values are also supplied in editable Table\nonbreakingspace \ref {tab:aia-components} and the alignment table in Supplementary Section\nonbreakingspace S7, so interpretation does not depend on color alone.}}{16}{figure.caption.5}\protected@file@percent }
+\newlabel{fig:aia-components}{{2}{16}{Deletion AIA, bounded-intervention AIA, and their difference for the five methods. Points are distinct-user means and intervals are user-bootstrap 95\% confidence intervals. Budget rows are excluded because budgets do not define singleton gap estimands. The underlying values are also supplied in editable Table~\ref {tab:aia-components} and the alignment table in Supplementary Section~S7, so interpretation does not depend on color alone}{figure.caption.5}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Primary ItemKNN alignment components. Values are distinct-user means; bounded AIA and Gap include 95\% user-bootstrap confidence intervals. Deletion-AIA intervals are provided in Supplementary Section\nonbreakingspace S7. Shapley = Monte Carlo Shapley; Greedy = greedy sequential deletion; Random = random control.}}{16}{table.caption.6}\protected@file@percent }
+\newlabel{tab:aia-components}{{4}{16}{Primary ItemKNN alignment components. Values are distinct-user means; bounded AIA and Gap include 95\% user-bootstrap confidence intervals. Deletion-AIA intervals are provided in Supplementary Section~S7. Shapley = Monte Carlo Shapley; Greedy = greedy sequential deletion; Random = random control}{table.caption.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Joint intervention decisions}{16}{subsection.6.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Primary budget-two intervention decisions. NRegret is conditional on active NDCG oracles; the active-user count is shown in parentheses.}}{17}{table.caption.7}\protected@file@percent }
+\newlabel{tab:intervention-outcomes}{{5}{17}{Primary budget-two intervention decisions. NRegret is conditional on active NDCG oracles; the active-user count is shown in parentheses}{table.caption.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}Hypothesis adjudication}{17}{subsection.6.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Primary MovieLens ItemKNN NDCG effect for actions selected at budget two. We show MovieLens for visual legibility; the analogous Amazon effects are reported in Table\nonbreakingspace \ref {tab:intervention-outcomes}. The comparison is retrospective and target-conditioned; intervals are distinct-user bootstrap intervals.}}{18}{figure.caption.8}\protected@file@percent }
+\newlabel{fig:joint-ndcg}{{3}{18}{Primary MovieLens ItemKNN NDCG effect for actions selected at budget two. We show MovieLens for visual legibility; the analogous Amazon effects are reported in Table~\ref {tab:intervention-outcomes}. The comparison is retrospective and target-conditioned; intervals are distinct-user bootstrap intervals}{figure.caption.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.5}Null calibration and convergence}{18}{subsection.6.5}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Primary within-user null calibration of bounded target-margin AIA. Observed values are bounded-intervention magnitude AIA; the $R_{\mathrm  {null}}=1{,}000$ matched null draws and observed values are averaged across the five seeds within each distinct user before summarisation. $p$-values are unadjusted upper-tail null $p$ (Eq.\nonbreakingspace \ref {eq:null-p}), i.e.\ descriptive calibration controls, not a confirmatory family. For compactness, null means are shown in $10^{-4}$ units while observed AIA and null 95th percentiles are shown in raw AIA units.}}{19}{table.caption.9}\protected@file@percent }
+\newlabel{tab:aia-null}{{6}{19}{Primary within-user null calibration of bounded target-margin AIA. Observed values are bounded-intervention magnitude AIA; the $R_{\mathrm {null}}=1{,}000$ matched null draws and observed values are averaged across the five seeds within each distinct user before summarisation. $p$-values are unadjusted upper-tail null $p$ (Eq.~\ref {eq:null-p}), i.e.\ descriptive calibration controls, not a confirmatory family. For compactness, null means are shown in $10^{-4}$ units while observed AIA and null 95th percentiles are shown in raw AIA units}{table.caption.9}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Selected target-margin Monte Carlo convergence budgets. Only selected rows are shown. $M_{\mathrm  {pair}}$ counts base permutations and $T$ counts evaluated forward/reverse orders.}}{19}{table.caption.10}\protected@file@percent }
+\newlabel{tab:convergence}{{7}{19}{Selected target-margin Monte Carlo convergence budgets. Only selected rows are shown. $M_{\mathrm {pair}}$ counts base permutations and $T$ counts evaluated forward/reverse orders}{table.caption.10}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.6}Robustness and boundaries}{19}{subsection.6.6}\protected@file@percent }
+\newlabel{sec:robustness}{{6.6}{19}{Robustness and boundaries}{subsection.6.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Independent Monte Carlo convergence against an independent $M_{\mathrm  {pair}}=1000$ \emph  {MC reference} (not ground truth; an exact-reference subset is specified in the replication guide). Left: rank agreement with the reference; right: signed $B=2$ action-set Jaccard overlap, the second selection criterion; dashed lines mark the $0.95$ and $0.80$ thresholds. The legend maps every curve to its dataset--model--utility condition. The numerical values are provided in Supplementary Table\nonbreakingspace S6, so interpretation does not rely on colour alone. Efficiency is not used as a convergence criterion because the prefix walk telescopes.}}{20}{figure.caption.11}\protected@file@percent }
+\newlabel{fig:convergence}{{4}{20}{Independent Monte Carlo convergence against an independent $M_{\mathrm {pair}}=1000$ \emph {MC reference} (not ground truth; an exact-reference subset is specified in the replication guide). Left: rank agreement with the reference; right: signed $B=2$ action-set Jaccard overlap, the second selection criterion; dashed lines mark the $0.95$ and $0.80$ thresholds. The legend maps every curve to its dataset--model--utility condition. The numerical values are provided in Supplementary Table~S6, so interpretation does not rely on colour alone. Efficiency is not used as a convergence criterion because the prefix walk telescopes}{figure.caption.11}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces Amazon Digital Music full-unseen-catalogue audit at 1,000 users (five seeds, seed-mean within user; median catalogue size 8,572 unseen items). Bounded and deletion AIA, their difference, signed alignment, realized target-margin effect of the selected action, and conditional normalized regret; intervals are user-bootstrap 95\% CIs. Active-oracle denominators: $883$ (target margin) and $54$ (NDCG).}}{20}{table.caption.12}\protected@file@percent }
+\newlabel{tab:review5-fullcat}{{8}{20}{Amazon Digital Music full-unseen-catalogue audit at 1,000 users (five seeds, seed-mean within user; median catalogue size 8,572 unseen items). Bounded and deletion AIA, their difference, signed alignment, realized target-margin effect of the selected action, and conditional normalized regret; intervals are user-bootstrap 95\% CIs. Active-oracle denominators: $883$ (target margin) and $54$ (NDCG)}{table.caption.12}{}}
+\citation{mohammadi2024recsys,nguyen2026}
+\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces Paired seed-mean differences on the same 1,000 full-catalogue users (user-bootstrap 95\% CIs).}}{21}{table.caption.13}\protected@file@percent }
+\newlabel{tab:review5-fullcat-paired}{{9}{21}{Paired seed-mean differences on the same 1,000 full-catalogue users (user-bootstrap 95\% CIs)}{table.caption.13}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {10}{\ignorespaces History-length-stratified Shapley magnitude-alignment difference. Intervals are descriptive 95\% user-bootstrap intervals; small MovieLens strata should be interpreted cautiously.}}{21}{table.caption.14}\protected@file@percent }
+\newlabel{tab:history-stratified-gap}{{10}{21}{History-length-stratified Shapley magnitude-alignment difference. Intervals are descriptive 95\% user-bootstrap intervals; small MovieLens strata should be interpreted cautiously}{table.caption.14}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Discussion and Broader Implications}{21}{section.7}\protected@file@percent }
+\citation{ghazimatin2020}
+\citation{tran2021}
+\citation{tan2021}
+\citation{baklanov2024}
+\citation{barkan2024}
+\citation{gurevitch2025}
+\citation{mohammadi2025}
+\citation{nguyen2026}
+\citation{chowdhury2024rankshap}
+\citation{pliatsika2025sharpl}
+\citation{bento2021timeshap}
+\citation{baklanov2025fidelity}
+\citation{mousavi2023clime}
+\citation{bruun2025session}
+\@writefile{lot}{\contentsline {table}{\numberline {11}{\ignorespaces Component-level positioning against the closest related evaluation and counterfactual recommendation work.}}{22}{table.caption.15}\protected@file@percent }
+\newlabel{tab:related-work-comparison}{{11}{22}{Component-level positioning against the closest related evaluation and counterfactual recommendation work}{table.caption.15}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Limitations and Threats to Validity}{23}{subsection.7.1}\protected@file@percent }
+\newlabel{sec:limitations}{{7.1}{23}{Limitations and Threats to Validity}{subsection.7.1}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.1.1}Construct validity}{23}{subsubsection.7.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.1.2}Metric validity}{23}{subsubsection.7.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.1.3}Internal validity}{23}{subsubsection.7.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.1.4}External validity}{23}{subsubsection.7.1.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.1.5}Selective reporting and selection threats}{23}{subsubsection.7.1.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.1.6}Statistical conclusion validity}{24}{subsubsection.7.1.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {8}Conclusion}{24}{section.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {9}Data Availability}{24}{section.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {10}Code and Materials Availability}{24}{section.10}\protected@file@percent }
+\bibstyle{ACM-Reference-Format}
+\bibdata{actionshap-bibliography}
+\bibcite{adebayo2018}{{1}{2018}{{Adebayo et~al\mbox  {.}}}{{}}}
+\bibcite{ancona2019unified}{{2}{2019}{{Ancona et~al\mbox  {.}}}{{}}}
+\bibcite{arrieta2020}{{3}{2020}{{Arrieta et~al\mbox  {.}}}{{}}}
+\bibcite{baklanov2024}{{4}{2024}{{Baklanov}}{{}}}
+\bibcite{baklanov2025fidelity}{{5}{2025}{{Baklanov et~al\mbox  {.}}}{{}}}
+\bibcite{barkan2024}{{6}{2024}{{Barkan et~al\mbox  {.}}}{{}}}
+\bibcite{barkan2026spinrec}{{7}{2026}{{Barkan et~al\mbox  {.}}}{{}}}
+\bibcite{bennett2007}{{8}{2007}{{Bennett and Lanning}}{{}}}
+\bibcite{bento2021timeshap}{{9}{2021}{{Bento et~al\mbox  {.}}}{{}}}
+\bibcite{bruun2025session}{{10}{2025}{{Bruun et~al\mbox  {.}}}{{}}}
+\bibcite{burges2005}{{11}{2005}{{Burges et~al\mbox  {.}}}{{}}}
+\bibcite{castro2009}{{12}{2009}{{Castro et~al\mbox  {.}}}{{}}}
+\bibcite{cerny2025plausible}{{13}{2025}{{{\v {C}}ern{\'y} et~al\mbox  {.}}}{{}}}
+\bibcite{chowdhury2024rankshap}{{14}{2025}{{Chowdhury et~al\mbox  {.}}}{{}}}
+\bibcite{covert2021}{{15}{2021}{{Covert et~al\mbox  {.}}}{{}}}
+\bibcite{covert2020sage}{{16}{2020}{{Covert et~al\mbox  {.}}}{{}}}
+\bibcite{deyoung2020}{{17}{2020}{{DeYoung et~al\mbox  {.}}}{{}}}
+\bibcite{domnich2025unifying}{{18}{2025}{{Domnich et~al\mbox  {.}}}{{}}}
+\bibcite{duval2021graphsvx}{{19}{2021}{{Duval and Malliaros}}{{}}}
+\bibcite{fong2017meaningful}{{20}{2017}{{Fong and Vedaldi}}{{}}}
+\bibcite{ghazimatin2020}{{21}{2020}{{Ghazimatin et~al\mbox  {.}}}{{}}}
+\@writefile{toc}{\contentsline {section}{Acknowledgments}{25}{section*.17}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{References}{25}{section*.19}\protected@file@percent }
+\bibcite{ghorbani2019datashapley}{{22}{2019}{{Ghorbani and Zou}}{{}}}
+\bibcite{gilpin2018}{{23}{2018}{{Gilpin et~al\mbox  {.}}}{{}}}
+\bibcite{gurevitch2025}{{24}{2025}{{Gurevitch et~al\mbox  {.}}}{{}}}
+\bibcite{harper2016}{{25}{2016}{{Harper and Konstan}}{{}}}
+\bibcite{he2020lightgcn}{{26}{2020}{{He et~al\mbox  {.}}}{{}}}
+\bibcite{he2017ncf}{{27}{2017}{{He et~al\mbox  {.}}}{{}}}
+\bibcite{hedstrom2023quantus}{{28}{2023}{{Hedstr{\"o}m et~al\mbox  {.}}}{{}}}
+\bibcite{heskes2020causal}{{29}{2020}{{Heskes et~al\mbox  {.}}}{{}}}
+\bibcite{hidasi2016gru4rec}{{30}{2016}{{Hidasi et~al\mbox  {.}}}{{}}}
+\bibcite{hooker2019}{{31}{2019}{{Hooker and Mentch}}{{}}}
+\bibcite{janizek2021axiomatic}{{32}{2021}{{Janizek et~al\mbox  {.}}}{{}}}
+\bibcite{jethani2022fastshap}{{33}{2022}{{Jethani et~al\mbox  {.}}}{{}}}
+\bibcite{joachims2002}{{34}{2002}{{Joachims}}{{}}}
+\bibcite{joachims2017unbiased}{{35}{2017}{{Joachims et~al\mbox  {.}}}{{}}}
+\bibcite{kang2018sasrec}{{36}{2018}{{Kang and McAuley}}{{}}}
+\bibcite{karimi2021}{{37}{2021}{{Karimi et~al\mbox  {.}}}{{}}}
+\bibcite{koren2009}{{38}{2009}{{Koren et~al\mbox  {.}}}{{}}}
+\bibcite{li2025alert}{{39}{2025}{{Li et~al\mbox  {.}}}{{}}}
+\bibcite{li2011linucb}{{40}{2010}{{Li et~al\mbox  {.}}}{{}}}
+\bibcite{li2024tkde}{{41}{2024}{{Li et~al\mbox  {.}}}{{}}}
+\bibcite{lucic2022cfgnnexplainer}{{42}{2022}{{Lucic et~al\mbox  {.}}}{{}}}
+\bibcite{lundberg2020}{{43}{2020}{{Lundberg et~al\mbox  {.}}}{{}}}
+\bibcite{lundberg2017}{{44}{2017}{{Lundberg and Lee}}{{}}}
+\bibcite{luo2020pgexplainer}{{45}{2020}{{Luo et~al\mbox  {.}}}{{}}}
+\bibcite{mohammadi2024recsys}{{46}{2024}{{Mohammadi et~al\mbox  {.}}}{{}}}
+\bibcite{mohammadi2025}{{47}{2025}{{Mohammadi et~al\mbox  {.}}}{{}}}
+\bibcite{mohammadi2026sigir}{{48}{2026}{{Mohammadi et~al\mbox  {.}}}{{}}}
+\bibcite{molnar2022}{{49}{2022}{{Molnar}}{{}}}
+\bibcite{nauta2023survey}{{50}{2023}{{Nauta et~al\mbox  {.}}}{{}}}
+\bibcite{nguyen2026}{{51}{2026}{{Nguyen et~al\mbox  {.}}}{{}}}
+\bibcite{ni2019}{{52}{2019}{{Ni et~al\mbox  {.}}}{{}}}
+\bibcite{nobrega2019}{{53}{2019}{{N{\'o}brega and Marinho}}{{}}}
+\bibcite{okhrani2021multilinear}{{54}{2021}{{Okhrati and Lipani}}{{}}}
+\bibcite{peake2018}{{55}{2018}{{Peake and Wang}}{{}}}
+\bibcite{petsiuk2018rise}{{56}{2018}{{Petsiuk et~al\mbox  {.}}}{{}}}
+\bibcite{pliatsika2025sharpl}{{57}{2025}{{Pliatsika et~al\mbox  {.}}}{{}}}
+\bibcite{rendle2009}{{58}{2009}{{Rendle et~al\mbox  {.}}}{{}}}
+\bibcite{ribeiro2016}{{59}{2016}{{Ribeiro et~al\mbox  {.}}}{{}}}
+\bibcite{mousavi2023clime}{{60}{2023}{{Roberts et~al\mbox  {.}}}{{}}}
+\bibcite{saito2020ips}{{61}{2020}{{Saito}}{{}}}
+\bibcite{saito2021}{{62}{2021}{{Saito and Joachims}}{{}}}
+\bibcite{samek2017}{{63}{2019}{{Samek et~al\mbox  {.}}}{{}}}
+\bibcite{schnabel2016debias}{{64}{2016}{{Schnabel et~al\mbox  {.}}}{{}}}
+\bibcite{shapley1953}{{65}{1953}{{Shapley}}{{}}}
+\bibcite{sun2019bert4rec}{{66}{2019}{{Sun et~al\mbox  {.}}}{{}}}
+\bibcite{sundararajan2020shapleytaylor}{{67}{2020}{{Sundararajan et~al\mbox  {.}}}{{}}}
+\bibcite{sundararajan2020many}{{68}{2020}{{Sundararajan and Najmi}}{{}}}
+\bibcite{sundararajan2017axiomatic}{{69}{2017}{{Sundararajan et~al\mbox  {.}}}{{}}}
+\bibcite{tan2021}{{70}{2021}{{Tan et~al\mbox  {.}}}{{}}}
+\bibcite{tran2021}{{71}{2021}{{Tran et~al\mbox  {.}}}{{}}}
+\bibcite{wachter2017}{{72}{2017}{{Wachter et~al\mbox  {.}}}{{}}}
+\bibcite{wang2019ngcf}{{73}{2019}{{Wang et~al\mbox  {.}}}{{}}}
+\bibcite{yao2022}{{74}{2022}{{Yao et~al\mbox  {.}}}{{}}}
+\bibcite{ying2019gnnexplainer}{{75}{2019}{{Ying et~al\mbox  {.}}}{{}}}
+\bibcite{yuan2021subgraphx}{{76}{2021}{{Yuan et~al\mbox  {.}}}{{}}}
+\bibcite{zhang2020survey}{{77}{2020}{{Zhang and Chen}}{{}}}
+\bibcite{zhang2014}{{78}{2014}{{Zhang et~al\mbox  {.}}}{{}}}
+\@writefile{toc}{\contentsline {section}{\numberline {A}Formal Guarantees}{28}{appendix.appendix.A}\protected@file@percent }
+\newlabel{app:proofs}{{A}{28}{Formal Guarantees}{appendix.appendix.A}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}Efficiency of the prefix-walk estimator}{28}{subsection.appendix.A.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}Leave-one-out ceiling}{28}{subsection.appendix.A.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.3}Exact budget-two action space}{28}{subsection.appendix.A.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {B}Experimental Contract}{28}{appendix.appendix.B}\protected@file@percent }
+\newlabel{app:contract}{{B}{28}{Experimental Contract}{appendix.appendix.B}{}}
+\newlabel{tocindent-1}{0pt}
+\newlabel{tocindent0}{0pt}
+\newlabel{tocindent1}{6.25499pt}
+\newlabel{tocindent2}{12.41998pt}
+\newlabel{tocindent3}{16.51498pt}
+\newlabel{tocindent4}{0pt}
+\newlabel{tocindent5}{0pt}
+\@writefile{lot}{\contentsline {table}{\numberline {B.1}{\ignorespaces Frozen experimental contract used for every paper-eligible run. The executable YAML and scripts are the source of truth; this table records every parameter that changes the estimand or reported uncertainty.}}{29}{table.caption.20}\protected@file@percent }
+\newlabel{tab:app-contract}{{B.1}{29}{Frozen experimental contract used for every paper-eligible run. The executable YAML and scripts are the source of truth; this table records every parameter that changes the estimand or reported uncertainty}{table.caption.20}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {C}Notation Summary}{29}{appendix.appendix.C}\protected@file@percent }
+\newlabel{app:notation}{{C}{29}{Notation Summary}{appendix.appendix.C}{}}
+\newlabel{TotPages}{{29}{29}{}{page.29}{}}
+\gdef \@abspage@last{29}

@@ -1,0 +1,57 @@
+% Appendix C1 (regenerated with absolute bounded AIA for every method).
+\begin{table}[!htbp]\centering\scriptsize\setlength{\tabcolsep}{2.5pt}
+\caption{Alignment robustness across the declared ItemKNN conditions: deletion and
+bounded AIA plus their difference for every method (absolute values shown for all).}
+\label{tab:app-alignment}
+\begin{tabular}{@{}llrrrrrrr@{}}
+\toprule
+Condition & Method & Del. & Bnd. & Gap & LIME bnd. & LOO bnd. & Rand.\ bnd. & Valid $n$ \\
+\midrule
+Amazon sampled & Shap. & 0.286 & 0.414 & +0.129 & 0.827 & 0.851 & -0.010 & 993 \\
+Amazon sampled & LIME & 0.930 & 0.827 & -0.103 & 0.827 & 0.851 & -0.010 & 993 \\
+Amazon sampled & LOO & 1.000 & 0.851 & -0.149 & 0.827 & 0.851 & -0.010 & 993 \\
+Amazon sampled & Greedy & 0.191 & 0.131 & -0.060 & 0.827 & 0.851 & -0.010 & 993 \\
+Amazon sampled & Rand. & -0.008 & -0.010 & -0.002 & 0.827 & 0.851 & -0.010 & 993 \\
+Amazon full catalogue & Shap. & -0.288 & -0.119 & +0.169 & 0.722 & 0.790 & -0.004 & 250 \\
+Amazon full catalogue & LIME & 0.922 & 0.722 & -0.200 & 0.722 & 0.790 & -0.004 & 250 \\
+Amazon full catalogue & LOO & 1.000 & 0.790 & -0.210 & 0.722 & 0.790 & -0.004 & 250 \\
+Amazon full catalogue & Greedy & 0.573 & 0.449 & -0.124 & 0.722 & 0.790 & -0.004 & 250 \\
+Amazon full catalogue & Rand. & -0.001 & -0.004 & -0.003 & 0.722 & 0.790 & -0.004 & 250 \\
+MovieLens sampled & Shap. & 0.762 & 0.779 & +0.017 & 0.933 & 0.978 & 0.000 & 1000 \\
+MovieLens sampled & LIME & 0.951 & 0.933 & -0.018 & 0.933 & 0.978 & 0.000 & 1000 \\
+MovieLens sampled & LOO & 1.000 & 0.978 & -0.022 & 0.933 & 0.978 & 0.000 & 1000 \\
+MovieLens sampled & Greedy & 0.321 & 0.318 & -0.002 & 0.933 & 0.978 & 0.000 & 1000 \\
+MovieLens sampled & Rand. & -0.001 & 0.000 & +0.001 & 0.933 & 0.978 & 0.000 & 1000 \\
+MovieLens full catalogue & Shap. & 0.574 & 0.618 & +0.044 & 0.892 & 0.958 & 0.004 & 250 \\
+MovieLens full catalogue & LIME & 0.926 & 0.892 & -0.033 & 0.892 & 0.958 & 0.004 & 250 \\
+MovieLens full catalogue & LOO & 1.000 & 0.958 & -0.042 & 0.892 & 0.958 & 0.004 & 250 \\
+MovieLens full catalogue & Greedy & 0.384 & 0.382 & -0.003 & 0.892 & 0.958 & 0.004 & 250 \\
+MovieLens full catalogue & Rand. & 0.003 & 0.004 & +0.001 & 0.892 & 0.958 & 0.004 & 250 \\
+MovieLens 100 candidates & Shap. & 0.809 & 0.821 & +0.012 & 0.947 & 0.982 & -0.003 & 250 \\
+MovieLens 100 candidates & LIME & 0.960 & 0.947 & -0.014 & 0.947 & 0.982 & -0.003 & 250 \\
+MovieLens 100 candidates & LOO & 1.000 & 0.982 & -0.018 & 0.947 & 0.982 & -0.003 & 250 \\
+MovieLens 100 candidates & Greedy & 0.263 & 0.261 & -0.003 & 0.947 & 0.982 & -0.003 & 250 \\
+MovieLens 100 candidates & Rand. & -0.004 & -0.003 & +0.002 & 0.947 & 0.982 & -0.003 & 250 \\
+MovieLens 500 candidates & Shap. & 0.692 & 0.724 & +0.032 & 0.922 & 0.971 & 0.004 & 250 \\
+MovieLens 500 candidates & LIME & 0.944 & 0.922 & -0.023 & 0.922 & 0.971 & 0.004 & 250 \\
+MovieLens 500 candidates & LOO & 1.000 & 0.971 & -0.029 & 0.922 & 0.971 & 0.004 & 250 \\
+MovieLens 500 candidates & Greedy & 0.373 & 0.378 & +0.005 & 0.922 & 0.971 & 0.004 & 250 \\
+MovieLens 500 candidates & Rand. & 0.002 & 0.004 & +0.002 & 0.922 & 0.971 & 0.004 & 250 \\
+MovieLens n\_max=50 & Shap. & 0.800 & 0.808 & +0.008 & 0.934 & 0.987 & 0.001 & 250 \\
+MovieLens n\_max=50 & LIME & 0.945 & 0.934 & -0.010 & 0.934 & 0.987 & 0.001 & 250 \\
+MovieLens n\_max=50 & LOO & 1.000 & 0.987 & -0.013 & 0.934 & 0.987 & 0.001 & 250 \\
+MovieLens n\_max=50 & Greedy & 0.369 & 0.364 & -0.006 & 0.934 & 0.987 & 0.001 & 250 \\
+MovieLens n\_max=50 & Rand. & 0.001 & 0.001 & +0.000 & 0.934 & 0.987 & 0.001 & 250 \\
+MovieLens n\_max=100 & Shap. & 0.802 & 0.808 & +0.006 & 0.918 & 0.987 & 0.001 & 250 \\
+MovieLens n\_max=100 & LIME & 0.928 & 0.918 & -0.010 & 0.918 & 0.987 & 0.001 & 250 \\
+MovieLens n\_max=100 & LOO & 1.000 & 0.987 & -0.013 & 0.918 & 0.987 & 0.001 & 250 \\
+MovieLens n\_max=100 & Greedy & 0.387 & 0.381 & -0.007 & 0.918 & 0.987 & 0.001 & 250 \\
+MovieLens n\_max=100 & Rand. & 0.001 & 0.001 & +0.000 & 0.918 & 0.987 & 0.001 & 250 \\
+MovieLens rho=0.25 & Shap. & 0.760 & 0.766 & +0.007 & 0.950 & 0.992 & -0.005 & 250 \\
+MovieLens rho=0.25 & LIME & 0.955 & 0.950 & -0.005 & 0.950 & 0.992 & -0.005 & 250 \\
+MovieLens rho=0.25 & LOO & 1.000 & 0.992 & -0.008 & 0.950 & 0.992 & -0.005 & 250 \\
+MovieLens rho=0.25 & Greedy & 0.378 & 0.377 & -0.001 & 0.950 & 0.992 & -0.005 & 250 \\
+MovieLens rho=0.25 & Rand. & -0.004 & -0.005 & -0.001 & 0.950 & 0.992 & -0.005 & 250 \\
+\bottomrule
+\end{tabular}
+\end{table}

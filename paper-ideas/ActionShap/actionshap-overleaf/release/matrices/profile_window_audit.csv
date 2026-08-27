@@ -1,3 +1,0 @@
-dataset,n_users,mean_n_players,median_n_players,fraction_at_nmax,active_ndcg_oracle_users,n_max
-MovieLens-1M,1000,18.814,20,0.831,339,20
-Amazon-Digital-Music,1000,6.661,5,0.059,196,20

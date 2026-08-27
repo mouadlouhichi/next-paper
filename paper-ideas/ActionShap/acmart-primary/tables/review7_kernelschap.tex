@@ -1,0 +1,21 @@
+\begin{table}[!htbp]\centering\scriptsize\setlength{\tabcolsep}{3pt}
+\caption{KernelSHAP baseline (Shapley-kernel weighted least squares with the
+efficiency constraint) against the reverse-paired Monte Carlo Shapley
+estimator, bounded AIA, primary ItemKNN conditions, $\rho=0.5$, user-level
+paired comparison with 10,000-draw bootstrap CIs. KernelSHAP uses 256/512
+masks, the same mask budget as the LIME comparison; Monte Carlo Shapley uses
+$M_{\mathrm{pair}}=250$ ($T=500$ evaluated orders). Both estimators agree
+qualitatively: Shapley bounded alignment remains far below LIME ($0.93$/$0.83$)
+and LOO ($0.98$/$0.85$) under either estimator.}
+\label{tab:review7-kernelschap}
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+Dataset & Masks & $n$ & MC Shap. & KernelSHAP & Diff. & $d_z$ \\
+\midrule
+MovieLens-1M & 256 & 1000 & 0.744 & 0.650 & +0.094 [+0.086,+0.102] & +0.72 \\
+MovieLens-1M & 512 & 1000 & 0.744 & 0.664 & +0.080 [+0.073,+0.088] & +0.66 \\
+Amazon & 256 & 810 & 0.607 & 0.635 & -0.029 [-0.035,-0.023] & -0.32 \\
+Amazon & 512 & 810 & 0.607 & 0.633 & -0.026 [-0.032,-0.020] & -0.31 \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,62 @@
+% Extended empirical basis generated from the archived result matrices.
+\begin{table}[!htbp]\centering\scriptsize\setlength{\tabcolsep}{3pt}
+\caption{LightGCN recommendation-quality gate (full-corpus training, tuned:
+deeper propagation, larger embeddings, higher learning rate, 80 epochs, five
+seeds). LightGCN is adapted to the protocol's inference-time history-weighting
+interface (user vector recomputed as the weighted mean of propagated item
+embeddings). Even after tuning it does not beat the popularity reference on
+NDCG@10 on either dataset, so---like the SASRec-style replication---it serves
+as an architecture-applicability cell rather than a competitive-recommender
+robustness cell.}
+\label{tab:review8-lightgcn-quality}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Dataset & NDCG@10 & Popularity & Gate passes \\
+\midrule
+MovieLens-1M & 0.0042 & 0.0191 & 5/5 masking \\
+Amazon & 0.0035 & 0.0074 & 4/5 masking \\
+\bottomrule\end{tabular}\end{table}
+\begin{table}[!htbp]\centering\scriptsize\setlength{\tabcolsep}{3pt}
+\caption{Generalization of the central finding to a graph architecture
+(LightGCN) and a third dataset (Gowalla location check-ins): bounded AIA per
+attribution method. Path-matched baselines (finite differences, integrated
+gradients, bounded LIME) exceed Monte Carlo Shapley on every configuration,
+replicating the primary ItemKNN pattern.}
+\label{tab:review8-generalization}
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+Configuration & Shapley & LIME (binary) & LIME (bnd.) & Fin.\ diff. & Int.\ grad. \\
+\midrule
+MovieLens-1M, LightGCN & 0.733 & 0.887 & 0.949 & 0.950 & 0.942 \\
+Amazon, LightGCN & 0.234 & 0.806 & 0.888 & 0.870 & 0.853 \\
+Gowalla, ItemKNN & 0.663 & 0.734 & 0.722 & 0.992 & 0.977 \\
+\bottomrule\end{tabular}\end{table}
+\begin{table}[!htbp]\centering\scriptsize\setlength{\tabcolsep}{3pt}
+\caption{Monte Carlo error control at the $n_{\max}=20$ cap:
+per-user Monte Carlo standard errors of the Shapley values relative to the
+largest $|\phi|$, and rank correlation between the selected convergence-budget estimate
+($M_{\mathrm{pair}}=250$) and an independent larger-budget reference
+($M_{\mathrm{pair}}=1000$, separate seed stream).}
+\label{tab:review8-mcse}
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+Dataset & $n$ users & Rel.\ SE mean & Rel.\ SE med. & Cross-budget corr.\ mean & min \\
+\midrule
+MovieLens-1M & 50 & 0.079 & 0.073 & 0.989 & 0.948 \\
+Amazon & 50 & 0.062 & 0.059 & 0.997 & 0.982 \\
+\bottomrule\end{tabular}\end{table}
+\begin{table}[!htbp]\centering\scriptsize\setlength{\tabcolsep}{3pt}
+\caption{Exhaustive budget-$B$ oracle (all $\le B$ actions enumerated, replacing
+the greedy lower bound): oracle effect and additive-selection regret, $B=2$
+and $B=3$ ($1{,}351$ actions at $n=20$). Additive selection attains low regret
+at both budgets.}
+\label{tab:review8-b3}
+\begin{tabular}{@{}llrrr@{}}
+\toprule
+Dataset & $B$ & $n$ users & Oracle effect & Additive regret \\
+\midrule
+MovieLens-1M & 2 & 200 & 0.0026 & 0.0001 \\
+MovieLens-1M & 3 & 200 & 0.0035 & 0.0011 \\
+Amazon & 2 & 200 & 0.0020 & 0.0000 \\
+Amazon & 3 & 200 & 0.0023 & 0.0003 \\
+\bottomrule\end{tabular}\end{table}

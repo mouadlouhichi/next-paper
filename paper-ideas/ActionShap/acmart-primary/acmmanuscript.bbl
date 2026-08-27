@@ -1,0 +1,655 @@
+%%% -*-BibTeX-*-
+%%% Do NOT edit. File created by BibTeX with style
+%%% ACM-Reference-Format-Journals [18-Jan-2012].
+
+\begin{thebibliography}{78}
+
+%%% ====================================================================
+%%% NOTE TO THE USER: you can override these defaults by providing
+%%% customized versions of any of these macros before the \bibliography
+%%% command.  Each of them MUST provide its own final punctuation,
+%%% except for \shownote{} and \showURL{}.  The latter does
+%%% not use final punctuation, in order to avoid confusing it with
+%%% the Web address.
+%%%
+%%% To suppress output of a particular field, define its macro to expand
+%%% to an empty string, or better, \unskip, like this:
+%%%
+%%% \newcommand{\showURL}[1]{\unskip}   % LaTeX syntax
+%%%
+%%% \def \showURL #1{\unskip}           % plain TeX syntax
+%%%
+%%% ====================================================================
+
+\ifx \showCODEN    \undefined \def \showCODEN     #1{\unskip}     \fi
+\ifx \showISBNx    \undefined \def \showISBNx     #1{\unskip}     \fi
+\ifx \showISBNxiii \undefined \def \showISBNxiii  #1{\unskip}     \fi
+\ifx \showISSN     \undefined \def \showISSN      #1{\unskip}     \fi
+\ifx \showLCCN     \undefined \def \showLCCN      #1{\unskip}     \fi
+\ifx \shownote     \undefined \def \shownote      #1{#1}          \fi
+\ifx \showarticletitle \undefined \def \showarticletitle #1{#1}   \fi
+\ifx \showURL      \undefined \def \showURL       {\relax}        \fi
+% The following commands are used for tagged output and should be
+% invisible to TeX
+\providecommand\bibfield[2]{#2}
+\providecommand\bibinfo[2]{#2}
+\providecommand\natexlab[1]{#1}
+\providecommand\showeprint[2][]{arXiv:#2}
+\makeatletter
+\@ifundefined{NAT@parse@date}{}{\let\NAT@parse@date@orig\NAT@parse@date}
+\@ifundefined{NAT@parse@date}{}{\def\NAT@parse@date#1#2#3#4#5#6@@{\NAT@parse@date@orig#1#2#3#4#5#6@@\def\NAT@tempyear{0000}\def\NAT@tempexlab{{?}}\ifx\NAT@year\NAT@tempyear\ifx\NAT@exlab\NAT@tempexlab\def\NAT@date{[n.\,d.]}\else\edef\NAT@date{[n.\,d.]\NAT@exlab}\fi\fi}}
+\makeatother
+
+\bibitem[Adebayo et~al\mbox{.}(2018)]%
+        {adebayo2018}
+\bibfield{author}{\bibinfo{person}{Julius Adebayo}, \bibinfo{person}{Justin Gilmer}, \bibinfo{person}{Ian Muelly}, \bibinfo{person}{Ian Goodfellow}, \bibinfo{person}{Moritz Hardt}, {and} \bibinfo{person}{Been Kim}.} \bibinfo{year}{2018}\natexlab{}.
+\newblock \showarticletitle{Sanity Checks for Saliency Maps}. In \bibinfo{booktitle}{\emph{Advances in Neural Information Processing Systems}}, Vol.~\bibinfo{volume}{31}. \bibinfo{pages}{9505--9515}.
+\newblock
+
+
+\bibitem[Ancona et~al\mbox{.}(2019)]%
+        {ancona2019unified}
+\bibfield{author}{\bibinfo{person}{Marco Ancona}, \bibinfo{person}{Enea Ceolini}, \bibinfo{person}{Cengiz {\"O}ztireli}, {and} \bibinfo{person}{Markus Gross}.} \bibinfo{year}{2019}\natexlab{}.
+\newblock \bibinfo{title}{A Unified View of Gradient-Based Attribution Methods for Deep Networks}.
+\newblock
+\showeprint[arxiv]{1711.02150}~[cs.LG]
+
+
+\bibitem[Arrieta et~al\mbox{.}(2020)]%
+        {arrieta2020}
+\bibfield{author}{\bibinfo{person}{Alejandro~Barredo Arrieta}, \bibinfo{person}{Natalia Díaz-Rodríguez}, \bibinfo{person}{Javier Del~Ser}, \bibinfo{person}{Adrien Bennetot}, \bibinfo{person}{Salvador Tabik}, \bibinfo{person}{Alberto Barbado}, \bibinfo{person}{Salvador García}, \bibinfo{person}{Sergio Gil-López}, \bibinfo{person}{Daniel Molina}, \bibinfo{person}{Richard Benjamins}, \bibinfo{person}{Raja Chatila}, {and} \bibinfo{person}{Francisco Herrera}.} \bibinfo{year}{2020}\natexlab{}.
+\newblock \showarticletitle{Explainable Artificial Intelligence: Concepts, Taxonomies, Opportunities and Challenges toward Responsible {AI}}.
+\newblock \bibinfo{journal}{\emph{Information Fusion}}  \bibinfo{volume}{58} (\bibinfo{year}{2020}), \bibinfo{pages}{82--115}.
+\newblock
+\href{https://doi.org/10.1016/j.inffus.2019.12.012}{doi:\nolinkurl{10.1016/j.inffus.2019.12.012}}
+
+
+\bibitem[Baklanov(2024)]%
+        {baklanov2024}
+\bibfield{author}{\bibinfo{person}{Mikhail Baklanov}.} \bibinfo{year}{2024}\natexlab{}.
+\newblock \showarticletitle{{CEERS}: Counterfactual Evaluations of Explanations in Recommender Systems}. In \bibinfo{booktitle}{\emph{Proceedings of the 18th ACM Conference on Recommender Systems}}. \bibinfo{pages}{1323--1329}.
+\newblock
+\href{https://doi.org/10.1145/3640457.3688015}{doi:\nolinkurl{10.1145/3640457.3688015}}
+
+
+\bibitem[Baklanov et~al\mbox{.}(2025)]%
+        {baklanov2025fidelity}
+\bibfield{author}{\bibinfo{person}{Mikhail Baklanov}, \bibinfo{person}{Veronika Bogina}, \bibinfo{person}{Yehonatan Elisha}, \bibinfo{person}{Yahlly Schein}, \bibinfo{person}{Liron Allerhand}, \bibinfo{person}{Oren Barkan}, {and} \bibinfo{person}{Noam Koenigstein}.} \bibinfo{year}{2025}\natexlab{}.
+\newblock \showarticletitle{Refining Fidelity Metrics for Explainable Recommendations}. In \bibinfo{booktitle}{\emph{Proceedings of the 48th International ACM SIGIR Conference}}. \bibinfo{pages}{2967--2971}.
+\newblock
+\href{https://doi.org/10.1145/3726302.3730242}{doi:\nolinkurl{10.1145/3726302.3730242}}
+
+
+\bibitem[Barkan et~al\mbox{.}(2024)]%
+        {barkan2024}
+\bibfield{author}{\bibinfo{person}{Oren Barkan}, \bibinfo{person}{Veronika Bogina}, \bibinfo{person}{Liya Gurevitch}, \bibinfo{person}{Yuval Asher}, {and} \bibinfo{person}{Noam Koenigstein}.} \bibinfo{year}{2024}\natexlab{}.
+\newblock \showarticletitle{A Counterfactual Framework for Learning and Evaluating Explanations for Recommender Systems}. In \bibinfo{booktitle}{\emph{Proceedings of the ACM Web Conference 2024}}. \bibinfo{pages}{3723--3733}.
+\newblock
+\href{https://doi.org/10.1145/3589334.3645560}{doi:\nolinkurl{10.1145/3589334.3645560}}
+
+
+\bibitem[Barkan et~al\mbox{.}(2026)]%
+        {barkan2026spinrec}
+\bibfield{author}{\bibinfo{person}{Oren Barkan}, \bibinfo{person}{Yahlly Schein}, \bibinfo{person}{Yehonatan Elisha}, \bibinfo{person}{Veronika Bogina}, \bibinfo{person}{Mikhail Baklanov}, {and} \bibinfo{person}{Noam Koenigstein}.} \bibinfo{year}{2026}\natexlab{}.
+\newblock \showarticletitle{Fidelity-Aware Recommendation Explanations via Stochastic Path Integration}.
+\newblock \bibinfo{journal}{\emph{Proceedings of the AAAI Conference on Artificial Intelligence}} \bibinfo{volume}{40}, \bibinfo{number}{17} (\bibinfo{year}{2026}), \bibinfo{pages}{14484--14492}.
+\newblock
+\href{https://doi.org/10.1609/aaai.v40i17.38465}{doi:\nolinkurl{10.1609/aaai.v40i17.38465}}
+
+
+\bibitem[Bennett and Lanning(2007)]%
+        {bennett2007}
+\bibfield{author}{\bibinfo{person}{James Bennett} {and} \bibinfo{person}{Stan Lanning}.} \bibinfo{year}{2007}\natexlab{}.
+\newblock \showarticletitle{The Netflix Prize}. In \bibinfo{booktitle}{\emph{Proceedings of the KDD Cup and Workshop}}. \bibinfo{pages}{3--6}.
+\newblock
+
+
+\bibitem[Bento et~al\mbox{.}(2021)]%
+        {bento2021timeshap}
+\bibfield{author}{\bibinfo{person}{Jo{\~a}o Bento}, \bibinfo{person}{Pedro Saleiro}, \bibinfo{person}{Andr{\'e} B{\'e}zen}, \bibinfo{person}{Jo{\~a}o Veiga}, {and} \bibinfo{person}{Pedro Bizarro}.} \bibinfo{year}{2021}\natexlab{}.
+\newblock \showarticletitle{{TimeSHAP}: Explaining Recurrent Models through Sequence Perturbations}. In \bibinfo{booktitle}{\emph{Proceedings of the 27th ACM SIGKDD Conference on Knowledge Discovery and Data Mining}}. \bibinfo{pages}{2565--2573}.
+\newblock
+\href{https://doi.org/10.1145/3447548.3467166}{doi:\nolinkurl{10.1145/3447548.3467166}}
+
+
+\bibitem[Bruun et~al\mbox{.}(2025)]%
+        {bruun2025session}
+\bibfield{author}{\bibinfo{person}{Emil Bruun}, \bibinfo{person}{Maria Maistro}, {and} \bibinfo{person}{Christina Lioma}.} \bibinfo{year}{2025}\natexlab{}.
+\newblock \showarticletitle{Feature Attribution Explanations of Session-Based Recommendations}. In \bibinfo{booktitle}{\emph{Advances in Information Retrieval (ECIR)}}. \bibinfo{pages}{55--71}.
+\newblock
+\href{https://doi.org/10.1007/978-3-031-88711-6_4}{doi:\nolinkurl{10.1007/978-3-031-88711-6_4}}
+
+
+\bibitem[Burges et~al\mbox{.}(2005)]%
+        {burges2005}
+\bibfield{author}{\bibinfo{person}{Christopher J.~C. Burges}, \bibinfo{person}{Tal Shaked}, \bibinfo{person}{Erin Renshaw}, \bibinfo{person}{Ari Lazier}, \bibinfo{person}{Matt Deeds}, \bibinfo{person}{Nicole Hamilton}, {and} \bibinfo{person}{Gregory~N. Hullender}.} \bibinfo{year}{2005}\natexlab{}.
+\newblock \showarticletitle{Learning to Rank Using Gradient Descent}. In \bibinfo{booktitle}{\emph{Proceedings of the 22nd International Conference on Machine Learning}}. \bibinfo{pages}{89--96}.
+\newblock
+\href{https://doi.org/10.1145/1102351.1102363}{doi:\nolinkurl{10.1145/1102351.1102363}}
+
+
+\bibitem[Castro et~al\mbox{.}(2009)]%
+        {castro2009}
+\bibfield{author}{\bibinfo{person}{Javier Castro}, \bibinfo{person}{Daniel G{\'o}mez}, {and} \bibinfo{person}{Juan Tejada}.} \bibinfo{year}{2009}\natexlab{}.
+\newblock \showarticletitle{Polynomial Calculation of the {Shapley} Value Based on Sampling}.
+\newblock \bibinfo{journal}{\emph{Computers \& Operations Research}} \bibinfo{volume}{36}, \bibinfo{number}{5} (\bibinfo{year}{2009}), \bibinfo{pages}{1726--1730}.
+\newblock
+\href{https://doi.org/10.1016/j.cor.2008.04.004}{doi:\nolinkurl{10.1016/j.cor.2008.04.004}}
+
+
+\bibitem[{\v{C}}ern{\'y} et~al\mbox{.}(2025)]%
+        {cerny2025plausible}
+\bibfield{author}{\bibinfo{person}{Jakub {\v{C}}ern{\'y}}, \bibinfo{person}{Ji{\v{r}}{\'i} N{\v{e}}me{\v{c}}ek}, \bibinfo{person}{Ivan Dovica}, {and} \bibinfo{person}{Jakub Mare{\v{c}}ek}.} \bibinfo{year}{2025}\natexlab{}.
+\newblock \bibinfo{title}{Plausible Counterfactual Explanations of Recommendations}.
+\newblock
+\showeprint[arxiv]{2507.07919}~[cs.LG]
+
+
+\bibitem[Chowdhury et~al\mbox{.}(2025)]%
+        {chowdhury2024rankshap}
+\bibfield{author}{\bibinfo{person}{Ankit Chowdhury}, \bibinfo{person}{Tom Zick}, {and} \bibinfo{person}{James Allan}.} \bibinfo{year}{2025}\natexlab{}.
+\newblock \showarticletitle{{RankSHAP}: {Shapley} Value Based Feature Attributions for Learning to Rank}. In \bibinfo{booktitle}{\emph{Proceedings of the 13th International Conference on Learning Representations}}.
+\newblock
+\href{https://doi.org/10.48550/arXiv.2405.01848}{doi:\nolinkurl{10.48550/arXiv.2405.01848}}
+
+
+\bibitem[Covert et~al\mbox{.}(2021)]%
+        {covert2021}
+\bibfield{author}{\bibinfo{person}{Ian Covert}, \bibinfo{person}{Scott Lundberg}, {and} \bibinfo{person}{Su-In Lee}.} \bibinfo{year}{2021}\natexlab{}.
+\newblock \showarticletitle{Improving {KernelSHAP}: Practical {Shapley} Value Estimation Using Linear Regression}. In \bibinfo{booktitle}{\emph{Proceedings of the 24th International Conference on Artificial Intelligence and Statistics}}. \bibinfo{pages}{3456--3464}.
+\newblock
+
+
+\bibitem[Covert et~al\mbox{.}(2020)]%
+        {covert2020sage}
+\bibfield{author}{\bibinfo{person}{Ian Covert}, \bibinfo{person}{Scott~M. Lundberg}, {and} \bibinfo{person}{Su-In Lee}.} \bibinfo{year}{2020}\natexlab{}.
+\newblock \showarticletitle{Understanding Global Feature Contributions with Additive Importance Measures}. In \bibinfo{booktitle}{\emph{Advances in Neural Information Processing Systems}}, Vol.~\bibinfo{volume}{33}. \bibinfo{pages}{17212--17223}.
+\newblock
+
+
+\bibitem[DeYoung et~al\mbox{.}(2020)]%
+        {deyoung2020}
+\bibfield{author}{\bibinfo{person}{Jay DeYoung}, \bibinfo{person}{Sarthak Jain}, \bibinfo{person}{Nazneen~Fatema Rajani}, \bibinfo{person}{Eric Lehman}, \bibinfo{person}{Caiming Xie}, \bibinfo{person}{Stephen Pfohl}, {and} \bibinfo{person}{Byron Wallace}.} \bibinfo{year}{2020}\natexlab{}.
+\newblock \showarticletitle{ERASER: A Benchmark to Evaluate Rationalized NLP Models}. In \bibinfo{booktitle}{\emph{Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics}}. \bibinfo{pages}{4443--4458}.
+\newblock
+
+
+\bibitem[Domnich et~al\mbox{.}(2025)]%
+        {domnich2025unifying}
+\bibfield{author}{\bibinfo{person}{Marharyta Domnich}, \bibinfo{person}{Julius V{\"a}lja}, \bibinfo{person}{Rasmus~Moorits Veski}, \bibinfo{person}{Giacomo Magnifico}, \bibinfo{person}{Kadi Tulver}, \bibinfo{person}{Eduard Barbu}, {and} \bibinfo{person}{Raul Vicente}.} \bibinfo{year}{2025}\natexlab{}.
+\newblock \showarticletitle{Towards Unifying Evaluation of Counterfactual Explanations: Leveraging Large Language Models for Human-Centric Assessments}.
+\newblock \bibinfo{journal}{\emph{Proceedings of the AAAI Conference on Artificial Intelligence}} \bibinfo{volume}{39}, \bibinfo{number}{15} (\bibinfo{year}{2025}), \bibinfo{pages}{16308--16316}.
+\newblock
+\href{https://doi.org/10.1609/aaai.v39i15.33791}{doi:\nolinkurl{10.1609/aaai.v39i15.33791}}
+
+
+\bibitem[Duval and Malliaros(2021)]%
+        {duval2021graphsvx}
+\bibfield{author}{\bibinfo{person}{Alexandre Duval} {and} \bibinfo{person}{Fragkiskos~D. Malliaros}.} \bibinfo{year}{2021}\natexlab{}.
+\newblock \showarticletitle{{GraphSVX}: Shapley Value Explanations for Graph Neural Networks}. In \bibinfo{booktitle}{\emph{Machine Learning and Knowledge Discovery in Databases (ECML PKDD)}}. \bibinfo{pages}{302--318}.
+\newblock
+\href{https://doi.org/10.1007/978-3-030-86520-7_19}{doi:\nolinkurl{10.1007/978-3-030-86520-7_19}}
+
+
+\bibitem[Fong and Vedaldi(2017)]%
+        {fong2017meaningful}
+\bibfield{author}{\bibinfo{person}{Ruth~C. Fong} {and} \bibinfo{person}{Andrea Vedaldi}.} \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{Interpretable Explanations of Black Boxes by Meaningful Perturbation}. In \bibinfo{booktitle}{\emph{Proceedings of the IEEE International Conference on Computer Vision}}. \bibinfo{publisher}{IEEE}, \bibinfo{address}{Piscataway, NJ, USA}, \bibinfo{pages}{3449--3457}.
+\newblock
+\href{https://doi.org/10.1109/ICCV.2017.371}{doi:\nolinkurl{10.1109/ICCV.2017.371}}
+
+
+\bibitem[Ghazimatin et~al\mbox{.}(2020)]%
+        {ghazimatin2020}
+\bibfield{author}{\bibinfo{person}{Azin Ghazimatin}, \bibinfo{person}{Oana Balalau}, \bibinfo{person}{Rishiraj Saha~Roy}, {and} \bibinfo{person}{Gerhard Weikum}.} \bibinfo{year}{2020}\natexlab{}.
+\newblock \showarticletitle{{PRINCE}: Provider-Side Interpretability with Counterfactual Explanations in Recommender Systems}. In \bibinfo{booktitle}{\emph{Proceedings of the 13th International Conference on Web Search and Data Mining}}. \bibinfo{pages}{196--204}.
+\newblock
+\href{https://doi.org/10.1145/3336191.3371824}{doi:\nolinkurl{10.1145/3336191.3371824}}
+
+
+\bibitem[Ghorbani and Zou(2019)]%
+        {ghorbani2019datashapley}
+\bibfield{author}{\bibinfo{person}{Amirata Ghorbani} {and} \bibinfo{person}{James Zou}.} \bibinfo{year}{2019}\natexlab{}.
+\newblock \showarticletitle{Data {Shapley}: Equitable Valuation of Data for Machine Learning}. In \bibinfo{booktitle}{\emph{Proceedings of the International Conference on Machine Learning (ICML)}}, Vol.~\bibinfo{volume}{97}. \bibinfo{pages}{2242--2251}.
+\newblock
+
+
+\bibitem[Gilpin et~al\mbox{.}(2018)]%
+        {gilpin2018}
+\bibfield{author}{\bibinfo{person}{Leilani~H. Gilpin}, \bibinfo{person}{David Bau}, \bibinfo{person}{Ben~Z. Yuan}, \bibinfo{person}{Ayesha Bajwa}, \bibinfo{person}{Michael Specter}, {and} \bibinfo{person}{Lalana Kagal}.} \bibinfo{year}{2018}\natexlab{}.
+\newblock \showarticletitle{Explaining Explanations: An Overview of Interpretability of Machine Learning}. In \bibinfo{booktitle}{\emph{Proceedings of the IEEE International Conference on Data Science and Advanced Analytics}}. \bibinfo{publisher}{IEEE}, \bibinfo{address}{Piscataway, NJ, USA}, \bibinfo{pages}{80--89}.
+\newblock
+\href{https://doi.org/10.1109/DSAA.2018.00018}{doi:\nolinkurl{10.1109/DSAA.2018.00018}}
+
+
+\bibitem[Gurevitch et~al\mbox{.}(2025)]%
+        {gurevitch2025}
+\bibfield{author}{\bibinfo{person}{Liya Gurevitch}, \bibinfo{person}{Veronika Bogina}, \bibinfo{person}{Oren Barkan}, \bibinfo{person}{Yahlly Schein}, \bibinfo{person}{Yehonatan Elisha}, {and} \bibinfo{person}{Noam Koenigstein}.} \bibinfo{year}{2025}\natexlab{}.
+\newblock \showarticletitle{{LXR}: Learning to eXplain Recommendations}.
+\newblock \bibinfo{journal}{\emph{ACM Transactions on Recommender Systems}} \bibinfo{volume}{4}, \bibinfo{number}{2} (\bibinfo{year}{2025}), \bibinfo{pages}{1--39}.
+\newblock
+\href{https://doi.org/10.1145/3732292}{doi:\nolinkurl{10.1145/3732292}}
+
+
+\bibitem[Harper and Konstan(2016)]%
+        {harper2016}
+\bibfield{author}{\bibinfo{person}{F.~Maxwell Harper} {and} \bibinfo{person}{Joseph~A. Konstan}.} \bibinfo{year}{2016}\natexlab{}.
+\newblock \showarticletitle{The {MovieLens} Datasets: History and Context}.
+\newblock \bibinfo{journal}{\emph{ACM Transactions on Interactive Intelligent Systems}} \bibinfo{volume}{5}, \bibinfo{number}{4} (\bibinfo{year}{2016}), \bibinfo{pages}{1--19}.
+\newblock
+\href{https://doi.org/10.1145/2827872}{doi:\nolinkurl{10.1145/2827872}}
+
+
+\bibitem[He et~al\mbox{.}(2020)]%
+        {he2020lightgcn}
+\bibfield{author}{\bibinfo{person}{Xiangnan He}, \bibinfo{person}{Kuan Deng}, \bibinfo{person}{Xiang Wang}, \bibinfo{person}{Yan Li}, \bibinfo{person}{Yongdong Zhang}, {and} \bibinfo{person}{Meng Wang}.} \bibinfo{year}{2020}\natexlab{}.
+\newblock \showarticletitle{{LightGCN}: Simplifying and Powering Graph Convolution Network for Recommendation}. In \bibinfo{booktitle}{\emph{Proceedings of the 43rd International ACM SIGIR Conference}}. \bibinfo{pages}{639--648}.
+\newblock
+\href{https://doi.org/10.1145/3397271.3401063}{doi:\nolinkurl{10.1145/3397271.3401063}}
+
+
+\bibitem[He et~al\mbox{.}(2017)]%
+        {he2017ncf}
+\bibfield{author}{\bibinfo{person}{Xiangnan He}, \bibinfo{person}{Lizi Liao}, \bibinfo{person}{Hanwang Zhang}, \bibinfo{person}{Liqiang Nie}, \bibinfo{person}{Xia Hu}, {and} \bibinfo{person}{Tat-Seng Chua}.} \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{Neural Collaborative Filtering}. In \bibinfo{booktitle}{\emph{Proceedings of the 26th International Conference on World Wide Web}}. \bibinfo{pages}{173--182}.
+\newblock
+\href{https://doi.org/10.1145/3038912.3052569}{doi:\nolinkurl{10.1145/3038912.3052569}}
+
+
+\bibitem[Hedstr{\"o}m et~al\mbox{.}(2023)]%
+        {hedstrom2023quantus}
+\bibfield{author}{\bibinfo{person}{Anna Hedstr{\"o}m}, \bibinfo{person}{Leander Weber}, \bibinfo{person}{Daniel Krakowczyk}, \bibinfo{person}{Dilyara Bareeva}, \bibinfo{person}{Franz Motzkus}, \bibinfo{person}{Wojciech Samek}, \bibinfo{person}{Sebastian Lapuschkin}, {and} \bibinfo{person}{Marina M.-C. H{\"o}hne}.} \bibinfo{year}{2023}\natexlab{}.
+\newblock \showarticletitle{Quantus: An Explainable {AI} Toolkit for Responsible Evaluation of Neural Network Explanations and Beyond}.
+\newblock \bibinfo{journal}{\emph{Journal of Machine Learning Research}} \bibinfo{volume}{24}, \bibinfo{number}{34} (\bibinfo{year}{2023}), \bibinfo{pages}{1--11}.
+\newblock
+
+
+\bibitem[Heskes et~al\mbox{.}(2020)]%
+        {heskes2020causal}
+\bibfield{author}{\bibinfo{person}{Tom Heskes}, \bibinfo{person}{Evi Sijben}, \bibinfo{person}{Ioana Bucur}, {and} \bibinfo{person}{Tom Claassen}.} \bibinfo{year}{2020}\natexlab{}.
+\newblock \showarticletitle{Causal {Shapley} Values: Exploiting Causal Knowledge to Explain Individual Predictions of Complex Models}. In \bibinfo{booktitle}{\emph{Advances in Neural Information Processing Systems}}, Vol.~\bibinfo{volume}{33}. \bibinfo{pages}{4778--4789}.
+\newblock
+
+
+\bibitem[Hidasi et~al\mbox{.}(2016)]%
+        {hidasi2016gru4rec}
+\bibfield{author}{\bibinfo{person}{Balazs Hidasi}, \bibinfo{person}{Alexandros Karatzoglou}, \bibinfo{person}{Linas Baltrunas}, {and} \bibinfo{person}{Domonkos Tikk}.} \bibinfo{year}{2016}\natexlab{}.
+\newblock \showarticletitle{Session-Based Recommendations with Recurrent Neural Networks}. In \bibinfo{booktitle}{\emph{International Conference on Learning Representations}}.
+\newblock
+
+
+\bibitem[Hooker and Mentch(2019)]%
+        {hooker2019}
+\bibfield{author}{\bibinfo{person}{Sara Hooker} {and} \bibinfo{person}{Lucas Mentch}.} \bibinfo{year}{2019}\natexlab{}.
+\newblock \showarticletitle{Please Don't Buy into Explanations: The Logic of Perturbation-Based Explanations}. In \bibinfo{booktitle}{\emph{NeurIPS 2019 Workshop on Safety and Robustness in Machine Learning}}.
+\newblock
+
+
+\bibitem[Janizek et~al\mbox{.}(2021)]%
+        {janizek2021axiomatic}
+\bibfield{author}{\bibinfo{person}{Joseph~D. Janizek}, \bibinfo{person}{Peter Sturmfels}, {and} \bibinfo{person}{Su-In Lee}.} \bibinfo{year}{2021}\natexlab{}.
+\newblock \showarticletitle{Explaining Explanations: Axiomatic Feature Interactions for Deep Networks}.
+\newblock \bibinfo{journal}{\emph{Journal of Machine Learning Research}} \bibinfo{volume}{22}, \bibinfo{number}{104} (\bibinfo{year}{2021}), \bibinfo{pages}{1--35}.
+\newblock
+
+
+\bibitem[Jethani et~al\mbox{.}(2022)]%
+        {jethani2022fastshap}
+\bibfield{author}{\bibinfo{person}{Neil Jethani}, \bibinfo{person}{Mukund Sudarshan}, \bibinfo{person}{Ian Covert}, \bibinfo{person}{Su-In Lee}, {and} \bibinfo{person}{Rajesh Ranganath}.} \bibinfo{year}{2022}\natexlab{}.
+\newblock \showarticletitle{{FastSHAP}: Real-Time Shapley Value Estimation}. In \bibinfo{booktitle}{\emph{Proceedings of the International Conference on Learning Representations (ICLR)}}.
+\newblock
+
+
+\bibitem[Joachims(2002)]%
+        {joachims2002}
+\bibfield{author}{\bibinfo{person}{Thorsten Joachims}.} \bibinfo{year}{2002}\natexlab{}.
+\newblock \showarticletitle{Optimizing Search Engines Using Clickthrough Data}. In \bibinfo{booktitle}{\emph{Proceedings of the ACM SIGKDD International Conference}}. \bibinfo{pages}{133--142}.
+\newblock
+\href{https://doi.org/10.1145/775047.775067}{doi:\nolinkurl{10.1145/775047.775067}}
+
+
+\bibitem[Joachims et~al\mbox{.}(2017)]%
+        {joachims2017unbiased}
+\bibfield{author}{\bibinfo{person}{Thorsten Joachims}, \bibinfo{person}{Adith Swaminathan}, {and} \bibinfo{person}{Tobias Schnabel}.} \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{Unbiased Learning-to-Rank with Biased Feedback}. In \bibinfo{booktitle}{\emph{Proceedings of the ACM International Conference on Web Search and Data Mining (WSDM)}}. \bibinfo{pages}{781--789}.
+\newblock
+\href{https://doi.org/10.1145/3018661.3018699}{doi:\nolinkurl{10.1145/3018661.3018699}}
+
+
+\bibitem[Kang and McAuley(2018)]%
+        {kang2018sasrec}
+\bibfield{author}{\bibinfo{person}{Wang-Cheng Kang} {and} \bibinfo{person}{Julian McAuley}.} \bibinfo{year}{2018}\natexlab{}.
+\newblock \showarticletitle{Self-Attentive Sequential Recommendation}. In \bibinfo{booktitle}{\emph{IEEE International Conference on Data Mining}}. \bibinfo{pages}{197--206}.
+\newblock
+\href{https://doi.org/10.1109/ICDM.2018.00035}{doi:\nolinkurl{10.1109/ICDM.2018.00035}}
+
+
+\bibitem[Karimi et~al\mbox{.}(2021)]%
+        {karimi2021}
+\bibfield{author}{\bibinfo{person}{Amir-Hossein Karimi}, \bibinfo{person}{Gilles Barthe}, \bibinfo{person}{Borja Balle}, {and} \bibinfo{person}{Isabel Valera}.} \bibinfo{year}{2021}\natexlab{}.
+\newblock \showarticletitle{Model-Agnostic Counterfactual Explanations for Consequential Decisions}. In \bibinfo{booktitle}{\emph{Proceedings of the 24th International Conference on Artificial Intelligence and Statistics}}. \bibinfo{pages}{895--905}.
+\newblock
+
+
+\bibitem[Koren et~al\mbox{.}(2009)]%
+        {koren2009}
+\bibfield{author}{\bibinfo{person}{Yehuda Koren}, \bibinfo{person}{Robert Bell}, {and} \bibinfo{person}{Chris Volinsky}.} \bibinfo{year}{2009}\natexlab{}.
+\newblock \showarticletitle{Matrix Factorization Techniques for Recommender Systems}.
+\newblock \bibinfo{journal}{\emph{Computer}} \bibinfo{volume}{42}, \bibinfo{number}{8} (\bibinfo{year}{2009}), \bibinfo{pages}{30--37}.
+\newblock
+\href{https://doi.org/10.1109/MC.2009.263}{doi:\nolinkurl{10.1109/MC.2009.263}}
+
+
+\bibitem[Li et~al\mbox{.}(2025)]%
+        {li2025alert}
+\bibfield{author}{\bibinfo{person}{Chenglei Li}, \bibinfo{person}{Zhe Wen}, \bibinfo{person}{Chongming Gao}, \bibinfo{person}{Shijie Wu}, \bibinfo{person}{Yuan Zhang}, \bibinfo{person}{Jiaxin Jiang}, \bibinfo{person}{Ruobing Xie}, \bibinfo{person}{Happy Chen}, \bibinfo{person}{Xingwu Li}, \bibinfo{person}{Guang Sun}, \bibinfo{person}{Jia Wu}, {and} \bibinfo{person}{An Zeng}.} \bibinfo{year}{2025}\natexlab{}.
+\newblock \showarticletitle{{ALERT}: An {LLM}-Powered Benchmark for Automatic Evaluation of Recommendation Explanations}. In \bibinfo{booktitle}{\emph{Proceedings of the 2025 Conference of the Nations of the Americas Chapter of the ACL}}. \bibinfo{pages}{2635--2654}.
+\newblock
+\href{https://doi.org/10.18653/v1/2025.naacl-long.137}{doi:\nolinkurl{10.18653/v1/2025.naacl-long.137}}
+
+
+\bibitem[Li et~al\mbox{.}(2010)]%
+        {li2011linucb}
+\bibfield{author}{\bibinfo{person}{Lihong Li}, \bibinfo{person}{Wei Chu}, \bibinfo{person}{John Langford}, {and} \bibinfo{person}{Robert~E. Schapire}.} \bibinfo{year}{2010}\natexlab{}.
+\newblock \showarticletitle{A Contextual-Bandit Approach to Personalized News Article Recommendation}. In \bibinfo{booktitle}{\emph{Proceedings of the International Conference on World Wide Web (WWW)}}. \bibinfo{pages}{661--670}.
+\newblock
+\href{https://doi.org/10.1145/1772690.1772758}{doi:\nolinkurl{10.1145/1772690.1772758}}
+
+
+\bibitem[Li et~al\mbox{.}(2024)]%
+        {li2024tkde}
+\bibfield{author}{\bibinfo{person}{Yicong Li}, \bibinfo{person}{Xiangguo Sun}, \bibinfo{person}{Hongxu Chen}, \bibinfo{person}{Sixiao Zhang}, \bibinfo{person}{Yu Yang}, {and} \bibinfo{person}{Guandong Xu}.} \bibinfo{year}{2024}\natexlab{}.
+\newblock \showarticletitle{Attention Is Not the Only Choice: Counterfactual Reasoning for Path-Based Explainable Recommendation}.
+\newblock \bibinfo{journal}{\emph{IEEE Transactions on Knowledge and Data Engineering}} \bibinfo{volume}{36}, \bibinfo{number}{9} (\bibinfo{year}{2024}), \bibinfo{pages}{4458--4471}.
+\newblock
+\href{https://doi.org/10.1109/TKDE.2024.3373608}{doi:\nolinkurl{10.1109/TKDE.2024.3373608}}
+
+
+\bibitem[Lucic et~al\mbox{.}(2022)]%
+        {lucic2022cfgnnexplainer}
+\bibfield{author}{\bibinfo{person}{Ana Lucic}, \bibinfo{person}{Maurits ter Hoeve}, \bibinfo{person}{Gabriele Tolomei}, \bibinfo{person}{Maarten~de Rijke}, {and} \bibinfo{person}{Fabrizio Silvestri}.} \bibinfo{year}{2022}\natexlab{}.
+\newblock \showarticletitle{{CF-GNNExplainer}: Counterfactual Explanations for Graph Neural Networks}. In \bibinfo{booktitle}{\emph{Proceedings of the International Conference on Artificial Intelligence and Statistics (AISTATS)}}, Vol.~\bibinfo{volume}{151}. \bibinfo{pages}{4499--4511}.
+\newblock
+
+
+\bibitem[Lundberg et~al\mbox{.}(2020)]%
+        {lundberg2020}
+\bibfield{author}{\bibinfo{person}{Scott~M. Lundberg}, \bibinfo{person}{Gabriel~G. Erion}, \bibinfo{person}{Hugh Chen}, \bibinfo{person}{Alex DeGrave}, \bibinfo{person}{Jordan~M. Prutkin}, \bibinfo{person}{Bala Nair}, \bibinfo{person}{Ronit Katz}, \bibinfo{person}{Jonathan Himmelfarb}, \bibinfo{person}{Nisha Bansal}, {and} \bibinfo{person}{Su-In Lee}.} \bibinfo{year}{2020}\natexlab{}.
+\newblock \showarticletitle{From Local Explanations to Global Understanding with Explainable {AI} for Trees}.
+\newblock \bibinfo{journal}{\emph{Nature Machine Intelligence}}  \bibinfo{volume}{2} (\bibinfo{year}{2020}), \bibinfo{pages}{56--67}.
+\newblock
+\href{https://doi.org/10.1038/s42256-019-0138-9}{doi:\nolinkurl{10.1038/s42256-019-0138-9}}
+
+
+\bibitem[Lundberg and Lee(2017)]%
+        {lundberg2017}
+\bibfield{author}{\bibinfo{person}{Scott~M. Lundberg} {and} \bibinfo{person}{Su-In Lee}.} \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{A Unified Approach to Interpreting Model Predictions}. In \bibinfo{booktitle}{\emph{Advances in Neural Information Processing Systems}}, Vol.~\bibinfo{volume}{30}. \bibinfo{pages}{4765--4774}.
+\newblock
+
+
+\bibitem[Luo et~al\mbox{.}(2020)]%
+        {luo2020pgexplainer}
+\bibfield{author}{\bibinfo{person}{Dongsheng Luo}, \bibinfo{person}{Wei Cheng}, \bibinfo{person}{Dongkuan Xu}, \bibinfo{person}{Wenchao Yu}, \bibinfo{person}{Bo Zong}, \bibinfo{person}{Haifeng Chen}, {and} \bibinfo{person}{Xiang Zhang}.} \bibinfo{year}{2020}\natexlab{}.
+\newblock \showarticletitle{Parameterized Explainer for Graph Neural Network}. In \bibinfo{booktitle}{\emph{Advances in Neural Information Processing Systems}}, Vol.~\bibinfo{volume}{33}. \bibinfo{pages}{19620--19631}.
+\newblock
+
+
+\bibitem[Mohammadi et~al\mbox{.}(2024)]%
+        {mohammadi2024recsys}
+\bibfield{author}{\bibinfo{person}{Amin Mohammadi}, \bibinfo{person}{Dongwon Lee}, {and} \bibinfo{person}{Eva Zangerle}.} \bibinfo{year}{2024}\natexlab{}.
+\newblock \showarticletitle{Are We Explaining the Same Recommenders? Incorporating Recommender Performance for Evaluating Explainers}. In \bibinfo{booktitle}{\emph{Proceedings of the 18th ACM Conference on Recommender Systems}}. \bibinfo{pages}{642--647}.
+\newblock
+\href{https://doi.org/10.1145/3640457.3688108}{doi:\nolinkurl{10.1145/3640457.3688108}}
+
+
+\bibitem[Mohammadi et~al\mbox{.}(2025)]%
+        {mohammadi2025}
+\bibfield{author}{\bibinfo{person}{Amir~Reza Mohammadi}, \bibinfo{person}{Andreas Peintner}, \bibinfo{person}{Michael M{\"u}ller}, {and} \bibinfo{person}{Eva Zangerle}.} \bibinfo{year}{2025}\natexlab{}.
+\newblock \showarticletitle{Beyond Top-1: Addressing Inconsistencies in Evaluating Counterfactual Explanations for Recommender Systems}. In \bibinfo{booktitle}{\emph{Proceedings of the Nineteenth ACM Conference on Recommender Systems}}. \bibinfo{pages}{515--520}.
+\newblock
+\href{https://doi.org/10.1145/3705328.3748028}{doi:\nolinkurl{10.1145/3705328.3748028}}
+
+
+\bibitem[Mohammadi et~al\mbox{.}(2026)]%
+        {mohammadi2026sigir}
+\bibfield{author}{\bibinfo{person}{Amir~Reza Mohammadi}, \bibinfo{person}{Andreas Peintner}, \bibinfo{person}{Michael~M. M{\"u}ller}, {and} \bibinfo{person}{Eva Zangerle}.} \bibinfo{year}{2026}\natexlab{}.
+\newblock \showarticletitle{Minimal-Perturbation Counterfactuals through Guided Denoising Diffusion for Recommender Systems Explanation}. In \bibinfo{booktitle}{\emph{Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval}}. \bibinfo{pages}{1371--1381}.
+\newblock
+\href{https://doi.org/10.1145/3805712.3809584}{doi:\nolinkurl{10.1145/3805712.3809584}}
+
+
+\bibitem[Molnar(2022)]%
+        {molnar2022}
+\bibfield{author}{\bibinfo{person}{Christoph Molnar}.} \bibinfo{year}{2022}\natexlab{}.
+\newblock \bibinfo{booktitle}{\emph{Interpretable Machine Learning} (\bibinfo{edition}{2} ed.)}.
+\newblock \bibinfo{publisher}{Independent publication}, \bibinfo{address}{Munich, Germany}.
+\newblock
+\urldef\tempurl%
+\url{https://christophm.github.io/interpretable-ml-book/}
+\showURL{%
+\tempurl}
+
+
+\bibitem[Nauta et~al\mbox{.}(2023)]%
+        {nauta2023survey}
+\bibfield{author}{\bibinfo{person}{Meike Nauta}, \bibinfo{person}{Jan Trienes}, \bibinfo{person}{Shreyasi Pathak}, \bibinfo{person}{Elisa Nguyen}, \bibinfo{person}{Michelle Peters}, \bibinfo{person}{Yasmin Schmitt}, \bibinfo{person}{J{\"o}rg Schl{\"o}tterer}, \bibinfo{person}{Maurice van Keulen}, {and} \bibinfo{person}{Christin Seifert}.} \bibinfo{year}{2023}\natexlab{}.
+\newblock \showarticletitle{From Anecdotal Evidence to Quantitative Evaluation Methods: A Systematic Review on Evaluating Explainable {AI}}.
+\newblock \bibinfo{journal}{\emph{Comput. Surveys}} \bibinfo{volume}{55}, \bibinfo{number}{13s} (\bibinfo{year}{2023}), \bibinfo{pages}{1--42}.
+\newblock
+\href{https://doi.org/10.1145/3583558}{doi:\nolinkurl{10.1145/3583558}}
+
+
+\bibitem[Nguyen et~al\mbox{.}(2026)]%
+        {nguyen2026}
+\bibfield{author}{\bibinfo{person}{Quang-Huy Nguyen}, \bibinfo{person}{Thanh-Hai Nguyen}, \bibinfo{person}{Khac-Manh Thai}, \bibinfo{person}{Duc-Hoang Pham}, \bibinfo{person}{Huy-Son Nguyen}, \bibinfo{person}{Cam-Van~Thi Nguyen}, \bibinfo{person}{Masoud Mansoury}, \bibinfo{person}{Duc-Trong Le}, {and} \bibinfo{person}{Hoang-Quynh Le}.} \bibinfo{year}{2026}\natexlab{}.
+\newblock \showarticletitle{From Top-1 to Top-K: A Reproducibility Study and Benchmarking of Counterfactual Explanations for Recommender Systems}. In \bibinfo{booktitle}{\emph{Proceedings of the 49th International ACM SIGIR Conference on Research and Development in Information Retrieval}}. \bibinfo{pages}{3017--3027}.
+\newblock
+\href{https://doi.org/10.1145/3805712.3808574}{doi:\nolinkurl{10.1145/3805712.3808574}}
+
+
+\bibitem[Ni et~al\mbox{.}(2019)]%
+        {ni2019}
+\bibfield{author}{\bibinfo{person}{Jianmo Ni}, \bibinfo{person}{Jiacheng Li}, {and} \bibinfo{person}{Julian McAuley}.} \bibinfo{year}{2019}\natexlab{}.
+\newblock \showarticletitle{Justifying Recommendations using Distantly-Labeled Reviews and Fine-Grained Aspects}. In \bibinfo{booktitle}{\emph{Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing and the 9th International Joint Conference on Natural Language Processing}}. \bibinfo{pages}{188--197}.
+\newblock
+\href{https://doi.org/10.18653/v1/D19-1018}{doi:\nolinkurl{10.18653/v1/D19-1018}}
+
+
+\bibitem[N{\'o}brega and Marinho(2019)]%
+        {nobrega2019}
+\bibfield{author}{\bibinfo{person}{Caio N{\'o}brega} {and} \bibinfo{person}{Leandro Marinho}.} \bibinfo{year}{2019}\natexlab{}.
+\newblock \showarticletitle{Towards Explaining Recommendations through Local Surrogate Models}. In \bibinfo{booktitle}{\emph{Proceedings of the 34th ACM/SIGAPP Symposium on Applied Computing}}. \bibinfo{pages}{1671--1678}.
+\newblock
+
+
+\bibitem[Okhrati and Lipani(2021)]%
+        {okhrani2021multilinear}
+\bibfield{author}{\bibinfo{person}{Rasoul Okhrati} {and} \bibinfo{person}{Aldo Lipani}.} \bibinfo{year}{2021}\natexlab{}.
+\newblock \showarticletitle{A Multilinear Sampling Algorithm to Estimate {Shapley} Values}. In \bibinfo{booktitle}{\emph{Proceedings of the 25th International Conference on Pattern Recognition (ICPR)}}. \bibinfo{pages}{7992--7999}.
+\newblock
+
+
+\bibitem[Peake and Wang(2018)]%
+        {peake2018}
+\bibfield{author}{\bibinfo{person}{Georgina Peake} {and} \bibinfo{person}{Jun Wang}.} \bibinfo{year}{2018}\natexlab{}.
+\newblock \showarticletitle{Explanation Mining: Post Hoc Interpretability of Latent Factor Models for Recommendation Systems}. In \bibinfo{booktitle}{\emph{Proceedings of the 24th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining}}. \bibinfo{pages}{2060--2069}.
+\newblock
+
+
+\bibitem[Petsiuk et~al\mbox{.}(2018)]%
+        {petsiuk2018rise}
+\bibfield{author}{\bibinfo{person}{Vitali Petsiuk}, \bibinfo{person}{Abir Das}, {and} \bibinfo{person}{Kate Saenko}.} \bibinfo{year}{2018}\natexlab{}.
+\newblock \showarticletitle{{RISE}: Randomized Input Sampling for Explanation of Black-Box Models}. In \bibinfo{booktitle}{\emph{Proceedings of the British Machine Vision Conference (BMVC)}}. \bibinfo{pages}{151}.
+\newblock
+
+
+\bibitem[Pliatsika et~al\mbox{.}(2025)]%
+        {pliatsika2025sharpl}
+\bibfield{author}{\bibinfo{person}{Venetia Pliatsika}, \bibinfo{person}{Jo{\~a}o Fonseca}, \bibinfo{person}{Kateryna Akhynko}, \bibinfo{person}{Ivan Shevchenko}, {and} \bibinfo{person}{Julia Stoyanovich}.} \bibinfo{year}{2025}\natexlab{}.
+\newblock \showarticletitle{{ShaRP}: Explaining Rankings and Preferences with {Shapley} Values}.
+\newblock \bibinfo{journal}{\emph{Proceedings of the VLDB Endowment}} \bibinfo{volume}{18}, \bibinfo{number}{11} (\bibinfo{year}{2025}), \bibinfo{pages}{4131--4143}.
+\newblock
+\href{https://doi.org/10.14778/3749646.3749682}{doi:\nolinkurl{10.14778/3749646.3749682}}
+
+
+\bibitem[Rendle et~al\mbox{.}(2009)]%
+        {rendle2009}
+\bibfield{author}{\bibinfo{person}{Steffen Rendle}, \bibinfo{person}{Christoph Freudenthaler}, \bibinfo{person}{Zeno Gantner}, {and} \bibinfo{person}{Lars Schmidt-Thieme}.} \bibinfo{year}{2009}\natexlab{}.
+\newblock \showarticletitle{{BPR}: Bayesian Personalized Ranking from Implicit Feedback}. In \bibinfo{booktitle}{\emph{Proceedings of the Twenty-Fifth Conference on Uncertainty in Artificial Intelligence}}. \bibinfo{pages}{452--461}.
+\newblock
+
+
+\bibitem[Ribeiro et~al\mbox{.}(2016)]%
+        {ribeiro2016}
+\bibfield{author}{\bibinfo{person}{Marco~Tulio Ribeiro}, \bibinfo{person}{Sameer Singh}, {and} \bibinfo{person}{Carlos Guestrin}.} \bibinfo{year}{2016}\natexlab{}.
+\newblock \showarticletitle{Why Should I Trust You? Explaining the Predictions of Any Classifier}. In \bibinfo{booktitle}{\emph{Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining}}. \bibinfo{pages}{1135--1144}.
+\newblock
+\href{https://doi.org/10.1145/2939672.2939778}{doi:\nolinkurl{10.1145/2939672.2939778}}
+
+
+\bibitem[Roberts et~al\mbox{.}(2023)]%
+        {mousavi2023clime}
+\bibfield{author}{\bibinfo{person}{Claudia Roberts}, \bibinfo{person}{Ehtsham Elahi}, {and} \bibinfo{person}{Ashok Chandrashekar}.} \bibinfo{year}{2023}\natexlab{}.
+\newblock \showarticletitle{{CLIME}: Completeness-Constrained {LIME}}. In \bibinfo{booktitle}{\emph{Proceedings of the ACM Web Conference}}. \bibinfo{pages}{950--958}.
+\newblock
+\href{https://doi.org/10.1145/3543873.3587652}{doi:\nolinkurl{10.1145/3543873.3587652}}
+
+
+\bibitem[Saito(2020)]%
+        {saito2020ips}
+\bibfield{author}{\bibinfo{person}{Yuta Saito}.} \bibinfo{year}{2020}\natexlab{}.
+\newblock \showarticletitle{Unbiased Pairwise Learning from Biased Implicit Feedback}. In \bibinfo{booktitle}{\emph{Proceedings of the ACM SIGIR International Conference on Theory of Information Retrieval (ICTIR)}}. \bibinfo{pages}{5--12}.
+\newblock
+\href{https://doi.org/10.1145/3409256.3409812}{doi:\nolinkurl{10.1145/3409256.3409812}}
+
+
+\bibitem[Saito and Joachims(2021)]%
+        {saito2021}
+\bibfield{author}{\bibinfo{person}{Yuta Saito} {and} \bibinfo{person}{Thorsten Joachims}.} \bibinfo{year}{2021}\natexlab{}.
+\newblock \showarticletitle{Counterfactual Learning and Evaluation for Recommender Systems: Foundations, Implementations, and Recent Advances}. In \bibinfo{booktitle}{\emph{Proceedings of the 15th ACM Conference on Recommender Systems}}. \bibinfo{pages}{828--830}.
+\newblock
+
+
+\bibitem[Samek et~al\mbox{.}(2019)]%
+        {samek2017}
+\bibfield{author}{\bibinfo{person}{Wojciech Samek}, \bibinfo{person}{Grégoire Montavon}, \bibinfo{person}{Andrea Vedaldi}, \bibinfo{person}{Lars~Kai Hansen}, {and} \bibinfo{person}{Klaus-Robert Müller}.} \bibinfo{year}{2019}\natexlab{}.
+\newblock \showarticletitle{Explainable {AI}: Interpreting, Explaining and Visualizing Deep Learning}.
+\newblock In \bibinfo{booktitle}{\emph{Explainable {AI}: Interpreting, Explaining and Visualizing Deep Learning}}. \bibinfo{series}{Lecture Notes in Computer Science}, Vol.~\bibinfo{volume}{11700}. \bibinfo{publisher}{Springer}, \bibinfo{address}{Cham}, \bibinfo{pages}{3--10}.
+\newblock
+
+
+\bibitem[Schnabel et~al\mbox{.}(2016)]%
+        {schnabel2016debias}
+\bibfield{author}{\bibinfo{person}{Tobias Schnabel}, \bibinfo{person}{Adith Swaminathan}, \bibinfo{person}{Ashudeep Singh}, \bibinfo{person}{Navin Chandak}, {and} \bibinfo{person}{Thorsten Joachims}.} \bibinfo{year}{2016}\natexlab{}.
+\newblock \showarticletitle{Recommendations as Treatments: Debiasing Learning and Evaluation}. In \bibinfo{booktitle}{\emph{Proceedings of the International Conference on Machine Learning (ICML)}}, Vol.~\bibinfo{volume}{48}. \bibinfo{pages}{1670--1679}.
+\newblock
+
+
+\bibitem[Shapley(1953)]%
+        {shapley1953}
+\bibfield{author}{\bibinfo{person}{Lloyd~S. Shapley}.} \bibinfo{year}{1953}\natexlab{}.
+\newblock \showarticletitle{A Value for n-Person Games}.
+\newblock In \bibinfo{booktitle}{\emph{Contributions to the Theory of Games II}}. \bibinfo{publisher}{Princeton University Press}, \bibinfo{address}{Princeton, NJ}, \bibinfo{pages}{307--317}.
+\newblock
+
+
+\bibitem[Sun et~al\mbox{.}(2019)]%
+        {sun2019bert4rec}
+\bibfield{author}{\bibinfo{person}{Fei Sun}, \bibinfo{person}{Jun Liu}, \bibinfo{person}{Jian Wu}, \bibinfo{person}{Changhua Pei}, \bibinfo{person}{Xiao Lin}, \bibinfo{person}{Wenjun Ou}, {and} \bibinfo{person}{Peng Jiang}.} \bibinfo{year}{2019}\natexlab{}.
+\newblock \showarticletitle{{BERT4Rec}: Sequential Recommendation with Bidirectional Encoder Representations from Transformer}. In \bibinfo{booktitle}{\emph{Proceedings of the 28th ACM International Conference on Information and Knowledge Management}}. \bibinfo{pages}{1441--1450}.
+\newblock
+\href{https://doi.org/10.1145/3357384.3357895}{doi:\nolinkurl{10.1145/3357384.3357895}}
+
+
+\bibitem[Sundararajan et~al\mbox{.}(2020)]%
+        {sundararajan2020shapleytaylor}
+\bibfield{author}{\bibinfo{person}{Mukund Sundararajan}, \bibinfo{person}{Kedar Dhamdhere}, {and} \bibinfo{person}{Ashish Agarwal}.} \bibinfo{year}{2020}\natexlab{}.
+\newblock \showarticletitle{The {Shapley} {Taylor} Interaction Index}. In \bibinfo{booktitle}{\emph{Proceedings of the 37th International Conference on Machine Learning}}. \bibinfo{pages}{9290--9300}.
+\newblock
+
+
+\bibitem[Sundararajan and Najmi(2020)]%
+        {sundararajan2020many}
+\bibfield{author}{\bibinfo{person}{Mukund Sundararajan} {and} \bibinfo{person}{Amir Najmi}.} \bibinfo{year}{2020}\natexlab{}.
+\newblock \showarticletitle{The Many {Shapley} Values for Model Explanation}. In \bibinfo{booktitle}{\emph{Proceedings of the International Conference on Machine Learning (ICML)}}, Vol.~\bibinfo{volume}{119}. \bibinfo{pages}{9269--9278}.
+\newblock
+
+
+\bibitem[Sundararajan et~al\mbox{.}(2017)]%
+        {sundararajan2017axiomatic}
+\bibfield{author}{\bibinfo{person}{Mukund Sundararajan}, \bibinfo{person}{Ankur Taly}, {and} \bibinfo{person}{Qiqi Yan}.} \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{Axiomatic Attribution for Deep Networks}. In \bibinfo{booktitle}{\emph{Proceedings of the 34th International Conference on Machine Learning}}. \bibinfo{pages}{3319--3328}.
+\newblock
+
+
+\bibitem[Tan et~al\mbox{.}(2021)]%
+        {tan2021}
+\bibfield{author}{\bibinfo{person}{Juntao Tan}, \bibinfo{person}{Shuyuan Xu}, \bibinfo{person}{Yingqiang Ge}, \bibinfo{person}{Yunqi Li}, \bibinfo{person}{Xu Chen}, {and} \bibinfo{person}{Yongfeng Zhang}.} \bibinfo{year}{2021}\natexlab{}.
+\newblock \showarticletitle{Counterfactual Explainable Recommendation}. In \bibinfo{booktitle}{\emph{Proceedings of the 30th ACM International Conference on Information and Knowledge Management}}. \bibinfo{pages}{1784--1793}.
+\newblock
+\href{https://doi.org/10.1145/3459637.3482420}{doi:\nolinkurl{10.1145/3459637.3482420}}
+
+
+\bibitem[Tran et~al\mbox{.}(2021)]%
+        {tran2021}
+\bibfield{author}{\bibinfo{person}{Khanh~Hiep Tran}, \bibinfo{person}{Azin Ghazimatin}, {and} \bibinfo{person}{Rishiraj Saha~Roy}.} \bibinfo{year}{2021}\natexlab{}.
+\newblock \showarticletitle{Counterfactual Explanations for Neural Recommenders}. In \bibinfo{booktitle}{\emph{Proceedings of the 44th International ACM SIGIR Conference on Research and Development in Information Retrieval}}. \bibinfo{pages}{1627--1631}.
+\newblock
+
+
+\bibitem[Wachter et~al\mbox{.}(2017)]%
+        {wachter2017}
+\bibfield{author}{\bibinfo{person}{Sandra Wachter}, \bibinfo{person}{Brent Mittelstadt}, {and} \bibinfo{person}{Chris Russell}.} \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{Counterfactual Explanations without Opening the Black Box: Automated Decisions and the GDPR}.
+\newblock \bibinfo{journal}{\emph{Harvard Journal of Law and Technology}} \bibinfo{volume}{31}, \bibinfo{number}{2} (\bibinfo{year}{2017}), \bibinfo{pages}{841--887}.
+\newblock
+
+
+\bibitem[Wang et~al\mbox{.}(2019)]%
+        {wang2019ngcf}
+\bibfield{author}{\bibinfo{person}{Xiang Wang}, \bibinfo{person}{Xiangnan He}, \bibinfo{person}{Meng Wang}, \bibinfo{person}{Fuli Feng}, {and} \bibinfo{person}{Tat-Seng Chua}.} \bibinfo{year}{2019}\natexlab{}.
+\newblock \showarticletitle{Neural Graph Collaborative Filtering}. In \bibinfo{booktitle}{\emph{Proceedings of the 42nd International ACM SIGIR Conference}}. \bibinfo{pages}{165--174}.
+\newblock
+\href{https://doi.org/10.1145/3331184.3331267}{doi:\nolinkurl{10.1145/3331184.3331267}}
+
+
+\bibitem[Yao et~al\mbox{.}(2022)]%
+        {yao2022}
+\bibfield{author}{\bibinfo{person}{Yuanshun Yao}, \bibinfo{person}{Chong Wang}, {and} \bibinfo{person}{Hang Li}.} \bibinfo{year}{2022}\natexlab{}.
+\newblock \showarticletitle{Counterfactually Evaluating Explanations in Recommender Systems}.
+\newblock \bibinfo{journal}{\emph{arXiv preprint arXiv:2203.01310}} (\bibinfo{year}{2022}).
+\newblock
+
+
+\bibitem[Ying et~al\mbox{.}(2019)]%
+        {ying2019gnnexplainer}
+\bibfield{author}{\bibinfo{person}{Rex Ying}, \bibinfo{person}{Dylan Bourgeois}, \bibinfo{person}{Jiaxuan You}, \bibinfo{person}{Marinka Zitnik}, {and} \bibinfo{person}{Jure Leskovec}.} \bibinfo{year}{2019}\natexlab{}.
+\newblock \showarticletitle{{GNNExplainer}: Generating Explanations for Graph Neural Networks}. In \bibinfo{booktitle}{\emph{Advances in Neural Information Processing Systems}}, Vol.~\bibinfo{volume}{32}. \bibinfo{pages}{9240--9251}.
+\newblock
+
+
+\bibitem[Yuan et~al\mbox{.}(2021)]%
+        {yuan2021subgraphx}
+\bibfield{author}{\bibinfo{person}{Hao Yuan}, \bibinfo{person}{Haiyang Yu}, \bibinfo{person}{Jie Wang}, \bibinfo{person}{Kang Li}, {and} \bibinfo{person}{Shuiwang Ji}.} \bibinfo{year}{2021}\natexlab{}.
+\newblock \showarticletitle{On Explainability of Graph Neural Networks via Subgraph Explorations}. In \bibinfo{booktitle}{\emph{Proceedings of the International Conference on Machine Learning (ICML)}}, Vol.~\bibinfo{volume}{139}. \bibinfo{pages}{12241--12252}.
+\newblock
+
+
+\bibitem[Zhang and Chen(2020)]%
+        {zhang2020survey}
+\bibfield{author}{\bibinfo{person}{Yongfeng Zhang} {and} \bibinfo{person}{Xu Chen}.} \bibinfo{year}{2020}\natexlab{}.
+\newblock \showarticletitle{Explainable Recommendation: A Survey and New Perspectives}.
+\newblock \bibinfo{journal}{\emph{Foundations and Trends in Information Retrieval}} \bibinfo{volume}{14}, \bibinfo{number}{1} (\bibinfo{year}{2020}), \bibinfo{pages}{1--101}.
+\newblock
+
+
+\bibitem[Zhang et~al\mbox{.}(2014)]%
+        {zhang2014}
+\bibfield{author}{\bibinfo{person}{Yongfeng Zhang}, \bibinfo{person}{Guokun Lai}, \bibinfo{person}{Min Zhang}, \bibinfo{person}{Yi Zhang}, \bibinfo{person}{Yiqun Liu}, {and} \bibinfo{person}{Shaoping Ma}.} \bibinfo{year}{2014}\natexlab{}.
+\newblock \showarticletitle{Explicit Factor Models for Explainable Recommendation Based on Phrase-Level Sentiment Analysis}. In \bibinfo{booktitle}{\emph{Proceedings of the 37th International ACM SIGIR Conference}}. \bibinfo{pages}{83--92}.
+\newblock
+\href{https://doi.org/10.1145/2600428.2609579}{doi:\nolinkurl{10.1145/2600428.2609579}}
+
+
+\end{thebibliography}

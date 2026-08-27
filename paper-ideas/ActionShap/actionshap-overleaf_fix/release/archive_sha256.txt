@@ -1,5 +1,0 @@
-Schema-v2 result archive SHA-256:
-ac4c7fb1993458b6b41054974ebff215710e7a8b5894c7aa6af828e94b2a5b0f
-
-Archive path in repository:
-paper-ideas/ActionShap/code/results/release/actionshap-schema-v2-results.tar.gz
