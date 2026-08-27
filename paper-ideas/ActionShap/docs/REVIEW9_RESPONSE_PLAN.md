@@ -23,24 +23,24 @@ Legend:
 
 | # | Issue | Status | Where |
 |---|-------|--------|-------|
-| 1 | Normalized weighting = relative profile-mass reallocation, not isolated suppression | **FIXED (text)** new derivation paragraph (coefficient change, uniform-scale invariance, rho-factorization explaining the flat Amazon 0.708 rho-response) + rename "relative profile reweighting"; **RUN** fixed-denominator pure-suppression ablation (`fixed-denominator` subcommand, `FixedDenominatorItemKNN` implemented + tested) | acmmanuscript §3.2; run_review9 |
+| 1 | Normalized weighting = relative profile-mass reallocation, not isolated suppression | **FIXED (text+code+run)** derivation + rename + `FixedDenominatorItemKNN`; the pure-suppression ablation has now been run on the benchmark that ships in the artifact (Gowalla, 600 sampled / 528 defined users, identical candidates, seed, $\rho$): Shapley bounded AIA $0.638\to0.998$, LOO $0.990\to1.000$, LIME $0.690\to0.700$, paired Shapley contrast $-0.360$ $[-0.375,-0.346]$, $d_z=-2.07$; the bounded-minus-deletion gap $+0.0098\to0.0000$ (29/528 users). Tables `tab:r9-fixed-denominator(-paired)`; main text Section 4.2 states the reading. MovieLens/Amazon replication still needs the datasets machine | make_review9_stats |
 | 2 | Only ItemKNN passes the quality gate | **REBUT + RUN (long-term)** existing candor retained (limitations, abstract caveat); competitive gate-passing neural/graph model is an engineering workstream (history-weighting-compatible training), scoped in the guide | abstract, §7, §8 |
 | 3 | Amazon full-catalogue reversal must be central | **FIXED (text)** promoted into abstract, §6.6 already reports it, conclusion restates it (negative AIA −0.05 with positive gap +0.16) | abstract, §6.6, conclusion |
-| 4 | Utility mismatch confounds H2 (target-margin attribution vs NDCG decisions) | **FIXED (text)** direct utility-matched association analysis computed from existing matrices and added to §6.4; **RUN** full 2x2 attribution x outcome factorial (`utility-factorial`) | §6.4; run_review9 |
-| 5 | Prospective audit must be co-primary | **RUN** full-cohort prospective audit (`prospective`); existing 250-user prospective results remain in S9 | run_review9 |
+| 4 | Utility mismatch confounds H2 (target-margin attribution vs NDCG decisions) | **FIXED (text+run)** primary-cohort factorial from the released matrices (`tab:r9-utility-factorial`) *plus* the replication-benchmark $2\times2$ (`tab:r9-utility-factorial-replication`): changing only the evaluation utility moves the mean bounded AIA by $+0.330$ $[0.248,0.415]$ and the mirrored cell by $-0.275$ $[-0.438,-0.101]$, with only 14/250 users having a defined NDCG arm -- reported as descriptive, and the reason H2 is adjudicated on rank association | make_review9_stats |
+| 5 | Prospective audit must be co-primary | **RUN (tooling done)** `prospective` writes `prospective_<ds>.json` and `tab:r9-prospective-replication` is generated from it automatically (audited/sampled counts, held-out-target coverage, per-method AIA); the Gowalla instance is running now, MovieLens/Amazon need `notebooks/REVIEW9_REPLICATION_RUNS.ipynb` | notebook |
 | 6 | "Executable" overclaims | **FIXED (text)** "simulator-executable" at all claim sites; abstract states the intervention is simulator-executable, not demonstrated against a production interface | throughout |
 | 7 | Eq. (4) BPR not reproducible as written | **FIXED (text)** rewritten as per-triple loss + exact per-triple gradients verified against `fit_item_embeddings`, clipping semantics specified, context/regularizer scope defined | §3.2 Eq. (4)-(5) |
-| 8 | Fixed candidate sets dominate conclusions | **RUN** 20 independent candidate resamples with between-resample variability (`candidate-redraw`) | run_review9 |
-| 9 | Per-user MC uncertainty not propagated | **REBUT (partially addressed)** S21/S24/S28 diagnostics already present; mcse caption corrected (0.948 floor, budget labels); propagation into regret remains an extension item | supp. tables |
-| 10 | Analysis populations inconsistent | **FIXED (text)** every flagged statistic relabeled: TOST n=1000 (verified by recomputation), gap-vs-regret = target-margin NRegret (n=1000/987 positive-oracle users), S15/S22/S25/S28 captions fixed with explicit denominators | §5.3, §6, tables |
-| 11 | Uncertainty conditional on one fitted model/candidates | **RUN** candidate redraws (R9-4); retraining/temporal-cutoff resampling noted as extension in guide | run_review9 |
-| 12 | Player-exchangeability null questionable | **RUN** recency- and popularity-stratified within-user nulls (`stratified-null`) + free-shuffle retained as declared default | run_review9 |
-| 13 | "Equal-scorer-budget" table mislabeled / unequal budgets | **FIXED (text)** table renamed to budget-response curves, S symbol instead of B, not-equal-budget note in caption; **RUN** genuinely matched scorer-call points (`compute-matched`) | S9 table; run_review9 |
-| 14 | AIA monotone-invariance claim false; gap tested instead of absolute AIA | **FIXED (text)** invariance claim corrected (applies to already-formed vectors only); absolute bounded-AIA vs decision association added to §6.4 | §4.3, §6.4 |
-| 15 | Collision-prone integer seed derivation | **FIXED (code)** tuple SeedSequence entropy for random control, LIME masks, MC Shapley, and the within-user null stream in `run_recommendation.py` + `evaluation.py`; widened type hints; unit tests added. **Note:** changes random-control/LIME/Shapley streams, so primary-suite regeneration is required before final submission (cheap for random; full suite ≈ prior runtime) | code + §4.2 text |
-| 16 | Artifact URL placeholder; main/supplement version drift | **USER** artifact deposit (Zenodo/OSF) then fill placeholders; **FIXED (text)** drift items reconciled: MDE 0.014/0.051 (generator bug fixed), S15 n=993 caption, B=3 greedy-vs-exhaustive status, full-catalogue 250 vs 1000 wording | cover letter; multiple |
-| 17 | MDE 0.008/0.032 vs 0.014/0.051 conflict | **FIXED (code+text)** root cause found: `power_table` pooled ItemKNN + profile models, halving paired SD; restricted to primary ItemKNN; both table copies now show 0.051 (n=993) / 0.014 (n=1000) with formula documented | make_review3_stats.py; S17 |
-| 18 | Conflicting Holm families (.0066 vs .0216), 0.0010 floor | **FIXED (text)** confirmatory multiplicity map declared (per-metric families for S3–S5; single 12-contrast family authoritative for success/abstention); 0.0010 explained as 10-family Holm x 1/10,001 permutation floor (verified against raw paired_tests.csv) | §5.3 |
+| 8 | Fixed candidate sets dominate conclusions | **RUN (tooling done)** `candidate-redraw --redraws N` → `tab:r9-candidate-redraw` (between-redraw mean/SD/min–max per method); the payload's `KeyError: mean` on empty redraws was found by the notebook pilot and fixed; Gowalla instance in progress | notebook |
+| 9 | Per-user MC uncertainty not propagated | **FIXED (text)** per-user MC error now *propagated*: mean/maximum $|\Delta$AIA| between budgets with CIs from the review-8 cap-user study (`tab:r9-mc-propagation`, S11) and an explicit statement that the aggregate is unaffected while single-user decisions are; adaptive stopping stays an extension; mcse caption corrected (0.948 floor, budget labels); propagation into regret remains an extension item | supp. tables |
+| 10 | Analysis populations inconsistent | **FIXED (text+tables)** relabeling **plus the two artefacts the reviewer asked for**: inclusion-flow table and all-user sensitivity (`tab:r9-inclusion-flow`, `tab:r9-all-user-sensitivity`, S11), with every denominator verified by recomputation (1000 / 993 / 987 / 339 / 196) and locked by `tests/test_review9_publication_integrity.py`: TOST n=1000 (verified by recomputation), gap-vs-regret = target-margin NRegret (n=1000/987 positive-oracle users), S15/S22/S25/S28 captions fixed with explicit denominators | §5.3, §6, tables |
+| 11 | Uncertainty conditional on one fitted model/candidate set | **PARTLY RUN (tooling done)** candidate redraws cover the design half of this (Issue 8 tooling); retraining / temporal-cutoff resampling is a retraining workstream, not a re-scoring run, and stays an explicit extension | notebook + limitations |
+| 12 | Player-exchangeability null questionable | **FIXED (run)** stratified within-user nulls on the replication benchmark (`tab:r9-stratified-null`): null mean rises from $-0.0001$ (free) to $0.100$ (recency blocks) and $0.192$ (popularity blocks), while the observed $0.575$ stays $27.1$/$22.9$/$19.1$ null SDs above them; the $1000$-draw plus-one $p$ saturates at $0.0010$, so $z$ is reported | review9 runs |
+| 13 | "Equal-scorer-budget" table mislabeled / unequal budgets | **FIXED (text)** table renamed to budget-response curves, S symbol instead of B, not-equal-budget note in caption; **RUN (tooling done)** `compute-matched --mpair-grid` → `tab:r9-compute-matched`, one row per equal scorer-call budget with LIME $-$ Shapley per row | notebook |
+| 14 | AIA monotone-invariance claim false; gap tested instead of absolute AIA | **FIXED (text, PENDING PDF)** invariance claim corrected in the source; the *committed* `acmmanuscript.pdf` still contains the uncorrected sentence -- rebuild required (`make pdf`) (applies to already-formed vectors only); absolute bounded-AIA vs decision association added to §6.4 | §4.3, §6.4 |
+| 15 | Collision-prone integer seed derivation | **FIXED (code+text)** tuple SeedSequence entropy + **the second half of the ask is now closed**: the sign-flip exchangeability/symmetry assumption is stated in §5.3 and every headline contrast is re-run with a studentized bootstrap-*t* test (`tab:r9-studentized`, S11); agreement reported for random control, LIME masks, MC Shapley, and the within-user null stream in `run_recommendation.py` + `evaluation.py`; widened type hints; unit tests added. **Note:** changes random-control/LIME/Shapley streams, so primary-suite regeneration is required before final submission (cheap for random; full suite ≈ prior runtime) | code + §4.2 text |
+| 16 | Artifact URL placeholder; main/supplement version drift | **USER** artifact deposit for the URL only. Drift is now *machine-enforced*: content-addressed `code/results/manifest.json` (git revision + sha256 of every matrix and table), `\resultmanifeststamp` quoted in both PDFs, `make_result_manifest.py --check`, mirror byte-identity tests, and a stale-PDF guard in `validate_manuscript.py` (warning) + `test_compiled_pdfs_are_not_silent_about_the_revised_text` (xfail until rebuilt); **FIXED (text)** drift items reconciled: MDE 0.014/0.051 (generator bug fixed), S15 n=993 caption, B=3 greedy-vs-exhaustive status, full-catalogue 250 vs 1000 wording | cover letter; multiple |
+| 17 | MDE 0.008/0.032 vs 0.014/0.051 conflict | **FIXED (code+text)** 0.014/0.051 in both mirrors; the *generator* that produced them is now checked against the committed table (`make_review3_stats.py --check`, 40/40 rows) instead of silently overwriting a file with hand-appended blocks; `make tables` runs the check: `power_table` pooled ItemKNN + profile models, halving paired SD; restricted to primary ItemKNN; both table copies now show 0.051 (n=993) / 0.014 (n=1000) with formula documented | make_review3_stats.py; S17 |
+| 18 | Conflicting Holm families (.0066 vs .0216), 0.0010 floor | **FIXED (text+regenerated table)** root cause found and repaired: S4 was produced by an audit generator using **1,000** sign flips and one *global* Holm block with a non-standard step-up implementation. S4 is now regenerated from `release/paired_tests.csv` (8 printed values corrected, incl. .0066 → .0048) with exceedance counts and the authoritative 12-contrast value side by side; the generator itself now uses 10,000 draws + standard Holm (`make_review3_stats.py --check` passes); `tab:r9-multiplicity-map` publishes family membership + $\#=p(R+1)-1$ for all 2,312 released tests (0 recomputation failures) and `tab:r9-permutation-precision` shows the residual 3rd-decimal differences are MC error of the 10k-draw experiment (per-metric families for S3–S5; single 12-contrast family authoritative for success/abstention); 0.0010 explained as 10-family Holm x 1/10,001 permutation floor (verified against raw paired_tests.csv) | §5.3 |
 | 19 | Modern-model cells noncompetitive + estimator instability | **REBUT** already fully disclosed (SASRec exact-agreement 0.395/0.688, LightGCN below popularity, tuned variant); no claim of transfer remains | supp. S9 |
 
 ## Mandatory revisions checklist (Phase 17)
@@ -88,6 +88,64 @@ counterfactual explanations, ACM TORS). Previously unused keys
 ## Known remaining placeholders
 
 - Cover letter / supplement: `[INSERT PERMANENT OR REVIEWER-VIEW OSF/ZENODO URL...]`
-  and the preprint statement — fill after artifact deposit (USER).
-- Review-9 results JSONs not yet produced — tables for R9-1..R9-7 will be integrated
-  after the runs (see REVIEW9_EXPERIMENT_GUIDE.md).
+  and the preprint statement — fill after the artifact deposit (USER action).
+- Both committed PDFs still predate the revised sources: no LaTeX toolchain exists in
+  this workspace, so run `make -C . pdf` (then `make check`) before submission. The
+  test suite fails while `code/results/manifest.json` and the two
+  `\resultmanifeststamp` macros disagree, and xfails (not fails) while the PDFs lag.
+
+## Round 10 (follow-up revision pass, in this workspace)
+
+Everything below is generated, mirrored to both `tables/` copies, and covered by
+`code/tests/test_review9_publication_integrity.py` (14 tests):
+
+* `scripts/make_review3_stats.py`: permutation draws 1,000 → 10,000, the running-minimum
+  "Holm" replaced by the standard step-down adjustment, and a `--check` mode. The root
+  `Makefile`'s `tables` target now *verifies* rather than rewrites
+  `review3_statistics.tex`, because that file carries 19 hand-appended rows.
+  `--check` reports PASS on all 40 published rows, i.e. the table was already right and
+  only the generator was stale.
+* `scripts/make_review9_stats.py` additionally emits
+  `tables/review9_benchmark_replications.tex` (fixed-denominator levels + paired
+  contrasts + utility-factorial replication + stratified nulls) from the Gowalla runs,
+  and regenerates Table S4 from `release/paired_tests.csv`.
+* Structural guards added while fixing a real defect this pass introduced: the S4
+  longtable preamble declared 11 columns for 12-cell rows, three review-9 tables had
+  off-by-one colspecs, and one render block had lost a level of backslash escaping
+  (`\toprule` had become a tab character). The new test asserts no control characters,
+  matched environments, the house `@{}…@{}` preamble, per-row cell counts against the
+  declared columns, unique labels and resolvable cross-references for every generated
+  asset — it is the substitute for the LaTeX build that cannot run here.
+* `make -C . stats|tables|manifest|check` are now path-independent and work from any
+  directory; `code/results/review9/*.json` joined the manifest scope.
+
+* **Handoff notebook for the runs that need the datasets machine**:
+  `notebooks/REVIEW9_REPLICATION_RUNS.ipynb`, authored by
+  `code/scripts/make_review9_notebook.py`. It autodetects the repo, checks the data paths,
+  pilots all seven experiments at the real `M_pair` budget (measuring per-cohort cost on the
+  user's own machine), launches a resumable detached queue that writes straight into
+  `code/results/review9/`, and finishes with a rebuild cell that runs `make stats`, syncs
+  `\resultmanifeststamp` in both documents, checks the two mirrors byte-for-byte and runs the
+  validators. Scratch (pilot JSONs, queue log and script) lives in
+  `code/results/_review9_scratch/`, which is git-ignored *because* the manifest hashes
+  `code/results/review9` recursively.
+* **`make_review9_stats.py` now consumes every run type**, so the notebook needs no follow-up
+  editing to publish a result: `prospective_*.json` → `tab:r9-prospective-replication`,
+  `candidate_redraw_*.json` → `tab:r9-candidate-redraw`, `compute_matched_*.json` →
+  `tab:r9-compute-matched`, `hardware_*.json` → `tab:r9-hardware`, all in
+  `tables/review9_benchmark_replications.tex`. Each returns nothing when its run is absent, so
+  no `[Missing table asset]` placeholder can appear for work that has not been done yet.
+* **The pilot paid for itself immediately**: it crashed on `candidate-redraw`
+  (`KeyError: mean` when a redraw yields no defined AIA on a small cohort), which is a bug in
+  `run_review9_experiments.py`, not in the notebook; the payload now reads the per-redraw means
+  defensively and records `redraws_with_data`.
+* `validate_manuscript.py` additionally errors when a `\safeinput` asset is missing from
+  *either* document (previously only the main paper was checked) and warns about generated
+  tables that no document inputs, which is how a result can exist in source and be invisible in
+  the PDFs.
+
+Still open: #5, #8, #11, #13 need the primary cohorts, which is exactly what the
+notebook above runs (their tables generate themselves the moment the JSONs land, and the
+Gowalla instances are being produced here); #2 and #19 need a retrained, tuned neural/graph
+recommender, i.e. a separate engineering workstream rather than a re-scoring run; #16 needs the
+artifact deposit (USER) and the PDF rebuild (`make pdf`, no LaTeX toolchain in this workspace).

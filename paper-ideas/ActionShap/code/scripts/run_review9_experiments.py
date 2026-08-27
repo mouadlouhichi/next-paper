@@ -71,9 +71,10 @@ from actionshap.recommendation_data import (
 # --------------------------------------------------------------------------
 
 def add_common_args(ap: argparse.ArgumentParser) -> None:
-    ap.add_argument("--dataset", required=True, choices=["movielens", "amazon"])
+    ap.add_argument("--dataset", required=True, choices=["movielens", "amazon", "gowalla"])
     ap.add_argument("--ml-path", default="data/ml-1m/ratings.dat")
     ap.add_argument("--amazon-path", default="data/amazon-digital-music/interactions.csv")
+    ap.add_argument("--gowalla-path", default="data/gowalla/interactions.csv")
     ap.add_argument("--users", type=int, default=1000)
     ap.add_argument("--n-max", type=int, default=20)
     ap.add_argument("--evaluation-size", type=int, default=200)
@@ -87,8 +88,11 @@ def add_common_args(ap: argparse.ArgumentParser) -> None:
 
 
 def load_data(args):
+    """Load the temporal dataset for the requested benchmark."""
     if args.dataset == "movielens":
         return load_movielens_1m(args.ml_path, minimum_interactions=4)
+    if args.dataset == "gowalla":
+        return load_interactions_csv(args.gowalla_path, minimum_interactions=4)
     return load_interactions_csv(args.amazon_path, minimum_interactions=4)
 
 
@@ -181,12 +185,26 @@ def cmd_fixed_denominator(args) -> None:
                 "signed_lime_bounded": finite(signed_alignment(phi_lime, effects)),
                 "mean_abs_effect": float(np.abs(effects).mean()),
             }
+            # Review-9 Critical #1: the bounded-minus-deletion gap is the
+            # quantity whose interpretation the normalization objection
+            # concerns, so record it per user alongside the effect scale.
+            bounded = rec["aia_shapley_bounded"]
+            deletion = rec["aia_shapley_deletion"]
+            rec["gap_shapley"] = (
+                float(bounded - deletion)
+                if bounded is not None and deletion is not None
+                else None
+            )
             records.append(rec)
 
     payload = {
         "dataset": args.dataset,
         "experiment": "fixed_denominator",
         "config": vars(args) | {"seed": 42, "lime_samples": 512},
+        "n_users_sampled": int(len(users)),
+        "n_users_with_defined_aia": int(
+            len({r["user"] for r in records if r["aia_shapley_bounded"] is not None})
+        ),
         "records": records,
         "summary": {},
     }
@@ -199,11 +217,59 @@ def cmd_fixed_denominator(args) -> None:
                 "aia_lime_bounded",
                 "aia_loo_bounded",
                 "aia_shapley_deletion",
+                "gap_shapley",
                 "signed_shapley_bounded",
                 "signed_lime_bounded",
                 "mean_abs_effect",
             )
         }
+    # Paired user-level contrast: normalized relative reweighting versus the
+    # fixed-denominator pure-suppression scorer.  Both scorers share the user
+    # set, candidate sets, permutation seed and intervention strength, so the
+    # only difference is the normalization of the retained weight sum.
+    by_user: dict[str, dict[int, dict]] = {
+        label: {r["user"]: r for r in records if r["scorer"] == label}
+        for label in ("normalized", "fixed_denominator")
+    }
+    shared = sorted(set(by_user["normalized"]) & set(by_user["fixed_denominator"]))
+    paired: dict[str, dict[str, float]] = {}
+    for key in (
+        "aia_shapley_bounded",
+        "aia_lime_bounded",
+        "aia_shapley_deletion",
+        "gap_shapley",
+        "signed_shapley_bounded",
+        "mean_abs_effect",
+    ):
+        diff = [
+            by_user["normalized"][u][key] - by_user["fixed_denominator"][u][key]
+            for u in shared
+            if by_user["normalized"][u][key] is not None
+            and by_user["fixed_denominator"][u][key] is not None
+        ]
+        d = np.asarray(diff, dtype=float)
+        if d.size == 0:
+            continue
+        rng = np.random.default_rng(
+            (42, sum(ord(character) for character in key) + len(key))
+        )
+        draws = 10_000
+        idx = rng.integers(0, d.size, size=(draws, d.size))
+        boots = d[idx].mean(axis=1)
+        # Plus-one paired sign-flip test: independent Rademacher signs on the
+        # user-level differences, valid under symmetry of the difference
+        # distribution about its null value (stated in the manuscript).
+        signs = rng.choice(np.array([-1.0, 1.0]), size=(draws, d.size))
+        flipped = (signs * d).mean(axis=1)
+        paired[key] = {
+            "n": int(d.size),
+            "mean_difference": float(d.mean()),
+            "ci95_low": float(np.percentile(boots, 2.5)),
+            "ci95_high": float(np.percentile(boots, 97.5)),
+            "sign_flip_p": float((1 + int((np.abs(flipped) >= abs(d.mean())).sum())) / (draws + 1)),
+            "cohens_dz": float(d.mean() / d.std(ddof=1)) if d.std(ddof=1) > 0 else 0.0,
+        }
+    payload["paired"] = paired
     write_json(Path(args.out), f"fixed_denominator_{args.dataset}.json", payload)
 
 
@@ -424,7 +490,11 @@ def cmd_candidate_redraw(args) -> None:
         "config": vars(args),
         "redraws": redraws,
         "between_redraw": {
-            m: summarize([r["summary"][m]["mean"] for r in redraws])
+            # A redraw can be entirely undefined for a tiny cohort (aia() needs a
+            # non-degenerate attribution spectrum), so read the mean defensively:
+            # summarize() already drops the Nones this leaves behind.
+            m: summarize([r["summary"][m].get("mean") for r in redraws])
+            | {"redraws_with_data": sum(1 for r in redraws if r["summary"][m].get("n"))}
             for m in ("shapley", "lime", "loo")
         },
     }

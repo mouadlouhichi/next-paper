@@ -16,6 +16,9 @@
 \usepackage{multirow}
 \graphicspath{{figures/}}
 \newcommand{\resdir}{tables}
+\newcommand{\resultmanifeststamp}{382732febad8}
+% Recomputed by code/scripts/make_result_manifest.py; the test suite fails if the
+% released matrices or generated tables change without updating this stamp.
 
 \acmJournal{TORS}
 \acmYear{2026}
@@ -207,4 +210,118 @@ with the exact budget-2 oracle (realized target-margin effect $+0.0031$).
 \section{Computational Cost and Reproducibility}\label{app:release}
 \input{tables/appendix_computation.tex}
 \FloatBarrier
+
+\section{Review-9 inference audits and construct-validity ablations}\label{app:review9}
+The tables in this section and Table~\ref{tab:S4} are generated from the frozen release matrices and are typeset against result manifest \texttt{\resultmanifeststamp}, the same manifest quoted in the main paper.
+This section collects the analyses added in the ninth revision round. All of them
+are computed from the frozen release matrices by
+\texttt{scripts/make\_review9\_stats.py}, so they are reproducible from the
+artifact without re-running any recommender, and the generated file is written
+byte-identically to both table mirrors.
+
+\emph{Populations (Issue 10).} Table~\ref{tab:r9-inclusion-flow} gives the exact
+denominator of every inferential statement in the paper, and
+Table~\ref{tab:r9-all-user-sensitivity} repeats each population-conditional
+statistic over all users with finite values under both methods, which is the
+all-user sensitivity the review asked for alongside the inclusion flow.
+
+\emph{Multiplicity (Issue 18).} Table~\ref{tab:r9-multiplicity-map} lists family
+membership, family size, the raw exceedance count and the Holm multiplier for the
+headline contrasts; recomputing all $2{,}312$ released tests from their raw
+$p$-values reproduces every published adjusted $p$-value, and Table~\ref{tab:r9-permutation-precision} shows that residual differences between
+pipelines are Monte Carlo error of the declared $10{,}000$-draw experiment.
+Table~\ref{tab:S4} is now generated from the same released per-test file as the
+main paper, with the exceedance count and the authoritative 12-contrast adjusted
+$p$ printed next to each other; this replaced eight legacy values that had been
+produced with a smaller permutation budget, including the MovieLens
+Shapley--LIME success contrast, which was printed as $.0066$ and is $.0048$ with
+$15$ exceedances of $10{,}000$ (the $.0216$ in the predeclared family is the
+same raw evidence corrected with a $\times9$ rather than $\times3$ multiplier).
+
+\emph{Utility mismatch (Issue 4).} Table~\ref{tab:r9-utility-factorial} reports
+the attribution-utility $\times$ outcome-utility factorial on the primary cohort,
+which separates utility mismatch from interaction effects in the H2 adjudication.
+Table~\ref{tab:r9-utility-factorial-replication} repeats the design on the benchmark
+that ships inside the artifact (Gowalla, Monte Carlo Shapley, the same
+$M_{\mathrm{pair}}=250$ budget and $\rho$ as the ablation below): holding the
+attribution fixed and changing only the utility the action is evaluated under moves
+the mean bounded AIA by $+0.330$ ($95\%$ CI $[0.248,0.415]$), and the mirrored cell
+moves by $-0.275$ ($[-0.438,-0.101]$). A single utility substitution is thus
+comparable in size to the primary cohort's own method contrasts (Shapley--LIME
+bounded AIA differs by $0.155$ on MovieLens and $0.413$ on Amazon), which is exactly
+the confound the review raised---and it is why H2 is adjudicated on rank association
+rather than on the level of the alignment score. The NDCG-conditioned cells contain
+only $14$ of $250$ sampled users ($11$ with an active oracle), so those cells are
+reported as descriptive counts and no inference is drawn from them here; a powered
+version of the full $2\times2\times2$ design needs the primary cohorts re-scored at
+the larger candidate budget.
+
+\emph{Estimator uncertainty (Issue 9).}
+Table~\ref{tab:r9-mc-propagation} propagates per-user Monte Carlo error into the
+reported alignment statistic instead of only reporting agreement diagnostics.
+
+\emph{Randomization-test validity (Issue 15).}
+Table~\ref{tab:r9-studentized} repeats every headline paired contrast under both
+the published plus-one sign-flip test and a studentized bootstrap-$t$ test that
+needs no symmetry of the paired differences. Skew is not innocuous for these
+statistics (normalized regret $4.17$, target-margin effect $-5.68$ on Amazon), but
+no significance decision changes: the nine sign-flip tests at the
+$2{\times}10^{-5}$ floor all remain below $0.001$ when studentized, the three
+non-significant Amazon contrasts stay non-significant, and the largest disagreement
+between the two procedures is the MovieLens realized-NDCG contrast, where the
+sign-flip $p$ of $0.0045$ becomes $0.0012$---a factor of $3.8$ in a regime where
+neither value is near the decision boundary.
+
+\emph{Stratified within-user nulls (Issue 12).} An unstratified within-user null
+treats every reordering of a profile as equally implausible, so
+Table~\ref{tab:r9-stratified-null} re-derives it under two structure-preserving
+redraws on the replication benchmark. The reviewer's worry is real in degree: the
+null mean moves from $-0.0001$ unstratified to $0.100$ under recency blocks and
+$0.192$ under popularity blocks, so part of the raw alignment is explained by the
+profile's own temporal and popularity structure and an unstratified test understates
+the baseline. The observed bounded AIA of $0.575$ nonetheless sits $27.1$, $22.9$
+and $19.1$ null standard deviations above the three nulls, and no redraw in a
+thousand reaches as high as $0.062$, $0.174$ and $0.252$ respectively. The released
+null uses $1{,}000$ redraws, so its plus-one $p$ saturates at $0.0010$ in every row
+and the standardized distance is the comparable statistic; the primary-cohort tests
+use $10{,}000$ draws against the unstratified null
+(Table~\ref{tab:r9-multiplicity-map}), and the stratified version is reported here on
+the benchmark whose per-user intervention files ship inside the artifact.
+
+\emph{Intervention semantics (Issue 1).} Dividing by the retained weight sum makes
+the deletion intervention a reallocation of profile mass rather than isolated
+suppression, so the review asked whether the bounded effect is an artifact of that
+normalization. Tables~\ref{tab:r9-fixed-denominator}
+and~\ref{tab:r9-fixed-denominator-paired} answer it by re-scoring the same fitted
+neighbourhoods under both denominators: nothing is retrained and the candidate sets,
+permutation seed, intervention strength ($\rho=0.5$) and evaluated users are
+identical, so any difference is the interface itself. The ablation is run on
+Gowalla, the third benchmark that ships in the artifact ($600$ sampled users,
+$528$ of which have a defined $n_{\max}=20$ attribution game); the primary cohorts
+require per-user intervention files that are not part of the frozen matrices.
+
+The concern is confirmed on this benchmark. Under the normalized interface the
+Shapley bounded AIA is $0.638$ and the leave-one-out bounded AIA is $0.990$, so
+leave-one-out looks like the most aligned scorer; under a fixed denominator the
+two are indistinguishable ($0.998$ versus $1.000$) and ItemKNN-LOO and Shapley
+swap places ahead of LIME ($0.690$ normalized, $0.700$ fixed). The paired user
+contrast on Shapley is $-0.360$ ($95\%$ CI $[-0.375,-0.346]$, $d_z=-2.07$, all
+$528$ users nonzero), and the signed-alignment version of the same statistic moves
+by $-0.298$ ($d_z=-1.87$). The bounded-minus-deletion gap, which is the quantity
+the objection targets, is $+0.0098$ under normalization and $0.0000$ under pure
+suppression: the normalization does inflate the gap, but on this cohort the gap is
+small in absolute terms either way and is carried by $29$ of $528$ users, which is
+why its floor $p$-value is marked as zero-inflated rather than read as a strong
+effect. The decisive point is the joint reading of level and scale: the realized
+mean absolute singleton effect is $3.2\times10^{-4}$ (normalized) versus
+$2.3\times10^{-4}$ (fixed), so a bounded AIA of $0.998$ on this benchmark is
+saturation of a ratio whose numerator and denominator shrink together, not
+evidence of a strong suppression effect. Bounded AIA is therefore interpreted in
+this paper only as a comparison within one interface---the exact inference-time
+rule of the fitted scorer---and never as an absolute amount of evidence; the
+tables above give the pure-suppression counterfactual for every claim that could be
+read the second way.
+\safeinput{tables/review9_statistics.tex}
+\safeinput{tables/review9_benchmark_replications.tex}
+
 \end{document}

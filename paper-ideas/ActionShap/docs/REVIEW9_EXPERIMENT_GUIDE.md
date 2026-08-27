@@ -1,5 +1,30 @@
 # Review-9 (KBS-style peer review of the ACM TORS manuscript) experiment guide — runs on your machine
 
+> **Status after the follow-up revision round.** `scripts/run_review9_experiments.py`
+> now also accepts `--dataset gowalla`, and the Gowalla copy of the data is in the
+> repository, so the following have already been executed and integrated without
+> waiting for the datasets machine:
+>
+> * **R9-1 fixed-denominator ablation** on Gowalla (600 sampled users,
+>   `M_pair=250`, rho=0.5) -> `code/results/review9/fixed_denominator_gowalla.json`,
+>   rendered as Supplementary Table `tab:r9-fixed-denominator`.
+> * **R9-2 utility factorial** and **R9-5 stratified nulls** on Gowalla (250 users),
+>   when those runs complete; the MovieLens/Amazon instances below are still needed
+>   for the primary cohort.
+>
+> The items that need no new runs at all were closed from the frozen release
+> matrices instead (`code/scripts/make_review9_stats.py` -> Supplementary
+> Section S11): inclusion flow + all-user sensitivity (#10), the confirmatory
+> multiplicity map with raw exceedance counts plus the regenerated Table S4 (#18),
+> the studentized robustness of the sign-flip tests (#15), the
+> attribution-utility x outcome-utility factorial on the primary cohort (#4), and
+> the Monte Carlo propagation into the alignment statistic (#9).
+>
+> **One non-experiment action is required before submission:** the two committed
+> PDFs predate the revised sources. Rebuild with `make -C <repo root> pdf`
+> (needs `texlive` + `latexmk`) and then `make check`, which fails while the PDFs
+> lag behind their sources.
+
 The paper-side revisions are already integrated on the branch:
 
 * **Critical #1 (construct):** the normalized intervention is now named and derived
@@ -47,6 +72,9 @@ Directly tests whether the deletion-vs-bounded contrast is driven by the
 normalization (profile-mass reallocation) rather than suppression.
 
 ```bash
+# already run in-repo on the third dataset (results are committed):
+python scripts/run_review9_experiments.py fixed-denominator --dataset gowalla   --users 600  --permutations 250
+# still needed for the primary cohort:
 python scripts/run_review9_experiments.py fixed-denominator --dataset movielens --users 1000 --permutations 250
 python scripts/run_review9_experiments.py fixed-denominator --dataset amazon    --users 1000 --permutations 250
 ```
@@ -129,8 +157,19 @@ enough if you prefer.)
 
 ## After running
 
-Push the JSONs under `code/results/review9/` and ping me ("see last commit"). I will
-then:
+Push the JSONs under `code/results/review9/`, then regenerate and validate:
+
+```bash
+make -C <repo root> stats    # tables (from the matrices + review9 JSONs) + manifest hash
+make -C <repo root> pdf      # rebuild both PDFs against the new tables
+make -C <repo root> check    # validators + full test suite
+```
+
+`make stats` runs `make_review9_stats.py`, which writes every review-9 table to
+BOTH table mirrors byte-identically, regenerates Table S4 from
+`release/paired_tests.csv`, and refreshes `code/results/manifest.json`; both
+documents must then quote the new `\resultmanifeststamp` (the test suite fails
+otherwise). I will then:
 1. integrate them into the main manuscript and supplement as new tables/sections,
 2. add the fixed-denominator, utility-factorial, prospective-full, candidate-redraw,
    stratified-null, and compute-matched results to the hypothesis-adjudication and
