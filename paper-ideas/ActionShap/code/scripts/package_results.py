@@ -38,7 +38,7 @@ def derived_files(paper_root: Path) -> list[tuple[str, Path]]:
         "scripts": [code / "scripts" / name for name in (
             "make_review9_stats.py", "make_review3_stats.py", "make_result_manifest.py",
             "run_review9_experiments.py", "validate_manuscript.py",
-            "validate_cross_table.py", "make_review9_notebook.py",
+            "validate_cross_table.py", "make_review9_notebook.py", "make_outstanding_runs_notebook.py",
         )],
         "tests": [code / "tests" / "test_review9_publication_integrity.py"],
         "notebooks": sorted((paper_root / "notebooks").glob("*.ipynb")),
