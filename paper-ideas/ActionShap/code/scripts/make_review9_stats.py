@@ -981,7 +981,7 @@ def prospective_tables() -> tuple[list[str], dict]:
         "prospective score is defined for all four estimators, and every method "
         "column is the mean over that subset --- $528$ of $600$ on Gowalla and "
         "$1000$ of $1000$ on MovieLens in the released runs --- so a Gowalla mean "
-        "here is a mean over $528$ users, not over the sampled cohort. The "
+        "here is a mean over $528$ users, not over the sampled cohort. The Amazon cohort has no prospective audit in the released runs, so it is absent from this panel by omission rather than by a null result; the third runner is queued in the replication notebook and no cross-dataset claim is made from these two rows. The "
         "\emph{covers} column is the share of users for whom the prospective "
         "candidate set \emph{contains} the held-out item: containment, which is "
         "what makes the two conditioning schemes comparable at all, not the "

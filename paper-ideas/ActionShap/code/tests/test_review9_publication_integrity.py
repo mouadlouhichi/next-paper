@@ -625,3 +625,27 @@ def test_declared_supplementary_range_matches_the_document():
     assert int(declared.group(1)) == sections
     manuscript = MAIN_TEX.read_text(encoding="utf-8")
     assert "Sections S1--S10" not in manuscript
+
+
+def test_denominators_and_candidate_count_are_stated_correctly():
+    """The re-review's items 2 and 17: the NDCG decision denominator and m."""
+    tables = []
+    for tree in ("acmart-primary", "actionshap-ipm"):
+        d = PAPER / tree / "tables"
+        tables += sorted(d.glob("*.tex"))
+    for path in tables:
+        text = path.read_text(encoding="utf-8")
+        assert "196/993" not in text, f"{path.name} quotes the NDCG oracle count against 993"
+        assert not re.search(r"m=201\b", text), f"{path.name} counts 201 primary candidates"
+    outcomes = (PAPER / "acmart-primary" / "tables" / "intervention_outcomes.tex").read_text()
+    assert "196/1000" in outcomes and "different population" in outcomes
+    computation = (PAPER / "acmart-primary" / "tables" / "appendix_computation.tex").read_text()
+    assert "m=200$ (primary: the held-out target plus 199 sampled negatives)" in computation
+
+
+def test_prospective_panel_accounts_for_the_missing_cohort():
+    """Item 12: the panel must state its own coverage rather than imply three cohorts."""
+    text = (TABLE_DIR / "review9_benchmark_replications.tex").read_text(encoding="utf-8")
+    block = text[text.index("Defined $n$"):]
+    assert "no" in block and "prospective audit" in block, "the Amazon omission must be stated"
+    assert "queued" in block, "the panel must say the missing cohort is unrun, not null"

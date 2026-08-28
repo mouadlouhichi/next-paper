@@ -113,6 +113,7 @@ def main() -> None:
         included = re.findall(r"\\safeinput\{([^}]+)\}", tex)
         if len(included) != len(set(included)):
             errors.append("a generated table is included more than once")
+    errors += check_denominator_and_candidate_bookkeeping(paper_root)
 
     print(
         {
@@ -128,3 +129,24 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+
+def check_denominator_and_candidate_bookkeeping(paper_root: Path) -> list[str]:
+    """Two defects the re-review caught in prose that no numeric check can see.
+
+    * the Amazon active-NDCG-oracle fraction quoted against the AIA-valid population;
+    * the primary candidate set counted as 201 instead of the declared 200.
+    """
+    problems: list[str] = []
+    for path in sorted(paper_root.rglob("*.tex")):
+        text = path.read_text(encoding="utf-8")
+        for number, line in enumerate(text.splitlines(), 1):
+            body = re.sub(r"(?<!%)%.*$", "", line)
+            if "196/993" in body:
+                problems.append(f"{path.name}:{number}: the NDCG active-oracle fraction must be "
+                                f"quoted against the 1,000-user decision cohort, not the 993 AIA-valid "
+                                f"population")
+            if re.search(r"m=201\b", body) or "m = 201" in body:
+                problems.append(f"{path.name}:{number}: the declared primary candidate set is 200 "
+                                f"(one target plus 199 negatives); 201 overstates it")
+    return problems
