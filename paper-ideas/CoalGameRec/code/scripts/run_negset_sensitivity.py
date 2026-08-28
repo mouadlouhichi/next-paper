@@ -59,7 +59,14 @@ LAMBDA_ATTR = rmc.LAMBDA_ATTR
 KS = rmc.KS
 
 
-def attribute(split, base_scores, item_vectors, seed, method, n_neg, max_users):
+def attribute(split, base_scores, item_vectors, seed, method, n_neg, max_users, neg_offset=0):
+    import coalgamerec.attribution as ATT
+    if neg_offset and not getattr(attribute, "_patched", False):
+        _orig = ATT.sample_validation_negatives
+        def _off(n_items, train_items, val_target, n_negatives, s2):
+            return _orig(n_items, train_items, val_target, n_negatives, s2 + neg_offset)
+        ATT.sample_validation_negatives = _off
+        attribute._patched = True
     fn = compute_shapley_for_users if method == "shapley-mc" else compute_attribution_for_users
     kwargs = dict(split=split, base_scores=base_scores, item_vectors=item_vectors,
                   max_users=max_users, exact_threshold=8, seed=seed,
@@ -104,6 +111,9 @@ def main():
     ap.add_argument("--out", required=True)
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--sizes", type=int, nargs="+", default=[50, 100, 500])
+    ap.add_argument("--neg-offset", type=int, default=0,
+                    help="offset added to the per-user negative-draw seed for independent "
+                         "negative draws with the same trained model (multi-draw sensitivity)")
     ap.add_argument("--max-users", type=int, default=None,
                     help="optional user subsample for feasibility (default: all users)")
     args = ap.parse_args()
@@ -130,7 +140,7 @@ def main():
         attrs, evals = {}, {}
         for n_neg in args.sizes:
             t = time.time()
-            attr = attribute(split, base_scores, item_vectors, args.seed, method, n_neg, args.max_users)
+            attr = attribute(split, base_scores, item_vectors, args.seed, method, n_neg, args.max_users, args.neg_offset)
             attrs[n_neg] = attr
             scores = rerank_all(base_scores, split, item_vectors,
                                 "shapley-mc" if method == "shapley-mc" else "loo-marginal",
