@@ -452,4 +452,22 @@ def test_derived_payloads_do_not_depend_on_blas_last_digits() -> None:
         assert tokens, "no floats found in the multiplicity CSV"
         over = [x for x in tokens if _significant_digits(x) > 13]
         assert not over, f"CSV carries full-precision reprs, e.g. {over[:3]}"
+def test_review_documents_are_anonymized_for_double_blind_review() -> None:
+    """A review PDF that prints the authors is the one failure no reviewer warns you about.
+
+    TORS reviews double-blind; acmart suppresses the ``\author`` block only when the
+    class carries ``anonymous``. The check is that the option is present while the block
+    is still in the source (so dropping it at camera-ready is a deliberate edit that the
+    validator will describe, not a silent regression during review).
+    """
+    for path in (MAIN_TEX, SUPP_TEX):
+        text = path.read_text()
+        match = re.search(r"\\documentclass\[([^\]]*)\]\{acmart\}", text)
+        assert match, f"{path.name}: no acmart \documentclass found"
+        opts = [o.strip() for o in match.group(1).split(",")]
+        if "\\author{" in text:
+            assert "anonymous" in opts, (
+                f"{path.name}: author block present without the `anonymous` class option "
+                "-- reviewers would see names, affiliations and ORCIDs on page 1"
+            )
 

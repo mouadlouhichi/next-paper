@@ -257,3 +257,26 @@ workstation: `fixed_denominator_movielens.json`, `fixed_denominator_amazon.json`
   `utility-factorial`, all three `compute-matched`, all three `candidate-redraw`, both
   `hardware` (13 of 21). Cell 5's re-measured pilot is now honest about their cost
   ($158$ min per 1000 users for compute-matched, $131$ for candidate-redraw with 10 redraws).
+## Round 12 (submission hygiene: preprint decision and double-blind anonymity)
+
+The authors will not post a preprint, so the cover letter now says so in the
+indicative ("no preprint of this work exists, none is planned, and the manuscript is
+not under consideration at any other venue") in both the `.tex` and `.md` variants, and
+the artifact paragraph describes the deposit that `make artifact` actually builds
+(code, runners, per-user JSONs, generated tables, validators, integrity tests, the run
+notebook, matrices, a per-member checksum manifest and the archive `.sha256`) instead of
+carrying a bracketed TODO; only the DOI/URL slot remains, since it cannot exist before
+the deposit is minted. The manuscript's own availability section was rewritten the same
+way and no longer ends in "must be inserted here before submission".
+
+That rewrite surfaced a desk-reject risk none of the review-9 checks covered: the
+document class carried `manuscript,screen,review` but **not** `anonymous`, so the review
+PDF printed the author block, affiliations, emails and ORCIDs on page 1 --- and even
+after adding `anonymous`, the running head (`\shortauthors`) and the CRediT paragraph in
+the acknowledgments kept naming the authors, which `anonymous` cannot hide because they
+are body text. Both documents now derive their running head and contribution paragraph
+from the class option through a single `\ifreviewcopy` switch (drop `anonymous` at
+camera-ready and the names come back by themselves), and `validate_manuscript.py` fails
+if `anonymous` is set while any name from an `\author{}` block still occurs after
+`\maketitle`, with the conditional suggested as the remedy. The rule was written against
+the un-anonymized file first and confirmed to fire on it, so it is not decoration.

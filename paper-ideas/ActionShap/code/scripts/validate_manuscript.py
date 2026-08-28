@@ -267,6 +267,48 @@ def main() -> None:
     else:
         warnings.append("code/results/manifest.json missing; run make_result_manifest.py")
 
+    # Review anonymity. TORS reviews double-blind, and acmart only suppresses the
+    # author block when the class carries `anonymous`; `review` alone adds line
+    # numbers while leaving names, affiliations, emails and ORCIDs on page 1. This
+    # is the cheapest desk-reject in the whole submission, and no other check here
+    # would notice it, so it is checked rather than remembered.
+    for label, source in (("acmmanuscript.tex", tex), ("supplementary.tex", supplement)):
+        class_match = re.search(r"\\documentclass\[([^\]]*)\]\{acmart\}", source)
+        opts = [o.strip() for o in class_match.group(1).split(",")] if class_match else []
+        names_authors = "\\author{" in source
+        if names_authors and "review" in opts and "anonymous" not in opts:
+            errors.append(f"{label}: review mode without `anonymous` prints the author block")
+        elif names_authors and "anonymous" not in opts:
+            warnings.append(
+                f"{label}: author block is visible; fine for camera-ready, missing for review"
+            )
+        if "anonymous" in opts:
+            leaks = re.findall(r"(?:https?://(?:github|gitlab)\.com/[A-Za-z0-9_.-]+|\\b[A-Za-z0-9._%+-]+@(?!um5\.ac\.ma)[A-Za-z0-9.-]+\.[A-Za-z]{2,})", source)
+            body_leaks = [x for x in leaks if "anonymous" not in x]
+            if body_leaks:
+                warnings.append(f"{label}: possible identifying links/emails for a blind review: {body_leaks[:3]}")
+            # The class option hides the author block; it cannot hide a name that the
+            # body repeats, and CRediT/running-head paragraphs are exactly where those
+            # reappear. The preamble is exempt, since that is where a conditional that
+            # restores the names at camera-ready has to spell them out.
+            # Scan what a reviewer actually reads: everything from \maketitle on, so
+            # the author block and the camera-ready branch of the running head are not
+            # mistaken for a leak. Falls back to \begin{document} if the macro is absent.
+            body = source.rsplit("\\maketitle", 1)[-1]
+            if body == source:
+                body = source.split("\\begin{document}", 1)[-1]
+            # A review/camera-ready conditional keeps both spellings in the source;
+            # only the branch the review copy takes is what a reviewer would see.
+            body = re.sub(r"\\ifreviewcopy(.*?)\\else.*?\\fi", r"\1", body, flags=re.S)
+            names = {n.strip().split()[-1] for n in re.findall(r"\\author\{([^}]*)\}", source) if n.strip()}
+            shown = sorted(n for n in names if n in body)
+            if shown:
+                errors.append(
+                    f"{label}: `anonymous` is set but the body still names {shown}; "
+                    "a reviewer would read the authors out of the acknowledgments or the running head "
+                    "(wrap the named variant in \\ifreviewcopy ... \\else ... \\fi)"
+                )
+
     for name in ("acmmanuscript.pdf", "supplementary.pdf"):
         pdf = paper_root / name
         if not pdf.exists():

@@ -3,7 +3,9 @@
 %% Compile with pdfLaTeX -> BibTeX -> pdfLaTeX -> pdfLaTeX.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\documentclass[manuscript,screen,review]{acmart}
+\documentclass[manuscript,screen,review,anonymous]{acmart}
+% `anonymous` hides the uthor block for double-blind review (ACM TORS); drop it in
+% camera-ready, where `validate_manuscript.py` will then warn rather than fail.
 
 \usepackage{mathrsfs}
 \usepackage{textcomp}
@@ -71,7 +73,19 @@
   \country{Morocco}}
 \email{mohamed.lazaar@ensias.um5.ac.ma}
 
-\renewcommand{\shortauthors}{Louhichi et al.}
+\makeatletter
+% Running heads and the CRediT paragraph are ours to anonymize; acmart only hides the
+% \author block. Both follow the class option, so dropping `anonymous` at camera-ready is
+% the whole change and nothing else has to be remembered. The default is the anonymised
+% state, so a failed option test cannot de-anonymise the PDF by accident.
+\newif\ifreviewcopy
+\reviewcopytrue
+\newcommand{\authorsforreview}{Anonymous Author(s)}
+\@ifclasswith{acmart}{anonymous}
+  {\reviewcopytrue}
+  {\reviewcopyfalse\renewcommand{\authorsforreview}{Louhichi et al.}}
+\makeatother
+\renewcommand{\shortauthors}{\authorsforreview}
 
 \begin{abstract}
 Recommendation explanations are commonly evaluated by deleting interactions and measuring changes in model output, although some systems can instead discount or suppress evidence within operational bounds; the intervention studied here is executable in a frozen inference-time weight simulator, not demonstrated against a production interface. Deletion faithfulness and intervention validity are therefore distinct. We introduce ActionShap, an offline protocol for auditing recommendation attributions under bounded profile interventions. It separates pointwise attribution--effect alignment, signed directional validity, and budgeted joint decision quality; fixes temporal splits, candidates, tie handling, and distinct-user inference; and evaluates all methods against the same policy and exact budget-two oracle. On MovieLens-1M and Amazon Digital Music, using quality-gated ItemKNN as the primary model with 1,000 users and five seeds, Monte Carlo Shapley has positive bounded-minus-deletion alignment differences (+0.017 and +0.129). LIME and leave-one-out achieve higher absolute bounded alignment (up to 0.98, versus 0.78 and 0.41 for Shapley) but negative differences. These perturbation effects do not determine decisions: realized absolute $\Delta$NDCG@10 differences among the principal methods are at most 0.003. Shapley and LIME are practically equivalent under the margin declared in the frozen pre-outcome contract ($\pm0.005$) on both datasets, although LIME is statistically higher on MovieLens. Candidate construction matters: in the 1,000-user Amazon full-unseen-catalogue audit, Shapley bounded alignment is mildly negative ($-0.05$) even though its bounded-minus-deletion difference stays positive ($+0.16$), so a positive difference can mean reduced anti-alignment rather than successful bounded prediction. ActionShap thus distinguishes perturbation sensitivity from intervention decision quality and shows why deletion scores alone can mischaracterize explanations under simulator-executable interventions.
@@ -651,12 +665,16 @@ ActionShap provides a protocol, specified in the manuscript and the accompanying
 MovieLens-1M was obtained from the GroupLens public release, and Amazon Digital Music was reconstructed from the Amazon Reviews 2018 public release after the documented rating threshold, deterministic deduplication, and iterative 5-core filtering. Source and processed-data SHA-256 values, split rules, and candidate construction are recorded in the provenance manifest. The datasets remain subject to their maintainers' terms and are not redistributed with the artifact.
 
 \section{Code and Materials Availability}
-The submission package includes the editable LaTeX tables and vector figures used in the manuscript. The accompanying artifact will contain the generation code, configurations, preprocessing and execution scripts, validation reports, provenance manifest, and machine-readable result matrices. \textbf{The permanent or reviewer-view artifact URL must be inserted here before submission.}
+The submission package includes the editable LaTeX tables and vector figures used in the manuscript. The accompanying artifact contains the generation code, configurations, preprocessing and execution scripts, the validation harnesses together with the reports they emit, the experiment runners whose outputs produce every table in this paper, and machine-readable result matrices and per-user run files. It is assembled deterministically by \texttt{make~artifact}, which content-addresses each member in a \texttt{release\_checksums.json} manifest and writes the archive's own \texttt{.sha256} beside it, and the documents here are typeset against the frozen result manifest \texttt{\resultmanifeststamp}, so a reviewer can confirm that the bytes they unpacked are the bytes the manuscript was built from. The archive is deposited under a permanent identifier with the submission record.
 
 \begin{acks}
 The authors received no funds, grants, or other support for this work and declare no competing financial interests or personal relationships that could have influenced the work.
 
+\ifreviewcopy
+\textbf{Author contributions.} The first author contributed conceptualization, methodology, software, formal analysis, investigation and the original draft; the co-authors contributed methodology, validation, supervision and review of the text. All authors approved the submitted manuscript.
+\else
 \textbf{Author contributions.} Mouad Louhichi: Conceptualization, Methodology, Software, Formal analysis, Investigation, and Writing---original draft. Redwane Nesmaoui: Methodology, Validation, and Writing---review and editing. Mohamed Lazaar: Supervision, Methodology, and Writing---review and editing. All authors approved the submitted manuscript.
+\fi
 
 \textbf{AI-assisted preparation.} The authors used OpenAI Codex for LaTeX formatting, consistency checking, and language editing. The authors reviewed and edited all resulting material and take full responsibility for the content of the work.
 \end{acks}

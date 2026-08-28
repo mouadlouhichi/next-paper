@@ -4,7 +4,9 @@
 
 % Always embed figures in review builds; prevents filename-only draft boxes.
 \PassOptionsToPackage{final}{graphicx}
-\documentclass[manuscript,screen]{acmart}
+\documentclass[manuscript,screen,anonymous]{acmart}
+% `anonymous` hides the uthor block for double-blind review (ACM TORS); drop it in
+% camera-ready, where `validate_manuscript.py` will then warn rather than fail.
 
 \usepackage{textcomp}
 \usepackage{longtable}
@@ -57,7 +59,19 @@
   \country{Morocco}}
 \email{mohamed.lazaar@ensias.um5.ac.ma}
 
-\renewcommand{\shortauthors}{Louhichi et al.}
+\makeatletter
+% Running heads and the CRediT paragraph are ours to anonymize; acmart only hides the
+% \author block. Both follow the class option, so dropping `anonymous` at camera-ready is
+% the whole change and nothing else has to be remembered. The default is the anonymised
+% state, so a failed option test cannot de-anonymise the PDF by accident.
+\newif\ifreviewcopy
+\reviewcopytrue
+\newcommand{\authorsforreview}{Anonymous Author(s)}
+\@ifclasswith{acmart}{anonymous}
+  {\reviewcopytrue}
+  {\reviewcopyfalse\renewcommand{\authorsforreview}{Louhichi et al.}}
+\makeatother
+\renewcommand{\shortauthors}{\authorsforreview}
 
 \begin{abstract}
 This reviewer-visible supplementary material should be read alongside the main manuscript. It provides the expanded numerical audit underlying the compact manuscript tables, including robustness matrices, statistical validation, replication analyses, and computational-cost details. The tables are generated from the schema-v2 result archive. The accompanying artifact records the source revision, archive hash, dependency manifest, and machine-readable CSV/JSON results.
@@ -137,7 +151,7 @@ Random control & 0 attribution utility calls & IID $\mathcal{N}(0,1)$ scores; th
 
 The schema-v2 run summary records total wall-clock duration for the 80 recommendation runs: the 60 ItemKNN runs range from approximately 29.8 to 2,851.6 seconds (mean 183.0 seconds), and the 20 profile runs range from approximately 26.9 to 299.6 seconds (mean 95.0 seconds). These are complete-pipeline durations rather than isolated explainer timings; the analytical call-budget table above is the comparable per-method cost measure. The recorded environment is macOS-26.5.1-arm64, Python 3.12.13, NumPy 2.4.6, SciPy 1.17.1, pandas 2.3.3, scikit-learn 1.9.0, matplotlib 3.11.1, and PyYAML 6.0.3. 
 
-The submission package contains the editable LaTeX tables and vector figures used in the paper. The accompanying artifact will contain the complete generation code, configurations, preprocessing and execution scripts, validation reports, and machine-readable result matrices; its manifest uses repository-relative paths and content hashes. \textbf{The permanent or reviewer-view artifact URL must be inserted in the main manuscript and cover letter before submission.}
+The submission package contains the editable LaTeX tables and vector figures used in the paper. The accompanying artifact contains the complete generation code, configurations, preprocessing and execution scripts, the validation harnesses and their reports, the content-addressed result manifest quoted above, and machine-readable result matrices and per-user experiment outputs; the review-9 runners, their generated tables, the integrity tests and the replication-run notebook are part of it, so every number in this supplement is recomputable from the deposit without access to the authors' machine.
 
 
 \FloatBarrier
