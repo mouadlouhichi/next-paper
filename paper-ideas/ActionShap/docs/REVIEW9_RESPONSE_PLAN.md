@@ -38,8 +38,8 @@ Legend:
 | 13 | "Equal-scorer-budget" table mislabeled / unequal budgets | **FIXED (text)** table renamed to budget-response curves, S symbol instead of B, not-equal-budget note in caption; **RUN (tooling done)** `compute-matched --mpair-grid` → `tab:r9-compute-matched`, one row per equal scorer-call budget with LIME $-$ Shapley per row | notebook |
 | 14 | AIA monotone-invariance claim false; gap tested instead of absolute AIA | **FIXED (text, PENDING PDF)** invariance claim corrected in the source; the *committed* `acmmanuscript.pdf` still contains the uncorrected sentence -- rebuild required (`make pdf`) (applies to already-formed vectors only); absolute bounded-AIA vs decision association added to §6.4 | §4.3, §6.4 |
 | 15 | Collision-prone integer seed derivation | **FIXED (code+text)** tuple SeedSequence entropy + **the second half of the ask is now closed**: the sign-flip exchangeability/symmetry assumption is stated in §5.3 and every headline contrast is re-run with a studentized bootstrap-*t* test (`tab:r9-studentized`, S11); agreement reported for random control, LIME masks, MC Shapley, and the within-user null stream in `run_recommendation.py` + `evaluation.py`; widened type hints; unit tests added. **Note:** changes random-control/LIME/Shapley streams, so primary-suite regeneration is required before final submission (cheap for random; full suite ≈ prior runtime) | code + §4.2 text |
-| 16 | Artifact URL placeholder; main/supplement version drift | **USER** artifact deposit for the URL only. Drift is now *machine-enforced*: content-addressed `code/results/manifest.json` (git revision + sha256 of every matrix and table), `\resultmanifeststamp` quoted in both PDFs, `make_result_manifest.py --check`, mirror byte-identity tests, and a stale-PDF guard in `validate_manuscript.py` (warning) + `test_compiled_pdfs_are_not_silent_about_the_revised_text` (xfail until rebuilt); **FIXED (text)** drift items reconciled: MDE 0.014/0.051 (generator bug fixed), S15 n=993 caption, B=3 greedy-vs-exhaustive status, full-catalogue 250 vs 1000 wording | cover letter; multiple |
-| 17 | MDE 0.008/0.032 vs 0.014/0.051 conflict | **FIXED (code+text)** 0.014/0.051 in both mirrors; the *generator* that produced them is now checked against the committed table (`make_review3_stats.py --check`, 40/40 rows) instead of silently overwriting a file with hand-appended blocks; `make tables` runs the check: `power_table` pooled ItemKNN + profile models, halving paired SD; restricted to primary ItemKNN; both table copies now show 0.051 (n=993) / 0.014 (n=1000) with formula documented | make_review3_stats.py; S17 |
+| 16 | Artifact URL placeholder; main/supplement version drift | **USER** artifact deposit for the URL only. Drift is now *machine-enforced*: content-addressed `code/results/manifest.json` (git revision + sha256 of every matrix and table), `\resultmanifeststamp` quoted in both PDFs, `make_result_manifest.py --check`, mirror byte-identity tests, and a stale-PDF guard in `validate_manuscript.py` (warning) + `test_compiled_pdfs_are_not_silent_about_the_revised_text` (xfail until rebuilt); **FIXED (text)** drift items reconciled: MDE 0.014/0.051 (generator bug fixed), S15 n=993 caption, B=3 greedy-vs-exhaustive status, full-catalogue 250 vs 1000 wording | cover letter; multiple; `make artifact` now emits the deposit archive + sha256 |
+| 17 | MDE 0.008/0.032 vs 0.014/0.051 conflict | **FIXED (code+text)** 0.014/0.051 in both mirrors; the *generator* that produced them is now checked against the committed table (`make_review3_stats.py --check`, 40/40 rows) instead of silently overwriting a file with hand-appended blocks; `make tables` runs the check: `power_table` pooled ItemKNN + profile models, halving paired SD; restricted to primary ItemKNN; both table copies now show 0.051 (n=993) / 0.014 (n=1000) with formula documented. A second one-sided generator was found and fixed the same way: `make_review5_tables.py` wrote `tables/review5_validation.tex` to the IPM mirror only, so the ACM copy had drifted (richer caption, extra caveat); it now writes both mirrors, its captions carry the hand-written wording that was in the ACM copy, and `--check` verifies parity | make_review3_stats.py; make_review5_tables.py; S17 |
 | 18 | Conflicting Holm families (.0066 vs .0216), 0.0010 floor | **FIXED (text+regenerated table)** root cause found and repaired: S4 was produced by an audit generator using **1,000** sign flips and one *global* Holm block with a non-standard step-up implementation. S4 is now regenerated from `release/paired_tests.csv` (8 printed values corrected, incl. .0066 → .0048) with exceedance counts and the authoritative 12-contrast value side by side; the generator itself now uses 10,000 draws + standard Holm (`make_review3_stats.py --check` passes); `tab:r9-multiplicity-map` publishes family membership + $\#=p(R+1)-1$ for all 2,312 released tests (0 recomputation failures) and `tab:r9-permutation-precision` shows the residual 3rd-decimal differences are MC error of the 10k-draw experiment (per-metric families for S3–S5; single 12-contrast family authoritative for success/abstention); 0.0010 explained as 10-family Holm x 1/10,001 permutation floor (verified against raw paired_tests.csv) | §5.3 |
 | 19 | Modern-model cells noncompetitive + estimator instability | **REBUT** already fully disclosed (SASRec exact-agreement 0.395/0.688, LightGCN below popularity, tuned variant); no claim of transfer remains | supp. S9 |
 
@@ -125,8 +125,11 @@ Everything below is generated, mirrored to both `tables/` copies, and covered by
   pilots all seven experiments at the real `M_pair` budget (measuring per-cohort cost on the
   user's own machine), launches a resumable detached queue that writes straight into
   `code/results/review9/`, and finishes with a rebuild cell that runs `make stats`, syncs
-  `\resultmanifeststamp` in both documents, checks the two mirrors byte-for-byte and runs the
-  validators. Scratch (pilot JSONs, queue log and script) lives in
+  `\resultmanifeststamp` in both documents, checks the mirrors byte-for-byte (review-9 tables,
+  S3b, and now `review5_validation.tex`) and runs the validators. Step 1 calls the root
+  `make stats` rather than the review-9 generator alone, so a run collected through the notebook
+  refreshes every generated table and the manifest in the order the documents expect, and fails
+  loudly (`SystemExit`) instead of validating a half-regenerated tree. Scratch (pilot JSONs, queue log and script) lives in
   `code/results/_review9_scratch/`, which is git-ignored *because* the manifest hashes
   `code/results/review9` recursively.
 * **`make_review9_stats.py` now consumes every run type**, so the notebook needs no follow-up
@@ -142,7 +145,27 @@ Everything below is generated, mirrored to both `tables/` copies, and covered by
 * `validate_manuscript.py` additionally errors when a `\safeinput` asset is missing from
   *either* document (previously only the main paper was checked) and warns about generated
   tables that no document inputs, which is how a result can exist in source and be invisible in
-  the PDFs.
+  the PDFs. The orphan scan now reads all four entry points (ACM main + supplement, IPM main +
+  supplement) rather than the two ACM ones, because a table the IPM document inputs is not an
+  orphan. Five review-3-era tables (`actionability_gap_robustness`, `appendix_contract`,
+  `attribution_stability`, `protocol_audit`, `sensitivity_results`) are input by *no* document:
+  they stay on disk, hashed in the manifest, as provenance for numbers quoted in prose, and the
+  warning is expected output rather than a defect.
+* **A generator that owns only one mirror is a drift machine.** `make_review5_tables.py` wrote
+  `actionshap-ipm/tables/review5_validation.tex` while `acmart-primary/tables/` kept a hand-enriched
+  copy; running the pipeline therefore silently *reverted* the ACM caption (losing the "rows are not
+  paired / not comparable to the 0.827 primary cohort" caveat) and left the two documents typesetting
+  different text for the same label. The generator now writes both mirrors byte-identically, has
+  absorbed the hand-written caption wording, and supports `--check` for parity. Its `--check` branch
+  initially shadowed the module-level `json` import with a local one (`UnboundLocalError` in
+  `json.load` three lines away) -- a reminder that a `def` touched in one branch needs a full-file
+  syntax + run check, not just an `ast.parse` of the edit.
+* **`make artifact`** (new root target) builds the deposit: raw schema-v2 runs plus the generated
+  half of the paper (review-9 outputs, manifest, both table mirrors, generators, validators, the
+  integrity test, the notebook, the two planning docs), with a `release_checksums.json` inside and
+  a `.sha256` beside it. This closes the *tooling* half of #16; the deposit itself and the DOI are
+  still the user's action, and `results/release/` is git-ignored so rebuilding an archive cannot
+  dirty the tree or invalidate the manifest stamp.
 
 Still open: #5, #8, #11, #13 need the primary cohorts, which is exactly what the
 notebook above runs (their tables generate themselves the moment the JSONs land, and the

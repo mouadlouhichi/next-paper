@@ -1,5 +1,14 @@
 # Review-9 (KBS-style peer review of the ACM TORS manuscript) experiment guide — runs on your machine
 
+> **Preferred path: the notebook.** `../notebooks/REVIEW9_REPLICATION_RUNS.ipynb`
+> (rebuilt by `code/scripts/make_review9_notebook.py`) does everything below in order:
+> checks the data paths, pilots all seven experiments at the real budget to measure cost on
+> your machine, launches a resumable detached queue into `code/results/review9/`, then
+> regenerates the tables, syncs `\resultmanifeststamp` in both documents and runs every
+> validator. The per-experiment sections below document what each run is *for* and what it
+> must contain; the notebook is how to run it. If you prefer the shell, the commands are
+> identical to what the queue emits (`code/results/_review9_scratch/run_review9_queue.sh`).
+
 > **Status after the follow-up revision round.** `scripts/run_review9_experiments.py`
 > now also accepts `--dataset gowalla`, and the Gowalla copy of the data is in the
 > repository, so the following have already been executed and integrated without
@@ -163,13 +172,31 @@ Push the JSONs under `code/results/review9/`, then regenerate and validate:
 make -C <repo root> stats    # tables (from the matrices + review9 JSONs) + manifest hash
 make -C <repo root> pdf      # rebuild both PDFs against the new tables
 make -C <repo root> check    # validators + full test suite
+make -C <repo root> artifact # build the deposit archive + its sha256 (see below)
 ```
 
 `make stats` runs `make_review9_stats.py`, which writes every review-9 table to
 BOTH table mirrors byte-identically, regenerates Table S4 from
-`release/paired_tests.csv`, and refreshes `code/results/manifest.json`; both
-documents must then quote the new `\resultmanifeststamp` (the test suite fails
-otherwise). I will then:
+`release/paired_tests.csv`, regenerates `tables/review5_validation.tex` into both
+mirrors, and refreshes `code/results/manifest.json`; both documents must then quote
+the new `\resultmanifeststamp` (the test suite fails otherwise). Cell 8 of the
+notebook does the stamp sync for you.
+
+### Building the deposit (issues 16/17)
+
+`make artifact` calls `code/scripts/package_results.py`, which tarballs the
+schema-v2 raw runs under `raw/` **and** the generated half of the artifact --
+`results/review9/*.json`, `results/manifest.json`, both review-9 table mirrors, the
+generators and validators, the integrity test, this notebook and the two planning
+documents -- under the matching directory names, writes
+`release_checksums.json` (path, bytes, sha256 of every member) inside the archive,
+and leaves `<archive>.sha256` next to it. Quote that hash in the cover letter and in
+the data-availability statements. `--allow-no-raw` builds the review-9 addendum alone
+(for a versioned deposit where the raw archive already has a DOI); `--no-derived`
+reproduces the old raw-only behaviour. `results/release/*.tar.gz` is ignored by the
+manifest stamp, so building an archive never invalidates the documents.
+
+Completed after the runs land:
 1. integrate them into the main manuscript and supplement as new tables/sections,
 2. add the fixed-denominator, utility-factorial, prospective-full, candidate-redraw,
    stratified-null, and compute-matched results to the hypothesis-adjudication and

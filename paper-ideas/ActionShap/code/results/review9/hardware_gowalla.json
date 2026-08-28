@@ -1,0 +1,58 @@
+{
+ "dataset": "gowalla",
+ "experiment": "hardware_and_timing",
+ "hardware": {
+  "platform": "Linux-6.1.158+-x86_64-with-glibc2.36",
+  "processor": "unknown",
+  "machine": "x86_64",
+  "python": "3.11.2",
+  "cpu_count": 2,
+  "numpy": "2.4.6"
+ },
+ "peak_rss_mb": 304.78515625,
+ "timing_repeats": 5,
+ "timings_seconds": {
+  "shapley": {
+   "n": 200,
+   "mean": 1.5179656221300093,
+   "median": 2.107150527000158,
+   "sd": 0.8474069504077274,
+   "min": 0.07404365900038101,
+   "max": 2.3230626599997777
+  },
+  "lime": {
+   "n": 200,
+   "mean": 0.1493872629949874,
+   "median": 0.14867567300007067,
+   "sd": 0.006681365787818816,
+   "min": 0.1404261569996379,
+   "max": 0.19353932600006374
+  },
+  "loo": {
+   "n": 200,
+   "mean": 0.0051368921299990685,
+   "median": 0.005857129499872826,
+   "sd": 0.0014137568610743422,
+   "min": 0.0025339029998576734,
+   "max": 0.008249773999523313
+  }
+ },
+ "config": {
+  "command": "hardware",
+  "dataset": "gowalla",
+  "ml_path": "data/ml-1m/ratings.dat",
+  "amazon_path": "data/amazon-digital-music/interactions.csv",
+  "gowalla_path": "data/gowalla/interactions.csv",
+  "users": 40,
+  "n_max": 20,
+  "evaluation_size": 200,
+  "permutations": 250,
+  "candidate_seed": 1729,
+  "tie_seed": 31415,
+  "user_seed": 2718,
+  "rho": 0.5,
+  "out": "results/_review9_scratch/queued",
+  "timing_repeats": 5,
+  "timing_users": 40
+ }
+}

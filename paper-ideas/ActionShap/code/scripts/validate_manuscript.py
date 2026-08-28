@@ -207,9 +207,21 @@ def main() -> None:
         def _normalized(assets: set[str]) -> set[str]:
             return {a if a.endswith(".tex") else a + ".tex" for a in assets}
 
+        # Any of the four documents can input a generated table, so the orphan
+        # check has to look at all of them: reporting a table as uninput while the
+        # IPM main file \input's it is exactly the cross-document blindness that
+        # review-9 issue 17 complained about.
+        sources = [tex, supplement]
+        for extra in (
+            paper_root.parent / "actionshap-ipm" / "actionshap.tex",
+            paper_root.parent / "actionshap-ipm" / "supplementary.tex",
+        ):
+            if extra.exists():
+                sources.append(extra.read_text())
         included = _normalized(
-            set(INPUT_RE.findall(tex)) | set(SAFE_INPUT_RE.findall(tex))
-            | set(INPUT_RE.findall(supplement)) | set(SAFE_INPUT_RE.findall(supplement))
+            set().union(*[
+                set(INPUT_RE.findall(s)) | set(SAFE_INPUT_RE.findall(s)) for s in sources
+            ])
         )
         orphans = sorted(
             f"tables/{path.name}"

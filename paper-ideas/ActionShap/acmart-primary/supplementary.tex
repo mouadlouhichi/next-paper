@@ -16,7 +16,7 @@
 \usepackage{multirow}
 \graphicspath{{figures/}}
 \newcommand{\resdir}{tables}
-\newcommand{\resultmanifeststamp}{382732febad8}
+\newcommand{\resultmanifeststamp}{5ccb81597489}
 % Recomputed by code/scripts/make_result_manifest.py; the test suite fails if the
 % released matrices or generated tables change without updating this stamp.
 
@@ -116,7 +116,7 @@ To test the protocol under a nonlinear sequential scorer, selected audit compone
 Three patterns emerge (Table~\ref{tab:review3}). First, intervention-aware baselines---bounded binary/continuous LIME, finite differences, and integrated gradients, all trained or integrated along the same weight path used at deployment---reach bounded AIA $0.72$--$1.00$ (bounded binary/continuous LIME $0.73$--$0.95$, finite differences and integrated gradients $0.72$--$1.00$), matching or exceeding binary-mask LIME ($0.74$--$0.91$) and Monte Carlo Shapley ($0.14$--$0.70$): part of binary LIME's weakness is therefore a perturbation-distribution mismatch, and Shapley's coalition averaging does not by itself predict bounded interventions better than path-matched baselines. Second, pair interactions $I_{pq}=\Delta(\{p,q\})-\Delta(\{p\})-\Delta(\{q\})$ are small relative to singleton effects for ItemKNN (mean ratio $0.07$; additive-vs-realized pair ranking $\rho=0.84$--$0.90$), empirically supporting the main manuscript's additive decision heuristic under ItemKNN, but are substantial under SASRec (ratios $0.21$--$0.78$, additive-vs-realized $\rho=0.45$--$0.78$), so interaction-aware selection is recommended whenever the scorer is strongly nonlinear. Third, replacing the held-out target by the model's own top-1 recommendation (a prospective, non-target-conditioned audit) leaves Shapley bounded alignment high (run means $0.73$--$0.87$; $93$--$100\%$ of users attain at least $0.5$ alignment among the $126$--$227$ users per run whose generated top-1 lies in the candidate set), showing that the attribution audit can also be instantiated without future-label conditioning. Finally, a component ablation on the same realized-effect currency shows that the protocol components matter: forcing an action (removing the no-action option) changes the selected action in $82$--$89\%$ of users without improving the mean realized effect (mean $\Delta$ in $[-0.023,+0.001]$, with individual deltas reaching $-0.51$ under SASRec), and magnitude-only selection changes the action in $89$--$96\%$ of users and degrades the mean realized effect under the sequential scorer (mean $\Delta=-0.013$ on Amazon, $-0.041$ on ML-1M), supporting the signed, abstention-aware action-selection rule in the main manuscript.
 
 \subsection{Coalition and scorer-state budgets, and release provenance}
-Table~\ref{tab:computational-cost} reports allocation-stage coalition/scorer-state budgets. With $m=|E_u|$ candidates and embedding dimension $d$, each scorer call costs $C_{\mathrm{score}}(m,d)$, giving $O(T\,n_u\,C_{\mathrm{score}})$ for Shapley, $O(S_{\mathrm{LIME}}\,C_{\mathrm{score}}+S_{\mathrm{LIME}}n_u^2+n_u^3)$ including the ridge solve, $O(n_u\,C_{\mathrm{score}})$ for LOO, and $O(n_u^2\,C_{\mathrm{score}})$ for greedy and the exact $B\le2$ oracle. On the replication machine the reverse-paired estimator costs $0.3$--$1.6$\,s per user (ItemKNN/SASRec) versus $0.03$--$0.12$\,s for bounded LIME, confirming that protocol overhead scales with scorer cost as analysed. Peak memory was not serialized and is therefore not claimed. These are analytical scorer-call counts, not claims that every call has identical wall-clock cost; the exact ItemKNN batch implementation reuses cached similarity blocks, while the joint-action oracle is evaluated once per user and shared across methods. Asymptotically in the player count $n_u$, the allocation stage costs $O(T\,n_u)$ cached prefix states for Monte Carlo Shapley with $T=2M_{\mathrm{pair}}$ evaluated orders, $O(S_{\mathrm{LIME}})$ mask evaluations for LIME with $S_{\mathrm{LIME}}=512$, $O(n_u)$ states for leave-one-out, and $O(n_u^2)$ deletion evaluations for greedy sequential deletion; the shared exact $B\le2$ oracle adds $O(n_u^2)$ joint evaluations per user, computed once and reused by every method and utility. All budgets are therefore linear or quadratic in $n_u$ and independent of catalogue size beyond the fixed candidate-set scoring block, which is cached per user.
+Table~\ref{tab:computational-cost} reports allocation-stage coalition/scorer-state budgets. With $m=|E_u|$ candidates and embedding dimension $d$, each scorer call costs $C_{\mathrm{score}}(m,d)$, giving $O(T\,n_u\,C_{\mathrm{score}})$ for Shapley, $O(S_{\mathrm{LIME}}\,C_{\mathrm{score}}+S_{\mathrm{LIME}}n_u^2+n_u^3)$ including the ridge solve, $O(n_u\,C_{\mathrm{score}})$ for LOO, and $O(n_u^2\,C_{\mathrm{score}})$ for greedy and the exact $B\le2$ oracle. On the replication machine the reverse-paired estimator costs $0.3$--$1.6$\,s per user (ItemKNN/SASRec) versus $0.03$--$0.12$\,s for bounded LIME, confirming that protocol overhead scales with scorer cost as analysed. Peak memory is likewise not serialized for the archived replication runs, and is therefore not claimed for them; the review-$9$ runs do record it (Table~\ref{tab:r9-hardware}). These are analytical scorer-call counts, not claims that every call has identical wall-clock cost; the exact ItemKNN batch implementation reuses cached similarity blocks, while the joint-action oracle is evaluated once per user and shared across methods. Asymptotically in the player count $n_u$, the allocation stage costs $O(T\,n_u)$ cached prefix states for Monte Carlo Shapley with $T=2M_{\mathrm{pair}}$ evaluated orders, $O(S_{\mathrm{LIME}})$ mask evaluations for LIME with $S_{\mathrm{LIME}}=512$, $O(n_u)$ states for leave-one-out, and $O(n_u^2)$ deletion evaluations for greedy sequential deletion; the shared exact $B\le2$ oracle adds $O(n_u^2)$ joint evaluations per user, computed once and reused by every method and utility. All budgets are therefore linear or quadratic in $n_u$ and independent of catalogue size beyond the fixed candidate-set scoring block, which is cached per user.
 
 \begin{table}[!htbp]
 \centering\small
@@ -321,6 +321,44 @@ this paper only as a comparison within one interface---the exact inference-time
 rule of the fitted scorer---and never as an absolute amount of evidence; the
 tables above give the pure-suppression counterfactual for every claim that could be
 read the second way.
+\emph{Target conditioning (Issue 5).} Conditioning the attribution game on the held-out
+item makes part of ``alignment'' definitional, so the audit was re-run with the target
+replaced by the scorer's own top-$1$ prospective recommendation, on the benchmark that
+ships inside the artifact and with everything else held fixed ($600$ sampled users,
+$M_{\mathrm{pair}}=250$, $n_{\max}=20$, evaluation set $200$, $\rho=0.5$, seed $42$,
+normalized interface). Table~\ref{tab:r9-prospective-replication} reports the
+$528$ users whose prospective game has a defined alignment score: Shapley bounded AIA
+$0.676$ (SD $0.176$, users ranging from $-0.456$ to $0.976$), bounded LIME $0.697$,
+leave-one-out $0.9997$, signed alignment $0.701$. The same cohort under
+held-out conditioning gives $0.638$, $0.690$, $0.990$ and $0.700$
+(Table~\ref{tab:r9-fixed-denominator}), so removing the future label moves the two
+attribution-based scores by $+0.038$ and $+0.008$ and leaves the cross-scorer ordering
+untouched: the level is not an artifact of conditioning on the target, and
+leave-one-out remains saturated whichever target the game is built around. Only
+$72$ of $600$ audited users ($12.0\%$) have a prospective top-$1$ that coincides with
+the held-out item, so the two audits mostly score different events and a per-user
+paired contrast between them is not a defined quantity; what is comparable is the
+ordering and the size of the alignment, and both survive. The residual caveat is
+coverage, not conditioning: for the remaining users the audit measures alignment to a
+target nobody consumed, which is the deployment-relevant estimand but not the one the
+primary analysis reports.
+
+\emph{Measured cost (Issue 13).} Scorer-call budgets do not by themselves price a
+protocol, so the review-$9$ runner serializes its environment and times each
+attribution method on the same fitted neighbourhoods
+(Table~\ref{tab:r9-hardware}): x86-64 Linux on $2$ cores, Python $3.11.2$, NumPy
+$2.4.6$, peak resident set of the process $305$\,MB, and $5$ repeats over $40$ users
+yielding medians of $2.11$\,s per user for reverse-paired Monte Carlo Shapley at
+$M_{\mathrm{pair}}=250$, $0.149$\,s for bounded LIME at $512$ masks and $0.0059$\,s for
+leave-one-out, i.e. $14\times$ and $360\times$ the LIME and LOO costs respectively at
+the published budgets. Equalizing the budget rather than reporting it is the harder
+half of the objection, and the tooling for it is in the artifact:
+\texttt{compute-matched} gives Shapley and LIME the same $2M_{\mathrm{pair}}(n_u{+}1)$
+scorer evaluations at every point of a grid and typesets the matched-budget table
+as soon as a cohort has been run; on the machine above one grid point on the
+$12$-user pilot cohort costs $47$\,s, so a full curve is a batch job and no
+matched-budget alignment claim is made in this document.
+
 \safeinput{tables/review9_statistics.tex}
 \safeinput{tables/review9_benchmark_replications.tex}
 

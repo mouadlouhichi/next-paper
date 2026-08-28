@@ -62,3 +62,29 @@ Gowalla & recency blocks & 163 & 0.5750 & 0.1003 & 0.0207 & 0.0258 & 0.1735 & 22
 \end{tabular}
 \end{table}
 
+
+\begin{table}[!htbp]\centering\scriptsize\setlength{\tabcolsep}{3pt}
+\caption{Prospective (non-target-conditioned) replication of the audit (Issue 5). Each user's game is rebuilt from the model's own top-1 prospective recommendation rather than from the held-out target, and the same Monte Carlo Shapley, LIME and leave-one-out attributions are scored against the same realized effects; $n_{\max}$, permutation budget and intervention strength are unchanged. The third column counts users for whom the prospective candidate set contains the held-out item at all, which is the fraction on which the two conditioning schemes are even comparable. If the ordering of the three attributions is preserved here, alignment is not an artefact of constructing the game around the answer.}
+\label{tab:r9-prospective-replication}
+\begin{tabular}{@{}lrrrrrrr@{}}
+\toprule
+Dataset & Sampled & Audited & Prospective target covers held-out item & AIA Shapley & AIA LIME & AIA LOO & Signed Shapley \\
+\midrule
+Gowalla & 600 & 600 & 12.0\% & 0.6757 & 0.6973 & 0.9997 & 0.7007 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+\begin{table}[!htbp]\centering\scriptsize\setlength{\tabcolsep}{3pt}
+\caption{Execution environment and repeated per-user attribution timings recorded with the review-9 runs (Issues 16/17). Times are medians over the declared number of repeats of one user's attribution at the primary budget, measured in the same process as the released numbers; peak RSS is the whole run. Together with the result-manifest hash quoted in both documents and the seeds in each run's \texttt{config}, this is what a re-runner needs to reproduce the tables without the original machine.}
+\label{tab:r9-hardware}
+\begin{tabular}{@{}lllccrcrrr@{}}
+\toprule
+Dataset & Machine & Python & NumPy & Cores & Peak RSS (MB) & Repeats & Shapley s/user & LIME s/user & LOO s/user \\
+\midrule
+Gowalla & x86_64 & 3.11.2 & 2.4.6 & 2 & 305 & 5 & 2.107 & 0.149 & 0.006 \\
+\bottomrule
+\end{tabular}
+\end{table}
+

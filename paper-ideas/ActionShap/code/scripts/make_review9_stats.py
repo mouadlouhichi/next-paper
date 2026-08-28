@@ -24,6 +24,7 @@ Usage:  python3 scripts/make_review9_stats.py
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 
 import numpy as np
@@ -32,7 +33,11 @@ from scipy.stats import spearmanr
 
 ROOT = Path(__file__).resolve().parents[1]
 MAT = ROOT.parent / "actionshap-ipm" / "release" / "matrices"
-OUT = ROOT / "results" / "review9"
+# AES_REVIEW9_RESULTS lets a pilot's scratch payloads be pushed through the real
+# generators before a 10-hour cohort is spent: a run type whose table builder
+# crashes on the payload shape is a defect in this file, and the only cheap place
+# to find that out is while the cohort is still 12 users.
+OUT = Path(os.environ.get("AES_REVIEW9_RESULTS") or (ROOT / "results" / "review9"))
 MIRRORS = [
     ROOT.parent / "acmart-primary" / "tables",
     ROOT.parent / "actionshap-ipm" / "tables",
@@ -1090,11 +1095,20 @@ def hardware_tables() -> tuple[list[str], dict]:
     for dataset, payload in _runs("hardware_*.json"):
         hardware = payload.get("hardware") or {}
         timings = payload.get("timings_seconds") or {}
-        medians = {
-            method: (float(np.median(np.asarray(values, dtype=float)))
-                     if values else None)
-            for method, values in timings.items()
-        }
+        def _median(values):
+            # `run_review9_experiments.py` serialises a summary dict
+            # ({"n", "mean", "median", ...}) per method, not the raw sample list;
+            # accept either shape so a real run cannot crash the table.
+            if isinstance(values, dict):
+                for key in ("median", "mean"):
+                    if values.get(key) is not None:
+                        return float(values[key])
+                return None
+            if values is None or len(values) == 0:
+                return None
+            return float(np.median(np.asarray(values, dtype=float)))
+
+        medians = {method: _median(values) for method, values in timings.items()}
         rows.append(
             f"{dataset} & {hardware.get('machine', '?')} & "
             f"{hardware.get('python', '?')} & {hardware.get('numpy', '?')} & "
@@ -1601,6 +1615,11 @@ def main() -> None:
         )
     )
     if dry_run:
+        import re
+        # fd_tex is one rendered string of floats, not a list of lines.
+        labels = re.findall(r"\\label\{([^}]*)\}", fd_tex)
+        print("DRY_RUN_FLOATS: " + json.dumps(sorted(labels)))
+        print("DRY_RUN_RESULTS_DIR: " + str(OUT))
         print("\n".join(json.dumps(r, indent=None) for r in s4_report["holm_changes"][:6]))
         return
 

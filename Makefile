@@ -18,7 +18,7 @@ SCRIPTS := $(CODE)/scripts
 LATEXMK := latexmk -pdf -interaction=nonstopmode -halt-on-error -shell-escape
 PY      := python3
 
-.PHONY: pdf main supplementary manifest tables check stats clean tools help
+.PHONY: pdf main supplementary manifest tables check stats clean tools help artifact
 
 help:
 	@echo "make tools          report whether a LaTeX toolchain is available"
@@ -58,6 +58,16 @@ tables:
 
 manifest:
 	cd $(CODE) && $(PY) scripts/make_result_manifest.py
+
+# Build the deposit archive for OSF/Zenodo: raw runs plus the generated half of the
+# artifact (review-9 outputs, tables, manifest, generators, tests, run notebook).
+# Reviewer issues 16/17 are about the deposit being the thing the paper was built from,
+# so `raw/` alone is not enough; print the archive hash to paste into the data prompt.
+artifact: stats
+	cd $(CODE) && $(PY) scripts/package_results.py
+	@echo "archive sha256 (quote it in the cover letter and in both documents):"
+	@sha256sum $(CODE)/results/release/*.tar.gz | sed 's/^/  /'
+	@$(PY) $(CODE)/scripts/make_result_manifest.py --check
 
 stats: tables manifest
 

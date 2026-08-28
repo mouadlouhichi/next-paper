@@ -13850,6 +13850,66 @@
      "null_draws": 1000
     }
    }
+  },
+  "prospective_replication": {
+   "Gowalla": {
+    "users_total": 600,
+    "users_audited": 600,
+    "covers_heldout_target_fraction": 0.12,
+    "summary": {
+     "aia_shapley": {
+      "n": 528,
+      "mean": 0.6756615287439368,
+      "median": 0.6990864070422756,
+      "sd": 0.1762922393051911,
+      "min": -0.4561756685768146,
+      "max": 0.9759000729485332
+     },
+     "aia_lime": {
+      "n": 528,
+      "mean": 0.6973003600875177,
+      "median": 0.7000693297968308,
+      "sd": 0.15737012661349492,
+      "min": 0.37796447300922725,
+      "max": 0.9848069807617047
+     },
+     "aia_loo": {
+      "n": 528,
+      "mean": 0.9997390907137582,
+      "median": 1.0,
+      "sd": 0.002819925937841153,
+      "min": 0.9390243902439026,
+      "max": 1.0
+     },
+     "signed_shapley": {
+      "n": 528,
+      "mean": 0.7006785455850404,
+      "median": 0.7006490497453708,
+      "sd": 0.1571616888486432,
+      "min": 0.37796447300922725,
+      "max": 0.9848069807617047
+     }
+    }
+   }
+  },
+  "hardware": {
+   "Gowalla": {
+    "hardware": {
+     "platform": "Linux-6.1.158+-x86_64-with-glibc2.36",
+     "processor": "unknown",
+     "machine": "x86_64",
+     "python": "3.11.2",
+     "cpu_count": 2,
+     "numpy": "2.4.6"
+    },
+    "median_seconds": {
+     "shapley": 2.107150527000158,
+     "lime": 0.14867567300007067,
+     "loo": 0.005857129499872826
+    },
+    "peak_rss_mb": 304.78515625,
+    "platform": "Linux-6.1.158+-x86_64-with-glibc2.36"
+   }
   }
  },
  "s4_regeneration": {
