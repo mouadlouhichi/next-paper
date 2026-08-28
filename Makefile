@@ -79,7 +79,8 @@ manifest:
 # so `raw/` alone is not enough; print the archive hash to paste into the data prompt.
 artifact: stats
 	cd $(CODE) && $(PY) scripts/package_results.py
-	@echo "archive sha256 (quote it in the cover letter and in both documents):"
+	@echo "archive sha256 (recorded in the .sha256 sidecar; deliberately NOT quoted in"
+	@echo "the documents, because any rebuild changes it and a pasted hash goes stale):"
 	@sha256sum $(CODE)/results/release/*.tar.gz | sed 's/^/  /'
 	@$(PY) $(CODE)/scripts/make_result_manifest.py --check
 
