@@ -27,15 +27,15 @@ Legend:
 | 2 | Only ItemKNN passes the quality gate | **REBUT + RUN (long-term)** existing candor retained (limitations, abstract caveat); competitive gate-passing neural/graph model is an engineering workstream (history-weighting-compatible training), scoped in the guide | abstract, §7, §8 |
 | 3 | Amazon full-catalogue reversal must be central | **FIXED (text)** promoted into abstract, §6.6 already reports it, conclusion restates it (negative AIA −0.05 with positive gap +0.16) | abstract, §6.6, conclusion |
 | 4 | Utility mismatch confounds H2 (target-margin attribution vs NDCG decisions) | **FIXED (text+run)** primary-cohort factorial from the released matrices (`tab:r9-utility-factorial`) *plus* the replication-benchmark $2\times2$ (`tab:r9-utility-factorial-replication`): changing only the evaluation utility moves the mean bounded AIA by $+0.330$ $[0.248,0.415]$ and the mirrored cell by $-0.275$ $[-0.438,-0.101]$, with only 14/250 users having a defined NDCG arm -- reported as descriptive, and the reason H2 is adjudicated on rank association | make_review9_stats |
-| 5 | Prospective audit must be co-primary | **RUN (tooling done)** `prospective` writes `prospective_<ds>.json` and `tab:r9-prospective-replication` is generated from it automatically (audited/sampled counts, held-out-target coverage, per-method AIA); the Gowalla instance is running now, MovieLens/Amazon need `notebooks/REVIEW9_REPLICATION_RUNS.ipynb` | notebook |
+| 5 | Prospective audit must be co-primary | **FIXED on the benchmark that ships in the artifact** (prospective_gowalla.json -> tab:r9-prospective-replication, quoted in S11); primary cohorts are a `prospective` run away `prospective` writes `prospective_<ds>.json` and `tab:r9-prospective-replication` is generated from it automatically (audited/sampled counts, held-out-target coverage, per-method AIA); the Gowalla instance is running now, MovieLens/Amazon need `notebooks/REVIEW9_REPLICATION_RUNS.ipynb` | notebook |
 | 6 | "Executable" overclaims | **FIXED (text)** "simulator-executable" at all claim sites; abstract states the intervention is simulator-executable, not demonstrated against a production interface | throughout |
 | 7 | Eq. (4) BPR not reproducible as written | **FIXED (text)** rewritten as per-triple loss + exact per-triple gradients verified against `fit_item_embeddings`, clipping semantics specified, context/regularizer scope defined | §3.2 Eq. (4)-(5) |
-| 8 | Fixed candidate sets dominate conclusions | **RUN (tooling done)** `candidate-redraw --redraws N` → `tab:r9-candidate-redraw` (between-redraw mean/SD/min–max per method); the payload's `KeyError: mean` on empty redraws was found by the notebook pilot and fixed; Gowalla instance in progress | notebook |
+| 8 | Fixed candidate sets dominate conclusions | **RUN (tooling done; payload shape validated by the pilot dry run, and its float renders from a 12-user run)** `candidate-redraw --redraws N` → `tab:r9-candidate-redraw` (between-redraw mean/SD/min–max per method); the payload's `KeyError: mean` on empty redraws was found by the notebook pilot and fixed; Gowalla instance in progress | notebook |
 | 9 | Per-user MC uncertainty not propagated | **FIXED (text)** per-user MC error now *propagated*: mean/maximum $|\Delta$AIA| between budgets with CIs from the review-8 cap-user study (`tab:r9-mc-propagation`, S11) and an explicit statement that the aggregate is unaffected while single-user decisions are; adaptive stopping stays an extension; mcse caption corrected (0.948 floor, budget labels); propagation into regret remains an extension item | supp. tables |
 | 10 | Analysis populations inconsistent | **FIXED (text+tables)** relabeling **plus the two artefacts the reviewer asked for**: inclusion-flow table and all-user sensitivity (`tab:r9-inclusion-flow`, `tab:r9-all-user-sensitivity`, S11), with every denominator verified by recomputation (1000 / 993 / 987 / 339 / 196) and locked by `tests/test_review9_publication_integrity.py`: TOST n=1000 (verified by recomputation), gap-vs-regret = target-margin NRegret (n=1000/987 positive-oracle users), S15/S22/S25/S28 captions fixed with explicit denominators | §5.3, §6, tables |
 | 11 | Uncertainty conditional on one fitted model/candidate set | **PARTLY RUN (tooling done)** candidate redraws cover the design half of this (Issue 8 tooling); retraining / temporal-cutoff resampling is a retraining workstream, not a re-scoring run, and stays an explicit extension | notebook + limitations |
 | 12 | Player-exchangeability null questionable | **FIXED (run)** stratified within-user nulls on the replication benchmark (`tab:r9-stratified-null`): null mean rises from $-0.0001$ (free) to $0.100$ (recency blocks) and $0.192$ (popularity blocks), while the observed $0.575$ stays $27.1$/$22.9$/$19.1$ null SDs above them; the $1000$-draw plus-one $p$ saturates at $0.0010$, so $z$ is reported | review9 runs |
-| 13 | "Equal-scorer-budget" table mislabeled / unequal budgets | **FIXED (text)** table renamed to budget-response curves, S symbol instead of B, not-equal-budget note in caption; **RUN (tooling done)** `compute-matched --mpair-grid` → `tab:r9-compute-matched`, one row per equal scorer-call budget with LIME $-$ Shapley per row | notebook |
+| 13 | "Equal-scorer-budget" table mislabeled / unequal budgets | **FIXED (text)** table renamed to budget-response curves, S symbol instead of B, not-equal-budget note in caption; **FIXED (cost half, data: hardware_gowalla.json -> tab:r9-hardware: 2 cores, peak RSS 305 MB, medians 2.11/0.149/0.0059 s)** ; matched-budget curve = one `compute-matched` run, tooling done)** `compute-matched --mpair-grid` → `tab:r9-compute-matched`, one row per equal scorer-call budget with LIME $-$ Shapley per row | notebook |
 | 14 | AIA monotone-invariance claim false; gap tested instead of absolute AIA | **FIXED (text, PENDING PDF)** invariance claim corrected in the source; the *committed* `acmmanuscript.pdf` still contains the uncorrected sentence -- rebuild required (`make pdf`) (applies to already-formed vectors only); absolute bounded-AIA vs decision association added to §6.4 | §4.3, §6.4 |
 | 15 | Collision-prone integer seed derivation | **FIXED (code+text)** tuple SeedSequence entropy + **the second half of the ask is now closed**: the sign-flip exchangeability/symmetry assumption is stated in §5.3 and every headline contrast is re-run with a studentized bootstrap-*t* test (`tab:r9-studentized`, S11); agreement reported for random control, LIME masks, MC Shapley, and the within-user null stream in `run_recommendation.py` + `evaluation.py`; widened type hints; unit tests added. **Note:** changes random-control/LIME/Shapley streams, so primary-suite regeneration is required before final submission (cheap for random; full suite ≈ prior runtime) | code + §4.2 text |
 | 16 | Artifact URL placeholder; main/supplement version drift | **USER** artifact deposit for the URL only. Drift is now *machine-enforced*: content-addressed `code/results/manifest.json` (git revision + sha256 of every matrix and table), `\resultmanifeststamp` quoted in both PDFs, `make_result_manifest.py --check`, mirror byte-identity tests, and a stale-PDF guard in `validate_manuscript.py` (warning) + `test_compiled_pdfs_are_not_silent_about_the_revised_text` (xfail until rebuilt); **FIXED (text)** drift items reconciled: MDE 0.014/0.051 (generator bug fixed), S15 n=993 caption, B=3 greedy-vs-exhaustive status, full-catalogue 250 vs 1000 wording | cover letter; multiple; `make artifact` now emits the deposit archive + sha256 |
@@ -151,6 +151,15 @@ Everything below is generated, mirrored to both `tables/` copies, and covered by
   `attribution_stability`, `protocol_audit`, `sensitivity_results`) are input by *no* document:
   they stay on disk, hashed in the manifest, as provenance for numbers quoted in prose, and the
   warning is expected output rather than a defect.
+* **A partial collection no longer renders nothing.** `benchmark_replication_tables`
+  returned early when the fixed-denominator run was absent, so six other benchmark floats
+  were silently withheld even though their own runs had finished. The independent floats
+  are now appended through `_benchmark_extras` on both paths, verified by regenerating the
+  committed tables byte-identically and by pointing `AES_REVIEW9_RESULTS` at a
+  two-payload directory (which then renders exactly the two floats it owns). `--dry-run`
+  also stopped writing `review9_statistics.json`/`review9_multiplicity_map.csv` into the
+  directory it was only *checking* -- a stray derived file in a scratch dir is how a
+  scratch run gets mistaken for a deposited one.
 * **A generator that owns only one mirror is a drift machine.** `make_review5_tables.py` wrote
   `actionshap-ipm/tables/review5_validation.tex` while `acmart-primary/tables/` kept a hand-enriched
   copy; running the pipeline therefore silently *reverted* the ACM caption (losing the "rows are not
@@ -167,8 +176,17 @@ Everything below is generated, mirrored to both `tables/` copies, and covered by
   still the user's action, and `results/release/` is git-ignored so rebuilding an archive cannot
   dirty the tree or invalidate the manifest stamp.
 
-Still open: #5, #8, #11, #13 need the primary cohorts, which is exactly what the
-notebook above runs (their tables generate themselves the moment the JSONs land, and the
-Gowalla instances are being produced here); #2 and #19 need a retrained, tuned neural/graph
+State after this pass: #5 is **FIXED (data+text) on the benchmark that ships in the
+artifact** -- `prospective_gowalla.json` (600 users, 528 with a defined score, 12.0\%
+top-$1$ coverage of the held-out item) typesets `tab:r9-prospective-replication` and S11
+quotes it, including the reason no paired contrast against held-out conditioning is
+defined. #13's *cost* half is likewise closed with data (`hardware_gowalla.json` ->
+`tab:r9-hardware`: peak RSS, CPU count, library versions, 5-repeat per-method medians),
+and the supplement's earlier "peak memory was not serialized" limitation is now scoped
+to the archived runs instead of covering everything. What remains for #8 and #13 is the
+equal-budget curve and the candidate-set redraw on the primary cohorts: both are
+single-command runs, both tables are already wired into the generator, and they are
+being run on a workstation with 48 GB rather than in the 2-core sandbox (the sandbox
+attempt was stopped rather than left to burn an hour for a 60-user curve). #2 and #19 need a retrained, tuned neural/graph
 recommender, i.e. a separate engineering workstream rather than a re-scoring run; #16 needs the
 artifact deposit (USER) and the PDF rebuild (`make pdf`, no LaTeX toolchain in this workspace).

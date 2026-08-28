@@ -528,6 +528,26 @@ print(sh(["git", "status", "--short"], cwd=REPO_ROOT)[1][:2500])
 """
 
 REPORT = r"""# ---------------------------------------------------------------- what still needs prose
+# A float that renders but is cited by nobody is the mirror image of a dangling
+# \ref: the numbers are in the PDF and nothing in the prose points at them. Once a
+# run lands, the sentence that used to say "no claim is made" has to be upgraded.
+_rendered = []
+_tbl = PAPER / "acmart-primary" / "tables" / "review9_benchmark_replications.tex"
+if _tbl.exists():
+    _rendered = re.findall(r"\\label\{([^}]*)\}", _tbl.read_text())
+_cited = ""
+for _doc in ("supplementary.tex", "acmmanuscript.tex"):
+    _dp = PAPER / "acmart-primary" / _doc
+    if _dp.exists():
+        _cited += _dp.read_text()
+_orphan = [l for l in _rendered if f"ref{{{l}}}" not in _cited]
+if _orphan:
+    print("\nRendered tables no prose cites -- upgrade the S11 sentence that defers them:")
+    for l in _orphan:
+        print(f"   Table~\\ref{{{l}}}")
+else:
+    print("\nevery rendered replication float is cited by the prose")
+
 labels = {
     "tab:r9-fixed-denominator": "Issue 1 (construct validity of the intervention)",
     "tab:r9-fixed-denominator-paired": "Issue 1 (paired user-level contrast)",

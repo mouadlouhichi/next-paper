@@ -182,6 +182,34 @@ mirrors, and refreshes `code/results/manifest.json`; both documents must then qu
 the new `\resultmanifeststamp` (the test suite fails otherwise). Cell 8 of the
 notebook does the stamp sync for you.
 
+### Running it on a workstation instead of the sandbox
+
+The notebook's cost model is measured, not assumed: cell 5 runs all seven experiments
+at the *real* permutation budget on a 12-user cohort, prints minutes per 1000 users,
+and cell 6 rewrites its estimates from those numbers (the `hardware` job is
+cohort-independent and is kept as absolute minutes). Reference point from the 2-core
+sandbox, at $M_{\mathrm{pair}}=250$:
+
+| experiment | min per 1000 users | what it is per |
+|---|---|---|
+| `fixed-denominator` | ~53 | cohort |
+| `prospective` | ~27 | cohort |
+| `stratified-null` | ~25 | cohort |
+| `utility-factorial` | ~44 | cohort |
+| `compute-matched` | ~65 | *grid point* (two points $\approx 1+4\times$ cost) |
+| `candidate-redraw` | ~50 | *redraw* (six redraws $\approx 6\times$) |
+| `hardware` | ~0.3 | fixed |
+
+Read the pilot line for your own machine before deciding on `USERS` and `SCALE`: the
+per-user work is dominated by the permutation walk, so a many-core machine mainly wins
+through BLAS in the scorer, not through parallelism in this code (runs are serialised
+per user by design, since the published numbers must be reproducible from one seed).
+Two practical knobs: set `ONLY = ["compute-matched", "candidate-redraw"]` to queue only
+the runs the sandbox could not finish, and leave `SCALE = 1.0` for the publishable
+cohorts (`SCALE = 0.3` is a legitimate pre-flight check, but the resulting table rows
+must be labelled with their smaller $n$). The queue is resumable: a job whose output
+JSON already exists is skipped, so it is safe to stop and restart it.
+
 ### Building the deposit (issues 16/17)
 
 `make artifact` calls `code/scripts/package_results.py`, which tarballs the

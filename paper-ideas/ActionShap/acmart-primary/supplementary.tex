@@ -352,12 +352,13 @@ yielding medians of $2.11$\,s per user for reverse-paired Monte Carlo Shapley at
 $M_{\mathrm{pair}}=250$, $0.149$\,s for bounded LIME at $512$ masks and $0.0059$\,s for
 leave-one-out, i.e. $14\times$ and $360\times$ the LIME and LOO costs respectively at
 the published budgets. Equalizing the budget rather than reporting it is the harder
-half of the objection, and the tooling for it is in the artifact:
+half of the objection, and the artifact ships a run that does it:
 \texttt{compute-matched} gives Shapley and LIME the same $2M_{\mathrm{pair}}(n_u{+}1)$
-scorer evaluations at every point of a grid and typesets the matched-budget table
-as soon as a cohort has been run; on the machine above one grid point on the
-$12$-user pilot cohort costs $47$\,s, so a full curve is a batch job and no
-matched-budget alignment claim is made in this document.
+scorer evaluations at every point of a budget grid, and its table is generated from
+the same results directory as the rest of this section. No matched-budget alignment
+claim is made in this document, because the cohort needed to make one has not been
+deposited with the release; the measured per-user costs above are what a reader needs
+to price that run for themselves.
 
 \safeinput{tables/review9_statistics.tex}
 \safeinput{tables/review9_benchmark_replications.tex}
