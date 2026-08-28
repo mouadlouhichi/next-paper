@@ -298,7 +298,7 @@ def main() -> None:
              "\\caption{Complete predeclared paired family for bounded AIA on the primary",
              "conditions: paired mean difference with user-bootstrap 95\\% CIs, two-sided",
              "sign-permutation $p$ and paired $d_z$, Holm-corrected within the family.",
-             r"(Review-9 Issue 18: $10{,}000$ plus-one sign permutations, i.e.\ the same",
+             r"($10{,}000$ plus-one sign permutations, i.e.\ the same",
              "declared budget as the release; the minimum attainable adjusted $p$ in a",
              "ten-pair family is therefore $10/10{,}001=0.0010$.)}",
              "\\label{tab:paired-full}",

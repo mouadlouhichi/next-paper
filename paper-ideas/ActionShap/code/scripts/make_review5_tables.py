@@ -165,7 +165,7 @@ def main() -> None:
     if have_conv:
         L.append(r"\begin{table}[!htbp]\centering\scriptsize\setlength{\tabcolsep}{3pt}")
         L.append(
-            "\caption{User-level convergence quantiles (review-5 rerun, 100 users per\n"
+            "\caption{User-level convergence quantiles (independent rerun, 100 users per\n"
             "dataset, independent $M_{\mathrm{pair}}=1000$ reference): median and 5th/25th\n"
             "percentiles of the per-user rank correlation to the reference, median\n"
             "budget-two action Jaccard, and the joint-threshold coverage (fraction of\n"

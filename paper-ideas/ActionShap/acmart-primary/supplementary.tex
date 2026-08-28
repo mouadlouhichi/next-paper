@@ -18,7 +18,7 @@
 \usepackage{multirow}
 \graphicspath{{figures/}}
 \newcommand{\resdir}{tables}
-\newcommand{\resultmanifeststamp}{c80cfec35831}
+\newcommand{\resultmanifeststamp}{703b2617fada}
 % Recomputed by code/scripts/make_result_manifest.py; the test suite fails if the
 % released matrices or generated tables change without updating this stamp.
 
@@ -74,7 +74,7 @@
 \renewcommand{\shortauthors}{\authorsforreview}
 
 \begin{abstract}
-This reviewer-visible supplementary material should be read alongside the main manuscript. It provides the expanded numerical audit underlying the compact manuscript tables, including robustness matrices, statistical validation, replication analyses, and computational-cost details. The tables are generated from the schema-v2 result archive. The accompanying artifact records the source revision, archive hash, dependency manifest, and machine-readable CSV/JSON results.
+This supplementary material is intended to be read alongside the main manuscript. It provides the expanded numerical audit underlying the compact manuscript tables, including robustness matrices, statistical validation, replication analyses, and computational-cost details. The tables are generated from the schema-v2 result archive. The accompanying artifact records the source revision, archive hash, dependency manifest, and machine-readable CSV/JSON results.
 \end{abstract}
 
 \keywords{recommender systems, explanation evaluation, bounded intervention, robustness, reproducibility}
@@ -151,7 +151,7 @@ Random control & 0 attribution utility calls & IID $\mathcal{N}(0,1)$ scores; th
 
 The schema-v2 run summary records total wall-clock duration for the 80 recommendation runs: the 60 ItemKNN runs range from approximately 29.8 to 2,851.6 seconds (mean 183.0 seconds), and the 20 profile runs range from approximately 26.9 to 299.6 seconds (mean 95.0 seconds). These are complete-pipeline durations rather than isolated explainer timings; the analytical call-budget table above is the comparable per-method cost measure. The recorded environment is macOS-26.5.1-arm64, Python 3.12.13, NumPy 2.4.6, SciPy 1.17.1, pandas 2.3.3, scikit-learn 1.9.0, matplotlib 3.11.1, and PyYAML 6.0.3. 
 
-The submission package contains the editable LaTeX tables and vector figures used in the paper. The accompanying artifact contains the complete generation code, configurations, preprocessing and execution scripts, the validation harnesses and their reports, the content-addressed result manifest quoted above, and machine-readable result matrices and per-user experiment outputs; the review-9 runners, their generated tables, the integrity tests and the replication-run notebook are part of it, so every number in this supplement is recomputable from the deposit without access to the authors' machine.
+The submission package contains the editable LaTeX tables and vector figures used in the paper. The accompanying artifact contains the complete generation code, configurations, preprocessing and execution scripts, the validation harnesses and their reports, the content-addressed result manifest quoted above, and machine-readable result matrices and per-user experiment outputs; the audit runners, their generated tables, the integrity tests and the replication-run notebook are part of it, so every number in this supplement is recomputable from the deposit without access to the authors' machine.
 
 
 \FloatBarrier
@@ -225,7 +225,7 @@ with the exact budget-2 oracle (realized target-margin effect $+0.0031$).
 \input{tables/appendix_computation.tex}
 \FloatBarrier
 
-\section{Review-9 inference audits and construct-validity ablations}\label{app:review9}
+\section{Inference audits and construct-validity ablations}\label{app:review9}
 The tables in this section and Table~\ref{tab:S4} are generated from the frozen release matrices and are typeset against result manifest \texttt{\resultmanifeststamp}, the same manifest quoted in the main paper.
 This section collects the analyses added in the ninth revision round. All of them
 are computed from the frozen release matrices by
@@ -233,13 +233,13 @@ are computed from the frozen release matrices by
 artifact without re-running any recommender, and the generated file is written
 byte-identically to both table mirrors.
 
-\emph{Populations (Issue 10).} Table~\ref{tab:r9-inclusion-flow} gives the exact
+\emph{Populations.} Table~\ref{tab:r9-inclusion-flow} gives the exact
 denominator of every inferential statement in the paper, and
 Table~\ref{tab:r9-all-user-sensitivity} repeats each population-conditional
 statistic over all users with finite values under both methods, which is the
 all-user sensitivity the review asked for alongside the inclusion flow.
 
-\emph{Multiplicity (Issue 18).} Table~\ref{tab:r9-multiplicity-map} lists family
+\emph{Multiplicity.} Table~\ref{tab:r9-multiplicity-map} lists family
 membership, family size, the raw exceedance count and the Holm multiplier for the
 headline contrasts; recomputing all $2{,}312$ released tests from their raw
 $p$-values reproduces every published adjusted $p$-value, and Table~\ref{tab:r9-permutation-precision} shows that residual differences between
@@ -252,7 +252,7 @@ Shapley--LIME success contrast, which was printed as $.0066$ and is $.0048$ with
 $15$ exceedances of $10{,}000$ (the $.0216$ in the predeclared family is the
 same raw evidence corrected with a $\times9$ rather than $\times3$ multiplier).
 
-\emph{Utility mismatch (Issue 4).} Table~\ref{tab:r9-utility-factorial} reports
+\emph{Utility mismatch.} Table~\ref{tab:r9-utility-factorial} reports
 the attribution-utility $\times$ outcome-utility factorial on the primary cohort,
 which separates utility mismatch from interaction effects in the H2 adjudication.
 Table~\ref{tab:r9-utility-factorial-replication} repeats the design on the benchmark
@@ -270,11 +270,11 @@ reported as descriptive counts and no inference is drawn from them here; a power
 version of the full $2\times2\times2$ design needs the primary cohorts re-scored at
 the larger candidate budget.
 
-\emph{Estimator uncertainty (Issue 9).}
+\emph{Estimator uncertainty.}
 Table~\ref{tab:r9-mc-propagation} propagates per-user Monte Carlo error into the
 reported alignment statistic instead of only reporting agreement diagnostics.
 
-\emph{Randomization-test validity (Issue 15).}
+\emph{Randomization-test validity.}
 Table~\ref{tab:r9-studentized} repeats every headline paired contrast under both
 the published plus-one sign-flip test and a studentized bootstrap-$t$ test that
 needs no symmetry of the paired differences. Skew is not innocuous for these
@@ -286,10 +286,10 @@ between the two procedures is the MovieLens realized-NDCG contrast, where the
 sign-flip $p$ of $0.0045$ becomes $0.0012$---a factor of $3.8$ in a regime where
 neither value is near the decision boundary.
 
-\emph{Stratified within-user nulls (Issue 12).} An unstratified within-user null
+\emph{Stratified within-user nulls.} An unstratified within-user null
 treats every reordering of a profile as equally implausible, so
 Table~\ref{tab:r9-stratified-null} re-derives it under two structure-preserving
-redraws on the replication benchmark. The reviewer's worry is real in degree: the
+redraws on the replication benchmark. The concern is real in degree: the
 null mean moves from $-0.0001$ unstratified to $0.100$ under recency blocks and
 $0.192$ under popularity blocks, so part of the raw alignment is explained by the
 profile's own temporal and popularity structure and an unstratified test understates
@@ -302,7 +302,7 @@ use $10{,}000$ draws against the unstratified null
 (Table~\ref{tab:r9-multiplicity-map}), and the stratified version is reported here on
 the benchmark whose per-user intervention files ship inside the artifact.
 
-\emph{Intervention semantics (Issue 1).} Dividing by the retained weight sum makes
+\emph{Intervention semantics.} Dividing by the retained weight sum makes
 the deletion intervention a reallocation of profile mass rather than isolated
 suppression, so the review asked whether the bounded effect is an artifact of that
 normalization. Tables~\ref{tab:r9-fixed-denominator}
@@ -348,7 +348,7 @@ interpreted in this paper only as a comparison within one interface, the exact
 inference-time rule of the fitted scorer, and never as an absolute amount of evidence;
 the tables above give the pure-suppression counterfactual for every claim that could be
 read the second way.
-\emph{Target conditioning (Issue 5).} Conditioning the attribution game on the held-out
+\emph{Target conditioning.} Conditioning the attribution game on the held-out
 item makes part of ``alignment'' definitional, so the audit was re-run with the target
 replaced by the scorer's own top-$1$ prospective recommendation, on the benchmark that
 ships inside the artifact and with everything else held fixed ($600$ sampled users,
@@ -375,7 +375,7 @@ coverage, not conditioning: for the remaining users the audit measures alignment
 target nobody consumed, which is the deployment-relevant estimand but not the one the
 primary analysis reports.
 
-\emph{Measured cost (Issue 13).} Scorer-call budgets do not by themselves price a
+\emph{Measured cost.} Scorer-call budgets do not by themselves price a
 protocol, so the review-$9$ runner serializes its environment and times each
 attribution method on the same fitted neighbourhoods
 (Table~\ref{tab:r9-hardware}): x86-64 Linux on $2$ cores, Python $3.11.2$, NumPy
