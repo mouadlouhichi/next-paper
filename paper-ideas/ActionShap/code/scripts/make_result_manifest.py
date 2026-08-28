@@ -3,7 +3,9 @@
 
 Issue #16 (reproducibility) and Issue #17 (version drift) asked for both
 documents to be generated from one versioned result manifest and for each PDF to
-state the exact revision and hash. This script provides the manifest half of
+state the exact revision and hash. The stamp covers content only, so it survives
+being committed and survives being recomputed on another machine; the revision rides
+along as a recorded field. This script provides the manifest half of
 that; the stamp is a single macro in both documents and a unit test recomputes
 it, so a table or matrix edited without updating the stamp fails the suite.
 
@@ -72,9 +74,14 @@ def build() -> dict:
         "file_count": len(files),
         "files": files,
     }
-    canonical = json.dumps(
-        {"git_revision": payload["git_revision"], "files": files}, sort_keys=True
-    )
+    # The stamp hashes file *contents* only. Folding the checked-out revision in made
+    # it impossible for a commit to carry its own stamp -- every commit invalidated the
+    # documents that quoted it, so `make check` failed right after a successful
+    # regeneration and the check trained people to expect a moving number. The revision
+    # is still recorded in the manifest, next to the stamp, as provenance. This also
+    # keeps the stamp stable across hosts: it answers "which result content was this
+    # typeset from", which is the question the reviewer asked.
+    canonical = json.dumps({"files": files}, sort_keys=True)
     payload["manifest_sha256"] = hashlib.sha256(canonical.encode()).hexdigest()
     payload["manifest_stamp"] = payload["manifest_sha256"][:12]
     return payload

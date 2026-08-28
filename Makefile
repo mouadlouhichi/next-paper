@@ -18,6 +18,17 @@ SCRIPTS := $(CODE)/scripts
 LATEXMK := latexmk -pdf -interaction=nonstopmode -halt-on-error -shell-escape
 PY      := python3
 
+# A venv- or Jupyter-launched shell usually does not carry /Library/TeX/texbin, so
+# `make pdf` used to report "no toolchain" on a machine that has MacTeX installed.
+# Probe the usual install locations and prepend the first one that exists; an empty
+# TEXBIN must not leave an empty PATH entry (that would make `.` a search dir).
+TEXBIN := $(firstword $(wildcard /Library/TeX/texbin /opt/homebrew/bin /usr/local/bin \
+                        $(addsuffix /bin/x86_64-darwin,$(wildcard /usr/local/texlive/*)) \
+                        $(addsuffix /bin/x86_64-linux,$(wildcard /usr/local/texlive/*))))
+ifneq ($(strip $(TEXBIN)),)
+export PATH := $(TEXBIN):$(PATH)
+endif
+
 .PHONY: pdf main supplementary manifest tables check stats clean tools help artifact
 
 help:
@@ -30,11 +41,14 @@ help:
 	@echo "make clean          latexmk -C in the paper directory"
 
 tools:
-	@command -v pdflatex >/dev/null || { \
-	  echo "pdflatex not found. Install it first:"; \
-	  echo "  Debian/Ubuntu: sudo apt-get install texlive-latex-base texlive-latex-recommended \\"; \
+	@command -v pdflatex >/dev/null 2>&1 || { \
+	  echo "pdflatex not found in PATH or in the TeX locations this file probes."; \
+	  echo "Install it first:"; \
+	  echo "  Debian/Ubuntu: sudo apt-get install texlive-latex-base texlive-latex-recommended"; \
 	  echo "                 texlive-latex-extra texlive-fonts-recommended texlive-bibtex-extra latexmk"; \
-	  echo "  macOS:         brew install --cask mactex-no-gui && eval '$$(/usr/libexec/path_helper)'"; \
+	  echo "  macOS:         brew install --cask mactex-no-gui"; \
+	  echo "                 MacTeX installs into /Library/TeX/texbin, which this file probes,"; \
+	  echo "                 so a new shell is not required -- but latexmk must be present too."; \
 	  echo "  or use an Overleaf project containing acmart-primary/."; exit 1; }
 
 main: tools

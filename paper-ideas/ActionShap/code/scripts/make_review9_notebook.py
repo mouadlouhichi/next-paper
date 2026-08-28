@@ -45,7 +45,7 @@ both documents.
 
 `<ds>` is `movielens`, `amazon` or `gowalla`. The MovieLens and Amazon instances are the
 ones that need this machine; the Gowalla instances already run in the manuscript sandbox, so
-the queue skips a `gowalla` output that already exists rather than repeating work. "Typeset automatically" means: after the run,
+the queue skips a `gowalla` output only when it parses as a complete run (a truncated file is re-run, not published). "Typeset automatically" means: after the run,
 `make stats` regenerates `acmart-primary/tables/review9_benchmark_replications.tex` **and its
 `actionshap-ipm` mirror byte-identically**, so there is no dangling reference and no manual
 table to keep in sync. The prose in Supplementary Section S11 still needs a sentence per new
@@ -108,6 +108,32 @@ DATASET_PATHS["amazon"]    = Path(os.environ.get("AES_AMAZON_PATH", DATASET_PATH
 # ---------------------------------------------------------------- the queue
 # est_minutes are from the 2-core sandbox: fixed-denominator 600 users @ M=250 = 45 min.
 # Set USERS per cohort; 1000 is the paper's primary cohort. Use 250-400 if the box is small.
+PY = sys.executable   # every subprocess and `make` call below uses the kernel's interpreter
+
+def find_texlive():
+    '''Directory holding pdflatex/latexmk, even when the kernel's PATH lacks them.
+
+    MacTeX lives in /Library/TeX/texbin, which a venv-launched Jupyter rarely
+    inherits; without this probe the notebook told a reviewer with a working
+    toolchain that none existed, and skipped the PDF rebuild that the stale-PDF
+    guard is waiting on.
+    '''
+    import glob
+    for name in ("pdflatex", "latexmk"):
+        found = shutil.which(name)
+        if found and (Path(found).parent / "pdflatex").exists():
+            return str(Path(found).parent)
+    candidates = ["/Library/TeX/texbin", "/opt/homebrew/bin", "/usr/local/bin"]
+    candidates += sorted(glob.glob("/usr/local/texlive/*/bin/*"))
+    for cand in candidates:
+        d = Path(cand)
+        if (d / "pdflatex").exists() and (d / "latexmk").exists():
+            return str(d)
+    return None
+
+
+TEX_BIN = find_texlive()
+
 USERS = {"movielens": 1000, "amazon": 1000, "gowalla": 600}
 PERM = 250                     # the primary diagnostic budget used everywhere in the paper
 SCALE = 1.0                    # <1.0 shrinks every cohort and every estimate proportionally
@@ -164,10 +190,21 @@ ENV = r"""import platform, hashlib
 
 print(f"python {platform.python_version()}  ({sys.executable})")
 try:
-    import numpy, pandas
-    print(f"numpy {numpy.__version__}, pandas {pandas.__version__}")
+    import matplotlib, numpy, pandas, pytest, scipy
+    from sklearn.linear_model import Ridge
+    print(f"numpy {numpy.__version__}, pandas {pandas.__version__}, "
+          f"scipy {scipy.__version__}, scikit-learn {Ridge.__module__.split('.')[0]} "
+          f"{__import__('sklearn').__version__}, matplotlib {matplotlib.__version__}, "
+          f"pytest {pytest.__version__}")
 except Exception as exc:
-    raise SystemExit(f"install the numerics stack first: python3 -m pip install numpy pandas  ({exc})")
+    raise SystemExit(
+        "install numpy/pandas/scipy/pytest into the interpreter running this kernel ("
+        + str(sys.executable) + "). A managed environment refuses plain pip, so use "
+        "the venv the repo documents: python3 -m venv .venv && .venv/bin/pip install "
+        "numpy pandas scipy scikit-learn matplotlib pytest, then restart the kernel on "
+        "the .venv your editor uses -- the collect cell runs the suite too, so pytest and "
+        "scikit-learn have to be importable there.  (" + str(exc) + ")"
+    )
 
 cores = os.cpu_count() or 1
 mem_gb = float("nan")
@@ -204,7 +241,8 @@ try:
     print("git revision:", rev or "(not a checkout)")
 except Exception as exc:
     print("git unavailable:", exc)
-print("pdflatex:", shutil.which("pdflatex") or "NOT FOUND -> the rebuild cell skips `make pdf` (run it where TeX lives)")
+print("pdflatex:", shutil.which("pdflatex") or (str(Path(TEX_BIN) / "pdflatex") + " (not on PATH; the Makefile and the rebuild cell use it anyway)") if TEX_BIN
+      else "NOT FOUND in PATH or the usual MacTeX/texlive locations")
 """
 
 REQUIRED = r"""# The keys scripts/make_review9_stats.py reads out of each run. A run that finishes
@@ -266,22 +304,33 @@ PILOT_DIR = SCRATCH / "pilot"
 PILOT_DIR.mkdir(parents=True, exist_ok=True)
 
 
-def pilot_args(experiment, dataset, out_dir, users, perm):
+def pilot_args(experiment, dataset, out_dir, users, perm, extra=()):
+    '''Same flags as the queue, only fewer users.
+
+    The first version of this cell shrank the expensive knobs (--redraws 2 instead of
+    10, one grid point instead of two, --r-null 100 instead of 2000) to keep the pilot
+    fast, and then extrapolated the result as if it had run the planned job. The
+    measured numbers were therefore 5-20x too cheap for exactly the three jobs that
+    dominate the queue, so the "measured on this machine" estimate was worse than the
+    reference table it replaced. The pilot now runs the plan's own flags and pays a few
+    minutes to be right; `hardware` is the single exception because its cost is fixed
+    (it is reported as absolute minutes, never per 1000 users) and 50 timed users is
+    pure waste on a 12-user cohort.
+    '''
     args = [sys.executable, str(SCRIPTS / "run_review9_experiments.py"), experiment,
             "--dataset", dataset,
             "--ml-path", str(DATASET_PATHS["movielens"]),
             "--amazon-path", str(DATASET_PATHS["amazon"]),
             "--gowalla-path", str(DATASET_PATHS["gowalla"]),
             "--users", str(users), "--permutations", str(perm), "--out", str(out_dir)]
-    args += {"candidate-redraw": ["--redraws", "2"],
-             "compute-matched": ["--mpair-grid", str(perm)],
-             "stratified-null": ["--r-null", "100"],
-             "hardware": ["--timing-repeats", "2", "--timing-users", "4"]}.get(experiment, [])
+    args += list(extra)
+    if experiment in FIXED_COST:
+        args = [a for a in args if a not in ("--timing-users", "50")] + ["--timing-users", "10"]
     return args
 
 
 pilot, MEASURED, FIXED_MIN = {}, {}, {}
-for experiment, _extra, why, _est in PLAN:
+for experiment, extra, why, _est in PLAN:
     if ONLY and not any(k in experiment for k in ONLY):
         continue
     dataset = next((d for d in ("gowalla", "amazon", "movielens")
@@ -290,7 +339,7 @@ for experiment, _extra, why, _est in PLAN:
         print(f"skip {experiment}: no dataset present")
         continue
     t0 = time.time()
-    proc = subprocess.run(pilot_args(experiment, dataset, PILOT_DIR, 12, PERM),
+    proc = subprocess.run(pilot_args(experiment, dataset, PILOT_DIR, 12, PERM, extra),
                           cwd=str(CODE), capture_output=True, text=True)
     secs = time.time() - t0
     out = PILOT_DIR / f"{experiment.replace('-', '_')}_{dataset}.json"
@@ -321,7 +370,7 @@ print("\n== do the payloads reach the published tables? ==")
 # trips over the payload shape is a bug in make_review9_stats.py, and finding that
 # out after a 10-hour queue means the hours bought nothing publishable.
 _env = dict(os.environ, AES_REVIEW9_RESULTS=str(PILOT_DIR))
-_gen = subprocess.run(["python3", str(SCRIPTS / "make_review9_stats.py"), "--dry-run"],
+_gen = subprocess.run([PY, str(SCRIPTS / "make_review9_stats.py"), "--dry-run"],
                       cwd=str(CODE), capture_output=True, text=True, env=_env)
 _found = [l for l in _gen.stdout.splitlines() if l.startswith("DRY_RUN_FLOATS:")]
 rendered = json.loads(_found[0].split(": ", 1)[1]) if _found else []
@@ -364,6 +413,9 @@ lines = ["#!/usr/bin/env bash",
          "# Generated by REVIEW9_REPLICATION_RUNS.ipynb -- resumable, skips finished runs.",
          "set -uo pipefail",
          f"cd {shlex.quote(str(CODE))}",
+        # "finished" means "the JSON parses", not "a file is there": see write_json.
+        "complete() { [ -f \"$1\" ] && " + shlex.quote(PY) +
+        " -c 'import json,sys; json.load(open(sys.argv[1]))' \"$1\" >/dev/null 2>&1; }",
          'echo "=== queue start $(date -Is) ==="']
 total, table = 0.0, []
 for experiment, dataset, args, target, est in jobs():
@@ -379,7 +431,7 @@ for experiment, dataset, args, target, est in jobs():
     quoted = " ".join(shlex.quote(str(a)) for a in args)
     lines += [
         f'echo "--- $(date -Is) {experiment} {dataset}"',
-        f'if [ -f {shlex.quote(str(target))} ]; then echo "skip (exists): {target.name}"; else',
+        f'if complete {shlex.quote(str(target))}; then echo "skip (complete): {target.name}"; else',
         f"  {quoted} 2>&1 | tail -40 || echo \"FAILED {experiment} {dataset}\"",
         f'  echo "done $(date -Is) {experiment} {dataset} -> {target.name}"',
         "fi",
@@ -401,7 +453,8 @@ RUN_PID = subprocess.Popen(["bash", str(RUNNER)], stdout=log_handle,
                            cwd=str(CODE)).pid
 print(f"\nlaunched pid {RUN_PID}")
 print(f"log:     {LOG}")
-print(f"script:  {RUNNER}   (run it by hand any time: bash {RUNNER.name})")
+print(f"script:  {RUNNER}   (run it by hand any time: bash {RUNNER.name}; "
+      f"each job calls the kernel's interpreter, not the shell's python3)")
 print("Rerun this cell after an interruption: existing outputs are skipped.")
 """
 
@@ -427,7 +480,12 @@ def status():
     for experiment, dataset, args, target, est in jobs():
         name = target.name
         if target.exists():
-            payload = json.loads(target.read_text())
+            try:
+                payload = json.loads(target.read_text())
+            except Exception as exc:
+                rows.append(f"  {experiment:<20} {dataset:<10} CORRUPT "
+                            f"({exc.__class__.__name__}) -- the queue re-runs this one")
+                continue
             users = len({r.get("user") for r in payload.get("records", [])})
             if not users:
                 blocks = payload.get("summary") or {}
@@ -465,8 +523,9 @@ def wait_for_finish(poll_seconds=60, max_minutes=240):
 """
 
 COLLECT = r"""# ---------------------------------------------------------------- rebuild + validate
-def sh(args, cwd=REPO_ROOT):
-    proc = subprocess.run([str(a) for a in args], cwd=str(cwd), capture_output=True, text=True)
+def sh(args, cwd=REPO_ROOT, env=None):
+    proc = subprocess.run([str(a) for a in args], cwd=str(cwd), capture_output=True,
+                          text=True, env=env)
     return proc.returncode, (proc.stdout + proc.stderr).strip()
 
 
@@ -474,7 +533,7 @@ print("== 1. regenerate every table from the matrices + these runs ==")
 # the root target, not just the review-9 generator: `make stats` also refreshes the
 # review-3/review-5 tables and re-freezes the manifest, which is what keeps the two
 # documents typesetting the same numbers from the same files.
-_rc, _out = sh(["make", "-C", str(REPO_ROOT), "stats"])
+_rc, _out = sh(["make", "-C", str(REPO_ROOT), "stats", f"PY={PY}"])
 _lines = [l for l in _out.splitlines()
           if l.startswith("wrote") or "ablation:" in l or "report" in l.lower()]
 print("\n".join(_lines[-12:]) if _lines else _out[-800:])
@@ -506,22 +565,27 @@ for rel in ("review9_statistics.tex", "review9_benchmark_replications.tex",
     print(f"   {rel:<40} {'identical' if same else 'DIFFERS (fix before pushing)'}")
 
 print("\n== 5. validators ==")
-for cmd in (["python3", str(SCRIPTS / "validate_manuscript.py")],
-            ["python3", str(SCRIPTS / "make_result_manifest.py"), "--check"],
-            ["python3", "-m", "pytest", "-q"]):
+for cmd in ([PY, str(SCRIPTS / "validate_manuscript.py")],
+            [PY, str(SCRIPTS / "make_result_manifest.py"), "--check"],
+            [PY, "-m", "pytest", "-q"]):
     rc, out = sh(cmd, cwd=CODE)
     print(" " + " ".join(cmd[1:]), "->", "PASS" if rc == 0 else "FAIL")
     if rc:
         print(out[-2500:])
 
 print("\n== 6. rebuild the PDFs (skipped without a LaTeX toolchain) ==")
-if shutil.which("pdflatex"):
-    rc, out = sh(["make", "-C", str(REPO_ROOT), "pdf"])
-    print("make pdf ->", "PASS" if rc == 0 else "FAIL")
+if TEX_BIN:
+    rc, out = sh(["make", "-C", str(REPO_ROOT), "pdf"],
+                 env=dict(os.environ, PATH=TEX_BIN + os.pathsep + os.environ.get("PATH", "")))
+    print("make pdf (via %s/pdflatex) ->" % TEX_BIN, "PASS" if rc == 0 else "FAIL")
     if rc:
         print(out[-2500:])
+    else:
+        print("   PDFs rebuilt: the stale-PDF xfail guard should now pass on the next run.")
 else:
-    print("   pdflatex not found -- run `make -C <repo root> pdf` on a machine with texlive.")
+    print("   no pdflatex/latexmk in PATH, /Library/TeX/texbin or /usr/local/texlive/*/bin/*.")
+    print("   Install MacTeX (`brew install --cask mactex-no-gui`) or run")
+    print("   `make -C %s pdf` where TeX lives; the PDFs stay stale until then." % REPO_ROOT)
 
 print("\n== 7. what changed ==")
 print(sh(["git", "status", "--short"], cwd=REPO_ROOT)[1][:2500])
