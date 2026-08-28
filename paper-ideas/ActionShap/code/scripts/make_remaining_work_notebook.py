@@ -136,6 +136,10 @@ submission archive. Every step reads the repository first and skips finished wor
 safely after an interruption and says so in its output.
 
 The only things it will not do are the ones no machine can decide for you; §7 lists those.
+
+The notebook is self-contained: it imports nothing from ``code/scripts`` at runtime, so it cannot be
+confused by a module the kernel had already loaded. Regenerate it after changing the pipeline with
+``python code/scripts/make_remaining_work_notebook.py``.
 """
 
 CELL_CONFIG = r'''import json, re, shutil, subprocess, sys, time
@@ -156,70 +160,132 @@ APPLY = True        # False prints commands instead of running them (safe rehear
 SKIP_RUNS = False   # True does everything except the cohort queue
 MAX_HOURS = None    # bound one sitting, e.g. 8.0; run all again to resume
 
+# Baked from the repository when this notebook was generated; payload presence is re-checked at
+# runtime below, so a job finished since then is skipped rather than repeated. Nothing here is
+# imported from code/scripts, which keeps a long-lived kernel from reusing a stale module object.
+JOBS = __JOBS__
+SCOPE_CLAUSES = __CLAUSES__
+SCOPE_PARAGRAPH = __PARAGRAPH__
+SCOPE_ANCHOR = __ANCHOR__
+
+
 def sh(argv, cwd=None, note=""):
-    """Run argv, streaming nothing but returning everything; raise with the output on failure."""
+    """Run argv; return its stdout, raising with the captured output on failure."""
     if not APPLY:
         print(f"[dry-run] cd {cwd or REPO} && {' '.join(map(str, argv))}")
         return "", 0
     started = time.time()
     proc = subprocess.run([str(a) for a in argv], cwd=str(cwd or REPO), capture_output=True, text=True)
-    secs = time.time() - started
-    tail = "\n".join((proc.stdout + "\n" + proc.stderr).strip().splitlines()[-8:])
-    print(f"      {secs/60:6.1f} min  {(note or argv[-1])[:60]}")
+    print(f"      {time.time() - started:6.1f} min  {(note or str(argv[-1]))[:60]}")
     if proc.returncode != 0:
-        print(tail)
+        print("\n".join((proc.stdout + "\n" + proc.stderr).strip().splitlines()[-8:]))
         raise RuntimeError(f"command failed ({proc.returncode}): {' '.join(map(str, argv))}")
     return proc.stdout, proc.returncode
+
 
 def make(target, note=None):
     return sh(["make", target, f"PY={PY}"], cwd=REPO, note=note or f"make {target}")
 
-sys.path.insert(0, str(PAPER / "code" / "scripts"))
-import make_remaining_work_notebook as mrw
 
-st = mrw.status()
-print(f"repo {REPO}")
-print(f"queue {st['n_jobs']} jobs ({st['done_jobs']} payloads already present, "
-      f"~{st['queued_hours']:.0f} h left) | verified rows {st['audit_rows'] - st['audit_unsupported']}/"
-      f"{st['audit_rows']} | stamp {st['manifest_stamp']} "
-      f"{'ok' if st['stamp_matches'] else 'MISMATCH'} | stale PDFs {st['stale_pdfs'] or 'none'}")
+def pending():
+    return [j for j in JOBS if not (CODE / j["out"]).exists()]
+
+
+def manifest_stamp():
+    return json.loads((CODE / "results/manifest.json").read_text())["manifest_stamp"]
+
+
+def stamps_quoted():
+    out = []
+    for doc in ("acmart-primary/acmmanuscript.tex", "acmart-primary/supplementary.tex"):
+        body = (PAPER / doc).read_text(encoding="utf-8")
+        out += re.findall(r"\\newcommand\{\\resultmanifeststamp\}\{([0-9a-f]+)\}", body)
+    return out
+
+
+def stale_pdfs():
+    src = max((q.stat().st_mtime for q in (PAPER / "acmart-primary").rglob("*.tex")))
+    return [name for name in ("acmmanuscript", "supplementary")
+            if not (PAPER / "acmart-primary" / f"{name}.pdf").exists()
+            or (PAPER / "acmart-primary" / f"{name}.pdf").stat().st_mtime < src]
+
+
+def audit_state():
+    path = CODE / "results/review9/success_estimand_audit.json"
+    if not path.exists():
+        return None
+    data = json.loads(path.read_text())
+    return {"rows": len(data["rows"]), "unsupported": data["unsupported"],
+            "grid": data.get("slice", {}).get("grid", 0.0)}
+
+
+def summary() -> list[str]:
+    lines = [f"repo      {REPO}"]
+    left = pending()
+    hours = sum(j["minutes"] for j in left) / 60.0
+    lines.append(f"queue     {len(left)} of {len(JOBS)} jobs left (~{hours:.0f} h)")
+    aud = audit_state()
+    lines.append("audit     " + ("not run yet (section 2 runs it)" if aud is None
+                                 else f"{aud['rows'] - aud['unsupported']}/{aud['rows']} rows supported"))
+    quoted = set(stamps_quoted())
+    lines.append("stamp     " + manifest_stamp() + (" quoted in both documents"
+                 if quoted == {manifest_stamp()} else " needs re-quoting (section 4 fixes it)"))
+    lines.append("pdfs      " + ("fresh" if not stale_pdfs() else "stale -> " + ", ".join(stale_pdfs())))
+    return lines
+
+
+print("\n".join(summary()))
 '''
 
 CELL_SCOPE = r'''# 1. Scope the claims the queue cannot cover. The four boundaries below are closed by stating them
 #    exactly, so the paragraph must be typeset; this inserts it where it belongs if it is missing.
-main = PAPER / "acmart-primary" / "acmmanuscript.tex"
-text = main.read_text(encoding="utf-8")
-if st["scope"]["all_present"]:
+def scope_missing(body):
+    return {name: clause for name, clause in SCOPE_CLAUSES.items() if clause not in body}
+
+
+def with_scope(body):
+    return body.replace(SCOPE_ANCHOR, SCOPE_ANCHOR + "\n\n" + SCOPE_PARAGRAPH, 1)
+
+
+targets = [PAPER / "acmart-primary" / "acmmanuscript.tex", PAPER / "actionshap-ipm" / "acmmanuscript.tex"]
+main = targets[0]
+body = main.read_text(encoding="utf-8")
+if not scope_missing(body):
     print("scope paragraph already typeset: nothing to do")
-elif not st["scope"]["anchor_present"]:
+elif SCOPE_ANCHOR not in body:
     raise RuntimeError("anchor sentence not found - the Limitations paragraph moved; re-locate it by hand")
 else:
-    new = text.replace(mrw.SCOPE_ANCHOR, mrw.SCOPE_ANCHOR + "\n\n" + mrw.SCOPE_PARAGRAPH, 1)
-    for path in (main, PAPER / "actionshap-ipm" / "acmmanuscript.tex"):
-        if path.exists() and mrw.SCOPE_ANCHOR in path.read_text(encoding="utf-8") \
-           and not all(v in path.read_text(encoding="utf-8") for v in mrw.SCOPE_CLAUSES.values()):
-            if APPLY:
-                path.write_text(path.read_text(encoding="utf-8").replace(
-                    mrw.SCOPE_ANCHOR, mrw.SCOPE_ANCHOR + "\n\n" + mrw.SCOPE_PARAGRAPH, 1))
-                print(f"inserted scope paragraph into {path.relative_to(PAPER)}")
-            else:
-                print(f"[dry-run] would insert scope paragraph into {path.relative_to(PAPER)}")
-after = mrw.status()["scope"]
-print("clause check:", {k: v for k, v in after["clause_present"].items()})
-assert after["all_present"], "the manuscript must state all four boundaries"
+    for path in targets:
+        if not path.exists():
+            continue
+        text = path.read_text(encoding="utf-8")
+        if SCOPE_ANCHOR not in text or scope_missing(text) != scope_missing(body):
+            continue
+        if APPLY:
+            path.write_text(with_scope(text))
+            print(f"inserted scope paragraph into {path.relative_to(PAPER)}")
+        else:
+            print(f"[dry-run] would insert scope paragraph into {path.relative_to(PAPER)}")
+
+still = scope_missing(main.read_text(encoding="utf-8"))
+if APPLY:
+    assert not still, f"the manuscript must state all four boundaries; missing {still}"
+    print("all four boundaries are typeset")
+else:
+    print(f"dry-run: {len(still)} clause(s) would be added -> {', '.join(still)}")
 '''
 
 CELL_VERIFY = r'''# 2. Prove the numbers already in the paper, row by row, from the frozen matrices.
 out, rc = sh([PY, str(PAPER / "code/scripts/audit_success_estimand.py"), "--check"], cwd=CODE,
              note="estimand audit")
-aud = json.loads((CODE / "results/review9/success_estimand_audit.json").read_text())
-print(f"rows {len(aud['rows'])}, unsupported {aud['unsupported']}, lattice "
-      f"{aud['slice'].get('grid', 0):.6f} = 1/(n R_seed) -> every printed rate is reproducible")
+aud = audit_state()
+print(f"rows {aud['rows']}, unsupported {aud['unsupported']}, lattice {aud['grid']:.6f} "
+      "= 1/(n R_seed) -> every printed rate is reproducible")
 print("(the audit is also wired into `make check`, so this cannot drift silently)")
 '''
 
 CELL_RUNS = r'''# 3. The cohort queue: only jobs whose payload is absent, only real subcommands, resumable.
-jobs = [j for j in mrw.queue() if not j["done"]]
+jobs = pending()
 if SKIP_RUNS:
     print(f"SKIP_RUNS = True: {len(jobs)} jobs left ({sum(j['minutes'] for j in jobs)/60:.1f} h)")
 elif not jobs:
@@ -237,8 +303,8 @@ else:
         sh([PY, "scripts/run_review9_experiments.py", *job["argv"]], cwd=CODE,
            note=f"{job['experiment']}/{job['dataset']}")
         spent += job["minutes"] / 60.0
-    left = [j for j in mrw.queue() if not j["done"]]
-    print(f"\npayloads now on disk: {st['n_jobs'] - len(left)}/{st['n_jobs']}"
+    left = pending()
+    print(f"\npayloads now on disk: {len(JOBS) - len(left)}/{len(JOBS)}"
           + ("" if not left else f"; still missing: {', '.join(j['experiment'] + '/' + j['dataset'] for j in left)}"))
 '''
 
@@ -250,7 +316,7 @@ for doc in ("acmart-primary/acmmanuscript.tex", "acmart-primary/supplementary.te
     path = PAPER / doc
     body = path.read_text(encoding="utf-8")
     quoted = re.findall(r"\\newcommand\{\\resultmanifeststamp\}\{([0-9a-f]+)\}", body)
-    if quoted == [stamp]:
+    if quoted.count(stamp) == 1 and len(quoted) == 1:
         print(f"      stamp already {stamp} in {doc}")
     else:
         new = re.sub(r"(\\newcommand\{\\resultmanifeststamp\})\{[0-9a-f]*\}",
@@ -306,16 +372,17 @@ if zip_path.exists():
     print(f"      {len(names)} files; archive quotes stamp "
           + (quoted.group(1) if quoted else "MISSING"))
 
-st2 = mrw.status()
+aud2, missing_scope = audit_state(), scope_missing(
+    (PAPER / "acmart-primary" / "acmmanuscript.tex").read_text(encoding="utf-8"))
 done = {
-    "printed rows reproducible from the release": st2["audit_unsupported"] == 0,
-    "every queued payload present": not st2["pending_jobs"],
-    "documents quote the current manifest stamp": st2["stamp_matches"],
-    "boundaries stated in the text": st2["scope"]["all_present"],
+    "printed rows reproducible from the release": bool(aud2) and aud2["unsupported"] == 0,
+    "every queued payload present": not pending(),
+    "documents quote the current manifest stamp": set(stamps_quoted()) == {manifest_stamp()},
+    "boundaries stated in the text": not missing_scope,
     "tables regenerated and validators green": True,      # §4 raises otherwise
 }
 open_items = []
-if st2["stale_pdfs"]:
+if stale_pdfs():
     open_items.append("PDFs not rebuilt here (no TeX engine) - compile in Overleaf or install one")
 open_items.append("upload the archive; register the artifact DOI/license after acceptance")
 for name, ok in done.items():
@@ -327,31 +394,43 @@ print(f"\ncommit with:  git add -A && git commit -m 'regenerated after the run q
 '''
 
 
+def _inline(source: str) -> str:
+    """Bake the derived constants into the cell source; the notebook imports nothing from code/scripts."""
+    jobs = [{"experiment": j["experiment"], "dataset": j["dataset"], "users": j["users"],
+             "argv": j["argv"], "out": j["out"], "minutes": round(j["minutes"], 1)} for j in queue()]
+    baked = "[\n  " + ",\n  ".join(json.dumps(j) for j in jobs) + "\n]" if jobs else "[]"
+    return (source.replace("__JOBS__", baked)
+            .replace("__CLAUSES__", json.dumps(SCOPE_CLAUSES, indent=None))
+            .replace("__PARAGRAPH__", json.dumps(SCOPE_PARAGRAPH))
+            .replace("__ANCHOR__", json.dumps(SCOPE_ANCHOR))
+            .replace("st['audit_grid']", f"{status()['audit_grid']:.4f}"))
+
+
 def build_cells() -> list[dict]:
     st = status()
     jobs = st["n_jobs"] - st["done_jobs"]
     return [
         md(HEADER),
-        code(CELL_CONFIG),
+        code(_inline(CELL_CONFIG)),
         md("## 1. Claims the queue cannot cover\n\nFour items on the worklist are engineering or scope "
            "decisions, not compute. This is the only cell that touches the manuscript, and it is a "
            "single idempotent paragraph."),
-        code(CELL_SCOPE),
+        code(_inline(CELL_SCOPE)),
         md("## 2. Verify the printed numbers\n\nThe supplement's decision-quality block is recomputed "
            "row by row from `user_seed_metrics.csv.gz`; success rates are the seed-averaged per-seed "
-           f"indicator, so values live on a {st['audit_grid']:.4f} lattice."),
-        code(CELL_VERIFY),
+           "indicator, so values live on a 1/(n R_seed) lattice."),
+        code(_inline(CELL_VERIFY)),
         md(f"## 3. The cohort queue\n\n{jobs} of {st['n_jobs']} payloads still missing "
            f"(~{st['queued_hours']:.1f} h). Set `SKIP_RUNS = True` in §0 to do everything else and leave "
            "these to another machine, or `MAX_HOURS` to bound this sitting."),
-        code(CELL_RUNS),
+        code(_inline(CELL_RUNS)),
         md("## 4. Regenerate the release\n\nTables and statistics from the payloads, manifest re-frozen, "
            "stamp re-quoted in both documents, then the whole validator suite."),
-        code(CELL_RELEASE),
+        code(_inline(CELL_RELEASE)),
         md("## 5. Build the documents"),
-        code(CELL_PDF),
+        code(_inline(CELL_PDF)),
         md("## 6. Package and gate"),
-        code(CELL_PACKAGE),
+        code(_inline(CELL_PACKAGE)),
         md("## 7. What deliberately stays with the authors\n\n* **Venue formatting.** The documents are "
            "ACM-formatted. Converting to another journal's template is a formatting task with no bearing "
            "on the analysis, and doing it blind would risk the tables.\n"

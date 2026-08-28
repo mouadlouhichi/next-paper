@@ -68,7 +68,7 @@
   "code/results/review9/success_estimand_audit.json": "4749bd12a55bbc49b4319d5dfb401d7895919a891e3726089b5a906c428da907",
   "code/results/review9/utility_factorial_gowalla.json": "5e827ff8d8398180c5f2c4d9653c766f408193e27f4e55be425ecc6df44ae4c7"
  },
- "git_revision": "4be686983c1253964f33274923dda97d1c486895",
+ "git_revision": "0ef976e3594f90f9da377d282585f614673824bc",
  "manifest_sha256": "5f45b6cac6713bdbfceb35988d3b76e15964779e7be61e5e50d07b5fcceb6b6f",
  "manifest_stamp": "5f45b6cac671",
  "schema": "actionshap-result-manifest-v1"

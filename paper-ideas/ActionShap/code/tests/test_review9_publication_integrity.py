@@ -694,7 +694,7 @@ def test_the_manuscript_states_the_convention_the_release_implements():
 
 
 def test_remaining_work_notebook_actually_does_the_close_out():
-    """Run All must do the work, resume safely, and never invent a subcommand."""
+    """Run All must do the work, resume safely, import nothing stale, and never invent a subcommand."""
     nb = json.loads((PAPER / "notebooks" / "REMAINING_WORK.ipynb").read_text(encoding="utf-8"))
     cells = [c for c in nb["cells"] if c["cell_type"] == "code"]
     sources = {i: "".join(c["source"]) for i, c in enumerate(cells)}
@@ -703,23 +703,26 @@ def test_remaining_work_notebook_actually_does_the_close_out():
         compile(src, f"cell {i}", "exec")                     # shipped cells must parse
     assert "APPLY = True" in joined and "SKIP_RUNS = False" in joined
     assert "MAX_HOURS = None" in joined                        # bounded sittings, resumable
+    # self-contained: a long-lived kernel must not reuse a previously imported generator module
+    assert "import make_remaining_work_notebook" not in joined
+    assert "mrw." not in joined, "the cells must use their own helpers, not the generator's dicts"
     for step in ('make("tables"', 'make("manifest"', 'make("pdf"', 'make("check"', 'make("overleaf"'):
         assert step in joined, step
-    assert "j[\"done\"]" in joined or 'j["done"]' in joined, "payload presence must gate the queue"
-    assert '"run_review9_experiments.py"' in joined or "run_review9_experiments.py" in joined
+    assert "def pending()" in joined and 'not (CODE / j["out"]).exists()' in joined, "payload presence gates the queue"
 
-    # every queued experiment is a subcommand the driver really declares
+    # the baked queue is exactly what the derived queue says, and only real subcommands
+    config_cell = next(src for src in sources.values() if "JOBS = [" in src)
+    baked = re.search(r"JOBS = (\[.*?\n\])", config_cell, re.S).group(1)
+    jobs = json.loads(baked)
+    assert jobs, "the queue is derived from the files, so it must list the missing payloads"
     runner = (SCRIPTS / "run_review9_experiments.py").read_text(encoding="utf-8")
-    jobs = mrw.queue()
-    assert jobs, "the queue is derived from files, so this run must list the missing payloads"
     for job in jobs:
         assert job["experiment"] in runner, job["experiment"]
         assert (CODE / job["out"]).name.endswith(".json")
+    assert {j["out"] for j in jobs} == {j["out"] for j in mrw.queue()}, "same derived queue"
 
-    # the four scope boundaries are typeset, exactly once, so re-running is a no-op
+    # the four scope boundaries are typeset, exactly once, so a second run all changes nothing
     main = MAIN_TEX.read_text(encoding="utf-8")
     for clause in mrw.SCOPE_CLAUSES.values():
         assert clause in main, clause
-    assert main.count(mrw.SCOPE_PARAGRAPH) == 1, "the paragraph must be idempotent"
-    assert mrw.scope_state()["all_present"]
-
+    assert main.count(mrw.SCOPE_PARAGRAPH) == 1
