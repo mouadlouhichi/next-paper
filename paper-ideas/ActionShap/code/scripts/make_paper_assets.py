@@ -1537,7 +1537,7 @@ def make_figures(summary: pd.DataFrame, figure_root: Path) -> None:
         ),
         (
             "actionability_gap",
-            "Faithfulness–actionability gap",
+            "Faithfulness–bounded-alignment difference (bounded AIA minus deletion AIA)",
             "AIA − deletion alignment",
             "gap",
         ),

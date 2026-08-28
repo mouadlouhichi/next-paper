@@ -156,13 +156,14 @@ def main() -> None:
 (five seeds, seed-mean within user; median catalogue size 8,572 unseen items).
 Bounded and deletion AIA, their difference, signed alignment, realized
 target-margin effect of the selected action, and conditional normalized
-regret; intervals are user-bootstrap 95\% CIs. Active-oracle denominators:
+regret; intervals are user-bootstrap 95\% CIs. Both the $\Delta$-effect and the normalized-regret columns are on the target-margin utility, so every conditional statistic here shares the first denominator below; the NDCG-utility audit of this cohort is a separate panel with its own active-oracle count and is not comparable column-for-column. Active-oracle denominators:
 $""" + str(summary["active_oracle_target_margin"]) + r"""$ (target margin) and $""" +
              str(summary["active_oracle_ndcg"]) + r"""$ (NDCG).}""")
     L.append(r"\label{tab:review5-fullcat}")
     L.append(r"\begin{tabular}{@{}lrrrrrr@{}}")
     L.append(r"\toprule")
-    L.append("Method & Bounded AIA & Deletion AIA & Gap & Signed & $\\Delta$ effect & Norm.\\ regret " + BS)
+    L.append("Method & Bounded AIA & Deletion AIA & Gap & Signed & $\\Delta$ effect "
+         "(target margin) & Norm.\\ regret (target margin) " + BS)
     L.append(r"\midrule")
     for mk, label in METHODS:
         m = summary["methods"][mk]["metrics"]

@@ -24,6 +24,7 @@ Usage:  python3 scripts/make_review9_stats.py
 from __future__ import annotations
 
 import json
+import math
 import os
 from pathlib import Path
 
@@ -447,7 +448,9 @@ def regenerate_s4(paired: pd.DataFrame, review7: pd.DataFrame, legacy: Path) -> 
         "cohort, rebuilt from the frozen release matrices so that every printed value is",
         "reproducible. Inference is the declared protocol: $10{,}000$ plus-one two-sided",
         "sign permutations on seed-averaged paired user differences, Holm-corrected",
-        "within the dataset--model--condition--metric family of ten declared pairs.",
+        "within the dataset--model--condition--metric family of ten declared pairs, read from the",
+        "released \\texttt{paired\\_tests.csv} record; the predeclared 12-contrast success/abstention",
+        "family (\\texttt{review7\\_success\\_abstention\\_tests.csv}) is a separate record and is labelled as such wherever it appears.",
         "\\emph{Exceed.} is the raw count of permuted statistics at least as extreme as",
         "the observed one, so the printed $p$ equals $(1+\\#)/(R+1)$ exactly; $\\#=0$",
         "with $R=10{,}000$ in a ten-test family is the floor $10/10{,}001=0.0010$ and",
@@ -938,9 +941,19 @@ def prospective_tables() -> tuple[list[str], dict]:
     for dataset, payload in _runs("prospective_*.json"):
         summary = payload.get("summary") or {}
         block = summary.get("aia_shapley") or {}
+        # Every method column is a mean over the *same* users: those whose prospective
+        # score is defined for all four estimators. Printing that count makes the
+        # denominator auditable instead of inferable from the sampled cohort, which is
+        # what the review asked for on Gowalla (528 of 600 qualify, not 600).
+        _keys = ("aia_shapley", "aia_lime", "aia_loo", "signed_shapley")
+        defined = sum(
+            1 for rec in (payload.get("records") or [])
+            if all(isinstance(rec.get(k), (int, float)) and math.isfinite(rec[k])
+                   for k in _keys)
+        )
         rows.append(
             f"{dataset} & {int(payload.get('users_total') or 0)} & "
-            f"{int(payload.get('users_audited') or 0)} & "
+            f"{int(payload.get('users_audited') or 0)} & {defined} & "
             f"{num((payload.get('covers_heldout_target_fraction') or 0) * 100, 1)}\\% & "
             f"{num(block.get('mean'), 4)} & "
             f"{num(summary.get('aia_lime', {}).get('mean'), 4)} & "
@@ -950,26 +963,33 @@ def prospective_tables() -> tuple[list[str], dict]:
         stats[dataset] = {
             "users_total": payload.get("users_total"),
             "users_audited": payload.get("users_audited"),
+            "users_defined_all_methods": defined,
             "covers_heldout_target_fraction": payload.get("covers_heldout_target_fraction"),
             "summary": summary,
         }
     if not rows:
         return [], {}
     L = table(
-        "Dataset & Sampled & Audited & Prospective target covers held-out item & "
-        "AIA Shapley & AIA LIME & AIA LOO & Signed Shapley",
+        "Dataset & Sampled & Audited & Defined $n$ & Prospective target covers "
+        "held-out item & AIA Shapley & AIA LIME & AIA LOO & Signed Shapley",
         "Prospective (non-target-conditioned) replication of the audit (Issue 5). "
         "Each user's game is rebuilt from the model's own top-1 prospective "
         "recommendation rather than from the held-out target, and the same Monte "
         "Carlo Shapley, LIME and leave-one-out attributions are scored against the "
         "same realized effects; $n_{\\max}$, permutation budget and intervention "
-        "strength are unchanged. The third column counts users for whom the "
-        "prospective candidate set contains the held-out item at all, which is the "
-        "fraction on which the two conditioning schemes are even comparable. If the "
+        "strength are unchanged. \emph{Defined $n$} counts the audited users whose "
+        "prospective score is defined for all four estimators, and every method "
+        "column is the mean over that subset --- $528$ of $600$ on Gowalla and "
+        "$1000$ of $1000$ on MovieLens in the released runs --- so a Gowalla mean "
+        "here is a mean over $528$ users, not over the sampled cohort. The "
+        "\emph{covers} column is the share of users for whom the prospective "
+        "candidate set \emph{contains} the held-out item: containment, which is "
+        "what makes the two conditioning schemes comparable at all, not the "
+        "strictly rarer event that the prospective top-1 \emph{equals} it. If the "
         "ordering of the three attributions is preserved here, alignment is not an "
         "artefact of constructing the game around the answer.",
         "tab:r9-prospective-replication",
-        "lrrrrrrr",
+        "lrrrrrrrr",
         rows,
     )
     return L, stats
@@ -1128,7 +1148,8 @@ def hardware_tables() -> tuple[list[str], dict]:
         "Shapley s/user & LIME s/user & LOO s/user",
         "Execution environment and repeated per-user attribution timings recorded "
         "with the review-9 runs (Issues 16/17). Times are medians over the declared "
-        "number of repeats of one user's attribution at the primary budget, measured "
+        "number of repeats of one user's attribution at the $M_{\mathrm{pair}}=250$ "
+        "budget these ablations share (the primary analysis is frozen at 500), measured "
         "in the same process as the released numbers; peak RSS is the whole run. "
         "Together with the result-manifest hash quoted in both documents and the "
         "seeds in each run's \\texttt{config}, this is what a re-runner needs to "
@@ -1284,9 +1305,11 @@ def benchmark_replication_tables() -> tuple[str, dict]:
         r"candidates, permutation seed, intervention strength and evaluated users are "
         r"identical, so any difference is the normalization itself. $n$ counts users "
         r"whose attribution game is defined under the $n_{\max}=20$ cap. Effect scale "
-        r"is the mean absolute singleton effect, which the normalized interface shrinks "
-        r"by construction, so a bounded AIA near $1$ at a small scale is saturation "
-        r"rather than strength.",
+        r"is the mean absolute singleton effect; the interface moves it in both "
+        r"directions (slightly smaller on MovieLens under the fixed denominator, "
+        r"larger on Amazon and Gowalla), so it is reported as observed rather than "
+        r"as a consequence of the normalization: a bounded AIA near $1$ beside a "
+        r"small scale is saturation of a ratio, not strength of evidence.",
         "tab:r9-fixed-denominator",
         "llrrrrrrrr",
         level_rows,
@@ -1458,13 +1481,16 @@ def render(flow, sens, mult, mult_stats, factorial, stud, mcp, prec) -> str:
         f"recomputed here from the raw $p$-values; across all "
         f"{mult_stats['families']} families and {mult_stats['tests']} tests the "
         f"two disagree in {mult_stats['holm_recomputation_mismatches']} cases. "
-        "The last block lists the complete predeclared 12-contrast "
-        "success/abstention family, which spans both datasets: the MovieLens "
-        "Shapley--LIME success contrast therefore carries the same raw evidence "
-        "(23 exceedances of $10{,}000$) as the $0.0066$ in the per-metric "
-        "replication table but a $\\times9$ rather than $\\times5$ multiplier, "
-        "giving $0.0216$. The 12-contrast family is authoritative for success "
-        "and abstention.",
+        "The last block lists the predeclared 12-contrast success/abstention family, "
+        "which spans both datasets. Its raw $p$-values come from the separate released "
+        "audit record \\texttt{review7\\_success\\_abstention\\_tests.csv} for that family, not from the per-metric file: the two were run "
+        "with different draw counts over different success estimands, so a 12-family "
+        "$p$ is not a differently-corrected version of the per-metric $p$ for the same "
+        "pair, and the two are reported side by side rather than reconciled. Where they "
+        "disagree ($0.0016$ over the ten-pair family against $0.0024$ over the twelve "
+        "for the MovieLens Shapley--LIME success contrast) each printed value names its "
+        "own record, and the 12-contrast family is authoritative for the success and "
+        "abstention claims in the main text.",
         "tab:r9-multiplicity-map",
         "llcrrrrrr",
         [

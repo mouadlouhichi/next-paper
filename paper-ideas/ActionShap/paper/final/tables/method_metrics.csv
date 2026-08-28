@@ -1,0 +1,121 @@
+dataset,model,evaluation_mode,utility,analysis_role,condition,method,method_label,metric,mean,ci95_low,ci95_high,n_users,n_seeds,missing_users
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,aia,0.4151442220278157,0.38701406744001043,0.44285292559915623,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,aia_ndcg,0.05907399628907403,-0.09058645811486904,0.199244136264681,59,5,941
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,faithfulness_alignment,0.5465047128346167,0.5239319453459955,0.5695676688807374,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,actionability_gap,-0.13136049080680096,-0.15244223693865935,-0.11068676646127636,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,signed_alignment,0.07592419544542739,0.04616850354302561,0.10545907746980027,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,signed_alignment_ndcg,0.35742046161652385,0.2696910449235654,0.44402710023099645,59,5,941
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,direction_accuracy,0.6255801575504019,0.613490710704118,0.6376599341447122,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,direction_accuracy_ndcg,0.8885391444713479,0.8267958030669894,0.9433414043583536,59,5,941
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,top1_precision,0.026,0.017,0.036,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,top3_precision,0.2733333333333334,0.25633333333333336,0.29,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,top5_precision,0.24031666666666668,0.22589916666666668,0.25493375,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,joint_effect_primary,-0.0008529472644949252,-0.0010243717982092086,-0.0006736459388981361,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,joint_effect_ndcg,0.005007754552680107,0.002203921546276858,0.008154913348877111,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,joint_effect_target_margin,-0.0008529472644949252,-0.0010240375431259652,-0.0006812785148124567,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,intervention_success,0.322,0.293,0.352,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,abstention,0.001,0.0,0.003,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,joint_regret_primary,0.002962759607700005,0.0027955701066183438,0.003136336968136953,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,normalized_regret_primary,2.968630424692787,2.164022975444797,4.266414347534075,883,5,117
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,joint_regret_ndcg,0.012165496901295534,0.008052996240923057,0.016558493728114094,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,normalized_regret_ndcg,0.7160817908715145,0.5803994004156369,0.8523379868133749,54,5,946
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,intervention_success_ndcg,0.023,0.014,0.033,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,aia_null_mean,-0.0006107104370761483,-0.001121662476487577,-0.00010951543918950471,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,aia_null_p95,0.7695542221240896,0.7572042481905543,0.7815710970530892,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,aia_permutation_p,0.3143091143091143,0.29878408378408383,0.32958014458014456,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,aia,0.7095418775763965,0.6878947769158875,0.7308444278869967,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,aia_ndcg,0.2801797439155892,0.12445143456855658,0.42624845723317273,59,5,941
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,faithfulness_alignment,0.9155036867355051,0.9070089461107165,0.9236778568246169,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,actionability_gap,-0.2059618091591085,-0.22614398156496773,-0.18626002708658063,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,signed_alignment,0.9270166710937205,0.9168440792528106,0.9363167093963622,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,signed_alignment_ndcg,0.7678013232932032,0.7116086715679633,0.819996023369369,59,5,941
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,direction_accuracy,0.8722650420810035,0.8626885710330198,0.8814558525938815,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,direction_accuracy_ndcg,0.9426553672316385,0.902542372881356,0.9779661016949153,59,5,941
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,top1_precision,0.5044,0.47479999999999994,0.5337999999999999,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,top3_precision,0.3508666666666666,0.3280666666666667,0.3736,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,top5_precision,0.26804666666666666,0.25032991666666665,0.28656341666666674,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,joint_effect_primary,0.0015415765520244485,0.0013983270212231185,0.001689059567239397,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,joint_effect_ndcg,0.013916308948493718,0.009675132262056142,0.018555525619985743,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,joint_effect_target_margin,0.0015415765520244485,0.0013968313641453752,0.0016917423625855594,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,intervention_success,0.5694000000000001,0.5392,0.5992000000000001,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,abstention,0.43019999999999997,0.4002,0.4612,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,joint_regret_primary,0.0005682357911806313,0.0005069903075548049,0.0006321085435505895,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,normalized_regret_primary,0.42659790718567436,0.3968722762933495,0.4561848625957795,883,5,117
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,joint_regret_ndcg,0.003256942505481925,0.001527321908889896,0.005257351273689938,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,normalized_regret_ndcg,0.16478082567517768,0.08287828734021067,0.2559771816838844,54,5,946
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,intervention_success_ndcg,0.048,0.035,0.061,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,aia_null_mean,-0.00023557837761097923,-0.0007215039539543109,0.0002375383402664922,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,aia_null_p95,0.7693077668745676,0.7569361840639205,0.7814804588640539,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,aia_permutation_p,0.1651047651047651,0.15327966827966827,0.17753719253719252,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,aia,0.7779168688186032,0.7569653332825172,0.7982779498013247,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,aia_ndcg,0.3082665133201282,0.15736658735474024,0.45195782824968883,59,5,941
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,faithfulness_alignment,1.0,1.0,1.0,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,actionability_gap,-0.2220831311813968,-0.24246933925456501,-0.20149761560804655,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,signed_alignment,0.9486132558436162,0.9381596851872486,0.9581046822292683,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,signed_alignment_ndcg,0.7760957805777119,0.7210090014695242,0.8274145632378197,59,5,941
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,direction_accuracy,0.891034348043292,0.8820498242314119,0.9000394177301212,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,direction_accuracy_ndcg,0.9443502824858757,0.9042372881355932,0.9796610169491525,59,5,941
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,top1_precision,0.527,0.496,0.558,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,top3_precision,0.386,0.362,0.4103333333333333,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,top5_precision,0.2967166666666667,0.27731625,0.3159666666666667,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,joint_effect_primary,0.0015582602565006453,0.0014185744169315814,0.001706624042368865,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,joint_effect_ndcg,0.013855063997108346,0.00963937676182285,0.018420833500755504,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,joint_effect_target_margin,0.0015582602565006453,0.0014130623893708028,0.0017064201262144327,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,intervention_success,0.591,0.562,0.622,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,abstention,0.409,0.379,0.44,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,joint_regret_primary,0.0005515520867044341,0.000490374413450794,0.0006163569081865845,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,normalized_regret_primary,0.4066031730759317,0.3763563534174721,0.4361112181485149,883,5,117
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,joint_regret_ndcg,0.0033181874568672977,0.0015610596479284026,0.005393741951755097,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,normalized_regret_ndcg,0.16805346046937622,0.08471777836452357,0.263866855853249,54,5,946
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,intervention_success_ndcg,0.048,0.035,0.062,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,aia_null_mean,-0.00027434596253067935,-0.0007805063683707287,0.0002214881284500478,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,aia_null_p95,0.7682935571450514,0.7558540765736427,0.7807722614822502,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,aia_permutation_p,0.14842734842734845,0.13648136648136647,0.1606022506022506,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,aia,-0.006667351114250136,-0.021796350558622116,0.00846456185547163,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,aia_ndcg,-0.015715526010135233,-0.07884815969345647,0.04716631189471636,59,5,941
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,faithfulness_alignment,-0.003188392404410611,-0.017985048545910463,0.011455255384521088,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,actionability_gap,-0.0034789587098395243,-0.013191024905752346,0.006074102832963754,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,signed_alignment,-0.004163125213069891,-0.0184810428465309,0.009728476793129538,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,signed_alignment_ndcg,-0.029373263792184832,-0.0793795813053126,0.020511397072277577,59,5,941
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,direction_accuracy,0.49191883639682055,0.4856855358468061,0.49828572653121156,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,direction_accuracy_ndcg,0.46758676351896683,0.43231355932203386,0.5018240516545601,59,5,941
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,top1_precision,0.1552,0.1442,0.16640000000000005,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,top3_precision,0.2030666666666667,0.19393333333333335,0.21220166666666668,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,top5_precision,0.18961,0.18152291666666667,0.19786358333333334,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,joint_effect_primary,-0.0011111351467066822,-0.0012048758175440292,-0.00101420178284024,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,joint_effect_ndcg,0.0005828234899498273,-0.0013697611648626317,0.002475949802203122,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,joint_effect_target_margin,-0.0011111351467066822,-0.0012097753798217539,-0.0010146320342889709,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,intervention_success,0.28620000000000007,0.27040000000000003,0.3022,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,abstention,0.0476,0.0412,0.054400000000000004,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,joint_regret_primary,0.003220947489911762,0.0030613624842428483,0.003392881932671517,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,normalized_regret_primary,2.5856900115446257,2.1540003197937883,3.1578559413589113,883,5,117
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,joint_regret_ndcg,0.016590427964025815,0.012079213504006009,0.021463110278161786,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,normalized_regret_ndcg,1.037419975646956,0.8891680542129675,1.212700017358214,54,5,946
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,intervention_success_ndcg,0.018200000000000004,0.012600000000000002,0.024399999999999998,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,aia_null_mean,-0.0004641082452185204,-0.0009225167611139782,7.684644657953284e-06,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,aia_null_p95,0.7687723610598298,0.7563698290089328,0.7809649520247494,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,aia_permutation_p,0.5475033475033475,0.5386534086534087,0.5562674312674312,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,aia,-0.05023397463836977,-0.08871077264317886,-0.011937340910241177,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,aia_ndcg,0.4594846569574664,0.35847014635362906,0.5516895612297728,59,5,941
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,faithfulness_alignment,-0.21072266145277613,-0.2466855410293038,-0.17428310451502088,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,actionability_gap,0.16048868681440634,0.13760169656827115,0.18333681910365357,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,signed_alignment,0.7144131706915409,0.694239512677581,0.7337897632622433,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,signed_alignment_ndcg,0.7138064527294294,0.6589447199501404,0.7656058069067248,59,5,941
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,direction_accuracy,0.5393748545881328,0.5229003046739116,0.5558323696567806,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,direction_accuracy_ndcg,0.9675141242937854,0.9372881355932204,0.9915254237288136,59,5,941
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,top1_precision,0.6088,0.5808,0.637,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,top3_precision,0.4423333333333333,0.4251333333333333,0.45959999999999995,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,top5_precision,0.37732,0.3625530833333333,0.392587,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,joint_effect_primary,0.0014883626449764518,0.0013243689549009862,0.0016573810177887768,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,joint_effect_ndcg,0.01411965183906065,0.00993765029873022,0.018726531615292145,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,joint_effect_target_margin,0.0014883626449764518,0.001327614019008169,0.001656609196617345,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,intervention_success,0.7542000000000001,0.729,0.7796000000000001,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,abstention,0.002,0.0,0.005,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,joint_regret_primary,0.0006214496982286276,0.0005653809407196296,0.0006809062667923404,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,normalized_regret_primary,0.741166538477977,0.5295987470237565,1.0443892238180832,883,5,117
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,joint_regret_ndcg,0.0030535996149149928,0.001492990221687523,0.004924242104435925,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,normalized_regret_ndcg,0.1730049137373232,0.09633496895231349,0.26227171241345343,54,5,946
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,intervention_success_ndcg,0.048799999999999996,0.0358,0.06259999999999999,1000,5,0
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,aia_null_mean,0.0003468458553475583,-0.00011635702541868292,0.0008104117606400015,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,aia_null_p95,0.7693138487905797,0.7569282954776133,0.7813879604713896,999,5,1
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,aia_permutation_p,0.5252361252361253,0.5037449337449337,0.5463623313623314,999,5,1

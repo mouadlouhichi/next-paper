@@ -14027,6 +14027,7 @@
    "Gowalla": {
     "users_total": 600,
     "users_audited": 600,
+    "users_defined_all_methods": 528,
     "covers_heldout_target_fraction": 0.12,
     "summary": {
      "aia_shapley": {
@@ -14066,6 +14067,7 @@
    "MovieLens-1M": {
     "users_total": 1000,
     "users_audited": 1000,
+    "users_defined_all_methods": 1000,
     "covers_heldout_target_fraction": 0.118,
     "summary": {
      "aia_shapley": {

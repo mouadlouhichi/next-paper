@@ -4,12 +4,12 @@
 (five seeds, seed-mean within user; median catalogue size 8,572 unseen items).
 Bounded and deletion AIA, their difference, signed alignment, realized
 target-margin effect of the selected action, and conditional normalized
-regret; intervals are user-bootstrap 95\% CIs. Active-oracle denominators:
+regret; intervals are user-bootstrap 95\% CIs. Both the $\Delta$-effect and the normalized-regret columns are on the target-margin utility, so every conditional statistic here shares the first denominator below; the NDCG-utility audit of this cohort is a separate panel with its own active-oracle count and is not comparable column-for-column. Active-oracle denominators:
 $883$ (target margin) and $54$ (NDCG).}
 \label{tab:review5-fullcat}
 \begin{tabular}{@{}lrrrrrr@{}}
 \toprule
-Method & Bounded AIA & Deletion AIA & Gap & Signed & $\Delta$ effect & Norm.\ regret \\
+Method & Bounded AIA & Deletion AIA & Gap & Signed & $\Delta$ effect (target margin) & Norm.\ regret (target margin) \\
 \midrule
 Monte Carlo Shapley & -0.05 [-0.09,-0.01] & -0.21 [-0.25,-0.17] & 0.16 [0.14,0.18] & 0.71 [0.69,0.73] & 0.0015 [0.0013,0.0017] & 0.74 [0.53,1.04] \\
 LIME & 0.71 [0.69,0.73] & 0.92 [0.91,0.92] & -0.21 [-0.23,-0.19] & 0.93 [0.92,0.94] & 0.0015 [0.0014,0.0017] & 0.43 [0.40,0.46] \\

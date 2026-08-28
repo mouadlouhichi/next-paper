@@ -86,7 +86,7 @@ def main() -> None:
     # Budget rows must be action-only in the publication sensitivity table.
     sensitivity_tex = (tables / "sensitivity_results.tex").read_text()
     if re.search(r"budget|B=1|B=3", sensitivity_tex, re.I):
-        if re.search(r"&\s*(?:AIA|Bounded AIA|Deletion AIA|Actionability Gap|Gap)\s*&", sensitivity_tex, re.I):
+        if re.search(r"&\s*(?:AIA|Bounded AIA|Deletion AIA|Actionability Gap|Bounded-minus-deletion|Gap)\s*&", sensitivity_tex, re.I):
             errors.append("pointwise metric appears in budget sensitivity table")
 
     for phrase in (

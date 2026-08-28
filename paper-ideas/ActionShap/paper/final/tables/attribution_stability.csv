@@ -1,0 +1,6 @@
+dataset,model,evaluation_mode,utility,analysis_role,condition,method,method_label,mean_rank_stability,ci95_low,ci95_high,n_users
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,greedy_cf,Greedy sequential deletion,1.0,1.0,1.0,999
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,lime,LIME,0.9662353132218973,0.9623512956648922,0.9699253446834717,999
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,loo,Leave-one-out,1.0,1.0,1.0,999
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,random,Random control,-0.010233183310497551,-0.0205519403942291,0.0002899924292683582,1000
+Amazon-Digital-Music,itemknn,full_unseen_catalogue,target_margin,full_catalogue,full_catalogue,shapley_mc,Monte Carlo Shapley,0.9150297202257985,0.9080444874490283,0.9216318638367142,999

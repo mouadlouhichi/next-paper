@@ -102,6 +102,8 @@ ready:
 check:
 	cd $(CODE) && $(PY) scripts/validate_manuscript.py
 	cd $(CODE) && $(PY) scripts/validate_cross_table.py
+	cd $(CODE) && $(PY) scripts/validate_prose_references.py
+	cd $(CODE) && $(PY) scripts/validate_inferential_provenance.py
 	cd $(CODE) && $(PY) scripts/make_result_manifest.py --check
 	cd $(CODE) && $(PY) -m pytest -q
 

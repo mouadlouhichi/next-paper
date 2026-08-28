@@ -507,3 +507,117 @@ def test_the_overleaf_project_is_self_contained(tmp_path):
     assert not [n for n in names if "/" not in n and n.endswith(".pdf")]
     assert "anonymous" in readme or "anonymous" in names, "the review copy must be anonymised"
     assert "make ready" in readme, "the project must tell the author how to verify the build"
+
+
+# --------------------------------------------------------------------------- #
+# Review-10: the corrections of this round, each pinned by the class of defect it fixes.
+# --------------------------------------------------------------------------- #
+
+PAPER = CODE.parent
+MAIN_TEX = PAPER / "acmart-primary" / "acmmanuscript.tex"
+SUPP_TEX = PAPER / "acmart-primary" / "supplementary.tex"
+TABLE_DIR = PAPER / "acmart-primary" / "tables"
+SCRIPTS = CODE / "scripts"
+RELEASE_DIR = PAPER / "actionshap-ipm" / "release" / "matrices"
+
+
+def _rho_shift(n_u: int, rho: float, s_p: float, others: list[float]) -> tuple[float, float]:
+    """Score change of one candidate under the interface Eq. (4) describes.
+
+    ``s_p`` is the deleted player's similarity to the candidate and ``others`` the remaining
+    players' similarities; the normalized coefficient of the downweighted player is
+    ``rho / (n_u - 1 + rho)`` and of every other player ``1 / (n_u - 1 + rho)``.
+    """
+    b = sum(others) / len(others)
+    s_old = (s_p + sum(others)) / n_u
+    s_new = (rho * s_p + sum(others)) / (n_u - 1 + rho)
+    closed = (n_u - 1) * (1 - rho) / (n_u * (n_u - 1 + rho)) * (b - s_p)
+    return s_new - s_old, closed
+
+
+def test_rho_factorization_printed_in_the_manuscript_is_the_actual_algebra():
+    """Eq. (4) had dropped the (n_u - 1) / n_u prefactor (review-10)."""
+    import random
+
+    random.seed(11)
+    for n_u in (2, 3, 7, 60, 1000):
+        for rho in (0.0, 0.1, 0.25, 0.5, 0.9, 1.0):
+            s_p = random.uniform(-2, 2)
+            others = [random.uniform(-2, 2) for _ in range(n_u - 1)]
+            actual, closed = _rho_shift(n_u, rho, s_p, others)
+            assert abs(actual - closed) < 1e-12, (n_u, rho, actual, closed)
+    text = MAIN_TEX.read_text(encoding="utf-8")
+    assert r"\frac{(n_u-1)(1-\rho)}{n_u\,(n_u-1+\rho)}" in text
+    assert r"=\frac{1-\rho}{n_u-1+\rho}" not in text
+
+
+def test_the_difference_is_not_labelled_an_actionability_gap_anywhere():
+    """The row labels called the bounded-minus-deletion difference an "actionability gap",
+    which the protocol never defines; only the release keys may still use that name."""
+    for path in sorted(TABLE_DIR.glob("*.tex")) + [MAIN_TEX, SUPP_TEX]:
+        assert "Actionability Gap" not in path.read_text(encoding="utf-8"), path.name
+    gap = pd.read_csv(RELEASE_DIR / "actionability_gap_robustness.csv")
+    assert "actionability_gap" in set(gap.metric), "the release key must survive the relabelling"
+    assert (RELEASE_DIR / "actionability_gap_advantage.csv").exists()
+    assert (TABLE_DIR.parent.parent / "code" / "results").exists()
+
+
+def test_prospective_panel_prints_the_denominator_it_can_defend():
+    """The panel audited 600 Gowalla users but only 528 have a defined score for all four
+    methods; the table has to state both, and state that containment is not top-1 equality."""
+    payload = json.loads((CODE / "results" / "review9" / "prospective_gowalla.json").read_text())
+    keys = ("aia_shapley", "aia_lime", "aia_loo", "signed_shapley")   # as the generator defines it
+    defined = sum(1 for rec in (payload.get("records") or [])
+                  if all(isinstance(rec.get(k), (int, float)) and np.isfinite(rec[k]) for k in keys))
+    tex = (TABLE_DIR / "review9_benchmark_replications.tex").read_text(encoding="utf-8")
+    assert f"{defined} &" in tex, "the defined-n column does not match the payload"
+    assert "Defined" in tex
+    assert "528" in tex and "600" in tex
+
+
+
+def test_ablation_budget_is_not_called_the_primary_budget():
+    """The construct-validity runs used M_pair=250 while the primary analysis is frozen at 500."""
+    for name in ("review9_benchmark_replications.tex", "appendix_s3b_effects.tex",
+                 "review9_statistics.tex"):
+        text = (TABLE_DIR / name).read_text(encoding="utf-8")
+        for match in re.finditer(r"250", text):
+            window = text[max(0, match.start() - 260):match.end() + 260]
+            if "budget" in window.lower():
+                assert "primary budget" not in window, f"{name} calls 250 the primary budget"
+    hardware = (TABLE_DIR / "review9_benchmark_replications.tex").read_text(encoding="utf-8")
+    assert "500" in hardware, "the hardware panel must say how its budget relates to the primary one"
+
+
+def test_success_and_abstention_families_name_their_source_records():
+    """Two Holm values for one contrast are legitimate only while each table says which
+    released record it was corrected within."""
+    review7 = (TABLE_DIR / "review9_statistics.tex").read_text(encoding="utf-8")
+    assert "12-contrast" in review7
+    assert "review7_success_abstention_tests.csv" in review7.replace("\\_", "_")
+    s3b = (TABLE_DIR / "appendix_s3b_effects.tex").read_text(encoding="utf-8")
+    assert "paired_tests.csv" in s3b.replace("\\_", "_")
+    assert "review7_success_abstention_tests.csv" in s3b.replace("\\_", "_")
+
+
+def test_the_two_new_validators_exist_and_pass():
+    for script in ("validate_prose_references.py", "validate_inferential_provenance.py"):
+        path = SCRIPTS / script
+        assert path.exists(), f"{script} must ship with the paper"
+        result = subprocess.run([sys.executable, str(path)], cwd=str(CODE),
+                                capture_output=True, text=True)
+        assert result.returncode == 0, f"{script} failed:\n{result.stdout}\n{result.stderr}"
+    makefile = ((CODE.parents[2] / "Makefile")).read_text(encoding="utf-8")
+    check = makefile[makefile.index("check:"):]
+    for script in ("validate_prose_references.py", "validate_inferential_provenance.py"):
+        assert script in check.split("\n\n")[0], f"{script} is not wired into `make check`"
+
+
+def test_declared_supplementary_range_matches_the_document():
+    supplement = SUPP_TEX.read_text(encoding="utf-8")
+    declared = re.search(r"\\subtitle\{Sections S1--S(\d+)\}", supplement)
+    sections = len(re.findall(r"^\\section\{", supplement, flags=re.MULTILINE))
+    assert declared is not None, "the supplement must declare its section range"
+    assert int(declared.group(1)) == sections
+    manuscript = MAIN_TEX.read_text(encoding="utf-8")
+    assert "Sections S1--S10" not in manuscript
