@@ -22,6 +22,18 @@ import importlib.util
 import json
 import re
 import subprocess
+
+
+import os as _os
+import importlib.util as _ilu
+_mrw_spec = _ilu.spec_from_file_location(
+    "make_remaining_work_notebook",
+    _os.path.join(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))),
+                  "scripts", "make_remaining_work_notebook.py"))
+mrw = _ilu.module_from_spec(_mrw_spec)
+_mrw_spec.loader.exec_module(mrw)
+
+
 import sys
 from pathlib import Path
 
@@ -681,23 +693,33 @@ def test_the_manuscript_states_the_convention_the_release_implements():
     assert "positive seed-averaged realized NDCG effect" not in block
 
 
-def test_remaining_work_notebook_reports_statuses_and_executes():
-    """The close-out notebook is generated from the files, so it cannot assert a stale status."""
-    nb_path = PAPER / "notebooks" / "REMAINING_WORK.ipynb"
-    nb = json.loads(nb_path.read_text(encoding="utf-8"))
-    sources = "\n".join("".join(c["source"]) for c in nb["cells"] if c["cell_type"] == "code")
-    for needle in ("mrw.status()", "audit_success_estimand.py", "make_outstanding_runs_notebook.py",
-                   "code_tasks", "resultmanifeststamp" if False else "manifest", "READY"):
-        assert needle in sources, needle
-    # nothing is invented: the queue is delegated, and each job names a real subcommand
-    assert "make_outstanding_runs_notebook.py" in sources
-    gen_path = SCRIPTS / "make_outstanding_runs_notebook.py"
-    spec = importlib.util.spec_from_file_location("mor_gen_check", gen_path)
-    gen = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(gen)
+def test_remaining_work_notebook_actually_does_the_close_out():
+    """Run All must do the work, resume safely, and never invent a subcommand."""
+    nb = json.loads((PAPER / "notebooks" / "REMAINING_WORK.ipynb").read_text(encoding="utf-8"))
+    cells = [c for c in nb["cells"] if c["cell_type"] == "code"]
+    sources = {i: "".join(c["source"]) for i, c in enumerate(cells)}
+    joined = "\n".join(sources.values())
+    for i, src in sources.items():
+        compile(src, f"cell {i}", "exec")                     # shipped cells must parse
+    assert "APPLY = True" in joined and "SKIP_RUNS = False" in joined
+    assert "MAX_HOURS = None" in joined                        # bounded sittings, resumable
+    for step in ('make("tables"', 'make("manifest"', 'make("pdf"', 'make("check"', 'make("overleaf"'):
+        assert step in joined, step
+    assert "j[\"done\"]" in joined or 'j["done"]' in joined, "payload presence must gate the queue"
+    assert '"run_review9_experiments.py"' in joined or "run_review9_experiments.py" in joined
+
+    # every queued experiment is a subcommand the driver really declares
     runner = (SCRIPTS / "run_review9_experiments.py").read_text(encoding="utf-8")
-    jobs = gen.build_jobs()
-    assert jobs, "the queue must be derived, not empty"
+    jobs = mrw.queue()
+    assert jobs, "the queue is derived from files, so this run must list the missing payloads"
     for job in jobs:
         assert job["experiment"] in runner, job["experiment"]
-        assert Path(str(job["out"])).name.endswith(".json")
+        assert (CODE / job["out"]).name.endswith(".json")
+
+    # the four scope boundaries are typeset, exactly once, so re-running is a no-op
+    main = MAIN_TEX.read_text(encoding="utf-8")
+    for clause in mrw.SCOPE_CLAUSES.values():
+        assert clause in main, clause
+    assert main.count(mrw.SCOPE_PARAGRAPH) == 1, "the paragraph must be idempotent"
+    assert mrw.scope_state()["all_present"]
+

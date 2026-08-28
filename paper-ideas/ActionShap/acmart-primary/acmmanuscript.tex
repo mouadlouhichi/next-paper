@@ -640,6 +640,8 @@ From a responsible-AI standpoint, ActionShap is an oversight instrument rather t
 \subsubsection{Construct validity}
 Actionability is defined as predictive validity under one bounded downweighting policy. It is not perceived usefulness, legal recourse, user agency, or a causal effect in the world. All primary players are technically mutable, so feasibility does not differentiate factors; future work should study heterogeneous costs and user-side constraints.
 
+Four further boundaries are stated so that no result is read past them. The attribution audit is implemented for the primary ItemKNN scorer: for SASRec and LightGCN the paper reports measured ranking quality only, not attribution alignment, so no architecture-general attribution claim is made. Inference uses fixed permutation and bootstrap budgets rather than an adaptive stopping rule, so per-user Monte-Carlo error is reported but not acted upon. Intervals are conditional on a single fitted structure per seed; refit and preprocessing uncertainty is not included. The mask ablations are defined on the cohort each design admits, so that comparison is descriptive rather than causal, and the prospective panel reports one shared defined subset rather than a per-method valid $n$.
+
 \subsubsection{Metric validity}
 NDCG is discrete and produces constant effect vectors for some users. We report missing correlations rather than imputing zero. Target margin is the converged attribution utility but has less direct operational meaning; NDCG is the action outcome and is never relabelled as target margin.
 
