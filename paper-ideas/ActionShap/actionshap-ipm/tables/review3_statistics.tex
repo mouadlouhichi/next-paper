@@ -59,9 +59,12 @@ quality difference against the popularity reference (Pop.), all on the
 10,000-draw user-bootstrap 95\% CIs. These realized-effect quantities are
 defined for every retained user, so the denominator is the full 1,000 on both
 datasets (the 993 Amazon count applies only to the constant-vector exclusion
-used by attribution-AIA statistics). Success is the fraction of users with
-positive seed-averaged realized NDCG effect; abstention is the fraction
-selecting no action. The NDCG$-$Pop. rows report the model's quality
+used by attribution-AIA statistics). Success is the cohort mean of each user's
+seed-averaged per-seed indicator (positive realized NDCG effect in that seed run), so
+its values lie on a $1/(n_uR_{\mathrm{seed}})$ lattice; abstention is the cohort
+mean of the per-seed abstention indicator. Every row is recomputed from
+\texttt{user\_seed\_metrics.csv.gz} at the primary ItemKNN slice by
+\texttt{audit\_success\_estimand.py}. The NDCG$-$Pop. rows report the model's quality
 difference against the popularity reference, a model-level quantity identical
 across explainers and repeated per method only for readability. These replace
 the earlier replication-cohort (250-user) proportions so that all quality

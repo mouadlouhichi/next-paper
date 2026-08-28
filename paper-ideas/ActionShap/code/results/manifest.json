@@ -1,5 +1,5 @@
 {
- "file_count": 65,
+ "file_count": 66,
  "files": {
   "acmart-primary/tables/actionability_gap_robustness.tex": "e4ad6a7e80652fe22af65c7b173a54671684929af1bfb3e6892d72c18d0e3e5a",
   "acmart-primary/tables/aia_components.tex": "9adf1c08059947476e850b18419a0ec188ad0151b43bc383bdeb7f23a6ef5047",
@@ -13,7 +13,7 @@
   "acmart-primary/tables/appendix_convergence_full.tex": "03199af7457ee95254188b5b02b3b9092d02c1d80cf9ed3b04ce9c59d6430b02",
   "acmart-primary/tables/appendix_decisions_compact.tex": "2121bc7d1023432642640801b9afcc2869745ba631cada65a5bf26e293b95dc7",
   "acmart-primary/tables/appendix_diagnostics_compact.tex": "51ab61efd685f0dd506577bf8a77a76462bfa43c7456e42b0c2e3b80db86fb9c",
-  "acmart-primary/tables/appendix_intervention_full.tex": "2abf4a31736270c3ff8e5a327d7e40253c4fdaa44cf6bde4190c4c0a244b4fde",
+  "acmart-primary/tables/appendix_intervention_full.tex": "65e35075543de75e8b7493796dcfaddcd1b62a8e8015e72fdb995f524117b795",
   "acmart-primary/tables/appendix_s3a_aia.tex": "3a33b5042a270066867b33eabd946f8efa4d0e74d164f74e88b5d15893f18e61",
   "acmart-primary/tables/appendix_s3b_effects.tex": "16b9b31fc8813ea1ebb6662e8f282ecd6f0a54847a825ff59e9c0b41f24f758f",
   "acmart-primary/tables/appendix_s3c_regret.tex": "efeb41e66bf5e277825a2ca63df7e5c8db99f405339b9ec6e08f5ffe34b8add2",
@@ -27,7 +27,7 @@
   "acmart-primary/tables/protocol_audit.tex": "e402e291fdcc01468cc6f1b19c34172bcdf57e9c662bf40986642d86fce7a0c3",
   "acmart-primary/tables/recommendation_quality.tex": "7aa422896c4c1968a9e54ee99b1ab3eca007250388a936788782eaad5418242a",
   "acmart-primary/tables/review3_extensions.tex": "3eed6a8860f343101045685671c6d3990d17c2960e99f5b77df4e50deea165cf",
-  "acmart-primary/tables/review3_statistics.tex": "fb3202b220a082517cb506a5896d23a5348770adf9ac128a7287e516b367c75f",
+  "acmart-primary/tables/review3_statistics.tex": "9b26944f7dc6433aa14b858350698e6c30f9d3e402f2c29beb12681e18545b9f",
   "acmart-primary/tables/review3_tableD4.tex": "ff9dcf952a7aacc32a29a46fac36141cb892318d319437fe6947e2ef2fc3791b",
   "acmart-primary/tables/review5_full_catalogue.tex": "cabec5e3467c6993963f80c9cef4693fc0859228379e886c41917c9a9704b9d2",
   "acmart-primary/tables/review5_validation.tex": "1ad1d75cd6adde8e39d5726291d1b5c32ae5fbd4079e5a3808ba70abe838ab63",
@@ -65,10 +65,11 @@
   "code/results/review9/review9_multiplicity_map.csv": "174605ab16964ce032c36f4507788706d8ed28ab681cbbccdaa0d8c5d22101a0",
   "code/results/review9/review9_statistics.json": "f8572af1eaf3c96f59acaf0ef9f9bd3ada614622d0346180fd74fcdd1b6ed673",
   "code/results/review9/stratified_null_gowalla.json": "eeebe29afcadfd464967145f880225c61c264b63870cdfdeebda625f0f42ba87",
+  "code/results/review9/success_estimand_audit.json": "4749bd12a55bbc49b4319d5dfb401d7895919a891e3726089b5a906c428da907",
   "code/results/review9/utility_factorial_gowalla.json": "5e827ff8d8398180c5f2c4d9653c766f408193e27f4e55be425ecc6df44ae4c7"
  },
- "git_revision": "195f1b25d9bd393b00a1574a610db329099ab80b",
- "manifest_sha256": "c8f6360016bc84e821691862e8a9489797fa652ece19d086e2b5522e14c78d4e",
- "manifest_stamp": "c8f6360016bc",
+ "git_revision": "98b2679db12e27997e5d1ff9fee397e8d3217b08",
+ "manifest_sha256": "5f45b6cac6713bdbfceb35988d3b76e15964779e7be61e5e50d07b5fcceb6b6f",
+ "manifest_stamp": "5f45b6cac671",
  "schema": "actionshap-result-manifest-v1"
 }

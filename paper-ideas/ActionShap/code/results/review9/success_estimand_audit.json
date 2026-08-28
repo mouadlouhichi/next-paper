@@ -1,0 +1,613 @@
+{
+ "matrix": "user_seed_metrics.csv.gz",
+ "slice": {
+  "condition": "primary",
+  "model": "itemknn",
+  "grid": 0.0002,
+  "n_users": 1000,
+  "r_seed": 5
+ },
+ "rows": [
+  {
+   "dataset": "MovieLens-1M",
+   "method": "Shapley",
+   "quantity": "Success",
+   "printed": 0.274,
+   "ci_low": 0.247,
+   "ci_high": 0.302,
+   "n": 1000,
+   "n_users": 1000,
+   "n_seeds": 5,
+   "published_convention": 0.2742,
+   "other_pooling_indicator_of_seed_mean": 0.285,
+   "recomputed_ci": [
+    0.2472,
+    0.302
+   ],
+   "abs_delta": 0.0002,
+   "supported": true,
+   "ci_within_recomputed": true
+  },
+  {
+   "dataset": "MovieLens-1M",
+   "method": "Shapley",
+   "quantity": "Abstention",
+   "printed": 0.0,
+   "ci_low": 0.0,
+   "ci_high": 0.0,
+   "n": 1000,
+   "n_users": 1000,
+   "n_seeds": 5,
+   "published_convention": 0.0,
+   "other_pooling_indicator_of_seed_mean": 0.285,
+   "recomputed_ci": [
+    0.0,
+    0.0
+   ],
+   "abs_delta": 0.0,
+   "supported": true,
+   "ci_within_recomputed": true
+  },
+  {
+   "dataset": "MovieLens-1M",
+   "method": "Shapley",
+   "quantity": "NDCG$-$Pop.",
+   "printed": 0.126,
+   "ci_low": 0.106,
+   "ci_high": 0.145,
+   "n": 1000,
+   "n_users": 1000,
+   "n_seeds": 5,
+   "published_convention": 0.125583,
+   "other_pooling_indicator_of_seed_mean": 0.285,
+   "recomputed_ci": [
+    0.1062,
+    0.1452
+   ],
+   "abs_delta": 0.000417,
+   "supported": true,
+   "ci_within_recomputed": true
+  },
+  {
+   "dataset": "MovieLens-1M",
+   "method": "LIME",
+   "quantity": "Success",
+   "printed": 0.288,
+   "ci_low": 0.26,
+   "ci_high": 0.315,
+   "n": 1000,
+   "n_users": 1000,
+   "n_seeds": 5,
+   "published_convention": 0.2876,
+   "other_pooling_indicator_of_seed_mean": 0.295,
+   "recomputed_ci": [
+    0.26,
+    0.316
+   ],
+   "abs_delta": 0.0004,
+   "supported": true,
+   "ci_within_recomputed": true
+  },
+  {
+   "dataset": "MovieLens-1M",
+   "method": "LIME",
+   "quantity": "Abstention",
+   "printed": 0.0,
+   "ci_low": 0.0,
+   "ci_high": 0.0,
+   "n": 1000,
+   "n_users": 1000,
+   "n_seeds": 5,
+   "published_convention": 0.0,
+   "other_pooling_indicator_of_seed_mean": 0.295,
+   "recomputed_ci": [
+    0.0,
+    0.0
+   ],
+   "abs_delta": 0.0,
+   "supported": true,
+   "ci_within_recomputed": true
+  },
+  {
+   "dataset": "MovieLens-1M",
+   "method": "LIME",
+   "quantity": "NDCG$-$Pop.",
+   "printed": 0.126,
+   "ci_low": 0.106,
+   "ci_high": 0.145,
+   "n": 1000,
+   "n_users": 1000,
+   "n_seeds": 5,
+   "published_convention": 0.125583,
+   "other_pooling_indicator_of_seed_mean": 0.295,
+   "recomputed_ci": [
+    0.1062,
+    0.1452
+   ],
+   "abs_delta": 0.000417,
+   "supported": true,
+   "ci_within_recomputed": true
+  },
+  {
+   "dataset": "MovieLens-1M",
+   "method": "LOO",
+   "quantity": "Success",
+   "printed": 0.289,
+   "ci_low": 0.261,
+   "ci_high": 0.317,
+   "n": 1000,
+   "n_users": 1000,
+   "n_seeds": 5,
+   "published_convention": 0.289,
+   "other_pooling_indicator_of_seed_mean": 0.289,
+   "recomputed_ci": [
+    0.261,
+    0.317
+   ],
+   "abs_delta": 0.0,
+   "supported": true,
+   "ci_within_recomputed": true
+  },
+  {
+   "dataset": "MovieLens-1M",
+   "method": "LOO",
+   "quantity": "Abstention",
+   "printed": 0.0,
+   "ci_low": 0.0,
+   "ci_high": 0.0,
+   "n": 1000,
+   "n_users": 1000,
+   "n_seeds": 5,
+   "published_convention": 0.0,
+   "other_pooling_indicator_of_seed_mean": 0.289,
+   "recomputed_ci": [
+    0.0,
+    0.0
+   ],
+   "abs_delta": 0.0,
+   "supported": true,
+   "ci_within_recomputed": true
+  },
+  {
+   "dataset": "MovieLens-1M",
+   "method": "LOO",
+   "quantity": "NDCG$-$Pop.",
+   "printed": 0.126,
+   "ci_low": 0.106,
+   "ci_high": 0.145,
+   "n": 1000,
+   "n_users": 1000,
+   "n_seeds": 5,
+   "published_convention": 0.125583,
+   "other_pooling_indicator_of_seed_mean": 0.289,
+   "recomputed_ci": [
+    0.1062,
+    0.1452
+   ],
+   "abs_delta": 0.000417,
+   "supported": true,
+   "ci_within_recomputed": true
+  },
+  {
+   "dataset": "MovieLens-1M",
+   "method": "Greedy",
+   "quantity": "Success",
+   "printed": 0.103,
+   "ci_low": 0.085,
+   "ci_high": 0.122,
+   "n": 1000,
+   "n_users": 1000,
+   "n_seeds": 5,
+   "published_convention": 0.103,
+   "other_pooling_indicator_of_seed_mean": 0.103,
+   "recomputed_ci": [
+    0.084,
+    0.122
+   ],
+   "abs_delta": 0.0,
+   "supported": true,
+   "ci_within_recomputed": true
+  },
+  {
+   "dataset": "MovieLens-1M",
+   "method": "Greedy",
+   "quantity": "Abstention",
+   "printed": 0.0,
+   "ci_low": 0.0,
+   "ci_high": 0.0,
+   "n": 1000,
+   "n_users": 1000,
+   "n_seeds": 5,
+   "published_convention": 0.0,
+   "other_pooling_indicator_of_seed_mean": 0.103,
+   "recomputed_ci": [
+    0.0,
+    0.0
+   ],
+   "abs_delta": 0.0,
+   "supported": true,
+   "ci_within_recomputed": true
+  },
+  {
+   "dataset": "MovieLens-1M",
+   "method": "Greedy",
+   "quantity": "NDCG$-$Pop.",
+   "printed": 0.126,
+   "ci_low": 0.106,
+   "ci_high": 0.145,
+   "n": 1000,
+   "n_users": 1000,
+   "n_seeds": 5,
+   "published_convention": 0.125583,
+   "other_pooling_indicator_of_seed_mean": 0.103,
+   "recomputed_ci": [
+    0.1062,
+    0.1452
+   ],
+   "abs_delta": 0.000417,
+   "supported": true,
+   "ci_within_recomputed": true
+  },
+  {
+   "dataset": "MovieLens-1M",
+   "method": "Random",
+   "quantity": "Success",
+   "printed": 0.074,
+   "ci_low": 0.064,
+   "ci_high": 0.086,
+   "n": 1000,
+   "n_users": 1000,
+   "n_seeds": 5,
+   "published_convention": 0.0744,
+   "other_pooling_indicator_of_seed_mean": 0.148,
+   "recomputed_ci": [
+    0.0638,
+    0.0856
+   ],
+   "abs_delta": 0.0004,
+   "supported": true,
+   "ci_within_recomputed": true
+  },
+  {
+   "dataset": "MovieLens-1M",
+   "method": "Random",
+   "quantity": "Abstention",
+   "printed": 0.0,
+   "ci_low": 0.0,
+   "ci_high": 0.001,
+   "n": 1000,
+   "n_users": 1000,
+   "n_seeds": 5,
+   "published_convention": 0.0004,
+   "other_pooling_indicator_of_seed_mean": 0.148,
+   "recomputed_ci": [
+    0.0,
+    0.001
+   ],
+   "abs_delta": 0.0004,
+   "supported": true,
+   "ci_within_recomputed": true
+  },
+  {
+   "dataset": "MovieLens-1M",
+   "method": "Random",
+   "quantity": "NDCG$-$Pop.",
+   "printed": 0.126,
+   "ci_low": 0.106,
+   "ci_high": 0.145,
+   "n": 1000,
+   "n_users": 1000,
+   "n_seeds": 5,
+   "published_convention": 0.125583,
+   "other_pooling_indicator_of_seed_mean": 0.148,
+   "recomputed_ci": [
+    0.1062,
+    0.1452
+   ],
+   "abs_delta": 0.000417,
+   "supported": true,
+   "ci_within_recomputed": true
+  },
+  {
+   "dataset": "Amazon-Digital-Music",
+   "method": "Shapley",
+   "quantity": "Success",
+   "printed": 0.17,
+   "ci_low": 0.147,
+   "ci_high": 0.194,
+   "n": 1000,
+   "n_users": 1000,
+   "n_seeds": 5,
+   "published_convention": 0.1702,
+   "other_pooling_indicator_of_seed_mean": 0.173,
+   "recomputed_ci": [
+    0.1472,
+    0.1938
+   ],
+   "abs_delta": 0.0002,
+   "supported": true,
+   "ci_within_recomputed": true
+  },
+  {
+   "dataset": "Amazon-Digital-Music",
+   "method": "Shapley",
+   "quantity": "Abstention",
+   "printed": 0.01,
+   "ci_low": 0.004,
+   "ci_high": 0.017,
+   "n": 1000,
+   "n_users": 1000,
+   "n_seeds": 5,
+   "published_convention": 0.0102,
+   "other_pooling_indicator_of_seed_mean": 0.173,
+   "recomputed_ci": [
+    0.0044,
+    0.017
+   ],
+   "abs_delta": 0.0002,
+   "supported": true,
+   "ci_within_recomputed": true
+  },
+  {
+   "dataset": "Amazon-Digital-Music",
+   "method": "Shapley",
+   "quantity": "NDCG$-$Pop.",
+   "printed": 0.091,
+   "ci_low": 0.066,
+   "ci_high": 0.115,
+   "n": 1000,
+   "n_users": 1000,
+   "n_seeds": 5,
+   "published_convention": 0.090909,
+   "other_pooling_indicator_of_seed_mean": 0.173,
+   "recomputed_ci": [
+    0.0657,
+    0.1155
+   ],
+   "abs_delta": 9.1e-05,
+   "supported": true,
+   "ci_within_recomputed": true
+  },
+  {
+   "dataset": "Amazon-Digital-Music",
+   "method": "LIME",
+   "quantity": "Success",
+   "printed": 0.171,
+   "ci_low": 0.148,
+   "ci_high": 0.195,
+   "n": 1000,
+   "n_users": 1000,
+   "n_seeds": 5,
+   "published_convention": 0.1712,
+   "other_pooling_indicator_of_seed_mean": 0.174,
+   "recomputed_ci": [
+    0.1482,
+    0.1944
+   ],
+   "abs_delta": 0.0002,
+   "supported": true,
+   "ci_within_recomputed": true
+  },
+  {
+   "dataset": "Amazon-Digital-Music",
+   "method": "LIME",
+   "quantity": "Abstention",
+   "printed": 0.07,
+   "ci_low": 0.055,
+   "ci_high": 0.086,
+   "n": 1000,
+   "n_users": 1000,
+   "n_seeds": 5,
+   "published_convention": 0.0702,
+   "other_pooling_indicator_of_seed_mean": 0.174,
+   "recomputed_ci": [
+    0.0548,
+    0.0862
+   ],
+   "abs_delta": 0.0002,
+   "supported": true,
+   "ci_within_recomputed": true
+  },
+  {
+   "dataset": "Amazon-Digital-Music",
+   "method": "LIME",
+   "quantity": "NDCG$-$Pop.",
+   "printed": 0.091,
+   "ci_low": 0.066,
+   "ci_high": 0.115,
+   "n": 1000,
+   "n_users": 1000,
+   "n_seeds": 5,
+   "published_convention": 0.090909,
+   "other_pooling_indicator_of_seed_mean": 0.174,
+   "recomputed_ci": [
+    0.0657,
+    0.1155
+   ],
+   "abs_delta": 9.1e-05,
+   "supported": true,
+   "ci_within_recomputed": true
+  },
+  {
+   "dataset": "Amazon-Digital-Music",
+   "method": "LOO",
+   "quantity": "Success",
+   "printed": 0.167,
+   "ci_low": 0.144,
+   "ci_high": 0.191,
+   "n": 1000,
+   "n_users": 1000,
+   "n_seeds": 5,
+   "published_convention": 0.167,
+   "other_pooling_indicator_of_seed_mean": 0.167,
+   "recomputed_ci": [
+    0.144,
+    0.191
+   ],
+   "abs_delta": 0.0,
+   "supported": true,
+   "ci_within_recomputed": true
+  },
+  {
+   "dataset": "Amazon-Digital-Music",
+   "method": "LOO",
+   "quantity": "Abstention",
+   "printed": 0.086,
+   "ci_low": 0.069,
+   "ci_high": 0.104,
+   "n": 1000,
+   "n_users": 1000,
+   "n_seeds": 5,
+   "published_convention": 0.086,
+   "other_pooling_indicator_of_seed_mean": 0.167,
+   "recomputed_ci": [
+    0.069,
+    0.104
+   ],
+   "abs_delta": 0.0,
+   "supported": true,
+   "ci_within_recomputed": true
+  },
+  {
+   "dataset": "Amazon-Digital-Music",
+   "method": "LOO",
+   "quantity": "NDCG$-$Pop.",
+   "printed": 0.091,
+   "ci_low": 0.066,
+   "ci_high": 0.115,
+   "n": 1000,
+   "n_users": 1000,
+   "n_seeds": 5,
+   "published_convention": 0.090909,
+   "other_pooling_indicator_of_seed_mean": 0.167,
+   "recomputed_ci": [
+    0.0657,
+    0.1155
+   ],
+   "abs_delta": 9.1e-05,
+   "supported": true,
+   "ci_within_recomputed": true
+  },
+  {
+   "dataset": "Amazon-Digital-Music",
+   "method": "Greedy",
+   "quantity": "Success",
+   "printed": 0.09,
+   "ci_low": 0.073,
+   "ci_high": 0.108,
+   "n": 1000,
+   "n_users": 1000,
+   "n_seeds": 5,
+   "published_convention": 0.09,
+   "other_pooling_indicator_of_seed_mean": 0.09,
+   "recomputed_ci": [
+    0.072,
+    0.108
+   ],
+   "abs_delta": 0.0,
+   "supported": true,
+   "ci_within_recomputed": true
+  },
+  {
+   "dataset": "Amazon-Digital-Music",
+   "method": "Greedy",
+   "quantity": "Abstention",
+   "printed": 0.007,
+   "ci_low": 0.002,
+   "ci_high": 0.012,
+   "n": 1000,
+   "n_users": 1000,
+   "n_seeds": 5,
+   "published_convention": 0.007,
+   "other_pooling_indicator_of_seed_mean": 0.09,
+   "recomputed_ci": [
+    0.002,
+    0.013
+   ],
+   "abs_delta": 0.0,
+   "supported": true,
+   "ci_within_recomputed": true
+  },
+  {
+   "dataset": "Amazon-Digital-Music",
+   "method": "Greedy",
+   "quantity": "NDCG$-$Pop.",
+   "printed": 0.091,
+   "ci_low": 0.066,
+   "ci_high": 0.115,
+   "n": 1000,
+   "n_users": 1000,
+   "n_seeds": 5,
+   "published_convention": 0.090909,
+   "other_pooling_indicator_of_seed_mean": 0.09,
+   "recomputed_ci": [
+    0.0657,
+    0.1155
+   ],
+   "abs_delta": 9.1e-05,
+   "supported": true,
+   "ci_within_recomputed": true
+  },
+  {
+   "dataset": "Amazon-Digital-Music",
+   "method": "Random",
+   "quantity": "Success",
+   "printed": 0.066,
+   "ci_low": 0.055,
+   "ci_high": 0.077,
+   "n": 1000,
+   "n_users": 1000,
+   "n_seeds": 5,
+   "published_convention": 0.066,
+   "other_pooling_indicator_of_seed_mean": 0.104,
+   "recomputed_ci": [
+    0.0556,
+    0.0768
+   ],
+   "abs_delta": 0.0,
+   "supported": true,
+   "ci_within_recomputed": true
+  },
+  {
+   "dataset": "Amazon-Digital-Music",
+   "method": "Random",
+   "quantity": "Abstention",
+   "printed": 0.048,
+   "ci_low": 0.041,
+   "ci_high": 0.055,
+   "n": 1000,
+   "n_users": 1000,
+   "n_seeds": 5,
+   "published_convention": 0.0476,
+   "other_pooling_indicator_of_seed_mean": 0.104,
+   "recomputed_ci": [
+    0.0412,
+    0.0542
+   ],
+   "abs_delta": 0.0004,
+   "supported": true,
+   "ci_within_recomputed": true
+  },
+  {
+   "dataset": "Amazon-Digital-Music",
+   "method": "Random",
+   "quantity": "NDCG$-$Pop.",
+   "printed": 0.091,
+   "ci_low": 0.066,
+   "ci_high": 0.115,
+   "n": 1000,
+   "n_users": 1000,
+   "n_seeds": 5,
+   "published_convention": 0.090909,
+   "other_pooling_indicator_of_seed_mean": 0.104,
+   "recomputed_ci": [
+    0.0657,
+    0.1155
+   ],
+   "abs_delta": 9.1e-05,
+   "supported": true,
+   "ci_within_recomputed": true
+  }
+ ],
+ "unsupported": 0
+}

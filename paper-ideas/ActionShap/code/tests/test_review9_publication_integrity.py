@@ -649,3 +649,55 @@ def test_prospective_panel_accounts_for_the_missing_cohort():
     block = text[text.index("Defined $n$"):]
     assert "no" in block and "prospective audit" in block, "the Amazon omission must be stated"
     assert "queued" in block, "the panel must say the missing cohort is unrun, not null"
+
+
+def test_success_convention_matches_the_released_matrix():
+    """The supplement's decision-quality block must recompute from the frozen matrices.
+
+    This row-by-row gate is what `make check` runs; it also settles the four-decimal question the
+    re-review raised: the published convention averages the per-seed indicator over seeds *and*
+    users, so values live on a 1/(n R_seed) lattice.
+    """
+    audit = json.loads((CODE / "results" / "review9" / "success_estimand_audit.json").read_text())
+    assert audit["unsupported"] == 0, [r for r in audit["rows"] if not r["supported"]]
+    assert len(audit["rows"]) == 30
+    grid = audit["slice"]["grid"]
+    assert abs(grid - 1.0 / (1000 * 5)) < 1e-12
+    for row in audit["rows"]:
+        assert abs(round(row["printed"] / grid) * grid - row["printed"]) <= 1e-9, row
+        assert row["ci_within_recomputed"], row
+    result = subprocess.run([sys.executable, str(SCRIPTS / "audit_success_estimand.py"), "--check"],
+                            cwd=str(CODE), capture_output=True, text=True)
+    assert result.returncode == 0, result.stdout + result.stderr
+
+
+def test_the_manuscript_states_the_convention_the_release_implements():
+    text = MAIN_TEX.read_text(encoding="utf-8")
+    assert "per-seed indicator" in text and "$1/(nR_{\\mathrm{seed}})$ lattice" in text
+    assert "0.2742" in text and "0.2850" in text, "both poolings must be quoted, not just one"
+    assert "evaluated on the seed-\emph{averaged} realized effect" not in text
+    block = (PAPER / "acmart-primary" / "tables" / "review3_statistics.tex").read_text(encoding="utf-8")
+    assert "seed-averaged per-seed indicator" in block
+    assert "positive seed-averaged realized NDCG effect" not in block
+
+
+def test_remaining_work_notebook_reports_statuses_and_executes():
+    """The close-out notebook is generated from the files, so it cannot assert a stale status."""
+    nb_path = PAPER / "notebooks" / "REMAINING_WORK.ipynb"
+    nb = json.loads(nb_path.read_text(encoding="utf-8"))
+    sources = "\n".join("".join(c["source"]) for c in nb["cells"] if c["cell_type"] == "code")
+    for needle in ("mrw.status()", "audit_success_estimand.py", "make_outstanding_runs_notebook.py",
+                   "code_tasks", "resultmanifeststamp" if False else "manifest", "READY"):
+        assert needle in sources, needle
+    # nothing is invented: the queue is delegated, and each job names a real subcommand
+    assert "make_outstanding_runs_notebook.py" in sources
+    gen_path = SCRIPTS / "make_outstanding_runs_notebook.py"
+    spec = importlib.util.spec_from_file_location("mor_gen_check", gen_path)
+    gen = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(gen)
+    runner = (SCRIPTS / "run_review9_experiments.py").read_text(encoding="utf-8")
+    jobs = gen.build_jobs()
+    assert jobs, "the queue must be derived, not empty"
+    for job in jobs:
+        assert job["experiment"] in runner, job["experiment"]
+        assert Path(str(job["out"])).name.endswith(".json")
