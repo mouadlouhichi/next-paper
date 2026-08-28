@@ -1575,6 +1575,75 @@ def render(flow, sens, mult, mult_stats, factorial, stud, mcp, prec) -> str:
     return "\n".join(L) + "\n"
 
 
+def _quantize(obj, sig: int = 12):
+    """Round every float in a derived payload to ``sig`` significant digits.
+
+    Two machines running the *same* code on the *same* inputs can disagree in the
+    last unit in the last place of a double, because the linear algebra behind the
+    scorer comes from a different BLAS (OpenBLAS on Linux, Accelerate on macOS).
+    Reproducing this table on the authors' workstation and on the review sandbox
+    changed the 16th significant digit of four $p$-values, which moved the content
+    hash that both documents quote without changing a single printed number. The
+    published tables print 3-5 decimals, so the derived payloads are serialised at
+    12 significant digits: far below anything a reader can see, far above the noise
+    floor. Raw run outputs are deliberately left at full precision -- they are the
+    deposited record, and a change there is a fact about the run, not an artefact.
+    """
+    if isinstance(obj, (bool, int)) or obj is None:
+        return obj
+    if isinstance(obj, float):
+        if not np.isfinite(obj) or obj == 0.0:
+            return obj
+        return float(f"%.{sig}g" % obj)
+    if isinstance(obj, dict):
+        return {k: _quantize(v, sig) for k, v in obj.items()}
+    if isinstance(obj, (list, tuple)):
+        return [ _quantize(v, sig) for v in obj ]
+    if isinstance(obj, np.floating):
+        return _quantize(float(obj), sig)
+    if isinstance(obj, np.integer):
+        return int(obj)
+    return obj
+
+
+
+def _csv_field(value) -> str:
+    if value is None:
+        return ""
+    if isinstance(value, (bool,)):
+        return "1" if value else "0"
+    if isinstance(value, (int, np.integer)):
+        return str(int(value))
+    if isinstance(value, (float, np.floating)):
+        value = float(value)
+        return "" if value != value else "%.12g" % value
+    text = str(value)
+    if any(c in text for c in ',"\n\r'):
+        return '"' + text.replace('"', '""') + '"'
+    return text
+
+
+def _write_csv(path: Path, rows: list[dict]) -> None:
+    """Write the released multiplicity map without asking pandas to format floats.
+
+    pandas 2 prints a whole float as ``1.0`` and pandas 3 prints ``1``; both are
+    ``%.12g``, so a reviewer's pandas patch level used to be enough to change the
+    content hash quoted in both PDFs. Emitting the fields by hand removes the
+    dependency, alongside the quantisation that removed the BLAS one.
+    """
+    if not rows:
+        path.write_text("")
+        return
+    columns: list[str] = []
+    for row in rows:
+        for key in row:
+            if key not in columns:
+                columns.append(key)
+    lines = [",".join(columns)]
+    lines += [",".join(_csv_field(row.get(col)) for col in columns) for row in rows]
+    path.write_text("\n".join(lines) + "\n")
+
+
 def main() -> None:
     dry_run = "--dry-run" in __import__("sys").argv
     d = pd.read_csv(MAT / "user_seed_metrics.csv.gz")
@@ -1620,11 +1689,12 @@ def main() -> None:
         print("DRY_RUN_RESULTS_DIR: " + str(OUT))
         print("DRY_RUN_RESULTS_JSON_COUNT: " + str(len(list(OUT.glob("*.json")))))
         return
-    pd.DataFrame(mult).to_csv(OUT / "review9_multiplicity_map.csv", index=False)
+    _write_csv(OUT / "review9_multiplicity_map.csv", mult)
     payload["multiplicity_map"] = [
         r for r in mult if r["family_size"] in (10, 12) and "MC Shapley" in (r["left"], r["right"])
     ]
-    (OUT / "review9_statistics.json").write_text(json.dumps(payload, indent=1))
+    (OUT / "review9_statistics.json").write_text(
+        json.dumps(_quantize(payload), indent=1))
     print("wrote", OUT / "review9_statistics.json")
     print(
         json.dumps(

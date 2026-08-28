@@ -108,6 +108,32 @@ DATASET_PATHS["amazon"]    = Path(os.environ.get("AES_AMAZON_PATH", DATASET_PATH
 # ---------------------------------------------------------------- the queue
 # est_minutes are from the 2-core sandbox: fixed-denominator 600 users @ M=250 = 45 min.
 # Set USERS per cohort; 1000 is the paper's primary cohort. Use 250-400 if the box is small.
+PY = sys.executable   # every subprocess and `make` call below uses the kernel's interpreter
+
+def find_texlive():
+    '''Directory holding pdflatex/latexmk, even when the kernel's PATH lacks them.
+
+    MacTeX lives in /Library/TeX/texbin, which a venv-launched Jupyter rarely
+    inherits; without this probe the notebook told a reviewer with a working
+    toolchain that none existed, and skipped the PDF rebuild that the stale-PDF
+    guard is waiting on.
+    '''
+    import glob
+    for name in ("pdflatex", "latexmk"):
+        found = shutil.which(name)
+        if found and (Path(found).parent / "pdflatex").exists():
+            return str(Path(found).parent)
+    candidates = ["/Library/TeX/texbin", "/opt/homebrew/bin", "/usr/local/bin"]
+    candidates += sorted(glob.glob("/usr/local/texlive/*/bin/*"))
+    for cand in candidates:
+        d = Path(cand)
+        if (d / "pdflatex").exists() and (d / "latexmk").exists():
+            return str(d)
+    return None
+
+
+TEX_BIN = find_texlive()
+
 USERS = {"movielens": 1000, "amazon": 1000, "gowalla": 600}
 PERM = 250                     # the primary diagnostic budget used everywhere in the paper
 SCALE = 1.0                    # <1.0 shrinks every cohort and every estimate proportionally
@@ -164,10 +190,21 @@ ENV = r"""import platform, hashlib
 
 print(f"python {platform.python_version()}  ({sys.executable})")
 try:
-    import numpy, pandas
-    print(f"numpy {numpy.__version__}, pandas {pandas.__version__}")
+    import matplotlib, numpy, pandas, pytest, scipy
+    from sklearn.linear_model import Ridge
+    print(f"numpy {numpy.__version__}, pandas {pandas.__version__}, "
+          f"scipy {scipy.__version__}, scikit-learn {Ridge.__module__.split('.')[0]} "
+          f"{__import__('sklearn').__version__}, matplotlib {matplotlib.__version__}, "
+          f"pytest {pytest.__version__}")
 except Exception as exc:
-    raise SystemExit(f"install the numerics stack first: python3 -m pip install numpy pandas  ({exc})")
+    raise SystemExit(
+        "install numpy/pandas/scipy/pytest into the interpreter running this kernel ("
+        + str(sys.executable) + "). A managed environment refuses plain pip, so use "
+        "the venv the repo documents: python3 -m venv .venv && .venv/bin/pip install "
+        "numpy pandas scipy scikit-learn matplotlib pytest, then restart the kernel on "
+        "the .venv your editor uses -- the collect cell runs the suite too, so pytest and "
+        "scikit-learn have to be importable there.  (" + str(exc) + ")"
+    )
 
 cores = os.cpu_count() or 1
 mem_gb = float("nan")
@@ -204,7 +241,8 @@ try:
     print("git revision:", rev or "(not a checkout)")
 except Exception as exc:
     print("git unavailable:", exc)
-print("pdflatex:", shutil.which("pdflatex") or "NOT FOUND -> the rebuild cell skips `make pdf` (run it where TeX lives)")
+print("pdflatex:", shutil.which("pdflatex") or (str(Path(TEX_BIN) / "pdflatex") + " (not on PATH; the Makefile and the rebuild cell use it anyway)") if TEX_BIN
+      else "NOT FOUND in PATH or the usual MacTeX/texlive locations")
 """
 
 REQUIRED = r"""# The keys scripts/make_review9_stats.py reads out of each run. A run that finishes
@@ -321,7 +359,7 @@ print("\n== do the payloads reach the published tables? ==")
 # trips over the payload shape is a bug in make_review9_stats.py, and finding that
 # out after a 10-hour queue means the hours bought nothing publishable.
 _env = dict(os.environ, AES_REVIEW9_RESULTS=str(PILOT_DIR))
-_gen = subprocess.run(["python3", str(SCRIPTS / "make_review9_stats.py"), "--dry-run"],
+_gen = subprocess.run([PY, str(SCRIPTS / "make_review9_stats.py"), "--dry-run"],
                       cwd=str(CODE), capture_output=True, text=True, env=_env)
 _found = [l for l in _gen.stdout.splitlines() if l.startswith("DRY_RUN_FLOATS:")]
 rendered = json.loads(_found[0].split(": ", 1)[1]) if _found else []
@@ -401,7 +439,8 @@ RUN_PID = subprocess.Popen(["bash", str(RUNNER)], stdout=log_handle,
                            cwd=str(CODE)).pid
 print(f"\nlaunched pid {RUN_PID}")
 print(f"log:     {LOG}")
-print(f"script:  {RUNNER}   (run it by hand any time: bash {RUNNER.name})")
+print(f"script:  {RUNNER}   (run it by hand any time: bash {RUNNER.name}; "
+      f"each job calls the kernel's interpreter, not the shell's python3)")
 print("Rerun this cell after an interruption: existing outputs are skipped.")
 """
 
@@ -465,8 +504,9 @@ def wait_for_finish(poll_seconds=60, max_minutes=240):
 """
 
 COLLECT = r"""# ---------------------------------------------------------------- rebuild + validate
-def sh(args, cwd=REPO_ROOT):
-    proc = subprocess.run([str(a) for a in args], cwd=str(cwd), capture_output=True, text=True)
+def sh(args, cwd=REPO_ROOT, env=None):
+    proc = subprocess.run([str(a) for a in args], cwd=str(cwd), capture_output=True,
+                          text=True, env=env)
     return proc.returncode, (proc.stdout + proc.stderr).strip()
 
 
@@ -474,7 +514,7 @@ print("== 1. regenerate every table from the matrices + these runs ==")
 # the root target, not just the review-9 generator: `make stats` also refreshes the
 # review-3/review-5 tables and re-freezes the manifest, which is what keeps the two
 # documents typesetting the same numbers from the same files.
-_rc, _out = sh(["make", "-C", str(REPO_ROOT), "stats"])
+_rc, _out = sh(["make", "-C", str(REPO_ROOT), "stats", f"PY={PY}"])
 _lines = [l for l in _out.splitlines()
           if l.startswith("wrote") or "ablation:" in l or "report" in l.lower()]
 print("\n".join(_lines[-12:]) if _lines else _out[-800:])
@@ -506,22 +546,27 @@ for rel in ("review9_statistics.tex", "review9_benchmark_replications.tex",
     print(f"   {rel:<40} {'identical' if same else 'DIFFERS (fix before pushing)'}")
 
 print("\n== 5. validators ==")
-for cmd in (["python3", str(SCRIPTS / "validate_manuscript.py")],
-            ["python3", str(SCRIPTS / "make_result_manifest.py"), "--check"],
-            ["python3", "-m", "pytest", "-q"]):
+for cmd in ([PY, str(SCRIPTS / "validate_manuscript.py")],
+            [PY, str(SCRIPTS / "make_result_manifest.py"), "--check"],
+            [PY, "-m", "pytest", "-q"]):
     rc, out = sh(cmd, cwd=CODE)
     print(" " + " ".join(cmd[1:]), "->", "PASS" if rc == 0 else "FAIL")
     if rc:
         print(out[-2500:])
 
 print("\n== 6. rebuild the PDFs (skipped without a LaTeX toolchain) ==")
-if shutil.which("pdflatex"):
-    rc, out = sh(["make", "-C", str(REPO_ROOT), "pdf"])
-    print("make pdf ->", "PASS" if rc == 0 else "FAIL")
+if TEX_BIN:
+    rc, out = sh(["make", "-C", str(REPO_ROOT), "pdf"],
+                 env=dict(os.environ, PATH=TEX_BIN + os.pathsep + os.environ.get("PATH", "")))
+    print("make pdf (via %s/pdflatex) ->" % TEX_BIN, "PASS" if rc == 0 else "FAIL")
     if rc:
         print(out[-2500:])
+    else:
+        print("   PDFs rebuilt: the stale-PDF xfail guard should now pass on the next run.")
 else:
-    print("   pdflatex not found -- run `make -C <repo root> pdf` on a machine with texlive.")
+    print("   no pdflatex/latexmk in PATH, /Library/TeX/texbin or /usr/local/texlive/*/bin/*.")
+    print("   Install MacTeX (`brew install --cask mactex-no-gui`) or run")
+    print("   `make -C %s pdf` where TeX lives; the PDFs stay stale until then." % REPO_ROOT)
 
 print("\n== 7. what changed ==")
 print(sh(["git", "status", "--short"], cwd=REPO_ROOT)[1][:2500])

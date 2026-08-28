@@ -169,6 +169,34 @@ Everything below is generated, mirrored to both `tables/` copies, and covered by
   initially shadowed the module-level `json` import with a local one (`UnboundLocalError` in
   `json.load` three lines away) -- a reminder that a `def` touched in one branch needs a full-file
   syntax + run check, not just an `ast.parse` of the edit.
+* **The content hash quoted in both PDFs was machine-dependent, and their own
+  replication run proved it.** Re-generating the derived payloads on the authors'
+  workstation (macOS, Accelerate, pandas 2.3.3) and in the review sandbox (Linux,
+  OpenBLAS, pandas 3.0.5) changed the 16th significant digit of 2,214 stored floats --
+  four $p$-values printed identically while the hash the documents quote moved, which
+  trains a reader to ignore the very check that is supposed to catch an undocumented
+  change. Two sources, two fixes: derived payloads are now serialised at 12 significant
+  digits (the tables print 3-5), and `review9_multiplicity_map.csv` is written by hand
+  instead of through `DataFrame.to_csv`, because pandas 2 emits `1.0` where pandas 3
+  emits `1` for the same `%.12g` value. Verified by replaying both machines' committed
+  payloads through the new serializer (byte-identical, 388,514 B) and by regenerating
+  under pandas 2.3.3 and 3.0.5 (byte-identical); `test_derived_payloads_do_not_depend_on_blas_last_digits`
+  keeps it that way. Raw run outputs stay at full precision on purpose: they are the
+  deposited record, and a change there is a fact about the run.
+* **`make pdf` reported "no toolchain" on a machine that has one.** A venv-launched
+  kernel does not inherit MacTeX's `/Library/TeX/texbin`, so the collect cell skipped the
+  rebuild that the stale-PDF guard is waiting on. The root Makefile now probes the usual
+  install locations and prepends the first one it finds, the notebook does the same for its
+  own report, and every subprocess plus the `make` calls now pass the *kernel's*
+  interpreter (`PY = sys.executable`) rather than a bare `python3`, so the validators,
+  the generators and the queue all run under the numpy the user actually installed.
+  The environment check also probes scipy/scikit-learn/matplotlib/pytest, since the test
+  suite imports them and a missing one used to surface as an unrelated collection error.
+* Their run also validated the queue's bookkeeping end to end on a third platform:
+  21 jobs (7 experiments x 3 datasets) were enumerated, the five Gowalla outputs already
+  in the repository were reported `exists` and skipped rather than re-run, and the pilot's
+  measured costs (13-27 min per 1000 users, against 25-65 in the sandbox) replaced the
+  reference estimates before launch.
 * **`make artifact`** (new root target) builds the deposit: raw schema-v2 runs plus the generated
   half of the paper (review-9 outputs, manifest, both table mirrors, generators, validators, the
   integrity test, the notebook, the two planning docs), with a `release_checksums.json` inside and

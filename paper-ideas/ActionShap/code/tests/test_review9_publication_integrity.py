@@ -417,3 +417,39 @@ def test_compiled_pdfs_are_not_silent_about_the_revised_text():
             f"{name} was built at {built.isoformat()} but its sources change at "
             f"{newest.isoformat()}: rebuild with `make pdf` before submitting"
         )
+def _significant_digits(token: str) -> int:
+    body = token.lower().split("e")[0].lstrip("-+")
+    digits = body.replace(".", "").lstrip("0")
+    return len(digits.rstrip("0") or "0")
+
+
+def test_derived_payloads_do_not_depend_on_blas_last_digits() -> None:
+    """The files that feed the printed numbers must not carry last-ULP noise.
+
+    OpenBLAS (the review sandbox) and Accelerate (the authors' workstation) agree to
+    ~1e-16 relative, which is invisible at the 3-5 decimals every table prints but
+    enough to change the 16th significant digit of a stored $p$-value. Before the
+    generator quantised its output, that difference moved the content hash quoted in
+    both PDFs whenever somebody re-ran ``make stats`` on another machine -- a stamp
+    that only reports *which machine computed it* is worse than no stamp, because it
+    trains the reader to ignore the failure. So derived payloads are serialised at 12
+    significant digits; raw run outputs stay at full precision on purpose.
+    """
+    csv_path = REVIEW9_JSON.parent / "review9_multiplicity_map.csv"
+    text = REVIEW9_JSON.read_text()
+    floats = [float(x) for x in re.findall(r"-?\d+\.\d+(?:e[-+]?\d+)?", text)]
+    assert floats, "no floats found: did the derived JSON change shape?"
+    for value in floats:
+        if value == 0.0 or not np.isfinite(value):
+            continue
+        assert float("%.12g" % value) == value, (
+            f"{value!r} is stored at more than 12 significant digits: regenerate with "
+            "make_review9_stats.py, which quantises derived payloads so the stamp is "
+            "machine-independent"
+        )
+    if csv_path.exists():
+        tokens = re.findall(r"-?\d+\.\d+(?:e[-+]?\d+)?", csv_path.read_text())
+        assert tokens, "no floats found in the multiplicity CSV"
+        over = [x for x in tokens if _significant_digits(x) > 13]
+        assert not over, f"CSV carries full-precision reprs, e.g. {over[:3]}"
+

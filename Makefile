@@ -18,6 +18,17 @@ SCRIPTS := $(CODE)/scripts
 LATEXMK := latexmk -pdf -interaction=nonstopmode -halt-on-error -shell-escape
 PY      := python3
 
+# A venv- or Jupyter-launched shell usually does not carry /Library/TeX/texbin, so
+# `make pdf` used to report "no toolchain" on a machine that has MacTeX installed.
+# Probe the usual install locations and prepend the first one that exists; an empty
+# TEXBIN must not leave an empty PATH entry (that would make `.` a search dir).
+TEXBIN := $(firstword $(wildcard /Library/TeX/texbin /opt/homebrew/bin /usr/local/bin \
+                        $(addsuffix /bin/x86_64-darwin,$(wildcard /usr/local/texlive/*)) \
+                        $(addsuffix /bin/x86_64-linux,$(wildcard /usr/local/texlive/*))))
+ifneq ($(strip $(TEXBIN)),)
+export PATH := $(TEXBIN):$(PATH)
+endif
+
 .PHONY: pdf main supplementary manifest tables check stats clean tools help artifact
 
 help:
