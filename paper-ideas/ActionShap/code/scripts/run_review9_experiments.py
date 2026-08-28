@@ -29,6 +29,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import platform
 import sys
 import time
@@ -139,7 +140,13 @@ def summarize(values):
 def write_json(out_dir: Path, name: str, payload: dict) -> Path:
     out_dir.mkdir(parents=True, exist_ok=True)
     path = out_dir / name
-    path.write_text(json.dumps(payload, indent=1))
+    # Written via a temporary file and os.replace(): a run killed by a timeout, a
+    # suspended laptop or a full disk otherwise leaves a truncated JSON behind, and
+    # the queue's resume guard treats *any* existing file as a completed job -- so the
+    # corrupted run would never be re-run and a table could be typeset from half a file.
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_text(json.dumps(payload, indent=1))
+    os.replace(tmp, path)
     print(f"wrote {path}")
     return path
 
