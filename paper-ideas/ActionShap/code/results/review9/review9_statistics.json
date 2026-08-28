@@ -13652,13 +13652,78 @@
   }
  ],
  "fixed_denominator": {
-  "runs": 1,
+  "runs": 3,
   "datasets": [
-   "Gowalla"
+   "Amazon",
+   "Gowalla",
+   "MovieLens-1M"
   ],
-  "users_with_defined_aia": 528,
-  "users_sampled": 600,
+  "users_with_defined_aia": 1000,
+  "users_sampled": 1000,
   "paired": {
+   "Amazon|Shapley bounded AIA": {
+    "n": 810,
+    "share_nonzero": 0.940740740741,
+    "diff": -0.386378268011,
+    "lo": -0.41264907101,
+    "hi": -0.361055697656,
+    "p": 1.9999600008e-05,
+    "dz": -1.01632340743
+   },
+   "Amazon|Shapley deletion AIA": {
+    "n": 810,
+    "share_nonzero": 0.941975308642,
+    "diff": -0.403232474514,
+    "lo": -0.431326707402,
+    "hi": -0.377051223863,
+    "p": 1.9999600008e-05,
+    "dz": -1.01874766145
+   },
+   "Amazon|bounded-minus-deletion gap (Shapley)": {
+    "n": 810,
+    "share_nonzero": 0.0851851851852,
+    "diff": 0.0168542065037,
+    "lo": 0.0111474681295,
+    "hi": 0.0231042073444,
+    "p": 1.9999600008e-05,
+    "dz": 0.192681070939
+   },
+   "Amazon|LIME bounded AIA": {
+    "n": 810,
+    "share_nonzero": 0.111111111111,
+    "diff": -0.0171851847635,
+    "lo": -0.0228370956425,
+    "hi": -0.0121342527677,
+    "p": 1.9999600008e-05,
+    "dz": -0.220227123049
+   },
+   "Amazon|LOO bounded AIA": {
+    "n": 810,
+    "share_nonzero": 0.0691358024691,
+    "diff": -0.0159104648759,
+    "lo": -0.0222752030842,
+    "hi": -0.0101576735904,
+    "p": 1.9999600008e-05,
+    "dz": -0.179323087113
+   },
+   "Amazon|signed alignment (Shapley bnd.)": {
+    "n": 810,
+    "share_nonzero": 0.830864197531,
+    "diff": -0.147681274467,
+    "lo": -0.156712773136,
+    "hi": -0.139065994591,
+    "p": 1.9999600008e-05,
+    "dz": -1.15558834451
+   },
+   "Amazon|mean $|\\Delta|$ (effect scale)": {
+    "n": 1000,
+    "share_nonzero": 0.81,
+    "diff": 0.000172531666864,
+    "lo": 0.000138647574428,
+    "hi": 0.000208109425178,
+    "p": 1.9999600008e-05,
+    "dz": 0.306801246888
+   },
    "Gowalla|Shapley bounded AIA": {
     "n": 528,
     "share_nonzero": 1.0,
@@ -13721,9 +13786,94 @@
     "hi": 0.000102164357386,
     "p": 1.9999600008e-05,
     "dz": 0.580824849946
+   },
+   "MovieLens-1M|Shapley bounded AIA": {
+    "n": 1000,
+    "share_nonzero": 0.99,
+    "diff": -0.205068949083,
+    "lo": -0.216033994132,
+    "hi": -0.194265737737,
+    "p": 1.9999600008e-05,
+    "dz": -1.17520365859
+   },
+   "MovieLens-1M|Shapley deletion AIA": {
+    "n": 1000,
+    "share_nonzero": 0.993,
+    "diff": -0.221058892662,
+    "lo": -0.233520116825,
+    "hi": -0.208937756606,
+    "p": 1.9999600008e-05,
+    "dz": -1.11769775551
+   },
+   "MovieLens-1M|bounded-minus-deletion gap (Shapley)": {
+    "n": 1000,
+    "share_nonzero": 0.879,
+    "diff": 0.0159899435796,
+    "lo": 0.012363557065,
+    "hi": 0.019651369949,
+    "p": 1.9999600008e-05,
+    "dz": 0.273407670027
+   },
+   "MovieLens-1M|LIME bounded AIA": {
+    "n": 1000,
+    "share_nonzero": 0.952,
+    "diff": -0.0383888139609,
+    "lo": -0.0425105174196,
+    "hi": -0.0343634618867,
+    "p": 1.9999600008e-05,
+    "dz": -0.578474096568
+   },
+   "MovieLens-1M|LOO bounded AIA": {
+    "n": 1000,
+    "share_nonzero": 0.786,
+    "diff": -0.0160407355375,
+    "lo": -0.0185315944364,
+    "hi": -0.0136600454609,
+    "p": 1.9999600008e-05,
+    "dz": -0.405463380185
+   },
+   "MovieLens-1M|signed alignment (Shapley bnd.)": {
+    "n": 1000,
+    "share_nonzero": 0.972,
+    "diff": -0.0547823819866,
+    "lo": -0.0584102970722,
+    "hi": -0.0513476571877,
+    "p": 1.9999600008e-05,
+    "dz": -0.955444679451
+   },
+   "MovieLens-1M|mean $|\\Delta|$ (effect scale)": {
+    "n": 1000,
+    "share_nonzero": 1.0,
+    "diff": -5.312342257e-05,
+    "lo": -6.42642222348e-05,
+    "hi": -4.24503245397e-05,
+    "p": 1.9999600008e-05,
+    "dz": -0.30218225992
    }
   },
   "levels": {
+   "Amazon|normalized (relative reweighting)": {
+    "bounded": 0.6068282882,
+    "deletion": 0.589953529558,
+    "gap": 0.0168747586411,
+    "lime": 0.831733645524,
+    "loo": 0.982328491244,
+    "signed": 0.84610045345,
+    "scale": 0.000937870502643,
+    "n": 810,
+    "n_sampled": 1000
+   },
+   "Amazon|fixed denominator (pure suppression)": {
+    "bounded": 0.99320655621,
+    "deletion": 0.993186004073,
+    "gap": 2.05521374373e-05,
+    "lime": 0.848918830288,
+    "loo": 0.99823895612,
+    "signed": 0.993781727917,
+    "scale": 0.000765338835779,
+    "n": 810,
+    "n_sampled": 1000
+   },
    "Gowalla|normalized (relative reweighting)": {
     "bounded": 0.637893785546,
     "deletion": 0.628105192089,
@@ -13745,6 +13895,28 @@
     "scale": 0.000227916573733,
     "n": 528,
     "n_sampled": 600
+   },
+   "MovieLens-1M|normalized (relative reweighting)": {
+    "bounded": 0.743728733355,
+    "deletion": 0.72480082314,
+    "gap": 0.0189279102152,
+    "lime": 0.926105472784,
+    "loo": 0.973506603647,
+    "signed": 0.905462213026,
+    "scale": 0.00068786609666,
+    "n": 1000,
+    "n_sampled": 1000
+   },
+   "MovieLens-1M|fixed denominator (pure suppression)": {
+    "bounded": 0.948797682438,
+    "deletion": 0.945859715803,
+    "gap": 0.00293796663556,
+    "lime": 0.964494286745,
+    "loo": 0.989547339184,
+    "signed": 0.960244595013,
+    "scale": 0.00074098951923,
+    "n": 1000,
+    "n_sampled": 1000
    }
   },
   "cross_check_mismatches": [],
@@ -13888,6 +14060,45 @@
       "sd": 0.157161688849,
       "min": 0.377964473009,
       "max": 0.984806980762
+     }
+    }
+   },
+   "MovieLens-1M": {
+    "users_total": 1000,
+    "users_audited": 1000,
+    "covers_heldout_target_fraction": 0.118,
+    "summary": {
+     "aia_shapley": {
+      "n": 1000,
+      "mean": 0.800049651758,
+      "median": 0.832915513212,
+      "sd": 0.124158205904,
+      "min": 0.0545454545455,
+      "max": 1.0
+     },
+     "aia_lime": {
+      "n": 1000,
+      "mean": 0.938911946277,
+      "median": 0.954940464251,
+      "sd": 0.0555940645774,
+      "min": 0.484881137876,
+      "max": 1.0
+     },
+     "aia_loo": {
+      "n": 1000,
+      "mean": 0.981082892264,
+      "median": 0.990902198635,
+      "sd": 0.0344300248299,
+      "min": 0.3,
+      "max": 1.0
+     },
+     "signed_shapley": {
+      "n": 1000,
+      "mean": 0.931553988236,
+      "median": 0.948606354908,
+      "sd": 0.0559676894783,
+      "min": 0.626743107635,
+      "max": 1.0
      }
     }
    }

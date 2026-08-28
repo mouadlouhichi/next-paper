@@ -1,5 +1,5 @@
 {
- "file_count": 62,
+ "file_count": 65,
  "files": {
   "acmart-primary/tables/actionability_gap_robustness.tex": "a56f92fd15e4b9ced9b4983e531dce7cfdb94b29b9034e653eb81e89a2c1ba18",
   "acmart-primary/tables/aia_components.tex": "9adf1c08059947476e850b18419a0ec188ad0151b43bc383bdeb7f23a6ef5047",
@@ -33,7 +33,7 @@
   "acmart-primary/tables/review5_validation.tex": "125b231011cd00ce676f85829176fee20715a30883238739d3a48f17ded28fa3",
   "acmart-primary/tables/review7_kernelschap.tex": "580aef8ee52bcbe7930aefdf3dea556f961c4c623d1b3d3a46305980cccab522",
   "acmart-primary/tables/review8_extended_basis.tex": "d4fa677aeb24039ff63bad484922c8b3acde0160d9de221649f4e50b92d4ebf8",
-  "acmart-primary/tables/review9_benchmark_replications.tex": "ab54db1900e2d3eb7250647b1826e2244775dc6fa1ba052af661b27bf424f471",
+  "acmart-primary/tables/review9_benchmark_replications.tex": "93522cd0e0b8c973108039535bdaa415bb278c1a0a5a3a21225abbe3b7aaa8bb",
   "acmart-primary/tables/review9_statistics.tex": "f4ceb904b981e0bee3e61a55811b700cea0fbe5ef3c288efc9cc2e48849977eb",
   "acmart-primary/tables/sensitivity_results.tex": "e90f4151494eb067c03ae3c35307c10d86fdbd2b8d20ce00d447ff16704bb827",
   "actionshap-ipm/release/matrices/actionability_gap_advantage.csv": "cac3f3a99ad31144b1d0017cde2e9d11557b18c03dd09a81170f27915c11e7f7",
@@ -56,16 +56,19 @@
   "actionshap-ipm/release/matrices/review7_success_abstention_tests.csv": "8bf516ae341ee687099eb67976248e89da4d69df08c177b0643e65b551146dc3",
   "actionshap-ipm/release/matrices/signed_alignment_headline.csv": "5ed227b576c8f93f52b10deaf779ca1c1c9dad9fb7d9540b2bc432098a26dd06",
   "actionshap-ipm/release/matrices/user_seed_metrics.csv.gz": "3dcd11203ba1b30ae16c0bd7f2ee11109b876fc72c73b4fd1abdc77ed0a7b88a",
+  "code/results/review9/fixed_denominator_amazon.json": "f6b0a4879b26d255b5c6f7a050158fa1a00e5c0a8a6e52153516c4e42a64b60e",
   "code/results/review9/fixed_denominator_gowalla.json": "b5da91d45ea8af816932e5b4b42cf57ea4b9d9e2498da6ddc631b2c16eabd926",
+  "code/results/review9/fixed_denominator_movielens.json": "326bdabe2f4242be566de795eabba088ecbc09e68d146a0ca74ece49198b88a1",
   "code/results/review9/hardware_gowalla.json": "c5db594717974befcbb95201f5510860be79c89c68c6c5a9d08de3b0bbd587e2",
   "code/results/review9/prospective_gowalla.json": "51c4e6395619804e547fbf4195f5b0e45f5a41aa7d25eb65d3a45062455e97e3",
+  "code/results/review9/prospective_movielens.json": "7dd49478d1a12fffa2db7b5279594bae9bd1c97518f593a2657f95c99875b056",
   "code/results/review9/review9_multiplicity_map.csv": "174605ab16964ce032c36f4507788706d8ed28ab681cbbccdaa0d8c5d22101a0",
-  "code/results/review9/review9_statistics.json": "56b43115036c65e0225cd865921269ec1a6d5d940ed4fe285059e43ba61660c4",
+  "code/results/review9/review9_statistics.json": "36a1ddd9e72da19434cfa527372a65c61706119cc30910461519735aee654ca1",
   "code/results/review9/stratified_null_gowalla.json": "eeebe29afcadfd464967145f880225c61c264b63870cdfdeebda625f0f42ba87",
   "code/results/review9/utility_factorial_gowalla.json": "5e827ff8d8398180c5f2c4d9653c766f408193e27f4e55be425ecc6df44ae4c7"
  },
- "git_revision": "5441ade221854a326923b1949e78f14830919e5b",
- "manifest_sha256": "9eae036444930b4760a40044520b4bf2406c3786bcbda24f1f5aa927f156b18c",
- "manifest_stamp": "9eae03644493",
+ "git_revision": "f389f187b1f0414abacd3c6c951c4e6789458044",
+ "manifest_sha256": "22d42b58733ea244238e189436e9e07b52fc50d003e1288c8d1c79fc773c4078",
+ "manifest_stamp": "22d42b58733e",
  "schema": "actionshap-result-manifest-v1"
 }

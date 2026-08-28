@@ -7,8 +7,12 @@
 \toprule
 Dataset & Scorer & $n$ & Shapley bnd. & Shapley del. & Gap & LIME bnd. & LOO bnd. & Signed & Effect scale \\
 \midrule
+Amazon & normalized (relative reweighting) & 810 & 0.607 & 0.590 & 0.0169 & 0.832 & 0.982 & 0.846 & 0.00094 \\
+Amazon & fixed denominator (pure suppression) & 810 & 0.993 & 0.993 & 0.0000 & 0.849 & 0.998 & 0.994 & 0.00077 \\
 Gowalla & normalized (relative reweighting) & 528 & 0.638 & 0.628 & 0.0098 & 0.690 & 0.990 & 0.700 & 0.00032 \\
 Gowalla & fixed denominator (pure suppression) & 528 & 0.998 & 0.998 & 0.0000 & 0.700 & 1.000 & 0.998 & 0.00023 \\
+MovieLens-1M & normalized (relative reweighting) & 1000 & 0.744 & 0.725 & 0.0189 & 0.926 & 0.974 & 0.905 & 0.00069 \\
+MovieLens-1M & fixed denominator (pure suppression) & 1000 & 0.949 & 0.946 & 0.0029 & 0.964 & 0.990 & 0.960 & 0.00074 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -20,6 +24,13 @@ Gowalla & fixed denominator (pure suppression) & 528 & 0.998 & 0.998 & 0.0000 & 
 \toprule
 Dataset & Quantity & $n$ & Nonzero & Normalized $-$ fixed & CI low & CI high & Sign-flip $p$ & $d_z$ \\
 \midrule
+Amazon & Shapley bounded AIA & 810 & 762/810 & -0.3864 & -0.4126 & -0.3611 & $<10^{-4}$ & -1.016 \\
+Amazon & Shapley deletion AIA & 810 & 763/810 & -0.4032 & -0.4313 & -0.3771 & $<10^{-4}$ & -1.019 \\
+Amazon & bounded-minus-deletion gap (Shapley) & 810 & 69/810 & 0.0169 & 0.0111 & 0.0231 & $<10^{-4}$\,$^{\dagger}$ & 0.193 \\
+Amazon & LIME bounded AIA & 810 & 90/810 & -0.0172 & -0.0228 & -0.0121 & $<10^{-4}$\,$^{\dagger}$ & -0.220 \\
+Amazon & LOO bounded AIA & 810 & 56/810 & -0.0159 & -0.0223 & -0.0102 & $<10^{-4}$\,$^{\dagger}$ & -0.179 \\
+Amazon & signed alignment (Shapley bnd.) & 810 & 673/810 & -0.1477 & -0.1567 & -0.1391 & $<10^{-4}$\,$^{\dagger}$ & -1.156 \\
+Amazon & mean $|\Delta|$ (effect scale) & 1000 & 810/1000 & 0.0002 & 0.0001 & 0.0002 & $<10^{-4}$\,$^{\dagger}$ & 0.307 \\
 Gowalla & Shapley bounded AIA & 528 & 528/528 & -0.3601 & -0.3750 & -0.3455 & $<10^{-4}$ & -2.074 \\
 Gowalla & Shapley deletion AIA & 528 & 528/528 & -0.3699 & -0.3862 & -0.3538 & $<10^{-4}$ & -1.969 \\
 Gowalla & bounded-minus-deletion gap (Shapley) & 528 & 29/528 & 0.0098 & 0.0047 & 0.0164 & $<10^{-4}$\,$^{\dagger}$ & 0.142 \\
@@ -27,6 +38,13 @@ Gowalla & LIME bounded AIA & 528 & 85/528 & -0.0110 & -0.0163 & -0.0063 & $<10^{
 Gowalla & LOO bounded AIA & 528 & 19/528 & -0.0099 & -0.0172 & -0.0045 & $<10^{-4}$\,$^{\dagger}$ & -0.133 \\
 Gowalla & signed alignment (Shapley bnd.) & 528 & 528/528 & -0.2976 & -0.3112 & -0.2841 & $<10^{-4}$ & -1.872 \\
 Gowalla & mean $|\Delta|$ (effect scale) & 600 & 528/600 & 0.0001 & 0.0001 & 0.0001 & $<10^{-4}$\,$^{\dagger}$ & 0.581 \\
+MovieLens-1M & Shapley bounded AIA & 1000 & 990/1000 & -0.2051 & -0.2160 & -0.1943 & $<10^{-4}$ & -1.175 \\
+MovieLens-1M & Shapley deletion AIA & 1000 & 993/1000 & -0.2211 & -0.2335 & -0.2089 & $<10^{-4}$ & -1.118 \\
+MovieLens-1M & bounded-minus-deletion gap (Shapley) & 1000 & 879/1000 & 0.0160 & 0.0124 & 0.0197 & $<10^{-4}$\,$^{\dagger}$ & 0.273 \\
+MovieLens-1M & LIME bounded AIA & 1000 & 952/1000 & -0.0384 & -0.0425 & -0.0344 & $<10^{-4}$ & -0.578 \\
+MovieLens-1M & LOO bounded AIA & 1000 & 786/1000 & -0.0160 & -0.0185 & -0.0137 & $<10^{-4}$\,$^{\dagger}$ & -0.405 \\
+MovieLens-1M & signed alignment (Shapley bnd.) & 1000 & 972/1000 & -0.0548 & -0.0584 & -0.0513 & $<10^{-4}$ & -0.955 \\
+MovieLens-1M & mean $|\Delta|$ (effect scale) & 1000 & 1000/1000 & -0.0001 & -0.0001 & -0.0000 & $<10^{-4}$ & -0.302 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -71,6 +89,7 @@ Gowalla & recency blocks & 163 & 0.5750 & 0.1003 & 0.0207 & 0.0258 & 0.1735 & 22
 Dataset & Sampled & Audited & Prospective target covers held-out item & AIA Shapley & AIA LIME & AIA LOO & Signed Shapley \\
 \midrule
 Gowalla & 600 & 600 & 12.0\% & 0.6757 & 0.6973 & 0.9997 & 0.7007 \\
+MovieLens-1M & 1000 & 1000 & 11.8\% & 0.8000 & 0.9389 & 0.9811 & 0.9316 \\
 \bottomrule
 \end{tabular}
 \end{table}

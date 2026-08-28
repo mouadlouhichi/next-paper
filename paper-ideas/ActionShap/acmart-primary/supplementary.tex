@@ -16,7 +16,7 @@
 \usepackage{multirow}
 \graphicspath{{figures/}}
 \newcommand{\resdir}{tables}
-\newcommand{\resultmanifeststamp}{9eae03644493}
+\newcommand{\resultmanifeststamp}{22d42b58733e}
 % Recomputed by code/scripts/make_result_manifest.py; the test suite fails if the
 % released matrices or generated tables change without updating this stamp.
 
@@ -295,31 +295,44 @@ normalization. Tables~\ref{tab:r9-fixed-denominator}
 and~\ref{tab:r9-fixed-denominator-paired} answer it by re-scoring the same fitted
 neighbourhoods under both denominators: nothing is retrained and the candidate sets,
 permutation seed, intervention strength ($\rho=0.5$) and evaluated users are
-identical, so any difference is the interface itself. The ablation is run on
-Gowalla, the third benchmark that ships in the artifact ($600$ sampled users,
-$528$ of which have a defined $n_{\max}=20$ attribution game); the primary cohorts
-require per-user intervention files that are not part of the frozen matrices.
+identical, so any difference is the interface itself. It is run on all three cohorts: MovieLens-1M and
+Amazon Digital Music at the full $1{,}000$-user primary sample ($1{,}000$ and $810$
+users with a defined $n_{\max}=20$ game) and Gowalla, the benchmark that ships inside
+the artifact ($600$ sampled, $528$ defined). One scope note matters for reading the
+levels: the ablation is a self-contained replication that fits its own cosine ItemKNN
+model ($200$ neighbours, cohort-only histories) at the diagnostic budget
+$M_{\mathrm{pair}}=250$, so its normalized column is not the primary table's
+($0.744$ here against the published $0.779$ on MovieLens, $0.607$ against $0.414$ on
+Amazon) and absolute levels are not transferred between the two. What is transferred is
+the paired comparison, because both interfaces are evaluated on the identical fit, the
+identical candidate sets, permutation seed ($42$), intervention strength
+($\rho=0.5$) and evaluated users.
 
-The concern is confirmed on this benchmark. Under the normalized interface the
-Shapley bounded AIA is $0.638$ and the leave-one-out bounded AIA is $0.990$, so
-leave-one-out looks like the most aligned scorer; under a fixed denominator the
-two are indistinguishable ($0.998$ versus $1.000$) and ItemKNN-LOO and Shapley
-swap places ahead of LIME ($0.690$ normalized, $0.700$ fixed). The paired user
-contrast on Shapley is $-0.360$ ($95\%$ CI $[-0.375,-0.346]$, $d_z=-2.07$, all
-$528$ users nonzero), and the signed-alignment version of the same statistic moves
-by $-0.298$ ($d_z=-1.87$). The bounded-minus-deletion gap, which is the quantity
-the objection targets, is $+0.0098$ under normalization and $0.0000$ under pure
-suppression: the normalization does inflate the gap, but on this cohort the gap is
-small in absolute terms either way and is carried by $29$ of $528$ users, which is
-why its floor $p$-value is marked as zero-inflated rather than read as a strong
-effect. The decisive point is the joint reading of level and scale: the realized
-mean absolute singleton effect is $3.2\times10^{-4}$ (normalized) versus
-$2.3\times10^{-4}$ (fixed), so a bounded AIA of $0.998$ on this benchmark is
-saturation of a ratio whose numerator and denominator shrink together, not
-evidence of a strong suppression effect. Bounded AIA is therefore interpreted in
-this paper only as a comparison within one interface---the exact inference-time
-rule of the fitted scorer---and never as an absolute amount of evidence; the
-tables above give the pure-suppression counterfactual for every claim that could be
+The concern is confirmed on every cohort, and on one of them it changes a
+conclusion. Under the normalized interface MovieLens gives Shapley bounded AIA $0.744$
+against $0.926$ for bounded LIME and $0.974$ for leave-one-out; under a fixed denominator
+Shapley rises to $0.949$ while LIME barely moves ($0.965$), and the paired user shift is
+$-0.205$ ($95\%$ CI $[-0.216,-0.194]$, $d_z=-1.18$, nonzero for $990$ of $1{,}000$
+users). On Amazon the separation does not merely shrink, it reverses: Shapley moves from
+$0.607$ to $0.993$ while LIME goes from $0.832$ to $0.849$, so the two attribution
+methods swap places across the two readings of the same intervention (paired shift
+$-0.386$, CI $[-0.413,-0.361]$, $d_z=-1.02$, $762$ of $810$ users nonzero), and the
+signed alignment moves with it ($0.846$ to $0.994$). The bounded-minus-deletion gap that
+the objection targets is $+0.0189$ (MovieLens), $+0.0169$ (Amazon) and $+0.0098$
+(Gowalla) under normalization, against $+0.0029$, $0.0000$ and $0.0000$ under pure
+suppression: the normalization inflates the gap by a factor of $6$ to $\\infty$, but the
+gap is carried by $879$ of $1{,}000$ MovieLens users and only $69$ of $810$ Amazon
+users, so its per-user reliability differs sharply between the cohorts even where the
+cohort means agree. The decisive reading is level and scale together: the realized mean
+absolute singleton effect is of order $7\\times10^{-4}$ (MovieLens normalized) and
+$9\\times10^{-4}$ (Amazon normalized) against $2\\times10^{-4}$ on Gowalla, so a bounded
+AIA near $0.99$ is saturation of a ratio whose numerator and denominator shrink
+together, not evidence of a strong suppression effect --- and on MovieLens the
+fixed-denominator mean effect is also slightly the smaller of the two
+($-5.3\\times10^{-5}$, CI $[-6.4,-4.2]\\times10^{-5}$). Bounded AIA is therefore
+interpreted in this paper only as a comparison within one interface, the exact
+inference-time rule of the fitted scorer, and never as an absolute amount of evidence;
+the tables above give the pure-suppression counterfactual for every claim that could be
 read the second way.
 \emph{Target conditioning (Issue 5).} Conditioning the attribution game on the held-out
 item makes part of ``alignment'' definitional, so the audit was re-run with the target
@@ -334,10 +347,15 @@ held-out conditioning gives $0.638$, $0.690$, $0.990$ and $0.700$
 (Table~\ref{tab:r9-fixed-denominator}), so removing the future label moves the two
 attribution-based scores by $+0.038$ and $+0.008$ and leaves the cross-scorer ordering
 untouched: the level is not an artifact of conditioning on the target, and
-leave-one-out remains saturated whichever target the game is built around. Only
-$72$ of $600$ audited users ($12.0\%$) have a prospective top-$1$ that coincides with
-the held-out item, so the two audits mostly score different events and a per-user
-paired contrast between them is not a defined quantity; what is comparable is the
+leave-one-out remains saturated whichever target the game is built around. The same audit on the primary
+MovieLens cohort ($1{,}000$ users, all with a defined game) gives Shapley $0.800$
+(SD $0.124$), LIME $0.939$, leave-one-out $0.981$ and signed alignment $0.932$, against
+$0.744$, $0.926$, $0.974$ and $0.906$ for held-out conditioning at the same budget: every
+score moves up by $0.013$--$0.056$ and no ordering changes, so the Gowalla reading is
+not an artifact of that cohort's truncation. Coverage behaves the same way in both: $118$
+of $1{,}000$ MovieLens users ($11.8\%$) and $72$ of $600$ on Gowalla ($12.0\%$) have a
+prospective top-$1$ that coincides with the held-out item, so the two audits mostly score
+different events and a per-user paired contrast between them is not a defined quantity; what is comparable is the
 ordering and the size of the alignment, and both survive. The residual caveat is
 coverage, not conditioning: for the remaining users the audit measures alignment to a
 target nobody consumed, which is the deployment-relevant estimand but not the one the

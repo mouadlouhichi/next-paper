@@ -23,11 +23,11 @@ Legend:
 
 | # | Issue | Status | Where |
 |---|-------|--------|-------|
-| 1 | Normalized weighting = relative profile-mass reallocation, not isolated suppression | **FIXED (text+code+run)** derivation + rename + `FixedDenominatorItemKNN`; the pure-suppression ablation has now been run on the benchmark that ships in the artifact (Gowalla, 600 sampled / 528 defined users, identical candidates, seed, $\rho$): Shapley bounded AIA $0.638\to0.998$, LOO $0.990\to1.000$, LIME $0.690\to0.700$, paired Shapley contrast $-0.360$ $[-0.375,-0.346]$, $d_z=-2.07$; the bounded-minus-deletion gap $+0.0098\to0.0000$ (29/528 users). Tables `tab:r9-fixed-denominator(-paired)`; main text Section 4.2 states the reading. MovieLens/Amazon replication still needs the datasets machine | make_review9_stats |
+| 1 | Normalized weighting = relative profile-mass reallocation, not isolated suppression | **FIXED (all three cohorts, data+text)** `fixed_denominator_{movielens,amazon,gowalla}.json` (1,000 / 810 / 528 defined games) -> `tab:r9-fixed-denominator` + paired table; the interface *reverses* Shapley vs LIME on Amazon (0.607<0.832 normalized, 0.993>0.849 fixed) and narrows the MovieLens gap from 0.182 to 0.016, so the supplement now states the within-interface rule and the main text says so once at the headline claim; scope note recorded: the ablation is a same-model re-fit at M_pair=250, so its levels are not the published M_pair=500 values | S11, main Sec. faithfulness |
 | 2 | Only ItemKNN passes the quality gate | **REBUT + RUN (long-term)** existing candor retained (limitations, abstract caveat); competitive gate-passing neural/graph model is an engineering workstream (history-weighting-compatible training), scoped in the guide | abstract, §7, §8 |
 | 3 | Amazon full-catalogue reversal must be central | **FIXED (text)** promoted into abstract, §6.6 already reports it, conclusion restates it (negative AIA −0.05 with positive gap +0.16) | abstract, §6.6, conclusion |
 | 4 | Utility mismatch confounds H2 (target-margin attribution vs NDCG decisions) | **FIXED (text+run)** primary-cohort factorial from the released matrices (`tab:r9-utility-factorial`) *plus* the replication-benchmark $2\times2$ (`tab:r9-utility-factorial-replication`): changing only the evaluation utility moves the mean bounded AIA by $+0.330$ $[0.248,0.415]$ and the mirrored cell by $-0.275$ $[-0.438,-0.101]$, with only 14/250 users having a defined NDCG arm -- reported as descriptive, and the reason H2 is adjudicated on rank association | make_review9_stats |
-| 5 | Prospective audit must be co-primary | **FIXED on the benchmark that ships in the artifact** (prospective_gowalla.json -> tab:r9-prospective-replication, quoted in S11); primary cohorts are a `prospective` run away `prospective` writes `prospective_<ds>.json` and `tab:r9-prospective-replication` is generated from it automatically (audited/sampled counts, held-out-target coverage, per-method AIA); the Gowalla instance is running now, MovieLens/Amazon need `notebooks/REVIEW9_REPLICATION_RUNS.ipynb` | notebook |
+| 5 | Prospective audit must be co-primary | **FIXED on MovieLens-1M (1,000 users) + the in-artifact benchmark** (prospective_gowalla.json -> tab:r9-prospective-replication, quoted in S11); primary cohorts are a `prospective` run away `prospective` writes `prospective_<ds>.json` and `tab:r9-prospective-replication` is generated from it automatically (audited/sampled counts, held-out-target coverage, per-method AIA); the Gowalla instance is running now, MovieLens/Amazon need `notebooks/REVIEW9_REPLICATION_RUNS.ipynb` | notebook |
 | 6 | "Executable" overclaims | **FIXED (text)** "simulator-executable" at all claim sites; abstract states the intervention is simulator-executable, not demonstrated against a production interface | throughout |
 | 7 | Eq. (4) BPR not reproducible as written | **FIXED (text)** rewritten as per-triple loss + exact per-triple gradients verified against `fit_item_embeddings`, clipping semantics specified, context/regularizer scope defined | §3.2 Eq. (4)-(5) |
 | 8 | Fixed candidate sets dominate conclusions | **RUN (tooling done; payload shape validated by the pilot dry run, and its float renders from a 12-user run)** `candidate-redraw --redraws N` → `tab:r9-candidate-redraw` (between-redraw mean/SD/min–max per method); the payload's `KeyError: mean` on empty redraws was found by the notebook pilot and fixed; queued on the workstation (the Gowalla instance included) | notebook |
@@ -224,3 +224,36 @@ being run on a workstation with 48 GB rather than in the 2-core sandbox (the san
 attempt was stopped rather than left to burn an hour for a 60-user curve). #2 and #19 need a retrained, tuned neural/graph
 recommender, i.e. a separate engineering workstream rather than a re-scoring run; #16 needs the
 artifact deposit (USER) and the PDF rebuild (`make pdf`, no LaTeX toolchain in this workspace).
+
+## Round 11 (workstation runs start landing: issues 1 and 5 on the primary cohorts)
+
+`5b5b6d5`/`f389f18` brought the first three primary-cohort payloads from the 12-core
+workstation: `fixed_denominator_movielens.json`, `fixed_denominator_amazon.json` (both
+1,000 users) and `prospective_movielens.json`. Collected here with the usual
+`make stats` -> stamp -> validators path (65 manifest entries, stamp `22d42b58733e`,
+124 tests green).
+
+* **Issue 1 got a real answer, and it is not the comfortable one.** The reviewer's claim
+  was that a bounded effect under the released interface is partly a normalization
+  artifact. On MovieLens the Shapley--LIME separation collapses from $0.182$ to $0.016$
+  when the deleted mass is suppressed instead of reallocated; on Amazon it *reverses*
+  (Shapley $0.607$ vs LIME $0.832$ normalized, $0.993$ vs $0.849$ fixed). The tables and
+  S11 now report this, the main text concedes it in one sentence at the headline claim,
+  and the effect-scale reading (mean $|\Delta|$ of order $7$-$9\times10^{-4}$) is given so
+  that a $0.99$ bounded AIA cannot be misread as strong evidence.
+* **Scope honesty added while writing it:** the ablation fits its own ItemKNN
+  ($200$ neighbours, cohort-only histories, $M_{\mathrm{pair}}=250$), so its normalized
+  column differs from the published primary values ($0.744$ vs $0.779$ on MovieLens,
+  $0.607$ vs $0.414$ on Amazon). S11 says this outright and reads only the paired
+  within-replication comparison; an earlier sentence claiming the primary cohorts needed
+  released per-user intervention files was wrong (the runner re-fits from the raw
+  interaction files) and is gone.
+* **Issue 5 on the primary cohort:** $1{,}000$ MovieLens users, all with a defined game,
+  prospective-target Shapley $0.800$ / LIME $0.939$ / LOO $0.981$ / signed $0.932$ against
+  held-out conditioning $0.744$ / $0.926$ / $0.974$ / $0.906$; coverage of the held-out
+  item is $11.8\%$, so the two audits mostly score different events and no paired contrast
+  between them is claimed.
+* Still queued on the workstation: `prospective amazon`, both `stratified-null`, both
+  `utility-factorial`, all three `compute-matched`, all three `candidate-redraw`, both
+  `hardware` (13 of 21). Cell 5's re-measured pilot is now honest about their cost
+  ($158$ min per 1000 users for compute-matched, $131$ for candidate-redraw with 10 redraws).
