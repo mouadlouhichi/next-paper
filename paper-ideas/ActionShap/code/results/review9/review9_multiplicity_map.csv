@@ -157,7 +157,7 @@ per-metric family,Amazon / full_catalogue / target_margin / normalized_regret_pr
 per-metric family,Amazon / full_catalogue / target_margin / normalized_regret_primary,10,LIME,Greedy seq. del.,215,-4.050255576437121,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
 per-metric family,Amazon / full_catalogue / target_margin / normalized_regret_primary,10,LIME,Random control,215,-2.323045185981915,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
 per-metric family,Amazon / full_catalogue / target_margin / normalized_regret_primary,10,LOO,Greedy seq. del.,215,-4.064543940474996,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
-per-metric family,Amazon / full_catalogue / target_margin / normalized_regret_primary,10,LOO,Random control,215,-2.3373335500197894,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
+per-metric family,Amazon / full_catalogue / target_margin / normalized_regret_primary,10,LOO,Random control,215,-2.33733355001979,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
 per-metric family,Amazon / full_catalogue / target_margin / normalized_regret_primary,10,Greedy seq. del.,Random control,215,1.7272103904552076,0.712928707129287,7129,10000,0.712928707129287,0.712928707129287
 per-metric family,Amazon / full_catalogue / target_margin / signed_alignment,10,MC Shapley,LIME,250,-0.2137207057214058,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
 per-metric family,Amazon / full_catalogue / target_margin / signed_alignment,10,MC Shapley,LOO,250,-0.2362826548377018,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
@@ -969,11 +969,11 @@ per-metric family,MovieLens / primary / target_margin / joint_regret_ndcg,10,LIM
 per-metric family,MovieLens / primary / target_margin / joint_regret_ndcg,10,LOO,Greedy seq. del.,1000,-0.0372944025992722,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
 per-metric family,MovieLens / primary / target_margin / joint_regret_ndcg,10,LOO,Random control,1000,-0.0441356763110496,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
 per-metric family,MovieLens / primary / target_margin / joint_regret_ndcg,10,Greedy seq. del.,Random control,1000,-0.0068412737117774,0.001999800019998,19,10000,0.007999200079992,0.007999200079992
-per-metric family,MovieLens / primary / target_margin / joint_regret_primary,10,MC Shapley,LIME,1000,5.999437915710087e-05,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
+per-metric family,MovieLens / primary / target_margin / joint_regret_primary,10,MC Shapley,LIME,1000,5.9994379157100866e-05,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
 per-metric family,MovieLens / primary / target_margin / joint_regret_primary,10,MC Shapley,LOO,1000,6.683482512331942e-05,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
 per-metric family,MovieLens / primary / target_margin / joint_regret_primary,10,MC Shapley,Greedy seq. del.,1000,-0.0021294147731474,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
 per-metric family,MovieLens / primary / target_margin / joint_regret_primary,10,MC Shapley,Random control,1000,-0.0024353140446635,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
-per-metric family,MovieLens / primary / target_margin / joint_regret_primary,10,LIME,LOO,1000,6.840445966218556e-06,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
+per-metric family,MovieLens / primary / target_margin / joint_regret_primary,10,LIME,LOO,1000,6.8404459662185555e-06,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
 per-metric family,MovieLens / primary / target_margin / joint_regret_primary,10,LIME,Greedy seq. del.,1000,-0.0021894091523045,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
 per-metric family,MovieLens / primary / target_margin / joint_regret_primary,10,LIME,Random control,1000,-0.0024953084238206,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
 per-metric family,MovieLens / primary / target_margin / joint_regret_primary,10,LOO,Greedy seq. del.,1000,-0.0021962495982707,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
@@ -1093,7 +1093,7 @@ per-metric family,MovieLens / budget1 / target_margin / joint_effect_primary,10,
 per-metric family,MovieLens / budget1 / target_margin / joint_effect_primary,10,MC Shapley,LOO,250,-2.770714205355951e-05,0.0011998800119988,11,10000,0.0035996400359964,0.0035996400359963997
 per-metric family,MovieLens / budget1 / target_margin / joint_effect_primary,10,MC Shapley,Greedy seq. del.,250,0.0015146031120844,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
 per-metric family,MovieLens / budget1 / target_margin / joint_effect_primary,10,MC Shapley,Random control,250,0.0013572757654383,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
-per-metric family,MovieLens / budget1 / target_margin / joint_effect_primary,10,LIME,LOO,250,-5.6939420583368e-06,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
+per-metric family,MovieLens / budget1 / target_margin / joint_effect_primary,10,LIME,LOO,250,-5.6939420583367995e-06,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
 per-metric family,MovieLens / budget1 / target_margin / joint_effect_primary,10,LIME,Greedy seq. del.,250,0.0015366163120797,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
 per-metric family,MovieLens / budget1 / target_margin / joint_effect_primary,10,LIME,Random control,250,0.0013792889654335,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
 per-metric family,MovieLens / budget1 / target_margin / joint_effect_primary,10,LOO,Greedy seq. del.,250,0.001542310254138,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
@@ -1103,7 +1103,7 @@ per-metric family,MovieLens / budget1 / target_margin / joint_effect_target_marg
 per-metric family,MovieLens / budget1 / target_margin / joint_effect_target_margin,10,MC Shapley,LOO,250,-2.770714205355951e-05,0.0011998800119988,11,10000,0.0035996400359964,0.0035996400359963997
 per-metric family,MovieLens / budget1 / target_margin / joint_effect_target_margin,10,MC Shapley,Greedy seq. del.,250,0.0015146031120844,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
 per-metric family,MovieLens / budget1 / target_margin / joint_effect_target_margin,10,MC Shapley,Random control,250,0.0013572757654383,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
-per-metric family,MovieLens / budget1 / target_margin / joint_effect_target_margin,10,LIME,LOO,250,-5.6939420583368e-06,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
+per-metric family,MovieLens / budget1 / target_margin / joint_effect_target_margin,10,LIME,LOO,250,-5.6939420583367995e-06,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
 per-metric family,MovieLens / budget1 / target_margin / joint_effect_target_margin,10,LIME,Greedy seq. del.,250,0.0015366163120797,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
 per-metric family,MovieLens / budget1 / target_margin / joint_effect_target_margin,10,LIME,Random control,250,0.0013792889654335,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
 per-metric family,MovieLens / budget1 / target_margin / joint_effect_target_margin,10,LOO,Greedy seq. del.,250,0.001542310254138,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
@@ -1123,7 +1123,7 @@ per-metric family,MovieLens / budget1 / target_margin / joint_regret_primary,10,
 per-metric family,MovieLens / budget1 / target_margin / joint_regret_primary,10,MC Shapley,LOO,250,2.7707142053559065e-05,0.0008999100089991,8,10000,0.0026997300269973,0.0026997300269973002
 per-metric family,MovieLens / budget1 / target_margin / joint_regret_primary,10,MC Shapley,Greedy seq. del.,250,-0.0015146031120844,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
 per-metric family,MovieLens / budget1 / target_margin / joint_regret_primary,10,MC Shapley,Random control,250,-0.0013572757654383,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
-per-metric family,MovieLens / budget1 / target_margin / joint_regret_primary,10,LIME,LOO,250,5.6939420583368e-06,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
+per-metric family,MovieLens / budget1 / target_margin / joint_regret_primary,10,LIME,LOO,250,5.6939420583367995e-06,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
 per-metric family,MovieLens / budget1 / target_margin / joint_regret_primary,10,LIME,Greedy seq. del.,250,-0.0015366163120797,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
 per-metric family,MovieLens / budget1 / target_margin / joint_regret_primary,10,LIME,Random control,250,-0.0013792889654335,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999
 per-metric family,MovieLens / budget1 / target_margin / joint_regret_primary,10,LOO,Greedy seq. del.,250,-0.001542310254138,9.999000099990002e-05,0,10000,0.000999900009999,0.000999900009999

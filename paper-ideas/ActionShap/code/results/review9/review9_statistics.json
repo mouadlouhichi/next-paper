@@ -5660,7 +5660,7 @@
    "left": "MC Shapley",
    "right": "LIME",
    "n_users": 1000,
-   "mean_difference": 5.999437915710087e-05,
+   "mean_difference": 5.9994379157100866e-05,
    "raw_p": 9.999000099990002e-05,
    "exceedances": 0,
    "draws": 10000,
@@ -13376,7 +13376,7 @@
    "outcome_utility": "target margin",
    "n_users": 993,
    "spearman": 0.4472665875659764,
-   "p_value": 5.246062269588154e-50
+   "p_value": 5.246062269588153e-50
   },
   {
    "dataset": "Amazon",
@@ -13412,7 +13412,7 @@
    "outcome_utility": "target margin",
    "n_users": 993,
    "spearman": 0.42388235062834717,
-   "p_value": 1.4265389214459242e-44
+   "p_value": 1.426538921445924e-44
   },
   {
    "dataset": "Amazon",
@@ -13421,7 +13421,7 @@
    "outcome_utility": "NDCG",
    "n_users": 993,
    "spearman": 0.08468184017435086,
-   "p_value": 0.007586891682407923
+   "p_value": 0.007586891682407922
   },
   {
    "dataset": "Amazon",
