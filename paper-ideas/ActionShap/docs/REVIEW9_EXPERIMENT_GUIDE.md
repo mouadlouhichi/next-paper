@@ -260,8 +260,8 @@ or it refuses to pass rather than quietly skipping the checks that matter most.
 
 No TeX distribution is available in the sandbox (`apt` and CTAN are unreachable, so the
 build stays an owner-machine step), so the submission is compiled on Overleaf from the
-zip `make overleaf` writes to `code/results/release/build/actionshap-overleaf.zip`
-(git-ignored). It is generated rather than hand-picked: the packer walks the same include
+zip `make overleaf` writes to `paper-ideas/ActionShap/actionshap-overleaf.zip`
+(git-ignored, and outside the trees the submission hashes). It is generated rather than hand-picked: the packer walks the same include
 graph TeX does (`\safeinput`, `\includegraphics` with `\graphicspath`, `\bibliography`,
 `\bibliographystyle`), refuses to pack when a reference does not resolve, then re-resolves
 every reference *inside the zip* before returning --- a missing asset in a review build

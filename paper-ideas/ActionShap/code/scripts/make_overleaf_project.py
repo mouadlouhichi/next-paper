@@ -35,7 +35,10 @@ HERE = Path(__file__).resolve().parent
 CODE = HERE.parent
 ROOT = CODE.parent                                  # paper-ideas/ActionShap
 PRIMARY = ROOT / "acmart-primary"
-DEFAULT_OUTPUT = CODE / "results" / "release" / "build" / "actionshap-overleaf.zip"
+# The package root, not results/release/build/: the project is what a person has to find and
+# upload, and an ignored path inside the paper directory survives a workspace refresh better
+# than a scratch build directory does. It is git-ignored (paper-ideas/ActionShap/*.zip).
+DEFAULT_OUTPUT = ROOT / "actionshap-overleaf.zip"
 
 MAIN_DOCUMENTS = ["acmmanuscript.tex", "supplementary.tex", "cover_letter.tex"]
 # Loaded by the class or the documents rather than by an input chain, so they cannot be
