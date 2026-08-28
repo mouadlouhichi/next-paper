@@ -29,7 +29,7 @@ ifneq ($(strip $(TEXBIN)),)
 export PATH := $(TEXBIN):$(PATH)
 endif
 
-.PHONY: pdf main supplementary manifest tables check stats clean tools help artifact
+.PHONY: pdf main supplementary manifest tables check stats clean tools help artifact ready
 
 help:
 	@echo "make tools          report whether a LaTeX toolchain is available"
@@ -85,6 +85,12 @@ artifact: stats
 	@$(PY) $(CODE)/scripts/make_result_manifest.py --check
 
 stats: tables manifest
+
+# Answer "can this go to the editor right now?" from the files, not from memory: it
+# checks the compiled PDFs and the deposit as well as the sources, because a `make check`
+# that only reads the .tex passed for a whole round on top of stale PDFs.
+ready:
+	cd $(CODE) && $(PY) scripts/check_submission.py
 
 check:
 	cd $(CODE) && $(PY) scripts/validate_manuscript.py

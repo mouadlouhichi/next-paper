@@ -280,3 +280,26 @@ camera-ready and the names come back by themselves), and `validate_manuscript.py
 if `anonymous` is set while any name from an `\author{}` block still occurs after
 `\maketitle`, with the conditional suggested as the remedy. The rule was written against
 the un-anonymized file first and confirmed to fire on it, so it is not decoration.
+## Round 13 (is it submittable? the answer now comes from the files)
+
+`build pdf` landed as a commit adding `acmmanuscript (1).pdf` next to the manuscript, and
+that file is byte-identical to the one already in `acmart-primary/` (sha256
+`6740fc54...`, `/CreationDate D:20260827085839Z` --- the same build both documents had
+before the anonymity work). Nothing had been recompiled: page 1 of both PDFs still prints
+the three authors, neither contains the manifest stamp the sources quote, the supplement
+still carries the sentence the sources deleted ("... must be inserted here before
+submission"), and the review-9 fixed-denominator panels are not in it. Every source-level
+check in the repository passed all of that, which is the argument for checking the
+artefacts instead of the intent.
+
+`make ready` (code/scripts/check_submission.py) is now that check. It runs three groups:
+the sources, through `validate_manuscript.py` rather than a second copy of its rules; the
+compiled PDFs, for exactly one copy per document at the canonical path, a build date
+behind no source, a page 1 whose anonymity matches what the class options say, the frozen
+manifest stamp present in the text, no placeholder sentence left, and the review-9 panels
+present in the supplement; and the deposit, recomputing every hash in
+`release_checksums.json` from the archive bytes and checking that the archived manifest is
+the stamp the documents quote. It exits non-zero with the blockers named, and
+`code/tests/test_submission_readiness_gate.py` pins that it can also answer "ready", so a
+gate cannot quietly degrade into a refusal machine. Today it reports nine blockers, all
+of them the two stale PDFs plus the duplicate, and one action fixes eight of them.

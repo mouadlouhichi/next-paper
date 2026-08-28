@@ -245,3 +245,14 @@ Completed after the runs land:
 * **Immutable artifact.** The cover letter and manuscript still carry a placeholder
   artifact URL. Deposit the code + release matrices + raw JSONs to Zenodo/OSF/Figshare
   and send me the DOI/URL so I can fill the placeholder before submission.
+## Before the submission button: `make ready`
+
+`make check` verifies the sources; it can pass while the PDFs a reviewer will read are the
+previous build, which is exactly what happened after review 9. `make ready` answers the
+submission question from the artefacts: one compiled copy per document at its canonical
+path, built no earlier than its sources, page 1 anonymity matching the class options, the
+result-manifest stamp and the review-9 panels present in the text, no placeholder
+sentence left in either PDF, and a deposit whose every recorded checksum recomputes. It
+exits non-zero and prints the blockers, so run it after `make pdf` and `make artifact` and
+before uploading anything. Install `pypdf` (`pip install pypdf`) or the PDF text checks
+report as unverified rather than passing.
