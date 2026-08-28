@@ -64,8 +64,8 @@
   "code/results/review9/stratified_null_gowalla.json": "eeebe29afcadfd464967145f880225c61c264b63870cdfdeebda625f0f42ba87",
   "code/results/review9/utility_factorial_gowalla.json": "5e827ff8d8398180c5f2c4d9653c766f408193e27f4e55be425ecc6df44ae4c7"
  },
- "git_revision": "85ab69e8d5275cefc9da0687cf2694d65798a183",
- "manifest_sha256": "cd8bdcd898ff6c27c7c589e725f36decdc9b8eccfaa42b7b30a29c37224f2e55",
- "manifest_stamp": "cd8bdcd898ff",
+ "git_revision": "5441ade221854a326923b1949e78f14830919e5b",
+ "manifest_sha256": "9eae036444930b4760a40044520b4bf2406c3786bcbda24f1f5aa927f156b18c",
+ "manifest_stamp": "9eae03644493",
  "schema": "actionshap-result-manifest-v1"
 }
