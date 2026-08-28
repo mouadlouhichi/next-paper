@@ -254,5 +254,5 @@ path, built no earlier than its sources, page 1 anonymity matching the class opt
 result-manifest stamp and the review-9 panels present in the text, no placeholder
 sentence left in either PDF, and a deposit whose every recorded checksum recomputes. It
 exits non-zero and prints the blockers, so run it after `make pdf` and `make artifact` and
-before uploading anything. Install `pypdf` (`pip install pypdf`) or the PDF text checks
-report as unverified rather than passing.
+before uploading anything. Install `pypdf` (`pip install pypdf`) in the interpreter that runs the gate,
+or it refuses to pass rather than quietly skipping the checks that matter most.

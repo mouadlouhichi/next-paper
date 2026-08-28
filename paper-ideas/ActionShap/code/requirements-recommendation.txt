@@ -7,3 +7,8 @@ matplotlib>=3.8,<4
 jinja2>=3.1,<4
 pyyaml>=6,<7
 pytest>=8,<9
+
+# Submission gate (make ready) reads the compiled PDFs, because a `make check`
+# that only parses .tex passed for a round on top of stale builds. The gate
+# refuses to pass without this, rather than skipping its central check.
+pypdf>=4

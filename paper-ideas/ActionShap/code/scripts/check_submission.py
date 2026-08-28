@@ -272,6 +272,14 @@ def check_pdfs(gate: Gate, options: dict[str, list[str]]) -> None:
     group = "compiled PDFs"
     canonical = {name: PRIMARY / f"{name}.pdf" for name in DOCS}
 
+    # A gate that skips its central check must not report success, so a missing text
+    # extractor is a blocker rather than a footnote: `make check` can stay green for a
+    # whole round on top of PDFs nobody read.
+    if importlib.util.find_spec("pypdf") is None:
+        gate.block(group, "pypdf is not installed, so the compiled text cannot be read; "
+                          "run `pip install pypdf` and re-run (this is deliberately a "
+                          "blocker, not a skip)")
+
     for name, pdf in canonical.items():
         if not pdf.exists():
             gate.block(group, f"{pdf.relative_to(ROOT)} does not exist: run `make pdf`")
@@ -310,8 +318,7 @@ def check_pdfs(gate: Gate, options: dict[str, list[str]]) -> None:
         for defect in defects:
             gate.block(group, f"{name}.pdf: {defect}")
         if importlib.util.find_spec("pypdf") is None:
-            gate.note(group, f"{name}.pdf text not verified: `pip install pypdf` to gate "
-                             "the title page, the manifest stamp and the review-9 panels")
+            gate.note(group, f"{name}.pdf text not read (see the pypdf blocker above)")
         elif not defects and pdf.exists():
             gate.ok(group, f"{name}.pdf text matches its source")
 

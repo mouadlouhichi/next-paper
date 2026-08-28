@@ -303,3 +303,12 @@ the stamp the documents quote. It exits non-zero with the blockers named, and
 `code/tests/test_submission_readiness_gate.py` pins that it can also answer "ready", so a
 gate cannot quietly degrade into a refusal machine. Today it reports nine blockers, all
 of them the two stale PDFs plus the duplicate, and one action fixes eight of them.
+
+Two follow-ups from the same round. The cover letters no longer carry the open `[DOI/URL]`
+bracket at all: the artifact paragraph now says the archive ships with the submission as
+reviewer-visible material and that a permanent identifier will be minted at revision, which
+is true whether or not a handle exists yet. And the gate cannot be exercised in this
+sandbox --- `apt` and CTAN are unreachable, only PyPI egress is allowed, so there is no TeX
+Live to build with --- which is why `make ready` treats a missing text extractor as a
+blocker instead of a skip: the only way to pass the PDF group is to have actually read a
+build on a machine that can produce one.
