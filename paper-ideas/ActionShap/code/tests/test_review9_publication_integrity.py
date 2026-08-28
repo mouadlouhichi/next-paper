@@ -86,11 +86,15 @@ def test_manifest_check_script_exits_zero():
 # --------------------------------------------------------------------------
 
 def test_review3_generator_reproduces_the_committed_paired_family_table():
+    # The generator's default --release/--table paths are relative, so the check is only
+    # meaningful when it runs from code/; pin the working directory instead of inheriting it
+    # from whatever invoked pytest.
     result = subprocess.run(
         [sys.executable, str(SCRIPTS / "make_review3_stats.py"), "--check"],
         capture_output=True,
         text=True,
         check=False,
+        cwd=str(CODE),
     )
     assert result.returncode == 0, result.stdout + result.stderr
     assert json.loads(result.stdout)["status"] == "PASS"
