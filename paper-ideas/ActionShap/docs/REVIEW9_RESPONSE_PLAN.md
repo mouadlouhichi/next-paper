@@ -312,3 +312,11 @@ sandbox --- `apt` and CTAN are unreachable, only PyPI egress is allowed, so ther
 Live to build with --- which is why `make ready` treats a missing text extractor as a
 blocker instead of a skip: the only way to pass the PDF group is to have actually read a
 build on a machine that can produce one.
+
+Round 13 follow-up: the submission is compiled on Overleaf, so `make overleaf` generates the
+project from the sources (include graph resolved, then re-resolved inside the zip) instead
+of shipping a hand-picked folder; the compiled PDFs and the lagging `.bbl` are excluded by
+design, and the README in the zip records the commit and manifest stamp so a downloaded PDF
+can be tied to a state of the tree. Both cover letters are also free of placeholder text
+now. `make ready` still reports eight blockers, all of them the two stale builds: one
+Overleaf compile of each document, dropped on the canonical paths, clears them.

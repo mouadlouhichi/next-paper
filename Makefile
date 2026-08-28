@@ -29,7 +29,7 @@ ifneq ($(strip $(TEXBIN)),)
 export PATH := $(TEXBIN):$(PATH)
 endif
 
-.PHONY: pdf main supplementary manifest tables check stats clean tools help artifact ready
+.PHONY: pdf main supplementary manifest tables check stats clean tools help artifact ready overleaf
 
 help:
 	@echo "make tools          report whether a LaTeX toolchain is available"
@@ -85,6 +85,13 @@ artifact: stats
 	@$(PY) $(CODE)/scripts/make_result_manifest.py --check
 
 stats: tables manifest
+
+# Generate the Overleaf project for the review copy. The zip is a build product, so it
+# lands in results/release/build/ (git-ignored): the submission is compiled on Overleaf
+# when no TeX distribution is available, and a hand-assembled zip is how a stale .bbl or a
+# missing table reaches a compiler that would otherwise have caught it.
+overleaf:
+	cd $(CODE) && $(PY) scripts/make_overleaf_project.py
 
 # Answer "can this go to the editor right now?" from the files, not from memory: it
 # checks the compiled PDFs and the deposit as well as the sources, because a `make check`

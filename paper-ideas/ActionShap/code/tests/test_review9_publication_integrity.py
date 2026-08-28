@@ -471,3 +471,39 @@ def test_review_documents_are_anonymized_for_double_blind_review() -> None:
                 "-- reviewers would see names, affiliations and ORCIDs on page 1"
             )
 
+
+def test_the_overleaf_project_is_self_contained(tmp_path):
+    """The generated Overleaf zip has to resolve every reference on its own.
+
+    ``make pdf`` is unavailable here, so the submission is compiled from the packed
+    project. That only works if the packer follows the same input graph TeX does: a
+    ``\\safeinput`` that points at a file outside ``tables/`` and ``figures/``, or a table
+    that pulls in a figure the zip does not carry, compiles into a page reading
+    ``[Missing table asset: ...]`` --- and the ``\\safeinput`` wrapper makes that a
+    warning, not an error, so nothing downstream would notice. Packing to a real zip and
+    re-resolving inside it is the difference between trusting the include list and
+    checking it.
+    """
+    packer = _load("actionshap_make_overleaf", SCRIPTS / "make_overleaf_project.py")
+    resolved, unresolved = packer.referenced_files(packer.PRIMARY, packer.MAIN_DOCUMENTS)
+    assert not unresolved, f"documents reference missing files: {sorted(map(str, unresolved))}"
+    assert {p.name for p in resolved} >= {"acmmanuscript.tex", "supplementary.tex"}
+    assert all(p.exists() for p in resolved)
+
+    out = tmp_path / "project.zip"
+    assert packer.build(packer.PRIMARY, out) == 0
+    import zipfile
+    with zipfile.ZipFile(out) as archive:
+        names = set(archive.namelist())
+        readme = archive.read("README-OVERLEAF.txt").decode()
+    for path in resolved:
+        assert str(path.relative_to(packer.PRIMARY)) in names
+    for support in packer.CLASS_SUPPORT:
+        if (packer.PRIMARY / support).exists():
+            assert support in names, f"{support} is loaded by the class or the documents"
+    # A stale build file in the project is how an old PDF masquerades as a new one, and a
+    # .bbl in the zip is how latexmk skips the bibliography step.
+    assert not [n for n in names if n.endswith((".bbl", ".aux", ".log"))]
+    assert not [n for n in names if "/" not in n and n.endswith(".pdf")]
+    assert "anonymous" in readme or "anonymous" in names, "the review copy must be anonymised"
+    assert "make ready" in readme, "the project must tell the author how to verify the build"

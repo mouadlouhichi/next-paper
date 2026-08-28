@@ -256,3 +256,19 @@ sentence left in either PDF, and a deposit whose every recorded checksum recompu
 exits non-zero and prints the blockers, so run it after `make pdf` and `make artifact` and
 before uploading anything. Install `pypdf` (`pip install pypdf`) in the interpreter that runs the gate,
 or it refuses to pass rather than quietly skipping the checks that matter most.
+## Compiling the review copy on Overleaf: `make overleaf`
+
+No TeX distribution is available in the sandbox (`apt` and CTAN are unreachable, so the
+build stays an owner-machine step), so the submission is compiled on Overleaf from the
+zip `make overleaf` writes to `code/results/release/build/actionshap-overleaf.zip`
+(git-ignored). It is generated rather than hand-picked: the packer walks the same include
+graph TeX does (`\safeinput`, `\includegraphics` with `\graphicspath`, `\bibliography`,
+`\bibliographystyle`), refuses to pack when a reference does not resolve, then re-resolves
+every reference *inside the zip* before returning --- a missing asset in a review build
+shows up as "[Missing table asset]", which `\safeinput` downgrades to a warning, so the
+only way to catch it is to check the graph. The compiled PDFs and the `.bbl` are excluded
+deliberately: an old build beside the sources looks exactly like a new one, and a
+present-but-stale `.bbl` lets latexmk skip BibTeX (the repository copy trails the current
+text by ten citations). `README-OVERLEAF.txt` inside the zip records the commit and the
+result-manifest stamp the project was generated from, so a compiled PDF can be tied to a
+state of the tree; the test suite pins the self-containedness check.
