@@ -19,7 +19,7 @@
   },
   "dataset": {
     "name": "amazon_books_2018_custom",
-    "source_run": "results/journal_runs/amazon_books_lightgcn_v3_prospective"
+    "source_run": "/Users/mlouhichi/Desktop/CoalGameRec/next-paper/paper-ideas/CoalGameRec/code/results/journal_runs/amazon_books_lightgcn_v3_prospective"
   },
   "deviations": [
     "device cpu (original mps); confirmatory re-execution, not bit-identical",

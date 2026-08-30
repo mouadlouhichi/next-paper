@@ -1,0 +1,36 @@
+
+$ /Users/mlouhichi/Desktop/CoalGameRec/.venv/bin/python scripts/run_sequential_baselines.py --dataset amazon --source-run /Users/mlouhichi/Desktop/CoalGameRec/next-paper/paper-ideas/CoalGameRec/code/results/journal_runs/amazon_books_lightgcn_v3_prospective --out /Users/mlouhichi/Desktop/CoalGameRec/next-paper/paper-ideas/CoalGameRec/code/results/journal_runs/amazon_books_lightgcn_v8_sequential_baselines --seeds 42 43 44
+  epoch 1/15 done in 1.1s loss=0.6754
+  epoch 2/15 done in 0.9s loss=0.5600
+  epoch 3/15 done in 0.9s loss=0.4769
+  epoch 4/15 done in 0.9s loss=0.4234
+  epoch 5/15 done in 0.9s loss=0.3835
+  epoch 6/15 done in 0.9s loss=0.3526
+  epoch 7/15 done in 0.9s loss=0.3129
+  epoch 8/15 done in 0.9s loss=0.2881
+  epoch 9/15 done in 0.9s loss=0.2729
+  epoch 10/15 done in 0.9s loss=0.2446
+  epoch 11/15 done in 0.9s loss=0.2317
+  epoch 12/15 done in 0.9s loss=0.2115
+  epoch 13/15 done in 0.9s loss=0.2027
+  epoch 14/15 done in 0.9s loss=0.1943
+  epoch 15/15 done in 0.9s loss=0.1766
+
+cache base scores:   0%|          | 0/29 [00:00<?, ?it/s]
+cache base scores: 100%|██████████| 29/29 [00:00<00:00, 694.69it/s]
+seed 42: trained in 15s
+Traceback (most recent call last):
+  File "/Users/mlouhichi/Desktop/CoalGameRec/next-paper/paper-ideas/CoalGameRec/code/scripts/run_sequential_baselines.py", line 224, in <module>
+    main()
+  File "/Users/mlouhichi/Desktop/CoalGameRec/next-paper/paper-ideas/CoalGameRec/code/scripts/run_sequential_baselines.py", line 193, in main
+    ("updated-profile", updated_profile_scores(base_scores, split, val_by_user, item_vectors)),
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/mlouhichi/Desktop/CoalGameRec/next-paper/paper-ideas/CoalGameRec/code/scripts/run_sequential_baselines.py", line 84, in updated_profile_scores
+    prof = np.asarray(Iv[items].mean(axis=0)).ravel() + np.asarray(Iv[int(vu)]).ravel()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  File "/Users/mlouhichi/Desktop/CoalGameRec/.venv/lib/python3.12/site-packages/scipy/sparse/_base.py", line 845, in __radd__
+    return self.__add__(other)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/Users/mlouhichi/Desktop/CoalGameRec/.venv/lib/python3.12/site-packages/scipy/sparse/_base.py", line 832, in __add__
+    raise NotImplementedError('adding a nonzero scalar to a '
+NotImplementedError: adding a nonzero scalar to a sparse array is not supported
