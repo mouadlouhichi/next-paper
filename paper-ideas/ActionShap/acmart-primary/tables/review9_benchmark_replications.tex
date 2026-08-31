@@ -57,10 +57,18 @@ MovieLens-1M & mean $|\Delta|$ (effect scale) & 1000 & 1000/1000 & -0.0001 & -0.
 \toprule
 Dataset & Attribution & Outcome & $n$ & sampled & AIA matched & AIA crossed & Matched $-$ crossed & CI low & CI high & Mean regret & Oracles \\
 \midrule
+Amazon & ndcg & ndcg & 65 & 1000 & 0.5824 & 0.5824 & 0.0000 & 0.0000 & 0.0000 & 0.001173 & 49 \\
+Amazon & ndcg & target_margin & 65 & 1000 & 0.5824 & 0.6873 & -0.2266 & -0.3584 & -0.0991 & 0.001781 & 810 \\
+Amazon & target_margin & ndcg & 810 & 1000 & 0.6068 & 0.4462 & 0.4064 & 0.3026 & 0.5170 & 0.001842 & 49 \\
+Amazon & target_margin & target_margin & 810 & 1000 & 0.6068 & 0.6068 & 0.0000 & 0.0000 & 0.0000 & 0.000016 & 810 \\
 Gowalla & ndcg & ndcg & 14 & 250 & 0.6588 & 0.6588 & 0.0000 & 0.0000 & 0.0000 & 0.000175 & 11 \\
 Gowalla & ndcg & target_margin & 14 & 250 & 0.6588 & 0.9258 & -0.2745 & -0.4381 & -0.1007 & 0.000590 & 163 \\
 Gowalla & target_margin & ndcg & 163 & 250 & 0.5750 & 0.4186 & 0.3303 & 0.2483 & 0.4154 & 0.002453 & 11 \\
 Gowalla & target_margin & target_margin & 163 & 250 & 0.5750 & 0.5750 & 0.0000 & 0.0000 & 0.0000 & 0.000000 & 163 \\
+MovieLens-1M & ndcg & ndcg & 316 & 1000 & 0.4770 & 0.4770 & 0.0000 & 0.0000 & 0.0000 & 0.008204 & 291 \\
+MovieLens-1M & ndcg & target_margin & 316 & 1000 & 0.4770 & 0.5920 & -0.3018 & -0.3325 & -0.2706 & 0.000607 & 1000 \\
+MovieLens-1M & target_margin & ndcg & 1000 & 1000 & 0.7437 & 0.3920 & 0.4382 & 0.4070 & 0.4700 & 0.013544 & 291 \\
+MovieLens-1M & target_margin & target_margin & 1000 & 1000 & 0.7437 & 0.7437 & 0.0000 & 0.0000 & 0.0000 & 0.000142 & 1000 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -73,9 +81,15 @@ Gowalla & target_margin & target_margin & 163 & 250 & 0.5750 & 0.5750 & 0.0000 &
 \toprule
 Dataset & Null stratification & Users & Observed mean & Null mean & Null SD & Null min & Null max & $z$ & Plus-one $p$ & Draws \\
 \midrule
+Amazon & unstratified (any reordering) & 609 & 0.6203 & -0.0000 & 0.0173 & -0.0700 & 0.0633 & 35.9 & 0.0005 & 2000 \\
+Amazon & popularity blocks & 609 & 0.6203 & 0.2823 & 0.0132 & 0.2404 & 0.3330 & 25.6 & 0.0005 & 2000 \\
+Amazon & recency blocks & 609 & 0.6203 & 0.2294 & 0.0145 & 0.1662 & 0.2743 & 27.0 & 0.0005 & 2000 \\
 Gowalla & unstratified (any reordering) & 163 & 0.5750 & -0.0001 & 0.0212 & -0.0631 & 0.0619 & 27.1 & 0.0010 & 1000 \\
 Gowalla & popularity blocks & 163 & 0.5750 & 0.1922 & 0.0200 & 0.1246 & 0.2524 & 19.1 & 0.0010 & 1000 \\
 Gowalla & recency blocks & 163 & 0.5750 & 0.1003 & 0.0207 & 0.0258 & 0.1735 & 22.9 & 0.0010 & 1000 \\
+MovieLens-1M & unstratified (any reordering) & 999 & 0.7450 & -0.0000 & 0.0079 & -0.0262 & 0.0235 & 94.6 & 0.0005 & 2000 \\
+MovieLens-1M & popularity blocks & 999 & 0.7450 & 0.1978 & 0.0066 & 0.1745 & 0.2256 & 82.9 & 0.0005 & 2000 \\
+MovieLens-1M & recency blocks & 999 & 0.7450 & 0.1024 & 0.0074 & 0.0793 & 0.1329 & 86.4 & 0.0005 & 2000 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -88,8 +102,48 @@ Gowalla & recency blocks & 163 & 0.5750 & 0.1003 & 0.0207 & 0.0258 & 0.1735 & 22
 \toprule
 Dataset & Sampled & Audited & Defined $n$ & Prospective target covers held-out item & AIA Shapley & AIA LIME & AIA LOO & Signed Shapley \\
 \midrule
+Amazon & 1000 & 1000 & 810 & 3.4\% & 0.7935 & 0.8500 & 0.9983 & 0.8486 \\
 Gowalla & 600 & 600 & 528 & 12.0\% & 0.6757 & 0.6973 & 0.9997 & 0.7007 \\
 MovieLens-1M & 1000 & 1000 & 1000 & 11.8\% & 0.8000 & 0.9389 & 0.9811 & 0.9316 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+\begin{table}[!htbp]\centering\scriptsize\setlength{\tabcolsep}{3pt}
+\caption{Independent candidate-set resamples. Every redraw draws the Bernoulli candidate sets afresh from the same fitted model with a new candidate seed and re-runs the attribution and the realized-effect evaluation, so the spread reported here is design variability rather than Monte Carlo variability of a fixed design. Compare the last column against the Monte Carlo propagation in Table~\ref{tab:r9-mc-propagation}: candidate-set variability is the larger of the two if the redraw means move more than the per-user estimator noise, and that is the quantity any cross-method claim has to clear.}
+\label{tab:r9-candidate-redraw}
+\begin{tabular}{@{}llrrrcr@{}}
+\toprule
+Dataset & Method & Users & Redraws & Mean AIA & SD across redraws & Min--max redraw mean \\
+\midrule
+Amazon & SHAPLEY & 10 & 10 & 0.6333 & 0.0131 & 0.6091--0.6503 \\
+Amazon & LIME & 10 & 10 & 0.8337 & 0.0026 & 0.8307--0.8389 \\
+Amazon & LOO & 10 & 10 & 0.9803 & 0.0018 & 0.9769--0.9822 \\
+Gowalla & SHAPLEY & 10 & 10 & 0.6277 & 0.0087 & 0.6162--0.6405 \\
+Gowalla & LIME & 10 & 10 & 0.6803 & 0.0060 & 0.6684--0.6867 \\
+Gowalla & LOO & 10 & 10 & 0.9918 & 0.0032 & 0.9877--0.9964 \\
+MovieLens-1M & SHAPLEY & 10 & 10 & 0.7458 & 0.0036 & 0.7406--0.7541 \\
+MovieLens-1M & LIME & 10 & 10 & 0.9265 & 0.0018 & 0.9234--0.9291 \\
+MovieLens-1M & LOO & 10 & 10 & 0.9741 & 0.0010 & 0.9721--0.9750 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+\begin{table}[!htbp]\centering\scriptsize\setlength{\tabcolsep}{3pt}
+\caption{Compute-matched budget-response curves. Each row is one budget at which Monte Carlo Shapley and bounded LIME are given the \emph{same} number of recommender evaluations: the reverse-paired prefix walk at $M_{\mathrm{pair}}$ costs about $2M_{\mathrm{pair}}(n_u+1)$ coalition requests, and LIME receives that many masks. Rows are therefore equal-computation comparisons, while the primary configuration in the main paper is not; the question this answers is whether the Shapley--LIME gap narrows, holds or reverses as both methods are given more work. A difference that shrinks monotonically toward zero is a budget artefact.}
+\label{tab:r9-compute-matched}
+\begin{tabular}{@{}llcrrrrr@{}}
+\toprule
+Dataset & $M_{\mathrm{pair}}$ & Scorer calls per user & Shapley AIA & Shapley SD & LIME AIA & LIME SD & LIME $-$ Shapley \\
+\midrule
+Amazon & 250 & 3,830 & 0.6068 & 0.3861 & 0.8314 & 0.1549 & 0.2245 \\
+Amazon & 1000 & 15,322 & 0.6063 & 0.3853 & 0.8356 & 0.1415 & 0.2293 \\
+Gowalla & 250 & 8,500 & 0.6346 & 0.1763 & 0.6924 & 0.1613 & 0.0578 \\
+Gowalla & 1000 & 34,003 & 0.6351 & 0.1811 & 0.6934 & 0.1607 & 0.0583 \\
+MovieLens-1M & 250 & 9,907 & 0.7437 & 0.1865 & 0.9283 & 0.0819 & 0.1846 \\
+MovieLens-1M & 1000 & 39,628 & 0.7527 & 0.1827 & 0.9245 & 0.0867 & 0.1718 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -102,7 +156,9 @@ MovieLens-1M & 1000 & 1000 & 1000 & 11.8\% & 0.8000 & 0.9389 & 0.9811 & 0.9316 \
 \toprule
 Dataset & Machine & Python & NumPy & Cores & Peak RSS (MB) & Repeats & Shapley s/user & LIME s/user & LOO s/user \\
 \midrule
+Amazon & arm64 & 3.12.13 & 2.4.6 & 12 & 219712 & 5 & 0.003 & 0.031 & 0.000 \\
 Gowalla & x86_64 & 3.11.2 & 2.4.6 & 2 & 305 & 5 & 2.107 & 0.149 & 0.006 \\
+MovieLens-1M & arm64 & 3.12.13 & 2.4.6 & 12 & 496784 & 5 & 0.562 & 0.039 & 0.002 \\
 \bottomrule
 \end{tabular}
 \end{table}

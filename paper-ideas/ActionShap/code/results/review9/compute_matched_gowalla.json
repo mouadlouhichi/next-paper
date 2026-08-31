@@ -1,0 +1,83 @@
+{
+ "dataset": "gowalla",
+ "experiment": "compute_matched_budget_response",
+ "note": "Each row is a separate budget-response point; Shapley and matched LIME use the same scorer-call count at that row. Rows are not equal-budget comparisons across methods at the primary configuration.",
+ "config": {
+  "command": "compute-matched",
+  "dataset": "gowalla",
+  "ml_path": "data/ml-1m/ratings.dat",
+  "amazon_path": "data/amazon-digital-music/interactions.csv",
+  "gowalla_path": "data/gowalla/interactions.csv",
+  "users": 600,
+  "n_max": 20,
+  "evaluation_size": 200,
+  "permutations": 250,
+  "candidate_seed": 1729,
+  "tie_seed": 31415,
+  "user_seed": 2718,
+  "rho": 0.5,
+  "out": "results/review9",
+  "mpair_grid": [
+   250,
+   1000
+  ]
+ },
+ "curves": [
+  {
+   "m_pair": 250,
+   "matched_scorer_calls_per_user": 8500,
+   "shapley": {
+    "n": 528,
+    "mean": 0.6345688717082986,
+    "median": 0.6504436355879909,
+    "sd": 0.17632555832300442,
+    "min": -0.4561756685768146,
+    "max": 0.9439715946438135
+   },
+   "lime_matched": {
+    "n": 528,
+    "mean": 0.6923595928250658,
+    "median": 0.6990864070422756,
+    "sd": 0.16132059602232177,
+    "min": 0.11582156166423187,
+    "max": 0.9831920802501751
+   },
+   "lime_primary_512": {
+    "n": 528,
+    "mean": 0.6893084427965364,
+    "median": 0.6990864070422756,
+    "sd": 0.15875551554436595,
+    "min": 0.11582156166423187,
+    "max": 0.9831920802501751
+   }
+  },
+  {
+   "m_pair": 1000,
+   "matched_scorer_calls_per_user": 34003,
+   "shapley": {
+    "n": 528,
+    "mean": 0.6351101483282411,
+    "median": 0.6504436355879909,
+    "sd": 0.18114939129130925,
+    "min": -0.5188745216627709,
+    "max": 0.954215025971334
+   },
+   "lime_matched": {
+    "n": 528,
+    "mean": 0.6934058532212836,
+    "median": 0.6990864070422756,
+    "sd": 0.1606658418655586,
+    "min": 0.11582156166423187,
+    "max": 0.9903379376602872
+   },
+   "lime_primary_512": {
+    "n": 528,
+    "mean": 0.6893084427965364,
+    "median": 0.6990864070422756,
+    "sd": 0.15875551554436595,
+    "min": 0.11582156166423187,
+    "max": 0.9831920802501751
+   }
+  }
+ ]
+}

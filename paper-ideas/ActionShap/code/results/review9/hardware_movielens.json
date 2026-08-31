@@ -1,0 +1,58 @@
+{
+ "dataset": "movielens",
+ "experiment": "hardware_and_timing",
+ "hardware": {
+  "platform": "macOS-26.6-arm64-arm-64bit",
+  "processor": "arm",
+  "machine": "arm64",
+  "python": "3.12.13",
+  "cpu_count": 12,
+  "numpy": "2.4.6"
+ },
+ "peak_rss_mb": 496784.0,
+ "timing_repeats": 5,
+ "timings_seconds": {
+  "shapley": {
+   "n": 250,
+   "mean": 0.5269319378000218,
+   "median": 0.5619204369868385,
+   "sd": 0.11729128752490317,
+   "min": 0.10939525000867434,
+   "max": 0.6862484579905868
+  },
+  "lime": {
+   "n": 250,
+   "mean": 0.039078545126831156,
+   "median": 0.03870533351437189,
+   "sd": 0.0025705179851463994,
+   "min": 0.035565582977142185,
+   "max": 0.05987874997663312
+  },
+  "loo": {
+   "n": 250,
+   "mean": 0.0015444419851992279,
+   "median": 0.0015652500151190907,
+   "sd": 0.00023105823255509402,
+   "min": 0.0007979589863680303,
+   "max": 0.002540834015235305
+  }
+ },
+ "config": {
+  "command": "hardware",
+  "dataset": "movielens",
+  "ml_path": "data/ml-1m/ratings.dat",
+  "amazon_path": "data/amazon-digital-music/interactions.csv",
+  "gowalla_path": "data/gowalla/interactions.csv",
+  "users": 1000,
+  "n_max": 20,
+  "evaluation_size": 200,
+  "permutations": 250,
+  "candidate_seed": 1729,
+  "tie_seed": 31415,
+  "user_seed": 2718,
+  "rho": 0.5,
+  "out": "results/review9",
+  "timing_repeats": 5,
+  "timing_users": 50
+ }
+}

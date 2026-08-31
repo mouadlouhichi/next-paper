@@ -1,0 +1,62 @@
+{
+ "dataset": "amazon",
+ "experiment": "stratified_null",
+ "config": {
+  "command": "stratified-null",
+  "dataset": "amazon",
+  "ml_path": "data/ml-1m/ratings.dat",
+  "amazon_path": "data/amazon-digital-music/interactions.csv",
+  "gowalla_path": "data/gowalla/interactions.csv",
+  "users": 1000,
+  "n_max": 20,
+  "evaluation_size": 200,
+  "permutations": 250,
+  "candidate_seed": 1729,
+  "tie_seed": 31415,
+  "user_seed": 2718,
+  "rho": 0.5,
+  "out": "results/review9",
+  "r_null": 2000
+ },
+ "summary": {
+  "free": {
+   "n_users": 609,
+   "observed_mean": 0.6202931035830485,
+   "null_mean": {
+    "n": 2000,
+    "mean": -4.8490221042308404e-05,
+    "median": -0.00040088575002626605,
+    "sd": 0.017281389837103096,
+    "min": -0.07000431007719538,
+    "max": 0.06326173240821202
+   },
+   "plus_one_p": 0.0004997501249375312
+  },
+  "recency_blocks": {
+   "n_users": 609,
+   "observed_mean": 0.6202931035830485,
+   "null_mean": {
+    "n": 2000,
+    "mean": 0.22941916884336427,
+    "median": 0.229434567937518,
+    "sd": 0.01448207426942745,
+    "min": 0.16619189732466025,
+    "max": 0.2742592627947882
+   },
+   "plus_one_p": 0.0004997501249375312
+  },
+  "popularity_blocks": {
+   "n_users": 609,
+   "observed_mean": 0.6202931035830485,
+   "null_mean": {
+    "n": 2000,
+    "mean": 0.28231792523124105,
+    "median": 0.28158195682449516,
+    "sd": 0.013176434703874494,
+    "min": 0.24040269222034677,
+    "max": 0.3329744129002604
+   },
+   "plus_one_p": 0.0004997501249375312
+  }
+ }
+}

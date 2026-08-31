@@ -1,0 +1,83 @@
+{
+ "dataset": "amazon",
+ "experiment": "compute_matched_budget_response",
+ "note": "Each row is a separate budget-response point; Shapley and matched LIME use the same scorer-call count at that row. Rows are not equal-budget comparisons across methods at the primary configuration.",
+ "config": {
+  "command": "compute-matched",
+  "dataset": "amazon",
+  "ml_path": "data/ml-1m/ratings.dat",
+  "amazon_path": "data/amazon-digital-music/interactions.csv",
+  "gowalla_path": "data/gowalla/interactions.csv",
+  "users": 1000,
+  "n_max": 20,
+  "evaluation_size": 200,
+  "permutations": 250,
+  "candidate_seed": 1729,
+  "tie_seed": 31415,
+  "user_seed": 2718,
+  "rho": 0.5,
+  "out": "results/review9",
+  "mpair_grid": [
+   250,
+   1000
+  ]
+ },
+ "curves": [
+  {
+   "m_pair": 250,
+   "matched_scorer_calls_per_user": 3830,
+   "shapley": {
+    "n": 810,
+    "mean": 0.6068282881995039,
+    "median": 0.7071067811865475,
+    "sd": 0.38609026984332945,
+    "min": -0.8660254037844387,
+    "max": 1.0
+   },
+   "lime_matched": {
+    "n": 810,
+    "mean": 0.831354059647141,
+    "median": 0.8660254037844387,
+    "sd": 0.15486140245768307,
+    "min": -0.8944271909999159,
+    "max": 1.0
+   },
+   "lime_primary_512": {
+    "n": 810,
+    "mean": 0.8317336455244606,
+    "median": 0.8660254037844387,
+    "sd": 0.1437397138500073,
+    "min": -0.316227766016838,
+    "max": 1.0
+   }
+  },
+  {
+   "m_pair": 1000,
+   "matched_scorer_calls_per_user": 15322,
+   "shapley": {
+    "n": 810,
+    "mean": 0.6062681271020132,
+    "median": 0.7071067811865475,
+    "sd": 0.38531056891646726,
+    "min": -0.8660254037844387,
+    "max": 1.0
+   },
+   "lime_matched": {
+    "n": 810,
+    "mean": 0.8355601210811607,
+    "median": 0.8660254037844387,
+    "sd": 0.14145088496729635,
+    "min": -0.316227766016838,
+    "max": 1.0
+   },
+   "lime_primary_512": {
+    "n": 810,
+    "mean": 0.8317336455244606,
+    "median": 0.8660254037844387,
+    "sd": 0.1437397138500073,
+    "min": -0.316227766016838,
+    "max": 1.0
+   }
+  }
+ ]
+}
