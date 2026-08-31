@@ -9,7 +9,7 @@
   "cpu_count": 12,
   "numpy": "2.4.6"
  },
- "peak_rss_mb": 219712.0,
+ "peak_rss_mb": 214.5625,
  "timing_repeats": 5,
  "timings_seconds": {
   "shapley": {
@@ -54,5 +54,7 @@
   "out": "results/review9",
   "timing_repeats": 5,
   "timing_users": 50
- }
+ },
+ "peak_rss_raw": 224985088,
+ "peak_rss_units": "MB, from getrusage ru_maxrss (bytes on Darwin); corrected 2026-08-31 for a recorder that assumed the Linux KiB unit"
 }

@@ -87,7 +87,11 @@ def test_the_notebook_exists_and_defaults_to_a_dry_run():
     assert "assert Path(\"scripts/run_review9_experiments.py\").exists()" in config
     jobs = _embedded_jobs(config)
     assert jobs is not None, "the config cell no longer embeds its job list"
-    assert len(jobs) == len(gen.build_jobs()), "the committed notebook queue is stale"
+    # The notebook gates on payload presence at run time, so as runs finish the derived queue shrinks
+    # while the committed plan stays the record of what was queued. The invariant that protects the
+    # paper is coverage: no outstanding job may be missing from the notebook.
+    outstanding = {j["out"] for j in gen.build_jobs()}
+    assert outstanding <= {j["out"] for j in jobs}, sorted(outstanding - {j["out"] for j in jobs})
     assert jobs == gen.build_jobs(), "the notebook's job list differs from the live queue"
     markdown = "\n".join(s for s, c in zip(sources, notebook["cells"]) if c["cell_type"] == "markdown")
     # the notebook must be honest about what it does not cover

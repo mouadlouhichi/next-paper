@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import hashlib
 import importlib.util
+import ast
 import json
 import re
 import subprocess
@@ -711,18 +712,40 @@ def test_remaining_work_notebook_actually_does_the_close_out():
     assert "def pending()" in joined and 'not (CODE / j["out"]).exists()' in joined, "payload presence gates the queue"
 
     # the baked queue is exactly what the derived queue says, and only real subcommands
-    config_cell = next(src for src in sources.values() if "JOBS = [" in src)
-    baked = re.search(r"JOBS = (\[.*?\n\])", config_cell, re.S).group(1)
-    jobs = json.loads(baked)
-    assert jobs, "the queue is derived from the files, so it must list the missing payloads"
+    config_cell = next(src for src in sources.values() if "JOBS = " in src)
+    jobs = []                                    # an empty plan is legitimate: nothing was outstanding
+    for node in ast.parse(config_cell).body:
+        if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", "") == "JOBS":
+            jobs = ast.literal_eval(node.value)  # parse it, do not pattern-match on the formatting
     runner = (SCRIPTS / "run_review9_experiments.py").read_text(encoding="utf-8")
     for job in jobs:
         assert job["experiment"] in runner, job["experiment"]
         assert (CODE / job["out"]).name.endswith(".json")
-    assert {j["out"] for j in jobs} == {j["out"] for j in mrw.queue()}, "same derived queue"
+    # the notebook gates on payload presence at run time, so the baked plan is a superset of the
+    # outstanding set by design; what must never happen is an outstanding job that is not in it
+    outstanding = {j["out"] for j in mrw.queue()}
+    assert outstanding <= {j["out"] for j in jobs}, sorted(outstanding - {j["out"] for j in jobs})
 
     # the four scope boundaries are typeset, exactly once, so a second run all changes nothing
     main = MAIN_TEX.read_text(encoding="utf-8")
     for clause in mrw.SCOPE_CLAUSES.values():
         assert clause in main, clause
     assert main.count(mrw.SCOPE_PARAGRAPH) == 1
+
+
+def test_peak_rss_is_converted_in_the_units_the_platform_reports():
+    """The Mac reports bytes and Linux kilobytes; the published table once printed 219712 "MB"."""
+    spec = importlib.util.spec_from_file_location(
+        "r9_units", SCRIPTS / "run_review9_experiments.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    assert module.peak_rss_mb(2 * 1024 * 1024, "darwin") == 2.0
+    assert module.peak_rss_mb(2 * 1024, "linux") == 2.0
+    for path in sorted((CODE / "results" / "review9").glob("hardware_*.json")):
+        data = json.loads(path.read_text())
+        mb, raw = data["peak_rss_mb"], data.get("peak_rss_raw")
+        assert 1.0 < mb < 16384, (path.name, mb)
+        if raw is not None:                      # a stored raw value must agree with the label
+            plat = data["hardware"]["platform"].lower()
+            divisor = 1024 * 1024 if ("darwin" in plat or "macos" in plat) else 1024
+            assert abs(raw / divisor - mb) < 0.01, (path.name, raw, mb)

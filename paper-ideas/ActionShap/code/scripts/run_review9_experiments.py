@@ -686,6 +686,14 @@ def cmd_compute_matched(args) -> None:
 # reproducibility: hardware + repeated per-method timings
 # --------------------------------------------------------------------------
 
+def peak_rss_mb(ru_maxrss: int, sys_platform: str) -> float:
+    """Convert ``getrusage().ru_maxrss`` to megabytes.
+
+    Linux reports kilobytes and Darwin reports bytes, so a single divisor is wrong by 1024x on a Mac.
+    """
+    return round(ru_maxrss / (1024 * 1024 if sys_platform.startswith("darwin") else 1024), 4)
+
+
 def cmd_hardware(args) -> None:
     import resource
 
@@ -714,7 +722,8 @@ def cmd_hardware(args) -> None:
             leave_one_out(utility, n)
             timings["loo"].append(time.perf_counter() - t0)
 
-    rss_kb = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+    rss_raw = int(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)
+    peak_mb = peak_rss_mb(rss_raw, sys.platform)
     payload = {
         "dataset": args.dataset,
         "experiment": "hardware_and_timing",
@@ -726,7 +735,8 @@ def cmd_hardware(args) -> None:
             "cpu_count": __import__("os").cpu_count(),
             "numpy": np.__version__,
         },
-        "peak_rss_mb": float(rss_kb) / 1024.0,
+        "peak_rss_mb": peak_mb,
+        "peak_rss_raw": rss_raw,
         "timing_repeats": args.timing_repeats,
         "timings_seconds": {
             m: summarize(vals) for m, vals in timings.items()

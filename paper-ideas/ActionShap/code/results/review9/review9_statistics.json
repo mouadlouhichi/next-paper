@@ -14752,7 +14752,7 @@
      "lime": 0.0309668539849,
      "loo": 0.000391958499677
     },
-    "peak_rss_mb": 219712.0,
+    "peak_rss_mb": 214.5625,
     "platform": "macOS-26.6-arm64-arm-64bit"
    },
    "Gowalla": {
@@ -14786,7 +14786,7 @@
      "lime": 0.0387053335144,
      "loo": 0.00156525001512
     },
-    "peak_rss_mb": 496784.0,
+    "peak_rss_mb": 485.1406,
     "platform": "macOS-26.6-arm64-arm-64bit"
    }
   }
