@@ -18,7 +18,7 @@
 \usepackage{multirow}
 \graphicspath{{figures/}}
 \newcommand{\resdir}{tables}
-\newcommand{\resultmanifeststamp}{1eb79ff99dbd}
+\newcommand{\resultmanifeststamp}{43a608fd74a9}
 % Recomputed by code/scripts/make_result_manifest.py; the test suite fails if the
 % released matrices or generated tables change without updating this stamp.
 
@@ -296,11 +296,19 @@ profile's own temporal and popularity structure and an unstratified test underst
 the baseline. The observed bounded AIA of $0.575$ nonetheless sits $27.1$, $22.9$
 and $19.1$ null standard deviations above the three nulls, and no redraw in a
 thousand reaches as high as $0.062$, $0.174$ and $0.252$ respectively. The released
-null uses $1{,}000$ redraws, so its plus-one $p$ saturates at $0.0010$ in every row
-and the standardized distance is the comparable statistic; the primary-cohort tests
-use $10{,}000$ draws against the unstratified null
-(Table~\ref{tab:r9-multiplicity-map}), and the stratified version is reported here on
-the benchmark whose per-user intervention files ship inside the artifact.
+null uses $1{,}000$ redraws, so its plus-one $p$ saturates at $0.0010$ in that row and
+the standardized distance is the comparable statistic; the primary-cohort tests use
+$10{,}000$ draws against the unstratified null (Table~\ref{tab:r9-multiplicity-map}).
+The stratified redraws have since been run on both primary cohorts at $2{,}000$ draws
+each, and the direction of the benchmark result carries over with a wider margin: on
+MovieLens ($999$ users, observed bounded AIA $0.745$) the recency and popularity nulls
+sit at $0.102$ and $0.198$, leaving the observation $86.4$ and $82.9$ null standard
+deviations away with no redraw above $0.133$ and $0.226$; on Amazon ($609$ users,
+observed $0.620$) they sit at $0.229$ and $0.282$, distant by $27.0$ and $25.6$
+standard deviations with no redraw above $0.274$ and $0.333$. Every stratified plus-one
+$p$ on the primary cohorts is at that design's floor, $1/2001 = 0.0005$, so the
+structure-preserving check no longer has to be inherited from the benchmark, which
+remains the smallest of the three cohorts (Table~\ref{tab:r9-stratified-null}).
 
 \emph{Intervention semantics.} Dividing by the retained weight sum makes
 the deletion intervention a reallocation of profile mass rather than isolated
@@ -366,8 +374,18 @@ MovieLens cohort ($1{,}000$ users, all with a defined game) gives Shapley $0.800
 (SD $0.124$), LIME $0.939$, leave-one-out $0.981$ and signed alignment $0.932$, against
 $0.744$, $0.926$, $0.974$ and $0.906$ for held-out conditioning at the same budget: every
 score moves up by $0.013$--$0.056$ and no ordering changes, so the Gowalla reading is
-not an artifact of that cohort's truncation. Coverage behaves the same way in both: $118$
-of $1{,}000$ MovieLens users ($11.8\%$) and $72$ of $600$ on Gowalla ($12.0\%$) have a
+not an artifact of that cohort's truncation. Amazon behaves the same way under the same
+setting ($1{,}000$ users audited, $810$ with a defined prospective game): Shapley
+$0.793$, bounded LIME $0.850$, leave-one-out $0.998$ and signed alignment $0.849$, so the
+ordering and the saturation of leave-one-out reproduce across all three cohorts
+(Table~\ref{tab:r9-prospective-replication}). Removing the future label moves Shapley by
+$+0.186$ there against the $0.607$ recorded on the same $810$ users under held-out
+conditioning (Table~\ref{tab:r9-fixed-denominator}), larger than the $+0.038$ and the
+$+0.013$--$+0.056$ on the other two cohorts, and consistent with Amazon's much lower
+target coverage: the more often the prospective top-$1$ is a different item from the
+held-out one, the more the two games differ. Coverage behaves the same way in all three:
+$118$ of $1{,}000$ MovieLens users ($11.8\%$), $72$ of $600$ on Gowalla ($12.0\%$) and
+$34$ of $1{,}000$ on Amazon ($3.4\%$) have a
 prospective top-$1$ that coincides with the held-out item, so the two audits mostly score
 different events and a per-user paired contrast between them is not a defined quantity; what is comparable is the
 ordering and the size of the alignment, and both survive. The residual caveat is

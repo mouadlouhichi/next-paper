@@ -894,7 +894,7 @@ def stratified_null_tables() -> tuple[list[str], dict]:
         "Dataset & Null stratification & Users & Observed mean & Null mean & Null SD "
         "& Null min & Null max & $z$ & Plus-one $p$ & Draws",
         "Within-user nulls stratified by the profile structure that could produce "
-        "alignment on its own, on the replication benchmark at the same "
+        "alignment on its own, on all three cohorts at the same "
         "$M_{\\mathrm{pair}}=250$ budget as Tables~\ref{tab:r9-fixed-denominator} "
         "and~\ref{tab:r9-utility-factorial-replication}. The observed mean is the "
         "bounded AIA of the Monte Carlo Shapley attribution over the users with a "
@@ -972,7 +972,7 @@ def prospective_tables() -> tuple[list[str], dict]:
     L = table(
         "Dataset & Sampled & Audited & Defined $n$ & Prospective target covers "
         "held-out item & AIA Shapley & AIA LIME & AIA LOO & Signed Shapley",
-        "Prospective (non-target-conditioned) replication of the audit. "
+        "Prospective (non-target-conditioned) audit, applied to all three cohorts. "
         "Each user's game is rebuilt from the model's own top-1 prospective "
         "recommendation rather than from the held-out target, and the same Monte "
         "Carlo Shapley, LIME and leave-one-out attributions are scored against the "

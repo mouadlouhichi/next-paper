@@ -33,7 +33,7 @@
   "acmart-primary/tables/review5_validation.tex": "1ad1d75cd6adde8e39d5726291d1b5c32ae5fbd4079e5a3808ba70abe838ab63",
   "acmart-primary/tables/review7_kernelschap.tex": "580aef8ee52bcbe7930aefdf3dea556f961c4c623d1b3d3a46305980cccab522",
   "acmart-primary/tables/review8_extended_basis.tex": "25f71ca6e5c64f722088879ba6efccea6eac60f71a50841358d641b99fdb5a13",
-  "acmart-primary/tables/review9_benchmark_replications.tex": "51defcdaa5736c322f574e262a05dd6aadc687e1dff5c7b172b1a632f8a3fa77",
+  "acmart-primary/tables/review9_benchmark_replications.tex": "cc1d392156b3aac57be8522e2833d477a9560adeaa171b447b9a87f5cf0cf5ec",
   "acmart-primary/tables/review9_statistics.tex": "8b45c0e53307666c71e64e6cb3ebfeae64d0a506c0b69c2ac4c9b2234fad12ba",
   "acmart-primary/tables/sensitivity_results.tex": "e90f4151494eb067c03ae3c35307c10d86fdbd2b8d20ce00d447ff16704bb827",
   "actionshap-ipm/release/matrices/actionability_gap_advantage.csv": "cac3f3a99ad31144b1d0017cde2e9d11557b18c03dd09a81170f27915c11e7f7",
@@ -81,8 +81,8 @@
   "code/results/review9/utility_factorial_gowalla.json": "5e827ff8d8398180c5f2c4d9653c766f408193e27f4e55be425ecc6df44ae4c7",
   "code/results/review9/utility_factorial_movielens.json": "9f379f47627035f0ac01f3b5091ac7e6654116ae0deaef30bc97c3123724a209"
  },
- "git_revision": "3211c32f004e3c022d32fb1f428b066a0d914d7b",
- "manifest_sha256": "1eb79ff99dbda5ac792add814aab8a04089d4a66e075972f32195258ea41b48e",
- "manifest_stamp": "1eb79ff99dbd",
+ "git_revision": "56c47f9b02e5b393fc69540a0382c033efb27689",
+ "manifest_sha256": "43a608fd74a9c0585ff943a2a503636ca19c4806771746fa8a1fb0be4f0bf130",
+ "manifest_stamp": "43a608fd74a9",
  "schema": "actionshap-result-manifest-v1"
 }
