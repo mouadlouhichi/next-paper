@@ -81,3 +81,28 @@ The authors delivered the **ML-1M matched single-execution λ sweep** (v8, user-
 
 Remaining for Accept (unchanged from Round 10): v7 Amazon (sandbox), sequential baselines +
 controlled randomization (sandbox queue), Amazon matched sweep + nested tuning (released scripts).
+
+---
+
+## Round-12 addendum (2026-08-30, manuscript v26)
+
+The authors delivered (Mac/MPS, 5 seeds each):
+1. **Amazon v7 corrected-protocol run** (review item #1) — order preserved; Shapley–LOO NDCG@20
+   equivalence holds with the entire 90% CI on the LOO side ([−0.000872,−0.000402] ⊂ ±0.001);
+   LOO significantly beats Shapley on both metrics (Holm p=0.0008 / p=0.015). **Item #1 is now
+   CLOSED for both datasets.**
+2. **Amazon matched single-execution λ sweep** (review item #4) — all eight families on
+   identical models: LOO leads at λ≤0.20; at the off-protocol λ=0.40 valid-linear marginally
+   exceeds LOO (0.03744 vs 0.03713, reported descriptively); LOO still leads Shapley at every λ.
+   **Item #4 is now CLOSED for both datasets.**
+
+Manuscript v26 integrates both (tab:v7_main/tab:v7_contrasts now both datasets; tab:ablation_lambda
+fully matched for both datasets; Fig 4 rebuilt; abstract/limitations updated).
+
+One bug found in the delivered logs and fixed: `run_sequential_baselines.py` updated-profile
+baseline crashed on scipy ≥1.13 sparse arrays (`Iv[vu] + scalar`); fixed with explicit
+`.todense()`. The sequential-baselines stage should be re-run by the authors.
+
+Remaining for Accept (unchanged): #10 sequential baselines (re-run, bug fixed), #11 controlled
+randomization, #3 nested tuning, #2 factorial, #8 convergence v2, #12 negset multi-draw, #7
+multi-seed ablations — all in `CoalGameRec_R9_AllRemaining.ipynb` cells A3/A4/A5/B1/B2/B3/C1/C2.

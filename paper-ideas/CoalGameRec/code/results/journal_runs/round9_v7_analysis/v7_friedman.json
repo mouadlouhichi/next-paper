@@ -16,5 +16,23 @@
    "loo-marginal",
    "valid-linear"
   ]
+ },
+ "amazon_books:NDCG@20": {
+  "chi2": 343.59773633929245,
+  "p": 2.1048191525636295e-69,
+  "top": [
+   "valid-linear",
+   "loo-marginal",
+   "shapley-mc"
+  ]
+ },
+ "amazon_books:HitRate@20": {
+  "chi2": 185.30365178562866,
+  "p": 7.913531859277242e-36,
+  "top": [
+   "valid-linear",
+   "loo-marginal",
+   "shapley-mc"
+  ]
  }
 }

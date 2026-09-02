@@ -16,5 +16,23 @@
   ],
   "inside": false,
   "all_negative": false
+ },
+ "amazon_books:NDCG@20": {
+  "mean": -0.0006344489041391397,
+  "ci90": [
+   -0.0008720821522852904,
+   -0.0004023996704193073
+  ],
+  "inside": true,
+  "all_negative": true
+ },
+ "amazon_books:HitRate@20": {
+  "mean": -0.0011864635297290011,
+  "ci90": [
+   -0.0018605905352568424,
+   -0.0005123365242011595
+  ],
+  "inside": true,
+  "all_negative": true
  }
 }

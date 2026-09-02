@@ -81,7 +81,7 @@ def updated_profile_scores(base_scores, split, val_by_user, item_vectors):
         if vu is None or len(items) == 0:
             out[u] = zscore_candidates(base_scores[u], _candidate_idx(split.n_items, items, -1))
             continue
-        prof = np.asarray(Iv[items].mean(axis=0)).ravel() + np.asarray(Iv[int(vu)]).ravel()
+        prof = np.asarray(Iv[items].mean(axis=0)).ravel() + np.asarray(Iv[int(vu)].todense()).ravel()
         prof = prof / (np.linalg.norm(prof) + 1e-12)
         adj = (Iv.dot(prof) / inorms).astype(np.float32)
         cand = _candidate_idx(split.n_items, items, int(vu))
