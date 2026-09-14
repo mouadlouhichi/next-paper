@@ -227,6 +227,8 @@ cure_rec/
 ├── interventions.py   # six policy operators and exact collision allocation
 ├── game.py            # 64 coalition sweep, exact Shapley, interactions, regions
 ├── planner.py         # robust improvement and abstention planner
+├── seed_robust.py     # planner extended over scenarios AND calibration seeds
+│                      # (minimax and empirical chance-constrained rules)
 ├── calibration.py     # OAT and Latin-hypercube CURE-Sim sensitivity designs
 ├── sasrec.py          # optional Torch sequential external-ranking comparator
 ├── sasrec_search.py   # validation-only SASRec selection, audit, and replication
@@ -255,6 +257,14 @@ round; their archived outputs live under `results/reviewer_phase_assets/`:
   with the extended operators implemented as real slate transformations.
 - `phase_d_ml1m_paired.py` — MovieLens-1M per-user paired inference (needs data
   download and torch; run via `notebooks/13_reviewer_closure_runs.ipynb`).
+- `phase_h_seed_robust.py` — calibration-robust planning (reviewer item 2):
+  selects one frozen portfolio under (a) the published per-seed scenario-only
+  protocol, (b) seed+scenario minimax, and (c) an empirical chance constraint
+  with `--alpha`, then scores every frozen portfolio on the disjoint held-out
+  seeds. Calibration games are reconstructed from the archived exact coalition
+  tables, so no new simulation noise enters selection; held-out rows are fresh
+  rollouts. Outputs land in
+  `results/reviewer_phase_assets/seed_robust_planner/<point>/`.
 
 These scripts are simulator-conditional decision experiments; they do not create
 external causal evidence. Runs that require downloads or long compute are gathered

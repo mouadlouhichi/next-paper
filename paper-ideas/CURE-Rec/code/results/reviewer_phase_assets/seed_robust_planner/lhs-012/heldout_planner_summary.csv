@@ -1,0 +1,4 @@
+planner,selection_evaluation_pairs,independent_evaluation_seeds,robust_lower_improvement_mean,robust_lower_improvement_std,feasible_rate,paired_difference_vs_cure_mean,paired_difference_vs_cure_sd,paired_effect_dz,exact_sign_test_p
+scenario_only_per_seed,20,20,-0.08926983956536357,0.0003452058856289342,0.7,0.0,0.0,,1.0
+seed_scenario_chance,20,20,-0.12101567828527542,0.0005496862401550162,1.0,-0.031745838719911865,0.00023154924773968104,-137.1018866604226,1.9073486328125e-06
+seed_scenario_minimax,20,20,-0.12101567828527542,0.0005496862401550162,1.0,-0.031745838719911865,0.00023154924773968104,-137.1018866604226,1.9073486328125e-06

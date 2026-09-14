@@ -1,0 +1,6 @@
+selection_seed,selected_mask,selected_interventions,mode,status,lower_improvement
+42,32,provider_balance,repair,repair_selected,-0.1211348462833595
+43,0,,improvement,abstain_keep_base,0.0
+44,4,tail_slot,repair,repair_selected,-0.0830167524891152
+45,32,provider_balance,repair,repair_selected,-0.1214070734905699
+46,32,provider_balance,repair,repair_selected,-0.1206141450545422

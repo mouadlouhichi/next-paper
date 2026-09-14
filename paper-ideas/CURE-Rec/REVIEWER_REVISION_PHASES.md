@@ -268,3 +268,64 @@ p-values were recomputed from the archived per-user metrics (bootstrap CIs
 unchanged to 1e-16). `phase_d_ml1m_paired.py` additionally gained resume support
 (skips retraining when per-user metrics are already archived) and per-family
 Holm correction.
+
+## Phase H — calibration-robust planning (third-round reviewer item 2, 2026-09-02)
+
+The second-round manuscript left held-out feasibility of `0.70` (`lhs-012`) and
+`0.47` (`lhs-009`) as an acknowledged limitation, with the seed-robust extension
+described but explicitly "not evaluated in the present artifact". That extension
+is now implemented and executed.
+
+**Implementation.** `cure_rec/seed_robust.py` enlarges the planner's uncertainty
+set from scenarios to scenarios x calibration seeds `Z_cal = {42,...,46}`:
+
+- `calibration_robust_values` — `min_{m,zeta} Delta V_{m,zeta}(S)`;
+- `seed_scenario_metrics` — constraint margins pooled over seeds plus per-seed
+  feasibility indicators;
+- `select_calibration_robust_portfolio(rule="minimax")` — every constraint must
+  hold for every (scenario, seed) pair;
+- `select_calibration_robust_portfolio(rule="chance", alpha)` — empirical chance
+  constraint `(1/K) sum_zeta 1_F(S;zeta) >= 1 - alpha`, ranked by the
+  seed-averaged worst-scenario improvement;
+- `heldout_evaluation` — scores one frozen portfolio on unseen seeds; the
+  initialization seed is applied to a private settings copy because `CureSim`
+  seeds its generator from `settings.run.seed`.
+
+Improvement / repair / abstention / certified-infeasibility semantics are
+unchanged. With `|Z_cal| = 1` the minimax rule reproduces the shipped planner
+exactly (same mask, value agreement `6.9e-17`).
+
+**Driver.** `code/scripts_review/phase_h_seed_robust.py <lhs-012|lhs-009>`.
+Calibration games are reconstructed from the archived exact coalition tables
+(`divergent_selector_holdout/<point>/selection/.../tables/coalition_values.csv`),
+so the new planners see precisely the rollouts that produced the published
+numbers; held-out rows are fresh rollouts on seeds 200-219.
+
+**Verification performed.**
+
+1. The published per-seed protocol is reproduced exactly from archived tables:
+   `lhs-012` -> `-0.089270` / feasibility `0.70`; `lhs-009` -> `+0.198583` /
+   `0.47`, matching `heldout_selector_summary.csv` to the printed precision.
+2. Fresh held-out rollouts agree with the archived `events.jsonl` values to
+   `9.7e-17` (lhs-012, 140 overlapping mask x seed rows) and `8.3e-17`
+   (lhs-009). The only initial discrepancy was the base-coalition row, whose
+   logged `improvement` field stores raw utility because
+   `run_scenario_game` applies `replace(improvement=0.0)` after logging.
+3. Live rollouts through `evaluate_seed_masks` reproduce the reconstructed
+   seed-42 game to `9.7e-17` across all 256 coalition cells and select the same
+   mask, confirming the reconstruction and the live path are interchangeable.
+
+**Result.** Pooling over calibration seeds converts an unstable multi-portfolio
+decision into one frozen portfolio and raises held-out feasibility from `0.70`
+to `1.00` (`lhs-012`) and from `0.47` to `1.00` (`lhs-009`), at a measured
+utility cost of `0.031746` and `0.053897` respectively (paired `d_z = -137.1`
+and `-81.2` over 20 evaluation seeds). The chance-constrained rule with
+`alpha = 0.2` is intermediate on `lhs-009` (`0.55` feasibility, `0.008973`
+cost), matching its declared conservatism. Reported in the manuscript as
+Section 5.4 (`sec:seed-robust`) and Table `tab:seed-robust`.
+
+**Assets.** `code/results/reviewer_phase_assets/seed_robust_planner/{lhs-012,lhs-009}/`
+(`calibration_selections.csv`, `scenario_only_per_seed_selections.csv`,
+`heldout_planner_evaluations.csv`, `heldout_planner_summary.csv`,
+`archived_crosscheck.csv`, `revision_manifest.json`); checksums regenerated with
+`scripts_review/hash_revision_assets.py` (349 entries).

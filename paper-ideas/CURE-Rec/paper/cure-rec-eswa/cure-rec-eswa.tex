@@ -667,12 +667,56 @@ Case & Selector & Raw lower improvement & Feasible rate & Admissible difference 
 \end{tabular}
 \end{table*}
 
-Robustness in Eq.~\eqref{eq:robust-feasibility} is over the declared scenario set conditional on the selection seed $\zeta$; it is not a chance constraint over simulator initializations. Consequently, held-out feasibility rates of $0.70$ and $0.47$ are out-of-sample diagnostics rather than contradictions of the optimization guarantee. A generalized deployment rule could additionally require
+Robustness in Eq.~\eqref{eq:robust-feasibility} is over the declared scenario set conditional on the selection seed $\zeta$; it is not a chance constraint over simulator initializations. The held-out feasibility rates of $0.70$ and $0.47$ in Table~\ref{tab:divergent-heldout-summary} are therefore out-of-sample diagnostics rather than contradictions of the optimization guarantee. They nonetheless identify a real deployment gap, and each pooled rate conceals a second effect: the frozen policies behind them are not one portfolio per case but three distinct portfolios in \texttt{lhs-012} (provider balancing on seeds 42, 45 and 46; an abstained infeasible base on seed 43; tail slot on seed 44) and four in \texttt{lhs-009}. The remainder of this subsection implements and evaluates the extension that closes the gap.
+
+\subsection{Calibration robustness over scenarios and initialization seeds}\label{sec:seed-robust}
+
+Let $Z_{cal}=\{42,\ldots,46\}$ be a set of calibration seeds and let $\Utility_{m,\zeta}$ be the coalition value of scenario $m$ under initialization $\zeta$. The planner is extended by enlarging the uncertainty set over which both the objective and the feasibility indicator are computed:
 \begin{equation}
- \Pr_{\zeta}\!\left[\mathbf 1_{\mathcal F}(S;\zeta)=1\right]\geq 1-\alpha,
-\label{eq:chance-feasibility}
+ \underline{\Delta}_{cal}(S)=\min_{m\in\Models,\ \zeta\in Z_{cal}}\Delta\Utility_{m,\zeta}(S),
+ \label{eq:calibration-value}
 \end{equation}
-or enforce feasibility across all calibration seeds. This extension would trade utility against initialization-level reliability and is not evaluated in the present artifact.
+\begin{equation}
+ \mathbf 1_{\mathcal F,cal}(S)=\mathbf 1\!\left\{\begin{array}{l}
+  c(S)\le B,\\[2pt]
+  \min_{m,\zeta}\Delta Rel_{m,\zeta}(S)\ge r_{\min},\\[2pt]
+  \max_{m,\zeta}Disp_{m,\zeta}(S)\le d_{\max},\\[2pt]
+  \max_{m,\zeta}Fat_{m,\zeta}(S)\le f_{\max}
+ \end{array}\right\}.
+ \label{eq:calibration-feasibility}
+\end{equation}
+The less conservative alternative retains the per-seed indicator of Eq.~\eqref{eq:robust-feasibility} and requires only
+\begin{equation}
+ \frac{1}{|Z_{cal}|}\sum_{\zeta\in Z_{cal}}\mathbf 1_{\mathcal F}(S;\zeta)\ \geq\ 1-\alpha ,
+ \label{eq:chance-feasibility}
+\end{equation}
+ranked by the seed-averaged worst-scenario improvement $|Z_{cal}|^{-1}\sum_{\zeta}\min_{m}\Delta\Utility_{m,\zeta}(S)$. We fix $\alpha=0.2$ before evaluating any outcome, so a portfolio must be fully scenario-feasible on at least four of the five calibration seeds. Improvement, repair, abstention, and certified-infeasibility semantics are unchanged: only the uncertainty set is enlarged. With $|Z_{cal}|=1$ the rule collapses to Eq.~\eqref{eq:robust-feasibility}; on the \texttt{lhs-012} seed-42 game the extended rule returns the same mask and the same value as the shipped planner (agreement $6.9\times10^{-17}$), so it is a strict generalization rather than a different decision rule.
+
+Table~\ref{tab:seed-robust} reports the three planners on the two disagreement configurations. The published protocol (first row of each block) selects independently on each calibration seed; it is reproduced exactly from the archived exact coalition tables, returning $-0.089270$ and $+0.198583$ with feasibility $0.70$ and $0.47$, matching Table~\ref{tab:divergent-heldout-summary}.
+
+\begin{table*}[t]
+\caption{Calibration-robust planning on the disagreement configurations. ``Frozen portfolios'' counts the distinct portfolios the planner deploys across calibration seeds 42--46. Held-out columns are fresh rollouts on the disjoint seeds 200--219, where the evaluation seed is the independent unit ($n=20$). The chance-constrained planner uses $\alpha=0.2$. Paired differences are against the published per-seed protocol within the same case.}\label{tab:seed-robust}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}p{0.072\textwidth}>{\raggedright\arraybackslash}p{0.225\textwidth}>{\raggedright\arraybackslash}p{0.185\textwidth}rrrrr@{}}
+\toprule
+Case & Planner & Frozen portfolios & Cal.\ lower imp. & Held-out lower imp. & Held-out feasible & Paired diff. & $d_z$\\
+\midrule
+\multirow{3}{*}{\texttt{lhs-012}}
+ & Scenario-only, per calibration seed (published) & 3 distinct (\texttt{32;0;4;32;32}) & $-0.089235$ & $-0.089270$ & 0.70 & --- & ---\\
+ & Seed+scenario maximin, Eq.~\eqref{eq:calibration-value} & 1 (\texttt{provider\_balance}) & $-0.121407$ & $-0.121016$ & \textbf{1.00} & $-0.031746$ & $-137.1$\\
+ & Chance-constrained, Eq.~\eqref{eq:chance-feasibility} & 1 (\texttt{provider\_balance}) & $-0.120671$ & $-0.121016$ & \textbf{1.00} & $-0.031746$ & $-137.1$\\
+\midrule
+\multirow{3}{*}{\texttt{lhs-009}}
+ & Scenario-only, per calibration seed (published) & 4 distinct (\texttt{5;1;9;33;5}) & $+0.198455$ & $+0.198583$ & 0.47 & --- & ---\\
+ & Seed+scenario maximin, Eq.~\eqref{eq:calibration-value} & 1 (\texttt{repeat\_cap+provider\_balance}) & $+0.143014$ & $+0.144686$ & \textbf{1.00} & $-0.053897$ & $-81.2$\\
+ & Chance-constrained, Eq.~\eqref{eq:chance-feasibility} & 1 (\texttt{repeat\_cap+tail\_slot}) & $+0.189120$ & $+0.189611$ & 0.55 & $-0.008973$ & $-18.7$\\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+Two conclusions follow, and they are the ones a deployment decision needs. First, pooling over initialization seeds removes the decision instability that produced the low pooled rates: the calibration-robust planner deploys a single portfolio, so its $1.00$ held-out feasibility is a property of one decision rather than an average over three or four different ones. Second, initialization-level reliability is purchased with utility, and the price is measured rather than assumed: in \texttt{lhs-009}, moving from $0.47$ to $1.00$ held-out feasibility costs $0.053897$ normalized utility units (paired $d_z=-81.2$ over 20 evaluation seeds), whereas the chance-constrained variant buys a smaller gain ($0.47\rightarrow0.55$) at about one sixth of that cost. The ordering matches the conservatism ordering the two rules declare, which is the intended behaviour of a tunable reliability constraint rather than an incidental outcome. \CURE{} therefore selects portfolios robust to declared scenario ambiguity \emph{and} to initialization uncertainty whenever the calibration-robust rule is used, and it reports the utility price of that robustness when it is. All figures are archived under \texttt{code/results/reviewer\_phase\_assets/seed\_robust\_planner/}, together with the per-seed selections that the published protocol pools.
 
 \subsection{RQ4: calibration robustness and portfolio switches}\label{sec:rq3}
 
@@ -1166,6 +1210,7 @@ The following claims are supported by the corresponding evidence.
 \begin{itemize}
 \item \textbf{Controlled causal claim:} exact-game recovery and misspecification behaviour are established within the analytic and behavioural \Sim{} mechanisms.
 \item \textbf{Behavioural robustness claim:} the reported OAT and LHS selection frequencies, utility summaries, repairs, and switches hold for the disclosed finite configurations and seeds.
+\item \textbf{Calibration-robustness claim:} the seed-and-scenario robust and chance-constrained planners of Section~\ref{sec:seed-robust} attain the reported held-out feasibility rates on the disclosed calibration seeds 42--46 and evaluation seeds 200--219 within \Sim{}. They are finite-sample reliability rules over those seeds, not distribution-free guarantees over unseen environments.
 \item \textbf{External ranking claim:} BPR and SASRec produce the reported chronological warm-item ranking metrics under the shared MovieLens evaluator.
 \item \textbf{Unsupported claim:} no result in this artifact identifies the long-run causal effect of a policy intervention from MovieLens ratings alone.
 \end{itemize}

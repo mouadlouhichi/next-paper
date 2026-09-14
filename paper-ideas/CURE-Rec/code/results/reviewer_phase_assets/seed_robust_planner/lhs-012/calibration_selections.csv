@@ -1,0 +1,4 @@
+planner,rule,alpha,selection_seed,selected_mask,selected_interventions,distinct_portfolios,calibration_lower_improvement
+scenario_only_per_seed,"scenario maximin, selected independently per calibration seed (published protocol)",,42-46 (independent),32;0;4;32;32,provider_balance |  | tail_slot | provider_balance | provider_balance,3,-0.08923456346351735
+seed_scenario_minimax,minimax over scenarios x seeds,,42-46 (pooled),32,provider_balance,1,-0.1214070734905699
+seed_scenario_chance,"empirical chance constraint over scenarios x seeds, alpha=0.2",0.2,42-46 (pooled),32,provider_balance,1,-0.1206711465765723
