@@ -1,0 +1,8 @@
+planner,selected_mask,archived_runs,archived_provider_disparity_max,archived_fatigue_max,archived_note
+scenario_only_per_seed@seed42,32,20,0.07504629629629633,0.0,recovered from archived events.jsonl
+scenario_only_per_seed@seed43,0,20,0.29923611111111104,0.0,recovered from archived events.jsonl
+scenario_only_per_seed@seed44,4,20,0.27645833333333325,0.0,recovered from archived events.jsonl
+scenario_only_per_seed@seed45,32,20,0.07504629629629633,0.0,recovered from archived events.jsonl
+scenario_only_per_seed@seed46,32,20,0.07504629629629633,0.0,recovered from archived events.jsonl
+seed_scenario_minimax@seed42,32,20,0.07504629629629633,0.0,recovered from archived events.jsonl
+seed_scenario_chance@seed42,32,20,0.07504629629629633,0.0,recovered from archived events.jsonl

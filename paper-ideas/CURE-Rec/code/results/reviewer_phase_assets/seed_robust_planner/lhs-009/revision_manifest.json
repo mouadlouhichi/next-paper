@@ -1,0 +1,127 @@
+{
+  "reviewer_item": "2 -- calibration robustness over scenarios and initialization seeds",
+  "point_id": "lhs-009",
+  "config_hash": "c8dc3c8cecc5c1fa",
+  "settings_source": "results/reviewer_phase_assets/divergent_selector_holdout/lhs-009/selection/lhs-009/lhs-009-seed-42-20260818T085135Z-11adcdc9",
+  "calibration_seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "evaluation_seeds": [
+    200,
+    201,
+    202,
+    203,
+    204,
+    205,
+    206,
+    207,
+    208,
+    209,
+    210,
+    211,
+    212,
+    213,
+    214,
+    215,
+    216,
+    217,
+    218,
+    219
+  ],
+  "alpha": 0.2,
+  "planners": [
+    "scenario_only_per_seed",
+    "seed_scenario_minimax",
+    "seed_scenario_chance"
+  ],
+  "calibration_source": "archived exact coalition tables (no new selection rollouts)",
+  "holdout_source": "fresh rollouts via cure_rec.seed_robust.heldout_evaluation",
+  "selected": [
+    {
+      "planner": "scenario_only_per_seed",
+      "rule": "scenario maximin, selected independently per calibration seed (published protocol)",
+      "alpha": null,
+      "selection_seed": "42-46 (independent)",
+      "selected_mask": "5;1;9;33;5",
+      "selected_interventions": "repeat_cap;tail_slot | repeat_cap | repeat_cap;diversify | repeat_cap;provider_balance | repeat_cap;tail_slot",
+      "distinct_portfolios": 4,
+      "calibration_lower_improvement": 0.1984550625
+    },
+    {
+      "planner": "seed_scenario_minimax",
+      "rule": "minimax over scenarios x seeds",
+      "alpha": null,
+      "selection_seed": "42-46 (pooled)",
+      "selected_mask": 33,
+      "selected_interventions": "repeat_cap;provider_balance",
+      "distinct_portfolios": 1,
+      "calibration_lower_improvement": 0.143013848
+    },
+    {
+      "planner": "seed_scenario_chance",
+      "rule": "empirical chance constraint over scenarios x seeds, alpha=0.2",
+      "alpha": 0.2,
+      "selection_seed": "42-46 (pooled)",
+      "selected_mask": 5,
+      "selected_interventions": "repeat_cap;tail_slot",
+      "distinct_portfolios": 1,
+      "calibration_lower_improvement": 0.1891195886
+    }
+  ],
+  "calibration_robust_value_of_selected": {
+    "scenario_only_per_seed@seed42": 0.1870575780911095,
+    "scenario_only_per_seed@seed43": 0.2625311348444096,
+    "scenario_only_per_seed@seed44": 0.2022881796577259,
+    "scenario_only_per_seed@seed45": 0.1430138479974195,
+    "scenario_only_per_seed@seed46": 0.1870575780911095,
+    "seed_scenario_minimax@seed42": 0.1430138479974195,
+    "seed_scenario_chance@seed42": 0.1870575780911095
+  },
+  "per_seed_scenario_only_selections": [
+    {
+      "selection_seed": 42,
+      "selected_mask": 5,
+      "selected_interventions": "repeat_cap;tail_slot",
+      "mode": "repair",
+      "status": "repair_selected",
+      "lower_improvement": 0.1928478947
+    },
+    {
+      "selection_seed": 43,
+      "selected_mask": 1,
+      "selected_interventions": "repeat_cap",
+      "mode": "repair",
+      "status": "repair_selected",
+      "lower_improvement": 0.2655786496
+    },
+    {
+      "selection_seed": 44,
+      "selected_mask": 9,
+      "selected_interventions": "repeat_cap;diversify",
+      "mode": "repair",
+      "status": "repair_selected",
+      "lower_improvement": 0.2037773424
+    },
+    {
+      "selection_seed": 45,
+      "selected_mask": 33,
+      "selected_interventions": "repeat_cap;provider_balance",
+      "mode": "repair",
+      "status": "repair_selected",
+      "lower_improvement": 0.143013848
+    },
+    {
+      "selection_seed": 46,
+      "selected_mask": 5,
+      "selected_interventions": "repeat_cap;tail_slot",
+      "mode": "repair",
+      "status": "repair_selected",
+      "lower_improvement": 0.1870575781
+    }
+  ],
+  "claim": "Simulator-conditional decision robustness only; no external causal claim."
+}
