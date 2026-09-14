@@ -33,8 +33,8 @@ ABSTRACT = (
     "Amazon. Under full-catalogue evaluation Shapley becomes mildly anti-aligned (-0.050) while its "
     "bounded-minus-deletion difference stays positive, and much of the measured advantage of one "
     "attributor over another is attributable to scoring normalisation rather than to the attributor "
-    "itself. The consequence for practice is that deletion-based fidelity and executable-intervention "
-    "validity must be reported separately."
+    "itself. Deletion-based fidelity and executable-intervention validity must therefore be "
+    "reported separately."
 )
 KEYWORDS = ["explainable recommendation", "attribution evaluation", "counterfactual evaluation",
             "bounded interventions", "offline evaluation", "cooperative game theory"]

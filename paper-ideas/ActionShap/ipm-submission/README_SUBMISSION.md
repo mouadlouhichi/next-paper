@@ -4,7 +4,7 @@
 |---|---|---|
 | `title_page.tex` | Title page (separate file) | **no abstract**, by design |
 | `manuscript_snippet.tex` | head + tail of the main file | abstract, keywords, all five statements |
-| `abstract.tex` | paste into the manuscript / submission form | 200 words (limit 200) |
+| `abstract.tex` | paste into the manuscript / submission form | 195 words (limit 200) |
 | `highlights.txt` | Highlights file | 4 bullets, longest 75 chars (limit 85) |
 | `cover_letter_IPM.md` | cover letter | not inside the manuscript zip |
 | `../actionshap-overleaf.zip` | LaTeX source | ACM-styled; see TODO below for the elsarticle conversion |
