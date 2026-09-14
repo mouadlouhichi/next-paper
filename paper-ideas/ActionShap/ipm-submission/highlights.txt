@@ -1,0 +1,4 @@
+Deletion and bounded profile interventions rank attributors differently
+Exact budget-two oracle removes optimiser bias from decision-quality audits
+Pointwise alignment does not determine realized ranking gains under budget
+Scoring normalisation, not the attributor, drives part of the measured gap
