@@ -74,7 +74,7 @@
 \renewcommand{\shortauthors}{\authorsforreview}
 
 \begin{abstract}
-This supplementary material is intended to be read alongside the main manuscript. It provides the expanded numerical audit underlying the compact manuscript tables, including robustness matrices, statistical validation, replication analyses, and computational-cost details. The tables are generated from the schema-v2 result archive. The accompanying artifact records the source revision, archive hash, dependency manifest, and machine-readable CSV/JSON results.
+This supplementary material is intended to be read alongside the main manuscript. It provides the expanded numerical audit underlying the compact manuscript tables, including robustness matrices, statistical validation, replication analyses, and computational-cost details. The tables are generated from the result archive released with the manuscript. The accompanying artifact records the source revision, archive hash, dependency manifest, and machine-readable CSV/JSON results.
 \end{abstract}
 
 \keywords{recommender systems, explanation evaluation, bounded intervention, robustness, reproducibility}
@@ -149,7 +149,7 @@ Random control & 0 attribution utility calls & IID $\mathcal{N}(0,1)$ scores; th
 \end{tabular}
 \end{table}
 
-The schema-v2 run summary records total wall-clock duration for the 80 recommendation runs: the 60 ItemKNN runs range from approximately 29.8 to 2,851.6 seconds (mean 183.0 seconds), and the 20 profile runs range from approximately 26.9 to 299.6 seconds (mean 95.0 seconds). These are complete-pipeline durations rather than isolated explainer timings; the analytical call-budget table above is the comparable per-method cost measure. The recorded environment is macOS-26.5.1-arm64, Python 3.12.13, NumPy 2.4.6, SciPy 1.17.1, pandas 2.3.3, scikit-learn 1.9.0, matplotlib 3.11.1, and PyYAML 6.0.3. 
+The run summary in the release records total wall-clock duration for the 80 recommendation runs: the 60 ItemKNN runs range from approximately 29.8 to 2,851.6 seconds (mean 183.0 seconds), and the 20 profile runs range from approximately 26.9 to 299.6 seconds (mean 95.0 seconds). These are complete-pipeline durations rather than isolated explainer timings; the analytical call-budget table above is the comparable per-method cost measure. The recorded environment is macOS-26.5.1-arm64, Python 3.12.13, NumPy 2.4.6, SciPy 1.17.1, pandas 2.3.3, scikit-learn 1.9.0, matplotlib 3.11.1, and PyYAML 6.0.3. 
 
 The submission package contains the editable LaTeX tables and vector figures used in the paper. The accompanying artifact contains the complete generation code, configurations, preprocessing and execution scripts, the validation harnesses and their reports, the content-addressed result manifest quoted above, and machine-readable result matrices and per-user experiment outputs; the audit runners, their generated tables, the integrity tests and the replication-run notebook are part of it, so every number in this supplement is recomputable from the deposit without access to the authors' machine.
 

@@ -20,8 +20,12 @@ def test_title_page_carries_no_abstract_and_manuscript_no_identity():
     files = ipm.build()
     assert chr(92) + "begin{abstract}" not in files["title_page.tex"]
     assert "Louhichi" in files["title_page.tex"]
+    # the front matter must be identity-free; CRediT further down legitimately names the authors
     for name in ("manuscript_snippet.tex", "abstract.tex"):
-        assert "Louhichi" not in files[name] and "@" not in files[name].split("statement")[0][:400]
+        front = files[name].split("%% ---- statements")[0]
+        assert chr(92) + "affiliation" not in front, name
+        assert "um5.ac.ma" not in front, name
+    assert "CRediT" in files["manuscript_snippet.tex"]
 
 
 def test_generated_files_are_on_disk_and_current():
@@ -35,8 +39,11 @@ def test_generated_files_are_on_disk_and_current():
         assert on_disk == body.rstrip(), f"{name} is stale; run code/scripts/make_ipm_assets.py"
 
 
-def test_cover_letter_is_not_in_the_latex_archive():
-    zip_path = Path(__file__).resolve().parents[2] / "actionshap-overleaf.zip"
+def test_ipm_cover_letter_stays_outside_the_latex_archive():
+    """Elsevier uploads the letter separately; shipping it inside the source archive exposes identities."""
     import zipfile
+    zip_path = Path(__file__).resolve().parents[2] / "actionshap-overleaf.zip"
     names = zipfile.ZipFile(zip_path).namelist()
-    assert not any("cover" in n.lower() for n in names), names
+    assert not any("cover_letter_IPM" in n for n in names), names
+    # the ACM archive ships the ACM letter; the IP&M set must not reuse that archive verbatim
+    assert (Path(__file__).resolve().parents[2] / "ipm-submission" / "README_SUBMISSION.md").exists()
