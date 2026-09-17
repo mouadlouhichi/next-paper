@@ -6,7 +6,7 @@ Uploaded through the Editorial Manager, in this order:
 |---|---|---|---|
 | 1 | Title page (separate) | `title_page.tex` | no abstract, by design; identities here only |
 | 2 | Main file | `manuscript_ipm.tex` + body/table/figure inputs | elsarticle, numbered refs, line numbers |
-| 3 | Abstract for the form | `abstract.tex` | 195 words (cap 200) |
+| 3 | Abstract for the form | `abstract.tex` | 196 words (cap 200) |
 | 4 | Keywords for the form | `manuscript_ipm.tex` front matter | 6 (cap 6) |
 | 5 | Highlights | `highlights.txt` | 4 bullets, longest 75 chars (cap 85) |
 | 6 | Cover letter | `cover_letter_IPM.md` | must NOT be inside the LaTeX archive |

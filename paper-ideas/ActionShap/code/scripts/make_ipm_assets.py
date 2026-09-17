@@ -36,6 +36,8 @@ ABSTRACT = (
     "itself. Deletion-based fidelity and executable-intervention validity must therefore be "
     "reported separately."
 )
+ABSTRACT = ABSTRACT.replace("*feasible*", chr(92) + "emph{feasible}")
+
 KEYWORDS = ["explainable recommendation", "attribution evaluation", "counterfactual evaluation",
             "bounded interventions", "offline evaluation", "cooperative game theory"]
 HIGHLIGHTS = [
