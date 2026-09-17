@@ -72,6 +72,58 @@ LIMITS = {"abstract_words": 200, "highlight_chars": 85, "keywords": 6}
 KEYWORD_BLOCK = "\\sepword" + chr(10) + "\\sepword".join("{" + k + "}" for k in KEYWORDS)
 
 
+MANUSCRIPT_TEMPLATE = r"""% Information Processing & Management main file (elsarticle, Overleaf-ready).
+% Identity lives on title_page.tex; this file carries the abstract, keywords, body, and the declarations.
+\documentclass[preprint,12pt,numbers,sort&compress]{elsarticle}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx,booktabs,amsmath,amssymb,hyperref}
+\usepackage{lineno}\linenumbers
+\usepackage{caption}\captionsetup{font=small}
+\usepackage{algorithm,algorithmic}
+\graphicspath{{figures/}}
+
+% --- compatibility shim for macros the ACM build defines, so one body serves both venues ---
+\newcommand{\safeinput}[1]{\input{#1}}
+\newcommand{\resultmanifeststamp}{see code/results/manifest.json}
+\providecommand{\teaser}[1]{#1}
+\providecommand{\acmVersion}[1]{#1}
+\providecommand{\setcopyright}[1]{}
+\providecommand{\acmDOI}[1]{}
+\providecommand{\acmISBN}[1]{}
+\providecommand{\acmYear}[1]{}
+\providecommand{\received}[1]{}
+\providecommand{\publishedonline}[1]{}
+\providecommand{\ccsdesc}[2][]{}
+\providecommand{\description}[1]{}
+
+\begin{document}
+\begin{frontmatter}
+
+\title{@TITLE@}
+
+@ABS@
+
+\begin{keyword}\sepword
+@KW@
+\end{keyword}
+
+\end{frontmatter}
+
+%% Body, tables and figures are the ones maintained at acmart-primary/ (see the shim above); the
+%% submission archive places them beside this file so \input paths resolve unchanged.
+%% Body: copy acmart-primary/acmmanuscript.tex to body.tex keeping everything from
+%% \begin{document} onward except its own \frontmatter/abstract/keywords block (the shim
+%% above defines \safeinput, \resultmanifeststamp and the acmart-only macros), then
+\input{body.tex}
+%% Verified by: grep -c "\begin{document}" body.tex  ->  0
+
+\bibliographystyle{elsarticle-num}
+\bibliography{actionshap-bibliography}
+
+\end{document}
+"""
+
+
 def institutions() -> list[tuple[str, str]]:
     text = MAIN.read_text(encoding="utf-8")
     blocks = re.findall(r"\\author\{([^}]*)\}.*?\\institution\{([^}]*)\}", text, re.S)
@@ -198,7 +250,55 @@ files already referenced by the manuscript.
 3. Fill the ORCID fields in the submission system (not in the LaTeX).
 4. Re-check the word count line on the title page after the final edit.
 """
-    return {"title_page.tex": title_page, "manuscript_snippet.tex": manuscript_snippet,
+
+    # ---- the manuscript itself: elsarticle front matter, line numbers, and the ACM body via a shim ----
+    manuscript = (MANUSCRIPT_TEMPLATE
+                .replace("@TITLE@", TITLE).replace("@ABS@", abstract_tex)
+                .replace("@KW@", KEYWORD_BLOCK))
+
+    # ---- what a production editor checks first, as a file instead of a memory ----
+    checklist = f"""# IP&M submission checklist
+
+Uploaded through the Editorial Manager, in this order:
+
+| # | item | our file | state |
+|---|---|---|---|
+| 1 | Title page (separate) | `title_page.tex` | no abstract, by design; identities here only |
+| 2 | Main file | `manuscript_ipm.tex` + body/table/figure inputs | elsarticle, numbered refs, line numbers |
+| 3 | Abstract for the form | `abstract.tex` | {word_count(ABSTRACT)} words (cap 200) |
+| 4 | Keywords for the form | `manuscript_ipm.tex` front matter | {len(KEYWORDS)} (cap {LIMITS['keywords']}) |
+| 5 | Highlights | `highlights.txt` | {len(HIGHLIGHTS)} bullets, longest {max(len(h) for h in HIGHLIGHTS)} chars (cap {LIMITS['highlight_chars']}) |
+| 6 | Cover letter | `cover_letter_IPM.md` | must NOT be inside the LaTeX archive |
+| 7 | Supplementary material | `../acmart-primary/supplementary.tex` | uploaded separately, compiled alone |
+| 8 | Figures | `figures/` in the archive | vector, referenced by relative path |
+| 9 | Tables | `tables/` in the archive | editable LaTeX, not images |
+| 10 | Declarations | in `manuscript_ipm.tex` / `manuscript_snippet.tex` | Data availability, CRediT, competing interest, GenAI, funding, acknowledgements |
+| 11 | ORCID iDs | submission form | author-side, not in LaTeX |
+| 12 | Review model | submission form | title page + anonymous body satisfies either choice |
+
+Not uploaded (kept in the repository for reproducibility): `../actionshap-overleaf.zip` (ACM build), the
+result manifest regeneration logs, the run queue notebooks.
+
+Before submitting: compile `manuscript_ipm.tex` and `supplementary.tex` in Overleaf, confirm no
+`Overfull \\hbox` in the log, and check that every cross-reference resolves (the ACM `\\safeinput`
+wrapper is shimmed to \\input, so a missing table shows as an error rather than silently vanishing).
+"""
+
+    figure_list = "\\n".join(
+        f"- {rel}" for rel in sorted(str(q.relative_to(PAPER)) for q in (PAPER / "acmart-primary" / "figures").glob("*")
+                                    if q.suffix in (".pdf", ".png")))
+    figures_manifest = f"""# Figure and table inventory (generated, not hand-counted)
+
+Figures in `acmart-primary/figures/`: {len([l for l in figure_list.splitlines() if l])}
+Tables in `acmart-primary/tables/`: {len(list((PAPER / 'acmart-primary' / 'tables').glob('*.tex')))}
+
+Every asset referenced by the manuscript is one of these; the archive is built from the include graph,
+so a file listed here but unreferenced shows up in `make overleaf` as a stale-build warning.
+"""
+
+    return {"title_page.tex": title_page, "manuscript_ipm.tex": manuscript,
+            "SUBMISSION_CHECKLIST.md": checklist, "FIGURES_TABLES_INVENTORY.md": figures_manifest,
+            "manuscript_snippet.tex": manuscript_snippet,
             "abstract.tex": abstract_tex, "highlights.txt": highlights,
             "cover_letter_IPM.md": cover, "README_SUBMISSION.md": readme}
 

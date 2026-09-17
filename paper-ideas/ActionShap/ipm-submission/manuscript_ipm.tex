@@ -1,0 +1,54 @@
+% Information Processing & Management main file (elsarticle, Overleaf-ready).
+% Identity lives on title_page.tex; this file carries the abstract, keywords, body, and the declarations.
+\documentclass[preprint,12pt,numbers,sort&compress]{elsarticle}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx,booktabs,amsmath,amssymb,hyperref}
+\usepackage{lineno}\linenumbers
+\usepackage{caption}\captionsetup{font=small}
+\usepackage{algorithm,algorithmic}
+\graphicspath{{figures/}}
+
+% --- compatibility shim for macros the ACM build defines, so one body serves both venues ---
+\newcommand{\safeinput}[1]{\input{#1}}
+\newcommand{\resultmanifeststamp}{see code/results/manifest.json}
+\providecommand{\teaser}[1]{#1}
+\providecommand{\acmVersion}[1]{#1}
+\providecommand{\setcopyright}[1]{}
+\providecommand{\acmDOI}[1]{}
+\providecommand{\acmISBN}[1]{}
+\providecommand{\acmYear}[1]{}
+\providecommand{\received}[1]{}
+\providecommand{\publishedonline}[1]{}
+\providecommand{\ccsdesc}[2][]{}
+\providecommand{\description}[1]{}
+
+\begin{document}
+\begin{frontmatter}
+
+\title{ActionShap: Evaluating Recommendation Explanations Beyond Deletion with Bounded Interventions}
+
+% Abstract -- the only place this text appears. Elsevier limit: 200 words.
+\begin{abstract}
+Explanations of recommender behaviour are commonly audited by deleting profile evidence and measuring the resulting output change, although deployed systems more often discount evidence within operational bounds. We separate these two estimands and ask whether attribution methods predict the effect of a *feasible* intervention. ActionShap is an offline audit protocol, not a new attributor: it fixes a temporal user game, an exact budget-two action oracle, distinct-user bootstrap inference and Holm-corrected sign-flip permutation tests, and it evaluates attribution alignment, direction accuracy, realized ranking gain and normalized regret under both deletion and bounded downweighting. On MovieLens-1M and Amazon-Digital-Music (1,000 users, five seeds), the ordering of five attributors differs between the two interventions: the bounded-minus-deletion difference is +0.017 and +0.129 for Monte Carlo Shapley, while leave-one-out is algebraically saturated under deletion. Pointwise alignment nevertheless fails to determine decision quality: realized NDCG@10 differences are practically equivalent within a pre-declared $\pm0.005$ margin on Amazon. Under full-catalogue evaluation Shapley becomes mildly anti-aligned (-0.050) while its bounded-minus-deletion difference stays positive, and much of the measured advantage of one attributor over another is attributable to scoring normalisation rather than to the attributor itself. Deletion-based fidelity and executable-intervention validity must therefore be reported separately.
+\end{abstract}
+
+
+\begin{keyword}\sepword
+\sepword
+{explainable recommendation}\sepword{attribution evaluation}\sepword{counterfactual evaluation}\sepword{bounded interventions}\sepword{offline evaluation}\sepword{cooperative game theory}
+\end{keyword}
+
+\end{frontmatter}
+
+%% Body, tables and figures are the ones maintained at acmart-primary/ (see the shim above); the
+%% submission archive places them beside this file so \input paths resolve unchanged.
+%% Body: copy acmart-primary/acmmanuscript.tex to body.tex keeping everything from
+%% \begin{document} onward except its own \frontmatter/abstract/keywords block (the shim
+%% above defines \safeinput, \resultmanifeststamp and the acmart-only macros), then
+\input{body.tex}
+%% Verified by: grep -c "\begin{document}" body.tex  ->  0
+
+\bibliographystyle{elsarticle-num}
+\bibliography{actionshap-bibliography}
+
+\end{document}
